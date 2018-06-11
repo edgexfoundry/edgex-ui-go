@@ -1,0 +1,131 @@
+<!--
+*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @version: 0.1.0
+ *******************************************************************************
+ -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>EdgeX Foundry Console</title>
+	<script type="text/javascript">
+		(function() {
+			var X_Session_Token = window.sessionStorage.getItem("X_Session_Token")
+			if (X_Session_Token == "" || X_Session_Token == "undefined") {
+				window.location.href = '/login.html?ran=' + Math.random();
+			}
+		})()
+	</script>
+	<link href="/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/vendors/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
+	<style type="text/css">
+		* {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		body {
+			background-color: #f7f7f9;
+			min-width: 1000px;
+		}
+	</style>
+	<script type="text/javascript">
+		//locked browser URL change.
+		(function() {
+			window.history.pushState(null, null, "/");
+		})();
+
+		//Disable page forward and backward
+		history.pushState(null, null, document.URL);
+		window.addEventListener('popstate', function() {
+			history.pushState(null, null, document.URL);
+		});
+	</script>
+</head>
+
+<body>
+	<div class="main_shelter"></div>
+	<div class="main_msgbox">
+	</div>
+
+	<!-- head bar begin. -->
+	<div class="headbar">
+		<ul>
+			<li class="title">EdgeX Foundry Console <span class="version">0.2.0</span></li>
+			<li class="logout"><i class="fa fa-power-off fa-lg" aria-hidden="true"></i></li>
+			<li class="notification"><i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></li>
+			<li class="user"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i></li>
+		</ul>
+	</div>
+
+	<!-- center content begin. -->
+	<div class="center">
+
+	</div>
+
+	<!-- side bar begin.-->
+	<div class="sidebar">
+		<div>
+			<ul>
+				<!-- <li><i class="fa fa-sitemap"></i><a>Devices</a>
+					<div>
+						<ul>
+							<li>sub menu</li>
+						</ul>
+					</div>
+				</li>
+				<li><i class="fa fa-camera"></i>Multimedia</li>
+				<li><i class="fa fa-share"></i>Export</li>
+				<li><i class="fa fa-wrench"></i>Rule Engine</li> -->
+			</ul>
+		</div>
+	</div>
+
+	<!-- footer begin. -->
+	<div class="footer"></div>
+	<div>
+
+	</div>
+	<!-- Modal -->
+	<div style="" class="modal" id="addGatewayInstanceDialog" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Alert</h4>
+				</div>
+				<div class="modal-body" style="height:80px;padding-top: 25px;">
+					<span style="font-size: medium;font-weight: bold;color: red;">Please select or create a gateway instance firstly!</span>
+				</div>
+				<!-- <div class="modal-footer">
+	        <button type="button" class="btn btn-success" data-dismiss="modal">&nbsp;No&nbsp;</button>
+	        <button type="button" class="btn btn-default" value="true" onclick="deviceModuleBtnGroup.deleteDevice(true)">Yes</button>
+	      </div> -->
+			</div>
+		</div>
+	</div>
+</body>
+<script src="/vendors/jquery/jquery.min.js"></script>
+<script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendors/echarts/echarts.min.js" charset="UTF-8"></script>
+<script src="/vendors/echarts/theme/wonderland.js" charset="UTF-8"></script>
+<script src="/js/common.js"></script>
+<script src="/js/main.js"></script>
+
+</html>

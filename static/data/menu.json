@@ -1,0 +1,39 @@
+[
+	{
+		"title":"Gateway",
+		"url": "/pages/gateway.html",
+		"icon":"fa fa-bank"
+	},{
+		"title":"Devices",
+		"url": "",
+		"icon":"fa fa-sitemap",
+		"children":[{
+			"title":"Device",
+			"url": "/pages/devices/device.html",
+			"icon":""
+		},{
+			"title":"Device Service",
+			"url": "/pages/devices/deviceService.html",
+			"icon":""
+		},{
+			"title":"Device Profile",
+			"url": "/pages/devices/deviceProfile.html",
+			"icon":""
+		}]
+	},{
+		"title":"Multimedia",
+		"url": "/pages/multimedia.html",
+		"icon":"fa fa-camera",
+		"children":[]
+	},{
+		"title":"Export",
+		"url": "/pages/export.html",
+		"icon":"fa fa-share",
+		"children":[]
+	},{
+		"title":"Rule Engine",
+		"url": "/pages/ruleengine.html",
+		"icon":"fa fa-wrench",
+		"children":[]
+	}
+]
