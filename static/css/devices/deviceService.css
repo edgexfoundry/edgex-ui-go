@@ -1,0 +1,166 @@
+/*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @version: 0.1.0
+ *******************************************************************************/
+@charset "UTF-8";
+
+div.info_header {
+	position: relative;
+	height: 20px;
+	margin: 25px 0 10px;
+	border-bottom: 2.5px solid rgba(51,153,51,0.6);
+}
+div.info_header span {
+	font-size: 15px;
+	font-weight: bold;
+	color: #339933;
+}
+
+#device_service_btn {
+	margin-bottom: 10px;
+}
+
+#device_service_btn div.alert-warning {
+	display: none;
+}
+
+#add_device_content {
+	display: none;
+	/* border: 1px dashed green; */
+}
+
+#add_device_content h4  {
+	margin-bottom: 3px;
+}
+
+#add_device_content  input {
+	width: 200px;
+}
+
+#add_device_content  select {
+	width: 200px;
+}
+
+/* .new_device_msg, .new_device_addressable, .related_service , .related_profile {
+	padding: 5px;
+	border: 1px solid gray;
+	margin-bottom: 10px;
+} */
+
+.new_device_msg table , 
+.new_device_addressable table ,
+.related_profile table {
+	border-collapse: separate;
+	
+}
+
+.new_device_msg table td, 
+.new_device_addressable table td,
+.related_profile table td {
+	padding: 5px;
+	text-align: center;
+}
+
+/* .btn_group {
+	text-align: center;
+}
+
+.btn_group button:first-child {
+	margin-right: 150px;
+} */
+
+.device_server_shelter {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	display: none;
+}
+
+.device_server_shelter div.shelter{
+	position: absolute;
+	width:100%;
+	height:100%;
+	background-color: #339933;
+	opacity: 0.4;
+}
+
+.device_server_shelter div:last-child {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+.device_server_shelter div:last-child *{
+	color: white;
+}
+#profile_file{
+	/* opacity: 0; */
+	display: none;
+}
+
+div.related_profile label:hover  {
+	border-bottom: 2px solid;
+	border-bottom-color:#339933; 
+}
+#device_service_list table th,div#device_service_list table tr {
+	text-align: center;
+}
+
+#device_service_list span:hover {
+	box-shadow: 3px 3px 3px #339933;
+	width: 80px;
+}
+
+#device_service_json_format {
+	position: fixed;
+	width: 400px;
+	top: 60px;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	display: none;
+	overflow: scroll;
+	padding: 0;
+	/* border: 2px solid red; */
+}
+
+#device_service_json_format > pre {
+	background-color: rgba(51,153,51,0.45);
+	color: white;
+	font-weight: bolder;
+	/* height: 100%; */
+	/* border: 1px solid green; */
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left:0;
+	right:0;
+	font-size: medium;
+	margin: 0;
+}
+
+/* #device_service_list  i {
+	-webkit-animation: move_eye 4s linear 0s infinite alternate;
+     -moz-animation: move_eye 4s linear 0s infinite alternate;
+       -o-animation: move_eye 4s linear 0s infinite alternate;
+          animation: move_eye 4s linear 0s infinite alternate;
+}
+
+@-webkit-keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  }
+   @-moz-keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  }
+     @-o-keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  }
+        @keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  } */

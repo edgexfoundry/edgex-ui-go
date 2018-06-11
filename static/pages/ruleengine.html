@@ -1,0 +1,213 @@
+<!-- 
+*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @version: 0.1.0
+ *******************************************************************************
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rule Engine</title>
+<link href="/css/ruleengine.css" rel="stylesheet">
+</head>
+<body>
+	<div id="rule-engine-list">
+		<div>
+			<button type="button" class="btn btn-success" onclick="ruleEngineModuleBtnGroup.deleteRule();" >
+				<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
+			</button>
+			<button type="button" class="btn btn-success" onclick="ruleEngineModuleBtnGroup.detail();" >
+				<i class="fa fa-book" aria-hidden="true"></i>&nbsp;Detail
+			</button>
+			<button type="button" class="btn btn-success" onclick="ruleEngineModuleBtnGroup.add();" >
+				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
+			</button>	
+		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th>#</th>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Created</th>
+					<th>Modified</th>	
+				</tr>
+			</thead>
+			<tbody></tbody>
+			<tfoot>
+				<tr align="center">
+					<td colspan=6>No Data.</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div id="rule-add-new">
+		
+		<div>
+			<button type="button" class="btn btn-success" onclick="ruleEngineModuleBtnGroup.back();" >
+				<i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back
+			</button>
+			<button type="button" class="btn btn-success" onclick="ruleEngineModuleBtnGroup.submit();" >
+				<i class="fa fa-check" aria-hidden="true"></i>&nbsp;Submit
+			</button>	
+		</div>
+		
+		<div class="info_header">
+			<span>General</span><div></div>
+		</div>
+		<table>
+			<tr>
+				<td>Name &nbsp;&nbsp;</td>
+				<td><input type="text" name="name" class="form-control" placeholder="name unique"></td>
+			</tr>
+		</table>
+		<div class="info_header">
+			<span>Condition</span><div></div>
+		</div>
+		<table class="condition_device_list">
+			<tr>
+				<td>Device Name</td>
+				<td>
+					<div id="condition_device_list">
+						<div class="select_panle">
+							<div class="input-group">
+						      <div class="input-group-btn">
+						        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+						      </div>
+						      <input type="text" name="condition_device_name" class="form-control" disabled>
+						    </div>
+					  	</div>
+						
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th></th>
+									<th>#</th>
+									<th>ID</th>
+									<th>Name</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan=4>
+										<nav aria-label="Page navigation">
+										  <ul class="pagination pagination-sm">
+										    <li>
+										      <a href="#" aria-label="Previous">
+										        <span aria-hidden="true">&laquo;</span>
+										      </a>
+										    </li>
+										    <li><a href="#">1</a></li>
+										    <li><a href="#">2</a></li>
+										    <li><a href="#">3</a></li>
+										    <li><a href="#">4</a></li>
+										    <li><a href="#">5</a></li>
+										    <li>
+										      <a href="#" aria-label="Next">
+										        <span aria-hidden="true">&raquo;</span>
+										      </a>
+										    </li>
+										  </ul>
+										</nav>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</td>
+				<td>Parameter</td>
+				<td>
+					<select class="form-control" name="parameter" style="width:200px;">
+						<option>11</option>
+						<option>22</option>
+						<option>22</option>
+					</select>
+				</td>
+				<td>Operation</td>
+				<td>
+					<select class="form-control" name="operation" style="width:100px;">
+						<option value=">">&gt;</option>
+						<option value="=">=</option>
+						<option value="<">&lt;</option>
+					</select>
+				</td>
+				<td>operand2</td>
+				<td><input type="text" name="operand2" class="form-control" placeholder=""></td>
+			</tr>
+		</table>
+		
+		<div class="info_header">
+			<span>Action</span>
+		</div>
+		<table class="action_device_list">
+			<tr>
+				<td>Device Name</td>
+				<td>
+					<div id="action_device_list">
+						<div class="select_panle">
+							<div class="input-group">
+						      <div class="input-group-btn">
+						        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+						      </div>
+						      <input type="text" name="action_device_name" class="form-control" disabled>
+						    </div>
+				  		</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th></th>
+									<th>#</th>
+									<th>ID</th>
+									<th>Name</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</td>
+				<td>Command</td>
+				<td>
+					<select style="width:200px;" name="commandName" class="form-control"></select>
+				</td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<!-- Modal -->
+	<div style="" class="modal" id="deleteConfirmDialog" role="dialog" >
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	    	  <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+	      </div>
+	      <div class="modal-body">
+	        <span style="font-size: medium;font-weight: bold;color: red;">Are you sure to delete?</span>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-success" data-dismiss="modal">&nbsp;No&nbsp;</button>
+	        <button type="button" class="btn btn-default" value="true" onclick="ruleEngineModuleBtnGroup.deleteRule(true)">Yes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</body>
+<script src="/js/pages/ruleengine.js"></script>
+</html>

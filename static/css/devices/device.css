@@ -1,0 +1,104 @@
+/*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @version: 0.1.0
+ *******************************************************************************/
+@charset "UTF-8";
+
+.input-group span > font{
+	width: 80px;
+}
+
+#device_advanced_search{
+	float: right;
+}
+
+#device_btngroup{
+	float:left;
+}
+
+
+#device_advanced_search table td{
+	padding: 10px;
+	font-weight: bold;
+}
+
+#device_advanced_search table select {
+	width:200px;
+}
+
+#device_list table {
+	margin-top:10px;
+	overflow: auto;
+	
+}
+
+#device_list table th{
+	overflow: auto;
+}
+
+th, td {
+  text-align: center;
+}
+
+#device_detail {
+	display: none;
+	padding: 10px;
+}
+
+#device_detail #device_basic_intro {
+	margin-top: 5px;
+	/* margin-left: 200px; */
+}
+ 
+#device_detail #device_basic_intro td{
+	text-align: center;
+	padding: 5px;
+} 
+
+#device_detail #device_basic_intro input{
+	width:200px;
+}
+
+.panel{
+	background-color: #f7f7f9;
+	overflow: auto;
+}
+#command_list{
+	overflow: auto;
+}
+#device_basic_intro span:hover{
+	box-shadow: 3px 3px 3px #339933;
+}
+div#device_data_json_format{
+	position: fixed;
+	top: 60px;
+	bottom: 0;
+	/* right: -400px; */
+	right: 0;
+	z-index: 2;
+	display: none;
+	width: 400px;
+	overflow: auto;
+	/* background-color: rgba(51,153,51,0.6); */
+	
+}
+div#device_data_json_format pre{
+	background-color: rgba(51,153,51,0.45);
+	font-weight: bolder;
+	color:white;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}

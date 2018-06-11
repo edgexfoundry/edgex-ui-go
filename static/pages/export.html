@@ -1,0 +1,303 @@
+<!-- 
+*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @version: 0.1.0
+ *******************************************************************************
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Export</title>
+<link href="/css/export.css" rel="stylesheet">
+</head>
+<body>
+	<div id="export_register_json_format"></div>
+	<div	 class="core_export_shelter">
+		<div>
+			<i class="fa fa-spinner fa-pulse fa-3x fa-fw "></i><br>
+			<span>uploading...</span>
+		</div>
+	</div>
+	<div id="export_list">
+		<div>
+			<button type="button" class="btn btn-success"
+				onclick="coreExportBtnGroup.deleteExport(false);">
+				<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
+			</button>
+			<button type="button" class="btn btn-success"
+				onclick="coreExportBtnGroup.detail();">
+				<i class="fa fa-book" aria-hidden="true"></i>&nbsp;Detail
+			</button>
+			<button type="button" class="btn btn-success"
+				onclick="coreExportBtnGroup.add();">
+				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
+			</button>
+		</div>
+		<table class="table table-striped ">
+			<thead>
+				<tr>
+					<th></th>
+					<th>#</th>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Destination</th>
+					<th>Enable</th>
+					<th>Created Time</th>
+					<th>Modified Time</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			<tfoot>
+				<tr align="center">
+					<td colspan=8>No Data.</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div id="export_register_data">
+			<button type="button" class="btn btn-success"
+				onclick="coreExportBtnGroup.hideWebsocketContent();">
+				<i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Hide
+			</button>
+			<div id="websocket_msg_content">
+				<table>
+					<tbody></tbody>
+				</table>
+			</div>
+
+		</div>
+		<div id="export_data_charts"></div>
+
+	</div>
+	<div id="add_new_export">
+		<button name="back" type="button" class="btn btn-success"
+			onclick="coreExportBtnGroup.back();">
+			<i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back
+		</button>
+		<button name="submit" type="button" class="btn btn-success"
+			onclick="coreExportBtnGroup.submit();">
+			<i class="fa fa-check" aria-hidden="true"></i>&nbsp;Submit
+		</button>
+		<button name="update" type="button" class="btn btn-success"
+			onclick="coreExportBtnGroup.update();">
+			<i class="fa fa-check" aria-hidden="true"></i>&nbsp;Update
+		</button>
+		&nbsp;<span style="color: #339933;font-size: medium;font-weight: bolder;" 
+							onclick="coreExportBtnGroup.showJsonFormatter(event)">json show &nbsp;&nbsp;<i style="position: relative;" class="fa  fa-hand-o-left fa-lg"></i></span>
+		<form id="export_data_form">
+			<div class="info_header">
+				<span>General</span>
+				<div></div>
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td><span>ID</span></td>
+						<td><input type="text" name="id" class="form-control"
+							disabled="disabled"></td>
+						<td>Name</td>
+						<td><input type="text" name="name" class="form-control"
+							placeholder="name unique"></td>
+						<td>Destination</td>
+						<td><select name="destination" class="form-control">
+								<option value="MQTT_TOPIC">MQTT_TOPIC</option>
+								<option value="ZMQ_TOPIC">ZMQ_TOPIC</option>
+								<option value="IOTCORE_MQTT">IOTCORE_MQTT</option>
+								<option value="AZURE_MQTT">AZURE_MQTT</option>
+								<option value="REST_ENDPOINT">REST_ENDPOINT</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Compression</td>
+						<td><select name="compression" class="form-control">
+								<option value="NONE">NONE</option>
+								<option value="GZIP">GZIP</option>
+								<option value="ZIP">ZIP</option>
+						</select></td>
+						<td>Format</td>
+						<td><select name="format" class="form-control">
+								<option value="JSON">JSON</option>
+								<option value="XML">XML</option>
+								<option value="SERIALIZED">SERIALIZED</option>
+								<option value="IOTCORE_JSON">IOTCORE_JSON</option>
+								<option value="AZURE_JSON">AZURE_JSON</option>
+								<option value="CSV">CSV</option>
+						</select></td>
+						<td>Enabled</td>
+						<td><input name="enable" type="checkbox"> </td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="info_header">
+				<span>Addressable</span>
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td>Name</td>
+						<td><input type="text" name="addressName"
+							class="form-control" placeholder="address name unique"></td>
+						<td>Protocol</td>
+						<td><select name="protocol" class="form-control">
+								<option value="TCP">TCP</option>
+								<option value="HTTP">HTTP</option>
+								<option value="ZMQ">ZMQ</option>
+								<option value="MAC">MAC</option>
+								<option value="OTHER">OTHER</option>
+						</select></td>
+						<td>Address</td>
+						<td><input type="text" name="address" class="form-control"
+							placeholder=""></td>
+						<td>Port</td>
+						<td><input type="text" name="port" class="form-control"
+							placeholder=""></td>
+						<td>Method</td>
+						<td><select name="method" class="form-control">
+								<option value="POST">POST</option>
+								<option value="GET">GET</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Publisher</td>
+						<td><input type="text" name="publisher" class="form-control"
+							placeholder=""></td>
+						<td>User</td>
+						<td><input type="text" name="user" class="form-control"
+							placeholder=""></td>
+						<td>Password</td>
+						<td><input type="text" name="password" class="form-control"
+							placeholder=""></td>
+						<td>Topic</td>
+						<td><input type="text" name="topic" class="form-control"
+							placeholder=""></td>
+						<td>Path</td>
+						<td><input type="text" name="path" class="form-control"
+							placeholder="for callback"></td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="info_header">
+				<span>Encryption(optional)</span>
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td>Key</td>
+						<td><input type="text" name="key" class="form-control"
+							placeholder=""></td>
+						<td>Initialization Vector</td>
+						<td><input type="text" name="initializationVector"
+							class="form-control" placeholder=""></td>
+						<td>Algorithm</td>
+						<td><select name="algorithm" class="form-control">
+								<option value="NONE">NONE</option>
+								<option value="AES">AES</option>
+						</select></td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="info_header">
+				<span>Filters(optional)</span>
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td>Device Name</td>
+						<td>
+							<div id="device_filter_list">
+								<div class="select_panle">
+									<div class="input-group">
+								      <div class="input-group-btn">
+								        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+								      </div>
+								      <input type="text" name="deviceName" class="form-control" disabled placeholder="">
+								    </div>
+						  		</div>
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th></th>
+											<th>#</th>
+											<th>Name</th>
+											<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</td>
+						<td>Value Descriptor Name</td>
+						<td>
+							<div id="value_desc_filter_list">
+								<div class="select_panle">
+									<div class="input-group">
+								      <div class="input-group-btn">
+								        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+								      </div>
+								      <input type="text" name="valueDescriptor" class="form-control" disabled placeholder="">
+								    </div>
+						  		</div>
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th></th>
+											<th>#</th>
+											<th>Name</th>
+											<th>Descriptor</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+	<!-- Modal -->
+	<div style="" class="modal" id="deleteConfirmDialog" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Confirm</h4>
+				</div>
+				<div class="modal-body">
+					<span style="font-size: medium; font-weight: bold; color: red;">
+						Are you sure to delete?
+					</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">&nbsp;No&nbsp;</button>
+					<button type="button" class="btn btn-default" value="true"
+						onclick="coreExportBtnGroup.deleteExport(true)">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="/js/pages/export.js"></script>
+</html>

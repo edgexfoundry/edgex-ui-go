@@ -1,0 +1,151 @@
+/*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @version: 0.1.0
+ *******************************************************************************/
+@charset "UTF-8";
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.main_shelter {
+	display:none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right:0;
+	z-index: 2;
+	opacity:0.2;
+	background-color: #339933;
+}
+
+.main_msgbox {
+	position: fixed;
+	width: 400px;
+	right: -400px;
+	top: 60px;
+	bottom: 0;
+	z-index: 999;
+	background-color:white;
+	/* opacity:0.3; */
+	border-left: 1px solid #339933;
+}
+
+.headbar {
+	position: fixed;
+	height: 60px;
+	background-color: #339933;
+	top:0;
+	left:0;
+	right:0;
+	z-index: 990;
+	/* border: 1px solid red; *//* debugger */
+}
+
+.headbar ul li {
+	list-style: none;
+	display: inline-block;
+}
+
+.headbar ul {
+	  position: absolute;
+      top: 50%;
+      right:0;
+      left:0;
+      transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      -moz--transform: translateY(-50%);
+} 
+
+.headbar li.title {
+	font-weight: bold;
+	font-size: medium;
+	color: white;
+}
+
+.headbar li.user , li.notification , li.logout{
+	margin-right:20px;
+	float: right;
+	right:10px;
+	color: white;
+}
+
+.headbar li.notification:hover , li.user:hover , li.logout:hover {
+	color: black;
+}
+
+.headbar li.title > span.version {
+	font-weight: normal;
+	font-size: normal;
+	color: white;
+}
+
+.sidebar {
+	position: fixed;
+	width: 200px;
+	top: 60px;
+	bottom: 0;
+	left: 0;
+	border-right: 3px solid #339933;
+	z-index: 990;
+	/* background-color: rgba(51, 153, 51, 0.1); */
+	/* border: 1px solid red; *//* debugger */
+}
+
+.sidebar ul li {
+	list-style: none;
+	font-weight: bold;
+	margin-top: 10px;
+	padding: 0;
+}
+
+.sidebar li > i {
+	margin: 0 2px 0 0;
+}
+
+.sidebar div > ul > li > span:hover {
+	border: 2px solid;
+	border-color:#339933; 
+	cursor:default;
+}
+
+/* .sidebar div > ul > li::before {
+	font-family: "FontAwesome";
+	content:	 "\f105";
+} */
+
+.center {
+	/* position: absolute; */
+	/* left: 200px;
+	top: 60px; */
+	/* right: 0;
+	bottom: 0; */
+	
+	margin-top:60px;
+	margin-left:200px;
+	margin-bottom:0;
+	padding: 0 10px;
+	padding-top: 10px;
+	z-index: 0;
+	max-width: 100%; 
+	height: auto;
+	overflow: visible;
+	overflow-x: hidden;
+	/* border: 1px solid red; */ /* debugger */
+}
