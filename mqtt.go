@@ -17,13 +17,13 @@
 package main
 
 import (
-  "fmt"
+  "log"
   "strconv"
   MQTT "github.com/eclipse/paho.mqtt.golang"
 )
 
 var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
-  fmt.Printf("TOPIC: %s\n", msg.Topic())
+  log.Printf("TOPIC: %s\n", msg.Topic())
   //fmt.Printf("MSG: %s\n", string(msg.Payload()))
   WsClientSend(MqttTokenCache,msg.Payload())
 }
@@ -48,9 +48,8 @@ func CreateMqttClient(addressable Addressable,token string){
   if t := client.Connect(); t.Wait() && t.Error() != nil {
     panic(t.Error())
   } else {
-    fmt.Printf("Connected to mqtt server\n")
+    log.Println("Connected to mqtt server\n")
   }
 
   ExportSubscriberCache[token + addressable.Topic] = client
-
 }
