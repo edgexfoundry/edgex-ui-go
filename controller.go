@@ -32,9 +32,9 @@ func GetMd5String(s string) string {
     return hex.EncodeToString(h.Sum(nil))
 }
 
-/************************************************************
-* User authorization
-*/
+/**
+ * User authorization
+ */
 
 func Login(w http.ResponseWriter, r *http.Request)  {
   defer r.Body.Close()
@@ -62,9 +62,9 @@ func Logout(w http.ResponseWriter, r *http.Request){
   delete(TokenCache,token)
 }
 
-/**************************************************************
-* Gateway management
-*/
+/**
+ * Gateway management
+ */
 
 func ProxyConfigGateway(w http.ResponseWriter, r *http.Request){
   defer r.Body.Close()
@@ -97,9 +97,9 @@ func DeleteGateway(w http.ResponseWriter, r *http.Request) {
 
 }
 
-/***************************************************************
-* Export show
-*/
+/**
+ * Export show
+ */
 func ExportShow(w http.ResponseWriter, r *http.Request){
   defer r.Body.Close()
   token := r.Header.Get("X-Session-Token")
