@@ -26,14 +26,14 @@ func initRestRoutes() http.Handler {
   r := mux.NewRouter()
 
   s := r.PathPrefix("/api/v1").Subrouter()
-  s.HandleFunc("/auth/login",Login).Methods("POST")
-  s.HandleFunc("/auth/logout",Logout).Methods("GET")
+  s.HandleFunc("/auth/login",Login).Methods(http.MethodPost)
+  s.HandleFunc("/auth/logout",Logout).Methods(http.MethodGet)
 
-  s.HandleFunc("/gateway",FindAllGateway).Methods("GET")
-  s.HandleFunc("/gateway",SaveGateway).Methods("POST")
-  s.HandleFunc("/gateway/proxy",ProxyConfigGateway).Methods("POST")
+  s.HandleFunc("/gateway",FindAllGateway).Methods(http.MethodGet)
+  s.HandleFunc("/gateway",SaveGateway).Methods(http.MethodPost)
+  s.HandleFunc("/gateway/proxy",ProxyConfigGateway).Methods(http.MethodPost)
 
-  s.HandleFunc("/exportshow",ExportShow).Methods("POST")
+  s.HandleFunc("/exportshow",ExportShow).Methods(http.MethodPost)
 
   s1 := r.PathPrefix("").Subrouter()
   s1.HandleFunc("/ws",WebSocketHandler)
