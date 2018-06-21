@@ -33,8 +33,8 @@ type WsClientConn struct {
 var wsConn *WsClientConn
 
 var upgrader = websocket.Upgrader {
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+	ReadBufferSize:  ReadBufferSize,
+	WriteBufferSize: WriteBufferSize,
 }
 
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +46,7 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 
   u := r.URL.RawQuery
   m, _ := url.ParseQuery(u)
-  token := m["X-Session-Token"][0]
+  token := m[SessionTokenKey][0]
 
   wsConn.clientmapping[token] = ws
   log.Println("ws token:" + token)

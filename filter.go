@@ -40,21 +40,21 @@ func AuthFilter(h http.Handler) http.Handler {
 
     if path == "/" {
       //ViewHandler(w,r)
-      http.FileServer(http.Dir("static")).ServeHTTP(w,r)
+      http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w,r)
       return
     }
 
-    if strings.HasSuffix(path,".html") ||
-       strings.HasSuffix(path,".css") ||
-       strings.HasSuffix(path,".js") ||
-       strings.HasSuffix(path,".json") ||
-       strings.HasPrefix(path,"/vendors"){
+    if strings.HasSuffix(path, HtmlSuffix) ||
+       strings.HasSuffix(path, CssSuffix) ||
+       strings.HasSuffix(path, JsSuffix) ||
+       strings.HasSuffix(path, JsonSuffix) ||
+       strings.HasPrefix(path, VendorsPath){
       //ViewHandler(w,r)
-      http.FileServer(http.Dir("static")).ServeHTTP(w,r)
+      http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w,r)
       return
     }
 
-    if path == "/api/v1/auth/login" {
+    if path == LoginUriPath {
         h.ServeHTTP(w,r)
         return
     }
@@ -62,23 +62,23 @@ func AuthFilter(h http.Handler) http.Handler {
     var token string
     u := r.URL.RawQuery
     params, _ := url.ParseQuery(u)
-    value, ok := params["X-Session-Token"]
+    value, ok := params[SessionTokenKey]
     if ok {
       token = value[0]
     } else {
-      token = r.Header.Get("X-Session-Token")
+      token = r.Header.Get(SessionTokenKey)
     }
 
     _,isValid := TokenCache[token]
 
     if (token == "") || !(isValid) {
-        if r.Header.Get("X-Requested-With") != "" &&
-           r.Header.Get("X-Requested-With") == "XMLHttpRequest" {
-          w.WriteHeader(302)
-          w.Write([]byte("no authorization."))
+      if r.Header.Get(AjaxRequestHeader) != "" &&
+           r.Header.Get(AjaxRequestHeader) == AjaxRequestIdentifier {
+          w.WriteHeader(RedirectHttpCode)
+          w.Write([]byte(NoAuthorizationMsg))
           return
         }
-        http.Redirect(w, r, "/login.html", 302)
+      http.Redirect(w, r, LoginHtmlPage, RedirectHttpCode)
         return
     }
 

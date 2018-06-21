@@ -45,10 +45,10 @@ func Login(w http.ResponseWriter, r *http.Request)  {
     http.Error(w, err.Error(), http.StatusServiceUnavailable)
     return
   }
-  name := m["name"]
-  pwd := m["password"]
+  name := m[UserNameKey]
+  pwd := m[PasswordKey]
   log.Println(name + ":" + pwd)
-  if name == "admin" && pwd == "admin" {
+  if name == AdminUserAndPassword && pwd == AdminUserAndPassword {
     token := GetMd5String(name)
     TokenCache[token] = User{Name:name,Password:pwd}
     log.Println("token: " + token)
@@ -58,7 +58,7 @@ func Login(w http.ResponseWriter, r *http.Request)  {
 }
 
 func Logout(w http.ResponseWriter, r *http.Request){
-  token := r.Header.Get("X-Session-Token")
+  token := r.Header.Get(SessionTokenKey)
   delete(TokenCache,token)
 }
 
@@ -74,8 +74,8 @@ func ProxyConfigGateway(w http.ResponseWriter, r *http.Request){
     http.Error(w, err.Error(), http.StatusServiceUnavailable)
     return
   }
-  targetIP := m["hostIP"]
-  DynamicalProxyCache[r.Header.Get("X-Session-Token")] = targetIP
+  targetIP := m[HostIPKey]
+  DynamicalProxyCache[r.Header.Get(SessionTokenKey)] = targetIP
 }
 
 func SaveGateway(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +90,7 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 }
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
   defer r.Body.Close()
-  w.Header().Set("Content-Type", "application/json")
+  w.Header().Set(ContentTypeKey, JsonContentType)
   json.NewEncoder(w).Encode(&GatewayInfoCache)
 }
 func DeleteGateway(w http.ResponseWriter, r *http.Request) {
@@ -102,7 +102,7 @@ func DeleteGateway(w http.ResponseWriter, r *http.Request) {
  */
 func ExportShow(w http.ResponseWriter, r *http.Request){
   defer r.Body.Close()
-  token := r.Header.Get("X-Session-Token")
+  token := r.Header.Get(SessionTokenKey)
 
   var addressable Addressable
   err := json.NewDecoder(r.Body).Decode(&addressable)

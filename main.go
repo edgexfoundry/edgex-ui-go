@@ -28,11 +28,11 @@ func main() {
 
   ProxyMapping = make(map[string]string, 10)
   // ProxyMapping["/core-metadata"] = "http://10.112.122.28:48081"
-  ProxyMapping["/core-data"] = "48080"
-  ProxyMapping["/core-metadata"] = "48081"
-  ProxyMapping["/core-command"] = "48082"
-  ProxyMapping["/core-export"] = "48071"
-  ProxyMapping["/rule-engine"] = "48075"
+  ProxyMapping[CoreDataPath] = CoreDataPort
+  ProxyMapping[CoreMetadataPath] = CoreMetadataPort
+  ProxyMapping[CoreCommandPath] = CoreCommandPort
+  ProxyMapping[CoreExportPath] = CoreExportPort
+  ProxyMapping[RuleEnginePath] = RuleEnginePort
 
   r := initRestRoutes()
 
