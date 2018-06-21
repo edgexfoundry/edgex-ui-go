@@ -27,7 +27,6 @@ import (
 func main() {
 
 	ProxyMapping = make(map[string]string, 10)
-	// ProxyMapping["/core-metadata"] = "http://10.112.122.28:48081"
 	ProxyMapping[CoreDataPath] = CoreDataPort
 	ProxyMapping[CoreMetadataPath] = CoreMetadataPort
 	ProxyMapping[CoreCommandPath] = CoreCommandPort

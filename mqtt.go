@@ -25,7 +25,6 @@ import (
 
 var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
 	log.Printf("TOPIC: %s\n", msg.Topic())
-	//fmt.Printf("MSG: %s\n", string(msg.Payload()))
 	WsClientSend(MqttTokenCache, msg.Payload())
 }
 var MqttTokenCache string
@@ -37,7 +36,6 @@ func CreateMqttClient(addressable Addressable, token string) {
 	opts.SetClientID(ClientIDPrefix + addressable.Topic)
 	opts.SetUsername(addressable.User)
 	opts.SetPassword(addressable.Password)
-	//opts.SetDefaultPublishHandler(f)
 
 	opts.OnConnect = func(c MQTT.Client) {
 		if t := c.Subscribe(addressable.Topic, 0, f); t.Wait() && t.Error() != nil {

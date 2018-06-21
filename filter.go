@@ -28,7 +28,6 @@ func GeneralFilter(h http.Handler) http.Handler {
 	authFilter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Println("before Filter...")
 		h.ServeHTTP(w, r)
-		//log.Println("after Filter...")
 	})
 	return AuthFilter(authFilter)
 }
@@ -39,7 +38,6 @@ func AuthFilter(h http.Handler) http.Handler {
 		path := r.URL.Path
 
 		if path == "/" {
-			//ViewHandler(w,r)
 			http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w, r)
 			return
 		}
@@ -49,7 +47,6 @@ func AuthFilter(h http.Handler) http.Handler {
 			strings.HasSuffix(path, JsSuffix) ||
 			strings.HasSuffix(path, JsonSuffix) ||
 			strings.HasPrefix(path, VendorsPath) {
-			//ViewHandler(w,r)
 			http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w, r)
 			return
 		}
@@ -91,6 +88,5 @@ func AuthFilter(h http.Handler) http.Handler {
 		}
 
 		h.ServeHTTP(w, r)
-		//log.Println("after auth...")
 	})
 }

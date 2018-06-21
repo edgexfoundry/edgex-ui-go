@@ -23,10 +23,8 @@ import (
 	"net/url"
 )
 
-//[prefix,targetAddr]
 var ProxyMapping map[string]string
 
-//ProxyHandler
 func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string) {
 	defer r.Body.Close()
 	token := r.Header.Get(SessionTokenKey)
