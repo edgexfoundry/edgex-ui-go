@@ -18,80 +18,80 @@
 package main
 
 import (
-  "net/http"
-  "log"
-  "crypto/md5"
-  "encoding/hex"
-  _ "net/url"
-  "encoding/json"
+	"crypto/md5"
+	"encoding/hex"
+	"encoding/json"
+	"log"
+	"net/http"
+	_ "net/url"
 )
 
 func GetMd5String(s string) string {
-    h := md5.New()
-    h.Write([]byte(s))
-    return hex.EncodeToString(h.Sum(nil))
+	h := md5.New()
+	h.Write([]byte(s))
+	return hex.EncodeToString(h.Sum(nil))
 }
 
 /**
  * User authorization
  */
 
-func Login(w http.ResponseWriter, r *http.Request)  {
-  defer r.Body.Close()
+func Login(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 
-  m := make(map[string]string)
-  err := json.NewDecoder(r.Body).Decode(&m)
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusServiceUnavailable)
-    return
-  }
-  name := m[UserNameKey]
-  pwd := m[PasswordKey]
-  log.Println(name + ":" + pwd)
-  if name == AdminUserAndPassword && pwd == AdminUserAndPassword {
-    token := GetMd5String(name)
-    TokenCache[token] = User{Name:name,Password:pwd}
-    log.Println("token: " + token)
-    w.Write([]byte(token))
-  }
+	m := make(map[string]string)
+	err := json.NewDecoder(r.Body).Decode(&m)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+	name := m[UserNameKey]
+	pwd := m[PasswordKey]
+	log.Println(name + ":" + pwd)
+	if name == AdminUserAndPassword && pwd == AdminUserAndPassword {
+		token := GetMd5String(name)
+		TokenCache[token] = User{Name: name, Password: pwd}
+		log.Println("token: " + token)
+		w.Write([]byte(token))
+	}
 
 }
 
-func Logout(w http.ResponseWriter, r *http.Request){
-  token := r.Header.Get(SessionTokenKey)
-  delete(TokenCache,token)
+func Logout(w http.ResponseWriter, r *http.Request) {
+	token := r.Header.Get(SessionTokenKey)
+	delete(TokenCache, token)
 }
 
 /**
  * Gateway management
  */
 
-func ProxyConfigGateway(w http.ResponseWriter, r *http.Request){
-  defer r.Body.Close()
-  m := make(map[string]string)
-  err := json.NewDecoder(r.Body).Decode(&m)
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusServiceUnavailable)
-    return
-  }
-  targetIP := m[HostIPKey]
-  DynamicalProxyCache[r.Header.Get(SessionTokenKey)] = targetIP
+func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	m := make(map[string]string)
+	err := json.NewDecoder(r.Body).Decode(&m)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+	targetIP := m[HostIPKey]
+	DynamicalProxyCache[r.Header.Get(SessionTokenKey)] = targetIP
 }
 
 func SaveGateway(w http.ResponseWriter, r *http.Request) {
-  defer r.Body.Close()
-  var g Gateway
-  err := json.NewDecoder(r.Body).Decode(&g)
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusServiceUnavailable)
-    return
-  }
-  GatewayInfoCache = append(GatewayInfoCache,g)
+	defer r.Body.Close()
+	var g Gateway
+	err := json.NewDecoder(r.Body).Decode(&g)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+	GatewayInfoCache = append(GatewayInfoCache, g)
 }
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
-  defer r.Body.Close()
-  w.Header().Set(ContentTypeKey, JsonContentType)
-  json.NewEncoder(w).Encode(&GatewayInfoCache)
+	defer r.Body.Close()
+	w.Header().Set(ContentTypeKey, JsonContentType)
+	json.NewEncoder(w).Encode(&GatewayInfoCache)
 }
 func DeleteGateway(w http.ResponseWriter, r *http.Request) {
 
@@ -100,21 +100,21 @@ func DeleteGateway(w http.ResponseWriter, r *http.Request) {
 /**
  * Export show
  */
-func ExportShow(w http.ResponseWriter, r *http.Request){
-  defer r.Body.Close()
-  token := r.Header.Get(SessionTokenKey)
+func ExportShow(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	token := r.Header.Get(SessionTokenKey)
 
-  var addressable Addressable
-  err := json.NewDecoder(r.Body).Decode(&addressable)
-  if _,ok := ExportSubscriberCache[token + addressable.Topic]; ok {
-    log.Println("It exist a client, return")
-    return
-  }
+	var addressable Addressable
+	err := json.NewDecoder(r.Body).Decode(&addressable)
+	if _, ok := ExportSubscriberCache[token+addressable.Topic]; ok {
+		log.Println("It exist a client, return")
+		return
+	}
 
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusServiceUnavailable)
-    return
-  }
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
 
-  CreateMqttClient(addressable,token)
+	CreateMqttClient(addressable, token)
 }

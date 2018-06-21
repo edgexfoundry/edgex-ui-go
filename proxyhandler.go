@@ -18,47 +18,47 @@
 package main
 
 import (
-  "net/http"
-  "net/url"
-  "net/http/httputil"
+	"net/http"
+	"net/http/httputil"
+	"net/url"
 )
 
 //[prefix,targetAddr]
 var ProxyMapping map[string]string
 
 //ProxyHandler
-func ProxyHandler(w http.ResponseWriter, r *http.Request,path string, prefix string){
-  defer r.Body.Close()
-  token := r.Header.Get(SessionTokenKey)
-  targetIP := DynamicalProxyCache[token]
-  targetAddr := HttpProtocol + "://" + targetIP
-  if prefix == CoreDataPath {
-    targetAddr += ":" + CoreDataPort
-  }
+func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string) {
+	defer r.Body.Close()
+	token := r.Header.Get(SessionTokenKey)
+	targetIP := DynamicalProxyCache[token]
+	targetAddr := HttpProtocol + "://" + targetIP
+	if prefix == CoreDataPath {
+		targetAddr += ":" + CoreDataPort
+	}
 
-  if prefix == CoreMetadataPath {
-    targetAddr += ":" + CoreMetadataPort
-  }
-  if prefix == CoreCommandPath {
-    targetAddr += ":" + CoreCommandPort
-  }
-  if prefix == CoreExportPath {
-    targetAddr += ":" + CoreExportPort
-  }
-  if prefix == RuleEnginePath {
-    targetAddr += ":" + RuleEnginePort
-  }
+	if prefix == CoreMetadataPath {
+		targetAddr += ":" + CoreMetadataPort
+	}
+	if prefix == CoreCommandPath {
+		targetAddr += ":" + CoreCommandPort
+	}
+	if prefix == CoreExportPath {
+		targetAddr += ":" + CoreExportPort
+	}
+	if prefix == RuleEnginePath {
+		targetAddr += ":" + RuleEnginePort
+	}
 
-  origin, _ := url.Parse(targetAddr)
+	origin, _ := url.Parse(targetAddr)
 
-  director := func(req *http.Request) {
-    req.Header.Add(forwardedHostReqHeader, req.Host)
-    req.Header.Add(OriginHostReqHeader, origin.Host)
-    req.URL.Scheme = HttpProtocol
-    req.URL.Host = origin.Host
-    req.URL.Path = path
-  }
+	director := func(req *http.Request) {
+		req.Header.Add(forwardedHostReqHeader, req.Host)
+		req.Header.Add(OriginHostReqHeader, origin.Host)
+		req.URL.Scheme = HttpProtocol
+		req.URL.Host = origin.Host
+		req.URL.Path = path
+	}
 
-  proxy := &httputil.ReverseProxy{Director: director}
-  proxy.ServeHTTP(w, r)
+	proxy := &httputil.ReverseProxy{Director: director}
+	proxy.ServeHTTP(w, r)
 }

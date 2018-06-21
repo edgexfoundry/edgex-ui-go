@@ -18,79 +18,79 @@
 package main
 
 import (
-  "log"
-  "strings"
-  "net/http"
-  "net/url"
+	"log"
+	"net/http"
+	"net/url"
+	"strings"
 )
 
 func GeneralFilter(h http.Handler) http.Handler {
-    authFilter  := http.HandlerFunc(func (w http.ResponseWriter, r *http.Request) {
-      log.Println("before Filter...")
-      h.ServeHTTP(w,r)
-      //log.Println("after Filter...")
-    })
-    return AuthFilter(authFilter)
+	authFilter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("before Filter...")
+		h.ServeHTTP(w, r)
+		//log.Println("after Filter...")
+	})
+	return AuthFilter(authFilter)
 }
 
 func AuthFilter(h http.Handler) http.Handler {
-  return http.HandlerFunc(func (w http.ResponseWriter, r *http.Request) {
-    log.Println("before auth...")
-    path := r.URL.Path
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("before auth...")
+		path := r.URL.Path
 
-    if path == "/" {
-      //ViewHandler(w,r)
-      http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w,r)
-      return
-    }
+		if path == "/" {
+			//ViewHandler(w,r)
+			http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w, r)
+			return
+		}
 
-    if strings.HasSuffix(path, HtmlSuffix) ||
-       strings.HasSuffix(path, CssSuffix) ||
-       strings.HasSuffix(path, JsSuffix) ||
-       strings.HasSuffix(path, JsonSuffix) ||
-       strings.HasPrefix(path, VendorsPath){
-      //ViewHandler(w,r)
-      http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w,r)
-      return
-    }
+		if strings.HasSuffix(path, HtmlSuffix) ||
+			strings.HasSuffix(path, CssSuffix) ||
+			strings.HasSuffix(path, JsSuffix) ||
+			strings.HasSuffix(path, JsonSuffix) ||
+			strings.HasPrefix(path, VendorsPath) {
+			//ViewHandler(w,r)
+			http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w, r)
+			return
+		}
 
-    if path == LoginUriPath {
-        h.ServeHTTP(w,r)
-        return
-    }
+		if path == LoginUriPath {
+			h.ServeHTTP(w, r)
+			return
+		}
 
-    var token string
-    u := r.URL.RawQuery
-    params, _ := url.ParseQuery(u)
-    value, ok := params[SessionTokenKey]
-    if ok {
-      token = value[0]
-    } else {
-      token = r.Header.Get(SessionTokenKey)
-    }
+		var token string
+		u := r.URL.RawQuery
+		params, _ := url.ParseQuery(u)
+		value, ok := params[SessionTokenKey]
+		if ok {
+			token = value[0]
+		} else {
+			token = r.Header.Get(SessionTokenKey)
+		}
 
-    _,isValid := TokenCache[token]
+		_, isValid := TokenCache[token]
 
-    if (token == "") || !(isValid) {
-      if r.Header.Get(AjaxRequestHeader) != "" &&
-           r.Header.Get(AjaxRequestHeader) == AjaxRequestIdentifier {
-          w.WriteHeader(RedirectHttpCode)
-          w.Write([]byte(NoAuthorizationMsg))
-          return
-        }
-      http.Redirect(w, r, LoginHtmlPage, RedirectHttpCode)
-        return
-    }
+		if (token == "") || !(isValid) {
+			if r.Header.Get(AjaxRequestHeader) != "" &&
+				r.Header.Get(AjaxRequestHeader) == AjaxRequestIdentifier {
+				w.WriteHeader(RedirectHttpCode)
+				w.Write([]byte(NoAuthorizationMsg))
+				return
+			}
+			http.Redirect(w, r, LoginHtmlPage, RedirectHttpCode)
+			return
+		}
 
-    for prefix, _ := range ProxyMapping {
-      if strings.HasPrefix(path,prefix) {
-        path = strings.TrimPrefix(path,prefix)
-        ProxyHandler(w,r,path,prefix)
-        return
-      }
-    }
+		for prefix, _ := range ProxyMapping {
+			if strings.HasPrefix(path, prefix) {
+				path = strings.TrimPrefix(path, prefix)
+				ProxyHandler(w, r, path, prefix)
+				return
+			}
+		}
 
-    h.ServeHTTP(w,r)
-    //log.Println("after auth...")
-  })
+		h.ServeHTTP(w, r)
+		//log.Println("after auth...")
+	})
 }
