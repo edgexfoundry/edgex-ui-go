@@ -48,5 +48,5 @@ const (
 	HostIPKey              = "hostIP"
 	ContentTypeKey         = "Content-Type"
 	JsonContentType        = "application/json"
-	RedirectHttpCode 	   = 302
+	RedirectHttpCode       = 302
 )

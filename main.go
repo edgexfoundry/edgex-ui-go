@@ -18,36 +18,36 @@
 package main
 
 import (
-  "net/http"
-  "time"
-  "log"
-   _ "net/http/pprof"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
+	"time"
 )
 
 func main() {
 
-  ProxyMapping = make(map[string]string, 10)
-  // ProxyMapping["/core-metadata"] = "http://10.112.122.28:48081"
-  ProxyMapping[CoreDataPath] = CoreDataPort
-  ProxyMapping[CoreMetadataPath] = CoreMetadataPort
-  ProxyMapping[CoreCommandPath] = CoreCommandPort
-  ProxyMapping[CoreExportPath] = CoreExportPort
-  ProxyMapping[RuleEnginePath] = RuleEnginePort
+	ProxyMapping = make(map[string]string, 10)
+	// ProxyMapping["/core-metadata"] = "http://10.112.122.28:48081"
+	ProxyMapping[CoreDataPath] = CoreDataPort
+	ProxyMapping[CoreMetadataPath] = CoreMetadataPort
+	ProxyMapping[CoreCommandPath] = CoreCommandPort
+	ProxyMapping[CoreExportPath] = CoreExportPort
+	ProxyMapping[RuleEnginePath] = RuleEnginePort
 
-  r := initRestRoutes()
+	r := initRestRoutes()
 
-  //use for performance monitor(memory analyze,trace)
-  //in browser, type: http://localhost:8080/debug/pprof
-  //in shell console, type: go tool pprof -inuse_space http://127.0.0.1:8080/debug/pprof/heap
-  go func() {
-    http.ListenAndServe("0.0.0.0:8080", nil)
-  }()
+	//use for performance monitor(memory analyze,trace)
+	//in browser, type: http://localhost:8080/debug/pprof
+	//in shell console, type: go tool pprof -inuse_space http://127.0.0.1:8080/debug/pprof/heap
+	go func() {
+		http.ListenAndServe("0.0.0.0:8080", nil)
+	}()
 
-  server := &http.Server{
-    Handler      : GeneralFilter(r),
-    Addr         : ":4000",
-    WriteTimeout : 15 * time.Second,
-    ReadTimeout  : 15 * time.Second,
-  }
-  log.Fatal(server.ListenAndServe())
+	server := &http.Server{
+		Handler:      GeneralFilter(r),
+		Addr:         ":4000",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	log.Fatal(server.ListenAndServe())
 }
