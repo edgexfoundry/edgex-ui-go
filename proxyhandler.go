@@ -29,31 +29,32 @@ var ProxyMapping map[string]string
 //ProxyHandler
 func ProxyHandler(w http.ResponseWriter, r *http.Request,path string, prefix string){
   defer r.Body.Close()
-  token := r.Header.Get("X-Session-Token")
+  token := r.Header.Get(SessionTokenKey)
   targetIP := DynamicalProxyCache[token]
-  targetAddr := "http://" + targetIP
-  if prefix == "/core-data" {
-    targetAddr += ":48080"
+  targetAddr := HttpProtocol + "://" + targetIP
+  if prefix == CoreDataPath {
+    targetAddr += ":" + CoreDataPort
   }
-  if prefix == "/core-metadata" {
-    targetAddr += ":48081"
+
+  if prefix == CoreMetadataPath {
+    targetAddr += ":" + CoreMetadataPort
   }
-  if prefix == "/core-command" {
-    targetAddr += ":48082"
+  if prefix == CoreCommandPath {
+    targetAddr += ":" + CoreCommandPort
   }
-  if prefix == "/core-export" {
-    targetAddr += ":48071"
+  if prefix == CoreExportPath {
+    targetAddr += ":" + CoreExportPort
   }
-  if prefix == "/rule-engine" {
-    targetAddr += ":48075"
+  if prefix == RuleEnginePath {
+    targetAddr += ":" + RuleEnginePort
   }
 
   origin, _ := url.Parse(targetAddr)
 
   director := func(req *http.Request) {
-    req.Header.Add("X-Forwarded-Host", req.Host)
-    req.Header.Add("X-Origin-Host", origin.Host)
-    req.URL.Scheme = "http"
+    req.Header.Add(forwardedHostReqHeader, req.Host)
+    req.Header.Add(OriginHostReqHeader, origin.Host)
+    req.URL.Scheme = HttpProtocol
     req.URL.Host = origin.Host
     req.URL.Path = path
   }

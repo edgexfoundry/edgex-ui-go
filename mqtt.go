@@ -33,7 +33,7 @@ func CreateMqttClient(addressable Addressable,token string){
   MqttTokenCache = token
   broker := addressable.Address + ":" + strconv.Itoa(addressable.Port)
   opts := MQTT.NewClientOptions().AddBroker(broker)
-  opts.SetClientID("edgex-go-" + addressable.Topic)
+  opts.SetClientID(ClientIDPrefix + addressable.Topic)
   opts.SetUsername(addressable.User)
   opts.SetPassword(addressable.Password)
   //opts.SetDefaultPublishHandler(f)
