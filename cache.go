@@ -17,8 +17,6 @@
 
 package main
 
-import ()
-
 //{Token:User}
 var TokenCache = make(map[string]User, 20)
 

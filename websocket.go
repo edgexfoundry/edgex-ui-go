@@ -26,7 +26,6 @@ import (
 )
 
 type WsClientConn struct {
-	//{token:wsConn}
 	clientmapping map[string]*websocket.Conn
 }
 
@@ -56,7 +55,6 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 func WsClientSend(token string, message []byte) {
 	for k, v := range wsConn.clientmapping {
 		if k == token {
-			//j , _ := json.Marshal(string(message))
 			v.WriteMessage(1, message)
 			log.Println("sending..")
 		}
