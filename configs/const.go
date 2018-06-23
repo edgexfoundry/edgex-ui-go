@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-package main
+package configs
 
 const (
 	ReadBufferSize         = 1024
@@ -28,15 +28,17 @@ const (
 	CoreExportPort         = "48071"
 	RuleEnginePath         = "/rule-engine"
 	RuleEnginePort         = "48075"
-	forwardedHostReqHeader = "X-Forwarded-Host"
+	ForwardedHostReqHeader = "X-Forwarded-Host"
 	OriginHostReqHeader    = "X-Origin-Host"
 	ClientIDPrefix         = "edgex-go-"
+	WebDirName			   = "web"
 	StaticDirName          = "static"
 	HtmlSuffix             = ".html"
 	CssSuffix              = ".css"
 	JsSuffix               = ".js"
 	JsonSuffix             = ".json"
 	VendorsPath            = "/vendors"
+	DataPathPrefix		   = "/data"
 	LoginUriPath           = "/api/v1/auth/login"
 	LoginHtmlPage          = "/login.html"
 	NoAuthorizationMsg     = "no authorization."

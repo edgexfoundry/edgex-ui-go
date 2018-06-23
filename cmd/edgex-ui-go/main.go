@@ -22,18 +22,15 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"time"
+	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
 )
 
 func main() {
 
-	ProxyMapping = make(map[string]string, 10)
-	ProxyMapping[CoreDataPath] = CoreDataPort
-	ProxyMapping[CoreMetadataPath] = CoreMetadataPort
-	ProxyMapping[CoreCommandPath] = CoreCommandPort
-	ProxyMapping[CoreExportPath] = CoreExportPort
-	ProxyMapping[RuleEnginePath] = RuleEnginePort
+	initial.Initialize()
 
-	r := initRestRoutes()
+	r := app.InitRestRoutes()
 
 	//use for performance monitor(memory analyze,trace)
 	//in browser, type: http://localhost:8080/debug/pprof
@@ -43,7 +40,7 @@ func main() {
 	}()
 
 	server := &http.Server{
-		Handler:      GeneralFilter(r),
+		Handler:      app.GeneralFilter(r),
 		Addr:         ":4000",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

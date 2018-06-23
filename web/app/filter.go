@@ -15,13 +15,20 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
 import (
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
+	"path/filepath"
+)
+
+const (
+	RelativePathToProjectRoot = "../../"
 )
 
 func GeneralFilter(h http.Handler) http.Handler {
@@ -37,21 +44,24 @@ func AuthFilter(h http.Handler) http.Handler {
 		log.Println("before auth...")
 		path := r.URL.Path
 
+		relativeStaticDirPath := filepath.Join(RelativePathToProjectRoot, configs.WebDirName, configs.StaticDirName)
+
 		if path == "/" {
-			http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w, r)
+			http.FileServer(http.Dir(relativeStaticDirPath)).ServeHTTP(w, r)
 			return
 		}
 
-		if strings.HasSuffix(path, HtmlSuffix) ||
-			strings.HasSuffix(path, CssSuffix) ||
-			strings.HasSuffix(path, JsSuffix) ||
-			strings.HasSuffix(path, JsonSuffix) ||
-			strings.HasPrefix(path, VendorsPath) {
-			http.FileServer(http.Dir(StaticDirName)).ServeHTTP(w, r)
+		if strings.HasSuffix(path, configs.HtmlSuffix) ||
+			strings.HasSuffix(path, configs.CssSuffix) ||
+			strings.HasSuffix(path, configs.JsSuffix) ||
+			strings.HasSuffix(path, configs.JsonSuffix) ||
+			strings.HasPrefix(path, configs.VendorsPath) ||
+			strings.HasPrefix(path, configs.DataPathPrefix) {
+			http.FileServer(http.Dir(relativeStaticDirPath)).ServeHTTP(w, r)
 			return
 		}
 
-		if path == LoginUriPath {
+		if path == configs.LoginUriPath {
 			h.ServeHTTP(w, r)
 			return
 		}
@@ -59,27 +69,27 @@ func AuthFilter(h http.Handler) http.Handler {
 		var token string
 		u := r.URL.RawQuery
 		params, _ := url.ParseQuery(u)
-		value, ok := params[SessionTokenKey]
+		value, ok := params[configs.SessionTokenKey]
 		if ok {
 			token = value[0]
 		} else {
-			token = r.Header.Get(SessionTokenKey)
+			token = r.Header.Get(configs.SessionTokenKey)
 		}
 
 		_, isValid := TokenCache[token]
 
 		if (token == "") || !(isValid) {
-			if r.Header.Get(AjaxRequestHeader) != "" &&
-				r.Header.Get(AjaxRequestHeader) == AjaxRequestIdentifier {
-				w.WriteHeader(RedirectHttpCode)
-				w.Write([]byte(NoAuthorizationMsg))
+			if r.Header.Get(configs.AjaxRequestHeader) != "" &&
+				r.Header.Get(configs.AjaxRequestHeader) == configs.AjaxRequestIdentifier {
+				w.WriteHeader(configs.RedirectHttpCode)
+				w.Write([]byte(configs.NoAuthorizationMsg))
 				return
 			}
-			http.Redirect(w, r, LoginHtmlPage, RedirectHttpCode)
+			http.Redirect(w, r, configs.LoginHtmlPage, configs.RedirectHttpCode)
 			return
 		}
 
-		for prefix, _ := range ProxyMapping {
+		for prefix, _ := range initial.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
 				path = strings.TrimPrefix(path, prefix)
 				ProxyHandler(w, r, path, prefix)

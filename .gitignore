@@ -3,4 +3,4 @@ vendor
 *.exe
 glide.lock
 *.DS_Store
-edgex-ui-go
+cmd/edgex-ui-go/edgex-ui-go
