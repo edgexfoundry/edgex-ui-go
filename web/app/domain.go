@@ -15,7 +15,7 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
 type User struct {
 	Id       string `json:"id"`

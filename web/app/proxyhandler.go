@@ -15,44 +15,43 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
-import (
+import  (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
-
-var ProxyMapping map[string]string
 
 func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string) {
 	defer r.Body.Close()
-	token := r.Header.Get(SessionTokenKey)
+	token := r.Header.Get(configs.SessionTokenKey)
 	targetIP := DynamicalProxyCache[token]
-	targetAddr := HttpProtocol + "://" + targetIP
-	if prefix == CoreDataPath {
-		targetAddr += ":" + CoreDataPort
+	targetAddr := configs.HttpProtocol + "://" + targetIP
+	if prefix == configs.CoreDataPath {
+		targetAddr += ":" + configs.CoreDataPort
 	}
 
-	if prefix == CoreMetadataPath {
-		targetAddr += ":" + CoreMetadataPort
+	if prefix == configs.CoreMetadataPath {
+		targetAddr += ":" + configs.CoreMetadataPort
 	}
-	if prefix == CoreCommandPath {
-		targetAddr += ":" + CoreCommandPort
+	if prefix == configs.CoreCommandPath {
+		targetAddr += ":" + configs.CoreCommandPort
 	}
-	if prefix == CoreExportPath {
-		targetAddr += ":" + CoreExportPort
+	if prefix == configs.CoreExportPath {
+		targetAddr += ":" + configs.CoreExportPort
 	}
-	if prefix == RuleEnginePath {
-		targetAddr += ":" + RuleEnginePort
+	if prefix == configs.RuleEnginePath {
+		targetAddr += ":" + configs.RuleEnginePort
 	}
 
 	origin, _ := url.Parse(targetAddr)
 
 	director := func(req *http.Request) {
-		req.Header.Add(forwardedHostReqHeader, req.Host)
-		req.Header.Add(OriginHostReqHeader, origin.Host)
-		req.URL.Scheme = HttpProtocol
+		req.Header.Add(configs.ForwardedHostReqHeader, req.Host)
+		req.Header.Add(configs.OriginHostReqHeader, origin.Host)
+		req.URL.Scheme = configs.HttpProtocol
 		req.URL.Host = origin.Host
 		req.URL.Path = path
 	}

@@ -15,28 +15,29 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
 import (
 	mux "github.com/gorilla/mux"
 	"net/http"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
 
-func initRestRoutes() http.Handler {
+func InitRestRoutes() http.Handler {
 	r := mux.NewRouter()
 
-	s := r.PathPrefix(ApiVersionPath).Subrouter()
-	s.HandleFunc(AuthLoginPath, Login).Methods(http.MethodPost)
-	s.HandleFunc(AuthLogoutPath, Logout).Methods(http.MethodGet)
+	s := r.PathPrefix(configs.ApiVersionPath).Subrouter()
+	s.HandleFunc(configs.AuthLoginPath, Login).Methods(http.MethodPost)
+	s.HandleFunc(configs.AuthLogoutPath, Logout).Methods(http.MethodGet)
 
-	s.HandleFunc(GatewayPath, FindAllGateway).Methods(http.MethodGet)
-	s.HandleFunc(GatewayPath, SaveGateway).Methods(http.MethodPost)
-	s.HandleFunc(GatewayPathProxyPath, ProxyConfigGateway).Methods(http.MethodPost)
+	s.HandleFunc(configs.GatewayPath, FindAllGateway).Methods(http.MethodGet)
+	s.HandleFunc(configs.GatewayPath, SaveGateway).Methods(http.MethodPost)
+	s.HandleFunc(configs.GatewayPathProxyPath, ProxyConfigGateway).Methods(http.MethodPost)
 
-	s.HandleFunc(ExportShowPath, ExportShow).Methods(http.MethodPost)
+	s.HandleFunc(configs.ExportShowPath, ExportShow).Methods(http.MethodPost)
 
 	s1 := r.PathPrefix("").Subrouter()
-	s1.HandleFunc(WsPath, WebSocketHandler)
+	s1.HandleFunc(configs.WsPath, WebSocketHandler)
 
 	return r
 }

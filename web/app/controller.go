@@ -15,7 +15,7 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
 import (
 	"crypto/md5"
@@ -24,6 +24,8 @@ import (
 	"log"
 	"net/http"
 	_ "net/url"
+
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
 
 func GetMd5String(s string) string {
@@ -45,10 +47,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	name := m[UserNameKey]
-	pwd := m[PasswordKey]
+	name := m[configs.UserNameKey]
+	pwd := m[configs.PasswordKey]
 	log.Println(name + ":" + pwd)
-	if name == AdminUserAndPassword && pwd == AdminUserAndPassword {
+	if name == configs.AdminUserAndPassword && pwd == configs.AdminUserAndPassword {
 		token := GetMd5String(name)
 		TokenCache[token] = User{Name: name, Password: pwd}
 		log.Println("token: " + token)
@@ -58,7 +60,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-	token := r.Header.Get(SessionTokenKey)
+	token := r.Header.Get(configs.SessionTokenKey)
 	delete(TokenCache, token)
 }
 
@@ -74,8 +76,8 @@ func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	targetIP := m[HostIPKey]
-	DynamicalProxyCache[r.Header.Get(SessionTokenKey)] = targetIP
+	targetIP := m[configs.HostIPKey]
+	DynamicalProxyCache[r.Header.Get(configs.SessionTokenKey)] = targetIP
 }
 
 func SaveGateway(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +92,7 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 }
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	w.Header().Set(ContentTypeKey, JsonContentType)
+	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
 	json.NewEncoder(w).Encode(&GatewayInfoCache)
 }
 func DeleteGateway(w http.ResponseWriter, r *http.Request) {
@@ -102,7 +104,7 @@ func DeleteGateway(w http.ResponseWriter, r *http.Request) {
  */
 func ExportShow(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	token := r.Header.Get(SessionTokenKey)
+	token := r.Header.Get(configs.SessionTokenKey)
 
 	var addressable Addressable
 	err := json.NewDecoder(r.Body).Decode(&addressable)

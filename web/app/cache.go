@@ -15,7 +15,7 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
 //{Token:User}
 var TokenCache = make(map[string]User, 20)

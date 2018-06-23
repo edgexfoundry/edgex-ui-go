@@ -15,7 +15,7 @@
  * @version: 0.1.0
  *******************************************************************************/
 
-package main
+package app
 
 import (
 	_ "encoding/json"
@@ -23,6 +23,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
 
 type WsClientConn struct {
@@ -32,8 +33,8 @@ type WsClientConn struct {
 var wsConn *WsClientConn
 
 var upgrader = websocket.Upgrader{
-	ReadBufferSize:  ReadBufferSize,
-	WriteBufferSize: WriteBufferSize,
+	ReadBufferSize:  configs.ReadBufferSize,
+	WriteBufferSize: configs.WriteBufferSize,
 }
 
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
@@ -45,7 +46,7 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 
 	u := r.URL.RawQuery
 	m, _ := url.ParseQuery(u)
-	token := m[SessionTokenKey][0]
+	token := m[configs.SessionTokenKey][0]
 
 	wsConn.clientmapping[token] = ws
 	log.Println("ws token:" + token)
