@@ -1,5 +1,5 @@
 # edgex-ui-go
-[![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry-holding/edgex-ui-go)](https://goreportcard.com/report/github.com/edgexfoundry-holding/edgex-ui-go) [![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
 > Go implementation of EdgeX Web UI.
 
 <p align="center">
