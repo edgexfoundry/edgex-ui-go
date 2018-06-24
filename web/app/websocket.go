@@ -19,11 +19,11 @@ package app
 
 import (
 	_ "encoding/json"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"net/url"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
 
 type WsClientConn struct {

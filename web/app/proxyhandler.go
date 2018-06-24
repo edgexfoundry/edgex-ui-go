@@ -17,11 +17,11 @@
 
 package app
 
-import  (
+import (
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
 
 func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string) {

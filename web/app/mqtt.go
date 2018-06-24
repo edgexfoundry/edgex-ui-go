@@ -19,9 +19,9 @@ package app
 
 import (
 	MQTT "github.com/eclipse/paho.mqtt.golang"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"log"
 	"strconv"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
 
 var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {

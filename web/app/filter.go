@@ -18,13 +18,13 @@
 package app
 
 import (
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
 	"log"
 	"net/http"
 	"net/url"
-	"strings"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
 	"path/filepath"
+	"strings"
 )
 
 const (

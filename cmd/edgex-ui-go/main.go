@@ -18,12 +18,12 @@
 package main
 
 import (
+	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
 	"time"
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
 )
 
 func main() {
