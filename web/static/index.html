@@ -22,30 +22,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>EdgeX Foundry Console</title>
-	<script type="text/javascript">
-		(function() {
-			var X_Session_Token = window.sessionStorage.getItem("X_Session_Token")
-			if (X_Session_Token == "" || X_Session_Token == "undefined") {
-				window.location.href = '/login.html?ran=' + Math.random();
-			}
-		})()
-	</script>
 	<link href="/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/vendors/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/css/main.css" rel="stylesheet">
 	<link href="css/index.css" rel="stylesheet">
-	<script type="text/javascript">
-		//locked browser URL change.
-		(function() {
-			window.history.pushState(null, null, "/");
-		})();
-
-		//Disable page forward and backward
-		history.pushState(null, null, document.URL);
-		window.addEventListener('popstate', function() {
-			history.pushState(null, null, document.URL);
-		});
-	</script>
+	<script src="js/index.js" ></script>
 </head>
 
 <body>
