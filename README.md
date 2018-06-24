@@ -6,6 +6,12 @@
   <img src ="assets/images/edgex-ui-go-overview.png" />
 </p>
 
+Effect picture after refactoring frontend ui (to be done):
+
+<p align="center">
+  <img src ="assets/images/gentelella-overview.jpeg" />
+</p>
+
 ## Install and Deploy
 
 To fetch the code and compile the web ui:
