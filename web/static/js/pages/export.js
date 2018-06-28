@@ -28,7 +28,8 @@ $(document).ready(function(){
     	        trigger: 'axis'
     	    },
     	    legend: {
-    	        data:['KMC.BAC-121036CE01','GS1-AC-Drive01']
+    	        // data:['KMC.BAC-121036CE01','GS1-AC-Drive01']
+							data:[]
     	    },
     	    toolbox: {
     	        show : true,
@@ -44,7 +45,8 @@ $(document).ready(function(){
     	    xAxis : [
     	        {
     	            type : 'category',
-    	            data : ['Temperature','Humidity','OutputVoltage','RPM']
+    	            // data : ['Temperature','Humidity','OutputVoltage','RPM']
+									data : []
     	        }
     	    ],
     	    yAxis : [
@@ -56,16 +58,16 @@ $(document).ready(function(){
     	        }
     	    ],
     	    series : [
-    	        {
-    	            name:'KMC.BAC-121036CE01',
-    	            type:'bar',
-    	            data:[0,0,0,0]
-    	        },
-    	        {
-    	            name:'GS1-AC-Drive01',
-    	            type:'bar',
-    	            data:[0,0,0,0]
-    	        }
+    	        // {
+    	        //     name:'KMC.BAC-121036CE01',
+    	        //     type:'bar',
+    	        //     data:[0,0,0,0]
+    	        // },
+    	        // {
+    	        //     name:'GS1-AC-Drive01',
+    	        //     type:'bar',
+    	        //     data:[0,0,0,0]
+    	        // }
     	    ]
     	};
     coreExportModule.exportChart.setOption(option);
@@ -325,42 +327,53 @@ var coreExportModule = {
 //				 var dataMapping = {'AnalogValue_40':"temperature",'AnalogValue_22':"humidity",
 //						 'HoldingRegister_8455':"OutputVoltage",'HoldingRegister_8454':'RPM'}
 				 var echartOpts = coreExportModule.exportChart.getOption();
-//				 if(echartOpts.legend.data.indexOf(d.device) == -1){
-//					 echartOpts.legend.data.push(d.device);
-//					 echartOpts.xAxis[0].data.push(d.readings[0].name)
-//					 var o = {}
-//					 o["name"] = d.device;
-//					 o["type"] = "bar";
-//					 o["data"] = new Array(echartOpts.xAxis[0].data.length)
-//					 o["data"].push(d.readings[0].value)
-//					 echartOpts.series.push(o);
-//					 coreExportModule.exportChart.setOption(echartOpts);
-//				 } else {
-//					 $.each(echartOpts.series,function(i,s){
-//						 if(s.name == d.device){
-//							 s.data.splice(echartOpts.xAxis[0].data.indexOf(d.readings[0].name),1,d.readings[0].name);
-//							 coreExportModule.exportChart.setOption(echartOpts);
-//							 return false
-//						 }
-//					 });
-//				 }
+				 //debugger
+				 if(echartOpts.legend[0].data.indexOf(d.device) == -1){
+					 echartOpts.legend[0].data.push(d.device);
+					 echartOpts.xAxis[0].data.push(d.readings[0].name)
+					 var o = {}
+					 o["name"] = d.device;
+					 o["type"] = "bar";
+					 o["data"] = new Array(echartOpts.xAxis[0].data.length)
+					 o["data"].push(d.readings[0].value)
+					 echartOpts.series.push(o);
+					 coreExportModule.exportChart.setOption(echartOpts);
+				 }if(echartOpts.legend[0].data.indexOf(d.device) != -1 && echartOpts.xAxis[0].data.indexOf(d.readings[0].name) == -1){
+					 echartOpts.xAxis[0].data.push(d.readings[0].name)
+					 $.each(echartOpts.series,function(i,s){
+						 if(s.name == d.device){
+							 s.data.splice(echartOpts.xAxis[0].data.indexOf(d.readings[0].name),1,d.readings[0].value);
+
+							 return false
+						 }
+					 });
+					 coreExportModule.exportChart.setOption(echartOpts);
+				 } else {
+					 $.each(echartOpts.series,function(i,s){
+						 if(s.name == d.device){
+							 s.data.splice(echartOpts.xAxis[0].data.indexOf(d.readings[0].name),1,d.readings[0].value);
+							 coreExportModule.exportChart.setOption(echartOpts);
+							 return false
+						 }
+					 });
+				 }
 					//alert(d.device)
-				 if(d.device == "KMC.BAC-121036CE01"){
-					 if(d.readings[0].name == 'AnalogValue_40'){
-						 echartOpts.series[0].data.splice(0,1,d.readings[0].value);
-					 }else if(d.readings[0].name == 'AnalogValue_22'){
-						 echartOpts.series[0].data.splice(1,1,d.readings[0].value);
-					 }
-					 coreExportModule.exportChart.setOption(echartOpts);
-				 }
-				 if(d.device == 'GS1-AC-Drive01'){
-					 if(d.readings[0].name == 'HoldingRegister_8455'){
-						 echartOpts.series[1].data.splice(2,1,d.readings[0].value);
-					 }else if(d.readings[0].name == 'HoldingRegister_8454'){
-						 echartOpts.series[1].data.splice(3,1,d.readings[0].value);
-					 }
-					 coreExportModule.exportChart.setOption(echartOpts);
-				 }
+				//  if(d.device == "KMC.BAC-121036CE01"){
+				// 	 if(d.readings[0].name == 'AnalogValue_40'){
+				// 		 echartOpts.series[0].data.splice(0,1,d.readings[0].value);
+				// 	 }else if(d.readings[0].name == 'AnalogValue_22'){
+				// 		 echartOpts.series[0].data.splice(1,1,d.readings[0].value);
+				// 	 }
+				// 	 coreExportModule.exportChart.setOption(echartOpts);
+				//  }
+				//  if(d.device == 'GS1-AC-Drive01'){
+				// 	 if(d.readings[0].name == 'HoldingRegister_8455'){
+				// 		 echartOpts.series[1].data.splice(2,1,d.readings[0].value);
+				// 	 }else if(d.readings[0].name == 'HoldingRegister_8454'){
+				// 		 echartOpts.series[1].data.splice(3,1,d.readings[0].value);
+				// 	 }
+				// 	 coreExportModule.exportChart.setOption(echartOpts);
+				//  }
 			}
 		},
 		disconnWebsocket:function(){
@@ -579,13 +592,14 @@ var coreExportBtnGroup = {
 				}
 			});
 			//update MQListener Cache.
-			$.ajax({
-				url:'/api/v1/exportshow',
-				type:'PUT',
-				contentType:'application/json',
-				data:JSON.stringify(exportAddr),
-				success:function(){}
-			});
+			//if(coreExportModule.selectedRow[""]
+			// $.ajax({
+			// 	url:'/api/v1/exportshow',
+			// 	type:'PUT',
+			// 	contentType:'application/json',
+			// 	data:JSON.stringify(exportAddr),
+			// 	success:function(){}
+			// });
 		},
 		isEnableExport:function(enable){
 			coreExportModule.selectedRow.enable =  enable;
