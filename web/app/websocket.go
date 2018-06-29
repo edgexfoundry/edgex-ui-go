@@ -56,8 +56,10 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 func WsClientSend(token string, message []byte) {
 	for k, v := range wsConn.clientmapping {
 		if k == token {
-			v.WriteMessage(1, message)
-			log.Println("sending..")
+			if v != nil {
+				v.WriteMessage(1, message)
+				log.Println("sending..")
+			}
 		}
 	}
 }
