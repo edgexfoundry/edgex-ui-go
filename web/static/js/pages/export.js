@@ -25,8 +25,7 @@ $(document).ready(function(){
     	        trigger: 'axis'
     	    },
     	    legend: {
-    	        // data:['KMC.BAC-121036CE01','GS1-AC-Drive01']
-							data:[]
+    	        data:[/*'KMC.BAC-121036CE01','GS1-AC-Drive01'*/]
     	    },
     	    toolbox: {
     	        show : true,
@@ -42,8 +41,7 @@ $(document).ready(function(){
     	    xAxis : [
     	        {
     	            type : 'category',
-    	            // data : ['Temperature','Humidity','OutputVoltage','RPM']
-									data : []
+    	            data : [/*'Temperature','Humidity','OutputVoltage','RPM'*/]
     	        }
     	    ],
     	    yAxis : [
@@ -54,18 +52,7 @@ $(document).ready(function(){
     	            min: -100
     	        }
     	    ],
-    	    series : [
-    	        // {
-    	        //     name:'KMC.BAC-121036CE01',
-    	        //     type:'bar',
-    	        //     data:[0,0,0,0]
-    	        // },
-    	        // {
-    	        //     name:'GS1-AC-Drive01',
-    	        //     type:'bar',
-    	        //     data:[0,0,0,0]
-    	        // }
-    	    ]
+    	    series : []
     	};
     coreExportModule.exportChart.setOption(option);
     $("#export_data_charts").hide();
@@ -209,8 +196,6 @@ var coreExportModule = {
 		exportDataCache:[],
 		selectedRow:{},
 		loadExportData:function(){
-//			coreExportModule.exportDataCache = testExportData;
-//			coreExportModule.renderExportGridList(testExportData);
 			$.ajax({
 				url:'/core-export/api/v1/registration',
 				type:'GET',
@@ -354,23 +339,6 @@ var coreExportModule = {
 						 }
 					 });
 				 }
-					//alert(d.device)
-				//  if(d.device == "KMC.BAC-121036CE01"){
-				// 	 if(d.readings[0].name == 'AnalogValue_40'){
-				// 		 echartOpts.series[0].data.splice(0,1,d.readings[0].value);
-				// 	 }else if(d.readings[0].name == 'AnalogValue_22'){
-				// 		 echartOpts.series[0].data.splice(1,1,d.readings[0].value);
-				// 	 }
-				// 	 coreExportModule.exportChart.setOption(echartOpts);
-				//  }
-				//  if(d.device == 'GS1-AC-Drive01'){
-				// 	 if(d.readings[0].name == 'HoldingRegister_8455'){
-				// 		 echartOpts.series[1].data.splice(2,1,d.readings[0].value);
-				// 	 }else if(d.readings[0].name == 'HoldingRegister_8454'){
-				// 		 echartOpts.series[1].data.splice(3,1,d.readings[0].value);
-				// 	 }
-				// 	 coreExportModule.exportChart.setOption(echartOpts);
-				//  }
 			}
 		},
 		disconnWebsocket:function(){
@@ -533,13 +501,6 @@ var coreExportBtnGroup = {
 					success:function(){}
 				});
 			}
-//			$.ajax({
-//				url:'/edgex-pulse',
-//				type:'POST',
-//				contentType:'application/json',
-//				data:JSON.stringify(exportRegister),
-//				success:function(){}
-//			});
 		},
 		update:function(){
 			$("div.core_export_shelter").show('fast');
