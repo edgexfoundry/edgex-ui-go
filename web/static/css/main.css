@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -71,7 +71,7 @@
       -ms-transform: translateY(-50%);
       -webkit-transform: translateY(-50%);
       -moz--transform: translateY(-50%);
-} 
+}
 
 .headbar li.title {
 	font-weight: bold;
@@ -104,7 +104,7 @@
 	left: 0;
 	border-right: 3px solid #339933;
 	z-index: 990;
-	/* background-color: rgba(51, 153, 51, 0.1); */
+	background-color: rgba(51, 153, 51, 0.2);
 	/* border: 1px solid red; *//* debugger */
 }
 
@@ -121,7 +121,7 @@
 
 .sidebar div > ul > li > span:hover {
 	border: 2px solid;
-	border-color:#339933; 
+	border-color:#339933;
 	cursor:default;
 }
 
@@ -136,14 +136,14 @@
 	top: 60px; */
 	/* right: 0;
 	bottom: 0; */
-	
+
 	margin-top:60px;
 	margin-left:200px;
 	margin-bottom:0;
 	padding: 0 10px;
 	padding-top: 10px;
 	z-index: 0;
-	max-width: 100%; 
+	max-width: 100%;
 	height: auto;
 	overflow: visible;
 	overflow-x: hidden;
