@@ -3,8 +3,9 @@
     if (X_Session_Token == "" || X_Session_Token == "undefined") {
         window.location.href = '/login.html?ran=' + Math.random();
     }
-})()
+})();
 
+//locked browser url unchanged
 (function() {
     window.history.pushState(null, null, "/");
 })();
