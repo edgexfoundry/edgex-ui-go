@@ -23,6 +23,15 @@ glide install
 make build
 ```
 
+Or if you use git clone command:
+```
+cd $GOPATH/src
+git clone http://github.com/edgexfoundry-holding/edgex-ui-go.git github.com/edgexfoundry-holding/edgex-ui-go
+cd $GOPATH/src/github.com/edgexfoundry-holding/edgex-ui-go
+glide install
+make build
+```
+
 To rebuild if you changed the source code :
 
 ```
