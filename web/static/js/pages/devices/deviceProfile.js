@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  * @version: 0.1.0
  ******************************************************************************/
@@ -121,7 +121,10 @@ var deviceProfileModuleBtnGroup = {
 		$('#add_profile_dialog').hide('fast');
 	},
 	uploadProfile : function() {
-		var form = $("#add_profile_dialog form");
+		var form = $("#add_profile_dialog form")[0];
+		form.action = "/core-metadata/api/v1/deviceprofile/uploadfile?X-Session-Token=" + window.sessionStorage.getItem('X_Session_Token');
+		form.method = "POST"
+		form.enctype="multipart/form-data"
 		form.submit();
 		var iframe = $("#add_profile_dialog iframe")[0];
 		iframe.onload = function(event) {
@@ -132,7 +135,7 @@ var deviceProfileModuleBtnGroup = {
 				alert("upload faild");
 			} else {
 				// alert("upload sucess");
-				form[0].reset();
+				form.reset();
 				$("#add_profile_dialog button[name='upload']").prop("disabled",
 						true);
 				deviceProfileModule.loadProfileList();

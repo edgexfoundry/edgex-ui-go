@@ -1,7 +1,7 @@
-<!-- 
+<!--
 *******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -15,54 +15,42 @@
  -->
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<link href="/css/devices/deviceProfile.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<link href="/css/devices/deviceProfile.css" rel="stylesheet">
 </head>
+
 <body>
 
 	<div id="device_profile_shelter"></div>
 
 	<div id="add_profile_dialog" style="display: none;">
 		<label for="add_profile_upload">Select File</label>
-		<form style="display: none;" target="upload_profile_response"
-			action="/core-metadata/api/v1/deviceprofile/uploadfile" method="POST"
-			enctype="multipart/form-data">
-			<input id="add_profile_upload" accept=".yaml,.yml" type="file"
-				name="file" multiple="multiple"
-				onchange="deviceProfileModule.onSelectFileCompleted()">
+		<form style="display: none;" target="upload_profile_response">
+			<input id="add_profile_upload" accept=".yaml,.yml" type="file" name="file" multiple="multiple" onchange="deviceProfileModule.onSelectFileCompleted()">
 		</form>
 		<div class="file_proview"></div>
-		<button type="button" name="cancel" class="btn btn-success"
-			onclick="deviceProfileModuleBtnGroup.cancel()">
+		<button type="button" name="cancel" class="btn btn-success" onclick="deviceProfileModuleBtnGroup.cancel()">
 			<i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Cancel
 		</button>
-		<button disabled type="button" name="upload" class="btn btn-success"
-			onclick="deviceProfileModuleBtnGroup.uploadProfile()">
+		<button disabled type="button" name="upload" class="btn btn-success" onclick="deviceProfileModuleBtnGroup.uploadProfile()">
 			<i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload
 		</button>
 		<iframe name="upload_profile_response" style="display: none;"></iframe>
 	</div>
 
 	<div id="device_profile_btn">
-		<button type="button" class="btn btn-success"
-			onclick="deviceProfileModuleBtnGroup.add();">
+		<button type="button" class="btn btn-success" onclick="deviceProfileModuleBtnGroup.add();">
 			<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
 		</button>
-		<button type="button" class="btn btn-success" tabindex="0"
-			data-toggle="popover"
-			data-trigger="focus"
-			data-content="Please select one item."
-			data-placement="bottom"
-			onclick="deviceProfileModuleBtnGroup.deleteProfile();">
+		<button type="button" class="btn btn-success" tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Please select one item." data-placement="bottom" onclick="deviceProfileModuleBtnGroup.deleteProfile();">
 			<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
 		</button>
-		<button type="button" class="btn btn-success"
-			onclick="deviceProfileModuleBtnGroup.refresh();">
+		<button type="button" class="btn btn-success" onclick="deviceProfileModuleBtnGroup.refresh();">
 			<i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Refresh
 		</button>
-		<button type="button" name="template" class="btn btn-success"
-			onclick="deviceProfileModuleBtnGroup.downloadProfileTemplate()">
+		<button type="button" name="template" class="btn btn-success" onclick="deviceProfileModuleBtnGroup.downloadProfileTemplate()">
 			<i class="fa fa-cloud-download" aria-hidden="true"></i>&nbsp;Template
 		</button>
 	</div>
@@ -96,8 +84,7 @@
 		<div class="modal-dialog" role="document">
 			<div style="width: 400px;" class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title" id="myModalLabel">Confirm</h4>
@@ -108,12 +95,12 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success" data-dismiss="modal">&nbsp;No&nbsp;</button>
-					<button type="button" class="btn btn-default" value="true"
-						onclick="deviceProfileModuleBtnGroup.deleteProfile(true)">Yes</button>
+					<button type="button" class="btn btn-default" value="true" onclick="deviceProfileModuleBtnGroup.deleteProfile(true)">Yes</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
 <script src="/js/pages/devices/deviceProfile.js"></script>
+
 </html>
