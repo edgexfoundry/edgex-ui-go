@@ -21,9 +21,9 @@ import (
 	"net/url"
 )
 
-func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string) {
+func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string,token string) {
 	defer r.Body.Close()
-	token := r.Header.Get(configs.SessionTokenKey)
+	//token := r.Header.Get(configs.SessionTokenKey)
 	targetIP := DynamicalProxyCache[token]
 	targetAddr := configs.HttpProtocol + "://" + targetIP
 	if prefix == configs.CoreDataPath {
