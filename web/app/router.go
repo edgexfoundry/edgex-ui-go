@@ -33,6 +33,8 @@ func InitRestRoutes() http.Handler {
 
 	s.HandleFunc(configs.ExportShowPath, ExportShow).Methods(http.MethodPost)
 
+	s.HandleFunc(configs.DownloadProfilePath,DowloadProfile).Methods(http.MethodGet)
+
 	s1 := r.PathPrefix("").Subrouter()
 	s1.HandleFunc(configs.WsPath, WebSocketHandler)
 

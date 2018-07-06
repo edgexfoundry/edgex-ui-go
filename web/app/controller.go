@@ -20,6 +20,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"io/ioutil"
+	"path/filepath"
 	_ "net/url"
 
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
@@ -116,4 +118,28 @@ func ExportShow(w http.ResponseWriter, r *http.Request) {
 	}
 
 	CreateMqttClient(addressable, token)
+}
+
+/**
+* Profile Controller
+*/
+
+func DowloadProfile(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	relativeTemplateFilePath := filepath.Join(RelativePathToProjectRoot, configs.WebDirName, configs.TemplateDirName,configs.ProfileTemplateName)
+
+	data, err := ioutil.ReadFile(relativeTemplateFilePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err == nil {
+		contentType := "application/x-yaml;charset=UTF-8"
+		w.Header().Set("Content-Type",contentType)
+		w.Header().Set("Content-disposition","attachment;filename=\""+configs.ProfileTemplateName+"\"")
+		w.Write(data)
+	} else {
+		w.WriteHeader(404)
+		w.Write([]byte("404 download failure!"))
+	}
 }
