@@ -320,7 +320,7 @@ var coreExportModule = {
 					 o["data"].push(d.readings[0].value)
 					 echartOpts.series.push(o);
 					 coreExportModule.exportChart.setOption(echartOpts);
-				 }if(echartOpts.legend[0].data.indexOf(d.device) != -1 && echartOpts.xAxis[0].data.indexOf(d.readings[0].name) == -1){
+				 } else if(echartOpts.legend[0].data.indexOf(d.device) != -1 && echartOpts.xAxis[0].data.indexOf(d.readings[0].name) == -1){
 					 echartOpts.xAxis[0].data.push(d.readings[0].name)
 					 $.each(echartOpts.series,function(i,s){
 						 if(s.name == d.device){
