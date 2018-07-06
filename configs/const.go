@@ -16,6 +16,7 @@ const (
 	GatewayPath            = "/gateway"
 	GatewayPathProxyPath   = "/gateway/proxy"
 	ExportShowPath         = "/exportshow"
+	DownloadProfilePath    = "/profile/download"
 	WsPath                 = "/ws"
 	HttpProtocol           = "http"
 	CoreDataPath           = "/core-data"
@@ -33,6 +34,7 @@ const (
 	ClientIDPrefix         = "edgex-go-"
 	WebDirName             = "web"
 	StaticDirName          = "static"
+	TemplateDirName        = "templates"
 	HtmlSuffix             = ".html"
 	CssSuffix              = ".css"
 	JsSuffix               = ".js"
@@ -51,4 +53,5 @@ const (
 	ContentTypeKey         = "Content-Type"
 	JsonContentType        = "application/json"
 	RedirectHttpCode       = 302
+	ProfileTemplateName    = "profileTemplate.yml"
 )

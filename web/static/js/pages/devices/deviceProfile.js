@@ -145,6 +145,6 @@ var deviceProfileModuleBtnGroup = {
 		}
 	},
 	downloadProfileTemplate : function() {
-		window.location.href="/api/v1/profile/downloadTempalte"
+		window.location.href="/api/v1/profile/download?X-Session-Token=" + window.sessionStorage.getItem('X_Session_Token');
 	}
 }
