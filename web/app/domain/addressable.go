@@ -12,22 +12,9 @@
  * the License.
  *******************************************************************************/
 
-package app
+package domain
 
 import "gopkg.in/mgo.v2/bson"
-
-type User struct {
-	Id       bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Name     string        `json:"name"`
-	Password string        `json:"password"`
-}
-
-type Gateway struct {
-	Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Name        string        `json:"name"`
-	Description string        `json:"description"`
-	Address     string        `json:"address"`
-}
 
 type Addressable struct {
 	Id       bson.ObjectId `bson:"_id,omitempty" json:"id"`

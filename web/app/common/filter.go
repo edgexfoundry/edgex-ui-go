@@ -12,17 +12,21 @@
  * the License.
  *******************************************************************************/
 
-package app
+package common
 
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"log"
 	"net/http"
 	"net/url"
 	"path/filepath"
 	"strings"
 )
+
+//{Token:User}
+var TokenCache = make(map[string]domain.User, 20)
 
 const (
 	RelativePathToProjectRoot = "../../"
@@ -89,7 +93,7 @@ func AuthFilter(h http.Handler) http.Handler {
 		for prefix, _ := range initial.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
 				path = strings.TrimPrefix(path, prefix)
-				ProxyHandler(w, r, path, prefix,token)
+				ProxyHandler(w, r, path, prefix, token)
 				return
 			}
 		}

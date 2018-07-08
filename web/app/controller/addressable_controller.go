@@ -12,13 +12,32 @@
  * the License.
  *******************************************************************************/
 
-package app
+package controller
 
-//{Token:User}
-var TokenCache = make(map[string]User, 20)
+import (
+	"encoding/json"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
+	"log"
+	"net/http"
+)
 
-//target ProxyCache {token:targetIP}
-var DynamicalProxyCache = make(map[string]string, 10)
+func ExportShow(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	token := r.Header.Get(configs.SessionTokenKey)
 
-//{token:MqttClient}
-var ExportSubscriberCache = make(map[string]interface{}, 10)
+	var addressable domain.Addressable
+	err := json.NewDecoder(r.Body).Decode(&addressable)
+	if _, ok := component.ExportSubscriberCache[token+addressable.Topic]; ok {
+		log.Println("It exist a client, return")
+		return
+	}
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+
+	component.CreateMqttClient(addressable, token)
+}

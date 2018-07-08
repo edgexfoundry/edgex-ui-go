@@ -12,33 +12,33 @@
  * the License.
  *******************************************************************************/
 
-package main
+package controller
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
+	"io/ioutil"
 	"log"
 	"net/http"
-	_ "net/http/pprof"
-	"time"
-	"fmt"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
+	"path/filepath"
 )
 
-func main() {
+func DowloadProfile(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 
-	initial.Initialize()
+	relativeTemplateFilePath := filepath.Join(common.RelativePathToProjectRoot, configs.WebDirName, configs.TemplateDirName, configs.ProfileTemplateName)
 
-	r := app.InitRestRoutes()
-
-	server := &http.Server{
-		Handler:      common.GeneralFilter(r),
-		Addr:         ":4000",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
+	data, err := ioutil.ReadFile(relativeTemplateFilePath)
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	fmt.Println("EdgeX ui server listen at " + server.Addr)
-
-	log.Fatal(server.ListenAndServe())
+	if err == nil {
+		contentType := "application/x-yaml;charset=UTF-8"
+		w.Header().Set("Content-Type", contentType)
+		w.Header().Set("Content-disposition", "attachment;filename=\""+configs.ProfileTemplateName+"\"")
+		w.Write(data)
+	} else {
+		w.WriteHeader(404)
+		w.Write([]byte("404 download failure!"))
+	}
 }

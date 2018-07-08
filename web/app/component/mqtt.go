@@ -12,11 +12,12 @@
  * the License.
  *******************************************************************************/
 
-package app
+package component
 
 import (
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"log"
 	"strconv"
 )
@@ -27,7 +28,10 @@ var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
 }
 var MqttTokenCache string
 
-func CreateMqttClient(addressable Addressable, token string) {
+//{token:MqttClient}
+var ExportSubscriberCache = make(map[string]interface{}, 10)
+
+func CreateMqttClient(addressable domain.Addressable, token string) {
 	MqttTokenCache = token
 	broker := addressable.Address + ":" + strconv.Itoa(addressable.Port)
 	opts := MQTT.NewClientOptions().AddBroker(broker)
