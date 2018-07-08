@@ -29,13 +29,6 @@ func main() {
 
 	r := app.InitRestRoutes()
 
-	//use for performance monitor(memory analyze,trace)
-	//in browser, type: http://localhost:8080/debug/pprof
-	//in shell console, type: go tool pprof -inuse_space http://127.0.0.1:8080/debug/pprof/heap
-	go func() {
-		http.ListenAndServe("0.0.0.0:8080", nil)
-	}()
-
 	server := &http.Server{
 		Handler:      app.GeneralFilter(r),
 		Addr:         ":4000",
