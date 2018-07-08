@@ -12,33 +12,4 @@
  * the License.
  *******************************************************************************/
 
-package main
-
-import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
-	"log"
-	"net/http"
-	_ "net/http/pprof"
-	"time"
-	"fmt"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
-)
-
-func main() {
-
-	initial.Initialize()
-
-	r := app.InitRestRoutes()
-
-	server := &http.Server{
-		Handler:      common.GeneralFilter(r),
-		Addr:         ":4000",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-
-	fmt.Println("EdgeX ui server listen at " + server.Addr)
-
-	log.Fatal(server.ListenAndServe())
-}
+package controller

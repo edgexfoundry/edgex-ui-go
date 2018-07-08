@@ -16,6 +16,8 @@ package app
 
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/controller"
 	mux "github.com/gorilla/mux"
 	"net/http"
 )
@@ -24,19 +26,19 @@ func InitRestRoutes() http.Handler {
 	r := mux.NewRouter()
 
 	s := r.PathPrefix(configs.ApiVersionPath).Subrouter()
-	s.HandleFunc(configs.AuthLoginPath, Login).Methods(http.MethodPost)
-	s.HandleFunc(configs.AuthLogoutPath, Logout).Methods(http.MethodGet)
+	s.HandleFunc(configs.AuthLoginPath, controller.Login).Methods(http.MethodPost)
+	s.HandleFunc(configs.AuthLogoutPath, controller.Logout).Methods(http.MethodGet)
 
-	s.HandleFunc(configs.GatewayPath, FindAllGateway).Methods(http.MethodGet)
-	s.HandleFunc(configs.GatewayPath, SaveGateway).Methods(http.MethodPost)
-	s.HandleFunc(configs.GatewayPathProxyPath, ProxyConfigGateway).Methods(http.MethodPost)
+	s.HandleFunc(configs.GatewayPath, controller.FindAllGateway).Methods(http.MethodGet)
+	s.HandleFunc(configs.GatewayPath, controller.SaveGateway).Methods(http.MethodPost)
+	s.HandleFunc(configs.GatewayPathProxyPath, controller.ProxyConfigGateway).Methods(http.MethodPost)
 
-	s.HandleFunc(configs.ExportShowPath, ExportShow).Methods(http.MethodPost)
+	s.HandleFunc(configs.ExportShowPath, controller.ExportShow).Methods(http.MethodPost)
 
-	s.HandleFunc(configs.DownloadProfilePath,DowloadProfile).Methods(http.MethodGet)
+	s.HandleFunc(configs.DownloadProfilePath, controller.DowloadProfile).Methods(http.MethodGet)
 
 	s1 := r.PathPrefix("").Subrouter()
-	s1.HandleFunc(configs.WsPath, WebSocketHandler)
+	s1.HandleFunc(configs.WsPath, component.WebSocketHandler)
 
 	return r
 }

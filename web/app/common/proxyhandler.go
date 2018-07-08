@@ -12,19 +12,20 @@
  * the License.
  *******************************************************************************/
 
-package app
+package common
 
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 )
 
-func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string,token string) {
+func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string, token string) {
 	defer r.Body.Close()
 	//token := r.Header.Get(configs.SessionTokenKey)
-	targetIP := DynamicalProxyCache[token]
+	targetIP := component.DynamicalProxyCache[token]
 	targetAddr := configs.HttpProtocol + "://" + targetIP
 	if prefix == configs.CoreDataPath {
 		targetAddr += ":" + configs.CoreDataPort

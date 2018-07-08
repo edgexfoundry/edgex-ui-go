@@ -12,33 +12,15 @@
  * the License.
  *******************************************************************************/
 
-package main
+package common
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
-	"log"
-	"net/http"
-	_ "net/http/pprof"
-	"time"
-	"fmt"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
+	"crypto/md5"
+	"encoding/hex"
 )
 
-func main() {
-
-	initial.Initialize()
-
-	r := app.InitRestRoutes()
-
-	server := &http.Server{
-		Handler:      common.GeneralFilter(r),
-		Addr:         ":4000",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-
-	fmt.Println("EdgeX ui server listen at " + server.Addr)
-
-	log.Fatal(server.ListenAndServe())
+func GetMd5String(s string) string {
+	h := md5.New()
+	h.Write([]byte(s))
+	return hex.EncodeToString(h.Sum(nil))
 }
