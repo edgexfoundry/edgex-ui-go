@@ -18,11 +18,11 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"io/ioutil"
-	"path/filepath"
 	_ "net/url"
+	"path/filepath"
 
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 )
@@ -87,12 +87,20 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	GatewayInfoCache = append(GatewayInfoCache, g)
+
+	GetGatewayDao().Add(g, GetDBClient())
 }
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
-	json.NewEncoder(w).Encode(&GatewayInfoCache)
+
+	gateways, err := GetGatewayDao().GetAll(GetDBClient())
+	if err != nil {
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+
+	json.NewEncoder(w).Encode(&gateways)
 }
 func DeleteGateway(w http.ResponseWriter, r *http.Request) {
 
@@ -122,12 +130,12 @@ func ExportShow(w http.ResponseWriter, r *http.Request) {
 
 /**
 * Profile Controller
-*/
+ */
 
 func DowloadProfile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	relativeTemplateFilePath := filepath.Join(RelativePathToProjectRoot, configs.WebDirName, configs.TemplateDirName,configs.ProfileTemplateName)
+	relativeTemplateFilePath := filepath.Join(RelativePathToProjectRoot, configs.WebDirName, configs.TemplateDirName, configs.ProfileTemplateName)
 
 	data, err := ioutil.ReadFile(relativeTemplateFilePath)
 	if err != nil {
@@ -135,8 +143,8 @@ func DowloadProfile(w http.ResponseWriter, r *http.Request) {
 	}
 	if err == nil {
 		contentType := "application/x-yaml;charset=UTF-8"
-		w.Header().Set("Content-Type",contentType)
-		w.Header().Set("Content-disposition","attachment;filename=\""+configs.ProfileTemplateName+"\"")
+		w.Header().Set("Content-Type", contentType)
+		w.Header().Set("Content-disposition", "attachment;filename=\""+configs.ProfileTemplateName+"\"")
 		w.Write(data)
 	} else {
 		w.WriteHeader(404)

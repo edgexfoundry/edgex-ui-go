@@ -14,8 +14,6 @@ import (
 	"time"
 )
 
-var currentMongoClient *MongoClient
-
 type MongoClient struct {
 	mongoDBDialInfo *mgo.DialInfo
 	Session         *mgo.Session
@@ -37,14 +35,13 @@ func newMongoClient(config DBConfiguration) (*MongoClient, error) {
 		return nil, err
 	}
 
-	mongoClient := &MongoClient{Session: session, Database: session.DB(config.DatabaseName)}
-	currentMongoClient = mongoClient // Set the singleton
+	mongoClient := &MongoClient{mongoDBDialInfo: mongoDBDialInfo, Session: session, Database: session.DB(config.DatabaseName)}
 	return mongoClient, nil
 }
 
-func (mc MongoClient) OpenSession() error {
+func (mc *MongoClient) OpenSession() error {
 	if mc.Session != nil {
-		mc.CloseSession()
+		mc.Session.Close()
 	}
 
 	session, err := mgo.DialWithInfo(mc.mongoDBDialInfo)
@@ -58,9 +55,10 @@ func (mc MongoClient) OpenSession() error {
 	return nil
 }
 
-func (mc MongoClient) CloseSession() {
+func (mc *MongoClient) CloseSession() {
 	if mc.Session != nil {
 		mc.Session.Close()
+		mc.Session = nil
 	}
 }
 
@@ -70,11 +68,11 @@ func (mc MongoClient) CloseSession() {
 type MongoUserDao struct {
 }
 
-func (dao *MongoUserDao) Get(id string, dbClient DBClient) (User, error) {
+func (dao MongoUserDao) Get(id string, dbClient DBClient) (User, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return User{}, errors.New("can not get mongo client")
 	}
@@ -92,7 +90,7 @@ func (dao *MongoUserDao) GetAll(dbClient DBClient) ([]User, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return []User{}, errors.New("can not get mongo client")
 	}
@@ -110,7 +108,7 @@ func (dao *MongoUserDao) Exists(id string, dbClient DBClient) (bool, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return false, errors.New("can not get mongo client")
 	}
@@ -138,7 +136,7 @@ func (dao *MongoUserDao) Add(user User, dbClient DBClient) (string, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return "", errors.New("can not get mongo client")
 	}
@@ -154,7 +152,7 @@ func (dao *MongoUserDao) Update(user User, dbClient DBClient) error {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return errors.New("can not get mongo client")
 	}
@@ -171,7 +169,7 @@ func (dao *MongoUserDao) Remove(id string, dbClient DBClient) error {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return errors.New("can not get mongo client")
 	}
@@ -198,7 +196,7 @@ func (dao *MongoGatewayDao) Get(id string, dbClient DBClient) (Gateway, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return Gateway{}, errors.New("can not get mongo client")
 	}
@@ -216,13 +214,14 @@ func (dao *MongoGatewayDao) GetAll(dbClient DBClient) ([]Gateway, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
-		return []Gateway{}, errors.New("can not get mongo client")
+		return []Gateway{}, errors.New("can not get mongodb client")
 	}
 
 	var gateways []Gateway
 	err := mc.Session.DB(mc.Database.Name).C(GatewayTable).Find(bson.M{}).All(&gateways)
+
 	if err == mgo.ErrNotFound {
 		return gateways, ErrNotFound
 	}
@@ -234,7 +233,7 @@ func (dao *MongoGatewayDao) Exists(id string, dbClient DBClient) (bool, error) {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return false, errors.New("can not get mongo client")
 	}
@@ -248,21 +247,10 @@ func (dao *MongoGatewayDao) Exists(id string, dbClient DBClient) (bool, error) {
 }
 
 func (dao *MongoGatewayDao) Add(gateway Gateway, dbClient DBClient) (string, error) {
-	var id string
-	if exists, err := dao.Exists(gateway.Id.Hex(), dbClient); exists || err == nil {
-		if exists {
-			return id, ErrNotUnique
-		}
-
-		if err != nil {
-			return id, err
-		}
-	}
-
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return "", errors.New("can not get mongo client")
 	}
@@ -278,7 +266,7 @@ func (dao *MongoGatewayDao) Update(gateway Gateway, dbClient DBClient) error {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return errors.New("can not get mongo client")
 	}
@@ -295,7 +283,7 @@ func (dao *MongoGatewayDao) Remove(id string, dbClient DBClient) error {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return errors.New("can not get mongo client")
 	}
@@ -322,7 +310,7 @@ func (dao *MongoAddressableDao) Get(id string, dbClient DBClient) (Addressable, 
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return Addressable{}, errors.New("can not get mongo client")
 	}
@@ -340,7 +328,7 @@ func (dao *MongoAddressableDao) GetAll(dbClient DBClient) ([]Addressable, error)
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return []Addressable{}, errors.New("can not get mongo client")
 	}
@@ -358,7 +346,7 @@ func (dao *MongoAddressableDao) Exists(id string, dbClient DBClient) (bool, erro
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return false, errors.New("can not get mongo client")
 	}
@@ -386,7 +374,7 @@ func (dao *MongoAddressableDao) Add(addressable Addressable, dbClient DBClient) 
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return "", errors.New("can not get mongo client")
 	}
@@ -402,7 +390,7 @@ func (dao *MongoAddressableDao) Update(addressable Addressable, dbClient DBClien
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return errors.New("can not get mongo client")
 	}
@@ -419,7 +407,7 @@ func (dao *MongoAddressableDao) Remove(id string, dbClient DBClient) error {
 	dbClient.OpenSession()
 	defer dbClient.CloseSession()
 
-	mc, ok := dbClient.(MongoClient)
+	mc, ok := dbClient.(*MongoClient)
 	if !ok {
 		return errors.New("can not get mongo client")
 	}
