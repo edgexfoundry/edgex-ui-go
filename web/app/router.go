@@ -15,7 +15,6 @@
 package app
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/controller"
 	mux "github.com/gorilla/mux"

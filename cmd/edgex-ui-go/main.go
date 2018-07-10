@@ -21,7 +21,6 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"time"
-	"fmt"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 )
 
@@ -38,7 +37,7 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	fmt.Println("EdgeX ui server listen at " + server.Addr)
+	log.Println("EdgeX ui server listen at " + server.Addr)
 
 	log.Fatal(server.ListenAndServe())
 }
