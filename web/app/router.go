@@ -25,20 +25,20 @@ import (
 func InitRestRoutes() http.Handler {
 	r := mux.NewRouter()
 
-	s := r.PathPrefix(configs.ApiVersionPath).Subrouter()
-	s.HandleFunc(configs.AuthLoginPath, controller.Login).Methods(http.MethodPost)
-	s.HandleFunc(configs.AuthLogoutPath, controller.Logout).Methods(http.MethodGet)
+	s := r.PathPrefix("/api/v1").Subrouter()
+	s.HandleFunc("/auth/login", controller.Login).Methods(http.MethodPost)
+	s.HandleFunc("/auth/logout", controller.Logout).Methods(http.MethodGet)
 
-	s.HandleFunc(configs.GatewayPath, controller.FindAllGateway).Methods(http.MethodGet)
-	s.HandleFunc(configs.GatewayPath, controller.SaveGateway).Methods(http.MethodPost)
-	s.HandleFunc(configs.GatewayPathProxyPath, controller.ProxyConfigGateway).Methods(http.MethodPost)
+	s.HandleFunc("/gateway", controller.FindAllGateway).Methods(http.MethodGet)
+	s.HandleFunc("/gateway", controller.SaveGateway).Methods(http.MethodPost)
+	s.HandleFunc("/gateway/proxy", controller.ProxyConfigGateway).Methods(http.MethodPost)
 
-	s.HandleFunc(configs.ExportShowPath, controller.ExportShow).Methods(http.MethodPost)
+	s.HandleFunc("/exportshow", controller.ExportShow).Methods(http.MethodPost)
 
-	s.HandleFunc(configs.DownloadProfilePath, controller.DowloadProfile).Methods(http.MethodGet)
+	s.HandleFunc("/profile/download", controller.DowloadProfile).Methods(http.MethodGet)
 
 	s1 := r.PathPrefix("").Subrouter()
-	s1.HandleFunc(configs.WsPath, component.WebSocketHandler)
+	s1.HandleFunc("/ws", component.WebSocketHandler)
 
 	return r
 }

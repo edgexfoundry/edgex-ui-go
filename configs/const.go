@@ -10,14 +10,6 @@ const (
 	ReadBufferSize         = 1024
 	WriteBufferSize        = 1024
 	SessionTokenKey        = "X-Session-Token"
-	ApiVersionPath         = "/api/v1"
-	AuthLoginPath          = "/auth/login"
-	AuthLogoutPath         = "/auth/logout"
-	GatewayPath            = "/gateway"
-	GatewayPathProxyPath   = "/gateway/proxy"
-	ExportShowPath         = "/exportshow"
-	DownloadProfilePath    = "/profile/download"
-	WsPath                 = "/ws"
 	HttpProtocol           = "http"
 	CoreDataPath           = "/core-data"
 	CoreDataPort           = "48080"
