@@ -29,9 +29,6 @@ type WsClientConn struct {
 
 var wsConn *WsClientConn
 
-//target ProxyCache {token:targetIP}
-var DynamicalProxyCache = make(map[string]string, 10)
-
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  configs.ReadBufferSize,
 	WriteBufferSize: configs.WriteBufferSize,

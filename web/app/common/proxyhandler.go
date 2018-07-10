@@ -16,16 +16,18 @@ package common
 
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 )
 
+//target ProxyCache {token:targetIP}
+var DynamicalProxyCache = make(map[string]string, 10)
+
 func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string, token string) {
 	defer r.Body.Close()
 	//token := r.Header.Get(configs.SessionTokenKey)
-	targetIP := component.DynamicalProxyCache[token]
+	targetIP := DynamicalProxyCache[token]
 	targetAddr := configs.HttpProtocol + "://" + targetIP
 	if prefix == configs.CoreDataPath {
 		targetAddr += ":" + configs.CoreDataPort
