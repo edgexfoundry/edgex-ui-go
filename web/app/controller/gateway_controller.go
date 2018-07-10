@@ -17,7 +17,7 @@ package controller
 import (
 	"encoding/json"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/dao"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"net/http"
@@ -32,7 +32,7 @@ func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	targetIP := m[configs.HostIPKey]
-	component.DynamicalProxyCache[r.Header.Get(configs.SessionTokenKey)] = targetIP
+	common.DynamicalProxyCache[r.Header.Get(configs.SessionTokenKey)] = targetIP
 }
 
 func SaveGateway(w http.ResponseWriter, r *http.Request) {
