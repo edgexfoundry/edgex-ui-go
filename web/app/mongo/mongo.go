@@ -10,40 +10,47 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package main
+package mongo
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/mongo"
-	"log"
-	"net/http"
-	_ "net/http/pprof"
-	"time"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
+  "log"
+  "time"
+  mgo "gopkg.in/mgo.v2"
 )
 
-func main() {
+const (
 
-	ok := mongo.DBConnect()
-	if !ok {
-		return
-	}
+)
 
-	initial.Initialize()
+type DataStore struct {
+  S *mgo.Session
+}
 
-	r := app.InitRestRoutes()
+var DS DataStore
 
-	server := &http.Server{
-		Handler:      common.GeneralFilter(r),
-		Addr:         ":4000",
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
+func (ds DataStore) DataStore() *DataStore {
+  return &DataStore{ds.S.Copy()}
+}
 
-	log.Println("EdgeX ui server listen at " + server.Addr)
-
-	log.Fatal(server.ListenAndServe())
+func DBConnect() bool {
+  mongoDBDialInfo := &mgo.DialInfo {
+    Addrs    : []string{"10.211.55.7:27018"},
+    Timeout  : time.Duration(5000) * time.Millisecond,
+    Database : "edgex-ui-go",
+    Username : "su",
+    Password : "su",
+  }
+  s, err := mgo.DialWithInfo(mongoDBDialInfo)
+  if err != nil {
+    log.Println("Connect to mongoDB failed !")
+    return false
+  }
+  s.SetSocketTimeout(time.Duration(5000) * time.Millisecond)
+  DS.S = s
+  log.Println("Success connect to mongoDB !")
+  return true
 }
