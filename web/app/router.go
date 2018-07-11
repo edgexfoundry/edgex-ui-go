@@ -30,6 +30,7 @@ func InitRestRoutes() http.Handler {
 
 	s.HandleFunc("/gateway", controller.FindAllGateway).Methods(http.MethodGet)
 	s.HandleFunc("/gateway", controller.SaveGateway).Methods(http.MethodPost)
+	s.HandleFunc("/gateway/{id}", controller.DeleteGateway).Methods(http.MethodDelete)
 	s.HandleFunc("/gateway/proxy", controller.ProxyConfigGateway).Methods(http.MethodPost)
 
 	s.HandleFunc("/exportshow", controller.ExportShow).Methods(http.MethodPost)

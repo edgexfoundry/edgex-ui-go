@@ -15,12 +15,14 @@
 package controller
 
 import (
+	"net/http"
 	"encoding/json"
+	mux "github.com/gorilla/mux"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/dao"
+	_ "github.com/edgexfoundry-holding/edgex-ui-go/web/app/dao"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"net/http"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
 )
 
 func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
@@ -44,20 +46,32 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dao.GetGatewayDao().Add(g, dao.GetDBClient())
+	//dao.GetGatewayDao().Add(g, dao.GetDBClient())
+	repository.GatewayRepos.SaveOne(&g)
 }
+
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
+	gatewayList := repository.GatewayRepos.FindAll()
+	// gatewayList, err := dao.GetGatewayDao().GetAll(dao.GetDBClient())
+	// if err != nil {
+	// 	json.NewEncoder(w).Encode(err.Error())
+	// 	return
+	// }
 
-	gateways, err := dao.GetGatewayDao().GetAll(dao.GetDBClient())
-	if err != nil {
-		json.NewEncoder(w).Encode(err.Error())
+  //json.NewEncoder(w).Encode(&gatewayList)
+	result,_ := json.Marshal(&gatewayList)
+	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
+	w.Write(result)
+}
+
+func DeleteGateway(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+  vars := mux.Vars(r)
+	id := vars["id"]
+	ok := repository.GatewayRepos.DeleteOne(id)
+	if !ok {
+		http.Error(w, "", http.StatusServiceUnavailable)
 		return
 	}
-
-	json.NewEncoder(w).Encode(&gateways)
-}
-func DeleteGateway(w http.ResponseWriter, r *http.Request) {
-
 }
