@@ -46,6 +46,11 @@
   db.auth('su','su');
   db.createCollection('user');
   db.createCollection('gateway');
-  db.createCollection('addressable')
-
+  ts = Date.now();
+  db.user.insertOne({
+    name     : 'admin',
+    password : 'admin',
+    created  : ts,
+    modified : ts
+  });
 })();
