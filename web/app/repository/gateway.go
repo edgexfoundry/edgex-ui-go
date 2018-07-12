@@ -17,6 +17,7 @@
 package repository
 
 import (
+  "time"
   "log"
   bson "gopkg.in/mgo.v2/bson"
   "github.com/edgexfoundry-holding/edgex-ui-go/web/app/mongo"
@@ -34,6 +35,8 @@ func (gr *GatewayRepository) SaveOne(g *domain.Gateway) {
   defer ds.S.Close()
 
   coll := ds.S.DB("edgex-ui-go").C("gateway")
+  timestamp :=  time.Now().UnixNano()/1000000
+  g.Created = timestamp
   err := coll.Insert(g)
 
   if err != nil {
