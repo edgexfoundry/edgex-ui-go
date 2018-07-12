@@ -17,6 +17,25 @@
 package repository
 
 import (
-  _ "github.com/edgexfoundry-holding/edgex-ui-go/web/app/mongo"
-  _ "github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
+  bson "gopkg.in/mgo.v2/bson"
+  "github.com/edgexfoundry-holding/edgex-ui-go/web/app/mongo"
+  "github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 )
+
+type UserRepository struct {
+
+}
+
+var UserRepos = &UserRepository{}
+
+func (ur *UserRepository) IsExist(u domain.User) bool {
+  ds := mongo.DS.DataStore()
+  defer ds.S.Close()
+
+  coll := ds.S.DB("edgex-ui-go").C("user")
+  one,err := coll.Find(bson.M{"name": u.Name,"password":u.Password}).Count()
+  if err == nil && one == 1 {
+    return true
+  }
+  return false
+}

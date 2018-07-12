@@ -15,12 +15,13 @@
 package controller
 
 import (
+	"log"
+	"net/http"
 	"encoding/json"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"log"
-	"net/http"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -34,14 +35,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	name := m[configs.UserNameKey]
 	pwd := m[configs.PasswordKey]
-	log.Println(name + ":" + pwd)
-	if name == configs.AdminUserAndPassword && pwd == configs.AdminUserAndPassword {
+
+	u := domain.User{Name: name,Password: pwd}
+	ok := repository.UserRepos.IsExist(u)
+
+	if ok {
 		token := common.GetMd5String(name)
-		common.TokenCache[token] = domain.User{Name: name, Password: pwd}
-		log.Println("token: " + token)
+		common.TokenCache[token] = u
+		log.Println("User: " + name + " login.")
 		w.Write([]byte(token))
 	}
-
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
