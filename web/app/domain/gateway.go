@@ -14,11 +14,46 @@
 
 package domain
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"encoding/json"
+	"gopkg.in/mgo.v2/bson"
+)
 
 type Gateway struct {
 	Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
 	Name        string        `json:"name"`
 	Description string        `json:"description"`
 	Address     string        `json:"address"`
+}
+
+func (g Gateway) MarshalJSON() ([]byte, error) {
+  t := struct {
+    Id            *bson.ObjectId   `json:"id"`
+    Name          *string          `json:"name"`
+    Description   *string          `json:"description"`
+		Address       *string          `json:"address"`
+  }{
+    Id            : &g.Id,
+    Name          : &g.Name,
+    Description   : &g.Description,
+		Address			  : &g.Address,
+  }
+  return json.Marshal(t)
+}
+
+func (g *Gateway) UnmarshalJSON(b []byte) error {
+	t := struct {
+		Id            bson.ObjectId    `bson:"_id,omitempty" json:"id"`
+    Name          string           `json:"name"`
+    Description   string           `json:"description"`
+		Address       string           `json:"address"`
+	}{}
+	if err := json.Unmarshal(b, &t); err != nil {
+		return err
+	}
+	g.Id          = t.Id
+	g.Name        = t.Name
+	g.Description = t.Description
+	g.Address     = t.Address
+	return nil
 }

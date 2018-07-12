@@ -26,7 +26,7 @@ var gatewayManagementModule = {
 			url: '/api/v1/gateway',
 			type: 'GET',
 			success: function(data){
-
+				debugger
 				gatewayManagementModule.gatewayDataCache = data;
 				$("#gateway_list > table > tbody").empty();
 				gatewayManagementModule.renderGatewayList(data);

@@ -45,21 +45,12 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-
-	//dao.GetGatewayDao().Add(g, dao.GetDBClient())
 	repository.GatewayRepos.SaveOne(&g)
 }
 
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	gatewayList := repository.GatewayRepos.FindAll()
-	// gatewayList, err := dao.GetGatewayDao().GetAll(dao.GetDBClient())
-	// if err != nil {
-	// 	json.NewEncoder(w).Encode(err.Error())
-	// 	return
-	// }
-
-  //json.NewEncoder(w).Encode(&gatewayList)
 	result,_ := json.Marshal(&gatewayList)
 	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
 	w.Write(result)
