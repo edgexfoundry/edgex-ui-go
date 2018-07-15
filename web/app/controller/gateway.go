@@ -40,7 +40,7 @@ func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
 	common.DynamicalProxyCache[r.Header.Get(configs.SessionTokenKey)] = targetIP
 }
 
-func SaveGateway(w http.ResponseWriter, r *http.Request) {
+func AddGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var g domain.Gateway
 	err := json.NewDecoder(r.Body).Decode(&g)
@@ -51,7 +51,7 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 	repository.GetGatewayRepos().Insert(&g)
 }
 
-func FindAllGateway(w http.ResponseWriter, r *http.Request) {
+func QueryAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
 	gatewayList, err := repository.GetGatewayRepos().SelectAll()
@@ -64,7 +64,7 @@ func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
-func DeleteGateway(w http.ResponseWriter, r *http.Request) {
+func RemoveGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	id := vars["id"]
