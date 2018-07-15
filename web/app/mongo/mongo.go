@@ -17,40 +17,47 @@
 package mongo
 
 import (
-  "log"
-  "time"
-  mgo "gopkg.in/mgo.v2"
+	"fmt"
+	mgo "gopkg.in/mgo.v2"
+	"log"
+	"time"
 )
 
 const (
-
+	defaultMongoHost = "127.0.0.1"
+	defaultMongoPort = 27017
+	defaultDatabase  = "edgex-ui-go"
+	defaultUserName  = "su"
+	defaultPassword  = "su"
 )
 
 type DataStore struct {
-  S *mgo.Session
+	S *mgo.Session
 }
 
 var DS DataStore
 
 func (ds DataStore) DataStore() *DataStore {
-  return &DataStore{ds.S.Copy()}
+	return &DataStore{ds.S.Copy()}
 }
 
 func DBConnect() bool {
-  mongoDBDialInfo := &mgo.DialInfo {
-    Addrs    : []string{"10.211.55.7:27018"},
-    Timeout  : time.Duration(5000) * time.Millisecond,
-    Database : "edgex-ui-go",
-    Username : "su",
-    Password : "su",
-  }
-  s, err := mgo.DialWithInfo(mongoDBDialInfo)
-  if err != nil {
-    log.Println("Connect to mongoDB failed !")
-    return false
-  }
-  s.SetSocketTimeout(time.Duration(5000) * time.Millisecond)
-  DS.S = s
-  log.Println("Success connect to mongoDB !")
-  return true
+	mongoAddress := fmt.Sprintf("%s:%d", defaultMongoHost, defaultMongoPort)
+	mongoDBDialInfo := &mgo.DialInfo{
+		Addrs:    []string{mongoAddress},
+		Timeout:  time.Duration(5000) * time.Millisecond,
+		Database: defaultDatabase,
+		Username: defaultUserName,
+		Password: defaultPassword,
+	}
+	s, err := mgo.DialWithInfo(mongoDBDialInfo)
+	if err != nil {
+		log.Println("Connect to mongoDB failed !")
+		return false
+	}
+	s.SetSocketTimeout(time.Duration(5000) * time.Millisecond)
+	DS.S = s
+	log.Println("Success connect to mongoDB !")
+
+	return true
 }
