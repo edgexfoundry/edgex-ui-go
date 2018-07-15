@@ -21,6 +21,11 @@ import (
 	"net/url"
 )
 
+const (
+	OriginHostReqHeader    = "X-Origin-Host"
+	ForwardedHostReqHeader = "X-Forwarded-Host"
+)
+
 //target ProxyCache {token:targetIP}
 var DynamicalProxyCache = make(map[string]string, 10)
 
@@ -49,8 +54,8 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 	origin, _ := url.Parse(targetAddr)
 
 	director := func(req *http.Request) {
-		req.Header.Add(configs.ForwardedHostReqHeader, req.Host)
-		req.Header.Add(configs.OriginHostReqHeader, origin.Host)
+		req.Header.Add(ForwardedHostReqHeader, req.Host)
+		req.Header.Add(OriginHostReqHeader, origin.Host)
 		req.URL.Scheme = configs.HttpProtocol
 		req.URL.Host = origin.Host
 		req.URL.Path = path

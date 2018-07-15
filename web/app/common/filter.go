@@ -30,6 +30,18 @@ var TokenCache = make(map[string]domain.User, 20)
 
 const (
 	RelativePathToProjectRoot = "../../"
+	HtmlSuffix                = ".html"
+	CssSuffix                 = ".css"
+	JsSuffix                  = ".js"
+	JsonSuffix                = ".json"
+	VendorsPath               = "/vendors"
+	DataPathPrefix            = "/data"
+	StaticDirName             = "static"
+	LoginUriPath              = "/api/v1/auth/login"
+	LoginHtmlPage             = "/login.html"
+	NoAuthorizationMsg        = "no authorization."
+	AjaxRequestIdentifier     = "XMLHttpRequest"
+	AjaxRequestHeader         = "X-Requested-With"
 )
 
 func GeneralFilter(h http.Handler) http.Handler {
@@ -45,24 +57,24 @@ func AuthFilter(h http.Handler) http.Handler {
 		log.Println("before auth...")
 		path := r.URL.Path
 
-		relativeStaticDirPath := filepath.Join(RelativePathToProjectRoot, configs.WebDirName, configs.StaticDirName)
+		relativeStaticDirPath := filepath.Join(RelativePathToProjectRoot, configs.WebDirName, StaticDirName)
 
 		if path == "/" {
 			http.FileServer(http.Dir(relativeStaticDirPath)).ServeHTTP(w, r)
 			return
 		}
 
-		if strings.HasSuffix(path, configs.HtmlSuffix) ||
-			strings.HasSuffix(path, configs.CssSuffix) ||
-			strings.HasSuffix(path, configs.JsSuffix) ||
-			strings.HasSuffix(path, configs.JsonSuffix) ||
-			strings.HasPrefix(path, configs.VendorsPath) ||
-			strings.HasPrefix(path, configs.DataPathPrefix) {
+		if strings.HasSuffix(path, HtmlSuffix) ||
+			strings.HasSuffix(path, CssSuffix) ||
+			strings.HasSuffix(path, JsSuffix) ||
+			strings.HasSuffix(path, JsonSuffix) ||
+			strings.HasPrefix(path, VendorsPath) ||
+			strings.HasPrefix(path, DataPathPrefix) {
 			http.FileServer(http.Dir(relativeStaticDirPath)).ServeHTTP(w, r)
 			return
 		}
 
-		if path == configs.LoginUriPath {
+		if path == LoginUriPath {
 			h.ServeHTTP(w, r)
 			return
 		}
@@ -80,13 +92,13 @@ func AuthFilter(h http.Handler) http.Handler {
 		_, isValid := TokenCache[token]
 
 		if (token == "") || !(isValid) {
-			if r.Header.Get(configs.AjaxRequestHeader) != "" &&
-				r.Header.Get(configs.AjaxRequestHeader) == configs.AjaxRequestIdentifier {
+			if r.Header.Get(AjaxRequestHeader) != "" &&
+				r.Header.Get(AjaxRequestHeader) == AjaxRequestIdentifier {
 				w.WriteHeader(configs.RedirectHttpCode)
-				w.Write([]byte(configs.NoAuthorizationMsg))
+				w.Write([]byte(NoAuthorizationMsg))
 				return
 			}
-			http.Redirect(w, r, configs.LoginHtmlPage, configs.RedirectHttpCode)
+			http.Redirect(w, r, LoginHtmlPage, configs.RedirectHttpCode)
 			return
 		}
 
