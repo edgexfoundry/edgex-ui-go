@@ -15,14 +15,18 @@
 package controller
 
 import (
-	"net/http"
 	"encoding/json"
-	mux "github.com/gorilla/mux"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	_ "github.com/edgexfoundry-holding/edgex-ui-go/web/app/dao"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
+	mux "github.com/gorilla/mux"
+	"net/http"
+)
+
+const (
+	HostIPKey = "hostIP"
 )
 
 func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +37,7 @@ func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	targetIP := m[configs.HostIPKey]
+	targetIP := m[HostIPKey]
 	common.DynamicalProxyCache[r.Header.Get(configs.SessionTokenKey)] = targetIP
 }
 
@@ -51,14 +55,14 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	gatewayList := repository.GatewayRepos.FindAll()
-	result,_ := json.Marshal(&gatewayList)
+	result, _ := json.Marshal(&gatewayList)
 	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
 	w.Write(result)
 }
 
 func DeleteGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-  vars := mux.Vars(r)
+	vars := mux.Vars(r)
 	id := vars["id"]
 	ok := repository.GatewayRepos.DeleteOne(id)
 	if !ok {

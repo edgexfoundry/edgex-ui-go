@@ -16,10 +16,13 @@ package component
 
 import (
 	MQTT "github.com/eclipse/paho.mqtt.golang"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"log"
 	"strconv"
+)
+
+const (
+	ClientIDPrefix = "edgex-go-"
 )
 
 var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
@@ -35,7 +38,7 @@ func CreateMqttClient(addressable domain.Addressable, token string) {
 	MqttTokenCache = token
 	broker := addressable.Address + ":" + strconv.Itoa(addressable.Port)
 	opts := MQTT.NewClientOptions().AddBroker(broker)
-	opts.SetClientID(configs.ClientIDPrefix + addressable.Topic)
+	opts.SetClientID(ClientIDPrefix + addressable.Topic)
 	opts.SetUsername(addressable.User)
 	opts.SetPassword(addressable.Password)
 

@@ -23,10 +23,15 @@ import (
 	"path/filepath"
 )
 
+const (
+	TemplateDirName     = "templates"
+	ProfileTemplateName = "profileTemplate.yml"
+)
+
 func DowloadProfile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	relativeTemplateFilePath := filepath.Join(common.RelativePathToProjectRoot, configs.WebDirName, configs.TemplateDirName, configs.ProfileTemplateName)
+	relativeTemplateFilePath := filepath.Join(common.RelativePathToProjectRoot, configs.WebDirName, TemplateDirName, ProfileTemplateName)
 
 	data, err := ioutil.ReadFile(relativeTemplateFilePath)
 	if err != nil {
@@ -35,7 +40,7 @@ func DowloadProfile(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		contentType := "application/x-yaml;charset=UTF-8"
 		w.Header().Set("Content-Type", contentType)
-		w.Header().Set("Content-disposition", "attachment;filename=\""+configs.ProfileTemplateName+"\"")
+		w.Header().Set("Content-disposition", "attachment;filename=\""+ProfileTemplateName+"\"")
 		w.Write(data)
 	} else {
 		w.WriteHeader(404)

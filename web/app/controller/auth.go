@@ -15,13 +15,18 @@
 package controller
 
 import (
-	"log"
-	"net/http"
 	"encoding/json"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
+	"log"
+	"net/http"
+)
+
+const (
+	UserNameKey = "name"
+	PasswordKey = "password"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -33,10 +38,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	name := m[configs.UserNameKey]
-	pwd := m[configs.PasswordKey]
+	name := m[UserNameKey]
+	pwd := m[PasswordKey]
 
-	u := domain.User{Name: name,Password: pwd}
+	u := domain.User{Name: name, Password: pwd}
 	ok := repository.UserRepos.IsExist(u)
 
 	if ok {
