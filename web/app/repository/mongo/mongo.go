@@ -26,9 +26,11 @@ import (
 const (
 	defaultMongoHost = "127.0.0.1"
 	defaultMongoPort = 27017
-	defaultDatabase  = "edgex-ui-go"
+	database         = "edgex-ui-go"
 	defaultUserName  = "su"
 	defaultPassword  = "su"
+	userTable		 = "user"
+	gatewayTable	 = "gateway"
 )
 
 type DataStore struct {
@@ -46,7 +48,7 @@ func DBConnect() bool {
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs:    []string{mongoAddress},
 		Timeout:  time.Duration(5000) * time.Millisecond,
-		Database: defaultDatabase,
+		Database: database,
 		Username: defaultUserName,
 		Password: defaultPassword,
 	}
