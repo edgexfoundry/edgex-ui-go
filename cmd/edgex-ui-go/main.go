@@ -17,21 +17,14 @@ package main
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/mongo"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
 	"time"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 )
 
 func main() {
-
-	ok := mongo.DBConnect()
-	if !ok {
-		return
-	}
-
 	initial.Initialize()
 
 	r := app.InitRestRoutes()
