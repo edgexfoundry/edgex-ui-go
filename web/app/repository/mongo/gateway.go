@@ -30,13 +30,13 @@ func (gr *GatewayMongoRepository) Insert(g *domain.Gateway) (string, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("gateway")
+	coll := ds.S.DB(database).C(gatewayTable)
 	timestamp := time.Now().UnixNano() / 1000000
 	g.Created = timestamp
 	err := coll.Insert(g)
 
 	if err != nil {
-		log.Println("SaveOne gateway failed !")
+		log.Println("Insert gateway failed !")
 		return "", err
 	}
 
@@ -47,10 +47,10 @@ func (gr *GatewayMongoRepository) Delete(id string) error {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("gateway")
+	coll := ds.S.DB(database).C(gatewayTable)
 	err := coll.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	if err != nil {
-		log.Println("DelteOne gateway failed!" + err.Error())
+		log.Println("Delete gateway failed!" + err.Error())
 		return err
 	}
 	return nil
@@ -60,12 +60,12 @@ func (gr *GatewayMongoRepository) SelectAll() ([]domain.Gateway, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("gateway")
+	coll := ds.S.DB(database).C(gatewayTable)
 
 	result := make([]domain.Gateway, 0)
 	err := coll.Find(nil).All(&result)
 	if err != nil {
-		log.Println("FindAll Query failed!")
+		log.Println("SelectAll failed!")
 		return nil, err
 	}
 	return result, nil
@@ -75,7 +75,7 @@ func (gr *GatewayMongoRepository) Select(id string) (domain.Gateway, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("gateway")
+	coll := ds.S.DB(database).C(gatewayTable)
 
 	result := domain.Gateway{}
 	err := coll.Find(nil).One(&result)
@@ -90,7 +90,7 @@ func (gr *GatewayMongoRepository) Exists(id string) (bool, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("gateway")
+	coll := ds.S.DB(database).C(gatewayTable)
 	count, err := coll.Find(bson.M{"_id": bson.ObjectIdHex(id)}).Count()
 
 	if err != nil {
@@ -105,7 +105,7 @@ func (gr *GatewayMongoRepository) Update(gateway domain.Gateway) error {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("gateway")
+	coll := ds.S.DB(database).C(gatewayTable)
 	timestamp := time.Now().UnixNano() / 1000000
 	gateway.Modified = timestamp
 	err := coll.UpdateId(gateway.Id, &gateway)

@@ -29,7 +29,7 @@ func (ur *UserMongoRepository) ExistsUser(u domain.User) (bool, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB(database).C(userTable)
 	count, err := coll.Find(bson.M{"name": u.Name, "password": u.Password}).Count()
 	if err != nil {
 		return false, err
@@ -41,7 +41,7 @@ func (ur *UserMongoRepository) Exists(id string) (bool, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB("edgex-ui-go").C(userTable)
 	count, err := coll.Find(bson.M{"_id": bson.ObjectIdHex(id)}).Count()
 
 	if err != nil {
@@ -56,7 +56,7 @@ func (ur *UserMongoRepository) Insert(user domain.User) (string, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB(database).C(userTable)
 	err := coll.Insert(user)
 
 	if err != nil {
@@ -71,7 +71,7 @@ func (ur *UserMongoRepository) Update(user domain.User) error {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB(database).C(userTable)
 	err := coll.UpdateId(user.Id, &user)
 
 	if err != nil {
@@ -86,7 +86,7 @@ func (ur *UserMongoRepository) Delete(id string) error {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB(database).C(userTable)
 	err := coll.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	if err != nil {
 		log.Println("Delete user failed!" + err.Error())
@@ -99,7 +99,7 @@ func (ur *UserMongoRepository) Select(id string) (domain.User, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB(database).C(userTable)
 
 	result := domain.User{}
 	err := coll.Find(nil).One(&result)
@@ -114,7 +114,7 @@ func (ur *UserMongoRepository) SelectAll() ([]domain.User, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
 
-	coll := ds.S.DB("edgex-ui-go").C("user")
+	coll := ds.S.DB(database).C(userTable)
 
 	result := make([]domain.User, 0)
 	err := coll.Find(nil).All(&result)
