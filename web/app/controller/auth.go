@@ -42,7 +42,13 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	pwd := m[PasswordKey]
 
 	u := domain.User{Name: name, Password: pwd}
-	ok := repository.UserRepos.IsExist(u)
+	ok, err := repository.GetUserRepos().ExistsUser(u)
+
+	if err != nil {
+		log.Println("User: " + name + " login failed : " + err.Error())
+		w.Write([]byte("log failed : " + err.Error()))
+		return
+	}
 
 	if ok {
 		token := common.GetMd5String(name)

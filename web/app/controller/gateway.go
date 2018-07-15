@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
-	_ "github.com/edgexfoundry-holding/edgex-ui-go/web/app/dao"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
 	mux "github.com/gorilla/mux"
@@ -49,12 +48,17 @@ func SaveGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	repository.GatewayRepos.SaveOne(&g)
+	repository.GetGatewayRepos().Insert(&g)
 }
 
 func FindAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	gatewayList := repository.GatewayRepos.FindAll()
+	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
+	gatewayList, err := repository.GetGatewayRepos().SelectAll()
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
 	result, _ := json.Marshal(&gatewayList)
 	w.Header().Set(configs.ContentTypeKey, configs.JsonContentType)
 	w.Write(result)
@@ -64,8 +68,8 @@ func DeleteGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	id := vars["id"]
-	ok := repository.GatewayRepos.DeleteOne(id)
-	if !ok {
+	err := repository.GetGatewayRepos().Delete(id)
+	if err != nil {
 		http.Error(w, "", http.StatusServiceUnavailable)
 		return
 	}
