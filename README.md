@@ -51,6 +51,53 @@ To run the web ui :
 make run
 ```
 
+## Integrate with edgex Go microservices
+
+> prepare : make sure you have installed docker stable version.
+
+The latest docker compose file for EdgeX California version (0.6.0) is in
+[edgexfoundry/developer-scripts repository](https://github.com/edgexfoundry/developer-scripts/blob/master/compose-files/docker-compose-california-0.6.0.yml).
+
+Download this docker compose file :
+
+    wget https://github.com/edgexfoundry/developer-scripts/blob/master/compose-files/docker-compose-california-0.6.0.yml
+
+Rename it to `docker-compose.yml`
+
+    mv docker-compose-california-0.6.0.yml docker-compose.yml
+
+Pull all the docker image about the EdgeX California go microservice in the same dir:
+
+    docker-compose pull
+
+Start the EdgeX Foundry file volume--must be done before the other services are started:
+
+    docker-compose up -d volume
+
+Pull config-seed:
+
+    docker-compose up -d config-seed
+
+Start the NoSQL MongoDB container:
+
+    docker-compose up -d mongo
+
+Start other microservice containers.
+
+List all containers :
+
+    docker ps -a
+
+Start all edgex go microservice:
+
+    docker-compose start
+
+Stop all edgex go microservice:
+
+    docker-compose stop
+
+More detail about using edgex microservice with docker, please see [EdgeX Wiki - User guide](https://wiki.edgexfoundry.org/display/FA/Get+EdgeX+Foundry+-+Users)
+
 ## Community
 - Chat: https://chat.edgexfoundry.org/home
 - Mainling lists: https://lists.edgexfoundry.org/mailman/listinfo
