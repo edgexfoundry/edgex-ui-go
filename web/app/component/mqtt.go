@@ -36,7 +36,7 @@ var ExportSubscriberCache = make(map[string]interface{}, 10)
 
 func CreateMqttClient(addressable domain.Addressable, token string) {
 	MqttTokenCache = token
-	broker := addressable.Address + ":" + strconv.Itoa(addressable.Port)
+	broker := addressable.Protocol + "://" +  addressable.Address + ":" + strconv.Itoa(addressable.Port)
 	opts := MQTT.NewClientOptions().AddBroker(broker)
 	opts.SetClientID(ClientIDPrefix + addressable.Topic)
 	opts.SetUsername(addressable.User)
