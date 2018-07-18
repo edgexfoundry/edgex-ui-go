@@ -10,16 +10,37 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package domain
+package mm
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"log"
+	"time"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
+)
 
-type User struct {
-	Id       bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Name     string        `json:"name"`
-	Password string        `json:"password"`
-	Created  int64         `bson:"created" json:"created"`
-	Modified int64         `bson:"modified" json:"modified"`
+type MemoryDB struct {
+	Gateways []domain.Gateway
+	Users    []domain.User
+}
+
+var dataStore = MemoryDB{
+	Gateways : make([]domain.Gateway, 0),
+	Users    : make([]domain.User, 0),
+}
+
+func DBConnect() bool {
+	timestamp := time.Now().UnixNano() / 1000000
+	u := domain.User{
+		Name     : "admin",
+		Password : "admin",
+		Created  : timestamp,
+		Modified : timestamp,
+	}
+	dataStore.Users = append(dataStore.Users,u)
+	log.Println("Connect to memoryDB success !")
+	return true
 }

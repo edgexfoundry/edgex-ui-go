@@ -9,6 +9,7 @@ package repository
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mongo"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mm"
 )
 
 type UserRepos interface {
@@ -22,5 +23,9 @@ type UserRepos interface {
 }
 
 func GetUserRepos() UserRepos {
-	return UserRepos(&mongo.UserMongoRepository{})
+	if mongo.DS.S == nil {
+		return UserRepos(&mm.UserRepository{})
+	} else {
+		return UserRepos(&mongo.UserMongoRepository{})
+	}
 }

@@ -9,6 +9,7 @@ package repository
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mongo"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mm"
 )
 
 type GatewayRepos interface {
@@ -21,5 +22,9 @@ type GatewayRepos interface {
 }
 
 func GetGatewayRepos() GatewayRepos {
-	return GatewayRepos(&mongo.GatewayMongoRepository{})
+	if mongo.DS.S == nil {
+		return GatewayRepos(&mm.GatewayRepository{})
+	} else {
+		return GatewayRepos(&mongo.GatewayMongoRepository{})
+	}
 }

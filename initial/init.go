@@ -9,6 +9,7 @@ package initial
 import (
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mongo"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mm"
 )
 
 var ProxyMapping map[string]string
@@ -23,6 +24,6 @@ func Initialize() {
 
 	ok := mongo.DBConnect()
 	if !ok {
-		return
+		mm.DBConnect()
 	}
 }
