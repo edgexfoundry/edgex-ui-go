@@ -45,10 +45,22 @@ To test the web ui :
 make test
 ```
 
+Before start running , you should go to deployments/initmongo.js to see how initialize your mongo DB instance, and config connect information under web/app/repository/mongo/mongo.go.
+If not do this , the edgex-ui-go will use a default memory db.
+
 To run the web ui :
 
 ```
 make run
+```
+
+## How to login
+In your browser , type: http://localhost:4000
+The default user account information:
+
+```
+UserName     : admin
+UserPassword : admin
 ```
 
 ## Integrate with edgex Go microservices
