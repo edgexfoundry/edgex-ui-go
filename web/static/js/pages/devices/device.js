@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -19,7 +19,7 @@ $(document).ready(function(){
 	deviceModule.loadDeviceData();
 	deviceModule.loadServiceSelectData();
 	deviceModule.loadProfileSelectData();
-	
+
 	//global listener for hiding jsonShow section.
 	document.addEventListener('click',function(event){
 		//$("#device_data_json_format").animate({"right": '-400px'}, "fast");
@@ -28,7 +28,7 @@ $(document).ready(function(){
 	document.getElementById("device_data_json_format").addEventListener('click',function(event){
 		event.stopPropagation();
 	});
-	
+
 	//Hand icon circular movement animate
 	var shakee = function(){
 		$("#device_basic_intro  i").animate({"right":"0"},function(){
@@ -50,7 +50,7 @@ var deviceModule = {
 					}
 				},
 				error:function(){
-					
+
 				}
 			});
 		},
@@ -161,11 +161,22 @@ var deviceModuleBtnGroup = {
 			$('#deleteConfirmDialog').modal('show');
 			if(confirm){
 				$('#deleteConfirmDialog').modal('hide');
+
 				$.ajax({
 					url:'/core-metadata/api/v1/device/id/' + deviceModule.selectedRow.id + '',
 					type:'DELETE',
 					success:function(){
 						deviceModule.loadDeviceData();
+						$.ajax({
+							url: '/core-metadata/api/v1/addressable/id/' + deviceModule.selectedRow.addressable.id + '',
+							type: 'DELETE',
+							error: function(err){
+								alert("delete device address failed !")
+							}
+						});
+					},
+					error: function(err){
+						alert(err)
 					}
 				});
 			}
@@ -185,7 +196,7 @@ var deviceModuleBtnGroup = {
 			$("#device_detail input[name='address']").val(deviceModule.selectedRow.addressable.address);
 			$("#device_detail input[name='profile_name']").val(deviceModule.selectedRow.profile.name);
 			$("#device_detail input[name='service_name']").val(deviceModule.selectedRow.service.name);
-			
+
 			$.ajax({
 				url:'/core-command/api/v1/device/'+deviceModule.selectedRow.id+'',
 				type:'GET',
@@ -194,19 +205,19 @@ var deviceModuleBtnGroup = {
 					$.each(commands,function(index,ele){
 						var rowData = '<tr>';
 						rowData += '<td>' + ele.name + '</td>';
-						rowData += '<td>' + '<input type="radio"  name="commandRadio_'+ele.id+'" checked value="get" style="width:20px;">&nbsp;get' 
-										+ '&nbsp;<input type="radio" name="commandRadio_'+ele.id+'" value="set"  style="width:20px;">&nbsp;set' 
+						rowData += '<td>' + '<input type="radio"  name="commandRadio_'+ele.id+'" checked value="get" style="width:20px;">&nbsp;get'
+										+ '&nbsp;<input type="radio" name="commandRadio_'+ele.id+'" value="set"  style="width:20px;">&nbsp;set'
 										+ '</td>';
 						rowData += '<td>' + '<input type="text" class="form-control" name="reading_value'+ele.id+'" disabled style="width:200px;display:inline;">' + '</td>'
 						rowData += '<td>';
 						if(ele.put != null) {
-							$.each(ele.put.parameterNames,function(i,p){ 
+							$.each(ele.put.parameterNames,function(i,p){
 								rowData += p + '&nbsp;<input type="text" class="form-control" name="' + p + ele.id + '" style="width:100px;display:inline;">&nbsp;'
 							});
 						}
 						rowData += '</td>';
-						rowData += '<td>' 
-							+ '<button id=\''+ele.id+'\' type=\'button\' class=\'btn btn-success\'  onclick=\'deviceModuleBtnGroup.sendCommand('+JSON.stringify(ele)+')\'>send</button>' 
+						rowData += '<td>'
+							+ '<button id=\''+ele.id+'\' type=\'button\' class=\'btn btn-success\'  onclick=\'deviceModuleBtnGroup.sendCommand('+JSON.stringify(ele)+')\'>send</button>'
 							+ '</td>';
 						rowData += '</tr>';
 						$("#device_detail #command_list table tbody").append(rowData);
@@ -214,7 +225,7 @@ var deviceModuleBtnGroup = {
 					$("#device_main").hide("fast");
 					$("#device_detail").show("fast");
 				}
-			});	
+			});
 		},
 		showJsonFormatter:function(event){
 			event.stopPropagation();
@@ -229,7 +240,7 @@ var deviceModuleBtnGroup = {
 //				$("#device_data_json_format").animate({"right": '-400px'}, "fast");
 //				$("#device_data_json_format").hide();
 //			}
-			
+
 		},
 		sendCommand: function(command){
 			$('#'+command.id+'').prop('disabled',true);
@@ -265,7 +276,7 @@ var deviceModuleBtnGroup = {
 					url:cmdUrl,
 					type:'GET',
 					success:function(data){
-						$('#device_detail #command_list tbody input[name="reading_value'+command.id+'"]').val(data);	
+						$('#device_detail #command_list tbody input[name="reading_value'+command.id+'"]').val(JSON.stringify(data));
 						$('#'+command.id+'').prop('disabled',false);
 					},
 					error:function(){
