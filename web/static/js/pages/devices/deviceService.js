@@ -77,13 +77,13 @@ var deviceServiceModule = {
 					rowData += "<td>" +  element.labels[0] + "</td>";
 				}
 
-				if (element.operatingState == "enabled") {
+				if (element.operatingState.toLowerCase() == "enabled") {
 					rowData += "<td><i style='color:green;' class='fa fa-circle' aria-hidden='true'></i></td>";
 				} else {
 					rowData += "<td><i style='color:red;' class='fa fa-circle' aria-hidden='true'></i></td>";
 				}
 
-				if (element.adminState == "unlocked") {
+				if (element.adminState.toLowerCase() == "unlocked") {
 					rowData += "<td><i class='fa fa-unlock fa-lg' aria-hidden='true'></i></td>";
 				} else {
 					rowData += "<td><i class='fa fa-lock fa-lg' aria-hidden='true'></i></td>";
