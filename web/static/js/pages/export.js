@@ -461,14 +461,15 @@ var coreExportBtnGroup = {
 			exportFilter['valueDescriptorIdentifiers'] = coreExportModule.deviceReadingValueSelected;
 			//exportRegister['id'] = $("#add_new_export input[name='id']").val();
 			exportRegister['name'] = $("#add_new_export input[name='name']").val();
-			exportRegister['destination'] = $("#add_new_export input[name='destination']").val();
-			exportRegister['compression'] = $("#add_new_export input[name='compression']").val();
-			exportRegister['format'] = $("#add_new_export input[name='format']").val();
+			exportRegister['destination'] = $("#add_new_export select[name='destination']").val();
+			exportRegister['compression'] = $("#add_new_export select[name='compression']").val();
+
+			exportRegister['format'] = $("#add_new_export select[name='format']").val();
 			exportRegister['enable'] = $("#add_new_export input[name='enable']").prop("checked");
 
 			exportAddr['name'] = $("#add_new_export input[name='addressName']").val();
 			exportAddr['address'] = $("#add_new_export input[name='address']").val();
-			exportAddr['port'] = $("#add_new_export input[name='port']").val();
+			exportAddr['port'] = Number($("#add_new_export input[name='port']").val());
 			exportAddr['path'] = $("#add_new_export input[name='path']").val();
 			exportAddr['publisher'] = $("#add_new_export input[name='publisher']").val();
 			exportAddr['user'] = $("#add_new_export input[name='user']").val();
