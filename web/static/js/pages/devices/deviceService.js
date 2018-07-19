@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -18,7 +18,7 @@ $(document).ready(function(){
 	//init loading data.
 	deviceServiceModule.loadDeviceServiceList();
 	deviceServiceModule.loadDeviceProfile();
-	
+
 	//global listener for hiding jsonShow section.
 	document.addEventListener('click',function(event){
 		//$("#device_service_json_format").animate({"right": '-400px'}, "fast");
@@ -27,7 +27,7 @@ $(document).ready(function(){
 	document.getElementById("device_service_json_format").addEventListener('click',function(event){
 		event.stopPropagation();
 	});
-	
+
 	//Hand icon circular movement animate
 	var shakee = function(){
 		$("#device_service_list  i").animate({"right":"0"},function(){
@@ -76,13 +76,13 @@ var deviceServiceModule = {
 				}else{
 					rowData += "<td>" +  element.labels[0] + "</td>";
 				}
-				
+
 				if (element.operatingState == "enabled") {
 					rowData += "<td><i style='color:green;' class='fa fa-circle' aria-hidden='true'></i></td>";
 				} else {
 					rowData += "<td><i style='color:red;' class='fa fa-circle' aria-hidden='true'></i></td>";
 				}
-				
+
 				if (element.adminState == "unlocked") {
 					rowData += "<td><i class='fa fa-unlock fa-lg' aria-hidden='true'></i></td>";
 				} else {
@@ -109,7 +109,7 @@ var deviceServiceModule = {
 					}
 				},
 				error: function(){
-					
+
 				}
 			});
 		},
@@ -126,7 +126,7 @@ var deviceServiceModule = {
 var deviceServiceBtnGroup = {
 		onSelectedFileCompleted:function(){
 			var uploadinput = $("#add_device_content div.related_profile form input");
-			
+
 			if(uploadinput[0].value){
 				$("#add_device_content div.related_profile table:first button").prop("disabled",false);
 				$("#file_preview").text(uploadinput[0].files[0].name);
@@ -134,7 +134,7 @@ var deviceServiceBtnGroup = {
 		},
 		uploadProfile:function(){
 			$(".center div.device_server_shelter").show();
-			
+
 			var uploadform = $("#add_device_content div.related_profile form");
 			uploadform.submit();
 			var iframe = $("#add_device_content div.related_profile table iframe")[0];
@@ -155,7 +155,7 @@ var deviceServiceBtnGroup = {
 					$("#file_preview").empty();
 				}
 			}
-			
+
 		},
 		back:function(){
 			$("#device_service_list").show();
@@ -174,13 +174,17 @@ var deviceServiceBtnGroup = {
 			newDevice['addressable'] = {"name":addressableName}
 			newDevice['labels'] = [];
 			newDevice['service'] = {"name":deviceServiceName}
-			newDevice['profile'] = {"name":deviceProfileName}		
+			newDevice['profile'] = {"name":deviceProfileName}
 			var addressableFormArray = $("div.new_device_addressable form").serializeArray();
 			var addressableFormJsonData = {};
-			
+
 			$.each(addressableFormArray,function(i,e){
 				if(e.value){
-					addressableFormJsonData[e.name] = e.value;
+					if(e.name == "port"){
+						addressableFormJsonData[e.name] = Number(e.value)
+					} else {
+						addressableFormJsonData[e.name] = e.value;
+					}
 				}
 			});
 			//add a new address for new device or sensor
