@@ -14,8 +14,9 @@ Effect picture after refactoring frontend ui (to be done):
 
 ## Install and Deploy
 
-To fetch the code and compile the web ui:
+To fetch the code and compile the web-based UI:
 
+Using `go get`:
 ```
 go get github.com/edgexfoundry-holding/edgex-ui-go
 cd $GOPATH/src/github.com/edgexfoundry-holding/edgex-ui-go
@@ -23,7 +24,7 @@ glide install
 make build
 ```
 
-Or if you use git clone command:
+Using Git:
 ```
 cd $GOPATH/src
 git clone http://github.com/edgexfoundry-holding/edgex-ui-go.git github.com/edgexfoundry-holding/edgex-ui-go
@@ -32,83 +33,61 @@ glide install
 make build
 ```
 
-To rebuild if you changed the source code :
+To rebuild after making changes to source:
 
 ```
 make clean
 make build
 ```
 
-To test the web ui :
+To test the web-based UI:
 
 ```
 make test
 ```
 
-Before start running , you should go to deployments/initmongo.js to see how initialize your mongo DB instance, and config connect information under web/app/repository/mongo/mongo.go.
-If not do this , the edgex-ui-go will use a default memory db.
+Before starting the web-based UI for the first time, you'll need to initialize the Mongo database and ensure that the settings are pointing to your MongoDB instance.
+Without Mongo, the project defaults to using an in-memory database.
 
-To run the web ui :
+To initialize Mongo from the root of the project directory:
+
+```
+mongo deployments/initmongo.js
+```
+
+Mongo settings can be found under `web/app/repository/mongo/mongo.go`.
+
+To start the application and the web-based UI:
 
 ```
 make run
 ```
 
-## How to login
-In your browser , type: http://localhost:4000
-The default user account information:
+## Using the application
+
+### Logging in
+
+With a modern browser, navigate to http://localhost:4000.
+The default user credentials are:
 
 ```
-UserName     : admin
-UserPassword : admin
+Username     : admin
+Password : admin
 ```
 
-## Integrate with edgex Go microservices
+## Displaying EdgeX Go Microservices Data on the UI
 
-> prepare : make sure you have installed docker stable version.
+> prepare : make sure you have installed Docker and its stable version.
 
-The latest docker compose file for EdgeX California version (0.6.0) is in
-[edgexfoundry/developer-scripts repository](https://github.com/edgexfoundry/developer-scripts/blob/master/compose-files/docker-compose-california-0.6.0.yml).
+### Starting EdgeX with Docker
 
-Download this docker compose file :
+To start all the EdgeX Go microservices in Docker, run the following command in the root of the EdgeX Go directory:
 
-    wget https://github.com/edgexfoundry/developer-scripts/blob/master/compose-files/docker-compose-california-0.6.0.yml
+```
+make run_docker
+```
 
-Rename it to `docker-compose.yml`
-
-    mv docker-compose-california-0.6.0.yml docker-compose.yml
-
-Pull all the docker image about the EdgeX California go microservice in the same dir:
-
-    docker-compose pull
-
-Start the EdgeX Foundry file volume--must be done before the other services are started:
-
-    docker-compose up -d volume
-
-Pull config-seed:
-
-    docker-compose up -d config-seed
-
-Start the NoSQL MongoDB container:
-
-    docker-compose up -d mongo
-
-Start other microservice containers.
-
-List all containers :
-
-    docker ps -a
-
-Start all edgex go microservice:
-
-    docker-compose start
-
-Stop all edgex go microservice:
-
-    docker-compose stop
-
-More detail about using edgex microservice with docker, please see [EdgeX Wiki - User guide](https://wiki.edgexfoundry.org/display/FA/Get+EdgeX+Foundry+-+Users)
+For more information and detailed instructions on using EdgeX, please reference [the main EdgeX documentation.](https://nexus.edgexfoundry.org/content/sites/docs/staging/master/docs/_build/html/#)
 
 ## Community
 - Chat: https://chat.edgexfoundry.org/home

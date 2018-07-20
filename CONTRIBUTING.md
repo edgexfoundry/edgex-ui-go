@@ -14,7 +14,7 @@ Reporting issues is a great way to contribute to the project. We always apprecia
 thorough bug reports.
 
 Prior to raising a new issue, check out [our issue
-list](https://github.com/edgexfoundry-holding/edgex-ui-go/issues) to determine whether it already include the
+list](https://github.com/edgexfoundry-holding/edgex-ui-go/issues) to determine whether it already includes the
 problem you are facing.
 
 A good bug report shouldn't leave others needing to chase you up for more information. Please try to

@@ -31,8 +31,7 @@
 	</div>
 	<div id="device_service_list">
 		<div id="device_service_btn">
-			<div class="alert alert-warning" role="alert">please select one
-				service.</div>
+			<div class="alert alert-warning" role="alert">Please select a service.</div>
 			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.addNewDevice();">
 				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Device
 			</button>
@@ -41,7 +40,7 @@
 			</button>
 				<span style="color: #339933;font-size: medium;font-weight: bolder;" 
 						onclick="deviceServiceBtnGroup.showJsonFormatter(event)">
-					json show &nbsp;&nbsp;
+					Show JSON &nbsp;&nbsp;
 					<i style="position: relative;" class="fa fa-hand-o-left fa-lg"></i>
 				</span>		
 		</div>
@@ -53,8 +52,8 @@
 					<th>ID</th>
 					<th>Service Name</th>
 					<th>Label</th>
-					<th>OperateState</th>
-					<th>AdminState</th>
+					<th>Operating State</th>
+					<th>Admin State</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -78,7 +77,7 @@
 		</div>
 	
 		<div class="info_header">
-			<span>New Device General Info</span><div></div>
+			<span>New Device</span><div></div>
 		</div>
 		<div class="new_device_msg">
 			<table>
@@ -90,14 +89,14 @@
 						<td><input type="text" class="form-control" name="device_desc"></td>
 					</tr>
 					<tr>
-						<td>AdminState</td>
+						<td>Admin State</td>
 						<td>
 							<select class="form-control" name="device_adminState">
 								<option>UNLOCKED</option>
 								<option>LOCKED</option>
 							</select>
 						</td>
-						<td>OperatingState</td>
+						<td>Operating State</td>
 						<td>
 							<select class="form-control" name="device_operatingState">
 								<option>ENABLED</option>
@@ -110,12 +109,12 @@
 		</div>
 	
 		<div class="info_header">
-			<span>New Device Related Profile</span><div></div>
+			<span>New Device Profile</span><div></div>
 		</div>
 		<div class="related_profile">
 			<table>
 				<tr>
-					<td>DeviceProfile</td>
+					<td>Device Profile</td>
 					<td colspan=2>
 						<select class="form-control" name="device_profile_name">
 							<option value="">Please Select</option>
@@ -123,7 +122,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><label for="profile_file"><span style="color: #339933;opacity: 0.5;">No desired ? Click upload.</span></label></td>
+					<td><label for="profile_file"><span style="color: #339933;opacity: 0.5;">Please upload a profile file.</span></label></td>
 					<td id="file_preview">
 						
 					</td>
@@ -203,7 +202,7 @@
 			<span>New Device Related Service</span><div></div>
 		</div>
 		<div class="related_service">
-			DeviceService
+			Device Service
 			<input type="text" style="display:inline;" class="form-control" name="device_service_name" disabled>
 		</div>
 		
