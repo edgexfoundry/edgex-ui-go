@@ -17,12 +17,12 @@
 package component
 
 import (
-	_ "encoding/json"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"net/url"
+	_ "encoding/json"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/gorilla/websocket"
 )
 
 type WsClientConn struct {

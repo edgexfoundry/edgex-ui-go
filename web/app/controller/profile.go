@@ -17,12 +17,11 @@
 package controller
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"path/filepath"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 )
 
 const (

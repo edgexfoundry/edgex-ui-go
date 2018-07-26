@@ -17,10 +17,10 @@
 package mongo
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"gopkg.in/mgo.v2/bson"
 	"log"
 	"time"
+	"gopkg.in/mgo.v2/bson"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 )
 
 type GatewayMongoRepository struct {

@@ -17,13 +17,13 @@
 package controller
 
 import (
+	"log"
+	"net/http"
 	"encoding/json"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
-	"log"
-	"net/http"
 )
 
 const (
