@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -17,7 +17,7 @@ $(document).ready(function(){
 	$("#action_device_list table").hide();
 	$("#device_command_list table").hide();
 	ruleEngineModule.loadRuleEngineData();
-	
+
 	//global listener for hiding device-list section.
 	document.addEventListener('click',function(event){
 		$("#action_device_list table").hide();
@@ -29,20 +29,20 @@ $(document).ready(function(){
 	document.querySelector("#action_device_list table").addEventListener('click',function(event){
 		event.stopPropagation();
 	});
-	
+
 	//bind click event listener for device-ComboGrid-list
 	$("#condition_device_list  .select_panle").on('click',function(event){
 		event.stopPropagation();
 		$("#condition_device_list table").toggle();
 		$("#action_device_list table").hide();
 	});
-	
+
 	$("#action_device_list .select_panle").on('click',function(event){
 		event.stopPropagation();
 		$("#action_device_list table").toggle();
 		$("#condition_device_list table").hide();
 	});
-	
+
 	//initialize loading device-ComboGrid data.
 	$.ajax({
 		url:'/core-metadata/api/v1/device',
@@ -71,13 +71,13 @@ $(document).ready(function(){
 							$("select[name='parameter']").empty();
 							$.each(d.profile.deviceResources,function(j,resource){
 								var opts = "<option>" + resource.name + "</option>";
-								$(".condition_device_list select[name='parameter']").append(opts); 
+								$(".condition_device_list select[name='parameter']").append(opts);
 							});
 						}
 					});
 				}
 			});
-			
+
 			$("#action_device_list table > tbody input:radio").on('click',function(){
 				if($(this).prop('checked')){
 					var radio = this;
@@ -87,9 +87,9 @@ $(document).ready(function(){
 							$(".action_device_list select[name='commandName']").empty();
 							$.each(d.profile.commands,function(j,cmd){
 								var opts = "<option value='"+cmd.id+"'>" + cmd.name + "</option>";
-								$(".action_device_list select[name='commandName']").append(opts); 
+								$(".action_device_list select[name='commandName']").append(opts);
 							});
-							
+
 							//trigger command select change event manually to render command's parameters.
 							$(".action_device_list select[name='commandName']").change();
 							return false;
@@ -99,23 +99,25 @@ $(document).ready(function(){
 			});
 
 			$(".action_device_list select[name='commandName']").on('change',function(){
-				$("table.action_device_list tr td").last().empty();
+				$("#action_device_param").empty();
 				var cmdId = $(this).val();
+				var flag = true;
 				$.each(ruleEngineModule.deviceDataCache,function(i,d){
 					$.each(d.profile.commands,function(k,cmd){
 						if(cmd.id == cmdId){
-							if(cmd.put == null){ 
+							if(cmd.put == null){
 								return false;
 							}
 							var parmArr = cmd.put.parameterNames;
 							$.each(parmArr,function(n,p){
-								var ele = p + "&nbsp;&nbsp;" + "<input class='form-control' style='width:200px;display: inline;' name='"+p+"'>"; 
-								
-								$("table.action_device_list tr td").last().append(ele);
-							}); 
+								var ele = p + "&nbsp;&nbsp;" + "<input class='form-control' style='width:150px;display: inline;' name='"+p+"'>";
+								$("#action_device_param").append(ele);
+							});
+							flag = false
 							return false;
 						}
 					});
+					return flag;
 				});
 			});
 		}
@@ -144,12 +146,12 @@ var ruleEngineModule = {
 				var rowData = "<tr>";
 				rowData += "<td><input type='radio' name='ruleRadio' value='"+rule+"'></td>";
 				rowData += "<td>" + (i+1) + "</td>";
+				rowData += "<td>" + "--" + "</td>";
 				rowData += "<td>" + rule + "</td>";
 				rowData += "<td>" + "--" + "</td>";
 				rowData += "<td>" + "--" + "</td>";
-				rowData += "<td>" + "--" + "</td>";
 				$("#rule-engine-list table tbody").append(rowData);
-			});	
+			});
 			$("#rule-engine-list table tbody input:radio").on('click',function(){
 				if($(this).prop('checked')){
 					ruleEngineModule.selectRule = $(this).val();
@@ -173,7 +175,7 @@ var ruleEngineModuleBtnGroup = {
 						ruleEngineModule.loadRuleEngineData();
 					}
 				});
-			}		
+			}
 		},
 		detail:function(){},
 		back:function(){
@@ -188,10 +190,10 @@ var ruleEngineModuleBtnGroup = {
 			var name = $("#rule-add-new input[name='name']").val();
 			var condition_device_name = $("#rule-add-new input[name='condition_device_name']").val();
 			var parameter = $("#rule-add-new select[name='parameter']").val();
-			//var operand1 = 
+			//var operand1 =
 			var operation =  $("#rule-add-new select[name='operation']").val();
 			var operand2 =  $("#rule-add-new input[name='operand2']").val();
-			
+
 			var action_device_name = $("#action_device_list input[name='action_device_name']").val();
 			var command = $("#rule-add-new  select[name='commandName']").val();
 			var body = '{\\\"';
@@ -204,7 +206,7 @@ var ruleEngineModuleBtnGroup = {
 				}
 				body += ',\\\"';
 			});
-			
+
 			condition['device'] = condition_device_name;
 			checks.push({"parameter":parameter,
 						"operand1":"Float.parseFloat(value)",
@@ -216,7 +218,7 @@ var ruleEngineModuleBtnGroup = {
 				}
 			});
 			action['command'] = command;
-			action['body'] = body; 
+			action['body'] = body;
 			newRule['name'] = name;
 			newRule['condition'] = condition;
 			newRule['action'] = action;
