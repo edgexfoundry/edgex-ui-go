@@ -211,7 +211,7 @@ var coreExportModule = {
 				var rowData = "<tr>";
 				rowData += '<td><input type="radio" name="exportRadio" value="'+e.id+'"></td>';
 				rowData += "<td>" + (i + 1) +"</td>";
-				rowData += "<td>" +  e.id.substr(0,8) + "</td>";
+				rowData += "<td>" +  e.id + "</td>";
 				rowData += "<td>" +  e.name + "</td>";
 				rowData += "<td>" +  e.destination + "</td>";
 				if(e.enable){

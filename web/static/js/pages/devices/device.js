@@ -61,7 +61,7 @@ var deviceModule = {
 				var rowData = "<tr>";
 				rowData += '<td><input type="radio" name="deviceRadio" value="'+ele.id+'"></td>';
 				rowData += "<td>" + (index + 1) +"</td>";
-				rowData += "<td>" +  ele.id.substr(0,8) + "</td>";
+				rowData += "<td>" +  ele.id + "</td>";
 				rowData += "<td>" +  ele.name + "</td>";
 				rowData += "<td>" +  ele.description + "</td>";
 				rowData += "<td>" +  ele.labels[0] + "</td>";
