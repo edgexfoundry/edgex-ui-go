@@ -10,6 +10,8 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 package common
@@ -31,7 +33,7 @@ var DynamicalProxyCache = make(map[string]string, 10)
 
 func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string, token string) {
 	defer r.Body.Close()
-	//token := r.Header.Get(configs.SessionTokenKey)
+
 	targetIP := DynamicalProxyCache[token]
 	targetAddr := configs.HttpProtocol + "://" + targetIP
 	if prefix == configs.CoreDataPath {

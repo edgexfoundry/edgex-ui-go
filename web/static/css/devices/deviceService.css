@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -59,14 +59,14 @@ div.info_header span {
 	margin-bottom: 10px;
 } */
 
-.new_device_msg table , 
+.new_device_msg table ,
 .new_device_addressable table ,
 .related_profile table {
 	border-collapse: separate;
-	
+
 }
 
-.new_device_msg table td, 
+.new_device_msg table td,
 .new_device_addressable table td,
 .related_profile table td {
 	padding: 5px;
@@ -114,7 +114,7 @@ div.info_header span {
 
 div.related_profile label:hover  {
 	border-bottom: 2px solid;
-	border-bottom-color:#339933; 
+	border-bottom-color:#339933;
 }
 #device_service_list table th,div#device_service_list table tr {
 	text-align: center;
@@ -152,15 +152,3 @@ div.related_profile label:hover  {
 	font-size: medium;
 	margin: 0;
 }
-
-/* #device_service_list  i {
-	-webkit-animation: move_eye 4s linear 0s infinite alternate;
-     -moz-animation: move_eye 4s linear 0s infinite alternate;
-       -o-animation: move_eye 4s linear 0s infinite alternate;
-          animation: move_eye 4s linear 0s infinite alternate;
-}
-
-@-webkit-keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  }
-   @-moz-keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  }
-     @-o-keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  }
-        @keyframes move_eye { from { margin-left:-20%; } to { margin-left:100%; }  } */

@@ -10,6 +10,8 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 package controller
@@ -30,13 +32,9 @@ const (
 
 func DowloadProfile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-
 	relativeTemplateFilePath := filepath.Join(common.RelativePathToProjectRoot, configs.WebDirName, TemplateDirName, ProfileTemplateName)
-
 	data, err := ioutil.ReadFile(relativeTemplateFilePath)
-	if err != nil {
-		log.Fatal(err)
-	}
+
 	if err == nil {
 		contentType := "application/x-yaml;charset=UTF-8"
 		w.Header().Set("Content-Type", contentType)

@@ -306,10 +306,11 @@ var coreExportModule = {
 				 div.scrollTop = div.scrollHeight;
 				 $("#websocket_msg_content table tbody tr:odd").css({color:'#7CFC00'});
 				 var d = JSON.parse(event.data);
-//				 var dataMapping = {'AnalogValue_40':"temperature",'AnalogValue_22':"humidity",
-//						 'HoldingRegister_8455':"OutputVoltage",'HoldingRegister_8454':'RPM'}
+				//  test data, do not remove
+				//  var dataMapping = {'AnalogValue_40':"temperature",'AnalogValue_22':"humidity",
+				// 		 'HoldingRegister_8455':"OutputVoltage",'HoldingRegister_8454':'RPM'}
 				 var echartOpts = coreExportModule.exportChart.getOption();
-				 //debugger
+				
 				 if(echartOpts.legend[0].data.indexOf(d.device) == -1){
 					 echartOpts.legend[0].data.push(d.device);
 					 echartOpts.xAxis[0].data.push(d.readings[0].name)

@@ -24,8 +24,8 @@ import (
 )
 
 const (
-	defaultMongoHost = "127.0.0.1"
-	defaultMongoPort = 27017
+	defaultMongoHost = "10.211.55.7"
+	defaultMongoPort = 27018
 	database         = "edgex-ui-go"
 	defaultUserName  = "su"
 	defaultPassword  = "su"
