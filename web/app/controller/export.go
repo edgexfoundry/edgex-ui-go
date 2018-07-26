@@ -17,12 +17,12 @@
 package controller
 
 import (
+	"log"
+	"net/http"
 	"encoding/json"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"log"
-	"net/http"
 )
 
 func ExportShow(w http.ResponseWriter, r *http.Request) {

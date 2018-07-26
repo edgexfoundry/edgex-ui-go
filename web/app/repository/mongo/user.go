@@ -17,9 +17,9 @@
 package mongo
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"gopkg.in/mgo.v2/bson"
 	"log"
+	"gopkg.in/mgo.v2/bson"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 )
 
 type UserMongoRepository struct {

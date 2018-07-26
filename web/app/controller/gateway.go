@@ -17,13 +17,13 @@
 package controller
 
 import (
+	"net/http"
 	"encoding/json"
+	mux "github.com/gorilla/mux"
 	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository"
-	mux "github.com/gorilla/mux"
-	"net/http"
 )
 
 const (

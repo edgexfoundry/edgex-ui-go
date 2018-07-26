@@ -17,10 +17,10 @@
 package component
 
 import (
-	MQTT "github.com/eclipse/paho.mqtt.golang"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 	"log"
 	"strconv"
+	MQTT "github.com/eclipse/paho.mqtt.golang"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 )
 
 const (

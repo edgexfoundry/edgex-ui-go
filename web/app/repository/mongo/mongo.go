@@ -17,10 +17,10 @@
 package mongo
 
 import (
-	"fmt"
-	mgo "gopkg.in/mgo.v2"
 	"log"
 	"time"
+	"fmt"
+	mgo "gopkg.in/mgo.v2"
 )
 
 const (
