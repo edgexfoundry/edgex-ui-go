@@ -17,14 +17,13 @@
 package common
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"log"
 	"net/http"
 	"net/url"
 	"path/filepath"
 	"strings"
+	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
+	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
 )
 
 //{Token:User}
