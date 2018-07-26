@@ -1,7 +1,7 @@
-<!-- 
+<!--
 *******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -11,22 +11,26 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************
  -->
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<link href="/css/devices/deviceService.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<link href="/css/devices/deviceService.css" rel="stylesheet">
 </head>
+
 <body>
-	<div id="device_service_json_format"> 		
+	<div id="device_service_json_format">
 	</div>
 	<div class="device_server_shelter">
 		<div class="shelter"></div>
 		<div>
 			<i class="fa fa-spinner fa-pulse fa-3x fa-fw "></i>
-			<span >Uploading...</span>
+			<span>Uploading...</span>
 		</div>
 	</div>
 	<div id="device_service_list">
@@ -35,14 +39,13 @@
 			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.addNewDevice();">
 				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Device
 			</button>
-			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.refresh();" >
+			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.refresh();">
 				<i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Refresh
 			</button>
-				<span style="color: #339933;font-size: medium;font-weight: bolder;" 
-						onclick="deviceServiceBtnGroup.showJsonFormatter(event)">
+			<span style="color: #339933;font-size: medium;font-weight: bolder;" onclick="deviceServiceBtnGroup.showJsonFormatter(event)">
 					Show JSON &nbsp;&nbsp;
 					<i style="position: relative;" class="fa fa-hand-o-left fa-lg"></i>
-				</span>		
+				</span>
 		</div>
 		<table class="table table-striped ">
 			<thead>
@@ -75,9 +78,10 @@
 				<i class="fa fa-check" aria-hidden="true"></i>&nbsp;Submit
 			</button>
 		</div>
-	
+
 		<div class="info_header">
-			<span>New Device</span><div></div>
+			<span>New Device</span>
+			<div></div>
 		</div>
 		<div class="new_device_msg">
 			<table>
@@ -107,9 +111,10 @@
 				</tbody>
 			</table>
 		</div>
-	
+
 		<div class="info_header">
-			<span>New Device Profile</span><div></div>
+			<span>New Device Profile</span>
+			<div></div>
 		</div>
 		<div class="related_profile">
 			<table>
@@ -124,7 +129,7 @@
 				<tr>
 					<td><label for="profile_file"><span style="color: #339933;opacity: 0.5;">Please upload a profile file.</span></label></td>
 					<td id="file_preview">
-						
+
 					</td>
 					<td>
 						<form method="POST" target="uploadiframe" accept=".yaml,.yml" action="/core-metadata/api/v1/deviceprofile/uploadfile" enctype="multipart/form-data" style="display: inline-block;">
@@ -132,7 +137,7 @@
 							<input type="file" id="profile_file" name="file" onchange="deviceServiceBtnGroup.onSelectedFileCompleted()">
 						</form>
 						<iframe style="display: none;" name="uploadiframe">	</iframe>
-						<button disabled type="button" class="btn btn-default" onclick="deviceServiceBtnGroup.uploadProfile()" style="height:30px;" >
+						<button disabled type="button" class="btn btn-default" onclick="deviceServiceBtnGroup.uploadProfile()" style="height:30px;">
 							<i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload
 						</button>
 					</td>
@@ -144,13 +149,14 @@
 				<span class="label label-default"></span>
 			</h4>
 		</div>
-		
+
 		<div class="info_header">
-			<span>New Device Addressable</span><div></div>
+			<span>New Device Addressable</span>
+			<div></div>
 		</div>
 		<div class="new_device_addressable">
 			<form>
-				<table >
+				<table>
 					<tr>
 						<td>Name</td>
 						<td><input type="text" class="form-control" name="name" placeholder="unique and required" required></td>
@@ -178,7 +184,7 @@
 					</tr>
 					<tr>
 						<td>Port</td>
-						<td><input type="text" class="form-control" name="port" ></td>
+						<td><input type="text" class="form-control" name="port"></td>
 						<td>Path</td>
 						<td><input type="text" class="form-control" name="path" placeholder="for callback e.g /api/callback"></td>
 					</tr>
@@ -197,16 +203,18 @@
 				</table>
 			</form>
 		</div>
-		
+
 		<div class="info_header">
-			<span>New Device Related Service</span><div></div>
+			<span>New Device Related Service</span>
+			<div></div>
 		</div>
 		<div class="related_service">
 			Device Service
 			<input type="text" style="display:inline;" class="form-control" name="device_service_name" disabled>
 		</div>
-		
+
 	</div>
 </body>
 <script type="text/javascript" src="/js/pages/devices/deviceService.js"></script>
+
 </html>

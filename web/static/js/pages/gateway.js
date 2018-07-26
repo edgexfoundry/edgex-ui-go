@@ -10,7 +10,10 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+* @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
+
 $(document).ready(function(){
 	gatewayManagementModule.loadGatewayList();
 });
@@ -19,9 +22,6 @@ var gatewayManagementModule = {
 	selectedRow:null,
 	gatewayDataCache:[],
 	loadGatewayList:function(){
-//		gatewayManagementModule.renderGatewayList(gatewayListDataTest);
-//		gatewayManagementModule.gatewayDataCache = gatewayListDataTest;
-//		gatewayManagementModule.selectedRow = Object.assign({},gatewayListDataTest[0]);
 		$.ajax({
 			url: '/api/v1/gateway',
 			type: 'GET',

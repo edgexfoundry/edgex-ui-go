@@ -17,8 +17,6 @@
  * @version: 0.1.0
  ******************************************************************************/
 $(document).ready(function() {
-//	$('[data-toggle="tooltip"]').tooltip()
-//	$('[data-toggle="popover"]').popover({delay:{"show": 800}});
 	deviceProfileModule.loadProfileList();
 });
 

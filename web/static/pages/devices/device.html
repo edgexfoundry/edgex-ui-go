@@ -1,7 +1,7 @@
-<!-- 
+<!--
 *******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -11,14 +11,18 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************
  -->
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<link href="/css/devices/device.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<link href="/css/devices/device.css" rel="stylesheet">
 </head>
+
 <body>
 	<div id="device_main">
 		<div id="device_advanced_search">
@@ -35,18 +39,18 @@
 						</select>
 					</td>
 				</tr>
-			</table>	
+			</table>
 		</div>
 		<div id="device_btngroup">
-			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.deleteDevice();" >
+			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.deleteDevice();">
 				<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
 			</button>
-			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.detail();" >
+			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.detail();">
 				<i class="fa fa-book" aria-hidden="true"></i>&nbsp;Details
 			</button>
 		</div>
 		<div id="device_list">
-			<table class="table table-striped ">
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th></th>
@@ -74,9 +78,9 @@
 			</table>
 		</div>
 	</div>
-	
+
 	<div id="device_detail">
-		<div id="device_data_json_format"> 		
+		<div id="device_data_json_format">
 		</div>
 		<div class="show_detail_operation">
 			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.back();">
@@ -85,36 +89,35 @@
 		</div>
 
 		<div class="panel panel-default">
-		  <div class="panel-heading"><span style="font-weight: bold;">Device General Info</span></div>
-		  <div class="panel-body">
-		    <table id="device_basic_intro">
-				<tbody>
-					<tr>
-						<td>ID</td>
-						<td><input type="text" class="form-control" name="id" disabled></td>
-						<td>Name</td>
-						<td><input type="text" class="form-control" name="name" disabled></td>
-						<td>Description</td>
-						<td colspan=2><input type="text" style="width: 400px;" class="form-control" name="description" disabled></td>
-					</tr>
-					<tr>
-						<td>Address</td>
-						<td><input type="text" class="form-control" name="address" disabled></td>
-						<td>Profile Name</td>
-						<td><input type="text" class="form-control" name="profile_name" disabled></td>
-						<td>Service Name</td>
-						<td><input type="text" class="form-control" name="service_name" disabled></td>
-						<td><span style="color: #339933;font-size: medium;font-weight: bolder;" 
-						onclick="deviceModuleBtnGroup.showJsonFormatter(event)">json show &nbsp;&nbsp;<i style="position: relative;" class="fa  fa-hand-o-left fa-lg"></i></span></td>
-					</tr>
-				</tbody>
-			</table>
-		  </div>
+			<div class="panel-heading"><span style="font-weight: bold;">Device General Info</span></div>
+			<div class="panel-body">
+				<table id="device_basic_intro">
+					<tbody>
+						<tr>
+							<td>ID</td>
+							<td><input type="text" class="form-control" name="id" disabled></td>
+							<td>Name</td>
+							<td><input type="text" class="form-control" name="name" disabled></td>
+							<td>Description</td>
+							<td colspan=2><input type="text" style="width: 400px;" class="form-control" name="description" disabled></td>
+						</tr>
+						<tr>
+							<td>Address</td>
+							<td><input type="text" class="form-control" name="address" disabled></td>
+							<td>Profile Name</td>
+							<td><input type="text" class="form-control" name="profile_name" disabled></td>
+							<td>Service Name</td>
+							<td><input type="text" class="form-control" name="service_name" disabled></td>
+							<td><span style="color: #339933;font-size: medium;font-weight: bolder;" onclick="deviceModuleBtnGroup.showJsonFormatter(event)">json show &nbsp;&nbsp;<i style="position: relative;" class="fa  fa-hand-o-left fa-lg"></i></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-		
+
 		<div class="panel panel-default" id="command_list">
-			  <div class="panel-heading"><span style="font-weight: bold;">Commands</span></div>
-			  <div class="panel-body">
+			<div class="panel-heading"><span style="font-weight: bold;">Commands</span></div>
+			<div class="panel-body">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -128,27 +131,28 @@
 					<tbody>
 					</tbody>
 				</table>
-			  </div>
+			</div>
 		</div>
 	</div>
 	<!-- Modal -->
-	<div style="" class="modal" id="deleteConfirmDialog" role="dialog" >
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	    	  <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Confirm</h4>
-	      </div>
-	      <div class="modal-body">
-	        <span style="font-size: medium;font-weight: bold;color: red;">Are you sure you want to delete?</span>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal">&nbsp;No&nbsp;</button>
-	        <button type="button" class="btn btn-default" value="true" onclick="deviceModuleBtnGroup.deleteDevice(true)">Yes</button>
-	      </div>
-	    </div>
-	  </div>
+	<div style="" class="modal" id="deleteConfirmDialog" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Confirm</h4>
+				</div>
+				<div class="modal-body">
+					<span style="font-size: medium;font-weight: bold;color: red;">Are you sure you want to delete?</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">&nbsp;No&nbsp;</button>
+					<button type="button" class="btn btn-default" value="true" onclick="deviceModuleBtnGroup.deleteDevice(true)">Yes</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
-<script src="/js/pages/devices/device.js" ></script>
+<script src="/js/pages/devices/device.js"></script>
+
 </html>

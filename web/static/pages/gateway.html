@@ -1,7 +1,7 @@
-<!-- 
+<!--
 *******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -11,25 +11,29 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************
  -->
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Gateway Management</title>
-<link href="css/gateway.css" rel="stylesheet" >
+	<meta charset="UTF-8">
+	<title>Gateway Management</title>
+	<link href="css/gateway.css" rel="stylesheet">
 </head>
+
 <body>
 	<div id="gateway_content_main">
 		<div id="gateway_button_group">
-			<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.add();" >
+			<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.add();">
 				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
 			</button>
-			<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.deleteOne();" >
+			<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.deleteOne();">
 				<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
 			</button>
-			<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.refresh();" >
+			<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.refresh();">
 				<i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Refresh
 			</button>
 		</div>
@@ -56,37 +60,38 @@
 			</table>
 		</div>
 		<div id="current_gateway_intro">
-		
+
 		</div>
 	</div>
 	<div id="add_new_gateway">
 		<form class="form-horizontal">
-		  <div class="form-group">
-		    <label for="name" class="col-sm-2 control-label">Name</label>
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="name" placeholder="gateway name">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="description" class="col-sm-2 control-label">Description</label>
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="description" placeholder="gateway description">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="address" class="col-sm-2 control-label">Address</label>
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="address" placeholder="100.100.100.100">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-sm-offset-2 col-sm-10">
-		      <button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.addNewGateway()">Submit</button>
-		      <button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.back()">Cancel</button>
-		    </div>
-		  </div>
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="name" placeholder="gateway name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="description" placeholder="gateway description">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="address" class="col-sm-2 control-label">Address</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="address" placeholder="100.100.100.100">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.addNewGateway()">Submit</button>
+					<button type="button" class="btn btn-success" onclick="gatewayManagementModuleBtnGroup.back()">Cancel</button>
+				</div>
+			</div>
 		</form>
 	</div>
 </body>
-<script src="/js/pages/gateway.js" ></script>
+<script src="/js/pages/gateway.js"></script>
+
 </html>
