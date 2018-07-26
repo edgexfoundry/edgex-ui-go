@@ -69,7 +69,7 @@ var deviceServiceModule = {
 				var rowData = "<tr>";
 				rowData += '<td><input type="radio" name="blankRadio" value="'+element.id+'"></td>';
 				rowData += "<td>" + (index + 1) +"</td>";
-				rowData += "<td>" +  element.id.substr(0,8) + "</td>";
+				rowData += "<td>" +  element.id + "</td>";
 				rowData += "<td>" +  element.name + "</td>";
 				if(element.labels.length == 0){
 					rowData += "<td>No Labels</td>";

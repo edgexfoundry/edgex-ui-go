@@ -55,7 +55,7 @@ var deviceProfileModule = {
 			rowData += '<td><input type="checkbox" name="profileCheck" value="'
 					+ element.id + '"></td>';
 			rowData += '<td>' + (index + 1) + '</td>';
-			rowData += '<td>' + element.id.substr(0, 8) + '</td>';
+			rowData += '<td>' + element.id + '</td>';
 			rowData += '<td>' + element.name + '</td>';
 			rowData += '<td>' + element.labels[0] + '</td>';
 			rowData += '<td>' + element.description + '</td>';
