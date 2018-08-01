@@ -286,7 +286,7 @@ var coreExportModule = {
 		webSocketMsg:function(){
 			if(coreExportModule.webSocket == null || coreExportModule.webSocket.readyState == "CLOSED"){
 				if ('WebSocket' in window) {
-					coreExportModule.webSocket = new WebSocket("ws://localhost:4000/ws?X-Session-Token=" + window.sessionStorage.getItem("X_Session_Token"));
+					coreExportModule.webSocket = new WebSocket("ws://" + document.location.hostname + ":4000/ws?X-Session-Token=" + window.sessionStorage.getItem("X_Session_Token"));
 			    } else {
 			        alert("your browser not support WebSocket.");
 			    }
@@ -310,7 +310,7 @@ var coreExportModule = {
 				//  var dataMapping = {'AnalogValue_40':"temperature",'AnalogValue_22':"humidity",
 				// 		 'HoldingRegister_8455':"OutputVoltage",'HoldingRegister_8454':'RPM'}
 				 var echartOpts = coreExportModule.exportChart.getOption();
-				
+
 				 if(echartOpts.legend[0].data.indexOf(d.device) == -1){
 					 echartOpts.legend[0].data.push(d.device);
 					 echartOpts.xAxis[0].data.push(d.readings[0].name)
