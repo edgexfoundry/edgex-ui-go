@@ -45,7 +45,7 @@ var deviceModule = {
 				url:'/core-metadata/api/v1/device',
 				type:'GET',
 				success:function(data){
-					if(data && data.length != 0){
+					if(data){
 						deviceModule.renderDeviceList(data);
 					}
 				},
