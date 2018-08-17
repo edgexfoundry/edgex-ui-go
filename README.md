@@ -12,6 +12,14 @@ Effect picture after refactoring frontend ui (to be done):
   <img src ="assets/images/gentelella-overview.jpeg" />
 </p>
 
+## Running in docker
+
+```
+docker pull badboyqiao/edgex-ui-go:0.1
+
+docker run -it -d -p 4000:4000 --name edgex-ui-go badboyqiao/edgex-ui-go:0.1
+```
+
 ## Install and Deploy
 
 To fetch the code and compile the web-based UI:
