@@ -396,7 +396,7 @@ var coreExportBtnGroup = {
 			$("#add_new_export input[name='topic']").val(coreExportModule.selectedRow.addressable.topic);
 //			$("#add_new_export input[name='key']").val(coreExportModule.selectedRow.id);
 //			$("#add_new_export input[name='id']").val(coreExportModule.selectedRow.id);
-			if(coreExportModule.selectedRow.filter != null){
+			if(coreExportModule.selectedRow.filter != null && Object.keys(coreExportModule.selectedRow.filter) != 0){
 				coreExportModule.deviceFilterSelected = coreExportModule.selectedRow.filter['deviceIdentifiers'];
 				coreExportModule.deviceReadingValueSelected = coreExportModule.selectedRow.filter['valueDescriptorIdentifiers'];
 				$("#device_filter_list .select_panle input[name='deviceName']").val(coreExportModule.deviceFilterSelected.toString());
