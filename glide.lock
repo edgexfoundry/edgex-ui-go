@@ -1,0 +1,27 @@
+hash: 307302f4a5de655ed4fb609fe2f5895bd2d8cbd748ea6ebfed75d7ee53d4fe3e
+updated: 2018-07-12T17:18:47.001382815+08:00
+imports:
+- name: github.com/eclipse/paho.mqtt.golang
+  version: 88c4622b8e24c52f64a0caaa28e40b91629bb6e6
+  subpackages:
+  - packets
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+- name: github.com/gorilla/mux
+  version: e3702bed27f0d39777b0b37b664b6280e8ef8fbf
+- name: github.com/gorilla/websocket
+  version: ea4d1f681babbce9545c9c5f3d5194a789c89f5b
+- name: golang.org/x/net
+  version: cffdcf672aee934982473246bc7e9a8ba446aa9b
+  subpackages:
+  - internal/socks
+  - proxy
+  - websocket
+- name: gopkg.in/mgo.v2
+  version: 9856a29383ce1c59f308dd1cf0363a79b5bef6b5
+  subpackages:
+  - bson
+  - internal/json
+  - internal/sasl
+  - internal/scram
+testImports: []
