@@ -1,0 +1,12 @@
+#add_new_gateway{
+    display: none;
+    position: relative;
+    margin-top: 40px;
+}
+#add_new_gateway form {
+    width: 800px;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
