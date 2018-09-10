@@ -19,7 +19,7 @@ package mm
 import (
 	"log"
 	"time"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/domain"
 )
 
 type MemoryDB struct {

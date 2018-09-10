@@ -20,8 +20,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
+	"github.com/edgexfoundry/edgex-ui-go/configs"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/common"
 )
 
 const (
