@@ -15,9 +15,9 @@
 package main
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/initial"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/common"
+	"github.com/edgexfoundry/edgex-ui-go/initial"
+	"github.com/edgexfoundry/edgex-ui-go/web/app"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/common"
 	"log"
 	"net/http"
 	_ "net/http/pprof"

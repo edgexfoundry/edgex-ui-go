@@ -7,9 +7,9 @@
 package repository
 
 import (
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mongo"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/repository/mm"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/repository/mongo"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/repository/mm"
 )
 
 type GatewayRepos interface {

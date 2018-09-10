@@ -20,9 +20,9 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/component"
-	"github.com/edgexfoundry-holding/edgex-ui-go/web/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/configs"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/component"
+	"github.com/edgexfoundry/edgex-ui-go/web/app/domain"
 )
 
 func ExportShow(w http.ResponseWriter, r *http.Request) {

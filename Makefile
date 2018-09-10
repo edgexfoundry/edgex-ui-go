@@ -14,7 +14,7 @@ MICROSERVICES=cmd/edgex-ui-go/edgex-ui-go
 
 VERSION=$(shell cat ./VERSION)
 
-GOFLAGS=-ldflags "-X github.com/edgexfoundry-holding/edgex-ui-go.Version=$(VERSION)"
+GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 
 GIT_SHA=$(shell git rev-parse --short HEAD)
 

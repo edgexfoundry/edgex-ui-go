@@ -1,4 +1,4 @@
-package: github.com/edgexfoundry-holding/edgex-ui-go
+package: github.com/edgexfoundry/edgex-ui-go
 import:
 - package: github.com/eclipse/paho.mqtt.golang
   version: master

@@ -1,5 +1,5 @@
 # edgex-ui-go
-[![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry-holding/edgex-ui-go)](https://goreportcard.com/report/github.com/edgexfoundry-holding/edgex-ui-go) [![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry/edgex-ui-go)](https://goreportcard.com/report/github.com/edgexfoundry/edgex-ui-go) [![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
 > Go implementation of EdgeX Web UI.
 
 <p align="center">
@@ -26,8 +26,8 @@ To fetch the code and compile the web-based UI:
 
 Using `go get`:
 ```
-go get github.com/edgexfoundry-holding/edgex-ui-go
-cd $GOPATH/src/github.com/edgexfoundry-holding/edgex-ui-go
+go get github.com/edgexfoundry/edgex-ui-go
+cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
 glide install
 make build
 ```
@@ -35,8 +35,8 @@ make build
 Using Git:
 ```
 cd $GOPATH/src
-git clone http://github.com/edgexfoundry-holding/edgex-ui-go.git github.com/edgexfoundry-holding/edgex-ui-go
-cd $GOPATH/src/github.com/edgexfoundry-holding/edgex-ui-go
+git clone http://github.com/edgexfoundry/edgex-ui-go.git github.com/edgexfoundry/edgex-ui-go
+cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
 glide install
 make build
 ```

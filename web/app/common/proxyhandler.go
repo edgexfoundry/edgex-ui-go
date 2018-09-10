@@ -20,7 +20,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry/edgex-ui-go/configs"
 )
 
 const (
