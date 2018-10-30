@@ -17,10 +17,10 @@
 package component
 
 import (
-	"log"
-	"strconv"
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/edgexfoundry/edgex-ui-go/web/app/domain"
+	"log"
+	"strconv"
 )
 
 const (
@@ -38,7 +38,7 @@ var ExportSubscriberCache = make(map[string]interface{}, 10)
 
 func CreateMqttClient(addressable domain.Addressable, token string) {
 	MqttTokenCache = token
-	broker := addressable.Protocol + "://" +  addressable.Address + ":" + strconv.Itoa(addressable.Port)
+	broker := addressable.Protocol + "://" + addressable.Address + ":" + strconv.Itoa(addressable.Port)
 	opts := MQTT.NewClientOptions().AddBroker(broker)
 	opts.SetClientID(ClientIDPrefix + addressable.Topic)
 	opts.SetUsername(addressable.User)
@@ -55,7 +55,7 @@ func CreateMqttClient(addressable domain.Addressable, token string) {
 	if t := client.Connect(); t.Wait() && t.Error() != nil {
 		panic(t.Error())
 	} else {
-		log.Println("Connected to mqtt server\n")
+		log.Println("Connected to mqtt server")
 	}
 
 	ExportSubscriberCache[token+addressable.Topic] = client
