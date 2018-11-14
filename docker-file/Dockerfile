@@ -1,17 +1,19 @@
 FROM golang:1.9-alpine AS builder
 MAINTAINER huaqiao zhang <huaqiaoz@vmware.com>
 
+WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go
+
 RUN cp /etc/apk/repositories /etc/apk/repositories.bak
 RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.6/main" > /etc/apk/repositories
 RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.6/community" >> /etc/apk/repositories
 RUN cat /etc/apk/repositories
 
-RUN apk update && apk add git
-RUN apk update && apk add make
+RUN apk update && apk add git make glide
 
-COPY github.com /go/src/github.com/
-WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-go/
-RUN GOOS=linux go build
+COPY . .
+
+RUN make prepare
+RUN make cmd/edgex-ui-go/edgex-ui-go
 
 FROM alpine:3.6
 
