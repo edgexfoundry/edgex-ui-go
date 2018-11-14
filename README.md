@@ -12,6 +12,11 @@ Effect picture after refactoring frontend ui (to be done):
   <img src ="assets/images/gentelella-overview.jpeg" />
 </p>
 
+## Some video demo links
+
+* https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s
+* https://VMware.zoom.us/j/3697467292
+
 ## Running in docker
 
 ```
