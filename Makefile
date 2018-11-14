@@ -19,7 +19,7 @@ VERSION=$(shell cat ./VERSION)
 
 GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 
-GIT_SHA=$(shell git rev-parse --short HEAD)
+GIT_SHA=$(shell git rev-parse HEAD)
 
 build: $(MICROSERVICES)
 	go build ./...
@@ -43,4 +43,4 @@ run:
 docker: $(DOCKERS)
 
 docker_edgex_ui_go:
-	docker build -f docker-file/Dockerfile -t edgexfoundry/docker-edgex-ui-go:$(VERSION) .
+	docker build -f docker-file/Dockerfile --label "git_sha=$(GIT_SHA)" -t edgexfoundry/docker-edgex-ui-go:$(VERSION) .
