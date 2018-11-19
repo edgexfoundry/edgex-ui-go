@@ -37,7 +37,8 @@ $(document).ready(function(){
 			var menu = eval(data);
 			menuRender(menu);
 			$(".center").load("/pages/gateway.html");
-			$(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
+			// $(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
+			$(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.2)'});
 		}
 	});
 
@@ -79,20 +80,22 @@ $(document).ready(function(){
 			var subMenu = menu.children;
 			var str = '<li url="' + menu.url + '"><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="'+menu.icon+'"></i><span>'+menu.title+'</span></li>';
 			if( subMenu != null && subMenu.length != 0 ){
-				str = '<li><i class="fa fa-caret-right"></i><i class="' + menu.icon + '"></i><span>'+menu.title+'</span><div style="display:none"><ul></ul></div></li>';
-				$(".sidebar ul:first").append(str);
+				var second_level_menu = "";
 				for(var j = 0; j < subMenu.length; j++){
-					$(".sidebar ul:first > li:last ul").append('<li url="' + subMenu[j].url + '"><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>');
+					second_level_menu += '<li url="' + subMenu[j].url + '"><span></span><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>';
 				}
+				str = '<li children="true"><i class="fa fa-caret-right"></i><i class="' + menu.icon + '"></i><span>'+menu.title+'</span></li><div class="second_level" style="display:none"><ul>'+second_level_menu+'</ul></div>';
+				$(".sidebar ul:first").append(str);
 				continue;
 			}
 			$(".sidebar ul:first").append(str);
 		}
+
 		//bind menu event of click
 		$(".sidebar li").on('click',function(event){
 			event.stopPropagation();//prevent event propagate to parent node when click on current node
 			//if not leaf node,expand current node.
-			if($(this).find("li").length != 0){
+			if($(this).attr("children") == "true"){
 				//toggle menu icon when expand current node.
 				$(this).find("i:first").toggleClass(function() {
 					if ($(this).hasClass("fa fa-caret-right")) {
@@ -103,7 +106,7 @@ $(document).ready(function(){
 						return 'fa fa-caret-right';
 					}
 				});
-				$(this).children("div").slideToggle("normal");
+				$(this).next("div.second_level").slideToggle("normal");
 				return;
 			}
 
@@ -113,8 +116,10 @@ $(document).ready(function(){
 				$("#addGatewayInstanceDialog").modal('show');
 				return;
 			};
-			$(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:''});
-			$(this).css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
+			// $(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:''});
+			// $(this).css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
+			$(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:'',backgroundColor:''});
+			$(this).css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.2)'});
 			//if current node is leaf node，load html resource.
 			$(".center").load($(this).attr("url"));
 		});
