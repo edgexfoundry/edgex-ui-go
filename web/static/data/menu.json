@@ -21,6 +21,23 @@
 			"icon":""
 		}]
 	},{
+		"title":"Support Service",
+		"url": "",
+		"icon":"fa fa-sitemap",
+		"children":[{
+			"title":"Logging",
+			"url": "/pages/devices/device.html",
+			"icon":""
+		},{
+			"title":"Scheduler",
+			"url": "/pages/devices/deviceService.html",
+			"icon":""
+		},{
+			"title":"Notification",
+			"url": "/pages/devices/deviceProfile.html",
+			"icon":""
+		}]
+	},{
 		"title":"Multimedia",
 		"url": "/pages/multimedia.html",
 		"icon":"fa fa-camera",
