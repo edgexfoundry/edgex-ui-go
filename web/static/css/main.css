@@ -16,10 +16,42 @@
  *******************************************************************************/
 @charset "UTF-8";
 
+:root {
+  --main-black-color:#24292e;//黑色
+  --main-green-color:#339933;//绿色
+  --main-hover-color:hsla(0,0%,100%,.75);
+}
+
 * {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+/*滚动条 start *//* srcoll bar*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 4px;
+  background-color: #DCDCDC!important;
+}
+
+/*定义滚动条轨道 内阴影+圆角*//* srcoll bar*/
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background: #fff ;
+}
+
+/*定义滑块 内阴影+圆角*//* srcoll bar*/
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:rgba(220,220,220, 0.7);
+}
+/* srcoll bar*/
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:rgba(220,220,220, 1);
 }
 
 .main_shelter {
@@ -49,7 +81,7 @@
 .headbar {
 	position: fixed;
 	height: 60px;
-	background-color: #339933;
+	background-color: var(--main-black-color);
 	top:0;
 	left:0;
 	right:0;
@@ -87,7 +119,7 @@
 }
 
 .headbar li.notification:hover , li.user:hover , li.logout:hover {
-	color: black;
+	color: gray;
 }
 
 .headbar li.title > span.version {
@@ -102,10 +134,11 @@
 	top: 60px;
 	bottom: 0;
 	left: 0;
-	border-right: 3px solid #339933;
+	/*border-right: 3px solid #339933;*/
 	z-index: 990;
-	background-color: rgba(51, 153, 51, 0.2);
+	/*background-color: rgba(51, 153, 51, 0.2);*/
 	/* border: 1px solid red; *//* debugger */
+  background-color: #dff0d8;
 }
 
 .sidebar div.first_level ul {
