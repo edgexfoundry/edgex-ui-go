@@ -34,39 +34,51 @@
 		</div>
 	</div>
 	<div id="device_service_list">
-		<div id="device_service_btn">
-			<div class="alert alert-warning" role="alert">Please select a service.</div>
-			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.addNewDevice();">
-				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Device
-			</button>
-			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.refresh();">
-				<i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Refresh
-			</button>
-			<span style="color: #339933;font-size: medium;font-weight: bolder;" onclick="deviceServiceBtnGroup.showJsonFormatter(event)">
-					Show JSON &nbsp;&nbsp;
-					<i style="position: relative;" class="fa fa-hand-o-left fa-lg"></i>
-				</span>
+		<div class="panel panel-success">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Device Service</h3>
+		  </div>
+		  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+		    <div class="panel-heading" style="padding:5px 2px;">
+					<div id="device_service_btn">
+	 		 			<div class="alert alert-warning" role="alert">Please select a service.</div>
+	 		 			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.addNewDevice();">
+	 		 				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Device
+	 		 			</button>
+	 		 			<button type="button" class="btn btn-warning" onclick="deviceServiceBtnGroup.refresh();">
+	 		 				<i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Refresh
+	 		 			</button>
+	 		 			<span style="color: #339933;font-size: medium;font-weight: bolder;" onclick="deviceServiceBtnGroup.showJsonFormatter(event)">
+	 		 					Show JSON &nbsp;&nbsp;
+	 		 					<i style="position: relative;" class="fa fa-hand-o-left fa-lg"></i>
+	 		 			</span>
+	 		 		</div>
+		    </div>
+		  </div>
+
+		  <div class="panel-body" style="padding:0;">
+				<table class="table table-responsive table-hover table-striped">
+					<thead>
+						<tr class="warning">
+							<th></th>
+							<th>#</th>
+							<th>ID</th>
+							<th>Service Name</th>
+							<th>Label</th>
+							<th>Operating State</th>
+							<th>Admin State</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					<tfoot>
+						<tr align="center">
+							<td colspan=8>No Data.</td>
+						</tr>
+					</tfoot>
+				</table>
+		  </div>
 		</div>
-		<table class="table table-striped ">
-			<thead>
-				<tr>
-					<th></th>
-					<th>#</th>
-					<th>ID</th>
-					<th>Service Name</th>
-					<th>Label</th>
-					<th>Operating State</th>
-					<th>Admin State</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-			<tfoot>
-				<tr align="center">
-					<td colspan=8>No Data.</td>
-				</tr>
-			</tfoot>
-		</table>
 	</div>
 
 	<div id="add_device_content">
