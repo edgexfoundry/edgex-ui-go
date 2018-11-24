@@ -53,6 +53,18 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 		targetAddr += ":" + configs.RuleEnginePort
 	}
 
+	if prefix == configs.SupportLoggingPath {
+		targetAddr += ":" + configs.SupportLoggingPort
+	}
+
+	if prefix == configs.SupportNotificationPath {
+		targetAddr += ":" + configs.SupportNotificationPort
+	}
+
+	if prefix == configs.SupportSchedulerPath {
+		targetAddr += ":" + configs.SupportSchedulerPort
+	}
+
 	origin, _ := url.Parse(targetAddr)
 
 	director := func(req *http.Request) {
