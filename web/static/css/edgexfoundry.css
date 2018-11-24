@@ -1,0 +1,40 @@
+
+/*override bootbox default btn CSS.*/
+.modal.red-green-buttons .btn-primary {
+    background-color: #0c0!important;
+    color: #fff;
+}
+
+.modal.red-green-buttons .btn-default {
+    background-color: #c00!important;
+    color: #fff;
+}
+
+
+.modal.green-red-buttons .btn-primary {
+    background-color: #c00!important;
+    color: #fff;
+}
+
+.modal.green-red-buttons .btn-default {
+    background-color: #0c0!important;
+    color: #fff;
+}
+
+
+/*edgexfoundr ui custom icon btn*/
+
+.edgexIconBtn {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.edgexIconBtn > i {
+  color: rgb(68, 157, 68);
+}
+
+.edgexIconBtn > i:hover {
+  /*color: black;*/
+  font-size: 20px;
+  z-index: 999;
+}

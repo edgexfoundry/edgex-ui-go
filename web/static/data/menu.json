@@ -21,23 +21,21 @@
 			"icon":""
 		}]
 	},{
-		"title":"Support Service",
-		"url": "",
-		"icon":"fa fa-sitemap",
-		"children":[{
 			"title":"Logging",
-			"url": "/pages/devices/device.html",
-			"icon":""
+			"url": "/pages/logging.html",
+			"icon":"fa fa-bar-chart",
+			"children":[]
 		},{
 			"title":"Scheduler",
-			"url": "/pages/devices/deviceService.html",
-			"icon":""
+			"url": "/pages/scheduler.html",
+			"icon":"fa fa-clock-o",
+			"children":[]
 		},{
 			"title":"Notification",
-			"url": "/pages/devices/deviceProfile.html",
-			"icon":""
-		}]
-	},{
+			"url": "/pages/notification.html",
+			"icon":"fa fa-envelope",
+			"children":[]
+		},{
 		"title":"Multimedia",
 		"url": "/pages/multimedia.html",
 		"icon":"fa fa-camera",
@@ -45,7 +43,7 @@
 	},{
 		"title":"Export",
 		"url": "/pages/export.html",
-		"icon":"fa fa-share",
+		"icon":"fa fa-cloud-upload",
 		"children":[]
 	},{
 		"title":"Rule Engine",
