@@ -25,58 +25,71 @@
 
 <body>
 	<div id="device_main">
-		<div id="device_advanced_search">
-			<table>
-				<tr>
-					<td>Device Service</td>
-					<td>
-						<select class="form-control" name="device_service">
-						</select>
-					</td>
-					<td>Device Profile</td>
-					<td>
-						<select class="form-control" name="device_profile">
-						</select>
-					</td>
-				</tr>
-			</table>
+		<div class="panel panel-success">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Device</h3>
+		  </div>
+		  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+		    <div class="panel-heading" style="padding:5px 2px;">
+					<div id="device_advanced_search">
+						<table>
+							<tr>
+								<td>Device Service</td>
+								<td>
+									<select class="form-control" name="device_service">
+									</select>
+								</td>
+								<td>Device Profile</td>
+								<td>
+									<select class="form-control" name="device_profile">
+									</select>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="device_btngroup">
+						<button type="button" class="btn btn-danger" onclick="deviceModuleBtnGroup.deleteDevice();">
+							<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
+						</button>
+						<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.detail();">
+							<i class="fa fa-book" aria-hidden="true"></i>&nbsp;Details
+						</button>
+					</div>
+		    </div>
+		  </div>
+
+		  <div class="panel-body" style="padding:0;">
+				<div id="device_list">
+	 	 			<table class="table  table-responsive table-hover table-striped">
+	 	 				<thead>
+	 	 					<tr class="warning">
+	 	 						<th></th>
+	 	 						<th>#</th>
+	 	 						<th>ID</th>
+	 	 						<th>Device Name</th>
+	 	 						<th>Description</th>
+	 	 						<th>Label</th>
+	 	 						<!-- <th>Addressable</th> -->
+	 	 						<th>Admin State</th>
+	 	 						<th>Operating State</th>
+	 	 						<!-- <th>Service Name</th>
+	 	 						<th>Profile Name</th> -->
+	 	 						<th>Created Time</th>
+	 	 						<!-- <th>Modified Time</th> -->
+	 	 					</tr>
+	 	 				</thead>
+	 	 				<tbody>
+	 	 				</tbody>
+	 	 				<tfoot>
+	 	 					<tr align="center">
+	 	 						<td colspan=13>No Data.</td>
+	 	 					</tr>
+	 	 				</tfoot>
+	 	 			</table>
+	 	 		</div>
+		  </div>
 		</div>
-		<div id="device_btngroup">
-			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.deleteDevice();">
-				<i class="fa fa-minus" aria-hidden="true"></i>&nbsp;Delete
-			</button>
-			<button type="button" class="btn btn-success" onclick="deviceModuleBtnGroup.detail();">
-				<i class="fa fa-book" aria-hidden="true"></i>&nbsp;Details
-			</button>
-		</div>
-		<div id="device_list">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th></th>
-						<th>#</th>
-						<th>ID</th>
-						<th>Device Name</th>
-						<th>Description</th>
-						<th>Label</th>
-						<!-- <th>Addressable</th> -->
-						<th>Admin State</th>
-						<th>Operating State</th>
-						<!-- <th>Service Name</th>
-						<th>Profile Name</th> -->
-						<th>Created Time</th>
-						<!-- <th>Modified Time</th> -->
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-				<tfoot>
-					<tr align="center">
-						<td colspan=13>No Data.</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
+
 	</div>
 
 	<div id="device_detail">
