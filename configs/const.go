@@ -21,6 +21,16 @@ const (
 	CoreExportPort   = "48071"
 	RuleEnginePath   = "/rule-engine"
 	RuleEnginePort   = "48075"
+	
+	SupportLoggingPath   = "/support-logging"
+	SupportLoggingPort   = "48061"
+
+	SupportNotificationPath   = "/support-notification"
+	SupportNotificationPort   = "48060"
+
+	SupportSchedulerPath   = "/support-scheduler"
+	SupportSchedulerPort   = "48085"
+
 	WebDirName       = "web"
 	ContentTypeKey   = "Content-Type"
 	JsonContentType  = "application/json"
