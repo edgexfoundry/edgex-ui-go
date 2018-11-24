@@ -19,39 +19,43 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>EdgeX Foundry Console</title>
-    <link href="/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/vendors/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/css/main.css" rel="stylesheet">
-    <link href="/css/index.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>EdgeX Foundry Console</title>
+	<link href="/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/vendors/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/vendors/flatpickr/flatpickr.min.css">
+	<link rel="stylesheet" href="/vendors/flatpickr/theme/confetti.css">
+	<link href="/css/main.css" rel="stylesheet">
+	<link href="/css/index.css" rel="stylesheet">
+	<link href="/css/edgexfoundry.css" rel="stylesheet">
+
 </head>
 
 <body>
-    <div class="main_shelter"></div>
-    <div class="main_msgbox">
-    </div>
+	<div class="main_shelter"></div>
+	<div class="main_msgbox">
+	</div>
 
-    <!-- head bar begin. -->
-    <div class="headbar">
-        <ul>
-            <li class="title">EdgeX Foundry Console <span class="version">0.2.0</span></li>
-            <li class="logout"><i class="fa fa-power-off fa-lg" aria-hidden="true"></i></li>
-            <li class="notification"><i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></li>
-            <li class="user"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i></li>
-        </ul>
-    </div>
+	<!-- head bar begin. -->
+	<div class="headbar">
+		<ul>
+			<li class="title">EdgeX Foundry Console <span class="version">0.2.0</span></li>
+			<li class="logout"><i class="fa fa-power-off fa-lg" aria-hidden="true"></i></li>
+			<li class="notification"><i class="fa fa-bell-o fa-lg" aria-hidden="true"></i></li>
+			<li class="user"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i></li>
+		</ul>
+	</div>
 
-    <!-- center content begin. -->
-    <div class="center">
+	<!-- center content begin. -->
+	<div class="center">
 
-    </div>
+	</div>
 
-    <!-- side bar begin.-->
-    <div class="sidebar">
-        <div class="first_level">
-            <ul>
-                <!-- <li><i class="fa fa-sitemap"></i><a>Devices</a>
+	<!-- side bar begin.-->
+	<div class="sidebar">
+		<div class="first_level">
+			<ul>
+				<!-- <li><i class="fa fa-sitemap"></i><a>Devices</a>
 				</li>
 				<div class="second_level">
 					<ul>
@@ -61,49 +65,52 @@
 				<li><i class="fa fa-camera"></i>Multimedia</li>
 				<li><i class="fa fa-share"></i>Export</li>
 				<li><i class="fa fa-wrench"></i>Rule Engine</li> -->
-            </ul>
-        </div>
-    </div>
+			</ul>
+		</div>
+	</div>
 
-    <!-- footer begin. -->
-    <div class="footer"></div>
-    <div>
+	<!-- footer begin. -->
+	<div class="footer"></div>
+	<div>
 
-    </div>
-    <!-- Modal -->
-    <div style="" class="modal" id="addGatewayInstanceDialog" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
-                </div>
-                <div class="modal-body" style="height:80px;padding-top: 25px;">
-                    <span style="font-size: medium;font-weight: bold;color: red;">You must first select or create a gateway.</span>
-                </div>
+	</div>
+	<!-- Modal -->
+	<div style="" class="modal" id="addGatewayInstanceDialog" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Alert</h4>
+				</div>
+				<div class="modal-body" style="height:80px;padding-top: 25px;">
+					<span style="font-size: medium;font-weight: bold;color: red;">You must first select or create a gateway.</span>
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
-    <div id="org-edgexfoundry-alert-dialog" tabindex="-1" data-backdrop="static" class="modal" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body" style="height:80px;padding-top: 25px;">
-                    <h4></h4>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div id="org-edgexfoundry-alert-dialog" tabindex="-1" data-backdrop="static" class="modal"  role="dialog" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body" style="height:80px;padding-top: 25px;">
+					<h4></h4>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 <script src="/vendors/jquery/jquery.min.js"></script>
 <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
 <script src="/vendors/echarts/echarts.min.js" charset="UTF-8"></script>
 <script src="/vendors/echarts/theme/wonderland.js" charset="UTF-8"></script>
+<script src="/vendors/flatpickr/flatpickr.min.js"></script>
+<script src="/vendors/bootbox/bootbox.min.js"></script>
+<script src="/js/edgexfoundry.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/index.js"></script>
