@@ -1,0 +1,5 @@
+.edgex-log {
+  height: 400px !important;
+  overflow: scroll;
+  padding:0;
+}
