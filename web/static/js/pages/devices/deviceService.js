@@ -45,6 +45,7 @@ var deviceServiceModule = {
 				type: 'GET',
 				url: '/core-metadata/api/v1/deviceservice',
 				success: function(data){
+					debugger
 					if(data){
 						deviceServiceModule.deviceServiceListCache = data;
 						$("#device_service_list > table > tbody").empty();

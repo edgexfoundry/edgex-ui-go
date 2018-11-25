@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/scheduler.css">
+    <script type="text/javascript" src="/js/scheduler.js"></script>
+  </head>
+  <body>
+    <!--scheduler section start-->
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Scheduler</h3>
+      </div>
+      <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+        <div class="panel-heading" style="padding:5px 2px;">
+          <div class="edgexIconBtn">
+            <i class="fa fa-plus fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportScheduler.addSchedulerBtn()"></i>
+          </div>
+          <div class="edgexIconBtn">
+            <i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportScheduler.editSchedulerBtn()"></i>
+          </div>
+          <!-- <div class="edgexIconBtn">
+            <input type="text" name="schedulerSearch" value=""><i class="fa fa-search fa-lg fa-fw" aria-hidden="true"></i>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="panel-body" style="padding:0;">
+        <div id="edgex-support-scheduler-list">
+	 	 			<table class="table  table-responsive table-hover table-striped">
+	 	 				<thead>
+	 	 					<tr class="active">
+                <th></th>
+	 	 						<th></th>
+	 	 						<th>#</th>
+	 	 						<th>ID</th>
+	 	 						<th>Schedule Name</th>
+	 	 						<th>Start</th>
+	 	 						<th>End</th>
+	 	 						<th>Frequency</th>
+	 	 						<th>Cron</th>
+	 	 						<th>RunOnce</th>
+	 	 						<th>Created Time</th>
+	 	 						<th>Modified Time</th>
+	 	 					</tr>
+	 	 				</thead>
+	 	 				<tbody>
+	 	 				</tbody>
+	 	 				<tfoot style="display:none;">
+	 	 					<tr align="center">
+	 	 						<td colspan=13>No Data.</td>
+	 	 					</tr>
+	 	 				</tfoot>
+	 	 			</table>
+	 	 		</div>
+      </div>
+      <div id="edgex-support-scheduler-add-or-update">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add or Update Scheduler</h3>
+          </div>
+          <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+            <div class="panel-heading" style="padding:5px 2px;">
+              <div class="edgexIconBtn add-scheduler"  onclick="orgEdgexFoundry.supportScheduler.commitSchedulerBtn('new');">
+                <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+              </div>
+              <div class="edgexIconBtn update-scheduler" style="display:none;" onclick="orgEdgexFoundry.supportScheduler.commitSchedulerBtn();">
+                <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+              </div>
+              <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.cancelAddSchedulerBtn()">
+                <i class="fa fa-close fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-body" style="padding:0;">
+            <form class="edgex-support-scheduler-form">
+              <fieldset>
+                <legend>Scheduler</legend>
+                <div class="form-group">
+                  <input type="hidden" class="form-control" name="SchedulerId">
+                </div>
+                <div class="form-group">
+                  <label for="SchedulerName">SchedulerName</label>
+                  <input type="text" class="form-control" name="SchedulerName" placeholder="SchedulerName">
+                </div>
+                <div class="form-group">
+                  <label for="SchedulerStart">SchedulerStart</label>
+                  <input type="text" class="form-control" name="SchedulerStart" placeholder="SchedulerStart">
+                </div>
+                <div class="form-group">
+                  <label for="SchedulerEnd">SchedulerEnd</label>
+                  <input type="text" class="form-control" name="SchedulerEnd" placeholder="SchedulerEnd">
+                </div>
+                <div class="form-group">
+                  <label for="SchedulerFrequency">SchedulerFrequency</label>
+                  <input type="text" class="form-control" name="SchedulerFrequency" placeholder="SchedulerFrequency: PT1H">
+                </div>
+                <div class="form-group">
+                  <label for="SchedulerCron">SchedulerCron</label>
+                  <input type="text" class="form-control" name="SchedulerCron" placeholder="SchedulerCron">
+                </div>
+                <div class="form-group">
+                  <label for="SchedulerRunOnce">SchedulerRunOnce</label>
+                  <select  name="SchedulerRunOnce" class="form-control">
+                    <option value=false>false</option>
+                    <option value=true>true</option>
+                  </select>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--scheduler section end-->
+
+    <!--schedule event section start-->
+    <div class="edgex-support-scheduleevent-section">
+
+      <!--schedule event list section start-->
+      <div id="edgex-support-scheduleevent-list-main">
+        <div class="panel panel-success" style="position:relative;">
+          <div class="panel-heading">
+            <h3 class="panel-title">ScheduleEvent</h3>
+          </div>
+          <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+            <div class="panel-heading" style="padding:5px 2px;">
+              <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.addScheduleEventBtn()">
+                <i class="fa fa-plus fa-lg fa-fw" aria-hidden="true"></i>
+              </div>
+              <div class="edgexIconBtn">
+                <i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true"></i>
+              </div>
+              <!-- <div class="edgexIconBtn">
+                <i class="fa fa-search fa-lg fa-fw" aria-hidden="true"></i>
+              </div> -->
+            </div>
+          </div>
+
+          <div id="edgex-support-scheduleevent-address" class="panel panel-success" style="">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Addressable
+                <button onclick="orgEdgexFoundry.supportScheduler.hidenAdressableBtn()" type="button" class="close pull-right" aria-label="Close"><span style="color:#333!important;" aria-hidden="true">&times;</span></button>
+              </h3>
+            </div>
+            <div class="panel-body" style="padding:0;">
+              <table class="table table-responsive table-hover table-striped">
+                <thead>
+                  <tr class="active">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>URL</th>
+                    <th>Created Time</th>
+                    <th>Modified Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot style="display:none;">
+                  <tr align="center">
+                    <td colspan=13>No Data.</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel-body" style="padding:0;">
+            <div id="edgex-support-scheduleevent-list">
+              <table class="table  table-responsive table-hover table-striped">
+                <thead>
+                  <tr class="active">
+                    <th></th>
+                    <th></th>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Scheduler</th>
+                    <th>Parameters</th>
+                    <th>Service</th>
+                    <th>Addressable</th>
+                    <th>Created Time</th>
+                    <th>Modified Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot style="display:none;">
+                  <tr align="center">
+                    <td colspan=13>No Data.</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--schedule event list section end-->
+
+        <!--add or update schedule event section start-->
+      <div id="edgex-support-scheduleevent-add" style="display:none;" class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add or Update ScheduleEvent</h3>
+        </div>
+        <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+          <div class="panel-heading" style="padding:5px 2px;">
+            <div class="edgexIconBtn add-schedule-event"  onclick="orgEdgexFoundry.supportScheduler.commitScheduleEventBtn('new');">
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </div>
+            <div class="edgexIconBtn update-schedule-event" style="display:none;" onclick="orgEdgexFoundry.supportScheduler.commitScheduleEventBtn();">
+              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            </div>
+            <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.cancelAddScheduleEventBtn()">
+              <i class="fa fa-close fa-lg" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body" style="padding:0;">
+          <form class="edgex-support-scheduleevent-form">
+            <fieldset>
+              <legend>Scheduler</legend>
+              <div class="form-group">
+                <label for="SchedulerName">SchedulerName</label>
+                <input type="text" class="form-control" name="SchedulerName" placeholder="SchedulerName: copy from SchedulerList , if there is no one, you should add a Scheduler firstly.">
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>ScheduleEvent</legend>
+              <div class="form-group">
+                <input type="hidden" class="form-control" name="ScheduleEventId">
+              </div>
+              <div class="form-group">
+                <label for="ScheduleEventName">Name</label>
+                <input type="text" class="form-control" name="ScheduleEventName" placeholder="ScheduleEventName">
+              </div>
+              <div class="form-group">
+                <label for="ScheduleEventParameters">Parameters</label>
+                <input type="text" class="form-control" name="ScheduleEventParameters" placeholder="ScheduleEventParameters JSON">
+              </div>
+              <div class="form-group">
+                <label for="ScheduleEventService">Service</label>
+                <input type="text" class="form-control" name="ScheduleEventService" placeholder="ScheduleEventService  edgex-device-virtual">
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>EventAddressable</legend>
+              <div class="form-group">
+                <input type="hidden" class="form-control" name="EventAddressId">
+              </div>
+              <div class="form-group">
+                <label for="EventAddressName">Name</label>
+                <input type="text" class="form-control" name="EventAddressName" placeholder="EventAddressName">
+              </div>
+              <div class="form-group">
+                <label for="EventAddressProtocol">Protocol</label>
+                <input type="text" class="form-control" name="EventAddressProtocol" value="HTTP" disabled>
+              </div>
+              <div class="form-group">
+                <label for="EventAddressMethod">Method</label>
+                <input type="text" class="form-control" name="EventAddressMethod" placeholder="EventAddressMethod GET/POST">
+              </div>
+              <div class="form-group">
+                <label for="EventAddressAddress">Address</label>
+                <input type="text" class="form-control" name="EventAddressAddress" placeholder="EventAddress 192.168.3.22">
+              </div>
+              <div class="form-group">
+                <label for="EventAddressPort">Port</label>
+                <input type="text" class="form-control" name="EventAddressPort" placeholder="EventAddressPort 49982">
+              </div>
+              <div class="form-group">
+                <label for="EventAddressPath">Path</label>
+                <input type="text" class="form-control" name="EventAddressPath" placeholder="EventAddressPath /api/v1/device/5be99cf29f8fc20001db3dd8/randnum">
+              </div>
+            </fieldset>
+          </form>
+
+        </div>
+      </div>
+        <!--add or update schedule event section end-->
+
+    </div>
+    <!--schedule event section end-->
+  </body>
+</html>
+
+<!-- <div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Scheduler</h3>
+  </div>
+  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+    <div class="panel-heading" style="padding:5px 2px;">
+      <button type="button" class="btn btn-default">Info</button>
+      <button type="button" class="btn btn-warning">Info</button>
+    </div>
+  </div>
+
+  <div class="panel-body" style="padding:0;">
+    Panel content
+  </div>
+</div> -->
