@@ -22,15 +22,16 @@
 
 #device_advanced_search{
 	float: right;
+	display: inline;
 }
 
 #device_btngroup{
-	float:left;
+	/*float:left;*/
 }
 
 
 #device_advanced_search table td{
-	padding: 10px;
+	/*padding: 10px;*/
 	font-weight: bold;
 }
 
@@ -45,7 +46,7 @@
 
 #device_list table {
 	clear: both;
-	margin-top:10px;
+	/*margin-top:10px;*/
 	overflow: auto;
 }
 
@@ -74,10 +75,10 @@
 	width:200px;
 }
 
-.panel{
+/*.panel{
 	background-color: #f7f7f9;
 	overflow: auto;
-}
+}*/
 #command_list{
 	overflow: auto;
 }
