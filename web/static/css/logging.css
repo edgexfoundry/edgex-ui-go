@@ -1,5 +1,6 @@
-.edgex-log {
-  height: 400px !important;
+.log_content {
+  height: 500px !important;
   overflow: scroll;
   padding:0;
+  background-color:black;
 }

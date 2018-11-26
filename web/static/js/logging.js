@@ -14,10 +14,34 @@ $(document).ready(function(){
     time_24hr:true,
     allowInput:false
   });
+  $('[data-toggle="log-tooltip"]').tooltip();
 });
 
-var edgexLoggingBtn = {
-  search: function(){
+orgEdgexFoundry.supportLogging = (function(){
+  "use strict";
+
+  function SupportLogging(){
+    this.monitorTimer = null;
+    this.monitorStartTime = null;
+    this.monitorStopTime = null;
+  }
+
+  SupportLogging.prototype = {
+    constructor:SupportLogging,
+    loadLoggingInRealtime: null,
+    renderLoggingInRealtime: null,
+    startLoggingMonitor: null,
+    stopLoggingMonitor: null,
+    outputLoggingInRealtime: null,
+
+    loadLoggingBySearch:null,
+    renderLoggingBySearch:null,
+    searchBtn: null
+  }
+
+  var logging = new SupportLogging();
+
+  SupportLogging.prototype.searchBtn = function(){
     var service = $("select[name='log_service']").val();
 
     var start_str = document.getElementById("log_start_time").value;
@@ -30,7 +54,10 @@ var edgexLoggingBtn = {
 
     var start_timestamp = start.getTime();
     var end_timestamp = end.getTime();
-debugger
+    logging.loadLoggingBySearch(service,start_timestamp,end_timestamp,limit);
+  }
+
+  SupportLogging.prototype.loadLoggingBySearch = function(service,start_timestamp,end_timestamp,limit){
     $.ajax({
       url:'/support-logging/api/v1/logs/originServices/'+service+'/'+start_timestamp+'/'+end_timestamp+'/' + limit,
       type:'GET',
@@ -40,20 +67,101 @@ debugger
             $("#log-content div.log_content").append('<span style="color:white;">No data.</span>');
             return;
         }
-        $.each(data,function(i,v){
-          var show_log = '<p>';
-          if (v.logLevel == "ERROR") {
-            show_log += '<span style="color:red;">'+v.logLevel+'</span>&nbsp;&nbsp;&nbsp;';
-            show_log += '<span style="color:red;">'+ dateToString(v.created) + '</span>&nbsp;&nbsp;&nbsp;';
-          } else {
-            show_log += '<span style="color:green;">'+v.logLevel+'</span>&nbsp;&nbsp;&nbsp;';
-            show_log += '<span style="color:green;">'+ dateToString(v.created) + '</span>&nbsp;&nbsp;&nbsp;';
-          }
-          show_log += '<span style="color:white;">'+ v.message + '</span>';
-          show_log += '</p>'
-          $("#log-content div.log_content").append(show_log);
-        });
+        logging.renderLoggingBySearch(data);
       }
     });
   }
-}
+
+  SupportLogging.prototype.renderLoggingBySearch = function(data){
+    $.each(data,function(i,v){
+      var show_log = '<p>';
+      if (v.logLevel == "ERROR") {
+        show_log += '<span style="color:red;">'+v.logLevel+'</span>&nbsp;&nbsp;&nbsp;';
+        show_log += '<span style="color:red;">'+ dateToString(v.created) + '</span>&nbsp;&nbsp;&nbsp;';
+      } else {
+        show_log += '<span style="color:green;">'+v.logLevel+'</span>&nbsp;&nbsp;&nbsp;';
+        show_log += '<span style="color:green;">'+ dateToString(v.created) + '</span>&nbsp;&nbsp;&nbsp;';
+      }
+      show_log += '<span style="color:white;">'+ v.message + '</span>';
+      show_log += '</p>'
+      $("#log-content div.log_content").append(show_log);
+    });
+  }
+
+  SupportLogging.prototype.outputLoggingInRealtime = function(){
+    if (!logging.monitorStartTime) {
+      var now1 =  new Date();
+      now1.setMinutes(now1.getMinutes() - 1);
+      logging.monitorStartTime =  now1.getTime();
+
+      var now2 =  new Date();
+      now2.setMinutes(now2.getMinutes() + 1);
+      logging.monitorStopTime = now2.getTime()
+    }
+    orgEdgexFoundry.supportLogging.loadLoggingInRealtime(logging.monitorStartTime,logging.monitorStopTime);
+  }
+
+  SupportLogging.prototype.startLoggingMonitor = function(){
+    //debugger
+    $("#support-logging-search").hide();
+    $("#support-logging-start-monitor").hide();
+    $("#support-logging-stop-monitor").show();
+    logging.monitorTimer = window.setInterval("orgEdgexFoundry.supportLogging.outputLoggingInRealtime()",2000);
+  }
+
+  SupportLogging.prototype.stopLoggingMonitor = function(){
+    window.clearInterval(orgEdgexFoundry.supportLogging.monitorTimer);
+    $("#support-logging-search").show();
+    $("#support-logging-start-monitor").show();
+    $("#support-logging-stop-monitor").hide();
+  }
+
+  SupportLogging.prototype.loadLoggingInRealtime = function(start,end){
+    var service = $("select[name='log_service']").val();
+    //debugger
+    $.ajax({
+      url:'/support-logging/api/v1/logs/originServices/'+service+'/'+start +'/'+end+'/100',
+      type:'GET',
+      success:function(data){
+        //debugger
+        if(data.length == 0) {
+          return;
+        }
+        logging.renderLoggingInRealtime(data);
+      }
+    });
+  }
+
+  SupportLogging.prototype.renderLoggingInRealtime = function(data){
+
+    $.each(data,function(i,v){
+      console.log(data.length);
+      if (i == data.length - 1) {
+        logging.monitorStartTime = v.created
+        var end = new Date(logging.monitorStartTime)
+
+        end.setMinutes(end.getMinutes() + 1)
+        logging.monitorStopTime = end.getTime();
+      }
+      var show_log = '<p>';
+      if (v.logLevel == "ERROR") {
+        show_log += '<span style="color:red;">'+v.logLevel+'</span>&nbsp;&nbsp;&nbsp;';
+        show_log += '<span style="color:red;">'+ dateToString(v.created) + '</span>&nbsp;&nbsp;&nbsp;';
+      } else {
+        show_log += '<span style="color:green;">'+v.logLevel+'</span>&nbsp;&nbsp;&nbsp;';
+        show_log += '<span style="color:green;">'+ dateToString(v.created) + '</span>&nbsp;&nbsp;&nbsp;';
+      }
+      if(i%2 == 0){
+        show_log += '<span class="text-warning">'+ v.message + '</span>';
+      }else{
+        show_log += '<span style="color:white;">'+ v.message + '</span>';
+      }
+
+      show_log += '</p>'
+      var log_content = $("#log-content div.log_content")[0];
+      $("#log-content div.log_content").append(show_log);
+      log_content.scrollTop = log_content.scrollHeight;
+    });
+  }
+  return logging;
+})();
