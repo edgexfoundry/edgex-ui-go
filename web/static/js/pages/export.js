@@ -10,580 +10,529 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
+
 $(document).ready(function(){
-	$("#export_register_data").hide();
-	$("#add_new_export").hide();
-	coreExportModule.loadExportData();
-	coreExportModule.exportChart = echarts.init($('#export_data_charts')[0],'wonderland');//macarons
-    var option = {
-    	    title : {
-    	        text: 'Export Data',
-    	        subtext: 'total'
-    	    },
-    	    tooltip : {
-    	        trigger: 'axis'
-    	    },
-    	    legend: {
-    	        data:[/*'KMC.BAC-121036CE01','GS1-AC-Drive01'*/]
-    	    },
-    	    toolbox: {
-    	        show : true,
-    	        feature : {
-    	            mark : {show: true},
-    	            dataView : {show: true, readOnly: false},
-    	            magicType : {show: true, type: ['line', 'bar']},
-    	            restore : {show: true},
-    	            saveAsImage : {show: true}
-    	        }
-    	    },
-    	    calculable : true,
-    	    xAxis : [
-    	        {
-    	            type : 'category',
-    	            data : [/*'Temperature','Humidity','OutputVoltage','RPM'*/]
-    	        }
-    	    ],
-    	    yAxis : [
-    	        {
-    	            type : 'value',
-    	            splitNumber: 6,
-    	            max: 300,
-    	            min: -100
-    	        }
-    	    ],
-    	    series : []
-    	};
-    coreExportModule.exportChart.setOption(option);
-    $("#export_data_charts").hide();
-
-    //global listener for hiding jsonShow section.
-    document.addEventListener('click',function(event){
-    		$("#export_register_json_format").hide('fast');
-    });
-
-    //Hand icon circular movement animate
-    var shakee = function(){
-		$("#add_new_export  i").animate({"right":"0"},function(){
-			$("#add_new_export  i").animate({"right":"10px"},shakee());
-		});
-	}
-	shakee();
-
-	//global listener for hiding device-list section.
-	document.addEventListener('click',function(event){
-		$("#device_filter_list table").hide();
-		$("#value_desc_filter_list table").hide();
-		$("#export_register_json_format").hide();
-	});
-	document.querySelector("#device_filter_list table").addEventListener('click',function(event){
-		event.stopPropagation();
-	});
-	document.querySelector("#value_desc_filter_list table").addEventListener('click',function(event){
-		event.stopPropagation();
-	});
-	document.getElementById("export_register_json_format").addEventListener('click',function(event){
-		event.stopPropagation();
-	});
-	$("#device_filter_list .select_panle").on('click',function(event){
-		event.stopPropagation();
-		$("#device_filter_list table").toggle();
-		$("#value_desc_filter_list table").hide();
-	});
-
-	$("#value_desc_filter_list .select_panle").on('click',function(event){
-		event.stopPropagation();
-		$("#value_desc_filter_list table").toggle();
-		$("#device_filter_list table").hide();
-	});
-
-	//initialize loading device-ComboGrid data.
-	$.ajax({
+	orgEdgexFoundry.coreExport.loadExportList();
+	$("#filter-device-table").bootstrapTable({
 		url:'/core-metadata/api/v1/device',
-		type:'GET',
-		success:function(data){
-			coreExportModule.deviceFilterListCache = data;
-			$("#device_filter_list table > tbody").empty();
-			$("#value_desc_filter_list table > tbody").empty();
-			$.each(data,function(i,d){
-				var rowData = "<tr>";
-				rowData += "<td><input type='checkbox'  name='deviceFilterCheck' value= '" + d.id + "'></td>";
-				rowData += "<td>" + (i+1) + "</td>";
-				rowData += "<td>" + d.name + "</td>";
-				rowData += "<td>" + d.description + "</td>";
-				rowData += "</tr>";
-				$("#device_filter_list table > tbody").append(rowData);
-			});
-
-			$("#device_filter_list table > tbody input:checkbox").on('click',function(){
-				if($(this).prop('checked')){
-					var checkbox = this;
-					$.each(coreExportModule.deviceFilterListCache,function(i,d){
-						if(d.id == $(checkbox).val()) {
-							coreExportModule.deviceFilterSelected.push(d.name);
-							$("#device_filter_list .select_panle input[name='deviceName']").val(coreExportModule.deviceFilterSelected.toString());
-						}
-					});
-				}else{
-					coreExportModule.deviceFilterSelected.splice(coreExportModule.deviceFilterSelected.indexOf($(this).val()),1);
-					$("#device_filter_list .select_panle input[name='deviceName']").val(coreExportModule.deviceFilterSelected.toString());
-				}
-
-				//valueDescriptor List bind checkbox event
-				$("#value_desc_filter_list table > tbody").empty();
-				if(coreExportModule.deviceReadingValueSelected.length != 0 ){
-					$.each(coreExportModule.deviceReadingValueSelected,function(i,name){
-						$.each($("#value_desc_filter_list table > tbody input:checkbox"),function(j,c){
-							if(name == $(c).val()){
-								$.each($("#value_desc_filter_list table > tbody input:checkbox"),function(k,cc){
-									if($(cc).val() == name){
-										$(c).prop('checked',true);
-										return false;
-									}
-								});
-							}
-						});
-					});
-				}
-
-				$.each(coreExportModule.deviceFilterSelected,function(n,selectDevice){
-					$.each(coreExportModule.deviceFilterListCache,function(m,d){
-						if(selectDevice == d.name){
-							$.each(d.profile.deviceResources,function(i,r){
-								var rowData = "<tr>";
-								rowData += "<td><input type='checkbox' name='resourceFilterCheck' value= '" + r.name + "'></td>";
-								rowData += "<td>" + (i+1) + "</td>";
-								rowData += "<td>" + r.name + "</td>";
-								rowData += "<td>" + r.description + "</td>";
-								rowData += "</tr>";
-								$("#value_desc_filter_list table > tbody").append(rowData);
-							});
-						}
-					});
-				});
-
-				if(coreExportModule.deviceReadingValueSelected.length != 0 ){
-					var inputs = $("#value_desc_filter_list table > tbody input:checkbox");
-					$.each(coreExportModule.deviceReadingValueSelected,function(i,name){
-						$.each(inputs,function(j,input){
-							if($(input).val() == name){
-								$(input).prop("checked",true);
-								return false;
-							}
-						});
-					});
-				}
-
-				$("#value_desc_filter_list table > tbody input:checkbox").on('click',function(){
-					if($(this).prop('checked')){
-						coreExportModule.deviceReadingValueSelected.push($(this).val());
-						$("#value_desc_filter_list .select_panle input[name='valueDescriptor']").val(coreExportModule.deviceReadingValueSelected.toString());
-					}else{
-						coreExportModule.deviceReadingValueSelected.splice(coreExportModule.deviceReadingValueSelected.indexOf($(this).val()),1);
-						$("#value_desc_filter_list .select_panle input[name='valueDescriptor']").val(coreExportModule.deviceReadingValueSelected.toString());
-					}
-				});
-			});
+		checkboxHeader:false,
+		classes:'table table-hover',
+		striped: true,
+		columns: [
+		// 	{
+		// 	// formatter:function(value, row, index){
+		// 	// 	return '<i class="fa fa-check fa-lg" aria-hidden="true"></i>'
+		// 	// },
+		// 	// width:30
+		// },
+		{
+				checkbox: true,
+				width: 30,
+				valign: 'middle'
+    },{
+        field: 'name',
+        title: 'name'
+    }, {
+        field: 'description',
+        title: 'description'
+    }],
+		onCheck:function(row){
+			console.log(row);
+			orgEdgexFoundry.coreExport.exportFilterDevice.push(row.name);
+			$("#edgx-export-filter-device-list-main input[name='deviceName']").val(orgEdgexFoundry.coreExport.exportFilterDevice.join(','));
+		},
+		onUncheck:function(row){
+			console.log(row);
+			var index = orgEdgexFoundry.coreExport.exportFilterDevice.indexOf(row.name);
+			orgEdgexFoundry.coreExport.exportFilterDevice.splice(index,1);
+			$("#edgx-export-filter-device-list-main input[name='deviceName']").val(orgEdgexFoundry.coreExport.exportFilterDevice.join(','));
 		}
+	});
+	$("#edgx-export-filter-device-list-main .export-filter-device-select").on('click',function(){
+		$("#edgx-export-filter-device-list-main .edgx-export-filter-device-list").toggle();
 	});
 });
 
-var coreExportModule = {
-		deviceFilterListCache:[],
-		deviceFilterSelected:[],
-		deviceReadingValueSelected:[],
-		exportChart:{},
-		exportDataCache:[],
-		selectedRow:{},
-		loadExportData:function(){
-			$.ajax({
-				url:'/core-export/api/v1/registration',
-				type:'GET',
-				success:function(data){
-					coreExportModule.exportDataCache = data;
-					coreExportModule.renderExportGridList(data);
+orgEdgexFoundry.coreExport = (function(){
+
+	function CoreExport(){
+		this.exportFilterDevice = [];
+		this.devicesCache = null;
+		this.wsClient = null;
+		this.deviceResourceToEchartMapping = new Map();
+		this.deviceToValueDescriptorMapping = new Map();
+	}
+
+	CoreExport.prototype = {
+		constructor: CoreExport,
+		loadExportList: null,
+		renderExportList: null,
+		previewExportInRealtime: null,
+
+		loadDevicesCache: null,
+
+		refreshBtn: null,
+		deleteExportBtn: null,
+		editExportBtn: null,
+		addExportBtn: null,
+
+		commitExportBtn: null,
+		cancelAddOrUpdateExportBtn: null,
+		disableExportIconBtn: null,
+
+		hideAdressableBtn: null,
+	}
+
+	var coreExport = new CoreExport();
+
+	CoreExport.prototype.loadDevicesCache = function(){
+		$.ajax({
+			url: '/core-metadata/api/v1/device',
+			type: 'GET',
+			success:function(devices){
+				coreExport.devicesCache = devices;
+				$.each(devices,function(i,d){
+
+					var resources = [];
+					$.each(d.profile.deviceResources,function(j,r){
+						//只需要只读的设备资源,只写的资源是用来设置的
+						if (r.properties.value.readWrite == "R" || r.properties.value.readWrite == "RW") {
+							resources.push(r.name)
+						}
+					});
+
+					//缓存一个device和device resources的映射
+					coreExport.deviceToValueDescriptorMapping.set(d.name,resources);
+				});
+			}
+		});
+	}
+	//init load all devices and device resources(ValueDescriptor).
+	coreExport.loadDevicesCache();
+
+	CoreExport.prototype.loadExportList = function(){
+		$.ajax({
+			url: '/core-export/api/v1/registration',
+			type: 'GET',
+			success: function(data){
+				if(!data || data.length == 0){
+					$("edgex-foundry-core-export-list table tfoot").show();
+					return;
 				}
-			});
-		},
-		renderExportGridList:function(data){
-			$("#export_list > table tbody").empty();
-			$.each(data,function(i,e){
-				var rowData = "<tr>";
-				rowData += '<td><input type="radio" name="exportRadio" value="'+e.id+'"></td>';
-				rowData += "<td>" + (i + 1) +"</td>";
-				rowData += "<td>" +  e.id + "</td>";
-				rowData += "<td>" +  e.name + "</td>";
-				rowData += "<td>" +  e.destination + "</td>";
-				if(e.enable){
-					rowData += '<td value=' + e.id + ' enable="true">' + '<i class="fa fa-unlock fa-lg" aria-hidden="true"></i> ' + '</td>';
-				}else{
-					rowData += '<td value=' + e.id + ' enable="false">' + '<i class="fa fa-lock fa-lg" aria-hidden="true"></i> ' + '</td>';
+				coreExport.renderExportList(data);
+			},
+			statusCode: {
+				404: function(){
+					bootbox.alert({
+						title: 'Error',
+						message: "Load data error !",
+						className: 'red-green-buttons'
+					});
 				}
-				rowData += "<td>" +  dateToString(e.created) + "</td>";
-				rowData += "<td>" +  dateToString(e.modified) + "</td>";
-				rowData += "</tr>";
-				$("#export_list > table tbody").append(rowData);
+			}
+		});
+	}
+	CoreExport.prototype.renderExportList = function(data){
+		$("#edgex-foundry-core-export-list table tbody").empty();
+    $.each(data,function(i,v){
+      var rowData = "<tr>";
+			rowData += '<td>'
+      rowData += '<span class="core-export-delete-icon"><input type="hidden" value="'+v.id+'"><div class="edgexIconBtn"><i style="color:red;" class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></span>';
+      rowData += '<span class="core-export-edit-icon"><input type="hidden" value=\''+JSON.stringify(v)+'\'><div class="edgexIconBtn"><i  class="fa fa-edit fa-lg" aria-hidden="true"></i></div></span>';
+			rowData += '<span class="core-export-preview-icon"><input type="hidden" value=\''+JSON.stringify(v)+'\'><div class="edgexIconBtn" data-toggle="tooltip" data-placement="top" title="Export Preview"><i class="fa fa-tv fa-lg text-danger fa-inverse" aria-hidden="true" ></i></div></span>';
+			rowData += '</td>'
+      rowData += "<td>" + (i + 1) +"</td>";
+      rowData += "<td>" +  v.id + "</td>";
+      rowData += "<td>" +  v.name + "</td>";
+			if (v.enable) {//enable
+				rowData += '<td class="core-export-enable-switch"><input type="hidden" value=\''+JSON.stringify(v)+'\'><i style="color:green;" class="fa fa-unlock fa-lg" aria-hidden="true"></i></td>';
+			} else {//disable
+				rowData +='<td class="core-export-enable-switch"><input type="hidden" value=\''+JSON.stringify(v)+'\'><i style="color:red;" class="fa fa-lock fa-lg" aria-hidden="true"></i></td>';
+			}
+      rowData += "<td>" +  v.destination + "</td>";
+			rowData += '<td class="core-export-address-search-icon"><input type="hidden" value=\''+JSON.stringify(v.addressable)+'\'>' + '<i class="fa fa-search-plus fa-lg"></i>' + '</td>';
+      // rowData += "<td>" +  v.encryption + "</td>";
+      rowData += "<td>" +  v.compression + "</td>";
+			rowData += "<td>" +  v.format + "</td>";
+      rowData += "<td>" +  dateToString(v.created) + "</td>";
+      rowData += "<td>" +  dateToString(v.modified) + "</td>";
+      rowData += "</tr>";
+      $("#edgex-foundry-core-export-list table tbody").append(rowData);
+    });
+		//init tooltip for preview icon.
+		$('[data-toggle="tooltip"]').tooltip();
+		//bind click event for addressable
+		$(".core-export-address-search-icon").on("click",function(){
+      var v = JSON.parse($(this).children("input").val());
+      var rowData = "<tr class='warning'>";
+      rowData += "<td>" +  v.id + "</td>";
+      rowData += "<td>" +  v.name + "</td>";
+      rowData += "<td>" +  v.protocol + "</td>";
+			rowData += "<td>" +  v.address + "</td>";
+			rowData += "<td>" +  v.port + "</td>";
+			rowData += "<td>" +  v.path + "</td>";
+
+			rowData += "<td>" +  v.publisher + "</td>";
+			rowData += "<td>" +  v.user + "</td>";
+			rowData += "<td>" +  v.password + "</td>";
+			rowData += "<td>" +  v.topic + "</td>";
+      rowData += "<td>" +  dateToString(v.created) + "</td>";
+      rowData += "<td>" +  dateToString(v.modified) + "</td>";
+      rowData += "</tr>";
+      $(".core-export-address table tbody").empty();
+      $(".core-export-address table tbody").append(rowData);
+      $(".core-export-address").show();
+    });
+
+    //delete
+    $(".core-export-delete-icon").on('click',function(){
+      coreExport.deleteExportBtn($(this).children("input[type='hidden']").val());
+    });
+    //edit
+    $(".core-export-edit-icon").on('click',function(){
+      var exportData = JSON.parse($(this).children("input[type='hidden']").val());
+			coreExport.editExportBtn(exportData);
+    });
+
+		//preview
+    $(".core-export-preview-icon").on('click',function(){
+			// debugger
+      var exportData = JSON.parse($(this).children("input[type='hidden']").val());
+			coreExport.previewExportInRealtime(exportData);
+    });
+
+		//export-enable-switch
+		$(".core-export-enable-switch").on('click',function(){
+			var exportData = JSON.parse($(this).children("input[type='hidden']").val());
+			coreExport.disableExportIconBtn(exportData);
+		});
+
+	}
+
+	CoreExport.prototype.previewExportInRealtime = function(exportData){
+		if (!exportData.enable) {
+			bootbox.alert({
+				message: "Please enable the selected export data !",
+				className: 'red-green-buttons'
 			});
-			$("#export_list table tbody input:radio").on('click',function(){
-				if($(this).prop("checked")){
-					var checked_input = this;
-					$.each(coreExportModule.exportDataCache,function(index,ele){
-						if(ele.id == $(checked_input).val()){
-							coreExportModule.selectedRow = Object.assign({},ele);
-							return false;
+			return;
+		}
+		//Removes all key/value pairs
+		coreExport.deviceResourceToEchartMapping.clear();
+		//Removes all preview content
+		$("#edgex-foundry-core-export-preview-main .export-preview-content").empty();
+		//Removes all Echarts instance
+		$("#edgex-foundry-core-export-preview-main .export-preview-echart").empty();
+
+		//判断当前导出是否过滤指定的设备，否则使用全部设备
+		var deviceAndResourcesMapping = new Map();
+		if(!exportData.filter.deviceIdentifiers){
+			deviceAndResourcesMapping = coreExport.deviceToValueDescriptorMapping;
+		} else {
+			$.each(exportData.filter.deviceIdentifiers,function(i,d){
+				var resources = [];
+				if (!exportData.filter.valueDescriptorIdentifiers || exportData.filter.valueDescriptorIdentifiers.length == 0) {
+					resources = coreExport.deviceToValueDescriptorMapping.get(d);
+					deviceAndResourcesMapping.set(d,resources);
+				} else {
+					$.each(exportData.filter.valueDescriptorIdentifiers,function(j,r){
+						if(coreExport.deviceToValueDescriptorMapping.get(d).indexOf(r) !== -1){
+							deviceAndResourcesMapping.set(d,resources.push(r));
 						}
 					});
 				}
 			});
-			$("#export_list table tbody i").parent().on('click',function(){
-				var radios = $("#export_list > table > tbody input:radio");
-				var td = this;
-				$.each(radios,function(i,e){
-					if($(e).prop('value') == $(td).attr('value')){
-						$(e).prop('checked',true);
-					}
-				});
-
-				$.each(coreExportModule.exportDataCache,function(index,ele){
-					if(ele.id == $(td).attr("value")){
-						coreExportModule.selectedRow = Object.assign({},ele);
-						return false;
-					}
-				});
-				$(td).children('i').toggleClass(function(){
-					if($(td).attr("enable") == "false"){
-						coreExportBtnGroup.isEnableExport(true);
-						$("#export_register_data").show();
-						$("#export_data_charts").show();
-						$("#websocket_msg_content table tbody").empty();
-						$(this).removeClass();
-						$(td).attr("enable","true") ;
-						coreExportModule.webSocketMsg();
-						//create mqttClient if not exist
-						$.ajax({
-							url:'/api/v1/exportshow',
-							type:'POST',
-							contentType:'application/json',
-							data:JSON.stringify(coreExportModule.selectedRow.addressable),
-							success:function(){}
-						});
-						return 'fa fa-unlock fa-lg';
-					}else{
-						coreExportBtnGroup.isEnableExport(false);
-						$(this).removeClass();
-						$(td).attr("enable","false");
-						coreExportModule.disconnWebsocket();
-						return 'fa fa-lock fa-lg';
-					}
-				});
-				//$("#export_list table tbody input:radio").prop('checked',true);
-			});
-			if(data.length != 0){
-				$("#export_list table tfoot").hide();
-			}
-		},
-		webSocket:null,
-		webSocketMsg:function(){
-			if(coreExportModule.webSocket == null || coreExportModule.webSocket.readyState == "CLOSED"){
-				if ('WebSocket' in window) {
-					coreExportModule.webSocket = new WebSocket("ws://" + document.location.hostname + ":4000/ws?X-Session-Token=" + window.sessionStorage.getItem("X_Session_Token"));
-			    } else {
-			        alert("your browser not support WebSocket.");
-			    }
-			}
-			coreExportModule.webSocket.addEventListener('open', function (event) {
-				//web socket heart beat per 10 seconds.
-				window.setInterval(function(){
-					if(coreExportModule.webSocket) {
-						coreExportModule.webSocket.send("ping")
-					}
-				},10000);
-			});
-			coreExportModule.webSocket.onmessage = function(event){
-				console.log(event.data);
-				 $("#websocket_msg_content table tbody").append('<tr><td>' + event.data + '</td></tr>');
-				 var div = $("#websocket_msg_content")[0];
-				 div.scrollTop = div.scrollHeight;
-				 $("#websocket_msg_content table tbody tr:odd").css({color:'#7CFC00'});
-				 var d = JSON.parse(event.data);
-				//  test data, do not remove
-				//  var dataMapping = {'AnalogValue_40':"temperature",'AnalogValue_22':"humidity",
-				// 		 'HoldingRegister_8455':"OutputVoltage",'HoldingRegister_8454':'RPM'}
-				 var echartOpts = coreExportModule.exportChart.getOption();
-
-				 if(echartOpts.legend[0].data.indexOf(d.device) == -1){
-					 echartOpts.legend[0].data.push(d.device);
-					 echartOpts.xAxis[0].data.push(d.readings[0].name)
-					 var o = {}
-					 o["name"] = d.device;
-					 o["type"] = "bar";
-					 o["data"] = new Array(echartOpts.xAxis[0].data.length)
-					 o["data"].push(d.readings[0].value)
-					 echartOpts.series.push(o);
-					 coreExportModule.exportChart.setOption(echartOpts);
-				 } else if(echartOpts.legend[0].data.indexOf(d.device) != -1 && echartOpts.xAxis[0].data.indexOf(d.readings[0].name) == -1){
-					 echartOpts.xAxis[0].data.push(d.readings[0].name)
-					 $.each(echartOpts.series,function(i,s){
-						 if(s.name == d.device){
-							 s.data.splice(echartOpts.xAxis[0].data.indexOf(d.readings[0].name),1,d.readings[0].value);
-
-							 return false
-						 }
-					 });
-					 coreExportModule.exportChart.setOption(echartOpts);
-				 } else {
-					 $.each(echartOpts.series,function(i,s){
-						 if(s.name == d.device){
-							 s.data.splice(echartOpts.xAxis[0].data.indexOf(d.readings[0].name),1,d.readings[0].value);
-							 coreExportModule.exportChart.setOption(echartOpts);
-							 return false
-						 }
-					 });
-				 }
-			}
-		},
-		disconnWebsocket:function(){
-			//coreExportModule.webSocket.close();
-		},
-		echartShow:function(data){
-			//not used
 		}
-}
-var coreExportBtnGroup = {
-		add:function(){
-			$("#export_list").hide();
-			$("#add_new_export").show();
-			$("#add_new_export > button[name='submit']").show();
-			$("#add_new_export > button[name='update']").hide();
-			var form = $("#add_new_export").children("form")[0];
-			form.reset();
-		},
-		deleteExport:function(confirm){
-			$('#deleteConfirmDialog').modal('show');
-			if(confirm){
-				$.ajax({
-					url:'/core-export/api/v1/registration/id/' + coreExportModule.selectedRow.id + '',
-					type:'DELETE',
-					success:function(){
-						$('#deleteConfirmDialog').modal('hide');
-						coreExportModule.loadExportData();
-					},
-					error:function(){
-						alert('failed.');
-						$('#deleteConfirmDialog').modal('hide');
-					}
-				});
-			}
-		},
-		detail:function(){
-			var form = $("#add_new_export").children("form")[0];
-			form.reset();
-			console.dir(coreExportModule.selectedRow);
-			$("#export_list").hide();
-			$("#add_new_export input[name='id']").val(coreExportModule.selectedRow.id);
-			$("#add_new_export input[name='name']").val(coreExportModule.selectedRow.name);
-			$("#add_new_export select[name='destination']").val(coreExportModule.selectedRow.destination);
-			$("#add_new_export select[name='compression']").val(coreExportModule.selectedRow.compression);
-			$("#add_new_export select[name='format']").val(coreExportModule.selectedRow.format);
-			$("#add_new_export input[name='enable']").prop("checked",coreExportModule.selectedRow.enable);
-			$("#add_new_export input[name='addressName']").val(coreExportModule.selectedRow.addressable.name);
-			$("#add_new_export input[name='address']").val(coreExportModule.selectedRow.addressable.address);
-			$("#add_new_export input[name='port']").val(coreExportModule.selectedRow.addressable.port);
-			$("#add_new_export input[name='path']").val(coreExportModule.selectedRow.addressable.path);
-			$("#add_new_export input[name='publisher']").val(coreExportModule.selectedRow.addressable.publisher);
-			$("#add_new_export input[name='user']").val(coreExportModule.selectedRow.addressable.user);
-			$("#add_new_export input[name='password']").val(coreExportModule.selectedRow.addressable.password);
-			$("#add_new_export input[name='topic']").val(coreExportModule.selectedRow.addressable.topic);
-//			$("#add_new_export input[name='key']").val(coreExportModule.selectedRow.id);
-//			$("#add_new_export input[name='id']").val(coreExportModule.selectedRow.id);
-			if(coreExportModule.selectedRow.filter != null && Object.keys(coreExportModule.selectedRow.filter) != 0){
-				coreExportModule.deviceFilterSelected = coreExportModule.selectedRow.filter['deviceIdentifiers'];
-				coreExportModule.deviceReadingValueSelected = coreExportModule.selectedRow.filter['valueDescriptorIdentifiers'];
-				$("#device_filter_list .select_panle input[name='deviceName']").val(coreExportModule.deviceFilterSelected.toString());
-				$("#value_desc_filter_list .select_panle input[name='valueDescriptor']").val(coreExportModule.deviceReadingValueSelected.toString());
-			}
-			if(coreExportModule.deviceFilterSelected.length != 0 ){
-				$.each(coreExportModule.deviceFilterSelected,function(i,name){
-					$.each(coreExportModule.deviceFilterListCache,function(j,d){
-						if(name == d.name){
-							$.each($("#device_filter_list table > tbody input:checkbox"),function(k,c){
-								if($(c).val() == d.id){
-									$(c).prop('checked',true);
-									return false;
+
+		//为当前导出中的每一个设备资源生产一个设备资源
+		for (var [device, resources] of deviceAndResourcesMapping) {
+		  console.log(device + ' = ' + resources);
+			$.each(resources,function(i,r){
+				var charID = '' + device + '-' + r + '';
+
+				var newChartDiv = '<div class="chart-'+charID+'" style="height:300px;width:600px;display:inline-block;"></div>';
+
+				$("#edgex-foundry-core-export-preview-main .export-preview-echart").append(newChartDiv);
+				var newChart = echarts.init(document.querySelector('.chart-' + charID));
+				//缓存echart和设备资源映射，为以后动态添加数据做准备
+				coreExport.deviceResourceToEchartMapping.set(charID,newChart);
+
+				var option = {
+						tooltip: {
+								show: true,
+								trigger:'axis'
+						},
+						legend: {
+								data:[]
+						},
+						// dateZoom: {
+						// 	show: false,
+						// 	start: 0,
+						// 	end: 100,
+						// },
+						calculable: true,
+						xAxis : [
+								{
+										type : 'category',
+										boundaryGap:false,
+										data : [0,0,0,0,0,0,0,0,0,0]
 								}
-							});
-						}
-					});
-				});
-				$("#value_desc_filter_list table > tbody").empty();
-				$.each(coreExportModule.deviceFilterSelected,function(n,selectDevice){
-					$.each(coreExportModule.deviceFilterListCache,function(m,d){
-						if(selectDevice == d.name){
-							$.each(d.profile.deviceResources,function(i,r){
-								var rowData = "<tr>";
-								rowData += "<td><input type='checkbox' name='resourceFilterCheck' value= '" + r.name + "'></td>";
-								rowData += "<td>" + (i+1) + "</td>";
-								rowData += "<td>" + r.name + "</td>";
-								rowData += "<td>" + r.description + "</td>";
-								rowData += "</tr>";
-								$("#value_desc_filter_list table > tbody").append(rowData);
-							});
-						}
-					});
-				});
-			}
-
-			if(coreExportModule.deviceReadingValueSelected.length != 0 ){
-				var inputs = $("#value_desc_filter_list table > tbody input:checkbox");
-				$.each(coreExportModule.deviceReadingValueSelected,function(i,name){
-					$.each(inputs,function(j,input){
-						if($(input).val() == name){
-							$(input).prop("checked",true);
-							return false;
-						}
-					});
-				});
-			}
-
-			$("#add_new_export > button[name='submit']").hide();
-			$("#add_new_export > button[name='update']").show();
-			$("#add_new_export").show();
-		},
-		back:function(){
-			$("#add_new_export").hide();
-			$("#export_list").show();
-		},
-		submit:function(){
-			$("#core_export_shelter").show();
-			var exportRegister = {};
-			var exportAddr = {};
-			var exportFilter = {};
-			exportFilter['deviceIdentifiers'] = coreExportModule.deviceFilterSelected;
-			exportFilter['valueDescriptorIdentifiers'] = coreExportModule.deviceReadingValueSelected;
-			//exportRegister['id'] = $("#add_new_export input[name='id']").val();
-			exportRegister['name'] = $("#add_new_export input[name='name']").val();
-			exportRegister['destination'] = $("#add_new_export select[name='destination']").val();
-			exportRegister['compression'] = $("#add_new_export select[name='compression']").val();
-
-			exportRegister['format'] = $("#add_new_export select[name='format']").val();
-			exportRegister['enable'] = $("#add_new_export input[name='enable']").prop("checked");
-
-			exportAddr['name'] = $("#add_new_export input[name='addressName']").val();
-			exportAddr['address'] = $("#add_new_export input[name='address']").val();
-			exportAddr['port'] = Number($("#add_new_export input[name='port']").val());
-			exportAddr['path'] = $("#add_new_export input[name='path']").val();
-			exportAddr['publisher'] = $("#add_new_export input[name='publisher']").val();
-			exportAddr['user'] = $("#add_new_export input[name='user']").val();
-			exportAddr['password'] = $("#add_new_export input[name='password']").val();
-			exportAddr['topic'] = $("#add_new_export input[name='topic']").val();
-			exportAddr['method'] = $("#add_new_export select[name='method']").val();;
-			exportAddr['protocol'] = $("#add_new_export select[name='protocol']").val();
-
-			exportRegister['addressable'] = exportAddr;
-			exportRegister['filter'] = exportFilter;
-			console.dir(exportRegister);
-			$.ajax({
-				url:'/core-export/api/v1/registration',
-				type:'POST',
-				data:JSON.stringify(exportRegister),
-				contentType:'application/json',
-				success:function(){
-					$("div.core_export_shelter").hide('fast');
-					$("#export_list").show();
-					$("#add_new_export").hide();
-					coreExportModule.loadExportData();
-				}
+						],
+						yAxis : [
+								{
+										type : 'value'
+								}
+						],
+						series : [
+								{
+										"name":"",
+										"type":"line",
+										"smooth": true,
+										"itemStyle": {normal:{color:"#449d44",areaStyle:{type:"default"}}},
+										"data":[0,0,0,0,0,0,0,0,0,0]
+								}
+						]
+				};
+				option.legend.data.push(charID);
+				option.series[0].name = charID;
+				newChart.setOption(option);
 			});
-			if(exportRegister['enable']){
-				$.ajax({
-					url:'/api/v1/exportshow',
-					type:'POST',
-					contentType:'application/json',
-					data:JSON.stringify(exportAddr),
-					success:function(){}
-				});
-			}
-		},
-		update:function(){
-			$("div.core_export_shelter").show('fast');
-			var exportRegister = {};
-			var exportAddr = {};
-			var exportFilter = {};
 
-			exportFilter['deviceIdentifiers'] = coreExportModule.deviceFilterSelected;
-			exportFilter['valueDescriptorIdentifiers'] = coreExportModule.deviceReadingValueSelected;
-
-			exportRegister['id'] = $("#add_new_export input[name='id']").val();
-			exportRegister['name'] = $("#add_new_export input[name='name']").val();
-			exportRegister['destination'] = $("#add_new_export select[name='destination']").val();
-			exportRegister['compression'] = $("#add_new_export select[name='compression']").val();
-			exportRegister['format'] = $("#add_new_export select[name='format']").val();
-			exportRegister['enable'] = $("#add_new_export input[name='enable']").prop("checked");
-
-			exportAddr['name'] = $("#add_new_export input[name='addressName']").val();
-			exportAddr['address'] = $("#add_new_export input[name='address']").val();
-			exportAddr['port'] = $("#add_new_export input[name='port']").val();
-			exportAddr['path'] = $("#add_new_export input[name='path']").val();
-			exportAddr['publisher'] = $("#add_new_export input[name='publisher']").val();
-			exportAddr['user'] = $("#add_new_export input[name='user']").val();
-			exportAddr['password'] = $("#add_new_export input[name='password']").val();
-			exportAddr['topic'] = $("#add_new_export input[name='topic']").val();
-			exportAddr['method'] = $("#add_new_export select[name='method']").val();;
-			exportAddr['protocol'] = $("#add_new_export select[name='protocol']").val();
-			exportRegister['addressable'] = exportAddr;
-			exportRegister['filter'] = exportFilter;
-			console.dir(exportRegister);
-			$.ajax({
-				url:'/core-export/api/v1/registration',
-				type:'PUT',
-				data:JSON.stringify(exportRegister),
-				contentType:'application/json',
-				success:function(){
-					var echartOpts = coreExportModule.exportChart.getOption();
-					echartOpts.series[0].data = [0,0,0,0];
-					echartOpts.series[1].data = [0,0,0,0];
-					coreExportModule.exportChart.setOption(echartOpts);
-					window.setTimeout(function(){
-						$("div.core_export_shelter").hide('fast');
-						coreExportModule.loadExportData();
-						$("#export_list").show();
-						$("#add_new_export").hide();
-					},1000);
-				}
-			});
-			//update MQListener Cache.
-			//if(coreExportModule.selectedRow[""]
-			// $.ajax({
-			// 	url:'/api/v1/exportshow',
-			// 	type:'PUT',
-			// 	contentType:'application/json',
-			// 	data:JSON.stringify(exportAddr),
-			// 	success:function(){}
-			// });
-		},
-		isEnableExport:function(enable){
-			coreExportModule.selectedRow.enable =  enable;
-			$.ajax({
-				url:'/core-export/api/v1/registration',
-				type:'PUT',
-				data:JSON.stringify(coreExportModule.selectedRow),
-				contentType:'application/json',
-				success:function(){
-
-				}
-			});
-		},
-		hideWebsocketContent:function(){
-			$("#export_register_data").hide();
-			$("#export_data_charts").hide();
-		},
-		showJsonFormatter:function(event){
-			event.stopPropagation();
-			$("#export_register_json_format").empty();
-			$("#export_register_json_format").append("<pre>" + JSON.stringify(coreExportModule.selectedRow,null,3) + "</pre>");
-			$("#export_register_json_format").toggle();
 		}
-}
+
+		if ('WebSocket' in window) {
+			if (!coreExport.wsClient) {
+				coreExport.wsClient = new WebSocket("ws://" + document.location.hostname + ":4000/ws?X-Session-Token=" + window.sessionStorage.getItem("X_Session_Token"));
+			}
+    } else {
+			bootbox.alert({
+				message: "your browser not support WebSocket.",
+				className: 'red-green-buttons'
+			});
+			return;
+    }
+
+		coreExport.wsClient.onopen = function(){
+			$.ajax({
+				url:'/api/v1/exportshow',
+				type:'POST',
+				contentType:'application/json',
+				data:JSON.stringify(exportData.addressable),
+				success:function(){}
+			});
+		}
+
+		coreExport.wsClient.onmessage = function(event){
+			console.log(event.data);
+			var previewData = JSON.parse(event.data);
+			var device = previewData.device;
+			var resource = previewData.readings[0].name;
+			var readValue = previewData.readings[0].value;
+			var time = new Date(previewData.readings[0].created);
+			time = time.getMinutes() + ":" + time.getSeconds();
+			var echartID = '' + device + '-' + resource;
+			var currentEchart = coreExport.deviceResourceToEchartMapping.get(echartID);
+
+	    var option = currentEchart.getOption();
+			option.series[0].data.push(readValue);
+			option.series[0].data.shift();
+
+			option.xAxis[0].data.push(time);
+			option.xAxis[0].data.shift();
+
+			currentEchart.setOption(option)
+			$("#edgex-foundry-core-export-preview-main .export-preview-content").append('<p style="color:#7CFC00">' + event.data + '</p>');
+			var div = $("#edgex-foundry-core-export-preview-main .export-preview-content")[0];
+			div.scrollTop = div.scrollHeight;
+		}
+
+		$("#edgex-foundry-core-export-preview-main").show();
+	}
+
+	CoreExport.prototype.addExportBtn = function(){
+		$("#edgex-foundry-core-export-main").hide();
+		$("#edgex-foundry-core-export-updateoradd-main").show();
+		$("#edgex-foundry-core-export-updateoradd-main .add-export-section").show();
+		$("#edgex-foundry-core-export-updateoradd-main .update-export-section").hide();
+		$("#edgex-foundry-core-export-updateoradd-main .edgex-core-export-form")[0].reset();
+	}
+
+	CoreExport.prototype.disableExportIconBtn = function(exportData){
+		if (exportData.enable) {//if enable, set disabled. then update the export data.
+			exportData.enable = false;
+		} else { //if disabled, set enable.
+			exportData.enable = true;
+		}
+
+		$.ajax({
+			url: '/core-export/api/v1/registration',
+			type: 'PUT',
+			data: JSON.stringify(exportData),
+			success: function(){
+				coreExport.loadExportList();
+			}
+		});
+	}
+
+	CoreExport.prototype.hideAdressableBtn = function(){
+		$(".core-export-address").hide();
+	}
+
+	CoreExport.prototype.editExportBtn = function(exportData){
+		//debugger
+		$("#edgex-foundry-core-export-main").hide();
+		$("#edgex-foundry-core-export-updateoradd-main").show();
+		$("#edgex-foundry-core-export-updateoradd-main .add-export-section").hide();
+		$("#edgex-foundry-core-export-updateoradd-main .update-export-section").show();
+		$(".edgex-core-export-form input[name='id']").val(exportData.id);
+		$(".edgex-core-export-form input[name='name']").val(exportData.name);
+		$(".edgex-core-export-form select[name='destination']").val(exportData.destination);
+		$(".edgex-core-export-form select[name='compression']").val(exportData.compression);
+		$(".edgex-core-export-form select[name='format']").val(exportData.format);
+		$(".edgex-core-export-form input[name='enable']").prop("checked",exportData.enable);
+		$(".edgex-core-export-form input[name='addressName']").val(exportData.addressable.name);
+		$(".edgex-core-export-form input[name='address']").val(exportData.addressable.address);
+		$(".edgex-core-export-form input[name='port']").val(exportData.addressable.port);
+		$(".edgex-core-export-form input[name='path']").val(exportData.addressable.path);
+		$(".edgex-core-export-form input[name='publisher']").val(exportData.addressable.publisher);
+		$(".edgex-core-export-form input[name='user']").val(exportData.addressable.user);
+		$(".edgex-core-export-form input[name='password']").val(exportData.addressable.password);
+		$(".edgex-core-export-form input[name='topic']").val(exportData.addressable.topic);
+
+		$("#filter-device-table").bootstrapTable('load', coreExport.devicesCache);
+    $("#filter-device-table").bootstrapTable("checkBy", {field:"name", values:exportData.filter.deviceIdentifiers});
+
+		$(".edgex-core-export-form input[name='deviceName']").val(exportData.filter.deviceIdentifiers.join(','));
+
+	}
+
+	CoreExport.prototype.refreshBtn = function(){
+		coreExport.loadExportList();
+		coreExport.loadDevicesCache();
+	}
+
+	CoreExport.prototype.deleteExportBtn = function(registrationId){
+		bootbox.confirm({
+      title: "confirm",
+      message: "Are you sure to delete ? ",
+      className: 'green-red-buttons',
+      callback: function (result) {
+				if (result) {
+					$.ajax({
+						url: '/core-export/api/v1/registration/id/' + registrationId,
+						type: 'DELETE',
+						success: function(){
+							bootbox.alert({
+								message: "Delete Success!",
+								className: 'red-green-buttons'
+							});
+							coreExport.loadExportList();
+						},
+						statusCode: {
+							404: function(){
+								bootbox.alert({
+									title:'Error',
+									message: "Export registration cannot be found by id !",
+									className: 'red-green-buttons'
+								});
+							},
+							503: function(){
+								bootbox.alert({
+									title:'Error',
+									message: "Unknown or unanticipated issues!",
+									className: 'red-green-buttons'
+								});
+							}
+						}
+					});
+				}
+			}
+		});
+	}
+
+	CoreExport.prototype.commitExportBtn = function(type){
+		var exportData = {
+			id: $(".edgex-core-export-form input[name='id']").val(),
+			name: $(".edgex-core-export-form input[name='name']").val(),
+			destination: $(".edgex-core-export-form select[name='destination']").val(),
+			compression: $(".edgex-core-export-form select[name='compression']").val(),
+			format: $(".edgex-core-export-form select[name='format']").val(),
+			enable: $(".edgex-core-export-form input[name='enable']").prop("checked"),
+			addressable: {
+				name: $(".edgex-core-export-form input[name='addressName']").val(),
+				protocol: $(".edgex-core-export-form select[name='protocol']").val(),
+				address: $(".edgex-core-export-form input[name='address']").val(),
+				port: Number($(".edgex-core-export-form input[name='port']").val()),
+				method: $(".edgex-core-export-form select[name='method']").val(),
+				path: $(".edgex-core-export-form input[name='path']").val(),
+				publisher: $(".edgex-core-export-form input[name='publisher']").val(),
+				user: $(".edgex-core-export-form input[name='user']").val(),
+				password: $(".edgex-core-export-form input[name='password']").val(),
+				topic: $(".edgex-core-export-form input[name='deviceName']").val()
+			},
+			filter: {
+				deviceIdentifiers: $(".edgex-core-export-form input[name='deviceName']").val().split(',')
+			},
+			encryption: {
+				encryptionAlgorithm: $(".edgex-core-export-form select[name='algorithm']").val(),
+				encryptionKey: $(".edgex-core-export-form input[name='key']").val(),
+				initializingVector: $(".edgex-core-export-form input[name='initializationVector']").val()
+			}
+		}
+		if(type == "new"){
+			commitExport(exportData,'new');
+		}else{
+			commitExport(exportData,'update')
+		}
+	}
+
+	function commitExport(data,type){
+		var method;
+		if (type == "new") {
+			method = "POST";
+		} else {
+			method = "PUT";
+		}
+		$.ajax({
+			url:'/core-export/api/v1/registration',
+			type:method,
+			data:JSON.stringify(data),
+			success: function(){
+				bootbox.alert({
+					message: "commit success !",
+					className: 'red-green-buttons'
+				});
+				coreExport.loadExportList();
+			},
+			statusCode: {
+				400: function(){
+					bootbox.alert({
+						title:"Error",
+						message: "Error reading request !",
+						className: 'red-green-buttons'
+					});
+				},
+				503: function(){
+					bootbox.alert({
+						title:"Error",
+						message: "unknown or unanticipated issues !",
+						className: 'red-green-buttons'
+					});
+				}
+			}
+		});
+	}
+
+	CoreExport.prototype.cancelAddOrUpdateExportBtn = function(){
+		$("#edgex-foundry-core-export-updateoradd-main").hide();
+		$("#edgex-foundry-core-export-main").show();
+	}
+
+	return coreExport;
+})();
 
 var testExportData = [
     {
