@@ -45,10 +45,10 @@ var deviceServiceModule = {
 				type: 'GET',
 				url: '/core-metadata/api/v1/deviceservice',
 				success: function(data){
-					debugger
+					//debugger
 					if(data){
 						deviceServiceModule.deviceServiceListCache = data;
-						$("#device_service_list > table > tbody").empty();
+						$("#device_service_list table tbody").empty();
 						deviceServiceModule.renderDeviceService(data);
 						$("#device_service_list tfoot").hide();
 						deviceServiceModule.selectedRow = Object.assign({},data[0]);
@@ -90,7 +90,7 @@ var deviceServiceModule = {
 					rowData += "<td><i class='fa fa-lock fa-lg' aria-hidden='true'></i></td>";
 				}
 				rowData += "</tr>";
-				$("#device_service_list > table > tbody").append(rowData);
+				$("#device_service_list  table  tbody").append(rowData);
 			});
 			$("#device_service_list input:radio").on('click',function(){
 				deviceServiceModule.onSelectedRow($(this).val());
