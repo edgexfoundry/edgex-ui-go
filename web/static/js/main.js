@@ -29,6 +29,8 @@ $(document).ready(function(){
 		}
 	});
 
+	var edgexFoundryCreatedTabs = [];
+
 	//get menu data dynamically.
 	$.ajax({
 		url:"/data/menu.json",
@@ -36,9 +38,12 @@ $(document).ready(function(){
 		success:function(data){
 			var menu = eval(data);
 			menuRender(menu);
-			$(".center").load("/pages/gateway.html");
+			$(".center .tab-content #edgex-foundry-tab-Gateway ").load("/pages/gateway.html");
 			// $(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
-			$(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.2)'});
+			$(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.5)'});
+			edgexFoundryCreatedTabs.push("Gateway");
+			$("a[href='#edgex-foundry-tab-Gateway']").tab('show');
+			bindCloseTab();
 		}
 	});
 
@@ -78,11 +83,11 @@ $(document).ready(function(){
 		for(var i=0; i<data.length;i++){
 			var menu = data[i];
 			var subMenu = menu.children;
-			var str = '<li url="' + menu.url + '"><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="'+menu.icon+'"></i><span>'+menu.title+'</span></li>';
+			var str = '<li url="' + menu.url + '" tab="edgex-foundry-tab-"'+  menu.title +'  tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="'+menu.icon+'"></i><span>'+menu.title+'</span></li>';
 			if( subMenu != null && subMenu.length != 0 ){
 				var second_level_menu = "";
 				for(var j = 0; j < subMenu.length; j++){
-					second_level_menu += '<li url="' + subMenu[j].url + '"><span></span><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>';
+					second_level_menu += '<li url="' + subMenu[j].url + '" tab="edgex-foundry-tab-"'+  menu.title +'  tabindex=' + subMenu[j].title + '><span></span><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>';
 				}
 				str = '<li children="true"><i class="fa fa-caret-right"></i><i class="' + menu.icon + '"></i><span>'+menu.title+'</span></li><div class="second_level" style="display:none"><ul>'+second_level_menu+'</ul></div>';
 				$(".sidebar ul:first").append(str);
@@ -113,15 +118,85 @@ $(document).ready(function(){
 			//if no select one gateway instance,not load other resource.
 			if( window.sessionStorage.getItem('selectedGateway') == null ){
 				//alert('please select a gateway instance firstly!');
-				$("#addGatewayInstanceDialog").modal('show');
+				bootbox.alert({
+					title:"Alert",
+					message:"Please select or create a gateway firstly !",
+					className: 'red-green-buttons'
+				});
 				return;
 			};
 			// $(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:''});
 			// $(this).css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
 			$(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:'',backgroundColor:''});
-			$(this).css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.2)'});
+			$(this).css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.5)'});
 			//if current node is leaf node，load html resource.
-			$(".center").load($(this).attr("url"));
+			var tabindex = $(this).attr("tabindex");
+			var url = $(this).attr("url");
+			createTabByTitle(tabindex,url);
 		});
 	}
+
+
+	function bindCloseTab() {
+		$("#edgex-foundry-tabs-index-main .edgex-tab button").on('click',function(){
+		  event.stopPropagation();
+			if ($(this).parent().attr("tabindex") == "edgex-foundry-tab-Gateway") {
+				bootbox.alert({
+					message: "Can not remove gateway tab!",
+					className: 'red-green-buttons'
+				});
+				return;
+			}
+			var btn = this;
+
+			bootbox.confirm({
+	      title: "confirm",
+	      message: "Are you sure to delete ? ",
+	      className: 'green-red-buttons',
+	      callback: function(result){
+					if (result) {
+						//debugger
+						var tabindex = $(btn).parent().attr("tabindex");
+						var nexttab = $(btn).parent().next();
+						if (nexttab.length == 0) {
+							nexttab = $(btn).parent().prev();
+						}
+						var nexttabindex = nexttab.attr("tabindex");
+						$("a[href='#"+nexttabindex+"']").tab('show');
+						$("#"+tabindex+"").remove();
+						$(btn).parent().remove();
+						edgexFoundryCreatedTabs.splice(edgexFoundryCreatedTabs.indexOf(tabindex),1);
+						
+					}
+				}
+			});
+	  });
+	}
+
+
+	function createTabByTitle(title,url){
+		//debugger
+		if (edgexFoundryCreatedTabs.indexOf(title) != -1) {
+			$("a[href='#edgex-foundry-tab-"+title+"']").tab('show');
+			return;
+		}
+		var tabTitle = '<li role="presentation" tabindex="edgex-foundry-tab-'+title+'" class="edgex-tab" style="position:relative!important;">';
+				tabTitle += '<button type="button" value="edgex-foundry-tab-'+title+'" class="close" style="position:absolute!important;top:-2px;;right:4px;z-index:10;display:none;" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+				tabTitle += '<a href="#edgex-foundry-tab-'+title+'" aria-controls="edgex-foundry-tab-'+title+'" role="tab" data-toggle="tab">'
+				tabTitle += '<span class="text-success" style="font-weight:bold;">'+title+'</span>'
+				tabTitle += '</a>'
+				tabTitle += '</li>'
+		$("#edgex-foundry-tabs-index-main").append(tabTitle);
+
+		var tabContent = '<div role="tabpanel" class="tab-pane" id="edgex-foundry-tab-'+title+'">';
+				tabContent += '</div>';
+
+		$("#edgex-foundry-tabs-content").append(tabContent);
+		$("#edgex-foundry-tabs-content #edgex-foundry-tab-" + title).load(url);
+
+		$("a[href='#edgex-foundry-tab-"+title+"']").tab('show');
+		bindCloseTab();
+		edgexFoundryCreatedTabs.push("edgex-foundry-tab-" + title);
+	}
+
 });

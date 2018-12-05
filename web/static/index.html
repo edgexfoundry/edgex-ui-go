@@ -49,7 +49,26 @@
 
 	<!-- center content begin. -->
 	<div class="center">
+		<ul class="nav nav-tabs" id="edgex-foundry-tabs-index-main" role="tablist">
+			<li role="presentation" tabindex="edgex-foundry-tab-Gateway" class="edgex-tab" style="position:relative!important;">
+				<button type="button" value="edgex-foundry-tab-Gateway" class="close" style="position:absolute!important;top:-2px;;right:4px;z-index:10;display:none;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<a href="#edgex-foundry-tab-Gateway" aria-controls="edgex-foundry-tab-Gateway" role="tab" data-toggle="tab">
+					<span class="text-success" style="font-weight:bold;">Gateway</span>
+				</a>
+			</li>
+		</ul>
 
+		<div class="tab-content" id="edgex-foundry-tabs-content" style="">
+
+			<div role="tabpanel" class="tab-pane" id="edgex-foundry-tab-Gateway">
+				<!-- <div class="panel panel-default"  style="border-top:0 ;">
+					<div class="panel-body" style="padding:5px;">
+
+					</div>
+				</div> -->
+			</div>
+
+		</div>
 	</div>
 
 	<!-- side bar begin.-->
@@ -75,21 +94,7 @@
 	<div>
 
 	</div>
-	<!-- Modal -->
-	<div style="" class="modal" id="addGatewayInstanceDialog" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Alert</h4>
-				</div>
-				<div class="modal-body" style="height:80px;padding-top: 25px;">
-					<span style="font-size: medium;font-weight: bold;color: red;">You must first select or create a gateway.</span>
-				</div>
 
-			</div>
-		</div>
-	</div>
 
 	<div id="org-edgexfoundry-alert-dialog" tabindex="-1" data-backdrop="static" class="modal"  role="dialog" >
 		<div class="modal-dialog" role="document">

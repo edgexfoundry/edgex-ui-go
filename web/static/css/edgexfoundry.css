@@ -1,4 +1,19 @@
 
+fieldset{
+  padding:.35em .625em .75em;
+  margin:0 2px;
+  border:1px solid silver;
+  border-color:green;
+  border-width: 1px;
+}
+
+legend{
+  padding:.5em;
+  border:0;
+  width:auto;
+  color: green;
+}
+
 /*override bootbox default btn CSS.*/
 .modal.red-green-buttons .btn-primary {
     background-color: #0c0!important;
