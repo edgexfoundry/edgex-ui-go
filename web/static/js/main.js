@@ -83,11 +83,11 @@ $(document).ready(function(){
 		for(var i=0; i<data.length;i++){
 			var menu = data[i];
 			var subMenu = menu.children;
-			var str = '<li url="' + menu.url + '" tab="edgex-foundry-tab-"'+  menu.title +'  tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="'+menu.icon+'"></i><span>'+menu.title+'</span></li>';
+			var str = '<li url="' + menu.url + '" tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="'+menu.icon+'"></i><span>'+menu.title+'</span></li>';
 			if( subMenu != null && subMenu.length != 0 ){
 				var second_level_menu = "";
 				for(var j = 0; j < subMenu.length; j++){
-					second_level_menu += '<li url="' + subMenu[j].url + '" tab="edgex-foundry-tab-"'+  menu.title +'  tabindex=' + subMenu[j].title + '><span></span><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>';
+					second_level_menu += '<li url="' + subMenu[j].url + '" tabindex=' + subMenu[j].title + '><span></span><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>';
 				}
 				str = '<li children="true"><i class="fa fa-caret-right"></i><i class="' + menu.icon + '"></i><span>'+menu.title+'</span></li><div class="second_level" style="display:none"><ul>'+second_level_menu+'</ul></div>';
 				$(".sidebar ul:first").append(str);
@@ -138,7 +138,7 @@ $(document).ready(function(){
 
 
 	function bindCloseTab() {
-		$("#edgex-foundry-tabs-index-main .edgex-tab button").on('click',function(){
+		$("#edgex-foundry-tabs-index-main .edgex-tab button").off('click').on('click',function(){
 		  event.stopPropagation();
 			if ($(this).parent().attr("tabindex") == "edgex-foundry-tab-Gateway") {
 				bootbox.alert({
@@ -166,7 +166,7 @@ $(document).ready(function(){
 						$("#"+tabindex+"").remove();
 						$(btn).parent().remove();
 						edgexFoundryCreatedTabs.splice(edgexFoundryCreatedTabs.indexOf(tabindex),1);
-						
+
 					}
 				}
 			});
@@ -176,7 +176,7 @@ $(document).ready(function(){
 
 	function createTabByTitle(title,url){
 		//debugger
-		if (edgexFoundryCreatedTabs.indexOf(title) != -1) {
+		if (edgexFoundryCreatedTabs.indexOf("edgex-foundry-tab-"+title) != -1) {
 			$("a[href='#edgex-foundry-tab-"+title+"']").tab('show');
 			return;
 		}
