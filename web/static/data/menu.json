@@ -12,11 +12,11 @@
 			"url": "/pages/devices/device.html",
 			"icon":""
 		},{
-			"title":"Device Service",
+			"title":"DeviceService",
 			"url": "/pages/devices/deviceService.html",
 			"icon":""
 		},{
-			"title":"Device Profile",
+			"title":"DeviceProfile",
 			"url": "/pages/devices/deviceProfile.html",
 			"icon":""
 		}]
@@ -46,7 +46,7 @@
 		"icon":"fa fa-cloud-upload",
 		"children":[]
 	},{
-		"title":"Rule Engine",
+		"title":"RuleEngine",
 		"url": "/pages/ruleengine.html",
 		"icon":"fa fa-wrench",
 		"children":[]
