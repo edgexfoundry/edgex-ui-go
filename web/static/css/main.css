@@ -85,7 +85,7 @@
 .headbar {
 	position: fixed;
 	height: 60px;
-	background-color: var(--main-black-color);
+	background-color: #4d394b;
 	top:0;
 	left:0;
 	right:0;
@@ -142,7 +142,14 @@
 	z-index: 990;
 	/*background-color: rgba(51, 153, 51, 0.2);*/
 	/* border: 1px solid red; *//* debugger */
-  background-color: #dff0d8;
+  /*background-color: #dff0d8;*/
+  /*background-color: #4d394b;*/
+  background-color: black;
+
+}
+
+.sidebar li {
+  color: white;
 }
 
 .sidebar div.first_level ul {
@@ -176,9 +183,9 @@
 .sidebar div.second_level ul li {
   text-indent: 30%;
 }
-.sidebar div > ul > li:hover {
-
-  background-color:rgba(51, 153, 51, 0.2) !important;
+.sidebar div  ul  li:hover {
+  color: rgb(51, 153, 51);
+  background-color:rgba(51, 153, 51, 0.4) !important;
 	cursor:default;
 }
 
@@ -199,4 +206,24 @@
 	/*overflow: visible;*/
 	overflow-x: hidden;
 	/* border: 1px solid red; */ /* debugger */
+}
+.nav-tabs a,
+.nav-tabs a:hover {
+  /*#;*/
+  /*background-color: #d6e9c6;*/
+
+}
+
+.nav-tabs li.active a{
+  /*#;*/
+  background-color: #d6e9c6!important;
+
+}
+
+.nav-tabs li:hover button{
+    display: inline!important;
+}
+
+.nav-tabs button{
+    outline:none!important;
 }
