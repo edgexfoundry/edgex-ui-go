@@ -16,139 +16,95 @@
  *******************************************************************************/
 @charset "UTF-8";
 
-div.info_header {
-	position: relative;
-	height: 20px;
-	margin: 25px 0 10px;
-	border-bottom: 2.5px solid rgba(51,153,51,0.6);
+.device-service-addressable-search-icon {
+  color:rgb(68, 157, 68);
 }
-div.info_header span {
-	font-size: 15px;
-	font-weight: bold;
-	color: #339933;
+.device-service-addressable-search-icon i:hover {
+  /*color:black;*/
+  font-size:30px;
+  z-index: 999;
 }
 
-#device_service_btn {
-	/*margin-bottom: 10px;*/
+#edgexfoundry-device-service-list table,
+#edgexfoundry-device-main table,
+.edgexfoundry-device-profile-main table  {
+  overflow: auto;
 }
 
-#device_service_btn div.alert-warning {
-	display: none;
+#edgexfoundry-device-service-list table th,
+#edgexfoundry-device-service-list table tr,
+.device-service-addressable table th,
+.device-service-addressable table tr ,
+#edgexfoundry-device-main table th,
+#edgexfoundry-device-main table tr,
+.edgexfoundry-device-profile-main table th,
+.edgexfoundry-device-profile-main table tr {
+  word-break: keep-all;
+  white-space: nowrap;
+  text-align: center;
 }
 
-#add_device_content {
-	display: none;
-	/* border: 1px dashed green; */
+.device-service-addressable {
+	position:absolute;
+  top:50%;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+  display: none;
+  width: 95%;
+  height: 140px;
+  z-index: 990;
+  overflow: auto;
 }
 
-#add_device_content h4  {
-	margin-bottom: 3px;
+.edgexfoundry-device-command {
+	/*position:absolute;
+  top:30%;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+  display: none;
+  z-index: 990;*/
+  overflow: auto;
 }
 
-#add_device_content  input {
+#edgexfoundry-device-main {
+	position:relative;
+  display: none;
+  overflow: auto;
+}
+
+.edgexfoundry-device-form input,
+.edgexfoundry-device-form select {
 	width: 200px;
 }
 
-#add_device_content  select {
-	width: 200px;
-}
-
-/* .new_device_msg, .new_device_addressable, .related_service , .related_profile {
+.edgexfoundry-device-form table td{
+	text-align: right;
 	padding: 5px;
-	border: 1px solid gray;
-	margin-bottom: 10px;
-} */
-
-.new_device_msg table ,
-.new_device_addressable table ,
-.related_profile table {
-	border-collapse: separate;
-
 }
 
-.new_device_msg table td,
-.new_device_addressable table td,
-.related_profile table td {
-	padding: 5px;
+.edgexfoundry-device-form table {
+	overflow: auto;
+}
+
+.edgexfoundry-device-command table th,
+.edgexfoundry-device-command table tr {
+	word-break: keep-all;
+	white-space: nowrap;
 	text-align: center;
 }
 
-/* .btn_group {
-	text-align: center;
-}
-
-.btn_group button:first-child {
-	margin-right: 150px;
-} */
-
-.device_server_shelter {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 100;
-	display: none;
-}
-
-.device_server_shelter div.shelter{
-	position: absolute;
-	width:100%;
-	height:100%;
-	background-color: #339933;
-	opacity: 0.4;
-}
-
-.device_server_shelter div:last-child {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-}
-.device_server_shelter div:last-child *{
-	color: white;
-}
-#profile_file{
-	/* opacity: 0; */
-	display: none;
-}
-
-div.related_profile label:hover  {
-	border-bottom: 2px solid;
-	border-bottom-color:#339933;
-}
-#device_service_list table th,div#device_service_list table tr {
-	text-align: center;
-}
-
-#device_service_list span:hover {
-	box-shadow: 3px 3px 3px #339933;
-	width: 80px;
-}
-
-#device_service_json_format {
-	position: fixed;
-	width: 400px;
-	top: 60px;
-	right: 0;
-	bottom: 0;
-	z-index: 2;
-	display: none;
-	overflow: scroll;
-	padding: 0;
-	/* border: 2px solid red; */
-}
-
-#device_service_json_format > pre {
-	background-color: rgba(51,153,51,0.45);
-	color: white;
-	font-weight: bolder;
-	/* height: 100%; */
-	/* border: 1px solid green; */
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left:0;
-	right:0;
-	font-size: medium;
-	margin: 0;
+#add-profile-panel {
+	position:absolute;
+  top:30%;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+	width: 500px;
+  display: none;
+  z-index: 999;
 }

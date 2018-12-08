@@ -219,6 +219,9 @@
   background-color: #d6e9c6!important;
 
 }
+.nav-tabs li a {
+  border: 1px solid #d6e9c6;
+}
 
 .nav-tabs li:hover button{
     display: inline!important;

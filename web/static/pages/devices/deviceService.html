@@ -21,212 +21,379 @@
 <head>
 	<meta charset="UTF-8">
 	<link href="/css/devices/deviceService.css" rel="stylesheet">
+	<script type="text/javascript" src="/js/pages/devices/deviceService.js"></script>
 </head>
 
 <body>
-	<div id="device_service_json_format">
-	</div>
-	<div class="device_server_shelter">
-		<div class="shelter"></div>
-		<div>
-			<i class="fa fa-spinner fa-pulse fa-3x fa-fw "></i>
-			<span>Uploading...</span>
-		</div>
-	</div>
-	<div id="device_service_list">
+
+	<!-- device service start -->
+	<div class="edgexfoundry-device-service-main" style="position:relative;">
 		<div class="panel panel-success">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Device Service</h3>
+		    <h3 class="panel-title">DeviceService</h3>
 		  </div>
 		  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
 		    <div class="panel-heading" style="padding:5px 2px;">
-					<div id="device_service_btn">
-	 		 			<div class="alert alert-warning" role="alert">Please select a service.</div>
-	 		 			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.addNewDevice();">
-	 		 				<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Device
-	 		 			</button>
-	 		 			<button type="button" class="btn btn-warning" onclick="deviceServiceBtnGroup.refresh();">
-	 		 				<i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Refresh
-	 		 			</button>
-	 		 			<span style="color: #339933;font-size: medium;font-weight: bolder;" onclick="deviceServiceBtnGroup.showJsonFormatter(event)">
-	 		 					Show JSON &nbsp;&nbsp;
-	 		 					<i style="position: relative;" class="fa fa-hand-o-left fa-lg"></i>
-	 		 			</span>
-	 		 		</div>
+					<div class="edgexIconBtn">
+						<i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.deviceService.refreshDeviceService()"></i>
+					</div>
 		    </div>
 		  </div>
 
-		  <div class="panel-body" style="padding:0;">
+		  <div class="panel-body" style="padding:0;overflow:auto;">
+				<div id="edgexfoundry-device-service-list">
+					<table class="table table-responsive table-hover table-striped">
+						<thead>
+							<tr class="active">
+								<!-- <th></th>
+								<th></th> -->
+								<th>#</th>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Labels</th>
+								<th>Addressable</th>
+								<th>OperatingState</th>
+								<th>AdminState</th>
+								<th>Devices</th>
+								<th>Created Time</th>
+								<th>Modified Time</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot style="display:none;">
+							<tr align="center">
+								<td colspan=13>No Data.</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+		  </div>
+		</div>
+
+		<!-- service addressable start -->
+		<div class="device-service-addressable">
+			<div class="panel panel-success" style="margin-bottom:0;">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						Addressable
+						<button onclick="orgEdgexFoundry.deviceService.hideServiceAddressablePanel()" type="button" class="close pull-right" aria-label="Close"><span style="color:#333!important;" aria-hidden="true">&times;</span></button>
+					</h3>
+				</div>
+				<div class="panel-body" style="padding:0;margin-bottom:0!important;overflow:auto;">
+					<table class="table table-responsive table-hover table-striped">
+						<thead>
+							<tr class="active">
+								<th>ID</th>
+								<th>Name</th>
+								<th>Protocol</th>
+								<th>Address</th>
+								<th>Port</th>
+								<th>Path</th>
+								<th>Created Time</th>
+								<th>Modified Time</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- service addressable end -->
+	</div>
+	<!-- device service end -->
+
+	<!-- device start -->
+	<div id="edgexfoundry-device-main">
+		<div id="edgexfoundry-device-list" style="position:relative;">
+			<!-- device list start -->
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						Devices
+						<button onclick="orgEdgexFoundry.deviceService.hideDevicePanel()" type="button" class="close pull-right" aria-label="Close"><span style="color:#333!important;" aria-hidden="true">&times;</span></button>
+					</h3>
+				</div>
+				<div class="panel panel-default" style="border:none;outline:none;margin:0;">
+					<div class="panel-heading" style="padding:5px 2px;">
+						<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.addDevice()">
+							<i class="fa fa-plus fa-lg fa-fw" aria-hidden="true"></i>
+						</div>
+						<div class="edgexIconBtn">
+							<i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body" style="padding:0;overflow:auto;">
+					<div class="edgexfoundry-device-list-table">
+						<table class="table table-responsive table-hover table-striped">
+							<thead>
+								<tr class="active">
+									<th></th>
+									<th></th>
+									<th>#</th>
+									<th>ID</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Labels</th>
+									<!-- <th>Addressable</th> -->
+									<th>Commands</th>
+									<th>Profile</th>
+									<th>OperatingState</th>
+									<th>AdminState</th>
+									<th>Created Time</th>
+									<th>Modified Time</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot style="display:none;">
+								<tr align="center">
+									<td colspan=13>No Data.</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+
+					<!-- command start -->
+					<div class="edgexfoundry-device-command" style="display:none;">
+						<div class="panel panel-success">
+						  <div class="panel-heading">
+						    <h3 class="panel-title">Commands</h3>
+						  </div>
+						  <div class="panel-body" style="padding:0;overflow:auto;">
+								<table class="table table-responsive table-hover table-striped">
+									<thead>
+										<tr class="active">
+											<th>Name</th>
+											<th>Method</th>
+											<th>ReadValue</th>
+											<th>Parameter</th>
+											<th>Operation</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot style="display:none;">
+										<tr align="center">
+											<td colspan=13>No Data.</td>
+										</tr>
+									</tfoot>
+								</table>
+						  </div>
+						</div>
+					</div>
+					<!-- command end -->
+				</div>
+			</div>
+			<!-- device list end -->
+		</div>
+
+		<!-- device update or add start -->
+		<div class="edgexfoundry-device-update-or-add" style="display:none;">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">Add or Update Device</h3>
+				</div>
+				<div class="panel panel-default" style="border:none;outline:none;margin:0;">
+					<div class="panel-heading" style="padding:5px 2px;">
+						<div class="edgexIconBtn add-device"  onclick="orgEdgexFoundry.deviceService.uploadDevice('new');">
+							<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+						</div>
+						<div class="edgexIconBtn update-device" style="display:none;" onclick="orgEdgexFoundry.deviceService.uploadDevice();">
+							<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+						</div>
+						<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.cancelAddOrUpdateDevice()">
+							<i class="fa fa-close fa-lg" aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body" style="padding:0;overflow:auto;">
+					<form class="edgexfoundry-device-form">
+						<fieldset>
+							<legend>DeviceService</legend>
+							<table>
+								<tr>
+									<td>Name</td>
+									<td><input class="form-control" type="text" name="deviceServiceName" value="" placeholder="copy from deviceService list"></td>
+								</tr>
+							</table>
+						</fieldset>
+
+						<fieldset>
+							<legend>Device</legend>
+							<table>
+								<tr>
+									<td>ID</td>
+									<td><input class="form-control" type="text" name="deviceID" value=""></td>
+									<td>Name</td>
+									<td><input class="form-control" type="text" name="deviceName" value=""></td>
+									<td>Description</td>
+									<td><input class="form-control" type="text" name="deviceDescription" value=""></td>
+								</tr>
+								<tr>
+									<td>Labels</td>
+									<td><input class="form-control" type="text" name="deviceLabels" value=""></td>
+									<td>AdminState</td>
+									<td>
+										<select class="form-control" name="deviceAdminState">
+											<option>UNLOCKED</option>
+											<option>LOCKED</option>
+										</select>
+									</td>
+									<td>OperatingState</td>
+									<td>
+										<select class="form-control" name="deviceOperatingState">
+											<option>ENABLED</option>
+											<option>DISABLED</option>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+						<fieldset>
+							<legend>DeviceProfileName</legend>
+							<table>
+								<tr>
+									<td>DeviceProfile</td>
+									<td><input class="form-control" type="text" name="deviceProfile" value="" placeholder="copy from deviceProfile list"></td>
+								</tr>
+							</table>
+						</fieldset>
+						<fieldset>
+							<legend>DeviceAddressable</legend>
+							<table>
+								<tr>
+									<td>Name</td>
+									<td><input type="text" class="form-control" name="deviceAddressName"></td>
+									<td>Method</td>
+									<td>
+										<select class="form-control" name="deviceAddressMethod">
+											<option value="POST">POST</option>
+											<option value="GET">GET</option>
+										</select>
+									</td>
+									<td>Protocol</td>
+									<td>
+										<select class="form-control" name="deviceAddressProtocol">
+											<option value="HTTP">HTTP</option>
+											<option value="TCP">TCP</option>
+											<option value="MAC">MAC</option>
+											<option value="ZMQ">ZMQ</option>
+											<option value="OTHER">OTHER</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>Address</td>
+									<td><input type="text" class="form-control" name="deviceAddress"></td>
+									<td>Port</td>
+									<td><input type="text" class="form-control" name="deviceAddressPort"></td>
+									<td>Path</td>
+									<td><input type="text" class="form-control" name="deviceAddressPath"></td>
+								</tr>
+								<tr>
+									<td>Publisher</td>
+									<td><input type="text" class="form-control" name="deviceAddressPublisher"></td>
+									<td>User</td>
+									<td><input type="text" class="form-control" name="deviceAddresUuser"></td>
+
+									<td>Password</td>
+									<td><input type="text" class="form-control" name="deviceAddressPassword"></td>
+									<td>Topic</td>
+									<td><input type="text" class="form-control" name="deviceAddressTopic"></td>
+								</tr>
+							</table>
+						</fieldset>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- device update or add end -->
+	</div>
+	<!-- device end -->
+
+	<!-- device profile start -->
+	<div id="add-profile-panel" style="display: none;">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">New Profile</h3>
+			</div>
+			<div class="panel panel-default" style="border:none;outline:none;margin:0;">
+				<div class="panel-heading" style="padding:5px 2px;">
+					<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.uploadProfile();">
+						<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+					</div>
+					<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.cancelAddDeviceProfile()">
+						<i class="fa fa-close fa-lg" aria-hidden="true"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body" style="padding:0;height:80px;">
+				<form target="upload-profile-response" >
+					<div class="form-group">
+						<label for="add-profile-action" class="col-md-1 control-label" style="padding-top:5px;text-align:right;" ><i class="fa fa-file-text fa-lg"></i></label>
+						<div class="col-md-11">
+							<input class="new-file-proview form-control" style="width:300px;" type="text" disabled >
+							<input style="display: none;" id="add-profile-action" accept=".yaml,.yml" type="file" name="file" multiple="multiple" onchange="orgEdgexFoundry.deviceService.onSelectFileCompleted();">
+						</div>
+					</div>
+				</form>
+				<iframe name="upload-profile-response" style="display: none;"></iframe>
+			</div>
+		</div>
+	</div>
+
+	<div class="edgexfoundry-device-profile-main">
+		<div class="panel panel-success">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Device Profile</h3>
+		  </div>
+		  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+		    <div class="panel-heading" style="padding:5px 2px;">
+					<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.showUploadFilePanel()">
+ 					 <i class="fa fa-plus fa-lg fa-fw" aria-hidden="true"></i>
+ 				 </div>
+ 				 <div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.refreshProfile()">
+ 					 <i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true" ></i>
+ 				 </div>
+		    </div>
+		  </div>
+
+		  <div class="panel-body" style="padding:0;overflow:auto;">
 				<table class="table table-responsive table-hover table-striped">
 					<thead>
-						<tr class="warning">
+						<tr class="active">
+
 							<th></th>
 							<th>#</th>
 							<th>ID</th>
-							<th>Service Name</th>
-							<th>Label</th>
-							<th>Operating State</th>
-							<th>Admin State</th>
+							<th>Name</th>
+							<th>Description</th>
+							<th>Labels</th>
+							<th>Created Time</th>
+							<th>Modified Time</th>
 						</tr>
 					</thead>
 					<tbody>
 					</tbody>
-					<tfoot>
+					<tfoot style="display:none;">
 						<tr align="center">
-							<td colspan=8>No Data.</td>
+							<td colspan=13>No Data.</td>
 						</tr>
 					</tfoot>
 				</table>
 		  </div>
 		</div>
 	</div>
+	<!-- device profile end -->
 
-	<div id="add_device_content">
-		<div class="btn_group">
-			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.back();">
-				<i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back
-			</button>
-			<button type="button" class="btn btn-success" onclick="deviceServiceBtnGroup.submit();">
-				<i class="fa fa-check" aria-hidden="true"></i>&nbsp;Submit
-			</button>
-		</div>
-
-		<div class="info_header">
-			<span>New Device</span>
-			<div></div>
-		</div>
-		<div class="new_device_msg">
-			<table>
-				<tbody>
-					<tr>
-						<td>Name</td>
-						<td><input type="text" class="form-control" name="device_name" placeholder="required and unique" required="required"></td>
-						<td>Description</td>
-						<td><input type="text" class="form-control" name="device_desc"></td>
-					</tr>
-					<tr>
-						<td>Admin State</td>
-						<td>
-							<select class="form-control" name="device_adminState">
-								<option>UNLOCKED</option>
-								<option>LOCKED</option>
-							</select>
-						</td>
-						<td>Operating State</td>
-						<td>
-							<select class="form-control" name="device_operatingState">
-								<option>ENABLED</option>
-								<option>DISABLED</option>
-							</select>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="info_header">
-			<span>New Device Profile</span>
-			<div></div>
-		</div>
-		<div class="related_profile">
-			<table>
-				<tr>
-					<td>Device Profile</td>
-					<td colspan=2>
-						<select class="form-control" name="device_profile_name">
-							<option value="">Please Select</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><label for="profile_file"><span style="color: #339933;opacity: 0.5;">Please upload a profile file.</span></label></td>
-					<td id="file_preview">
-
-					</td>
-					<td>
-						<form method="POST" target="uploadiframe" accept=".yaml,.yml" action="/core-metadata/api/v1/deviceprofile/uploadfile" enctype="multipart/form-data" style="display: inline-block;">
-							<!-- <label for="profile_file">select</label> -->
-							<input type="file" id="profile_file" name="file" onchange="deviceServiceBtnGroup.onSelectedFileCompleted()">
-						</form>
-						<iframe style="display: none;" name="uploadiframe">	</iframe>
-						<button disabled type="button" class="btn btn-default" onclick="deviceServiceBtnGroup.uploadProfile()" style="height:30px;">
-							<i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload
-						</button>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<h4>
-				<span class="label label-default"></span>
-			</h4>
-		</div>
-
-		<div class="info_header">
-			<span>New Device Addressable</span>
-			<div></div>
-		</div>
-		<div class="new_device_addressable">
-			<form>
-				<table>
-					<tr>
-						<td>Name</td>
-						<td><input type="text" class="form-control" name="name" placeholder="unique and required" required></td>
-						<td>Method</td>
-						<td>
-							<select class="form-control" name="method">
-								<option value="POST">POST</option>
-								<option value="GET">GET</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Protocol</td>
-						<td>
-							<select class="form-control" name="protocol">
-								<option value="HTTP">HTTP</option>
-								<option value="TCP">TCP</option>
-								<option value="MAC">MAC</option>
-								<option value="ZMQ">ZMQ</option>
-								<option value="OTHER">OTHER</option>
-							</select>
-						</td>
-						<td>Address</td>
-						<td><input type="text" class="form-control" name="address"></td>
-					</tr>
-					<tr>
-						<td>Port</td>
-						<td><input type="text" class="form-control" name="port"></td>
-						<td>Path</td>
-						<td><input type="text" class="form-control" name="path" placeholder="for callback e.g /api/callback"></td>
-					</tr>
-					<tr>
-						<td>Publisher</td>
-						<td><input type="text" class="form-control" name="publisher"></td>
-						<td>User</td>
-						<td><input type="text" class="form-control" name="user"></td>
-					</tr>
-					<tr>
-						<td>Password</td>
-						<td><input type="text" class="form-control" name="password"></td>
-						<td>Topic</td>
-						<td><input type="text" class="form-control" name="topic"></td>
-					</tr>
-				</table>
-			</form>
-		</div>
-
-		<div class="info_header">
-			<span>New Device Related Service</span>
-			<div></div>
-		</div>
-		<div class="related_service">
-			Device Service
-			<input type="text" style="display:inline;" class="form-control" name="device_service_name" disabled>
-		</div>
-
-	</div>
 </body>
-<script type="text/javascript" src="/js/pages/devices/deviceService.js"></script>
 
 </html>
