@@ -3,13 +3,7 @@
 > Go implementation of EdgeX Web UI.
 
 <p align="center">
-  <img src ="assets/images/edgex-ui-go-overview.png" />
-</p>
-
-Effect picture after refactoring frontend ui (to be done):
-
-<p align="center">
-  <img src ="assets/images/gentelella-overview.jpeg" />
+  <img src ="assets/images/export.png" />
 </p>
 
 ## Some video demo links
