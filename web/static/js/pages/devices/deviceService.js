@@ -151,7 +151,9 @@ orgEdgexFoundry.deviceService = (function(){
 
 	DeviceService.prototype.renderDevice = function(devices){
 		$(".edgexfoundry-device-list-table table tbody").empty();
-		if (!data || data.length == 0) {
+		$("#edgexfoundry-device-list table tfoot").hide();
+		if (!devices || devices.length == 0) {
+			debugger
 			$("#edgexfoundry-device-list table tfoot").show();
 			return;
 		}
