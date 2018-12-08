@@ -4,22 +4,9 @@
 		"url": "/pages/gateway.html",
 		"icon":"fa fa-bank"
 	},{
-		"title":"Devices",
-		"url": "",
-		"icon":"fa fa-sitemap",
-		"children":[{
-			"title":"Device",
-			"url": "/pages/devices/device.html",
-			"icon":""
-		},{
-			"title":"DeviceService",
-			"url": "/pages/devices/deviceService.html",
-			"icon":""
-		},{
-			"title":"DeviceProfile",
-			"url": "/pages/devices/deviceProfile.html",
-			"icon":""
-		}]
+		"title":"DeviceService",
+		"url": "/pages/devices/deviceService.html",
+		"icon":"fa fa-gears"
 	},{
 			"title":"Logging",
 			"url": "/pages/logging.html",
@@ -28,7 +15,7 @@
 		},{
 			"title":"Scheduler",
 			"url": "/pages/scheduler.html",
-			"icon":"fa fa-clock-o",
+			"icon":"fa fa-clock-o fa-lg",
 			"children":[]
 		},{
 			"title":"Notification",

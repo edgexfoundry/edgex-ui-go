@@ -16,305 +16,596 @@
  *******************************************************************************/
 $(document).ready(function(){
 	//init loading data.
-	deviceServiceModule.loadDeviceServiceList();
-	deviceServiceModule.loadDeviceProfile();
+	orgEdgexFoundry.deviceService.loadDeviceService();
+	orgEdgexFoundry.deviceService.loadDeviceProfile();
 
-	//global listener for hiding jsonShow section.
-	document.addEventListener('click',function(event){
-		//$("#device_service_json_format").animate({"right": '-400px'}, "fast");
-		$("#device_service_json_format").hide('fast');
-	});
-	document.getElementById("device_service_json_format").addEventListener('click',function(event){
-		event.stopPropagation();
-	});
-
-	//Hand icon circular movement animate
-	var shakee = function(){
-		$("#device_service_list  i").animate({"right":"0"},function(){
-			$("#device_service_list  i").animate({"right":"10px"},shakee());
-		});
-	}
-	shakee();
 });
 
-var deviceServiceModule = {
-		deviceServiceListCache:{},
-		selectedRow:null,
-		loadDeviceServiceList:function (){
-			$.ajax({
-				type: 'GET',
-				url: '/core-metadata/api/v1/deviceservice',
-				success: function(data){
-					//debugger
-					if(data){
-						deviceServiceModule.deviceServiceListCache = data;
-						$("#device_service_list table tbody").empty();
-						deviceServiceModule.renderDeviceService(data);
-						$("#device_service_list tfoot").hide();
-						deviceServiceModule.selectedRow = Object.assign({},data[0]);
-						var inputs = $("#device_service_list table ").find("input:radio");
-						$.each(inputs,function(index,ele){
-							if($(ele).val() == deviceServiceModule.selectedRow.id){
-								$(ele).prop('checked',true);
-							}
-						});
-					}
-				},
-				error: function(){
-					deviceServiceModule.renderDeviceService(testData);
-				}
-			});
-		},
-		renderDeviceService:function (data){
-			$.each(data,function(index,element){
-				var rowData = "<tr>";
-				rowData += '<td><input type="radio" name="blankRadio" value="'+element.id+'"></td>';
-				rowData += "<td>" + (index + 1) +"</td>";
-				rowData += "<td>" +  element.id + "</td>";
-				rowData += "<td>" +  element.name + "</td>";
-				if(element.labels.length == 0){
-					rowData += "<td>No Labels</td>";
-				}else{
-					rowData += "<td>" +  element.labels[0] + "</td>";
-				}
+orgEdgexFoundry.deviceService = (function(){
+	"use strict";
+	function DeviceService() {
+		this.deviceServiceListCache = [];
+		this.selectedRow = null;
 
-				if (element.operatingState.toLowerCase() == "enabled") {
-					rowData += "<td><i style='color:green;' class='fa fa-circle' aria-hidden='true'></i></td>";
-				} else {
-					rowData += "<td><i style='color:red;' class='fa fa-circle' aria-hidden='true'></i></td>";
-				}
+	}
 
-				if (element.adminState.toLowerCase() == "unlocked") {
-					rowData += "<td><i class='fa fa-unlock fa-lg' aria-hidden='true'></i></td>";
-				} else {
-					rowData += "<td><i class='fa fa-lock fa-lg' aria-hidden='true'></i></td>";
-				}
-				rowData += "</tr>";
-				$("#device_service_list  table  tbody").append(rowData);
-			});
-			$("#device_service_list input:radio").on('click',function(){
-				deviceServiceModule.onSelectedRow($(this).val());
-			});
-		},
-		loadDeviceProfile:function (){
-			$.ajax({
-				type: 'GET',
-				url: '/core-metadata/api/v1/deviceprofile',
-				success: function(data){
-					if(data){
-						$("#add_device_content div.related_profile select").empty();
-						$.each(data,function(index,element){
-							var selectList = '<option value="'+element.name+'">' + element.name + '</option>';
-							$("#add_device_content div.related_profile select").append(selectList);
-						});
-					}
-				},
-				error: function(){
+	DeviceService.prototype = {
+		constructor: DeviceService,
+		loadDeviceService: null,
+		renderDeviceService: null,
+		renderServiceAddressable: null,
+		refreshDeviceService: null,
+		hideServiceAddressablePanel: null,
 
+		loadDevice: null,
+		renderDevice: null,
+		addDevice: null,
+		editDevice:null,
+		uploadDevice: null,
+		cancelAddOrUpdateDevice: null,
+		deleteDevice: null,
+		hideDevicePanel: null,
+		renderCommandList: null,
+
+		loadDeviceProfile: null,
+		renderDeviceProfile: null,
+		showUploadFilePanel: null,
+		uploadProfile: null,
+		deleteProfile: null,
+		refreshProfile: null,
+		cancelAddDeviceProfile: null,
+		onSelectFileCompleted: null,
+	}
+
+	var deviceService = new DeviceService();
+
+	// =======device service start
+	DeviceService.prototype.loadDeviceService = function(){
+		$.ajax({
+			url: '/core-metadata/api/v1/deviceservice',
+			type: 'GET',
+			success: function(data){
+				if (!data || data.length == 0) {
+					$("#edgexfoundry-device-service-list table tfoot").show();
+					return;
 				}
-			});
-		},
-		onSelectedRow:function(value) {
-			$.each(deviceServiceModule.deviceServiceListCache,function(i,ele){
-				if(ele.id == value){
-					deviceServiceModule.selectedRow = ele;
-					return false;
-				}
-			});
+				deviceService.renderDeviceService(data);
+			},
+			statusCode: {
+
+			}
+		});
+	}
+
+	DeviceService.prototype.renderDeviceService = function(deviceServices){
+		$("#edgexfoundry-device-service-list table tbody").empty();
+		$.each(deviceServices,function(i,v){
+      var rowData = "<tr>";
+      rowData += "<td>" + (i + 1) +"</td>";
+      rowData += "<td>" +  v.id + "</td>";
+      rowData += "<td>" +  v.name + "</td>";
+			rowData += "<td>" +  v.description + "</td>";
+      rowData += "<td>" +  v.labels.join(',') + "</td>";
+			rowData += '<td class="device-service-addressable-search-icon"><input type="hidden" value=\''+JSON.stringify(v.addressable)+'\'>' + '<i class="fa fa-search-plus fa-lg"></i>' + '</td>';
+      rowData += "<td>" +  v.operatingState + "</td>";
+      rowData += "<td>" +  v.adminState + "</td>";
+			rowData += '<td class="device-service-devices-inlcuded-icon"><input type="hidden" value=\''+v.name+'\'>' + '<i class="fa fa-sitemap fa-lg"></i>' + '</td>';
+      rowData += "<td>" +  dateToString(v.created) + "</td>";
+      rowData += "<td>" +  dateToString(v.modified) + "</td>";
+      rowData += "</tr>";
+      $("#edgexfoundry-device-service-list table tbody").append(rowData);
+    });
+		$(".device-service-addressable-search-icon").on('click',function(){
+			var addressable = JSON.parse($(this).children('input[type="hidden"]').val());
+			deviceService.renderServiceAddressable(addressable);
+			$(".device-service-addressable").show();
+		});
+
+		$(".device-service-devices-inlcuded-icon").on('click',function(){
+			var serviceName = $(this).children('input[type="hidden"]').val();
+			deviceService.loadDevice(serviceName);
+			$("#edgexfoundry-device-main").show();
+		});
+	}
+
+	DeviceService.prototype.renderServiceAddressable = function(addr){
+		$(".device-service-addressable table tbody").empty();
+		var rowData = "<tr class='warning'>";
+		rowData += "<td>" +  addr.id + "</td>";
+		rowData += "<td>" +  addr.name + "</td>";
+		rowData += "<td>" +  addr.protocol + "</td>";
+		rowData += "<td>" +  addr.address + "</td>";
+		rowData += "<td>" +  addr.port + "</td>";
+		rowData += "<td>" +  addr.path + "</td>";
+		rowData += "<td>" +  dateToString(addr.created) + "</td>";
+		rowData += "<td>" +  dateToString(addr.modified) + "</td>";
+		rowData += "</tr>";
+		$(".device-service-addressable table tbody").append(rowData);
+	}
+
+	DeviceService.prototype.hideServiceAddressablePanel = function(){
+		$(".device-service-addressable").hide();
+	}
+
+	DeviceService.prototype.refreshDeviceService = function(){
+		deviceService.loadDeviceService();
+	}
+	// =======device service end
+
+	//========device start
+	DeviceService.prototype.hideDevicePanel = function(){
+		$("#edgexfoundry-device-main").hide();
+	}
+	DeviceService.prototype.loadDevice = function(serviceName){
+		$.ajax({
+			url: '/core-metadata/api/v1/device/servicename/' + serviceName,
+			type: 'GET',
+			success: function(data){
+				deviceService.renderDevice(data);
+			},
+			statusCode: {
+
+			}
+		});
+	}
+
+	DeviceService.prototype.renderDevice = function(devices){
+		$(".edgexfoundry-device-list-table table tbody").empty();
+		if (!data || data.length == 0) {
+			$("#edgexfoundry-device-list table tfoot").show();
+			return;
 		}
-}
+		$.each(devices,function(i,v){
+      var rowData = "<tr>";
+			rowData += '<td class="device-delete-icon"><input type="hidden" value=\''+JSON.stringify(v)+'\'><div class="edgexIconBtn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></td>';
+      rowData += '<td class="device-edit-icon"><input type="hidden" value=\''+JSON.stringify(v)+'\'><div class="edgexIconBtn"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> </div></td>';
+      rowData += "<td>" + (i + 1) +"</td>";
+      rowData += "<td>" +  v.id + "</td>";
+      rowData += "<td>" +  v.name + "</td>";
+			rowData += "<td>" +  v.description + "</td>";
+      rowData += "<td>" +  v.labels.join(',') + "</td>";
+			// rowData += '<td class="device-addressable-icon"><input type="hidden" value=\''+JSON.stringify(v.addressable)+'\'>' + '<i class="fa fa-eye fa-lg"></i>' + '</td>';
 
-var deviceServiceBtnGroup = {
-		onSelectedFileCompleted:function(){
-			var uploadinput = $("#add_device_content div.related_profile form input");
+			rowData += '<td class="device-command-icon"><input type="hidden" value=\''+v.id+'\'>' + '<i class="fa fa-terminal fa-lg"></i>' + '</td>';
+			rowData += "<td>" +  v.profile.name + "</td>";
+			rowData += "<td>" +  v.operatingState + "</td>";
+			rowData += "<td>" +  v.adminState + "</td>";
+			rowData += "<td>" +  dateToString(v.created) + "</td>";
+      rowData += "<td>" +  dateToString(v.modified) + "</td>";
+      rowData += "</tr>";
+      $(".edgexfoundry-device-list-table table tbody").append(rowData);
+    });
 
-			if(uploadinput[0].value){
-				$("#add_device_content div.related_profile table:first button").prop("disabled",false);
-				$("#file_preview").text(uploadinput[0].files[0].name);
-			}
-		},
-		uploadProfile:function(){
-			$(".center div.device_server_shelter").show();
+		$("#edgexfoundry-device-list .device-delete-icon").on('click',function(){
+			var device = JSON.parse($(this).children('input').val());
+			deviceService.deleteDevice(device);
+		});
 
-			var uploadform = $("#add_device_content div.related_profile form");
-			uploadform.submit();
-			var iframe = $("#add_device_content div.related_profile table iframe")[0];
-			iframe.onload = function(event){
-				var iframe_document = iframe.contentDocument;
-				var response =  $(iframe_document).find('body').html();
-				var result = response.match("code");
-				if(result != null || $(iframe_document).find('body').find("h1").length != 0){
-					alert("upload faild");
-					$(".center div.device_server_shelter").hide();
-				} else {
-					//alert("upload sucess");
-					window.setTimeout(function(){$(".center div.device_server_shelter").hide();},1000);
-					uploadform[0].reset();
-					$("#add_device_content div.related_profile table:first button").prop("disabled",true);
-					deviceServiceModule.loadDeviceProfile();
-					$(iframe_document).find('body').empty();
-					$("#file_preview").empty();
-				}
-			}
+		$("#edgexfoundry-device-list .device-edit-icon").on('click',function(){
+			var device = JSON.parse($(this).children('input').val());
+			deviceService.editDevice(device);
+		});
 
-		},
-		back:function(){
-			$("#device_service_list").show();
-			$("#add_device_content").hide();
-		},
-		submit:function(){
-			$("div.device_server_shelter").show();
-			var deviceServiceName = $("div.related_service input[name='device_service_name']").val();
-			var deviceProfileName = $("div.related_profile select[name='device_profile_name']").val();
-			var addressableName = $("div.new_device_addressable input[name='name']").val();
-			var newDevice = {}
-			newDevice['name'] = $("div.new_device_msg input[name='device_name']").val();
-			newDevice['description'] = $("div.new_device_msg input[name='device_desc']").val();
-			newDevice['adminState'] = $("div.new_device_msg select[name='device_adminState']").val();
-			newDevice['operatingState'] = $("div.new_device_msg select[name='device_operatingState']").val();
-			newDevice['addressable'] = {"name":addressableName}
-			newDevice['labels'] = [];
-			newDevice['service'] = {"name":deviceServiceName}
-			newDevice['profile'] = {"name":deviceProfileName}
-			var addressableFormArray = $("div.new_device_addressable form").serializeArray();
-			var addressableFormJsonData = {};
-
-			$.each(addressableFormArray,function(i,e){
-				if(e.value){
-					if(e.name == "port"){
-						addressableFormJsonData[e.name] = Number(e.value)
-					} else {
-						addressableFormJsonData[e.name] = e.value;
-					}
+		$("#edgexfoundry-device-list .device-command-icon").on('click',function(){
+			var deviceId = $(this).children('input').val();
+			$.ajax({
+				url:'/core-command/api/v1/device/' + deviceId,
+				type: 'GET',
+				success:function(data){
+					deviceService.renderCommandList(data.commands);
+					$(".edgexfoundry-device-command").show();
 				}
 			});
-			//add a new address for new device or sensor
-			$.ajax({
-				url:"/core-metadata/api/v1/addressable",
-				type:"POST",
-				data:JSON.stringify(addressableFormJsonData),
-				contentType:"application/json;charset=utf-8",
-				success:function(){
-					$.ajax({
-						url:'/core-metadata/api/v1/device',
-						type:'POST',
-						contentType:'application/json',
-						data:JSON.stringify(newDevice),
-						success:function(){
-							$("div.device_server_shelter").hide();
-							alert("success !");
+		});
+	}
+
+	DeviceService.prototype.editDevice = function(device){
+		$(".edgexfoundry-device-update-or-add .add-device").hide();
+		$(".edgexfoundry-device-update-or-add .update-device").show();
+
+		$(".edgexfoundry-device-form input[name='deviceServiceName']").val(device.service.name);
+		$(".edgexfoundry-device-form input[name='deviceID']").val(device.id);
+		$(".edgexfoundry-device-form input[name='deviceName']").val(device.name);
+		$(".edgexfoundry-device-form input[name='deviceDescription']").val(device.description);
+		$(".edgexfoundry-device-form input[name='deviceLabels']").val(device.service.labels.join(','));
+		$(".edgexfoundry-device-form input[name='deviceAdminState']").val(device.adminState);
+		$(".edgexfoundry-device-form input[name='deviceOperatingState']").val(device.operatingState);
+		$(".edgexfoundry-device-form input[name='deviceProfile']").val(device.profile.name);
+
+		$(".edgexfoundry-device-form input[name='deviceAddressName']").val(device.addressable.name);
+		$(".edgexfoundry-device-form input[name='deviceAddressMethod']").val(device.addressable.method);
+		$(".edgexfoundry-device-form input[name='deviceAddressProtocol']").val(device.addressable.protocol);
+		$(".edgexfoundry-device-form input[name='deviceAddress']").val(device.addressable.address);
+		$(".edgexfoundry-device-form input[name='deviceAddressPort']").val(device.addressable.port);
+		$(".edgexfoundry-device-form input[name='deviceAddressPath']").val(device.addressable.path);
+
+		$(".edgexfoundry-device-form input[name='deviceAddressPublisher']").val(device.addressable.publisher);
+		$(".edgexfoundry-device-form input[name='deviceAddresUser']").val(device.addressable.user);
+		$(".edgexfoundry-device-form input[name='deviceAddressPassword']").val(device.addressable.password);
+		$(".edgexfoundry-device-form input[name='deviceAddressTopic']").val(device.addressable.topic);
+
+		$("#edgexfoundry-device-list").hide();
+		$("#edgexfoundry-device-main .edgexfoundry-device-update-or-add").show();
+	}
+
+	DeviceService.prototype.addDevice = function(){
+		$("#edgexfoundry-device-list").hide();
+		$("#edgexfoundry-device-main .edgexfoundry-device-update-or-add").show();
+		$(".edgexfoundry-device-update-or-add .update-device").hide();
+		$(".edgexfoundry-device-update-or-add .add-device").show();
+		$(".edgexfoundry-device-form")[0].reset();
+	}
+
+	DeviceService.prototype.cancelAddOrUpdateDevice = function(){
+		$("#edgexfoundry-device-list").show();
+		$("#edgexfoundry-device-main .edgexfoundry-device-update-or-add").hide();
+	}
+
+	DeviceService.prototype.uploadDevice = function(type){
+		var method;
+		if(type=="new"){
+			method = "POST"
+		}else{
+			method = "PUT"
+		}
+		debugger
+		var device = {
+			service: {
+				name: $(".edgexfoundry-device-form input[name='deviceServiceName']").val(),
+			},
+			id: $(".edgexfoundry-device-form input[name='deviceID']").val(),
+			name: $(".edgexfoundry-device-form input[name='deviceName']").val(),
+			description: $(".edgexfoundry-device-form input[name='deviceDescription']").val(),
+			labels: $(".edgexfoundry-device-form input[name='deviceLabels']").val().split(','),
+			adminState: $(".edgexfoundry-device-form input[name='deviceAdminState']").val(),
+			operatingState: $(".edgexfoundry-device-form input[name='deviceOperatingState']").val(),
+			profile: {
+				name: $(".edgexfoundry-device-form input[name='deviceProfile']").val(),
+			},
+			addessable: {
+				name: $(".edgexfoundry-device-form input[name='deviceAddressName']").val()
+			}
+		}
+
+		var addressable = {
+			name: $(".edgexfoundry-device-form input[name='deviceAddressName']").val(),
+			method:$(".edgexfoundry-device-form input[name='deviceAddressMethod']").val(),
+			protocol: $(".edgexfoundry-device-form input[name='deviceAddressProtocol']").val(),
+			address: $(".edgexfoundry-device-form input[name='deviceAddress']").val(),
+			port: $(".edgexfoundry-device-form input[name='deviceAddressPort']").val(),
+			path: $(".edgexfoundry-device-form input[name='deviceAddressPath']").val(),
+
+			publisher: $(".edgexfoundry-device-form input[name='deviceAddressPublisher']").val(),
+			user: $(".edgexfoundry-device-form input[name='deviceAddresUser']").val(),
+			password: $(".edgexfoundry-device-form input[name='deviceAddressPassword']").val(),
+			topic: $(".edgexfoundry-device-form input[name='deviceAddressTopic']").val()
+		}
+		$.ajax({
+			url: '/core-metadata/api/v1/addressable',
+			type: method,
+			data: JSON.stringify(addressable),
+			success: function(){
+				$.ajax({
+					url: '/core-metadata/api/v1/device',
+					type: method,
+					data:JSON.stringify(device),
+					success: function(){
+						bootbox.alert({
+							message: "commit success!",
+							className: 'red-green-buttons'
+						});
+					},
+					statusCode: {
+						400: function(){
+							bootbox.alert({
+								title: "Error",
+								message: "the request is malformed or unparsable or if an associated object (Addressable, Profile, Service) cannot be found with the id or name provided !",
+								className: 'red-green-buttons'
+							});
 						},
-						error:function(data){
-							//delete the previous uploaded associated profile
-							$.ajax({
-								url:"/core-metadata/api/v1/addressable/name/"+addressableName+"",
-								type:"DELETE",
-								success:function(){
-									console.log(data.responseText)
-									$("div.device_server_shelter").hide();
-									alert(" failed !");
-								}
+						409: function(){
+							bootbox.alert({
+								title: "Error",
+								message: "the name is determined to not be unique with regard to others !",
+								className: 'red-green-buttons'
+							});
+						},
+						500: function(){
+							bootbox.alert({
+								title: "Error",
+								message: "unknown or unanticipated issues !",
+								className: 'red-green-buttons'
 							});
 						}
+					}
+				});
+			},
+			statusCode: {
+				400: function(){
+					bootbox.alert({
+						title: "Error",
+						message: "commit addressable for malformed or unparsable requests !",
+						className: 'red-green-buttons'
 					});
 				},
-				error:function(data){
-					console.log(data.responseText)
-					$("div.device_server_shelter").hide();
-					alert("upload addressable failed !");
+				409: function(){
+					bootbox.alert({
+						title: "Error",
+						message: "there is addressable with duplicate name !",
+						className: 'red-green-buttons'
+					});
+				},
+				500: function(){
+					bootbox.alert({
+						title: "Error",
+						message: "addressable for unknown or unanticipated issues or for any duplicate name (key) error!",
+						className: 'red-green-buttons'
+					});
+				}
+			}
+		});
+	}
+
+	DeviceService.prototype.deleteDevice = function(device){
+		bootbox.confirm({
+			title: "confirm",
+			message: "Are you sure to remove device? ",
+			className: 'green-red-buttons',
+			callback: function (result) {
+				if (result) {
+					$.ajax({
+						url: '/core-metadata/api/v1/device/id/' + device.id,
+						type: 'DELETE',
+						success: function(){
+							$.ajax({
+								url: '/core-metadata/api/v1/addressable/name/' + device.addressable.name,
+								type: 'DELETE',
+								success: function(){
+									bootbox.alert({
+										message: "remove device success !",
+										className: 'red-green-buttons'
+									});
+									deviceService.loadDevice(device.service.name);
+								}
+							})
+						},
+						statusCode: {
+							400: function(){
+								bootbox.alert({
+									title: "Error",
+									message: " incorrect or unparsable requests !",
+									className: 'red-green-buttons'
+								});
+							},
+							404: function(){
+								bootbox.alert({
+									title: "Error",
+									message: " the device cannot be found by the id provided !",
+									className: 'red-green-buttons'
+								});
+							},
+						}
+					});
+				}
+			}
+		});
+	}
+
+	DeviceService.prototype.renderCommandList = function(commands){
+		$(".edgexfoundry-device-command table tbody").empty();
+		$.each(commands,function(i,v){
+			var rowData = '<tr>';
+					rowData += '<td>' + v.name + '</td>';
+
+					rowData += '<td>'
+					if(v.get) {
+						rowData += '<input type="radio"  name="commandRadio_'+v.id+'" checked value="get" style="width:20px;">&nbsp;get'
+					}
+					if(v.put) {
+						rowData	+= '&nbsp;<input type="radio" name="commandRadio_'+v.id+'" value="set"  style="width:20px;">&nbsp;set'
+					}
+					rowData	+= '</td>';
+
+					rowData += '<td>' + '<input type="text" class="form-control" name="reading_value'+v.id+'" disabled style="width:200px;display:inline;">' + '</td>'
+					rowData += '<td>';
+					if(v.put != null) {
+						$.each(v.put.parameterNames,function(i,p){
+							rowData += p + '&nbsp;<input type="text" class="form-control" name="' + p +v.id + '" style="width:100px;display:inline;">&nbsp;'
+						});
+					}
+					rowData += '</td>';
+					rowData += '<td>'
+						+ '<button id=\''+v.id+'\' type=\'button\' class=\'btn btn-success\'  onclick=\'orgEdgexFoundry.deviceService.sendCommand('+JSON.stringify(v)+')\'>send</button>'
+						+ '</td>';
+					rowData += '</tr>';
+      $(".edgexfoundry-device-command table tbody").append(rowData);
+    });
+	}
+
+	DeviceService.prototype.sendCommand = function(command){
+		$('#'+command.id+'').prop('disabled',true);
+		var method = $('.edgexfoundry-device-command tbody input[name="commandRadio_'+command.id+'"]:radio:checked').val();
+		if(method == 'set' && command.put != null) {
+			var cmdUrl = command.put.url;
+			cmdUrl = cmdUrl.replace(/(\w+):\/\/([^/:]+)(:\d*)?/,"/core-command");
+			var paramBody={};
+			$.each(command.put.parameterNames,function(i,param){
+				//debugger
+				var p = $('#device_detail #command_list table tbody input[name="' + param + command.id + '"]').val();
+				paramBody[param] = p;
+			});
+			//console.log(JSON.stringify(paramBody))
+			$.ajax({
+				url:cmdUrl,
+				type:'PUT',
+				contentType:'application/json',
+				data:JSON.stringify(paramBody),
+				success:function(data){
+					$('.edgexfoundry-device-command tbody input[name="reading_value'+command.id+'"]').val("success");
+					$('#'+command.id+'').prop('disabled',false);
+				},
+				error:function(){
+					$('.edgexfoundry-device-command tbody input[name="reading_value'+command.id+'"]').val("failed");
+					$('#'+command.id+'').prop('disabled',false);
 				}
 			});
-		},
-		addNewDevice:function(){
-			//$("#add_device_content").show();
-			if(!deviceServiceModule.selectedRow){
-				$("#device_service_btn div.alert-warning").fadeIn();
-				$("#device_service_btn div.alert-warning").fadeOut(2000);
-				return;
-			}
-			$("#add_device_content div.related_service input").val(deviceServiceModule.selectedRow.name);
-			$("#device_service_list").hide();
-			$("#add_device_content").show();
-		},
-		refresh:function(){
-			deviceServiceModule.loadDeviceServiceList();
-		},
-		showJsonFormatter:function(event){
-			event.stopPropagation();
-			if(!deviceServiceModule.selectedRow){
-				return;
-			}
-			$("#device_service_json_format").empty();
-			$("#device_service_json_format").append("<pre>" + JSON.stringify(deviceServiceModule.selectedRow,null,3) + "</pre>");
-			$("#device_service_json_format").toggle('fast');
-			//$("#device_service_json_format").animate({"right": '0'}, "fast");
+		} else {
+			var cmdUrl = command.get.url;
+		    cmdUrl = cmdUrl.replace(/(\w+):\/\/([^/:]+)(:\d*)?/,"/core-command");
+			$.ajax({
+				url:cmdUrl,
+				type:'GET',
+				success:function(data){
+					$('.edgexfoundry-device-command tbody input[name="reading_value'+command.id+'"]').val(JSON.stringify(data));
+					$('#'+command.id+'').prop('disabled',false);
+				},
+				error:function(){
+					$('.edgexfoundry-device-command tbody input[name="reading_value'+command.id+'"]').val("failed");
+					$('#'+command.id+'').prop('disabled',false);
+				}
+			});
 		}
-}
+	}
+	//========device end
 
+	//========device profile start
+	DeviceService.prototype.loadDeviceProfile = function(){
+		$.ajax({
+			url: '/core-metadata/api/v1/deviceprofile',
+			type: 'GET',
+			success: function(data){
+				if (!data || data.length == 0) {
+					$(".edgexfoundry-device-profile-main table tfoot").show();
+					return;
+				}
+				deviceService.renderDeviceProfile(data);
+			},
+			statusCode: {
 
-var testData = [
-    {
-        "id": "5a3b3035e4b0c3935374319d",
-        "created": 1513828405903,
-        "modified": 1513828405903,
-        "origin": 1513828463478,
-        "description": null,
-        "name": "10.112.122.80-test",
-        "lastConnected": 0,
-        "lastReported": 0,
-        "operatingState": "enabled",
-        "labels": [
-            "MQTT"
-        ],
-        "addressable": {
-            "id": "5a3b3035e4b0c3935374319c",
-            "created": 1513828405819,
-            "modified": 1513828405819,
-            "origin": 1513828462837,
-            "name": "10.112.122.80",
-            "method": "POST",
-            "protocol": "HTTP",
-            "address": "10.112.122.80",
-            "port": 49982,
-            "path": "/api/v1/callback",
-            "publisher": null,
-            "user": null,
-            "password": null,
-            "topic": null,
-            "url": "HTTP://10.112.122.80:49982/api/v1/callback",
-            "baseURL": "HTTP://10.112.122.80:49982"
-        },
-        "adminState": "unlocked"
-    },
-    {
-        "id": "5a30ef08e4b0c39353743196",
-        "created": 1513156360916,
-        "modified": 1513156360916,
-        "origin": 1513156360312,
-        "description": null,
-        "name": "edgex-support-scheduler",
-        "lastConnected": 0,
-        "lastReported": 0,
-        "operatingState": "enabled",
-        "labels": [],
-        "addressable": {
-            "id": "5a30ef07e4b0c39353743195",
-            "created": 1513156359765,
-            "modified": 1513156359765,
-            "origin": 1513156357106,
-            "name": "edgex-support-scheduler",
-            "method": "POST",
-            "protocol": "HTTP",
-            "address": "edgex-support-scheduler",
-            "port": 48085,
-            "path": "/v1/callbacks",
-            "publisher": null,
-            "user": null,
-            "password": null,
-            "topic": null,
-            "url": "HTTP://edgex-support-scheduler:48085/v1/callbacks",
-            "baseURL": "HTTP://edgex-support-scheduler:48085"
-        },
-        "adminState": "unlocked"
-    }
-]
+			}
+		});
+	}
+
+	DeviceService.prototype.renderDeviceProfile = function(deviceprofiles){
+		$(".edgexfoundry-device-profile-main table tbody").empty();
+		$.each(deviceprofiles,function(i,v){
+			var rowData = "<tr>";
+			rowData += '<td class="deviceprofile-delete-icon"><input type="hidden" value=\''+v.id+'\'><div class="edgexIconBtn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></td>';
+			rowData += "<td>" + (i + 1) +"</td>";
+			rowData += "<td>" +  v.id + "</td>";
+			rowData += "<td>" +  v.name + "</td>";
+			rowData += "<td>" +  v.description + "</td>";
+			rowData += "<td>" +  v.labels.join(',') + "</td>";
+			rowData += "<td>" +  dateToString(v.created) + "</td>";
+			rowData += "<td>" +  dateToString(v.modified) + "</td>";
+			rowData += "</tr>";
+			$(".edgexfoundry-device-profile-main table tbody").append(rowData);
+		});
+		$(".deviceprofile-delete-icon").on('click',function(){
+			var profileId = $(this).children("input[type='hidden']").val();
+			deviceService.deleteProfile(profileId);
+		});
+	}
+
+	DeviceService.prototype.deleteProfile = function(profileId){
+		//debugger
+		bootbox.confirm({
+			title: "confirm",
+      message: "Are you sure to remove ? ",
+      className: 'green-red-buttons',
+      callback: function (result) {
+				if (result) {
+					$.ajax({
+						url: '/core-metadata/api/v1/deviceprofile/id/' + profileId,
+						method: 'DELETE',
+						success: function(){
+							bootbox.alert({
+								message: "Remove Success !",
+								className: 'red-green-buttons'
+							});
+							deviceService.loadDeviceProfile();
+						},
+						statusCode: {
+							404: function(){
+								bootbox.alert({
+									title: "Error",
+									message: "device profile cannot be found with the identifier provided !",
+									className: 'red-green-buttons'
+								});
+							},
+							409: function(){
+								bootbox.alert({
+									title: "Error",
+									message: "Can't delete device profile, the profile is still in use by a device !",
+									className: 'red-green-buttons'
+								});
+							},
+							500: function(){
+								bootbox.alert({
+									title: "Error",
+									message: "unknown or unanticipated issues !",
+									className: 'red-green-buttons'
+								});
+							}
+						}
+					});
+				}
+			}
+		});
+	}
+
+	DeviceService.prototype.refreshProfile = function(){
+		deviceService.loadDeviceProfile();
+	}
+
+	DeviceService.prototype.showUploadFilePanel = function(){
+		$("#add-profile-panel").show();
+	}
+
+	DeviceService.prototype.cancelAddDeviceProfile = function(){
+		$("#add-profile-panel").hide();
+	}
+
+	DeviceService.prototype.uploadProfile = function(){
+		$("#add-profile-panel").hide();
+
+		var form = $("#add-profile-panel form")[0];
+		form.action = "/core-metadata/api/v1/deviceprofile/uploadfile?X-Session-Token=" + window.sessionStorage.getItem('X_Session_Token');
+		form.method = "POST"
+		form.enctype="multipart/form-data"
+		form.submit();
+		var iframe = $("#add-profile-panel iframe")[0];
+		iframe.onload = function(event) {
+			var doc = iframe.contentDocument;
+			var response = $(doc).find('body').html();
+			var result = response.match("code");
+			if (result != null || $(doc).find('body').find("h1").length != 0) {
+				bootbox.alert({
+					title: "Error",
+					message: "upload profile failed !",
+					className: 'red-green-buttons'
+				});
+			} else {
+				form.reset();
+				bootbox.alert({
+					message: "upload success !",
+					className: 'red-green-buttons'
+				});
+				orgEdgexFoundry.deviceService.loadDeviceProfile();
+			}
+		}
+	}
+
+	DeviceService.prototype.onSelectFileCompleted = function() {
+		var uploadInput = $("#add-profile-action")
+		if (uploadInput[0].value) {
+
+			var fileSelected = uploadInput[0].files[0];
+			$("#add-profile-panel .new-file-proview").val(fileSelected.name);
+		}
+	}
+
+	//========device profile end
+
+	return deviceService;
+})();
