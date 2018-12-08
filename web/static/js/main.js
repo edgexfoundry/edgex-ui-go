@@ -41,7 +41,7 @@ $(document).ready(function(){
 			$(".center .tab-content #edgex-foundry-tab-Gateway ").load("/pages/gateway.html");
 			// $(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
 			$(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.5)'});
-			edgexFoundryCreatedTabs.push("Gateway");
+			edgexFoundryCreatedTabs.push("edgex-foundry-tab-Gateway");
 			$("a[href='#edgex-foundry-tab-Gateway']").tab('show');
 			bindCloseTab();
 		}
@@ -151,7 +151,7 @@ $(document).ready(function(){
 
 			bootbox.confirm({
 	      title: "confirm",
-	      message: "Are you sure to delete ? ",
+	      message: "Are you sure to remove it ? ",
 	      className: 'green-red-buttons',
 	      callback: function(result){
 					if (result) {
