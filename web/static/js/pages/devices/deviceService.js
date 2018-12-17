@@ -433,10 +433,10 @@ orgEdgexFoundry.deviceService = (function(){
 			var paramBody={};
 			$.each(command.put.parameterNames,function(i,param){
 				//debugger
-				var p = $('#device_detail #command_list table tbody input[name="' + param + command.id + '"]').val();
+				var p = $('.edgexfoundry-device-command table tbody input[name="' + param + command.id + '"]').val();
 				paramBody[param] = p;
 			});
-			//console.log(JSON.stringify(paramBody))
+			console.log(JSON.stringify(paramBody))
 			$.ajax({
 				url:cmdUrl,
 				type:'PUT',
