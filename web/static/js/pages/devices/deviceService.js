@@ -264,7 +264,7 @@ orgEdgexFoundry.deviceService = (function(){
 			profile: {
 				name: $(".edgexfoundry-device-form input[name='deviceProfile']").val().trim(),
 			},
-			addessable: {
+			addressable: {
 				id:"",
 				name: $(".edgexfoundry-device-form input[name='deviceAddressName']").val()
 			}
@@ -288,7 +288,7 @@ orgEdgexFoundry.deviceService = (function(){
 			type: method,
 			data: JSON.stringify(addressable),
 			success: function(data){
-				device.addessable.id = data;
+				device.addressable.id = data;
 				$.ajax({
 					url: '/core-metadata/api/v1/device',
 					type: method,
