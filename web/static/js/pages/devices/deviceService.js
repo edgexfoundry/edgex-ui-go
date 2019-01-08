@@ -253,28 +253,29 @@ orgEdgexFoundry.deviceService = (function(){
 		debugger
 		var device = {
 			service: {
-				name: $(".edgexfoundry-device-form input[name='deviceServiceName']").val(),
+				name: $(".edgexfoundry-device-form input[name='deviceServiceName']").val().trim(),
 			},
 			id: $(".edgexfoundry-device-form input[name='deviceID']").val(),
-			name: $(".edgexfoundry-device-form input[name='deviceName']").val(),
+			name: $(".edgexfoundry-device-form input[name='deviceName']").val().trim(),
 			description: $(".edgexfoundry-device-form input[name='deviceDescription']").val(),
 			labels: $(".edgexfoundry-device-form input[name='deviceLabels']").val().split(','),
-			adminState: $(".edgexfoundry-device-form input[name='deviceAdminState']").val(),
-			operatingState: $(".edgexfoundry-device-form input[name='deviceOperatingState']").val(),
+			adminState: $(".edgexfoundry-device-form select[name='deviceAdminState']").val(),
+			operatingState: $(".edgexfoundry-device-form select[name='deviceOperatingState']").val(),
 			profile: {
-				name: $(".edgexfoundry-device-form input[name='deviceProfile']").val(),
+				name: $(".edgexfoundry-device-form input[name='deviceProfile']").val().trim(),
 			},
 			addessable: {
+				id:"",
 				name: $(".edgexfoundry-device-form input[name='deviceAddressName']").val()
 			}
 		}
 
 		var addressable = {
 			name: $(".edgexfoundry-device-form input[name='deviceAddressName']").val(),
-			method:$(".edgexfoundry-device-form input[name='deviceAddressMethod']").val(),
-			protocol: $(".edgexfoundry-device-form input[name='deviceAddressProtocol']").val(),
+			method:$(".edgexfoundry-device-form select[name='deviceAddressMethod']").val(),
+			protocol: $(".edgexfoundry-device-form select[name='deviceAddressProtocol']").val(),
 			address: $(".edgexfoundry-device-form input[name='deviceAddress']").val(),
-			port: $(".edgexfoundry-device-form input[name='deviceAddressPort']").val(),
+			port: Number($(".edgexfoundry-device-form input[name='deviceAddressPort']").val()),
 			path: $(".edgexfoundry-device-form input[name='deviceAddressPath']").val(),
 
 			publisher: $(".edgexfoundry-device-form input[name='deviceAddressPublisher']").val(),
@@ -286,7 +287,8 @@ orgEdgexFoundry.deviceService = (function(){
 			url: '/core-metadata/api/v1/addressable',
 			type: method,
 			data: JSON.stringify(addressable),
-			success: function(){
+			success: function(data){
+				device.addessable.id = data;
 				$.ajax({
 					url: '/core-metadata/api/v1/device',
 					type: method,
