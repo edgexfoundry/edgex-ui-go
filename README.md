@@ -9,7 +9,11 @@
 ## Some video demo links
 
 * https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s
-* https://VMware.zoom.us/j/3697467292
+* https://www.edgexfoundry.club
+
+## face to face room at the appointed time, please contact to us before you want to have face-to-face chat.
+
+https://VMware.zoom.us/j/3697467292
 
 ## Running in docker
 
@@ -78,8 +82,8 @@ With a modern browser, navigate to http://localhost:4000.
 The default user credentials are:
 
 ```
-Username     : admin
-Password : admin
+Username   : admin
+Password   : admin
 ```
 
 ## Displaying EdgeX Go Microservices Data on the UI
