@@ -14,7 +14,7 @@ function cleanup {
 	pkill edgex-ui-go
 }
 
-cd $CMD/edgex-ui-go
+cd $CMD
 exec -a edgex-ui-go ./edgex-ui-go &
 cd $DIR
 

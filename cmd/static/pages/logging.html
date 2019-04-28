@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/logging.css">
+    <script src="/vendors/flatpickr/flatpickr.min.js"></script>
+    <script type="text/javascript" src="/js/pages/logging.js"></script>
+  </head>
+  <body>
+    <div id="edgex-support-logging-tab-main">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Logging</h3>
+        </div>
+        <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+          <div class="panel-heading" style="padding:5px 2px;">
+            <div>
+              <form class="form-inline">
+                &nbsp;&nbsp; service&nbsp;<select name="log_service" class="form-control">
+                    <option value="edgex-core-metadata">edgex-core-metadata</option>
+                    <option value="edgex-core-data">edgex-core-data</option>
+                    <option value="edgex-core-command">edgex-core-command</option>
+                    <option value="edgex-device-virtual">edgex-device-virtual</option>
+                </select>
+                &nbsp;&nbsp; from &nbsp;<input id="log_start_time" type="text" class="form-control" >
+                &nbsp;&nbsp; to &nbsp;<input id="log_end_time" type="text" class="form-control">
+                &nbsp;&nbsp; limit&nbsp; <select name="log_limit" class="form-control">
+                    <option>10</option>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>300</option>
+                    <option>500</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;<i id="support-logging-search" style="color:green;" onclick="orgEdgexFoundry.supportLogging.searchBtn()" class="fa fa-search fa-lg" aria-hidden="true"></i>
+                &nbsp;&nbsp;&nbsp;<i id="support-logging-start-monitor" style="color:green;" onclick="orgEdgexFoundry.supportLogging.startLoggingMonitor()" class="fa fa-tv fa-lg" aria-hidden="true" data-toggle="log-tooltip" data-placement="right" title="Monitor,click start." ></i>
+                &nbsp;&nbsp;&nbsp;<i id="support-logging-stop-monitor" style="display:none;color:red;" onclick="orgEdgexFoundry.supportLogging.stopLoggingMonitor()" class="fa fa-tv fa-lg" aria-hidden="true" data-toggle="log-tooltip" data-placement="right" title="Monitor Recording." ></i>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body" id="log-content" style="padding:0;">
+          <div class="log_content" >
+            <!-- <span style="color:white;">No data.</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
