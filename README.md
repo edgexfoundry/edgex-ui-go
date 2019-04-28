@@ -18,9 +18,9 @@ https://VMware.zoom.us/j/3697467292
 ## Running in docker
 
 ```
-docker pull badboyqiao/edgex-ui-go:0.1
+docker pull badboyqiao/edgex-ui-go:0.1.1
 
-docker run -it -d -p 4000:4000 --name edgex-ui-go badboyqiao/edgex-ui-go:0.1
+docker run -it -d -p 4000:4000 --name edgex-ui-go badboyqiao/edgex-ui-go:0.1.1
 ```
 
 ## Install and Deploy
@@ -31,7 +31,6 @@ Using `go get`:
 ```
 go get github.com/edgexfoundry/edgex-ui-go
 cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
-glide install
 make build
 ```
 
@@ -40,8 +39,24 @@ Using Git:
 cd $GOPATH/src
 git clone http://github.com/edgexfoundry/edgex-ui-go.git github.com/edgexfoundry/edgex-ui-go
 cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
-glide install
 make build
+```
+
+Before starting the web-based UI for the first time, you'll need to initialize the Mongo database and ensure that the settings are pointing to your MongoDB instance.
+Without Mongo, the project defaults to using an in-memory database.
+
+To initialize Mongo from the root of the project directory:
+
+```
+mongo docs/deployments/initmongo.js
+```
+
+Mongo settings can be found under `cmd/res/configuration.toml`.
+
+To start the application and the web-based UI:
+
+```
+make run
 ```
 
 To rebuild after making changes to source:
@@ -55,23 +70,6 @@ To test the web-based UI:
 
 ```
 make test
-```
-
-Before starting the web-based UI for the first time, you'll need to initialize the Mongo database and ensure that the settings are pointing to your MongoDB instance.
-Without Mongo, the project defaults to using an in-memory database.
-
-To initialize Mongo from the root of the project directory:
-
-```
-mongo deployments/initmongo.js
-```
-
-Mongo settings can be found under `web/app/repository/mongo/mongo.go`.
-
-To start the application and the web-based UI:
-
-```
-make run
 ```
 
 ## Using the application

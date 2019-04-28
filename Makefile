@@ -9,7 +9,7 @@
 GO=CGO_ENABLED=0 go
 GOCGO=CGO_ENABLED=1 go
 
-MICROSERVICES=cmd/edgex-ui-go/edgex-ui-go
+MICROSERVICES=cmd/edgex-ui-go
 .PHONY: $(MICROSERVICES)
 
 DOCKERS=docker_edgex_ui_go
@@ -24,8 +24,8 @@ GIT_SHA=$(shell git rev-parse HEAD)
 build: $(MICROSERVICES)
 	go build ./...
 
-cmd/edgex-ui-go/edgex-ui-go:
-	$(GO) build $(GOFLAGS) -o $@ ./cmd/edgex-ui-go
+cmd/edgex-ui-go:
+	$(GO) build $(GOFLAGS) -o $@ ./cmd
 
 clean:
 	rm -f $(MICROSERVICES)
@@ -35,7 +35,6 @@ test:
 	go vet ./...
 
 prepare:
-	glide install
 
 run:
 	cd bin && ./edgex-ui-go-launch.sh
