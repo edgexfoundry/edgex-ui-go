@@ -1,4 +1,4 @@
-FROM golang:1.9-alpine AS builder
+FROM golang:1.11-alpine AS builder
 MAINTAINER huaqiao zhang <huaqiaoz@vmware.com>
 
 WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go
@@ -8,12 +8,12 @@ RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.6/main" > /etc/apk/repositories
 RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.6/community" >> /etc/apk/repositories
 RUN cat /etc/apk/repositories
 
-RUN apk update && apk add git make glide
+RUN apk update && apk add git make
 
 COPY . .
 
 RUN make prepare
-RUN make cmd/edgex-ui-go/edgex-ui-go
+RUN make cmd/edgex-ui-server/edgex-ui-server
 
 FROM alpine:3.6
 
@@ -21,6 +21,6 @@ EXPOSE 4000
 
 COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/ /go/src/github.com/edgexfoundry/edgex-ui-go/
 
-WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-go
+WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
 
-ENTRYPOINT ["./edgex-ui-go"]
+ENTRYPOINT ["./edgex-ui-server"]
