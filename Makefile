@@ -6,8 +6,8 @@
 
 .PHONY: build clean test run docker
 
-GO=CGO_ENABLED=0 go
-GOCGO=CGO_ENABLED=1 go
+GO=CGO_ENABLED=0 GO111MODULE=on go
+GOCGO=CGO_ENABLED=1 GO111MODULE=on go
 
 MICROSERVICES=cmd/edgex-ui-server/edgex-ui-server
 .PHONY: $(MICROSERVICES)
@@ -22,7 +22,7 @@ GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 GIT_SHA=$(shell git rev-parse HEAD)
 
 build: $(MICROSERVICES)
-	go build ./...
+	$(GO) build ./...
 
 cmd/edgex-ui-server/edgex-ui-server:
 	$(GO) build $(GOFLAGS) -o $@ ./cmd/edgex-ui-server
@@ -31,8 +31,8 @@ clean:
 	rm -f $(MICROSERVICES)
 
 test:
-	go test -cover ./...
-	go vet ./...
+	GO111MODULE=on go test -cover ./...
+	GO111MODULE=on go vet ./...
 
 prepare:
 
