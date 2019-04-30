@@ -1,0 +1,297 @@
+<!--
+*******************************************************************************
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Export</title>
+	<link href="/css/export.css" rel="stylesheet">
+	<script src="/js/pages/export.js"></script>
+</head>
+
+<body>
+
+	<!-- core export main begin -->
+	<div id="edgex-foundry-core-export-main">
+
+		<div id="edgex-foundry-core-export-list">
+			<div class="panel panel-success">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Export</h3>
+			  </div>
+			  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+			    <div class="panel-heading" style="padding:5px 2px;">
+						<div class="edgexIconBtn" onclick="orgEdgexFoundry.coreExport.addExportBtn()">
+							<i class="fa fa-plus fa-lg fa-fw" aria-hidden="true"></i>
+						</div>
+						<div class="edgexIconBtn">
+							<i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.coreExport.refreshBtn()"></i>
+						</div>
+			    </div>
+			  </div>
+
+			  <div class="panel-body" style="padding:0;overflow:auto;">
+					<table class="table table-responsive table-hover table-striped">
+						<thead>
+							<tr class="active">
+								<th></th>
+								<th>#</th>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Enable</th>
+								<th>Destination</th>
+								<th>Addressable</th>
+								<th>Compression</th>
+								<th>Format</th>
+								<th>Created Time</th>
+								<th>Modified Time</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot style="display:none;">
+							<tr align="center">
+								<td colspan=8>No Data.</td>
+							</tr>
+						</tfoot>
+					</table>
+			  </div>
+			</div>
+		</div>
+
+		<div class="core-export-address">
+			<div class="panel panel-success">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">
+						Addressable
+						<button onclick="orgEdgexFoundry.coreExport.hideAdressableBtn()" type="button" class="close pull-right" aria-label="Close"><span style="color:#333!important;" aria-hidden="true">&times;</span></button>
+					</h3>
+					</h3>
+			  </div>
+			  <div class="panel-body" style="padding:0;">
+					<table class="table table-responsive table-hover table-striped">
+						<thead>
+							<tr class="active">
+								<th>ID</th>
+								<th>Name</th>
+								<th>Protocol</th>
+								<th>Address</th>
+								<th>Port</th>
+								<th>Path</th>
+
+								<th>Publisher</th>
+								<th>User</th>
+								<th>Password</th>
+								<th>Topic</th>
+								<th>Created Time</th>
+								<th>Modified Time</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+			  </div>
+			</div>
+		</div>
+
+		<!-- preview begin -->
+		<div id="edgex-foundry-core-export-preview-main">
+			<div class="panel panel-success">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">
+						Export Preview
+						<i class="fa fa-tv fa-lg text-danger" aria-hidden="true" ></i>
+					</h3>
+			  </div>
+
+			  <div class="panel-body" style="padding:0;overflow:auto;">
+			    <div class="export-preview-content" style="padding:5px 10px;">
+
+			    </div>
+					<div class="export-preview-echart" style="margin-top:15px;">
+						<!-- <div class="export-echart" style="height:300px;width:600px;display:inline-block;">
+
+						</div>
+						<div class="export-echart" style="height:300px;width:600px;display:inline-block;">
+
+						</div> -->
+					</div>
+			  </div>
+			</div>
+		</div>
+		<!-- preview begin -->
+	</div>
+	<!-- core export main end -->
+
+	<!-- export add or update start -->
+	<div id="edgex-foundry-core-export-updateoradd-main" style="display:none;" class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">Add or Update Export</h3>
+		</div>
+		<div class="panel panel-default" style="border:none;outline:none;margin:0;">
+			<div class="panel-heading" style="padding:5px 2px;">
+				<div class="edgexIconBtn add-export-section"  onclick="orgEdgexFoundry.coreExport.commitExportBtn('new');">
+					<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+				</div>
+				<div class="edgexIconBtn update-export-section" style="display:none;" onclick="orgEdgexFoundry.coreExport.commitExportBtn();">
+					<i class="fa fa-check fa-lg" aria-hidden="true"></i>
+				</div>
+				<div class="edgexIconBtn" onclick="orgEdgexFoundry.coreExport.cancelAddOrUpdateExportBtn()">
+					<i class="fa fa-close fa-lg" aria-hidden="true"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel-body" style="padding:0;overflow:hidden;">
+			<form class="edgex-core-export-form">
+				<fieldset>
+					<legend>General</legend>
+					<table class="">
+						<tr>
+							<td><span>ID</span></td>
+							<td><input type="text" name="id" class="form-control" disabled="disabled"></td>
+							<td>Name</td>
+							<td><input type="text" name="name" class="form-control" placeholder="name unique"></td>
+							<td>Destination</td>
+							<td>
+								<select name="destination" class="form-control">
+									<option value="MQTT_TOPIC">MQTT_TOPIC</option>
+									<option value="ZMQ_TOPIC">ZMQ_TOPIC</option>
+									<option value="IOTCORE_MQTT">IOTCORE_MQTT</option>
+									<option value="AZURE_MQTT">AZURE_MQTT</option>
+									<option value="REST_ENDPOINT">REST_ENDPOINT</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Compression</td>
+							<td><select name="compression" class="form-control">
+									<option value="NONE">NONE</option>
+									<option value="GZIP">GZIP</option>
+									<option value="ZIP">ZIP</option>
+							</select></td>
+							<td>Format</td>
+							<td><select name="format" class="form-control">
+									<option value="JSON">JSON</option>
+									<option value="XML">XML</option>
+									<option value="SERIALIZED">SERIALIZED</option>
+									<option value="IOTCORE_JSON">IOTCORE_JSON</option>
+									<option value="AZURE_JSON">AZURE_JSON</option>
+									<option value="CSV">CSV</option>
+							</select></td>
+							<td>Enabled</td>
+							<td><input name="enable" type="checkbox"> </td>
+						</tr>
+					</table>
+
+				</fieldset>
+
+				<fieldset>
+					<legend>Addressable</legend>
+					<table class="">
+						<tr>
+							<td>Name</td>
+							<td><input type="text" name="addressName" class="form-control" placeholder="address name unique"></td>
+							<td>Protocol</td>
+							<td>
+								<select name="protocol" class="form-control">
+									<option value="TCP">TCP</option>
+									<option value="HTTP">HTTP</option>
+									<option value="ZMQ">ZMQ</option>
+									<option value="MAC">MAC</option>
+									<option value="OTHER">OTHER</option>
+								</select>
+						  </td>
+							<td>Address</td>
+							<td><input type="text" name="address" class="form-control" placeholder=""></td>
+							<td>Port</td>
+							<td><input type="text" name="port" class="form-control" placeholder=""></td>
+							<td>Method</td>
+							<td>
+								<select name="method" class="form-control">
+									<option value="POST">POST</option>
+									<option value="GET">GET</option>
+								</select>
+						  </td>
+						</tr>
+						<tr>
+							<td>Publisher</td>
+							<td><input type="text" name="publisher" class="form-control" placeholder=""></td>
+							<td>User</td>
+							<td><input type="text" name="user" class="form-control" placeholder=""></td>
+							<td>Password</td>
+							<td><input type="text" name="password" class="form-control" placeholder=""></td>
+							<td>Topic</td>
+							<td><input type="text" name="topic" class="form-control" placeholder=""></td>
+							<td>Path</td>
+							<td><input type="text" name="path" class="form-control" placeholder="for callback"></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset>
+					<legend>Encryption (optional)</legend>
+					<table class="">
+						<tr>
+							<td>Key</td>
+							<td><input type="text" name="key" class="form-control" placeholder=""></td>
+							<td>Initialization Vector</td>
+							<td><input type="text" name="initializationVector" class="form-control" placeholder=""></td>
+							<td>Algorithm</td>
+							<td>
+								<select name="algorithm" class="form-control">
+									<option value="NONE">NONE</option>
+									<option value="AES">AES</option>
+								</select>
+							</td>
+						</tr>
+				 </table>
+				</fieldset>
+				<fieldset>
+					<legend>Filters (optional)</legend>
+					<table>
+						<tr>
+							<td>DeviceName&nbsp;&nbsp;</td>
+							<td>
+								<div id="edgx-export-filter-device-list-main">
+									<div class="export-filter-device-select">
+										<div class="input-group">
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+											</div>
+											<input style="width:300px!important;" type="text" name="deviceName" class="form-control" disabled >
+										</div>
+									</div>
+									<div class="edgx-export-filter-device-list panel panel-default ">
+										<div class="panel-body" style="padding:0;">
+											<table id="filter-device-table" style="table-layout:fixed;word-break: break-all;"></table>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<!-- export add or update end -->
+
+</body>
+</html>
