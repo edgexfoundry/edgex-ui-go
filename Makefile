@@ -9,7 +9,7 @@
 GO=CGO_ENABLED=0 go
 GOCGO=CGO_ENABLED=1 go
 
-MICROSERVICES=cmd/edgex-ui-go
+MICROSERVICES=cmd/edgex-ui-server/edgex-ui-server
 .PHONY: $(MICROSERVICES)
 
 DOCKERS=docker_edgex_ui_go
@@ -24,8 +24,8 @@ GIT_SHA=$(shell git rev-parse HEAD)
 build: $(MICROSERVICES)
 	go build ./...
 
-cmd/edgex-ui-go:
-	$(GO) build $(GOFLAGS) -o $@ ./cmd
+cmd/edgex-ui-server/edgex-ui-server:
+	$(GO) build $(GOFLAGS) -o $@ ./cmd/edgex-ui-server
 
 clean:
 	rm -f $(MICROSERVICES)
