@@ -1,0 +1,41 @@
+[
+	{
+		"title":"Gateway",
+		"url": "/pages/gateway.html",
+		"icon":"fa fa-bank"
+	},{
+		"title":"DeviceService",
+		"url": "/pages/devices/deviceService.html",
+		"icon":"fa fa-gears"
+	},{
+			"title":"Logging",
+			"url": "/pages/logging.html",
+			"icon":"fa fa-bar-chart",
+			"children":[]
+		},{
+			"title":"Scheduler",
+			"url": "/pages/scheduler.html",
+			"icon":"fa fa-clock-o fa-lg",
+			"children":[]
+		},{
+			"title":"Notification",
+			"url": "/pages/notification.html",
+			"icon":"fa fa-envelope",
+			"children":[]
+		},{
+		"title":"Multimedia",
+		"url": "/pages/multimedia.html",
+		"icon":"fa fa-camera",
+		"children":[]
+	},{
+		"title":"Export",
+		"url": "/pages/export.html",
+		"icon":"fa fa-cloud-upload",
+		"children":[]
+	},{
+		"title":"RuleEngine",
+		"url": "/pages/ruleengine.html",
+		"icon":"fa fa-wrench",
+		"children":[]
+	}
+]
