@@ -3,4 +3,4 @@ vendor
 *.exe
 go.sum
 *.DS_Store
-cmd/edgex-ui-go
+cmd/edgex-ui-server/edgex-ui-server
