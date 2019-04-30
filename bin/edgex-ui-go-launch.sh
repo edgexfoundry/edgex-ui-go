@@ -11,7 +11,7 @@ CMD=../cmd/edgex-ui-server
 
 # Kill all edgex-ui-go* stuff
 function cleanup {
-	pkill edgex-ui-go
+	pkill edgex-ui-server
 }
 
 cd $CMD
