@@ -52,6 +52,7 @@ orgEdgexFoundry.deviceService = (function(){
     resetProtocol: null,
     setProtocol: null,
     getProtocolFormValue: null,
+    removeProtocolField: null,
 
 		loadDeviceProfile: null,
 		renderDeviceProfile: null,
