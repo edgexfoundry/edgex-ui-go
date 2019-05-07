@@ -320,18 +320,6 @@ orgEdgexFoundry.deviceService = (function(){
 		$(".edgexfoundry-device-form input[name='deviceOperatingState']").val(device.operatingState);
 		$(".edgexfoundry-device-form input[name='deviceProfile']").val(device.profile.name);
 
-		// $(".edgexfoundry-device-form input[name='deviceAddressName']").val(device.addressable.name);
-		// $(".edgexfoundry-device-form input[name='deviceAddressMethod']").val(device.addressable.method);
-		// $(".edgexfoundry-device-form input[name='deviceAddressProtocol']").val(device.addressable.protocol);
-		// $(".edgexfoundry-device-form input[name='deviceAddress']").val(device.addressable.address);
-		// $(".edgexfoundry-device-form input[name='deviceAddressPort']").val(device.addressable.port);
-		// $(".edgexfoundry-device-form input[name='deviceAddressPath']").val(device.addressable.path);
-    //
-		// $(".edgexfoundry-device-form input[name='deviceAddressPublisher']").val(device.addressable.publisher);
-		// $(".edgexfoundry-device-form input[name='deviceAddresUser']").val(device.addressable.user);
-		// $(".edgexfoundry-device-form input[name='deviceAddressPassword']").val(device.addressable.password);
-		// $(".edgexfoundry-device-form input[name='deviceAddressTopic']").val(device.addressable.topic);
-
 		$("#edgexfoundry-device-list").hide();
 		$("#edgexfoundry-device-main .edgexfoundry-device-update-or-add").show();
 	}
@@ -374,23 +362,8 @@ orgEdgexFoundry.deviceService = (function(){
 			}
 		}
 
-		// var addressable = {
-		// 	name: $(".edgexfoundry-device-form input[name='deviceAddressName']").val(),
-		// 	method:$(".edgexfoundry-device-form select[name='deviceAddressMethod']").val(),
-		// 	protocol: $(".edgexfoundry-device-form select[name='deviceAddressProtocol']").val(),
-		// 	address: $(".edgexfoundry-device-form input[name='deviceAddress']").val(),
-		// 	port: Number($(".edgexfoundry-device-form input[name='deviceAddressPort']").val()),
-		// 	path: $(".edgexfoundry-device-form input[name='deviceAddressPath']").val(),
-    //
-		// 	publisher: $(".edgexfoundry-device-form input[name='deviceAddressPublisher']").val(),
-		// 	user: $(".edgexfoundry-device-form input[name='deviceAddresUser']").val(),
-		// 	password: $(".edgexfoundry-device-form input[name='deviceAddressPassword']").val(),
-		// 	topic: $(".edgexfoundry-device-form input[name='deviceAddressTopic']").val()
-		// }
-
     device['protocols'] = deviceService.getProtocolFormValue();
-    debugger
-    return
+
     $.ajax({
       url: '/core-metadata/api/v1/device',
       type: method,
@@ -425,39 +398,6 @@ orgEdgexFoundry.deviceService = (function(){
         }
       }
     });
-
-		// $.ajax({
-		// 	url: '/core-metadata/api/v1/addressable',
-		// 	type: method,
-		// 	data: JSON.stringify(addressable),
-		// 	success: function(data){
-		// 		device.addressable.id = data;
-    //
-		// 	},
-		// 	statusCode: {
-		// 		400: function(){
-		// 			bootbox.alert({
-		// 				title: "Error",
-		// 				message: "commit addressable for malformed or unparsable requests !",
-		// 				className: 'red-green-buttons'
-		// 			});
-		// 		},
-		// 		409: function(){
-		// 			bootbox.alert({
-		// 				title: "Error",
-		// 				message: "there is addressable with duplicate name !",
-		// 				className: 'red-green-buttons'
-		// 			});
-		// 		},
-		// 		500: function(){
-		// 			bootbox.alert({
-		// 				title: "Error",
-		// 				message: "addressable for unknown or unanticipated issues or for any duplicate name (key) error!",
-		// 				className: 'red-green-buttons'
-		// 			});
-		// 		}
-		// 	}
-		// });
 	}
 
 	DeviceService.prototype.deleteDevice = function(device){
