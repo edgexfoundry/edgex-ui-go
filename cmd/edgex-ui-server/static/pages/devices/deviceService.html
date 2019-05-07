@@ -212,8 +212,8 @@
 					</div>
 				</div>
 
-				<div class="panel-body" style="padding:0;overflow:auto;">
-					<form class="edgexfoundry-device-form">
+				<div class="panel-body" style="padding:0;width:100%;overflow:auto;">
+					<form class="edgexfoundry-device-form" style="width:100%;">
 						<fieldset>
 							<legend>DeviceService</legend>
 							<table>
@@ -255,6 +255,7 @@
 								</tr>
 							</table>
 						</fieldset>
+
 						<fieldset>
 							<legend>DeviceProfileName</legend>
 							<table>
@@ -264,52 +265,30 @@
 								</tr>
 							</table>
 						</fieldset>
+
 						<fieldset>
 							<legend>DeviceAddressable</legend>
-							<table>
-								<tr>
-									<td>Name</td>
-									<td><input type="text" class="form-control" name="deviceAddressName"></td>
-									<td>Method</td>
-									<td>
-										<select class="form-control" name="deviceAddressMethod">
-											<option value="POST">POST</option>
-											<option value="GET">GET</option>
-										</select>
-									</td>
-									<td>Protocol</td>
-									<td>
-										<select class="form-control" name="deviceAddressProtocol">
-											<option value="HTTP">HTTP</option>
-											<option value="TCP">TCP</option>
-											<option value="MAC">MAC</option>
-											<option value="ZMQ">ZMQ</option>
-											<option value="OTHER">OTHER</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td>Address</td>
-									<td><input type="text" class="form-control" name="deviceAddress"></td>
-									<td>Port</td>
-									<td><input type="text" class="form-control" name="deviceAddressPort"></td>
-									<td>Path</td>
-									<td><input type="text" class="form-control" name="deviceAddressPath"></td>
-								</tr>
-								<tr>
-									<td>Publisher</td>
-									<td><input type="text" class="form-control" name="deviceAddressPublisher"></td>
-									<td>User</td>
-									<td><input type="text" class="form-control" name="deviceAddresUuser"></td>
 
-									<td>Password</td>
-									<td><input type="text" class="form-control" name="deviceAddressPassword"></td>
-									<td>Topic</td>
-									<td><input type="text" class="form-control" name="deviceAddressTopic"></td>
-								</tr>
-							</table>
+							<div class="edgexfoundry-device-protocols" style="width: 100%;overflow: auto;">
+								<div class="device-protocol" style="align:center;">
+									<div style="display:inline-block;float:left;margin-right:10px;">
+										<input type="text" class="form-control" name="deviceProtocolScheme">
+									</div>
+
+									<div class="protocol-body" style="display:inline-block;border-left:1px solid gray;">
+
+										<div class="edgexIconBtn add-protocol" style="float:left;margin-top:7px;" onclick="orgEdgexFoundry.deviceService.addProtocolField();">
+											<i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+										</div>
+
+										<div class="protocol-field-collection" style="clear:left;display:inline-block!important;">
+
+										</div>
+									</div>
+								</div>
+							</div>
 						</fieldset>
-						</table>
+
 					</form>
 				</div>
 			</div>
