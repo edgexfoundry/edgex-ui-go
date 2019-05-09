@@ -411,17 +411,11 @@ orgEdgexFoundry.deviceService = (function(){
 						url: '/core-metadata/api/v1/device/id/' + device.id,
 						type: 'DELETE',
 						success: function(){
-							$.ajax({
-								url: '/core-metadata/api/v1/addressable/name/' + device.addressable.name,
-								type: 'DELETE',
-								success: function(){
-									bootbox.alert({
-										message: "remove device success !",
-										className: 'red-green-buttons'
-									});
-									deviceService.loadDevice(device.service.name);
-								}
-							})
+              bootbox.alert({
+                message: "remove device success !",
+                className: 'red-green-buttons'
+              });
+              deviceService.loadDevice(device.service.name);
 						},
 						statusCode: {
 							400: function(){
