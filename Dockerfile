@@ -19,7 +19,7 @@ FROM alpine:3.6
 
 EXPOSE 4000
 
-COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/ /go/src/github.com/edgexfoundry/edgex-ui-go/
+COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
 
 WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
 
