@@ -54,5 +54,16 @@ func (gr *GatewayRepository) Update(gateway domain.Gateway) error {
 }
 
 func (gr *GatewayRepository) Delete(id string) error {
+	index := 0
+	for i, g := range dataStore.Gateways {
+		if g.Id.Hex() == id {
+			index = i
+			break
+		}
+	}
+
+	dataStore.Gateways[index] = dataStore.Gateways[len(dataStore.Gateways)-1]
+	dataStore.Gateways[len(dataStore.Gateways)-1] = domain.Gateway{}
+	dataStore.Gateways = dataStore.Gateways[:len(dataStore.Gateways)-1]
 	return nil
 }
