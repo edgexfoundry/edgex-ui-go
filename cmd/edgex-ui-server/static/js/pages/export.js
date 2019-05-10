@@ -229,7 +229,7 @@ orgEdgexFoundry.coreExport = (function(){
 
 		//判断当前导出是否过滤指定的设备，否则使用全部设备
 		var deviceAndResourcesMapping = new Map();
-		if(!exportData.filter.deviceIdentifiers){
+		if(!exportData.filter){
 			deviceAndResourcesMapping = coreExport.deviceToValueDescriptorMapping;
 		} else {
 			$.each(exportData.filter.deviceIdentifiers,function(i,d){
@@ -403,10 +403,11 @@ orgEdgexFoundry.coreExport = (function(){
 		$(".edgex-core-export-form input[name='topic']").val(exportData.addressable.topic);
 
 		$("#filter-device-table").bootstrapTable('load', coreExport.devicesCache);
-    $("#filter-device-table").bootstrapTable("checkBy", {field:"name", values:exportData.filter.deviceIdentifiers});
 
-		$(".edgex-core-export-form input[name='deviceName']").val(exportData.filter.deviceIdentifiers.join(','));
-
+    if (exportData.filter && exportData.filter.deviceIdentifiers) {
+      $("#filter-device-table").bootstrapTable("checkBy", {field:"name", values:exportData.filter.deviceIdentifiers});
+      $(".edgex-core-export-form input[name='deviceName']").val(exportData.filter.deviceIdentifiers.join(','));
+    }
 	}
 
 	CoreExport.prototype.refreshBtn = function(){
@@ -471,7 +472,7 @@ orgEdgexFoundry.coreExport = (function(){
 				publisher: $(".edgex-core-export-form input[name='publisher']").val(),
 				user: $(".edgex-core-export-form input[name='user']").val(),
 				password: $(".edgex-core-export-form input[name='password']").val(),
-				topic: $(".edgex-core-export-form input[name='deviceName']").val()
+				topic: $(".edgex-core-export-form input[name='topic']").val()
 			},
 			filter: {
 				deviceIdentifiers: $(".edgex-core-export-form input[name='deviceName']").val().split(',')
