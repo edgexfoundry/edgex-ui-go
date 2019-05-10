@@ -15,15 +15,13 @@
 
 package domain
 
-import "gopkg.in/mgo.v2/bson"
-
 type Addressable struct {
-	Id       bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Name     string        `json:"name"`
-	Protocol string        `json:"protocol"`
-	Address  string        `json:"address"`
-	Port     int           `json:"port"`
-	Path     string        `json:"path"`
+	Id       string `json:"id,omitempty"`
+	Name     string `json:"name"`
+	Protocol string `json:"protocol"`
+	Address  string `json:"address"`
+	Port     int    `json:"port"`
+	Path     string `json:"path"`
 
 	Publisher string `json:"publisher"`
 	User      string `json:"user"`
