@@ -449,9 +449,11 @@ orgEdgexFoundry.deviceService = (function(){
 					if(v.get) {
 						rowData += '<input type="radio"  name="commandRadio_'+v.id+'" checked value="get" style="width:20px;">&nbsp;get'
 					}
-					if(v.put) {
+					if(v.put && v.put.parameterNames) {
 						rowData	+= '&nbsp;<input type="radio" name="commandRadio_'+v.id+'" value="set"  style="width:20px;">&nbsp;set'
-					}
+					}else{
+            rowData	+= '<span style="visibility:hidden;">&nbsp;<input type="radio" name="commandRadio_'+v.id+'" value="set"  style="width:20px;">&nbsp;set</span>'
+          }
 					rowData	+= '</td>';
 
 					rowData += '<td>' + '<input type="text" class="form-control" name="reading_value'+v.id+'" disabled style="width:200px;display:inline;">' + '</td>'
