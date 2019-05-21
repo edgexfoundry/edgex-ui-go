@@ -28,6 +28,8 @@ orgEdgexFoundry.deviceService = (function(){
 		this.selectedRow = null;
     this.deviceProtocols = null;
 
+    this.selectedDeviceServiceName = null;
+
 	}
 
 	DeviceService.prototype = {
@@ -40,6 +42,7 @@ orgEdgexFoundry.deviceService = (function(){
 
 		loadDevice: null,
 		renderDevice: null,
+    refreshDevice: null,
 		addDevice: null,
 		editDevice:null,
 		uploadDevice: null,
@@ -67,33 +70,33 @@ orgEdgexFoundry.deviceService = (function(){
 	var deviceService = new DeviceService();
 
   DeviceService.prototype.removeProtocolField = function(deviceProtocolFieldKey) {
-    delete deviceService.deviceProtocols.deviceProtocolScheme[deviceProtocolFieldKey];
+    delete deviceService.deviceProtocols.deviceProtocolName[deviceProtocolFieldKey];
     $(".edgexfoundry-device-protocols input[name=\'" + deviceProtocolFieldKey+ "\']").parent(".protocol-field").remove();
   }
 
   DeviceService.prototype.getProtocolFormValue = function() {
-    var protocolFields = Object.entries(deviceService.deviceProtocols.deviceProtocolScheme);
+    var protocolFields = Object.entries(deviceService.deviceProtocols.deviceProtocolName);
     var protocols = {};
-    var protocolScheme =  $(".edgexfoundry-device-protocols input[name='deviceProtocolScheme']").val().trim();
-    protocols[protocolScheme] = {};
+    var protocolName =  $(".edgexfoundry-device-protocols input[name='deviceProtocolName']").val().trim();
+    protocols[protocolName] = {};
     for (var i = 0; i < protocolFields.length; i++) {
       var fieldKey =  $(".edgexfoundry-device-protocols input[name=\'" + protocolFields[i][0]+ "\']").val().trim();
       var fieldValue =  $(".edgexfoundry-device-protocols input[name=\'" + protocolFields[i][1]+ "\']").val().trim();
-      protocols[protocolScheme][fieldKey] = fieldValue;
+      protocols[protocolName][fieldKey] = fieldValue;
     }
 
     return protocols;
   }
 
   DeviceService.prototype.setProtocol = function(protocols){
-    var deviceProtocolScheme = Object.keys(protocols)[0];
-    var protocolFields = Object.entries(protocols[deviceProtocolScheme]);
+    var deviceProtocolName = Object.keys(protocols)[0];
+    var protocolFields = Object.entries(protocols[deviceProtocolName]);
 
     for (var i = 1; i < protocolFields.length; i++) {
       deviceService.addProtocolField();
     }
 
-    $(".edgexfoundry-device-protocols input[name='deviceProtocolScheme']").val(deviceProtocolScheme);
+    $(".edgexfoundry-device-protocols input[name='deviceProtocolName']").val(deviceProtocolName);
 
     for (var i = 0; i < protocolFields.length; i++) {
       $(".edgexfoundry-device-protocols  input[name='deviceProtocolFieldKey-"+i+"']").val(protocolFields[i][0]);
@@ -112,11 +115,11 @@ orgEdgexFoundry.deviceService = (function(){
 
   DeviceService.prototype.addProtocol = function(){
     deviceService.deviceProtocols = {};
-    deviceService.deviceProtocols["deviceProtocolScheme"] = {};
+    deviceService.deviceProtocols["deviceProtocolName"] = {};
     var deviceProtocolFieldKey = "deviceProtocolFieldKey-0";
     var deviceProtocolFieldValue = "deviceProtocolFieldValue-0";
 
-    deviceService.deviceProtocols.deviceProtocolScheme[deviceProtocolFieldKey] = deviceProtocolFieldValue;
+    deviceService.deviceProtocols.deviceProtocolName[deviceProtocolFieldKey] = deviceProtocolFieldValue;
 
     var field = '<div class="protocol-field" style="margin-bottom:5px;">';
     field += '<input type="text" class="form-control" style="display:inline!important;" name="' + deviceProtocolFieldKey + '">&nbsp;:&nbsp;';
@@ -135,15 +138,15 @@ orgEdgexFoundry.deviceService = (function(){
     var fieldKeysArray;
     if (deviceService.deviceProtocols == null){
       deviceService.addProtocol();
-      fieldKeysArray = Object.keys(deviceService.deviceProtocols["deviceProtocolScheme"]);
+      fieldKeysArray = Object.keys(deviceService.deviceProtocols["deviceProtocolName"]);
     } else {
-      fieldKeysArray = Object.keys(deviceService.deviceProtocols["deviceProtocolScheme"]);
+      fieldKeysArray = Object.keys(deviceService.deviceProtocols["deviceProtocolName"]);
     }
 
     var deviceProtocolFieldKey = "deviceProtocolFieldKey-" + fieldKeysArray.length;
     var deviceProtocolFieldValue = "deviceProtocolFieldValue-" + fieldKeysArray.length;
 
-    deviceService.deviceProtocols.deviceProtocolScheme[deviceProtocolFieldKey] = deviceProtocolFieldValue;
+    deviceService.deviceProtocols.deviceProtocolName[deviceProtocolFieldKey] = deviceProtocolFieldValue;
 
     var field = '<div class="protocol-field" style="margin-bottom:5px;">';
     field += '<input type="text" class="form-control" style="display:inline!important;" name="' + deviceProtocolFieldKey + '">&nbsp;:&nbsp;';
@@ -201,6 +204,7 @@ orgEdgexFoundry.deviceService = (function(){
 
 		$(".device-service-devices-inlcuded-icon").on('click',function(){
 			var serviceName = $(this).children('input[type="hidden"]').val();
+      deviceService.selectedDeviceServiceName = serviceName;
 			deviceService.loadDevice(serviceName);
 			$("#edgexfoundry-device-main").show();
 		});
@@ -231,6 +235,11 @@ orgEdgexFoundry.deviceService = (function(){
 	// =======device service end
 
 	//========device start
+
+  DeviceService.prototype.refreshDevice = function(){
+    deviceService.loadDevice(deviceService.selectedDeviceServiceName);
+  }
+
 	DeviceService.prototype.hideDevicePanel = function(){
 		$("#edgexfoundry-device-main").hide();
 	}
@@ -346,7 +355,7 @@ orgEdgexFoundry.deviceService = (function(){
 		}else{
 			method = "PUT"
 		}
-		debugger
+		//debugger
 		var device = {
 			service: {
 				name: $(".edgexfoundry-device-form input[name='deviceServiceName']").val().trim(),
@@ -369,6 +378,7 @@ orgEdgexFoundry.deviceService = (function(){
       type: method,
       data:JSON.stringify(device),
       success: function(){
+        deviceService.refreshDevice();
         bootbox.alert({
           message: "commit success!",
           className: 'red-green-buttons'
@@ -416,6 +426,7 @@ orgEdgexFoundry.deviceService = (function(){
                 className: 'red-green-buttons'
               });
               deviceService.loadDevice(device.service.name);
+              $(".edgexfoundry-device-command").hide();
 						},
 						statusCode: {
 							400: function(){
