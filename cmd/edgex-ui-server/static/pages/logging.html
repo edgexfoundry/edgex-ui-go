@@ -18,10 +18,10 @@
             <div>
               <form class="form-inline">
                 &nbsp;&nbsp; service&nbsp;<select name="log_service" class="form-control">
-                    <option value="edgex-core-metadata">edgex-core-metadata</option>
+                    <!-- <option value="edgex-core-metadata">edgex-core-metadata</option>
                     <option value="edgex-core-data">edgex-core-data</option>
                     <option value="edgex-core-command">edgex-core-command</option>
-                    <option value="edgex-device-virtual">edgex-device-virtual</option>
+                    <option value="edgex-device-virtual">edgex-device-virtual</option> -->
                 </select>
                 &nbsp;&nbsp; from &nbsp;<input id="log_start_time" type="text" class="form-control" >
                 &nbsp;&nbsp; to &nbsp;<input id="log_end_time" type="text" class="form-control">
@@ -34,7 +34,8 @@
                 </select>
                 &nbsp;&nbsp;&nbsp;<i id="support-logging-search" style="color:green;" onclick="orgEdgexFoundry.supportLogging.searchBtn()" class="fa fa-search fa-lg" aria-hidden="true"></i>
                 &nbsp;&nbsp;&nbsp;<i id="support-logging-start-monitor" style="color:green;" onclick="orgEdgexFoundry.supportLogging.startLoggingMonitor()" class="fa fa-tv fa-lg" aria-hidden="true" data-toggle="log-tooltip" data-placement="right" title="Monitor,click start." ></i>
-                &nbsp;&nbsp;&nbsp;<i id="support-logging-stop-monitor" style="display:none;color:red;" onclick="orgEdgexFoundry.supportLogging.stopLoggingMonitor()" class="fa fa-tv fa-lg" aria-hidden="true" data-toggle="log-tooltip" data-placement="right" title="Monitor Recording." ></i>
+                <i id="support-logging-stop-monitor" style="display:none;color:red;" onclick="orgEdgexFoundry.supportLogging.stopLoggingMonitor()" class="fa fa-tv fa-lg" aria-hidden="true" data-toggle="log-tooltip" data-placement="right" title="Monitor Recording." >&nbsp;&nbsp;&nbsp;</i>
+                &nbsp;&nbsp;&nbsp;<i id="support-logging-eraser-screen" style="color:green;" onclick="orgEdgexFoundry.supportLogging.eraseScreenBtn()" class="fa fa-eraser fa-lg" aria-hidden="true" data-toggle="log-tooltip" data-placement="right" title="erase screen." ></i>
               </form>
             </div>
           </div>
