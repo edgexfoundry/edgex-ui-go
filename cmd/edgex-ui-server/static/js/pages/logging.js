@@ -15,6 +15,8 @@ $(document).ready(function(){
     allowInput:false
   });
   $('[data-toggle="log-tooltip"]').tooltip();
+  //init select panel
+  orgEdgexFoundry.supportLogging.loadAllDeviceServices();
 });
 
 orgEdgexFoundry.supportLogging = (function(){
@@ -24,6 +26,8 @@ orgEdgexFoundry.supportLogging = (function(){
     this.monitorTimer = null;
     this.monitorStartTime = null;
     this.monitorStopTime = null;
+
+    this.allMicrosevices = ['edgex-core-metadata','edgex-core-data','edgex-core-command','edgex-export-client','edgex-export-distro','edgex-support-logging'];
   }
 
   SupportLogging.prototype = {
@@ -34,12 +38,42 @@ orgEdgexFoundry.supportLogging = (function(){
     stopLoggingMonitor: null,
     outputLoggingInRealtime: null,
 
-    loadLoggingBySearch:null,
-    renderLoggingBySearch:null,
-    searchBtn: null
+    loadLoggingBySearch: null,
+    renderLoggingBySearch: null,
+    searchBtn: null,
+    eraseScreenBtn: null,
+
+    loadAllDeviceServices: null,
+    initLogMiscroseviceSelectPanel: null,
   }
 
   var logging = new SupportLogging();
+
+  SupportLogging.prototype.initLogMiscroseviceSelectPanel = function(allMicrosevices){
+    $("#edgex-support-logging-tab-main select[name='log_service']").empty();
+    var row = '';
+    $.each(allMicrosevices,function(i,s){
+       row += '<option value="' + s + '">' + s + '</option>';
+    });
+    $("#edgex-support-logging-tab-main select[name='log_service']").append(row);
+  }
+
+  SupportLogging.prototype.loadAllDeviceServices = function(){
+    $.ajax({
+      url:'/core-metadata/api/v1/deviceservice',
+      type:'GET',
+      success:function(data){
+        $.each(data,function(i,s){
+          logging.allMicrosevices.push(s.name);
+          logging.initLogMiscroseviceSelectPanel(logging.allMicrosevices);
+        });
+      }
+    });
+  }
+
+  SupportLogging.prototype.eraseScreenBtn = function(){
+      $("#log-content div.log_content").empty();
+  }
 
   SupportLogging.prototype.searchBtn = function(){
     var service = $("select[name='log_service']").val();
@@ -118,7 +152,7 @@ orgEdgexFoundry.supportLogging = (function(){
 
   SupportLogging.prototype.loadLoggingInRealtime = function(start,end){
     var service = $("select[name='log_service']").val();
-    //debugger
+    console.log("selected service===:" + service);
     $.ajax({
       url:'/support-logging/api/v1/logs/originServices/'+service+'/'+start +'/'+end+'/100',
       type:'GET',
