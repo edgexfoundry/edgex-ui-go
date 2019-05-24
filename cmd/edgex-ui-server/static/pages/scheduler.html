@@ -18,7 +18,7 @@
             <i class="fa fa-plus fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportScheduler.addSchedulerBtn()"></i>
           </div>
           <div class="edgexIconBtn">
-            <i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportScheduler.editSchedulerBtn()"></i>
+            <i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportScheduler.refreshSchedulerListBtn()"></i>
           </div>
           <!-- <div class="edgexIconBtn">
             <input type="text" name="schedulerSearch" value=""><i class="fa fa-search fa-lg fa-fw" aria-hidden="true"></i>
@@ -130,7 +130,7 @@
               <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.addScheduleEventBtn()">
                 <i class="fa fa-plus fa-lg fa-fw" aria-hidden="true"></i>
               </div>
-              <div class="edgexIconBtn">
+              <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.loadScheduleEventList()">
                 <i class="fa fa-refresh fa-lg fa-fw" aria-hidden="true"></i>
               </div>
               <!-- <div class="edgexIconBtn">
@@ -150,11 +150,8 @@
               <table class="table table-responsive table-hover table-striped">
                 <thead>
                   <tr class="active">
-                    <th>ID</th>
-                    <th>Name</th>
+                    <th>Method</th>
                     <th>URL</th>
-                    <th>Created Time</th>
-                    <th>Modified Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -180,7 +177,7 @@
                     <th>Name</th>
                     <th>Scheduler</th>
                     <th>Parameters</th>
-                    <th>Service</th>
+                    <th>Target</th>
                     <th>Addressable</th>
                     <th>Created Time</th>
                     <th>Modified Time</th>
@@ -242,19 +239,19 @@
                 <input type="text" class="form-control" name="ScheduleEventParameters" placeholder="ScheduleEventParameters JSON">
               </div>
               <div class="form-group">
-                <label for="ScheduleEventService">Service</label>
+                <label for="ScheduleEventService">Target</label>
                 <input type="text" class="form-control" name="ScheduleEventService" placeholder="ScheduleEventService  edgex-device-virtual">
               </div>
             </fieldset>
             <fieldset>
               <legend>EventAddressable</legend>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input type="hidden" class="form-control" name="EventAddressId">
               </div>
               <div class="form-group">
                 <label for="EventAddressName">Name</label>
                 <input type="text" class="form-control" name="EventAddressName" placeholder="EventAddressName">
-              </div>
+              </div> -->
               <div class="form-group">
                 <label for="EventAddressProtocol">Protocol</label>
                 <input type="text" class="form-control" name="EventAddressProtocol" value="HTTP" disabled>
