@@ -45,7 +45,7 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   SupportScheduler.prototype.loadSchedulerList = function(){
     $.ajax({
-      url:'/core-metadata/api/v1/schedule',
+      url:'/support-scheduler/api/v1/interval',
       type:'GET',
       success:function(data){
         if(!data || data.length == 0){
@@ -61,6 +61,7 @@ orgEdgexFoundry.supportScheduler = (function(){
     });
   }
   SupportScheduler.prototype.renderSchedulerList = function(data){
+    $("#edgex-support-scheduler-list table tbody").empty();
     $.each(data,function(i,v){
       var rowData = "<tr>";
       rowData += '<td class="scheduler-delete-icon"><input type="hidden" value="'+v.id+'"><div class="edgexIconBtn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></td>';
@@ -69,13 +70,13 @@ orgEdgexFoundry.supportScheduler = (function(){
       rowData += "<td>" + (i + 1) +"</td>";
       rowData += "<td>" +  v.id + "</td>";
       rowData += "<td>" +  v.name + "</td>";
-      rowData += "<td>" +  v.start + "</td>";
-      rowData += "<td>" +  v.end + "</td>";
+      rowData += "<td>" +  (v.start?v.start:"") + "</td>";
+      rowData += "<td>" +  (v.end?v.end:"") + "</td>";
       rowData += "<td>" +  v.frequency + "</td>";
-      rowData += "<td>" +  v.cron + "</td>";
-      rowData += "<td>" +  v.runOnce + "</td>";
-      rowData += "<td>" +  dateToString(v.created) + "</td>";
-      rowData += "<td>" +  dateToString(v.modified) + "</td>";
+      rowData += "<td>" +  (v.cron?v.cron:"") + "</td>";
+      rowData += "<td>" +  (v.runOnce?"ture":"false") + "</td>";
+      rowData += "<td>" +  dateToString(v.Timestamps.created) + "</td>";
+      rowData += "<td>" +  dateToString(v.Timestamps.modified) + "</td>";
       rowData += "</tr>";
       $("#edgex-support-scheduler-list table tbody").append(rowData);
     });
@@ -93,7 +94,7 @@ orgEdgexFoundry.supportScheduler = (function(){
   }
 
   SupportScheduler.prototype.commitSchedulerBtn = function(type){
-    var scheduler = {
+    var schedulerData = {
       id: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerId']").val(),
       name: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerName']").val(),
       start: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerStart']").val(),
@@ -103,20 +104,20 @@ orgEdgexFoundry.supportScheduler = (function(){
       runOnce: false,
     }
     var runOnce = $("#edgex-support-scheduler-add-or-update form select[name='SchedulerRunOnce']").val();
-    scheduler.runOnce = runOnce == "false"?false:true;
+    schedulerData.runOnce = runOnce == "false"?false:true;
     // debugger
     if(type=="new"){
-      commitScheduler(scheduler);
+      commitScheduler(schedulerData);
     }else{
-      updateScheduler(scheduler);
+      updateScheduler(schedulerData);
     }
   }
 
-  function commitScheduler(scheduler){
+  function commitScheduler(schedulerData){
     $.ajax({
-      url: '/core-metadata/api/v1/schedule',
+      url: '/support-scheduler/api/v1/interval',
       type: 'POST',
-      data: JSON.stringify(scheduler),
+      data: JSON.stringify(schedulerData),
       success: function(){
         scheduler.loadSchedulerList();
         bootbox.alert({
@@ -147,11 +148,11 @@ orgEdgexFoundry.supportScheduler = (function(){
     });
   }
 
-  function updateScheduler(scheduler){
+  function updateScheduler(schedulerData){
     $.ajax({
-      url: '/core-metadata/api/v1/schedule',
+      url: '/support-scheduler/api/v1/interval',
       type: 'PUT',
-      data: JSON.stringify(scheduler),
+      data: JSON.stringify(schedulerData),
       success: function(){
         scheduler.loadSchedulerList();
         bootbox.alert({
@@ -193,7 +194,7 @@ orgEdgexFoundry.supportScheduler = (function(){
   }
 
   SupportScheduler.prototype.refreshSchedulerListBtn = function(){
-
+      scheduler.loadSchedulerList();
   }
 
   SupportScheduler.prototype.editSchedulerBtn = function(scheduler){
@@ -220,7 +221,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       callback: function (result) {
         if (result){
           $.ajax({
-            url: '/core-metadata/api/v1/schedule/id/' + schedulerId,
+            url: '/support-scheduler/api/v1/interval/' + schedulerId,
             type: 'DELETE',
             success: function(){
               scheduler.loadSchedulerList();
@@ -232,6 +233,7 @@ orgEdgexFoundry.supportScheduler = (function(){
             statusCode: {
               503: function(){
                 bootbox.alert({
+                  title:'Error',
                   message: "unknown or unanticipated issues",
                   className: 'red-green-buttons'
                 });
@@ -250,7 +252,7 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   SupportScheduler.prototype.loadScheduleEventList = function(){
     $.ajax({
-      url:'/core-metadata/api/v1/scheduleevent',
+      url:'/support-scheduler/api/v1/intervalaction',
       type:'GET',
       success:function(data){
         if(!data || data.length == 0){
@@ -267,6 +269,17 @@ orgEdgexFoundry.supportScheduler = (function(){
   }
 
   SupportScheduler.prototype.renderScheduleEventList = function(data){
+    $("#edgex-support-scheduleevent-list table tbody").empty();
+    $.each(data,function(i,v){
+      var addressable = {}
+      addressable["protocol"] = v.protocol;
+      addressable["httpMethod"] = v.httpMethod;
+      addressable["address"] = v.address;
+      addressable["port"] = v.port;
+      addressable["path"] = v.path;
+      addressable["url"] =  v.protocol + "://" + v.address + ":" + v.port +  v.path;
+      v["addressable"] = addressable;
+    });
     $.each(data,function(i,v){
       var rowData = "<tr>";
       rowData += '<td class="schedule-event-delete-icon"><input type="hidden" value="'+v.id+'"><div class="edgexIconBtn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></td>';
@@ -275,9 +288,9 @@ orgEdgexFoundry.supportScheduler = (function(){
       rowData += "<td>" + (i + 1) +"</td>";
       rowData += "<td>" +  v.id + "</td>";
       rowData += "<td><input value="+v.name+" disabled style='outline:none;border-style:none;text-align:center;background-color:transparent;'>" + "</td>";
-      rowData += "<td>" +  v.schedule + "</td>";
-      rowData += "<td>" +  v.parameters + "</td>";
-      rowData += "<td>" +  v.service + "</td>";
+      rowData += "<td>" +  v.interval + "</td>";
+      rowData += "<td>" +  (v.parameters?v.parameters:"") + "</td>";
+      rowData += "<td>" +  v.target + "</td>";
       rowData += '<td class="schedule-address-search-icon"><input type="hidden" value=\''+JSON.stringify(v.addressable)+'\'>' + '<i class="fa fa-search-plus fa-lg"></i>' + '</td>';
       rowData += "<td>" +  dateToString(v.created) + "</td>";
       rowData += "<td>" +  dateToString(v.modified) + "</td>";
@@ -286,14 +299,10 @@ orgEdgexFoundry.supportScheduler = (function(){
 
     });
     $(".schedule-address-search-icon").on("click",function(){
-      // var scheduleevent_id = $(this).children("input").val();
       var v = JSON.parse($(this).children("input").val());
       var rowData = "<tr class='warning'>";
-      rowData += "<td>" +  v.id + "</td>";
-      rowData += "<td>" +  v.name + "</td>";
+      rowData += "<td>" +  v.httpMethod+ "</td>";
       rowData += "<td>" +  v.url + "</td>";
-      rowData += "<td>" +  dateToString(v.created) + "</td>";
-      rowData += "<td>" +  dateToString(v.modified) + "</td>";
       rowData += "</tr>";
       $("#edgex-support-scheduleevent-address table tbody").empty();
       $("#edgex-support-scheduleevent-address table tbody").append(rowData);
@@ -317,9 +326,10 @@ orgEdgexFoundry.supportScheduler = (function(){
       callback: function (result) {
         if(result){
             $.ajax({
-              url: '/core-metadata/api/v1/scheduleevent/id/' + scheduleEventId,
+              url: '/support-scheduler/api/v1/intervalaction/' + scheduleEventId,
               type: 'DELETE',
               success: function(){
+                scheduler.loadScheduleEventList();
                 bootbox.alert({
                   message: "delete success.",
                   className: 'red-green-buttons'
@@ -328,6 +338,7 @@ orgEdgexFoundry.supportScheduler = (function(){
               statusCode: {
                 409: function(){
                   bootbox.alert({
+                    title:'Error',
                     message: "attempt to delete a schedule event still being referenced by device reports",
                     className: 'red-green-buttons'
                   });
@@ -341,13 +352,13 @@ orgEdgexFoundry.supportScheduler = (function(){
   SupportScheduler.prototype.updateScheduleEventBtn = function(scheduleEventStr){
     var scheduleEvent = JSON.parse(scheduleEventStr);
     //scheduler
-    $("input[name='SchedulerName']").val(scheduleEvent.schedule);
+    $("input[name='SchedulerName']").val(scheduleEvent.interval);
 
     //event address
-    $("#edgex-support-scheduleevent-add input[name='EventAddressId']").val(scheduleEvent.addressable.id);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressName']").val(scheduleEvent.addressable.name);
+    // $("#edgex-support-scheduleevent-add input[name='EventAddressId']").val(scheduleEvent.addressable.id);
+    // $("#edgex-support-scheduleevent-add input[name='EventAddressName']").val(scheduleEvent.addressable.name);
     $("#edgex-support-scheduleevent-add input[name='EventAddressProtocol']").val(scheduleEvent.addressable.protocol);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressMethod']").val(scheduleEvent.addressable.method);
+    $("#edgex-support-scheduleevent-add input[name='EventAddressMethod']").val(scheduleEvent.addressable.httpMethod);
     $("#edgex-support-scheduleevent-add input[name='EventAddressAddress']").val(scheduleEvent.addressable.address);
     $("#edgex-support-scheduleevent-add input[name='EventAddressPort']").val(scheduleEvent.addressable.port);
     $("#edgex-support-scheduleevent-add input[name='EventAddressPath']").val(scheduleEvent.addressable.path);
@@ -357,7 +368,7 @@ orgEdgexFoundry.supportScheduler = (function(){
     $("#edgex-support-scheduleevent-add input[name='ScheduleEventId']").val(scheduleEvent.id);
     $("#edgex-support-scheduleevent-add input[name='ScheduleEventName']").val(scheduleEvent.name);
     $("#edgex-support-scheduleevent-add input[name='ScheduleEventParameters']").val(scheduleEvent.parameters);
-    $("#edgex-support-scheduleevent-add input[name='ScheduleEventService']").val(scheduleEvent.service);
+    $("#edgex-support-scheduleevent-add input[name='ScheduleEventService']").val(scheduleEvent.target);
 
 
     $("#edgex-support-scheduleevent-list-main").hide();
@@ -372,6 +383,8 @@ orgEdgexFoundry.supportScheduler = (function(){
   SupportScheduler.prototype.addScheduleEventBtn = function(){
     $("#edgex-support-scheduleevent-list-main").hide();
     $("#edgex-support-scheduleevent-add").show();
+    $("#edgex-support-scheduleevent-add div.add-schedule-event").show();
+    $("#edgex-support-scheduleevent-add div.update-schedule-event").hide();
   }
 
   SupportScheduler.prototype.cancelAddScheduleEventBtn = function(){
@@ -381,29 +394,37 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   SupportScheduler.prototype.commitScheduleEventBtn = function(type){
     //scheduler
-    var schedulerName = $("input[name='SchedulerName']").val();
+    var schedulerName = $(".edgex-support-scheduleevent-form input[name='SchedulerName']").val().trim();
 
     //event address
     var eventAddress = {
-      id:$("input[name='EventAddressId']").val(),
-      name: $("input[name='EventAddressName']").val(),
-      protocol: $("input[name='EventAddressProtocol']").val(),
-      method: $("input[name='EventAddressMethod']").val(),
-      adress: $("input[name='EventAddressAddress']").val(),
-      port: parseInt($("input[name='EventAddressPort']").val()),
-      path: $("input[name='EventAddressPath']").val(),
+      // id:$("input[name='EventAddressId']").val(),
+      // name: $("input[name='EventAddressName']").val(),
+      protocol: $("input[name='EventAddressProtocol']").val().trim(),
+      httpMethod: $("input[name='EventAddressMethod']").val().trim(),
+      address: $("input[name='EventAddressAddress']").val().trim(),
+      port: parseInt($("input[name='EventAddressPort']").val().trim()),
+      path: $("input[name='EventAddressPath']").val().trim(),
     }
 
     //scheduleevent
     var scheduleEvent = {
-      id: $("input[name='ScheduleEventId']").val(),
-      name: $("input[name='ScheduleEventName']").val(),
-      parameters: $("input[name='ScheduleEventParameters']").val(),
-      service: $("input[name='ScheduleEventService']").val(),
-      schedule: schedulerName,
-      addressable:eventAddress,
+      id: $("input[name='ScheduleEventId']").val().trim(),
+      name: $("input[name='ScheduleEventName']").val().trim(),
+      parameters: $("input[name='ScheduleEventParameters']").val().trim(),
+      target: $("input[name='ScheduleEventService']").val().trim(),
+      interval: schedulerName,
+      //addressable:eventAddress,
+
+      protocol: $("input[name='EventAddressProtocol']").val().trim(),
+      httpMethod: $("input[name='EventAddressMethod']").val().trim(),
+      address: $("input[name='EventAddressAddress']").val().trim(),
+      port: parseInt($("input[name='EventAddressPort']").val().trim()),
+      path: $("input[name='EventAddressPath']").val().trim(),
     }
     if(type == "new"){
+      delete scheduleEvent["id"];
+      console.log(scheduleEvent);
       commitAddressableAndScheduleEvent(eventAddress,scheduleEvent);
     }else{//update
       commitScheduleEvent(scheduleEvent,"");
@@ -412,29 +433,30 @@ orgEdgexFoundry.supportScheduler = (function(){
   }
 
   function commitAddressableAndScheduleEvent(addressable,scheduleEvent){
-    $.ajax({
-      url:'/core-metadata/api/v1/addressable',
-      type:'POST',
-      data:JSON.stringify(addressable),
-      success:function(data){
-          scheduleEvent.addressable.id = data;
-          commitScheduleEvent(scheduleEvent,"new");
-      },
-      statusCode: {
-        400: function() {
-          bootbox.alert({
-            message: "malformed or unparsable requests!",
-            className: 'red-green-buttons'
-          });
-        },
-        500: function(){
-          bootbox.alert({
-            message: "unknown or unanticipated issues or any duplicate address name (key)!",
-            className: 'red-green-buttons'
-          });
-        }
-      }
-    });
+    commitScheduleEvent(scheduleEvent,"new");
+    // $.ajax({
+    //   url:'/support-scheduler/api/v1/addressable',
+    //   type:'POST',
+    //   data:JSON.stringify(addressable),
+    //   success:function(data){
+    //       scheduleEvent.addressable.id = data;
+    //       commitScheduleEvent(scheduleEvent,"new");
+    //   },
+    //   statusCode: {
+    //     400: function() {
+    //       bootbox.alert({
+    //         message: "malformed or unparsable requests!",
+    //         className: 'red-green-buttons'
+    //       });
+    //     },
+    //     500: function(){
+    //       bootbox.alert({
+    //         message: "unknown or unanticipated issues or any duplicate address name (key)!",
+    //         className: 'red-green-buttons'
+    //       });
+    //     }
+    //   }
+    // });
   }
 
   function commitScheduleEvent(scheduleEvent,type){
@@ -446,30 +468,42 @@ orgEdgexFoundry.supportScheduler = (function(){
     }
     //debugger
     $.ajax({
-      url:'/core-metadata/api/v1/scheduleevent',
+      url:'/support-scheduler/api/v1/intervalaction',
       type: method,
       data:JSON.stringify(scheduleEvent),
       success:function(){
+        scheduler.loadScheduleEventList();
         bootbox.alert({
           message: "Commit ScheduleEvent Success!",
           className: 'red-green-buttons'
         });
       },
       statusCode: {
+        400: function(err) {
+          //debugger
+          bootbox.alert({
+            title:'Error',
+            message: err.responseText,
+            className: 'red-green-buttons'
+          });
+        },
         404: function() {
           bootbox.alert({
+            title:'Error',
             message: "the event's associated schedule is not found !",
             className: 'red-green-buttons'
           });
         },
         409: function() {
           bootbox.alert({
+            title:'Error',
             message: "the schedule was not provided or if the name is determined to not be unique with regard to others !",
             className: 'red-green-buttons'
           });
         },
         500: function() {
           bootbox.alert({
+            title:'Error',
             message: "unknown or unanticipated issues or scheduleevent name is a duplicate !",
             className: 'red-green-buttons'
           });
@@ -479,7 +513,7 @@ orgEdgexFoundry.supportScheduler = (function(){
   }
 
   SupportScheduler.prototype.refreshScheduleEventListBtn = function(){
-    ;
+    scheduler.loadScheduleEventList();
   }
 
   SupportScheduler.prototype.hidenAdressableBtn = function(){
