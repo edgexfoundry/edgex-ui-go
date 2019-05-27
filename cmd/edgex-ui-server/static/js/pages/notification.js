@@ -172,15 +172,15 @@ orgEdgexFoundry.supportNotification = (function(){
   //===============notification section end=========================
 
   //===============subscription section begin=========================
+  SupportNotification.prototype.refreshSubscriptionBtn = function(){
+    notification.loadSubscriptionList();
+  }
+
   SupportNotification.prototype.loadSubscriptionList = function(){
     $.ajax({
       url: '/support-notification/api/v1/subscription',
       type: 'GET',
       success: function(data){
-        if(!data || data.length == 0){
-          $("#edgex-support-subscription-list table tfoot").show();
-          return;
-        }
         $("#edgex-support-subscription-list table tfoot").hide();
         notification.renderSubscriptionList(data);
       },
@@ -199,6 +199,10 @@ orgEdgexFoundry.supportNotification = (function(){
   SupportNotification.prototype.renderSubscriptionList = function(data){
     //debugger
     $("#edgex-support-subscription-list table tbody").empty();
+    if(!data || data.length == 0){
+      $("#edgex-support-subscription-list table tfoot").show();
+      return;
+    }
     $.each(data,function(i,v){
       var rowData = "<tr>";
       rowData += '<td class="notification-delete-icon"><input type="hidden" value="'+v.slug+'"><div class="edgexIconBtn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></td>';
@@ -274,6 +278,7 @@ orgEdgexFoundry.supportNotification = (function(){
               url: '/support-notification/api/v1/subscription/slug/' + slug,
               type: 'DELETE',
               success: function(){
+                notification.refreshSubscriptionBtn();
                 bootbox.alert({
                   message: "delete success.",
                   className: 'red-green-buttons'
