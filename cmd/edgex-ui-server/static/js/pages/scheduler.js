@@ -90,6 +90,8 @@ orgEdgexFoundry.supportScheduler = (function(){
   }
 
   SupportScheduler.prototype.addSchedulerBtn = function(){
+    $("#edgex-support-scheduler-add-or-update .update-scheduler").hide();
+    $("#edgex-support-scheduler-add-or-update .add-scheduler").show();
     $("#edgex-support-scheduler-add-or-update").show();
   }
 
@@ -107,6 +109,7 @@ orgEdgexFoundry.supportScheduler = (function(){
     schedulerData.runOnce = runOnce == "false"?false:true;
     // debugger
     if(type=="new"){
+      delete schedulerData["id"];
       commitScheduler(schedulerData);
     }else{
       updateScheduler(schedulerData);
@@ -126,21 +129,24 @@ orgEdgexFoundry.supportScheduler = (function(){
         });
       },
       statusCode: {
-        400: function(){
+        400: function(err){
           bootbox.alert({
-            message: "malformed or unparsable requests !",
+            title:'Error',
+            message: "malformed or unparsable requests ! " + err.responseText,
             className: 'red-green-buttons'
           });
         },
         409: function(){
           bootbox.alert({
+            title:'Error',
             message: "if the start, end, or frequency strings are not properly formatted or if the name is determined to not be unique with regard to others !",
             className: 'red-green-buttons'
           });
         },
-        500: function(){
+        500: function(err){
           bootbox.alert({
-            message: "unknown or unanticipated issues !",
+            title:'Error',
+            message: "unknown or unanticipated issues ! " + + err.responseText,
             className: 'red-green-buttons'
           });
         }
@@ -163,18 +169,21 @@ orgEdgexFoundry.supportScheduler = (function(){
       statusCode: {
         400: function(){
           bootbox.alert({
+            title:'Error',
             message: "malformed or unparsable requests !",
             className: 'red-green-buttons'
           });
         },
         404: function(){
           bootbox.alert({
+            title:'Error',
             message: "no schedule is found for the id !",
             className: 'red-green-buttons'
           });
         },
         409: function(){
           bootbox.alert({
+            title:'Error',
             message: "the start, end, or frequency strings are not properly formatted !",
             className: 'red-green-buttons'
           });
@@ -199,14 +208,14 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   SupportScheduler.prototype.editSchedulerBtn = function(scheduler){
       var schedulerItem = JSON.parse(scheduler);
-      //debugger
+      debugger
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerId']").val(schedulerItem.id);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerName']").val(schedulerItem.name);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerStart']").val(schedulerItem.start);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerEnd']").val(schedulerItem.end);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerFrequency']").val(schedulerItem.frequency);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerCron']").val(schedulerItem.cron);
-      $("#edgex-support-scheduler-add-or-update form select[name='SchedulerRunOnce']").val(""+schedulerItem.runOnce);
+      $("#edgex-support-scheduler-add-or-update form select[name='SchedulerRunOnce']").val(schedulerItem.runOnce?"true":"false");
 
       $("#edgex-support-scheduler-add-or-update .update-scheduler").show();
       $("#edgex-support-scheduler-add-or-update .add-scheduler").hide();
