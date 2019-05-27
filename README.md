@@ -6,10 +6,43 @@
   <img src ="assets/images/export.png" />
 </p>
 
+```
+├── app
+│   ├── common
+│   ├── component
+│   ├── configs
+│   ├── controller
+│   ├── domain
+│   └── repository
+│       ├── mm
+│       └── mongo
+├── assets
+│   └── images
+├── bin
+│   └── edgex-ui-go-launch.sh
+├── cmd
+│   └── edgex-ui-server
+│       ├── res
+│       ├── main.go
+│       └── static
+│           ├── css
+│           ├── data
+│           ├── js
+│           ├── pages
+│           ├── index.html
+│           ├── templates
+│           └── vendors       
+│               
+└── docs
+    ├── api
+    └── deployments
+```
+
+
 ## Some video demo links
 
 * https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s
-* https://www.edgexfoundry.club
+* http://www.edgexfoundry.club
 
 ## face to face room at the appointed time, please contact to us before you want to have face-to-face chat.
 
