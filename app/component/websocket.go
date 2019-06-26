@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/edgexfoundry-holding/edgex-ui-go/configs"
+	"github.com/edgexfoundry/edgex-ui-go/app/common"
 	"github.com/gorilla/websocket"
 )
 
@@ -50,7 +50,7 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 
 	u := r.URL.RawQuery
 	m, _ := url.ParseQuery(u)
-	token := m[configs.SessionTokenKey][0]
+	token := m[common.SessionTokenKey][0]
 
 	wsConn.clientmapping[token] = ws
 	log.Println("ws token:" + token)
