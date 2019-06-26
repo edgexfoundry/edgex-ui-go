@@ -4,3 +4,7 @@ vendor
 go.sum
 *.DS_Store
 cmd/edgex-ui-server/edgex-ui-server
+
+*.snap
+prime/
+squashfs-root/
