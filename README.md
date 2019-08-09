@@ -51,9 +51,9 @@ https://VMware.zoom.us/j/3697467292
 ## Running in docker
 
 ```
-docker pull badboyqiao/edgex-ui-go:0.1.1
+docker pull edgexfoundry/docker-edgex-ui-go:1.0.0
 
-docker run -it -d -p 4000:4000 --name edgex-ui-go badboyqiao/edgex-ui-go:0.1.1
+docker run -it -d -p 4000:4000 --name edgex-ui-go edgexfoundry/docker-edgex-ui-go:1.0.0
 ```
 
 ## Install and Deploy
