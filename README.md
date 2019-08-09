@@ -42,7 +42,7 @@
 ## Some video demo links
 
 * https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s
-* http://www.edgexfoundry.club
+* https://www.edgexfoundry.club
 
 ## face to face room at the appointed time, please contact to us before you want to have face-to-face chat.
 
