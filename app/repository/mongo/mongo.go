@@ -17,6 +17,7 @@
 package mongo
 
 import (
+	"crypto/md5"
 	"fmt"
 	"log"
 	"time"
@@ -26,13 +27,13 @@ import (
 )
 
 var (
-	database      = configs.DBConf.Name
-	dbHost        = configs.DBConf.Host
-	dbPort        = configs.DBConf.Port
-	dbUserName    = configs.DBConf.Username
-	dbPassword    = configs.DBConf.Password
-	gatewayScheme = configs.DBConf.Scheme.Gateway
-	userScheme    = configs.DBConf.Scheme.User
+	database      string
+	dbHost        string
+	dbPort        int64
+	dbUserName    string
+	dbPassword    string
+	gatewayScheme string
+	userScheme    string
 )
 
 type DataStore struct {
@@ -45,7 +46,22 @@ func (ds DataStore) DataStore() *DataStore {
 	return &DataStore{ds.S.Copy()}
 }
 
+func loadConf() {
+	database = configs.DBConf.Name
+	dbHost = configs.DBConf.Host
+	dbPort = configs.DBConf.Port
+	dbUserName = configs.DBConf.Username
+	dbPassword = configs.DBConf.Password
+	gatewayScheme = configs.DBConf.Scheme.Gateway
+	userScheme = configs.DBConf.Scheme.User
+
+	log.Println(fmt.Sprintf("mongoDB connection info %s in %s:%d with credential (%s / %x), with scheme: %s, %s.",
+		database, dbHost, dbPort, dbUserName, md5.Sum([]byte(dbPassword)), gatewayScheme, userScheme))
+}
+
 func DBConnect() bool {
+	loadConf()
+
 	mongoAddress := fmt.Sprintf("%s:%d", dbHost, dbPort)
 	mongoDBDialInfo := &mgo.DialInfo{
 		Addrs:    []string{mongoAddress},
