@@ -185,8 +185,8 @@ orgEdgexFoundry.deviceService = (function(){
       rowData += "<td>" + (i + 1) +"</td>";
       rowData += "<td>" +  v.id + "</td>";
       rowData += "<td>" +  v.name + "</td>";
-			rowData += "<td>" +  v.description + "</td>";
-      rowData += "<td>" +  v.labels.join(',') + "</td>";
+			rowData += "<td>" +  (v.description?v.description:"") + "</td>";
+      rowData += "<td>" +  (v.labels?v.labels.join(','):"") + "</td>";
 			rowData += '<td class="device-service-addressable-search-icon"><input type="hidden" value=\''+JSON.stringify(v.addressable)+'\'>' + '<i class="fa fa-search-plus fa-lg"></i>' + '</td>';
       rowData += "<td>" +  v.operatingState + "</td>";
       rowData += "<td>" +  v.adminState + "</td>";
@@ -260,7 +260,7 @@ orgEdgexFoundry.deviceService = (function(){
 		$(".edgexfoundry-device-list-table table tbody").empty();
 		$("#edgexfoundry-device-list table tfoot").hide();
 		if (!devices || devices.length == 0) {
-			debugger
+
 			$("#edgexfoundry-device-list table tfoot").show();
 			return;
 		}
@@ -540,6 +540,7 @@ orgEdgexFoundry.deviceService = (function(){
 					return;
 				}
 				deviceService.renderDeviceProfile(data);
+				$(".edgexfoundry-device-profile-main table tfoot").hide();
 			},
 			statusCode: {
 
