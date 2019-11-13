@@ -15,6 +15,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
@@ -26,11 +27,19 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/app/configs"
 	"github.com/edgexfoundry/edgex-ui-go/app/repository/mm"
 	"github.com/edgexfoundry/edgex-ui-go/app/repository/mongo"
+	"github.com/edgexfoundry/edgex-ui-go/internal/pkg/usage"
 )
 
 func main() {
 
-	err := configs.LoadConfig("")
+	var confFilePath string
+
+	flag.StringVar(&confFilePath, "conf", "", "Specify local configuration file path")
+
+	flag.Usage = usage.HelpCallback
+	flag.Parse()
+
+	err := configs.LoadConfig(confFilePath)
 	if err != nil {
 		log.Printf("Load config failed. Error:%v\n", err)
 		return

@@ -83,7 +83,7 @@ func AuthFilter(h http.Handler) http.Handler {
 			return
 		}
 
-		for prefix, _ := range configs.ProxyMapping {
+		for prefix := range configs.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
 				path = strings.TrimPrefix(path, prefix)
 				ProxyHandler(w, r, path, prefix, token)
