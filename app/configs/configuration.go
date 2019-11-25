@@ -67,27 +67,35 @@ type Database struct {
 type DynamicProxy struct {
 	CoreDataPath string
 	CoreDataPort string
+	CoreDataUri  string
 
 	CoreMetadataPath string
 	CoreMetadataPort string
+	CoreMetadataUri  string
 
 	CoreCommandPath string
 	CoreCommandPort string
+	CoreCommandUri  string
 
 	CoreExportPath string
 	CoreExportPort string
+	CoreExportUri  string
 
 	RuleEnginePath string
 	RuleEnginePort string
+	RuleEngineUri string
 
 	SupportLoggingPath string
 	SupportLoggingPort string
+	SupportLoggingUri  string
 
 	SupportNotificationPath string
 	SupportNotificationPort string
+	SupportNotificationUri  string
 
 	SupportSchedulerPath string
 	SupportSchedulerPort string
+	SupportSchedulerUri  string
 }
 
 func LoadConfig(confFilePath string) error {

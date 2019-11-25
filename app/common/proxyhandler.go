@@ -34,6 +34,7 @@ const (
 var DynamicProxyCache = make(map[string]string, 10)
 
 func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string, token string) {
+	var proxyPath string
 	defer r.Body.Close()
 
 	targetIP := DynamicProxyCache[token]
@@ -42,20 +43,28 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 	switch prefix {
 	case configs.ProxyConf.CoreDataPath:
 		targetAddr += configs.ProxyConf.CoreDataPort
+		proxyPath = configs.ProxyConf.CoreDataUri + path
 	case configs.ProxyConf.CoreMetadataPath:
 		targetAddr += configs.ProxyConf.CoreMetadataPort
+		proxyPath = configs.ProxyConf.CoreMetadataUri + path
 	case configs.ProxyConf.CoreCommandPath:
 		targetAddr += configs.ProxyConf.CoreCommandPort
+		proxyPath = configs.ProxyConf.CoreCommandUri + path
 	case configs.ProxyConf.CoreExportPath:
 		targetAddr += configs.ProxyConf.CoreExportPort
+		proxyPath = configs.ProxyConf.CoreExportUri + path
 	case configs.ProxyConf.RuleEnginePath:
 		targetAddr += configs.ProxyConf.RuleEnginePort
+		proxyPath = configs.ProxyConf.RuleEngineUri + path
 	case configs.ProxyConf.SupportLoggingPath:
 		targetAddr += configs.ProxyConf.SupportLoggingPort
+		proxyPath = configs.ProxyConf.SupportLoggingUri + path
 	case configs.ProxyConf.SupportNotificationPath:
 		targetAddr += configs.ProxyConf.SupportNotificationPort
+		proxyPath = configs.ProxyConf.SupportNotificationUri + path
 	case configs.ProxyConf.SupportSchedulerPath:
 		targetAddr += configs.ProxyConf.SupportSchedulerPort
+		proxyPath = configs.ProxyConf.SupportSchedulerUri + path
 	}
 
 	origin, _ := url.Parse(targetAddr)
@@ -65,7 +74,7 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 		req.Header.Add(OriginHostReqHeader, origin.Host)
 		req.URL.Scheme = HttpProtocol
 		req.URL.Host = origin.Host
-		req.URL.Path = path
+		req.URL.Path = proxyPath
 	}
 
 	proxy := &httputil.ReverseProxy{Director: director}
