@@ -8,3 +8,4 @@ cmd/edgex-ui-server/edgex-ui-server
 prime/
 squashfs-root/
 coverage.out
+VERSION

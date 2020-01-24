@@ -15,7 +15,7 @@ MICROSERVICES=cmd/edgex-ui-server/edgex-ui-server
 DOCKERS=docker_edgex_ui_go
 .PHONY: $(DOCKERS)
 
-VERSION=$(shell cat ./VERSION)
+VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
 
 GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 
@@ -35,6 +35,9 @@ test:
 	GO111MODULE=on go vet ./...
 
 prepare:
+
+update:
+	$(GO) mod download
 
 run:
 	cd bin && ./edgex-ui-go-launch.sh

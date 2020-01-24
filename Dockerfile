@@ -1,21 +1,29 @@
-FROM golang:1.11-alpine AS builder
-MAINTAINER huaqiao zhang <huaqiaoz@vmware.com>
+ARG BASE=golang:1.11-alpine
+FROM ${BASE} AS builder
+
+ARG MAKE="make cmd/edgex-ui-server/edgex-ui-server"
+ARG ALPINE_PKG_BASE="make git"
+ARG ALPINE_PKG_EXTRA=""
+
+LABEL Name=edgex-ui-go
+
+LABEL license='SPDX-License-Identifier: Apache-2.0' \
+  copyright='Copyright (c) 2018-2020: Intel'
+
+RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
+RUN apk add --no-cache ${ALPINE_PKG_BASE} ${ALPINE_PKG_EXTRA}
 
 WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go
 
-RUN cp /etc/apk/repositories /etc/apk/repositories.bak
-RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.6/main" > /etc/apk/repositories
-RUN echo "https://mirrors.ustc.edu.cn/alpine/v3.6/community" >> /etc/apk/repositories
-RUN cat /etc/apk/repositories
+COPY go.mod .
+COPY Makefile .
 
-RUN apk update && apk add git make
+RUN make update
 
 COPY . .
+RUN ${MAKE}
 
-RUN make prepare
-RUN make cmd/edgex-ui-server/edgex-ui-server
-
-FROM alpine:3.6
+FROM alpine
 
 EXPOSE 4000
 
