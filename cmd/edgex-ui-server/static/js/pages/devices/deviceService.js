@@ -324,14 +324,14 @@ orgEdgexFoundry.deviceService = (function(){
 		$(".edgexfoundry-device-form input[name='deviceID']").val(device.id);
 		$(".edgexfoundry-device-form input[name='deviceName']").val(device.name);
 		$(".edgexfoundry-device-form input[name='deviceDescription']").val(device.description);
-		$(".edgexfoundry-device-form input[name='deviceLabels']").val(device.service.labels.join(','));
+		$(".edgexfoundry-device-form input[name='deviceLabels']").val(device.labels?device.labels.join(','):"");
 		$(".edgexfoundry-device-form input[name='deviceAdminState']").val(device.adminState);
 		$(".edgexfoundry-device-form input[name='deviceOperatingState']").val(device.operatingState);
 		$(".edgexfoundry-device-form input[name='deviceProfile']").val(device.profile.name);
 
 		$("#edgexfoundry-device-list").hide();
 		$("#edgexfoundry-device-main .edgexfoundry-device-update-or-add").show();
-	}
+	};
 
 	DeviceService.prototype.addDevice = function(){
     deviceService.resetProtocol();
