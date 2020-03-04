@@ -32,12 +32,14 @@ var (
 	DBConf       Database
 	ProxyConf    DynamicProxy
 	ProxyMapping map[string]string
+	RegistryConf RegistryConfig
 )
 
 type config struct {
 	Server Service      `toml:"Service"`
 	DB     Database     `toml:"Database"`
 	Proxy  DynamicProxy `toml:"DynamicProxy"`
+	RegistryConf RegistryConfig `toml:"Registry"`
 }
 
 type Service struct {
@@ -90,6 +92,14 @@ type DynamicProxy struct {
 	SupportSchedulerPort string
 }
 
+type RegistryConfig struct{
+	Host string
+	Port int
+	Type string
+	ConfigRegistryStem string
+	ServiceKey string
+}
+
 func LoadConfig(confFilePath string) error {
 	if len(confFilePath) == 0 {
 		confFilePath = defaultConfigFilePath
@@ -109,6 +119,7 @@ func LoadConfig(confFilePath string) error {
 	ServerConf = conf.Server
 	DBConf = conf.DB
 	ProxyConf = conf.Proxy
+	RegistryConf = conf.RegistryConf
 	initProxyMapping()
 	return nil
 }
