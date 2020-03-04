@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="content-type" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
+    <title>Application Services</title>
+    <link href="/css/appService.css" rel="stylesheet">
+    <script src="/js/pages/appService.js"></script>
+</head>
+<body>
+<!-- notification section start -->
+<div id="edgex-foundry-support-appService">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Application Services</h3>
+            <div id="gateway_button_group" style="float: right;margin-top: -25px;margin-right: 320px">
+                <button type="button" class="btn btn-warning" onclick="downloadProlile();">
+                    <i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;Download Profile
+                </button>
+                <button type="button" class="btn btn-success" onclick="deployToConsul();">
+                    <i class="fa fa-wrench" aria-hidden="true"></i>&nbsp;Deploy to Consul
+                </button>
+            </div>
+        </div>
+        <div class="wrap">
+            <aside id="left"></aside>
+            <section id="right">
+                <div>
+                    <h4 align="center" class="text-success">Available Transforms</h4>
+                </div>
+                <div class="helper-dialog-wrapper drop-card" id = "filterByDeviceNameDiv">
+
+                     <div class="description">
+                         <h5 align="center" class="transform">Filter By Device Name</h5>
+                         <p>to filter events for a specific device.</p>
+                     </div>
+                </div>
+                <div class="helper-dialog-wrapper drop-card" id = "transformToXML">
+
+                    <div class="description">
+                        <h5 align="center" class="transform">Transform to XML</h5>
+                        <p>to transform the data to XML</p>
+                    </div>
+                </div>
+                <div class="helper-dialog-wrapper drop-card" id = "httpPost">
+
+                    <div class="description">
+                        <h5 align="center" class="transform">HTTP Post</h5>
+                        <p>to send the data to an HTTP endpoint that takes our XML data</p>
+                    </div>
+                </div>
+                <div class="helper-dialog-wrapper drop-card" id = "markAsPushed">
+
+                    <div class="description">
+                        <h5 align="center" class="transform">Mark as Pushed</h5>
+                        <p>to call Core Data API to mark the event as having been pushed</p>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</div>
+<!-- notification section end -->
+
+</body>
+</html>

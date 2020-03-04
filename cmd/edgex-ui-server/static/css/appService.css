@@ -1,0 +1,45 @@
+.wrap{
+    width:100%;
+    margin:0 auto;
+    overflow: hidden;
+}
+#left{
+    width:80%;
+    height:800px;
+    background: #f7f7f9;
+    border-color:#d6e9c6;
+    float: left;
+}
+#right{
+    width:20%;
+    height:800px;
+    /*background: #ffcccc;*/
+    border-left:1px solid #d6e9c6;background:#fafcfd;
+    float: left;
+}
+.drop-card{
+    margin-top: 20px;
+    height: 80px;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    text-align: center;
+ }
+.transform{
+    font-weight: bold;
+}
+.description{
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: smaller;
+    float: left;
+    text-align:center
+}
+input{
+    width:300px;
+    outline-style: none ;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 30px;
+    margin-right: 100px;
+    float:right;
+}
