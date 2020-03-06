@@ -41,6 +41,9 @@ func InitRestRoutes() http.Handler {
 
 	s.HandleFunc("/profile/download", controller.DowloadProfile).Methods(http.MethodGet)
 
+	s.HandleFunc("/appservice/configurable/deploy",controller.DeployConfigurableProfile).Methods(http.MethodPost)
+	s.HandleFunc("/appservice/configurable/download",controller.DownloadConfigurableProfile).Methods(http.MethodGet)
+
 	s1 := r.PathPrefix("").Subrouter()
 	s1.HandleFunc("/ws", component.WebSocketHandler)
 
