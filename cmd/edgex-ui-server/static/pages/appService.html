@@ -10,7 +10,6 @@
     <script src="/js/pages/appService.js"></script>
 </head>
 <body>
-<!-- notification section start -->
 <div id="edgex-foundry-support-appService">
     <div class="panel panel-success">
         <div class="panel-heading">
@@ -25,45 +24,86 @@
             </div>
         </div>
         <div class="wrap">
-            <aside id="left"></aside>
+            <aside id="left">
+
+            </aside>
             <section id="right">
                 <div>
                     <h4 align="center" class="text-success">Available Transforms</h4>
                 </div>
-                <div class="helper-dialog-wrapper drop-card" id = "filterByDeviceNameDiv">
-
-                     <div class="description">
-                         <h5 align="center" class="transform">Filter By Device Name</h5>
-                         <p>to filter events for a specific device.</p>
-                     </div>
-                </div>
-                <div class="helper-dialog-wrapper drop-card" id = "transformToXML">
-
-                    <div class="description">
-                        <h5 align="center" class="transform">Transform to XML</h5>
-                        <p>to transform the data to XML</p>
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#Transforms" data-toggle="tab">Transforms</a>
+                    </li>
+                    <li><a href="#Triggers" data-toggle="tab">Triggers</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="Transforms">
+                        <div class="panel-group" id="accordion">
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Triggers">
+                        <div style="padding:10px;">
+                            <div class="list-group">
+                                <a class="list-group-item">
+                                    <span class="badge">2016-10-19</span>
+                                    Cras justo odio
+                                </a>
+                                <a class="list-group-item">
+                                    <span class="badge">2016-10-19</span>
+                                    Cras justo odio
+                                </a>
+                                <a class="list-group-item">
+                                    <span class="badge">2016-10-19</span>
+                                    Cras justo odio
+                                </a>
+                                <a class="list-group-item">
+                                    <span class="badge">2016-10-19</span>
+                                    Cras justo odio
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="helper-dialog-wrapper drop-card" id = "httpPost">
-
-                    <div class="description">
-                        <h5 align="center" class="transform">HTTP Post</h5>
-                        <p>to send the data to an HTTP endpoint that takes our XML data</p>
-                    </div>
-                </div>
-                <div class="helper-dialog-wrapper drop-card" id = "markAsPushed">
-
-                    <div class="description">
-                        <h5 align="center" class="transform">Mark as Pushed</h5>
-                        <p>to call Core Data API to mark the event as having been pushed</p>
-                    </div>
-                </div>
-
             </section>
         </div>
     </div>
 </div>
-<!-- notification section end -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Parameters</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="txt_departmentname">param1</label>
+                    <input type="text" name="txt_departmentname" class="form-control" id="txt_departmentname" placeholder="param1">
+                </div>
+                <div class="form-group">
+                    <label for="txt_parentdepartment">param2</label>
+                    <input type="text" name="txt_parentdepartment" class="form-control" id="txt_parentdepartment" placeholder="param2">
+                </div>
+                <div class="form-group">
+                    <label for="txt_departmentlevel">param3</label>
+                    <input type="text" name="txt_departmentlevel" class="form-control" id="txt_departmentlevel" placeholder="param3">
+                </div>
+                <div class="form-group">
+                    <label for="txt_statu">param4</label>
+                    <input type="text" name="txt_statu" class="form-control" id="txt_statu" placeholder="param4">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>Close</button>
+                <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span aria-hidden="true"></span>Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
