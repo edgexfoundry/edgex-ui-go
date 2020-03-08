@@ -24,6 +24,7 @@ function EdgexFoundry(){
   this.supportScheduler= null;
   this.supportRuleEngine = null;
   this.deviceService = null;
+  this.appService = null;
   this.utils = null;
 }
 
