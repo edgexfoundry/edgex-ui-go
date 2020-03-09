@@ -219,7 +219,9 @@
 							<table>
 								<tr>
 									<td>Name</td>
-									<td><input class="form-control" type="text" name="deviceServiceName" value="" placeholder="copy from deviceService list"></td>
+									<td>
+										<select class="form-control" id="deviceServiceNameSelect"></select>
+									</td>
 								</tr>
 							</table>
 						</fieldset>
@@ -237,7 +239,7 @@
 								</tr>
 								<tr>
 									<td>Labels</td>
-									<td><input class="form-control" type="text" name="deviceLabels" value=""></td>
+									<td><input class="form-control" type="text" name="deviceLabels" placeholder="label1,label2" value=""></td>
 									<td>AdminState</td>
 									<td>
 										<select class="form-control" name="deviceAdminState">
@@ -261,7 +263,9 @@
 							<table>
 								<tr>
 									<td>DeviceProfile</td>
-									<td><input class="form-control" type="text" name="deviceProfile" value="" placeholder="copy from deviceProfile list"></td>
+									<td>
+										<select class="form-control" id="deviceProfileNameSelect"></select>
+									</td>
 								</tr>
 							</table>
 						</fieldset>
@@ -272,7 +276,8 @@
 							<div class="edgexfoundry-device-protocols" style="width: 100%;overflow: auto;">
 								<div class="device-protocol" style="align:center;">
 									<div style="display:inline-block;float:left;margin-right:10px;">
-										<input type="text" class="form-control" name="deviceProtocolName">
+										<select class="form-control" id="deviceProtocolNameSelect">
+										</select>
 									</div>
 
 									<div class="protocol-body" style="display:inline-block;border-left:1px solid gray;">
