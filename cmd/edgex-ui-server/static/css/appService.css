@@ -5,17 +5,15 @@
 }
 #left{
     width:80%;
-    height:800px;
-    background: #f7f7f9;
-    border-color:#d6e9c6;
+    min-height:800px;
+    background:#fafcfd;
     float: left;
 }
 #right{
     width:20%;
-    height:800px;
-    /*background: #ffcccc;*/
+    min-height:800px;
     border-left:1px solid #d6e9c6;background:#fafcfd;
-    float: left;
+    float: right;
 }
 .drop-card{
     margin-top: 20px;
@@ -23,7 +21,7 @@
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     text-align: center;
- }
+}
 .transform{
     font-weight: bold;
 }
@@ -34,7 +32,7 @@
     float: left;
     text-align:center
 }
-input{
+.paramButton{
     width:300px;
     outline-style: none ;
     border: 1px solid #ccc;
@@ -42,4 +40,19 @@ input{
     margin-top: 30px;
     margin-right: 100px;
     float:right;
+}
+
+.modal-dialog{
+    position:fixed;
+    top:20%;
+    right:0;
+    left:0;
+    bottom:0;
+    margin:auto;
+}
+
+.modal-backdrop {
+    z-index: -1 !important;
+    opacity: 0 !important;
+    filter: alpha(opacity=0) !important;
 }
