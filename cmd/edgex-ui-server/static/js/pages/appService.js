@@ -30,8 +30,32 @@ orgEdgexFoundry.appService = (function () {
         initPipeline:null,
         clickParamButton:null
     };
+
     var appService = new AppService();
-    AppService.prototype.clickParamButton = function () {
+
+    AppService.prototype.clickParamButton = function (e) {
+        $("#paramsBox").empty();
+        var type = e.id.split("_")[1];
+        var name = e.id.split("_")[2];
+        var params;
+        $.each(appService.PipelineFunctionList[type], function (index,val) {
+            if(val.Name == name){
+                params = val.Parameters;
+                return false;
+            }
+        });
+        if(params != null){
+            $.each(params, function (index,val) {
+                $("#paramsBox").append("<div class=\"form-group\">\n" +
+                    "                    <label for=\""+type+"_"+name+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                    "                    <input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control\" id=\""+type+"_"+name+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                    "                </div>");
+            });
+        }else{
+            $("#paramsBox").append("<div class=\"form-group\">\n" +
+                "                    <label for=\"txt_department\">This Function does not require input parameters.</label>\n" +
+                "                </div>");
+        }
         $('#myModal').modal();
     };
     AppService.prototype.initPipeline = function initPipeline() {
@@ -63,7 +87,6 @@ orgEdgexFoundry.appService = (function () {
     };
     AppService.prototype.dragDlg = function (){
         var moveDivId;
-        var rightContainer = $("#right");
         var leftContainer = $("#left");
         var x = 0;
         var y = 0;
@@ -96,8 +119,8 @@ orgEdgexFoundry.appService = (function () {
         $(".helper-dialog-wrapper").bind("mouseup",function() {
                 if(leftContainer.find("div[id='"+moveDivId+"']").length == 0){
                     leftContainer.append($("#"+moveDivId));
-                    if($("#"+moveDivId).find("input[type='text']").length == 0){
-                        var button='<button type="button" onclick="clickParamButton()" class="btn btn-success paramButton" value="" id="'+moveDivId+'input" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
+                    if($("#"+moveDivId).find("button[type='button']").length == 0){
+                        var button='<button type="button" onclick="orgEdgexFoundry.appService.clickParamButton(this)" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
                             '<i class="fa fa-wrench" aria-hidden="true"></i>&nbsp;Set Params</button>';
                         $("#"+moveDivId).append(button);
                     }
@@ -114,17 +137,11 @@ orgEdgexFoundry.appService = (function () {
             }
         );
     };
+
     AppService.prototype.downloadProfile = function(){
-        $.ajax({
-            url: '/api/v1/appservice/configurable/download',
-            // data: json,
-            type: 'GET',
-            success: function(data){
-                console.log(data);
-            },
-            error: function(){
-            }
-        });
+        var link = document.createElement("a");
+        link.href = '/api/v1/appservice/configurable/download?X-Session-Token='+window.sessionStorage.getItem("X_Session_Token");
+        link.click();
     };
 
     AppService.prototype.deployToConsul = function(){
