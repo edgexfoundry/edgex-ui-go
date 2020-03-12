@@ -804,35 +804,41 @@ orgEdgexFoundry.deviceService = (function(){
 		$("#add-profile-panel").hide();
 	}
 
-	DeviceService.prototype.uploadProfile = function(){
-		$("#add-profile-panel").hide();
-
-		var form = $("#add-profile-panel form")[0];
-		form.action = "/core-metadata/api/v1/deviceprofile/uploadfile?X-Session-Token=" + window.sessionStorage.getItem('X_Session_Token');
-		form.method = "POST"
-		form.enctype="multipart/form-data"
-		form.submit();
-		var iframe = $("#add-profile-panel iframe")[0];
-		iframe.onload = function(event) {
-			var doc = iframe.contentDocument;
-			var response = $(doc).find('body').html();
-			var result = response.match("code");
-			if (result != null || $(doc).find('body').find("h1").length != 0) {
-				bootbox.alert({
-					title: "Error",
-					message: "upload profile failed !",
-					className: 'red-green-buttons'
-				});
-			} else {
-				form.reset();
-				bootbox.alert({
-					message: "upload success !",
-					className: 'red-green-buttons'
-				});
-				orgEdgexFoundry.deviceService.loadDeviceProfile();
-			}
-		}
-	}
+    DeviceService.prototype.uploadProfile = function () {
+        $("#add-profile-panel").hide();
+        var formData = new FormData($("#add-profile-panel form")[0]);
+        var reqUrl = "/core-metadata/api/v1/deviceprofile/uploadfile?X-Session-Token=" + window.sessionStorage.getItem('X_Session_Token');
+        $.ajax({
+            url: reqUrl,
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            complete: function (jqXHR, textStatus) {
+                if (jqXHR.status == 200) {
+                    bootbox.alert({
+                        message: "Upload device profile success !",
+                        className: 'red-green-buttons'
+                    });
+                    orgEdgexFoundry.deviceService.loadDeviceProfile();
+                } else if (jqXHR.status == 409) {
+                    bootbox.alert({
+                        title: "Error",
+                        message: "Duplicate profile name !",
+                        className: 'red-green-buttons'
+                    });
+                } else {
+                    bootbox.alert({
+                        title: "Error",
+                        message: "Upload failure !",
+                        className: 'red-green-buttons'
+                    });
+                }
+            }
+        });
+    };
 
 	DeviceService.prototype.onSelectFileCompleted = function() {
 		var uploadInput = $("#add-profile-action")
