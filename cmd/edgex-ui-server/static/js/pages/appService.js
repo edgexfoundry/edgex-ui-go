@@ -13,6 +13,7 @@
  *******************************************************************************/
 
 $(document).ready(function(){
+    console.log(window.sessionStorage.getItem("X_Session_Token"));
     orgEdgexFoundry.appService.initPipeline();
     orgEdgexFoundry.appService.dragDlg();
 });
@@ -21,6 +22,7 @@ orgEdgexFoundry.appService = (function () {
     "use strict";
     function AppService() {
         this.PipelineFunctionList = null;
+        this.deployData = null;
     }
     AppService.prototype = {
         constructor:AppService,
@@ -28,7 +30,8 @@ orgEdgexFoundry.appService = (function () {
         downloadProfile:null,
         deployToConsul:null,
         initPipeline:null,
-        clickParamButton:null
+        clickParamButton:null,
+        saveParams:null
     };
 
     var appService = new AppService();
@@ -36,10 +39,10 @@ orgEdgexFoundry.appService = (function () {
     AppService.prototype.clickParamButton = function (e) {
         $("#paramsBox").empty();
         var type = e.id.split("_")[1];
-        var name = e.id.split("_")[2];
+        var functionName = e.id.split("_")[2];
         var params;
         $.each(appService.PipelineFunctionList[type], function (index,val) {
-            if(val.Name == name){
+            if(val.Name == functionName){
                 params = val.Parameters;
                 return false;
             }
@@ -47,17 +50,24 @@ orgEdgexFoundry.appService = (function () {
         if(params != null){
             $.each(params, function (index,val) {
                 $("#paramsBox").append("<div class=\"form-group\">\n" +
-                    "                    <label for=\""+type+"_"+name+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                    "                    <input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control\" id=\""+type+"_"+name+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                    "                    <label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                    "                    <input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
                     "                </div>");
             });
-        }else{
-            $("#paramsBox").append("<div class=\"form-group\">\n" +
-                "                    <label for=\"txt_department\">This Function does not require input parameters.</label>\n" +
-                "                </div>");
+            $('#myModal').modal();
         }
-        $('#myModal').modal();
     };
+
+    AppService.prototype.saveParams = function(){
+        var type = $("#paramsBox").find("input")[0].id.split("_")[0];
+        var functionName = $("#paramsBox").find("input")[0].id.split("_")[1];
+        $.each($("#paramsBox").find("input"), function (index,val) {
+            var paramName = val.id.split("_")[2];
+            var paramValue = val.value;
+            appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[paramName]=paramValue;
+        });
+    }
+
     AppService.prototype.initPipeline = function initPipeline() {
         $.each(appService.PipelineFunctionList,function (key,value) {
             $("#accordion").append("<div class=\"panel panel-default\">\n" +
@@ -78,13 +88,13 @@ orgEdgexFoundry.appService = (function () {
                 $("#plus"+key).append("<div class=\"helper-dialog-wrapper drop-card\" id = \""+key+"_"+val.Name+"\" title=\""+key+"_"+val.Name+"\">\n" +
                     "                     <div class=\"description\">\n" +
                     "                         <h5 align=\"center\" class=\"transform\">"+val.Name+"</h5>\n" +
-                    "                         <p>Description:"+val.Description+"</p>\n" +
                     "                     </div>\n" +
                     "                </div>");
             })
 
         });
     };
+
     AppService.prototype.dragDlg = function (){
         var moveDivId;
         var leftContainer = $("#left");
@@ -117,21 +127,59 @@ orgEdgexFoundry.appService = (function () {
         };
 
         $(".helper-dialog-wrapper").bind("mouseup",function() {
+            var type = moveDivId.split("_")[0];
+            var functionName = moveDivId.split("_")[1];
+            var params;
                 if(leftContainer.find("div[id='"+moveDivId+"']").length == 0){
                     leftContainer.append($("#"+moveDivId));
-                    if($("#"+moveDivId).find("button[type='button']").length == 0){
-                        var button='<button type="button" onclick="orgEdgexFoundry.appService.clickParamButton(this)" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
+                    $.each(appService.PipelineFunctionList[type], function (index,val) {
+                        if(val.Name == functionName){
+                            params = val.Parameters;
+                            return false;
+                        }
+                    });
+                    var button ;
+                    if(params != null){
+                        button ='<button type="button" onclick="orgEdgexFoundry.appService.clickParamButton(this)" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
                             '<i class="fa fa-wrench" aria-hidden="true"></i>&nbsp;Set Params</button>';
-                        $("#"+moveDivId).append(button);
+                    }else {
+                        button ='<button type="button" disabled="disabled" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
+                            '&nbsp;No parameters required.</button>';
                     }
+                    $("#"+moveDivId).append(button);
+                    var desc = '';
+                    $.each(appService.PipelineFunctionList[type], function (index,val) {
+                        if(val.Name == functionName){
+                            desc = val.Description;
+                        }
+                    });
+                    var descElement=document.createElement("p");
+                    descElement.innerHTML= desc;
+                    $("#"+moveDivId).find("div[class='description']")[0].append(descElement);
                     $("#"+moveDivId).css("left",0);
                     $("#"+moveDivId).css("top",20);
-                }
-                else{
+                    $("#"+moveDivId).css("position","relative");
+                    appService.deployData.Writable.Pipeline.Functions[functionName]={"Parameters":{}};
+                    if(appService.deployData.Writable.Pipeline.ExecutionOrder == ""){
+                        appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder + functionName;
+                    }else {
+                        appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder + "," + functionName;
+                    }
+                }else{
                     $("#plus"+moveDivId.split("_")[0]).append($("#"+moveDivId));
+                    $("#"+moveDivId)[0].removeChild($("#"+moveDivId).find("button")[0]);
+                    $("#"+moveDivId).find("div[class='description']")[0].removeChild($("#"+moveDivId).find("p")[0]);
                     $("#"+moveDivId).css("left",0);
                     $("#"+moveDivId).css("top",0);
-                    $("#"+moveDivId)[0].removeChild($("#"+moveDivId).find("button")[0]);
+                    delete appService.deployData.Writable.Pipeline.Functions[functionName];
+                    var executionOrderArr = appService.deployData.Writable.Pipeline.ExecutionOrder.split(",");
+                    if(executionOrderArr.length > 1 && functionName != executionOrderArr[0]){
+                        appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder.replace(","+functionName,"");
+                    }else if(executionOrderArr.length > 1 && functionName == executionOrderArr[0]){
+                        appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder.replace(functionName+",","");
+                    }else{
+                        appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder.replace(functionName,"");
+                    }
                 }
                 isDown = false;
             }
@@ -145,21 +193,44 @@ orgEdgexFoundry.appService = (function () {
     };
 
     AppService.prototype.deployToConsul = function(){
+        console.log(JSON.stringify(appService.deployData));
         $.ajax({
             url: '/api/v1/appservice/configurable/deploy',
             type: 'POST',
-            success: function(data){
-                console.log(data);
+            dataType: "JSON",
+            contentType: "application/json",
+            data: JSON.stringify(appService.deployData),
+            statusCode: {
+                200: function(){
+                    bootbox.alert({
+                        message: "deploy success!",
+                        className: 'red-green-buttons'
+                    });
+                }
             },
-            error: function(){
+            error: function(error){
+                console.log(error);
             }
         });
     };
+
+    appService.deployData = {
+        "Writable": {
+            "LogLevel": "INFO",
+            "Pipeline": {
+                "ExecutionOrder": "",
+                "Functions": {
+
+                }
+            }
+        }
+    };
+
     appService.PipelineFunctionList = {
         'Filtering':[
             {
                 'Name':'FilterByDeviceName',
-                'Description': '',
+                'Description': 'To filter events for a specific device.',
                 'Parameters': [
                     {
                         'Name':'DeviceNames',
@@ -208,7 +279,7 @@ orgEdgexFoundry.appService = (function () {
         'Conversion':[
             {
                 'Name':'TransformToXML',
-                'Description':'',
+                'Description':'To transform the data to XML.',
                 'Parameters':null,
                 'Addressable': null
             },
@@ -236,7 +307,7 @@ orgEdgexFoundry.appService = (function () {
         'CoreData':[
             {
                 'Name':'MarkAsPushed',
-                'Description':'',
+                'Description':'To call Core Data API to mark the event as having been pushed.',
                 'Parameters':null,
                 'Addressable': null
             },
@@ -263,7 +334,7 @@ orgEdgexFoundry.appService = (function () {
         'Export':[
             {
                 'Name':'HTTPPost',
-                'Description':'',
+                'Description':'To send the data to an HTTP endpoint that takes our XML data.',
                 'Parameters': [
                     {
                         'Name':'url',
