@@ -13,7 +13,6 @@
  *******************************************************************************/
 
 $(document).ready(function(){
-    console.log(window.sessionStorage.getItem("X_Session_Token"));
     orgEdgexFoundry.appService.initPipeline();
     orgEdgexFoundry.appService.dragDlg();
 });
@@ -66,7 +65,7 @@ orgEdgexFoundry.appService = (function () {
             var paramValue = val.value;
             appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[paramName]=paramValue;
         });
-    }
+    };
 
     AppService.prototype.initPipeline = function initPipeline() {
         $.each(appService.PipelineFunctionList,function (key,value) {
@@ -193,7 +192,17 @@ orgEdgexFoundry.appService = (function () {
     };
 
     AppService.prototype.deployToConsul = function(){
-        console.log(JSON.stringify(appService.deployData));
+        $.each(appService.deployData.Writable.Pipeline.Functions,function (k, v) {
+            if(!v.hasOwnProperty("Parameters")){
+                appService.deployData.Writable.Pipeline.Functions[k].Parameters = {
+                    "p" : "",
+                }
+            }else if (Object.keys(v.Parameters).length == 0){
+                appService.deployData.Writable.Pipeline.Functions[k].Parameters = {
+                    "p" : "",
+                }
+            }
+        });
         $.ajax({
             url: '/api/v1/appservice/configurable/deploy',
             type: 'POST',
@@ -209,7 +218,11 @@ orgEdgexFoundry.appService = (function () {
                 }
             },
             error: function(error){
-                console.log(error);
+                bootbox.alert({
+                    title : "Error",
+                    message: "deploy failure!",
+                    className: 'red-green-buttons'
+                });
             }
         });
     };
@@ -219,8 +232,8 @@ orgEdgexFoundry.appService = (function () {
             "LogLevel": "INFO",
             "Pipeline": {
                 "ExecutionOrder": "",
+                "UseTargetTypeOfByteArray":'false',
                 "Functions": {
-
                 }
             }
         }
@@ -345,13 +358,13 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'mimeType',
                         'Default': 'application/json',
-                        'Hint': '',
+                        'Hint': 'application/json',
                         'Required': false
                     },
                     {
                         'Name':'persistOnError',
                         'Default': 'false',
-                        'Hint': '',
+                        'Hint': 'false',
                         'Required': false
                     },
                 ],
@@ -370,7 +383,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'persistOnError',
                         'Default': 'false',
-                        'Hint': '',
+                        'Hint': 'false',
                         'Required': false
                     },
                 ],
@@ -389,7 +402,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'persistOnError',
                         'Default': 'false',
-                        'Hint': '',
+                        'Hint': 'false',
                         'Required': false
                     },
                 ],
@@ -402,7 +415,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'qos',
                         'Default': '0',
-                        'Hint': '',
+                        'Hint': '0',
                         'Required': true
                     },
                     {
@@ -414,13 +427,13 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'autoreconnect',
                         'Default': 'false',
-                        'Hint': '',
+                        'Hint': 'false',
                         'Required': true
                     },
                     {
                         'Name':'retain',
                         'Default': 'false',
-                        'Hint': '',
+                        'Hint': 'false',
                         'Required': true
                     },
                     {
@@ -432,7 +445,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'persistOnError',
                         'Default': 'false',
-                        'Hint': '',
+                        'Hint': 'false',
                         'Required': true
                     }
                 ],
@@ -440,19 +453,19 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'Address',
                         'Default': 'localhost',
-                        'Hint': '',
+                        'Hint': 'localhost',
                         'Required': true
                     },
                     {
                         'Name':'Port',
                         'Default': '1883',
-                        'Hint': '',
+                        'Hint': '1883',
                         'Required': true
                     },
                     {
                         'Name':'Protocol',
                         'Default': 'tcp',
-                        'Hint': '',
+                        'Hint': 'tcp',
                         'Required': true
                     },
                     {
