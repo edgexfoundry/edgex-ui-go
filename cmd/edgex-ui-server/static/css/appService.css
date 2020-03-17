@@ -26,14 +26,15 @@
     font-weight: bold;
 }
 .description{
-    padding-left: 80px;
-    padding-top:20px;
+    position: relative;
+    top: 25%;
+    left: 20%;
     font-size: smaller;
     float: left;
     text-align:center
 }
 .paramButton{
-    width:300px;
+    width:30%;
     outline-style: none ;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -41,7 +42,14 @@
     margin-right: 100px;
     float:right;
 }
-
+.button_group{
+    float: right;
+    margin-top: -25px;
+    margin-right: 20%;
+}
+.triggers_group{
+    padding:10px;
+}
 .modal-dialog{
     position:fixed;
     top:20%;

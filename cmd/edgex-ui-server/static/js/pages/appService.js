@@ -40,17 +40,17 @@ orgEdgexFoundry.appService = (function () {
         var type = e.id.split("_")[1];
         var functionName = e.id.split("_")[2];
         var params;
-        $.each(appService.PipelineFunctionList[type], function (index,val) {
-            if(val.Name == functionName){
-                params = val.Parameters;
-                return false;
-            }
-        });
+        var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
+        params = filterFunction[0].Parameters;
         if(params != null){
             $.each(params, function (index,val) {
+                var inputVal = '';
+                if(!$.isEmptyObject(appService.deployData.Writable.Pipeline.Functions[functionName].Parameters)){
+                    inputVal = appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[val.Name];
+                }
                 $("#paramsBox").append("<div class=\"form-group\">\n" +
                     "                    <label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                    "                    <input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                    "                    <input type=\"text\" value=\""+inputVal+"\" name=\"input_"+val.Name+"\"\" class=\"form-control\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
                     "                </div>");
             });
             $('#myModal').modal();
@@ -62,7 +62,14 @@ orgEdgexFoundry.appService = (function () {
         var functionName = $("#paramsBox").find("input")[0].id.split("_")[1];
         $.each($("#paramsBox").find("input"), function (index,val) {
             var paramName = val.id.split("_")[2];
-            var paramValue = val.value;
+            var paramValue = '';
+            if(val.value ==null || val.value == ''){
+                var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
+                var filterParam = eval(filterFunction[0].Parameters).filter(function (e) { return e.Name == paramName; });
+                paramValue = filterParam[0].Hint;
+            }else{
+                paramValue = val.value;
+            }
             appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[paramName]=paramValue;
         });
     };
@@ -131,12 +138,8 @@ orgEdgexFoundry.appService = (function () {
             var params;
                 if(leftContainer.find("div[id='"+moveDivId+"']").length == 0){
                     leftContainer.append($("#"+moveDivId));
-                    $.each(appService.PipelineFunctionList[type], function (index,val) {
-                        if(val.Name == functionName){
-                            params = val.Parameters;
-                            return false;
-                        }
-                    });
+                    var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
+                    params = filterFunction[0].Parameters;
                     var button ;
                     if(params != null){
                         button ='<button type="button" onclick="orgEdgexFoundry.appService.clickParamButton(this)" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
@@ -147,11 +150,8 @@ orgEdgexFoundry.appService = (function () {
                     }
                     $("#"+moveDivId).append(button);
                     var desc = '';
-                    $.each(appService.PipelineFunctionList[type], function (index,val) {
-                        if(val.Name == functionName){
-                            desc = val.Description;
-                        }
-                    });
+                    var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
+                    desc = filterFunction[0].Description;
                     var descElement=document.createElement("p");
                     descElement.innerHTML= desc;
                     $("#"+moveDivId).find("div[class='description']")[0].append(descElement);
@@ -206,16 +206,13 @@ orgEdgexFoundry.appService = (function () {
         $.ajax({
             url: '/api/v1/appservice/configurable/deploy',
             type: 'POST',
-            dataType: "JSON",
             contentType: "application/json",
             data: JSON.stringify(appService.deployData),
-            statusCode: {
-                200: function(){
-                    bootbox.alert({
-                        message: "deploy success!",
-                        className: 'red-green-buttons'
-                    });
-                }
+            success: function(){
+                bootbox.alert({
+                    message: "deploy success!",
+                    className: 'red-green-buttons'
+                });
             },
             error: function(error){
                 bootbox.alert({
