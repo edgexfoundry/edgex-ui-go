@@ -14,7 +14,7 @@
     <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">Application Services</h3>
-            <div id="gateway_button_group" style="float: right;margin-top: -25px;margin-right: 320px">
+            <div id="gateway_button_group" class="button_group">
                 <button type="button" class="btn btn-warning" onclick="orgEdgexFoundry.appService.downloadProfile();">
                     <i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;Download Profile
                 </button>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="Triggers">
-                        <div style="padding:10px;">
+                        <div class="triggers_group">
                             <div class="list-group">
                                 <a class="list-group-item">
                                     <span class="badge">2020-03-08</span>
@@ -72,7 +72,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>Close</button>
-                <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal" onclick="orgEdgexFoundry.appService.saveParams();"><span aria-hidden="true"></span>Save</button>
+                <button type="button" id="btn_submit" class="btn btn-success" data-dismiss="modal" onclick="orgEdgexFoundry.appService.saveParams();"><span aria-hidden="true"></span>Save</button>
             </div>
         </div>
     </div>
