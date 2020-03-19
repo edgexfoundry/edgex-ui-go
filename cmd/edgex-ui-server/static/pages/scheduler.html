@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="/css/scheduler.css">
+    <script src="/vendors/flatpickr/flatpickr.min.js"></script>
     <script type="text/javascript" src="/js/pages/scheduler.js"></script>
   </head>
   <body>
     <!--scheduler section start-->
     <div class="panel panel-success">
       <div class="panel-heading">
-        <h3 class="panel-title">Scheduler</h3>
+        <h3 class="panel-title">Interval</h3>
       </div>
       <div class="panel panel-default" style="border:none;outline:none;margin:0;">
         <div class="panel-heading" style="padding:5px 2px;">
@@ -58,7 +59,7 @@
       <div id="edgex-support-scheduler-add-or-update">
         <div class="panel panel-success">
           <div class="panel-heading">
-            <h3 class="panel-title">Add or Update Scheduler</h3>
+            <h3 class="panel-title">Add or Update Interval</h3>
           </div>
           <div class="panel panel-default" style="border:none;outline:none;margin:0;">
             <div class="panel-heading" style="padding:5px 2px;">
@@ -75,41 +76,69 @@
           </div>
 
           <div class="panel-body" style="padding:0;">
-            <form class="edgex-support-scheduler-form">
-              <fieldset>
-                <legend>Scheduler</legend>
-                <div class="form-group">
-                  <input type="hidden" class="form-control" name="SchedulerId">
-                </div>
-                <div class="form-group">
-                  <label for="SchedulerName">SchedulerName</label>
-                  <input type="text" class="form-control" name="SchedulerName" placeholder="SchedulerName">
-                </div>
-                <div class="form-group">
-                  <label for="SchedulerStart">SchedulerStart</label>
-                  <input type="text" class="form-control" name="SchedulerStart" placeholder="SchedulerStart">
-                </div>
-                <div class="form-group">
-                  <label for="SchedulerEnd">SchedulerEnd</label>
-                  <input type="text" class="form-control" name="SchedulerEnd" placeholder="SchedulerEnd">
-                </div>
-                <div class="form-group">
-                  <label for="SchedulerFrequency">SchedulerFrequency</label>
-                  <input type="text" class="form-control" name="SchedulerFrequency" placeholder="SchedulerFrequency: PT1H">
-                </div>
-                <div class="form-group">
-                  <label for="SchedulerCron">SchedulerCron</label>
-                  <input type="text" class="form-control" name="SchedulerCron" placeholder="SchedulerCron">
-                </div>
-                <div class="form-group">
-                  <label for="SchedulerRunOnce">SchedulerRunOnce</label>
-                  <select  name="SchedulerRunOnce" class="form-control">
-                    <option value="false">false</option>
-                    <option value="true">true</option>
-                  </select>
-                </div>
-              </fieldset>
-            </form>
+              <form class="edgex-support-scheduler-form form-horizontal">
+                  <fieldset>
+                      <legend>Interval</legend>
+                      <div class="form-group">
+                          <label class="col-md-2 control-label">Name</label>
+                          <div class="col-sm-10">
+                              <input type="text" class="form-control" name="schedulerName" placeholder="IntervalName">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-2 control-label">StartTime</label>
+                          <div class="col-sm-10">
+                              <input type="text" class="form-control" name="schedulerStart">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-2 control-label">EndTime</label>
+                          <div class="col-sm-10">
+                              <input type="text" class="form-control" name="schedulerEnd">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-2 control-label">RunOnce</label>
+                          <div class="col-sm-10">
+                              <select name="schedulerRunOnce" class="form-control">
+                                  <option value="false">false</option>
+                                  <option value="true">true</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class ="scheduler-interval-format">
+                          <div class="form-group" disabled=true>
+                              <label class="col-md-2 control-label">Frequency</label>
+                              <div class="col-sm-10">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">
+                                          <input type="radio" name="schedulerIntervalFormatRadio" value="frequency">
+                                      </span>
+                                      <input type="text" class="form-control" name="schedulerFrequencyTextInput" placeholder="1.0">
+                                      <span class="input-group-addon">
+                                          <select name="schedulerFrequencyUnitSelect">
+                                              <option value="h">Hour</option>
+                                              <option value="m">Minute</option>
+                                              <option value="s">Second</option>
+                                          </select>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-md-2 control-label">Cron</label>
+                              <div class="col-sm-10">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">
+                                          <input type="radio" name="schedulerIntervalFormatRadio" value="cron">
+                                      </span>
+                                      <input type="text" class="form-control" name="schedulerCronTextInput" placeholder="0 0 0/1 * * ? *">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </fieldset>
+              </form>
           </div>
         </div>
       </div>
@@ -123,7 +152,7 @@
       <div id="edgex-support-scheduleevent-list-main">
         <div class="panel panel-success" style="position:relative;">
           <div class="panel-heading">
-            <h3 class="panel-title">ScheduleEvent</h3>
+            <h3 class="panel-title">IntervalAction</h3>
           </div>
           <div class="panel panel-default" style="border:none;outline:none;margin:0;">
             <div class="panel-heading" style="padding:5px 2px;">
@@ -175,7 +204,7 @@
                     <th>#</th>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Scheduler</th>
+                    <th>Interval</th>
                     <th>Parameters</th>
                     <th>Target</th>
                     <th>Addressable</th>
@@ -200,7 +229,7 @@
         <!--add or update schedule event section start-->
       <div id="edgex-support-scheduleevent-add" style="display:none;" class="panel panel-success">
         <div class="panel-heading">
-          <h3 class="panel-title">Add or Update ScheduleEvent</h3>
+          <h3 class="panel-title">Add or Update IntervalEvent</h3>
         </div>
         <div class="panel panel-default" style="border:none;outline:none;margin:0;">
           <div class="panel-heading" style="padding:5px 2px;">
@@ -219,14 +248,14 @@
         <div class="panel-body" style="padding:0;">
           <form class="edgex-support-scheduleevent-form">
             <fieldset>
-              <legend>Scheduler</legend>
+              <legend>Interval</legend>
               <div class="form-group">
-                <label for="SchedulerName">SchedulerName</label>
+                <label for="SchedulerName">IntervalName</label>
                 <input type="text" class="form-control" name="SchedulerName" placeholder="SchedulerName: copy from SchedulerList , if there is no one, you should add a Scheduler firstly.">
               </div>
             </fieldset>
             <fieldset>
-              <legend>ScheduleEvent</legend>
+              <legend>IntervalEvent</legend>
               <div class="form-group">
                 <input type="hidden" class="form-control" name="ScheduleEventId">
               </div>

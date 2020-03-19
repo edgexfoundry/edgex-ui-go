@@ -1,6 +1,7 @@
 $(document).ready(function(){
   orgEdgexFoundry.supportScheduler.loadSchedulerList();
   orgEdgexFoundry.supportScheduler.loadScheduleEventList();
+  orgEdgexFoundry.supportScheduler.renderElements();
 });
 
 //init scheduler object
@@ -37,7 +38,48 @@ orgEdgexFoundry.supportScheduler = (function(){
     refreshScheduleEventListBtn: null,
 
     hidenAdressableBtn:null,
-  }
+
+    renderElements:null,
+  };
+
+  SupportScheduler.prototype.renderElements = function () {
+    $("#edgex-support-scheduler-add-or-update input[name='schedulerStart']").flatpickr({
+        dateFormat: "Y-m-d H:i:S",
+        enableTime: true,
+        enableSeconds: true,
+        time_24hr: true,
+        allowInput: false,
+        defaultDate: new Date().Format("yyyy-MM-dd hh:mm:ss"),
+    });
+    $("#edgex-support-scheduler-add-or-update input[name='schedulerEnd']").flatpickr({
+        dateFormat: "Y-m-d H:i:S",
+        enableTime: true,
+        enableSeconds: true,
+        time_24hr: true,
+        allowInput: false
+    });
+
+    $("#edgex-support-scheduler-add-or-update select[name ='schedulerRunOnce']").on('change', function () {
+        var value = $(this).val();
+        if (value == 'false') {
+            $(".scheduler-interval-format").show();
+        } else {
+            $(".scheduler-interval-format").hide();
+        }
+    });
+
+    $("input[type='radio'][name='schedulerIntervalFormatRadio']").on('change', function () {
+        if (this.value == 'frequency') {
+            $(".scheduler-interval-format input[name='schedulerFrequencyTextInput']").prop('disabled', false);
+            $(".scheduler-interval-format input[name='schedulerCronTextInput']").prop('disabled', true);
+        }
+        else if (this.value == 'cron') {
+            $(".scheduler-interval-format input[name='schedulerFrequencyTextInput']").prop('disabled', true);
+            $(".scheduler-interval-format input[name='schedulerCronTextInput']").prop('disabled', false);
+        }
+    });
+    $("input[name=schedulerIntervalFormatRadio][value='frequency']").click();
+  };
 
   var scheduler = new SupportScheduler();
 
@@ -59,7 +101,7 @@ orgEdgexFoundry.supportScheduler = (function(){
 
       }
     });
-  }
+  };
   SupportScheduler.prototype.renderSchedulerList = function(data){
     $("#edgex-support-scheduler-list table tbody").empty();
     $.each(data,function(i,v){
@@ -87,34 +129,63 @@ orgEdgexFoundry.supportScheduler = (function(){
     $(".scheduler-edit-icon").on('click',function(){
         scheduler.editSchedulerBtn($(this).children("input[type='hidden']").val());
     });
-  }
+  };
 
   SupportScheduler.prototype.addSchedulerBtn = function(){
     $("#edgex-support-scheduler-add-or-update .update-scheduler").hide();
     $("#edgex-support-scheduler-add-or-update .add-scheduler").show();
     $("#edgex-support-scheduler-add-or-update").show();
-  }
+  };
 
   SupportScheduler.prototype.commitSchedulerBtn = function(type){
     var schedulerData = {
-      id: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerId']").val(),
-      name: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerName']").val(),
-      start: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerStart']").val(),
-      end: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerEnd']").val(),
-      frequency: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerFrequency']").val(),
-      cron: $("#edgex-support-scheduler-add-or-update form input[name='SchedulerCron']").val(),
+      name: $("#edgex-support-scheduler-add-or-update form input[name='schedulerName']").val(),
+      start: $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val(),
+      end: $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val(),
       runOnce: false,
+      frequency: "",
+    };
+    var startTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val();
+    var endTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val();
+    if(startTimeVal != ""){
+      schedulerData.start = new Date(startTimeVal).Format("yyyyMMddThhmmss");
+    }else{
+      schedulerData.start = "";
     }
-    var runOnce = $("#edgex-support-scheduler-add-or-update form select[name='SchedulerRunOnce']").val();
+    if(endTimeVal != ""){
+      schedulerData.end = new Date(endTimeVal).Format("yyyyMMddThhmmss");
+    }else{
+      schedulerData.end = "";
+    }
+    var runOnce = $("#edgex-support-scheduler-add-or-update form select[name='schedulerRunOnce']").val();
     schedulerData.runOnce = runOnce == "false"?false:true;
-    // debugger
+    if(!schedulerData.runOnce){
+        var frequencyVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerFrequencyTextInput']").val();
+        var frequencyUnit = $("#edgex-support-scheduler-add-or-update form select[name='schedulerFrequencyUnitSelect']").val();
+        frequencyVal = frequencyVal != "" ? frequencyVal : "1.0";
+        schedulerData.frequency = frequencyVal + frequencyUnit;
+        schedulerData.cron = $("#edgex-support-scheduler-add-or-update form input[name='schedulerCronTextInput']").val();
+    }
     if(type=="new"){
-      delete schedulerData["id"];
       commitScheduler(schedulerData);
     }else{
+      schedulerData.id = $("#edgex-support-scheduler-add-or-update form input[name='schedulerId']").val();
       updateScheduler(schedulerData);
     }
-  }
+  };
+
+  function resetSchedulerForm(){
+      //clear data
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerName']").val("");
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val("");
+    $("#edgex-support-scheduler-add-or-update form select[name='schedulerRunOnce']").val("false");
+    $("#edgex-support-scheduler-add-or-update form input[type='radio'][name='schedulerIntervalFormatRadio']").val("frequency");
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerFrequencyTextInput']").val("");
+    $("#edgex-support-scheduler-add-or-update form select[name='schedulerFrequencyUnitSelect']").val("h");
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerCronTextInput']").val("");
+    $(".scheduler-interval-format").show();
+  };
 
   function commitScheduler(schedulerData){
     $.ajax({
@@ -122,6 +193,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       type: 'POST',
       data: JSON.stringify(schedulerData),
       success: function(){
+        scheduler.cancelAddSchedulerBtn();
         scheduler.loadSchedulerList();
         bootbox.alert({
           message: "Add Scheduler Success!",
@@ -200,15 +272,15 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   SupportScheduler.prototype.cancelAddSchedulerBtn = function(){
       $("#edgex-support-scheduler-add-or-update").hide();
-  }
+      resetSchedulerForm();
+  };
 
   SupportScheduler.prototype.refreshSchedulerListBtn = function(){
       scheduler.loadSchedulerList();
-  }
+  };
 
   SupportScheduler.prototype.editSchedulerBtn = function(scheduler){
       var schedulerItem = JSON.parse(scheduler);
-      debugger
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerId']").val(schedulerItem.id);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerName']").val(schedulerItem.name);
       $("#edgex-support-scheduler-add-or-update form input[name='SchedulerStart']").val(schedulerItem.start);
@@ -220,7 +292,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       $("#edgex-support-scheduler-add-or-update .update-scheduler").show();
       $("#edgex-support-scheduler-add-or-update .add-scheduler").hide();
       $("#edgex-support-scheduler-add-or-update").show();
-  }
+  };
 
   SupportScheduler.prototype.deleteSchedulerBtn = function(schedulerId){
     bootbox.confirm({
@@ -253,7 +325,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       }
     });
 
-  }
+  };
 
   //===================scheduler section edn===================================
 
@@ -275,12 +347,12 @@ orgEdgexFoundry.supportScheduler = (function(){
 
       }
     });
-  }
+  };
 
   SupportScheduler.prototype.renderScheduleEventList = function(data){
     $("#edgex-support-scheduleevent-list table tbody").empty();
     $.each(data,function(i,v){
-      var addressable = {}
+      var addressable = {};
       addressable["protocol"] = v.protocol;
       addressable["httpMethod"] = v.httpMethod;
       addressable["address"] = v.address;
@@ -325,7 +397,7 @@ orgEdgexFoundry.supportScheduler = (function(){
     $(".schedule-event-edit-icon").on('click',function(){
       scheduler.updateScheduleEventBtn($(this).children("input[type='hidden']").val());
     });
-  }
+  };
 
   SupportScheduler.prototype.deleteScheduleEventBtn = function(scheduleEventId){
     bootbox.confirm({
@@ -357,7 +429,7 @@ orgEdgexFoundry.supportScheduler = (function(){
         }
       }
     });
-  }
+  };
   SupportScheduler.prototype.updateScheduleEventBtn = function(scheduleEventStr){
     var scheduleEvent = JSON.parse(scheduleEventStr);
     //scheduler
@@ -387,19 +459,19 @@ orgEdgexFoundry.supportScheduler = (function(){
     $("#edgex-support-scheduleevent-add div.update-schedule-event").show();
 
 
-  }
+  };
 
   SupportScheduler.prototype.addScheduleEventBtn = function(){
     $("#edgex-support-scheduleevent-list-main").hide();
     $("#edgex-support-scheduleevent-add").show();
     $("#edgex-support-scheduleevent-add div.add-schedule-event").show();
     $("#edgex-support-scheduleevent-add div.update-schedule-event").hide();
-  }
+  };
 
   SupportScheduler.prototype.cancelAddScheduleEventBtn = function(){
     $("#edgex-support-scheduleevent-list-main").show();
     $("#edgex-support-scheduleevent-add").hide();
-  }
+  };
 
   SupportScheduler.prototype.commitScheduleEventBtn = function(type){
     //scheduler
@@ -414,7 +486,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       address: $("input[name='EventAddressAddress']").val().trim(),
       port: parseInt($("input[name='EventAddressPort']").val().trim()),
       path: $("input[name='EventAddressPath']").val().trim(),
-    }
+    };
 
     //scheduleevent
     var scheduleEvent = {
@@ -430,7 +502,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       address: $("input[name='EventAddressAddress']").val().trim(),
       port: parseInt($("input[name='EventAddressPort']").val().trim()),
       path: $("input[name='EventAddressPath']").val().trim(),
-    }
+    };
     if(type == "new"){
       delete scheduleEvent["id"];
       console.log(scheduleEvent);
@@ -439,7 +511,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       commitScheduleEvent(scheduleEvent,"");
     }
 
-  }
+  };
 
   function commitAddressableAndScheduleEvent(addressable,scheduleEvent){
     commitScheduleEvent(scheduleEvent,"new");
@@ -523,11 +595,11 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   SupportScheduler.prototype.refreshScheduleEventListBtn = function(){
     scheduler.loadScheduleEventList();
-  }
+  };
 
   SupportScheduler.prototype.hidenAdressableBtn = function(){
     $("#edgex-support-scheduleevent-address").hide();
-  }
+  };
 
   //===================schedule event section edn===============================
 
