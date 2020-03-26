@@ -79,6 +79,12 @@
               <form class="edgex-support-scheduler-form form-horizontal">
                   <fieldset>
                       <legend>Interval</legend>
+                      <div class="form-group" style="display: none;">
+                          <label class="col-md-2 control-label">ID</label>
+                          <div class="col-sm-10">
+                              <input type="text" class="form-control" name="schedulerId">
+                          </div>
+                      </div>
                       <div class="form-group">
                           <label class="col-md-2 control-label">Name</label>
                           <div class="col-sm-10">
@@ -227,85 +233,128 @@
       <!--schedule event list section end-->
 
         <!--add or update schedule event section start-->
-      <div id="edgex-support-scheduleevent-add" style="display:none;" class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title">Add or Update IntervalEvent</h3>
-        </div>
-        <div class="panel panel-default" style="border:none;outline:none;margin:0;">
-          <div class="panel-heading" style="padding:5px 2px;">
-            <div class="edgexIconBtn add-schedule-event"  onclick="orgEdgexFoundry.supportScheduler.commitScheduleEventBtn('new');">
-              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+        <div id="edgex-support-scheduleevent-add" style="display:none;" class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Add or Update IntervalAction</h3>
             </div>
-            <div class="edgexIconBtn update-schedule-event" style="display:none;" onclick="orgEdgexFoundry.supportScheduler.commitScheduleEventBtn();">
-              <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+            <div class="panel panel-default" style="border:none;outline:none;margin:0;">
+                <div class="panel-heading" style="padding:5px 2px;">
+                    <div class="edgexIconBtn add-schedule-event"
+                         onclick="orgEdgexFoundry.supportScheduler.commitScheduleEventBtn('new');">
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                    </div>
+                    <div class="edgexIconBtn update-schedule-event" style="display:none;"
+                         onclick="orgEdgexFoundry.supportScheduler.commitScheduleEventBtn();">
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                    </div>
+                    <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.cancelAddScheduleEventBtn()">
+                        <i class="fa fa-close fa-lg" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
-            <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportScheduler.cancelAddScheduleEventBtn()">
-              <i class="fa fa-close fa-lg" aria-hidden="true"></i>
-            </div>
-          </div>
-        </div>
+            <div class="panel-body" style="padding:0;">
+                <form class="edgex-support-scheduleevent-form form-horizontal">
+                    <fieldset>
+                        <legend>IntervalAction</legend>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" name="ScheduleEventId">
+                        </div>
+                        <div class="form-group">
+                            <label for="ScheduleEventName" class="col-md-1 control-label">Name</label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" name="ScheduleEventName" placeholder="IntervalActionName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="SchedulerName" class="col-md-1 control-label">Interval</label>
+                            <div class="col-md-11">
+                                <select class="form-control" name="SchedulerName"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ScheduleEventService" class="col-md-1 control-label">Target</label>
+                            <div class="col-md-11">
+                                <select class="form-control" name="ScheduleEventService"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ScheduleEventServiceAction" class="col-md-1 control-label">TargetAction</label>
+                            <div class="col-md-11">
+                                <select class="form-control" name="ScheduleEventServiceAction"></select>
+                            </div>
+                        </div>
+                        <fieldset>
+                            <legend>TargetConfig</legend>
+                            <div class="form-group">
+                                <label for="EventAddressProtocol" class="col-md-1 control-label">Protocol</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="EventAddressProtocol" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EventAddressMethod" class="col-md-1 control-label">Method</label>
+                                <div class="col-md-10">
+                                    <select class="form-control" name="EventAddressMethod"></select>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="EventAddressMethodCheck"> Enabled
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EventAddressAddress" class="col-md-1 control-label">Address</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="EventAddressAddress" placeholder="edgex-core-command">
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="EventAddressAddressCheck"> Enabled
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EventAddressPort" class="col-md-1 control-label">Port</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="EventAddressPort" placeholder="48082">
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="EventAddressPortCheck"> Enabled
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EventAddressPath" class="col-md-1 control-label">Path</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" name="EventAddressPath" placeholder="/v1/device/{id}/command/{commandid}">
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="EventAddressPathCheck"> Enabled
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group edgex-support-scheduleevent-parameters">
+                                <label for="EventAddressParameters" class="col-md-1 control-label">Parameters</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" rows="3" name="EventAddressParameters" placeholder="JSON Parameters"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </fieldset>
+                </form>
 
-        <div class="panel-body" style="padding:0;">
-          <form class="edgex-support-scheduleevent-form">
-            <fieldset>
-              <legend>Interval</legend>
-              <div class="form-group">
-                <label for="SchedulerName">IntervalName</label>
-                <input type="text" class="form-control" name="SchedulerName" placeholder="SchedulerName: copy from SchedulerList , if there is no one, you should add a Scheduler firstly.">
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>IntervalEvent</legend>
-              <div class="form-group">
-                <input type="hidden" class="form-control" name="ScheduleEventId">
-              </div>
-              <div class="form-group">
-                <label for="ScheduleEventName">Name</label>
-                <input type="text" class="form-control" name="ScheduleEventName" placeholder="ScheduleEventName">
-              </div>
-              <div class="form-group">
-                <label for="ScheduleEventParameters">Parameters</label>
-                <input type="text" class="form-control" name="ScheduleEventParameters" placeholder="ScheduleEventParameters JSON">
-              </div>
-              <div class="form-group">
-                <label for="ScheduleEventService">Target</label>
-                <input type="text" class="form-control" name="ScheduleEventService" placeholder="ScheduleEventService  edgex-device-virtual">
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>EventAddressable</legend>
-              <!-- <div class="form-group">
-                <input type="hidden" class="form-control" name="EventAddressId">
-              </div>
-              <div class="form-group">
-                <label for="EventAddressName">Name</label>
-                <input type="text" class="form-control" name="EventAddressName" placeholder="EventAddressName">
-              </div> -->
-              <div class="form-group">
-                <label for="EventAddressProtocol">Protocol</label>
-                <input type="text" class="form-control" name="EventAddressProtocol" value="HTTP" disabled>
-              </div>
-              <div class="form-group">
-                <label for="EventAddressMethod">Method</label>
-                <input type="text" class="form-control" name="EventAddressMethod" placeholder="EventAddressMethod GET/POST">
-              </div>
-              <div class="form-group">
-                <label for="EventAddressAddress">Address</label>
-                <input type="text" class="form-control" name="EventAddressAddress" placeholder="EventAddress 192.168.3.22">
-              </div>
-              <div class="form-group">
-                <label for="EventAddressPort">Port</label>
-                <input type="text" class="form-control" name="EventAddressPort" placeholder="EventAddressPort 49982">
-              </div>
-              <div class="form-group">
-                <label for="EventAddressPath">Path</label>
-                <input type="text" class="form-control" name="EventAddressPath" placeholder="EventAddressPath /api/v1/device/5be99cf29f8fc20001db3dd8/randnum">
-              </div>
-            </fieldset>
-          </form>
-
+            </div>
         </div>
-      </div>
         <!--add or update schedule event section end-->
 
     </div>
@@ -313,18 +362,3 @@
   </body>
 </html>
 
-<!-- <div class="panel panel-success">
-  <div class="panel-heading">
-    <h3 class="panel-title">Scheduler</h3>
-  </div>
-  <div class="panel panel-default" style="border:none;outline:none;margin:0;">
-    <div class="panel-heading" style="padding:5px 2px;">
-      <button type="button" class="btn btn-default">Info</button>
-      <button type="button" class="btn btn-warning">Info</button>
-    </div>
-  </div>
-
-  <div class="panel-body" style="padding:0;">
-    Panel content
-  </div>
-</div> -->

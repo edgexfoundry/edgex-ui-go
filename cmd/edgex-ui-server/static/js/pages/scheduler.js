@@ -1,7 +1,6 @@
 $(document).ready(function(){
   orgEdgexFoundry.supportScheduler.loadSchedulerList();
   orgEdgexFoundry.supportScheduler.loadScheduleEventList();
-  orgEdgexFoundry.supportScheduler.renderElements();
 });
 
 //init scheduler object
@@ -9,11 +8,34 @@ orgEdgexFoundry.supportScheduler = (function(){
   "use strict";
 
   function SupportScheduler(){
-    this.schedulerListCache = [];
-    this.scheduleEventListCache = [];
-    this.selectedSchedulerRow = null;
-    this.selectedScheduleEventRow = null;
-  }
+      this.schedulerNameList = [];
+      this.scheduleEventTarget = {
+          'core-command' : {
+              'Alias' : 'core-command'
+          },
+          'customized' : {
+              'Alias' : 'customized'
+          }
+      };
+      this.scheduleEventTargetHttpMethod = [
+          {
+              'Value' : 'GET',
+              'Text' : 'GET'
+          },
+          {
+              'Value' : 'POST',
+              'Text' : 'POST'
+          },
+          {
+              'Value' : 'PUT',
+              'Text' : 'PUT'
+          },
+          {
+              'Value' : 'DELETE',
+              'Text' : 'DELETE'
+          }
+      ];
+  };
 
   SupportScheduler.prototype = {
     constructor: SupportScheduler,
@@ -38,47 +60,6 @@ orgEdgexFoundry.supportScheduler = (function(){
     refreshScheduleEventListBtn: null,
 
     hidenAdressableBtn:null,
-
-    renderElements:null,
-  };
-
-  SupportScheduler.prototype.renderElements = function () {
-    $("#edgex-support-scheduler-add-or-update input[name='schedulerStart']").flatpickr({
-        dateFormat: "Y-m-d H:i:S",
-        enableTime: true,
-        enableSeconds: true,
-        time_24hr: true,
-        allowInput: false,
-        defaultDate: new Date().Format("yyyy-MM-dd hh:mm:ss"),
-    });
-    $("#edgex-support-scheduler-add-or-update input[name='schedulerEnd']").flatpickr({
-        dateFormat: "Y-m-d H:i:S",
-        enableTime: true,
-        enableSeconds: true,
-        time_24hr: true,
-        allowInput: false
-    });
-
-    $("#edgex-support-scheduler-add-or-update select[name ='schedulerRunOnce']").on('change', function () {
-        var value = $(this).val();
-        if (value == 'false') {
-            $(".scheduler-interval-format").show();
-        } else {
-            $(".scheduler-interval-format").hide();
-        }
-    });
-
-    $("input[type='radio'][name='schedulerIntervalFormatRadio']").on('change', function () {
-        if (this.value == 'frequency') {
-            $(".scheduler-interval-format input[name='schedulerFrequencyTextInput']").prop('disabled', false);
-            $(".scheduler-interval-format input[name='schedulerCronTextInput']").prop('disabled', true);
-        }
-        else if (this.value == 'cron') {
-            $(".scheduler-interval-format input[name='schedulerFrequencyTextInput']").prop('disabled', true);
-            $(".scheduler-interval-format input[name='schedulerCronTextInput']").prop('disabled', false);
-        }
-    });
-    $("input[name=schedulerIntervalFormatRadio][value='frequency']").click();
   };
 
   var scheduler = new SupportScheduler();
@@ -94,7 +75,9 @@ orgEdgexFoundry.supportScheduler = (function(){
           $("#edgex-support-scheduler-list table tfoot").show();
           return
         }
-        scheduler.schedulerListCache = data;
+        if(data){
+            scheduler.schedulerNameList = data.map(obj => {return obj.name});
+        }
         scheduler.renderSchedulerList(data);
       },
       error:function(){
@@ -114,11 +97,11 @@ orgEdgexFoundry.supportScheduler = (function(){
       rowData += "<td>" +  v.name + "</td>";
       rowData += "<td>" +  (v.start?v.start:"") + "</td>";
       rowData += "<td>" +  (v.end?v.end:"") + "</td>";
-      rowData += "<td>" +  v.frequency + "</td>";
+      rowData += "<td>" +  (v.frequency?v.frequency:"") + "</td>";
       rowData += "<td>" +  (v.cron?v.cron:"") + "</td>";
-      rowData += "<td>" +  (v.runOnce?"ture":"false") + "</td>";
-      rowData += "<td>" +  dateToString(v.Timestamps.created) + "</td>";
-      rowData += "<td>" +  dateToString(v.Timestamps.modified) + "</td>";
+      rowData += "<td>" +  (v.runOnce?"true":"false") + "</td>";
+      rowData += "<td>" +  (v.Timestamps.created?dateToString(v.Timestamps.created):"") + "</td>";
+      rowData += "<td>" +  (v.Timestamps.modified?dateToString(v.Timestamps.modified):"") + "</td>";
       rowData += "</tr>";
       $("#edgex-support-scheduler-list table tbody").append(rowData);
     });
@@ -131,10 +114,50 @@ orgEdgexFoundry.supportScheduler = (function(){
     });
   };
 
-  SupportScheduler.prototype.addSchedulerBtn = function(){
-    $("#edgex-support-scheduler-add-or-update .update-scheduler").hide();
-    $("#edgex-support-scheduler-add-or-update .add-scheduler").show();
-    $("#edgex-support-scheduler-add-or-update").show();
+    function renderSchedulerForm() {
+        $("#edgex-support-scheduler-add-or-update input[name='schedulerStart']").flatpickr({
+            dateFormat: "Y-m-d H:i:S",
+            enableTime: true,
+            enableSeconds: true,
+            time_24hr: true,
+            allowInput: false,
+            defaultDate: new Date().Format("yyyy-MM-dd hh:mm:ss"),
+        });
+        $("#edgex-support-scheduler-add-or-update input[name='schedulerEnd']").flatpickr({
+            dateFormat: "Y-m-d H:i:S",
+            enableTime: true,
+            enableSeconds: true,
+            time_24hr: true,
+            allowInput: false
+        });
+        $("#edgex-support-scheduler-add-or-update select[name ='schedulerRunOnce']").on('change', function () {
+            var value = $(this).val();
+            if (value == 'false') {
+                $(".scheduler-interval-format").show();
+            } else {
+                $(".scheduler-interval-format").hide();
+            }
+        });
+
+        $("input[type='radio'][name='schedulerIntervalFormatRadio']").on('change', function () {
+            if (this.value == 'frequency') {
+                $(".scheduler-interval-format input[name='schedulerFrequencyTextInput']").prop('disabled', false);
+                $(".scheduler-interval-format input[name='schedulerCronTextInput']").prop('disabled', true);
+            }
+            else if (this.value == 'cron') {
+                $(".scheduler-interval-format input[name='schedulerFrequencyTextInput']").prop('disabled', true);
+                $(".scheduler-interval-format input[name='schedulerCronTextInput']").prop('disabled', false);
+            }
+        });
+        $("input[name=schedulerIntervalFormatRadio][value='frequency']").click();
+    };
+
+
+    SupportScheduler.prototype.addSchedulerBtn = function(){
+        renderSchedulerForm();
+        $("#edgex-support-scheduler-add-or-update .update-scheduler").hide();
+        $("#edgex-support-scheduler-add-or-update .add-scheduler").show();
+        $("#edgex-support-scheduler-add-or-update").show();
   };
 
   SupportScheduler.prototype.commitSchedulerBtn = function(type){
@@ -145,8 +168,12 @@ orgEdgexFoundry.supportScheduler = (function(){
       runOnce: false,
       frequency: "",
     };
-    var startTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val();
-    var endTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val();
+    //NOTICE:
+    // Due to time zone issue, start time and end time conditions temporarily unavailable.
+    // var startTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val();
+    // var endTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val();
+    var startTimeVal = "";
+    var endTimeVal = "";
     if(startTimeVal != ""){
       schedulerData.start = new Date(startTimeVal).Format("yyyyMMddThhmmss");
     }else{
@@ -176,11 +203,12 @@ orgEdgexFoundry.supportScheduler = (function(){
 
   function resetSchedulerForm(){
       //clear data
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerId']").val("");
     $("#edgex-support-scheduler-add-or-update form input[name='schedulerName']").val("");
     $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
     $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val("");
     $("#edgex-support-scheduler-add-or-update form select[name='schedulerRunOnce']").val("false");
-    $("#edgex-support-scheduler-add-or-update form input[type='radio'][name='schedulerIntervalFormatRadio']").val("frequency");
+    $("#edgex-support-scheduler-add-or-update form input[name='schedulerIntervalFormatRadio'][value='frequency']").attr('checked','true');
     $("#edgex-support-scheduler-add-or-update form input[name='schedulerFrequencyTextInput']").val("");
     $("#edgex-support-scheduler-add-or-update form select[name='schedulerFrequencyUnitSelect']").val("h");
     $("#edgex-support-scheduler-add-or-update form input[name='schedulerCronTextInput']").val("");
@@ -232,6 +260,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       type: 'PUT',
       data: JSON.stringify(schedulerData),
       success: function(){
+        scheduler.cancelAddSchedulerBtn();
         scheduler.loadSchedulerList();
         bootbox.alert({
           message: "Update Scheduler Success!",
@@ -280,14 +309,31 @@ orgEdgexFoundry.supportScheduler = (function(){
   };
 
   SupportScheduler.prototype.editSchedulerBtn = function(scheduler){
+      renderSchedulerForm();
       var schedulerItem = JSON.parse(scheduler);
-      $("#edgex-support-scheduler-add-or-update form input[name='SchedulerId']").val(schedulerItem.id);
-      $("#edgex-support-scheduler-add-or-update form input[name='SchedulerName']").val(schedulerItem.name);
-      $("#edgex-support-scheduler-add-or-update form input[name='SchedulerStart']").val(schedulerItem.start);
-      $("#edgex-support-scheduler-add-or-update form input[name='SchedulerEnd']").val(schedulerItem.end);
-      $("#edgex-support-scheduler-add-or-update form input[name='SchedulerFrequency']").val(schedulerItem.frequency);
-      $("#edgex-support-scheduler-add-or-update form input[name='SchedulerCron']").val(schedulerItem.cron);
-      $("#edgex-support-scheduler-add-or-update form select[name='SchedulerRunOnce']").val(schedulerItem.runOnce?"true":"false");
+      $("#edgex-support-scheduler-add-or-update form input[name='schedulerId']").val(schedulerItem.id?schedulerItem.id:"");
+      $("#edgex-support-scheduler-add-or-update form input[name='schedulerName']").val(schedulerItem.name?schedulerItem.name:"");
+      var startTime = "";
+      if(schedulerItem.start != undefined && schedulerItem.start != ""){
+        startTime = ISO8601FormatToDate(schedulerItem.start).Format("yyyy-MM-dd hh:mm:ss");
+      }
+      $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val(startTime);
+      var endTime = "";
+      if(schedulerItem.end != undefined && schedulerItem.end != ""){
+          endTime = ISO8601FormatToDate(schedulerItem.end).Format("yyyy-MM-dd hh:mm:ss");
+      }
+      $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val(endTime);
+      var frequencyValue = '0.0';
+      var frequencyUnit = 'h';
+      if(schedulerItem.frequency != undefined && schedulerItem.frequency != ''){
+        frequencyValue = schedulerItem.frequency.substring(0,schedulerItem.frequency.length-1);
+        frequencyUnit = schedulerItem.frequency.substring(schedulerItem.frequency.length-1);
+      }
+      $("#edgex-support-scheduler-add-or-update form input[name='schedulerFrequencyTextInput']").val(frequencyValue);
+      $("#edgex-support-scheduler-add-or-update form select[name='schedulerFrequencyUnitSelect']").val(frequencyUnit);
+      $("#edgex-support-scheduler-add-or-update form input[name='schedulerCronTextInput']").val(schedulerItem.cron);
+      $("#edgex-support-scheduler-add-or-update form select[name='schedulerRunOnce']").val(schedulerItem.runOnce?"true":"false");
+      $("#edgex-support-scheduler-add-or-update form select[name='schedulerRunOnce']").change();
 
       $("#edgex-support-scheduler-add-or-update .update-scheduler").show();
       $("#edgex-support-scheduler-add-or-update .add-scheduler").hide();
@@ -340,7 +386,6 @@ orgEdgexFoundry.supportScheduler = (function(){
           $("#edgex-support-scheduleevent-list table tfoot").show();
           return
         }
-        scheduler.scheduleEventListCache = data;
         scheduler.renderScheduleEventList(data);
       },
       error:function(){
@@ -423,6 +468,13 @@ orgEdgexFoundry.supportScheduler = (function(){
                     message: "attempt to delete a schedule event still being referenced by device reports",
                     className: 'red-green-buttons'
                   });
+                },
+                500:function () {
+                    bootbox.alert({
+                        title:'Error',
+                        message: "delete failure",
+                        className: 'red-green-buttons'
+                    });
                 }
               }
             });
@@ -431,26 +483,24 @@ orgEdgexFoundry.supportScheduler = (function(){
     });
   };
   SupportScheduler.prototype.updateScheduleEventBtn = function(scheduleEventStr){
-    var scheduleEvent = JSON.parse(scheduleEventStr);
-    //scheduler
-    $("input[name='SchedulerName']").val(scheduleEvent.interval);
-
-    //event address
-    // $("#edgex-support-scheduleevent-add input[name='EventAddressId']").val(scheduleEvent.addressable.id);
-    // $("#edgex-support-scheduleevent-add input[name='EventAddressName']").val(scheduleEvent.addressable.name);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressProtocol']").val(scheduleEvent.addressable.protocol);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressMethod']").val(scheduleEvent.addressable.httpMethod);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressAddress']").val(scheduleEvent.addressable.address);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressPort']").val(scheduleEvent.addressable.port);
-    $("#edgex-support-scheduleevent-add input[name='EventAddressPath']").val(scheduleEvent.addressable.path);
-
-
-    //scheduleevent
-    $("#edgex-support-scheduleevent-add input[name='ScheduleEventId']").val(scheduleEvent.id);
-    $("#edgex-support-scheduleevent-add input[name='ScheduleEventName']").val(scheduleEvent.name);
-    $("#edgex-support-scheduleevent-add input[name='ScheduleEventParameters']").val(scheduleEvent.parameters);
-    $("#edgex-support-scheduleevent-add input[name='ScheduleEventService']").val(scheduleEvent.target);
-
+      var scheduleEvent = JSON.parse(scheduleEventStr);
+      var updateConfig = {
+          'Id' : scheduleEvent.id,
+          'Name' : scheduleEvent.name,
+          'Interval' : scheduleEvent.interval,
+          'Target' : scheduleEvent.target,
+          'Protocol' : scheduleEvent.protocol.toUpperCase(),
+          'Method' : scheduleEvent.httpMethod,
+          'Address' : scheduleEvent.address,
+          'Port' : scheduleEvent.port,
+          'Path' : scheduleEvent.path,
+          'Paramters' : scheduleEvent.parameters
+      };
+      updateConfig['MethodCheck'] = true;
+      updateConfig['AddressCheck'] = true;
+      updateConfig['PortCheck'] = true;
+      updateConfig['PathCheck'] = true;
+      renderScheduleEventUpdate(updateConfig);
 
     $("#edgex-support-scheduleevent-list-main").hide();
 
@@ -462,83 +512,298 @@ orgEdgexFoundry.supportScheduler = (function(){
   };
 
   SupportScheduler.prototype.addScheduleEventBtn = function(){
+    renderScheduleEventAdd();
     $("#edgex-support-scheduleevent-list-main").hide();
     $("#edgex-support-scheduleevent-add").show();
     $("#edgex-support-scheduleevent-add div.add-schedule-event").show();
     $("#edgex-support-scheduleevent-add div.update-schedule-event").hide();
   };
 
+    function resetScheduleEventAddOrUpdateForm() {
+        $(".edgex-support-scheduleevent-form input[name = 'ScheduleEventId']").val("");
+        $(".edgex-support-scheduleevent-form input[name = 'ScheduleEventName']").val("");
+        $(".edgex-support-scheduleevent-form select[name = 'SchedulerName']").empty();
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").empty();
+        resetTargetActionConfigForm();
+    }
+
+    function resetTargetActionConfigForm() {
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").empty();
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressProtocol']").val("");
+        $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").empty();
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressMethodCheck']").prop('disabled', false);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddress']").val("");
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressCheck']").prop('disabled', false);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPort']").val("");
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPortCheck']").prop('disabled', false);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPath']").val("");
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPathCheck']").prop('disabled', false);
+        $(".edgex-support-scheduleevent-form textarea[name = 'EventAddressParameters']").val("");
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").prop('disabled',false);
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").prop('disabled',false);
+    }
+
+    function renderScheduleEventUpdate(updateConfig) {
+        $.each(scheduler.schedulerNameList, function (k, v) {
+            $(".edgex-support-scheduleevent-form select[name = 'SchedulerName']").append($('<option>', {
+                value: v,
+                text: v,
+            }));
+        });
+
+        $("#edgex-support-scheduleevent-add input[name='ScheduleEventId']").val(updateConfig['Id']);
+        $("#edgex-support-scheduleevent-add input[name='ScheduleEventName']").val(updateConfig['Name']);
+        $("#edgex-support-scheduleevent-add select[name='SchedulerName']").val(updateConfig['Interval']);
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").append($('<option>', {
+            value: updateConfig['Target'],
+            text:  updateConfig['Target'],
+        }));
+        //when target equals core-command,need render target action name for front end
+        if(updateConfig['Target'] == 'core-command'){
+            //path:/api/v1/device/a5002e47-5832-4253-bb12-78604a929189/command/0e92d7d9-e945-4cec-baaf-ef174e1353d3
+            var deviceID = updateConfig['Path'].substring(1).split('/')[3];
+            $.ajax({
+                url: '/core-command/api/v1/device/' + deviceID,
+                type: 'GET',
+            }).done(function (device) {
+                var ScheduleEventServiceActionValue = queryTargetActionName(device,updateConfig);
+                $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").append($('<option>', {
+                    value: ScheduleEventServiceActionValue,
+                    text:  ScheduleEventServiceActionValue,
+                }));
+            });
+        }
+
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").prop('disabled',true);
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").prop('disabled',true);
+        renderTargetActionConfigs(updateConfig);
+    }
+    
+    function queryTargetActionName(device,scheduleEventUpdateConfig) {
+        var deviceName = device['name'];
+        var commandName = "";
+        if(!device['commands']){
+            return "";
+        }
+        for(var command of device['commands']){
+            if(new URL(command['get']['url']).pathname == scheduleEventUpdateConfig['Path']){
+                commandName = command.name;
+                break;
+            }
+        }
+        return getTargetActionName(deviceName,commandName,scheduleEventUpdateConfig['Method']);
+    }
+    
+    function renderScheduleEventAdd() {
+        $.each(scheduler.schedulerNameList, function (k, v) {
+            $(".edgex-support-scheduleevent-form select[name = 'SchedulerName']").append($('<option>', {
+                value: v,
+                text: v,
+            }));
+        });
+        $.each(scheduler.scheduleEventTarget, function (k, v) {
+            $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").append($('<option>', {
+                value: k,
+                text: v.Alias,
+            }));
+        });
+
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").off('change');
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").on('change', function () {
+            resetTargetActionConfigForm();
+            var targetServiceName = $(this).val();
+            if (targetServiceName == 'core-command') {
+                renderCoreCommandTargetActionConfigs();
+            } else if (targetServiceName == 'customized') {
+                renderCustomizedTargetActionConfigs();
+            }
+        });
+        $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventService']").change();
+    };
+
+    function renderCustomizedTargetActionConfigs() {
+        var config = {};
+        config['Method'] = 'PUT';
+        config['Address'] = '';
+        config['Port'] = '';
+        config['Path'] = '';
+        config['Parameters'] = '';
+        config['MethodCheck'] = true;
+        config['AddressCheck'] = true;
+        config['PortCheck'] = true;
+        config['PathCheck'] = true;
+        renderTargetActionConfigs(config);
+    }
+
+    function renderCoreCommandTargetActionConfigs() {
+        $.ajax({
+            url: '/core-command/api/v1/device',
+            type: 'GET',
+        }).done(function (devices) {
+            if (!devices || devices.length == 0) {
+                return;
+            }
+            var targetActionConfigs = {};
+            if (devices) {
+                for (var device of devices) {
+                    if (device['commands']) {
+                        for (var command of device['commands']) {
+                            if (command['get']) {
+                                var result = makeCoreCommandTargetActionConfigParams(device.name, command, "GET");
+                                targetActionConfigs[result[0]] = result[1];
+                            }
+                            if (command['put'] && command['put']['parameterNames']) {
+                                var result = makeCoreCommandTargetActionConfigParams(device.name, command, "PUT");
+                                targetActionConfigs[result[0]] = result[1];
+                            }
+                        }
+                    }
+                }
+            }
+
+            $.each(targetActionConfigs, function (k, v) {
+                $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").append($('<option>', {
+                    value: k,
+                    text: k,
+                }));
+            });
+            $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").off('change');
+            $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").on('change', function () {
+                var targetActionName = $(this).val();
+                renderTargetActionConfigs(targetActionConfigs[targetActionName]);
+            });
+            $(".edgex-support-scheduleevent-form select[name = 'ScheduleEventServiceAction']").change();
+        });
+    }
+
+    function makeCoreCommandTargetActionConfigParams(deviceName, command, httpMethod) {
+        var urlObj = new URL(command['get']['url']);
+        var methodType = '';
+        var config = {};
+        if (httpMethod == 'PUT' && command['put']['parameterNames']) {
+            var paramsObj = {};
+            for (var paramName of command['put']['parameterNames']){
+                paramsObj[paramName] = '';
+            }
+            config['Parameters'] = paramsObj;
+        }
+        config['Method'] = httpMethod;
+        config['Address'] = urlObj.hostname;
+        config['Port'] = urlObj.port;
+        config['Path'] = urlObj.pathname;
+        config['MethodCheck'] = false;
+        config['AddressCheck'] = false;
+        config['PortCheck'] = false;
+        config['PathCheck'] = false;
+        var configKey = getTargetActionName(deviceName, command['name'], httpMethod);
+        return [configKey, config];
+    }
+
+    function renderTargetActionConfigs(config) {
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressMethodCheck'][type='checkbox']").off('change');
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressMethodCheck'][type='checkbox']").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").prop('disabled', false);
+            } else {
+                $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").prop('disabled', 'disabled');
+            }
+        });
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddressCheck'][type='checkbox']").off('change');
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddressCheck'][type='checkbox']").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddress']").prop('disabled', false);
+            } else {
+                $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddress']").prop('disabled', 'disabled');
+            }
+        });
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPortCheck'][type='checkbox']").off('change');
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPortCheck'][type='checkbox']").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(".edgex-support-scheduleevent-form input[name = 'EventAddressPort']").prop('disabled', false);
+            } else {
+                $(".edgex-support-scheduleevent-form input[name = 'EventAddressPort']").prop('disabled', 'disabled');
+            }
+        });
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPathCheck'][type='checkbox']").off('change');
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPathCheck'][type='checkbox']").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(".edgex-support-scheduleevent-form input[name = 'EventAddressPath']").prop('disabled', false);
+            } else {
+                $(".edgex-support-scheduleevent-form input[name = 'EventAddressPath']").prop('disabled', 'disabled');
+            }
+        });
+
+        $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").empty();
+        $.each(scheduler.scheduleEventTargetHttpMethod, function (i, v) {
+            $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").append($('<option>', {
+                value: v.Value,
+                text: v.Text,
+            }));
+        });
+        $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").off('change');
+        $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").on('change',function () {
+            if($(this).val() == 'GET'){
+                $(".edgex-support-scheduleevent-parameters").hide();
+            }else{
+                $(".edgex-support-scheduleevent-parameters").show();
+            }
+        });
+
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressProtocol']").val('HTTP');
+        $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").val(config['Method']);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddress']").val(config['Address']);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPort']").val(config['Port']);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPath']").val(config['Path']);
+        if(config['Parameters'] && config['Parameters'] != ''){
+            var formattedJSONParams = JSON.stringify(config['Parameters'], null, 4);
+            $(".edgex-support-scheduleevent-form textarea[name = 'EventAddressParameters']").val(formattedJSONParams);
+        }
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressMethodCheck'][type = 'checkbox']").prop('checked',config['MethodCheck']);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddressCheck'][type = 'checkbox']").prop('checked',config['AddressCheck']);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPortCheck'][type = 'checkbox']").prop('checked',config['PortCheck']);
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPathCheck'][type = 'checkbox']").prop('checked',config['PathCheck']);
+
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressMethodCheck'][type='checkbox']").change();
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressAddressCheck'][type='checkbox']").change();
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPortCheck'][type='checkbox']").change();
+        $(".edgex-support-scheduleevent-form input[name = 'EventAddressPathCheck'][type='checkbox']").change();
+
+        $(".edgex-support-scheduleevent-form select[name = 'EventAddressMethod']").change();
+    }
+
+    function getTargetActionName(deviceName, commandName, httpMethod) {
+        if(httpMethod.toUpperCase() == 'GET'){
+            return deviceName + " " + commandName + "(get)";
+        }else{
+            return deviceName + " " + commandName + "(set)";
+        }
+    }
+
   SupportScheduler.prototype.cancelAddScheduleEventBtn = function(){
-    $("#edgex-support-scheduleevent-list-main").show();
-    $("#edgex-support-scheduleevent-add").hide();
+      resetScheduleEventAddOrUpdateForm();
+      $("#edgex-support-scheduleevent-list-main").show();
+      $("#edgex-support-scheduleevent-add").hide();
   };
 
   SupportScheduler.prototype.commitScheduleEventBtn = function(type){
-    //scheduler
-    var schedulerName = $(".edgex-support-scheduleevent-form input[name='SchedulerName']").val().trim();
-
-    //event address
-    var eventAddress = {
-      // id:$("input[name='EventAddressId']").val(),
-      // name: $("input[name='EventAddressName']").val(),
-      protocol: $("input[name='EventAddressProtocol']").val().trim(),
-      httpMethod: $("input[name='EventAddressMethod']").val().trim(),
-      address: $("input[name='EventAddressAddress']").val().trim(),
-      port: parseInt($("input[name='EventAddressPort']").val().trim()),
-      path: $("input[name='EventAddressPath']").val().trim(),
-    };
-
-    //scheduleevent
     var scheduleEvent = {
-      id: $("input[name='ScheduleEventId']").val().trim(),
-      name: $("input[name='ScheduleEventName']").val().trim(),
-      parameters: $("input[name='ScheduleEventParameters']").val().trim(),
-      target: $("input[name='ScheduleEventService']").val().trim(),
-      interval: schedulerName,
-      //addressable:eventAddress,
-
-      protocol: $("input[name='EventAddressProtocol']").val().trim(),
-      httpMethod: $("input[name='EventAddressMethod']").val().trim(),
-      address: $("input[name='EventAddressAddress']").val().trim(),
-      port: parseInt($("input[name='EventAddressPort']").val().trim()),
-      path: $("input[name='EventAddressPath']").val().trim(),
+      name: $(".edgex-support-scheduleevent-form input[name='ScheduleEventName']").val().trim(),
+      parameters: $(".edgex-support-scheduleevent-form textarea[name='EventAddressParameters']").val().trim(),
+      target: $(".edgex-support-scheduleevent-form select[name='ScheduleEventService']").val().trim(),
+      interval: $(".edgex-support-scheduleevent-form select[name='SchedulerName']").val().trim(),
+      protocol: $(".edgex-support-scheduleevent-form input[name='EventAddressProtocol']").val().trim().toLowerCase(),
+      httpMethod: $(".edgex-support-scheduleevent-form select[name='EventAddressMethod']").val().trim(),
+      address: $(".edgex-support-scheduleevent-form input[name='EventAddressAddress']").val().trim(),
+      port: parseInt($(".edgex-support-scheduleevent-form input[name='EventAddressPort']").val().trim()),
+      path: $(".edgex-support-scheduleevent-form input[name='EventAddressPath']").val().trim(),
     };
     if(type == "new"){
-      delete scheduleEvent["id"];
-      console.log(scheduleEvent);
-      commitAddressableAndScheduleEvent(eventAddress,scheduleEvent);
+      commitScheduleEvent(scheduleEvent,"new");
     }else{//update
+      scheduleEvent['id'] = $(".edgex-support-scheduleevent-form input[name='ScheduleEventId']").val().trim();
       commitScheduleEvent(scheduleEvent,"");
     }
-
   };
-
-  function commitAddressableAndScheduleEvent(addressable,scheduleEvent){
-    commitScheduleEvent(scheduleEvent,"new");
-    // $.ajax({
-    //   url:'/support-scheduler/api/v1/addressable',
-    //   type:'POST',
-    //   data:JSON.stringify(addressable),
-    //   success:function(data){
-    //       scheduleEvent.addressable.id = data;
-    //       commitScheduleEvent(scheduleEvent,"new");
-    //   },
-    //   statusCode: {
-    //     400: function() {
-    //       bootbox.alert({
-    //         message: "malformed or unparsable requests!",
-    //         className: 'red-green-buttons'
-    //       });
-    //     },
-    //     500: function(){
-    //       bootbox.alert({
-    //         message: "unknown or unanticipated issues or any duplicate address name (key)!",
-    //         className: 'red-green-buttons'
-    //       });
-    //     }
-    //   }
-    // });
-  }
 
   function commitScheduleEvent(scheduleEvent,type){
     var method ;
@@ -553,6 +818,7 @@ orgEdgexFoundry.supportScheduler = (function(){
       type: method,
       data:JSON.stringify(scheduleEvent),
       success:function(){
+        scheduler.cancelAddScheduleEventBtn();
         scheduler.loadScheduleEventList();
         bootbox.alert({
           message: "Commit ScheduleEvent Success!",
