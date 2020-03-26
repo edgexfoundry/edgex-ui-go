@@ -51,3 +51,14 @@ Date.prototype.Format = function (fmt) {
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
+
+//ISO 8601 format (YYYYMMDD'T'HHmmss)
+var ISO8601FormatToDate = function (dateString) {
+    var year = dateString.substring(0,4);
+    var month = dateString.substring(4,6);
+    var day = dateString.substring(6,8);
+    var hour = dateString.substring(9,11);
+    var minute = dateString.substring(11,13);
+    var second = dateString.substring(13);
+    return new Date(year,month,day,hour,minute,second);
+};
