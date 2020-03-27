@@ -554,7 +554,8 @@ orgEdgexFoundry.deviceService = (function(){
       type: method,
       data:JSON.stringify(device),
       success: function(){
-        deviceService.refreshDevice();
+          deviceService.cancelAddOrUpdateDevice();
+          deviceService.refreshDevice();
         bootbox.alert({
           message: "commit success!",
           className: 'red-green-buttons'
