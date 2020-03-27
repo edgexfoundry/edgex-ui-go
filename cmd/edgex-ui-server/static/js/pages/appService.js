@@ -15,6 +15,7 @@
 $(document).ready(function(){
     orgEdgexFoundry.appService.initPipeline();
     orgEdgexFoundry.appService.dragDlg();
+    orgEdgexFoundry.appService.loadAllDeviceAndValueDescriptor();
 });
 
 orgEdgexFoundry.appService = (function () {
@@ -22,9 +23,12 @@ orgEdgexFoundry.appService = (function () {
     function AppService() {
         this.PipelineFunctionList = null;
         this.deployData = null;
+        this.devicesCache = null;
+        this.valueDescriptorsCache = [];
     }
     AppService.prototype = {
         constructor:AppService,
+        loadAllDeviceAndValueDescriptor:null,
         dragDlg:null,
         downloadProfile:null,
         deployToConsul:null,
@@ -48,54 +52,137 @@ orgEdgexFoundry.appService = (function () {
                 if(!$.isEmptyObject(appService.deployData.Writable.Pipeline.Functions[functionName].Parameters)){
                     inputVal = appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[val.Name];
                 }
-                $("#paramsBox").append("<div class=\"form-group\">\n" +
-                    "                    <label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                    "                    <input type=\"text\" value=\""+inputVal+"\" name=\"input_"+val.Name+"\"\" class=\"form-control\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
-                    "                </div>");
+                if(val.Name == "DeviceNames"){
+                    var deviceNameStr = "<div class=\"form-group\">\n" +
+                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                        "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
+                    $.each(appService.devicesCache,function (index,val) {
+                        deviceNameStr += "<option value="+val.name+">"+val.name+"</option>\n";
+                    });
+                    deviceNameStr += "</select></div>";
+                    $("#paramsBox").append(deviceNameStr);
+                }else if(val.Name == "ValueDescriptors"){
+                    var valueDescriptorNameStr = "<div class=\"form-group\">\n" +
+                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                        "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
+                    $.each(appService.valueDescriptorsCache,function (index,val) {
+                        valueDescriptorNameStr += "<option value="+val.split("------")[1]+">"+val+"</option>\n";
+                    });
+                    valueDescriptorNameStr += "</select></div>";
+                    $("#paramsBox").append(valueDescriptorNameStr);
+                }else if(val.Name == "persistOnError" || val.Name == "autoreconnect" || val.Name == "retain"){
+                    $("#paramsBox").append("<div class=\"form-group\">\n" +
+                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                        "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
+                        "<option value=\"false\">false</option>\n" +
+                        "<option value=\"true\">true</option>\n" +
+                        "</select>"+
+                        "</div>");
+                }else{
+                    $("#paramsBox").append("<div class=\"form-group\">\n" +
+                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                        "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                        "</div>");
+                }
+                if(inputVal != null && inputVal != ''){
+                    if(val.Name == "DeviceNames" || val.Name == "ValueDescriptors"){
+                        $(".selectpicker").val(inputVal.split(','));
+                    }else{
+                        $("#"+type+"_"+functionName+"_"+val.Name).val(inputVal);
+                    }
+                }
             });
-            $('#myModal').modal();
+            if(functionName == "MQTTSend"){
+                var addressable = filterFunction[0].Addressable;
+                $.each(addressable, function (index,val) {
+                    var addressVal = '';
+                    if(!$.isEmptyObject(appService.deployData.Writable.Pipeline.Functions[functionName].Addressable)){
+                        addressVal = appService.deployData.Writable.Pipeline.Functions[functionName].Addressable[val.Name];
+                    }
+                    if(val.Name == "Protocol"){
+                        $("#paramsBox").append("<div class=\"form-group\">\n" +
+                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                            "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
+                            "<option value=\"tcp\">tcp</option>\n" +
+                            "<option value=\"http\">http</option>\n" +
+                            "<option value=\"zmq\">zmq</option>\n" +
+                            "<option value=\"mac\">mac</option>\n" +
+                            "<option value=\"other\">other</option>\n" +
+                            "</select>"+
+                            "</div>");
+                    }else{
+                        $("#paramsBox").append("<div class=\"form-group\">\n" +
+                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                            "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                            "</div>");
+                    }
+                    if(addressVal != null && addressVal != ''){
+                        $("#"+type+"_"+functionName+"_"+val.Name).val(addressVal);
+                    }
+                });
+            }
+            $('#myModal').modal({
+                backdrop: "static"
+            });
+            $(".modal-content").css("height","auto");
+            $('.selectpicker').selectpicker();
         }
     };
 
     AppService.prototype.saveParams = function(){
-        var type = $("#paramsBox").find("input")[0].id.split("_")[0];
-        var functionName = $("#paramsBox").find("input")[0].id.split("_")[1];
-        $.each($("#paramsBox").find("input"), function (index,val) {
+        var paramElementArr = $("#paramsBox").find("input");
+        $.each($("#paramsBox").find("select"),function (index,val) {
+            paramElementArr.push(val);
+        });
+        var type = paramElementArr[0].id.split("_")[0];
+        var functionName = paramElementArr[0].id.split("_")[1];
+        var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
+        $.each(paramElementArr, function (index,val) {
             var paramName = val.id.split("_")[2];
             var paramValue = '';
             if(val.value ==null || val.value == ''){
-                var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
-                var filterParam = eval(filterFunction[0].Parameters).filter(function (e) { return e.Name == paramName; });
+                var filterParam = '';
+                if(paramName == "Address" || paramName == "Port" || paramName == "Protocol" || paramName == "Publisher" || paramName == "User" || paramName == "Password" || paramName == "Topic"){
+                    filterParam = eval(filterFunction[0].Addressable).filter(function (e) { return e.Name == paramName; });
+                }else{
+                    filterParam = eval(filterFunction[0].Parameters).filter(function (e) { return e.Name == paramName; });
+                }
                 paramValue = filterParam[0].Hint;
+            }else if(paramName == "DeviceNames" || paramName == "ValueDescriptors"){
+                paramValue = $("#"+type+"_"+functionName+"_"+paramName).val().join(',');
             }else{
                 paramValue = val.value;
             }
-            appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[paramName]=paramValue;
+            if(paramName == "Address" || paramName == "Port" || paramName == "Protocol" || paramName == "Publisher" || paramName == "User" || paramName == "Password" || paramName == "Topic"){
+                appService.deployData.Writable.Pipeline.Functions[functionName].Addressable[paramName]=paramValue;
+            }else{
+                appService.deployData.Writable.Pipeline.Functions[functionName].Parameters[paramName]=paramValue;
+            }
         });
     };
 
     AppService.prototype.initPipeline = function initPipeline() {
         $.each(appService.PipelineFunctionList,function (key,value) {
             $("#accordion").append("<div class=\"panel panel-default\">\n" +
-                "                                <div class=\"panel-heading\">\n" +
-                "                                    <h4 class=\"panel-title\">\n" +
-                "                                        <a data-toggle=\"collapse\" data-parent=\"#accordion\"\n" +
-                "                                           href=\"#"+key+"\">\n" +
-                "                                            "+key+"\n" +
-                "                                        </a>\n" +
-                "                                    </h4>\n" +
-                "                                </div>\n" +
-                "                                <div id=\""+key+"\" class=\"panel-collapse collapse\">\n" +
-                "                                    <div class=\"panel-body\" id=\"plus"+key+"\">\n" +
-                "                                    </div>\n" +
-                "                                </div>\n" +
-                "                            </div>");
+                "<div class=\"panel-heading\">\n" +
+                "<h4 class=\"panel-title\">\n" +
+                "<a data-toggle=\"collapse\" data-parent=\"#accordion\"\n" +
+                "href=\"#"+key+"\">\n" +
+                ""+key+"\n" +
+                "</a>\n" +
+                "</h4>\n" +
+                "</div>\n" +
+                "<div id=\""+key+"\" class=\"panel-collapse collapse\">\n" +
+                "<div class=\"panel-body\" id=\"plus"+key+"\">\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "</div>");
             $.each(value,function (index,val) {
                 $("#plus"+key).append("<div class=\"helper-dialog-wrapper drop-card\" id = \""+key+"_"+val.Name+"\" title=\""+key+"_"+val.Name+"\">\n" +
-                    "                     <div class=\"description\">\n" +
-                    "                         <h5 align=\"center\" class=\"transform\">"+val.Name+"</h5>\n" +
-                    "                     </div>\n" +
-                    "                </div>");
+                    "<div class=\"description\">\n" +
+                    "<h5 align=\"center\" class=\"transform\">"+val.Name+"</h5>\n" +
+                    "</div>\n" +
+                    "</div>");
             })
 
         });
@@ -158,7 +245,11 @@ orgEdgexFoundry.appService = (function () {
                     $("#"+moveDivId).css("left",0);
                     $("#"+moveDivId).css("top",20);
                     $("#"+moveDivId).css("position","relative");
-                    appService.deployData.Writable.Pipeline.Functions[functionName]={"Parameters":{}};
+                    if(functionName == "MQTTSend"){
+                        appService.deployData.Writable.Pipeline.Functions[functionName]={"Addressable": {},"Parameters":{}};
+                    }else{
+                        appService.deployData.Writable.Pipeline.Functions[functionName]={"Parameters":{}};
+                    }
                     if(appService.deployData.Writable.Pipeline.ExecutionOrder == ""){
                         appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder + functionName;
                     }else {
@@ -183,6 +274,23 @@ orgEdgexFoundry.appService = (function () {
                 isDown = false;
             }
         );
+    };
+
+    AppService.prototype.loadAllDeviceAndValueDescriptor = function(){
+        $.ajax({
+            url: '/core-metadata/api/v1/device',
+            type: 'GET',
+            success:function(devices){
+                appService.devicesCache = devices;
+                $.each(devices,function(index,device){
+                    $.each(device.profile.deviceResources,function(index,resource){
+                        if (resource.properties.value.readWrite == "R" || resource.properties.value.readWrite == "RW") {
+                            appService.valueDescriptorsCache.push(device.name+"------"+resource.name);
+                        }
+                    });
+                });
+            }
+        });
     };
 
     AppService.prototype.downloadProfile = function(){
@@ -210,16 +318,20 @@ orgEdgexFoundry.appService = (function () {
             data: JSON.stringify(appService.deployData),
             success: function(){
                 bootbox.alert({
+                    title:"Alert",
                     message: "deploy success!",
                     className: 'red-green-buttons'
                 });
             },
-            error: function(error){
+            error: function(){
                 bootbox.alert({
                     title : "Error",
                     message: "deploy failure!",
                     className: 'red-green-buttons'
                 });
+            },
+            complete:function () {
+                $(".modal-content").css("height","30%");
             }
         });
     };
@@ -258,7 +370,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'ValueDescriptors',
                         'Default': '',
-                        'Hint': 'RandomValue_Int8, RandomValue_Int64',
+                        'Hint': 'Int8,Int64',
                         'Required': true
                     }
                 ],

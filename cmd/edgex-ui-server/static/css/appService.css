@@ -55,8 +55,28 @@
     top:20%;
     right:0;
     left:0;
-    bottom:0;
+    bottom:20%;
     margin:auto;
+}
+.modal-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+.modal-body {
+    max-height:79%;
+    overflow-y:auto;
+    position: absolute;
+    top: 55px;
+    bottom: 65px;
+    width: 100%;
+}
+.modal-header .close {margin-right: 15px;}
+.modal-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
 }
 
 .modal-backdrop {
