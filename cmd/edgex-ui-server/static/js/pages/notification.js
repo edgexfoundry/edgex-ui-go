@@ -20,14 +20,15 @@ $(document).ready(function(){
     enableTime:true,
     enableSeconds:true,
     time_24hr:true,
-    allowInput:false
+    allowInput:false,
   });
   $("#edgex-foundry-support-notification input[name='notification_end_time']").flatpickr({
     dateFormat:"Y-m-d H:i:S",
     enableTime:true,
     enableSeconds:true,
     time_24hr:true,
-    allowInput:false
+    allowInput:false,
+    defaultDate: new Date().Format("yyyy-MM-dd hh:mm:ss")
   });
   $("#edgex-foundry-support-transmission input[name='transmission_start_time']").flatpickr({
     dateFormat:"Y-m-d H:i:S",
@@ -60,7 +61,7 @@ orgEdgexFoundry.supportNotification = (function(){
     loadNotificationList: null,
     renderNotificationList: null,
     addNotificationBtn: null,
-    seacrchNotificationBtn: null,
+    searchNotificationBtn: null,
 
     loadSubscriptionList: null,
     renderSubscriptionList: null,
@@ -90,27 +91,43 @@ orgEdgexFoundry.supportNotification = (function(){
       url:'/support-notification/api/v1/notification/end/' + end + '/' + 20,
       type:'GET',
       success:function(data){
-        //debugger
+        if (!data || data.length == 0) {
+          $("#edgex-support-notification-list table tfoot").show();
+        }
         notification.renderNotificationList(data);
       },
-      statusCode: {
-        404: function(){
-          bootbox.alert({
-            title:"Error",
-            message:"malformed or unparsable requests !",
-            className: 'red-green-buttons'
-          });
-        },
-        413: function(){
-          bootbox.alert({
-            title:"Error",
-            message:"assigned limit perameter exceeds the current max limit !",
-            className: 'red-green-buttons'
-          });
+      complete: function (jqXHR, textStatus) {
+            if (jqXHR.status != 200) {
+                resetNotificationFormList();
+                if (jqXHR.status == 404) {
+                    bootbox.alert({
+                        title: "Error",
+                        message: jqXHR.responseText,
+                        className: 'red-green-buttons'
+                    });
+                } else if (jqXHR.status == 413) {
+                    bootbox.alert({
+                        title: "Error",
+                        message: "assigned limit perameter exceeds the current max limit !",
+                        className: 'red-green-buttons'
+                    });
+                }else if(jqXHR.status == 502){
+                    bootbox.alert({
+                        title: "Error",
+                        message: "Bad Gateway !",
+                        className: 'red-green-buttons'
+                    });
+                } else {
+                    bootbox.alert({
+                        title: "Error",
+                        message: "Unknown Error!",
+                        className: 'red-green-buttons'
+                    });
+                }
+            }
         }
-      }
     });
-  }
+  };
 
   SupportNotification.prototype.renderNotificationList = function(data){
     $("#edgex-support-notification-list table tbody").empty();
@@ -135,39 +152,66 @@ orgEdgexFoundry.supportNotification = (function(){
     });
   }
 
-  SupportNotification.prototype.seacrchNotificationBtn = function(){
-    var start = $("#edgex-foundry-support-notification input[name='notification_start_time']").val();
-    var end =   $("#edgex-foundry-support-notification input[name='notification_end_time']").val();
-    var limit = $("#edgex-foundry-support-notification select[name='notification_limit']").val();
-    start = new Date(start).valueOf();
-    end = new Date(end).valueOf();
-    $.ajax({
-      url:'/support-notification/api/v1/notification/start/' + start + "/end/" + end + "/" + limit,
-      type:'GET',
-      success:function(data){
-        if (!data || data.length == 0){
-            $("#edgex-support-notification-list table tfoot").show();
+    SupportNotification.prototype.searchNotificationBtn = function () {
+        var start = $("#edgex-foundry-support-notification input[name='notification_start_time']").val();
+        var end = $("#edgex-foundry-support-notification input[name='notification_end_time']").val();
+        var limit = $("#edgex-foundry-support-notification select[name='notification_limit']").val();
+        if (!start) {
+            start = new Date().valueOf()
+        } else {
+            start = new Date(start).valueOf();
         }
-        notification.renderNotificationList(data);
-      },
-      statusCode: {
-        404: function(){
-          bootbox.alert({
-            title:"Error",
-            message:"malformed or unparsable requests !",
-            className: 'red-green-buttons'
-          });
-        },
-        413: function(){
-          bootbox.alert({
-            title:"Error",
-            message:"assigned limit perameter exceeds the current max limit !",
-            className: 'red-green-buttons'
-          });
+        if (!end) {
+            end = new Date().valueOf();
+        } else {
+            end = new Date(end).valueOf();
         }
-      }
-    });
-  }
+        $.ajax({
+            url: '/support-notification/api/v1/notification/start/' + start + "/end/" + end + "/" + limit,
+            type: 'GET',
+            success: function (data) {
+                if (!data || data.length == 0) {
+                    $("#edgex-support-notification-list table tfoot").show();
+                }
+                notification.renderNotificationList(data);
+            },
+            complete: function (jqXHR, textStatus) {
+                if (jqXHR.status != 200) {
+                    resetNotificationFormList();
+                    if (jqXHR.status == 404) {
+                        bootbox.alert({
+                            title: "Error",
+                            message: jqXHR.responseText,
+                            className: 'red-green-buttons'
+                        });
+                    } else if (jqXHR.status == 413) {
+                        bootbox.alert({
+                            title: "Error",
+                            message: "assigned limit perameter exceeds the current max limit !",
+                            className: 'red-green-buttons'
+                        });
+                    }else if(jqXHR.status == 502){
+                        bootbox.alert({
+                            title: "Error",
+                            message: "Bad Gateway !",
+                            className: 'red-green-buttons'
+                        });
+                    } else {
+                        bootbox.alert({
+                            title: "Error",
+                            message: "Unknown Error!",
+                            className: 'red-green-buttons'
+                        });
+                    }
+                }
+            }
+        });
+    };
+
+    function resetNotificationFormList() {
+        $("#edgex-support-notification-list table tbody").empty();
+        $("#edgex-support-notification-list table tfoot").show();
+    }
 
   //===============notification section end=========================
 
