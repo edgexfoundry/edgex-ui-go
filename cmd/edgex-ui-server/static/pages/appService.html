@@ -14,7 +14,7 @@
     <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">Application Services</h3>
-            <div id="gateway_button_group" class="button_group">
+            <div id="appservice_button_group" class="appservice_button_group">
                 <button type="button" class="btn btn-warning" onclick="orgEdgexFoundry.appService.downloadProfile();">
                     <i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;Download Profile
                 </button>
@@ -23,29 +23,32 @@
                 </button>
             </div>
         </div>
-        <div class="wrap">
-            <aside id="left">
+        <div class="appservice_wrap">
+            <aside id="appservice_left">
 
             </aside>
 
-            <section id="right">
+            <section id="appservice_right">
                 <div>
                     <h4 align="center" class="text-success">Available Transforms</h4>
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#Transforms" data-toggle="tab">Transforms</a>
+                        <a href="#appservice_Transforms" data-toggle="tab">Transforms</a>
                     </li>
-                    <li><a href="#Triggers" data-toggle="tab">Triggers</a></li>
+                    <!--
+                    <li><a href="#appservice_Triggers" data-toggle="tab">Triggers</a></li>
+                    -->
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade in active" id="Transforms">
-                        <div class="panel-group" id="accordion">
+                    <div class="tab-pane fade in active" id="appservice_Transforms">
+                        <div class="panel-group" id="appservice_accordion">
                             
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="Triggers">
-                        <div class="triggers_group">
+                <!--
+                    <div class="tab-pane fade" id="appservice_Triggers">
+                        <div class="appservice_triggers_group">
                             <div class="list-group">
                                 <a class="list-group-item">
                                     <span class="badge">2020-03-08</span>
@@ -54,25 +57,26 @@
                             </div>
                         </div>
                     </div>
+                    -->
                 </div>
             </section>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="appservice_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="myModalLabel">Parameters</h4>
+                <h4 class="modal-title">Parameters</h4>
             </div>
-            <div class="modal-body" id="paramsBox">
+            <div class="modal-body" id="appservice_paramsBox">
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>Close</button>
-                <button type="button" id="btn_submit" class="btn btn-success" data-dismiss="modal" onclick="orgEdgexFoundry.appService.saveParams();"><span aria-hidden="true"></span>Save</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="orgEdgexFoundry.appService.saveParams();"><span aria-hidden="true"></span>Save</button>
             </div>
         </div>
     </div>

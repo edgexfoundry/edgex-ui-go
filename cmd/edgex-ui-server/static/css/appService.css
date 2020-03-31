@@ -1,31 +1,31 @@
-.wrap{
+.appservice_wrap{
     width:100%;
     margin:0 auto;
     overflow: hidden;
 }
-#left{
+#appservice_left{
     width:80%;
     min-height:800px;
     background:#fafcfd;
     float: left;
 }
-#right{
+#appservice_right{
     width:20%;
     min-height:800px;
     border-left:1px solid #d6e9c6;background:#fafcfd;
     float: right;
 }
-.drop-card{
+.appservice_drop_card{
     margin-top: 20px;
     height: 80px;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     text-align: center;
 }
-.transform{
+.appservice_transform{
     font-weight: bold;
 }
-.description{
+.appservice_description{
     position: relative;
     top: 25%;
     left: 20%;
@@ -33,7 +33,7 @@
     float: left;
     text-align:center
 }
-.paramButton{
+.appservice_paramButton{
     width:30%;
     outline-style: none ;
     border: 1px solid #ccc;
@@ -42,15 +42,15 @@
     margin-right: 100px;
     float:right;
 }
-.button_group{
+.appservice_button_group{
     float: right;
     margin-top: -25px;
     margin-right: 20%;
 }
-.triggers_group{
+.appservice_triggers_group{
     padding:10px;
 }
-.modal-dialog{
+#appservice_model .modal-dialog{
     position:fixed;
     top:20%;
     right:0;
@@ -58,13 +58,13 @@
     bottom:20%;
     margin:auto;
 }
-.modal-content {
+#appservice_model .modal-content {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
 }
-.modal-body {
+#appservice_model .modal-body {
     max-height:79%;
     overflow-y:auto;
     position: absolute;
@@ -72,8 +72,8 @@
     bottom: 65px;
     width: 100%;
 }
-.modal-header .close {margin-right: 15px;}
-.modal-footer {
+#appservice_model .modal-header .close {margin-right: 15px;}
+#appservice_model .modal-footer {
     position: absolute;
     width: 100%;
     bottom: 0;
