@@ -40,13 +40,42 @@ orgEdgexFoundry.appService = (function () {
     var appService = new AppService();
 
     AppService.prototype.clickParamButton = function (e) {
-        $("#paramsBox").empty();
+        $("#appservice_paramsBox").empty();
         var type = e.id.split("_")[1];
         var functionName = e.id.split("_")[2];
         var params;
         var filterFunction = eval(appService.PipelineFunctionList[type]).filter(function (e) { return e.Name == functionName; });
         params = filterFunction[0].Parameters;
         if(params != null){
+            if(functionName == "MQTTSend"){
+                var addressable = filterFunction[0].Addressable;
+                $.each(addressable, function (index,val) {
+                    var addressVal = '';
+                    if(!$.isEmptyObject(appService.deployData.Writable.Pipeline.Functions[functionName].Addressable)){
+                        addressVal = appService.deployData.Writable.Pipeline.Functions[functionName].Addressable[val.Name];
+                    }
+                    if(val.Name == "Protocol"){
+                        $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
+                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                            "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
+                            "<option value=\"tcp\">tcp</option>\n" +
+                            "<option value=\"http\">http</option>\n" +
+                            "<option value=\"zmq\">zmq</option>\n" +
+                            "<option value=\"mac\">mac</option>\n" +
+                            "<option value=\"other\">other</option>\n" +
+                            "</select>"+
+                            "</div>");
+                    }else{
+                        $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
+                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
+                            "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                            "</div>");
+                    }
+                    if(addressVal != null && addressVal != ''){
+                        $("#"+type+"_"+functionName+"_"+val.Name).val(addressVal);
+                    }
+                });
+            }
             $.each(params, function (index,val) {
                 var inputVal = '';
                 if(!$.isEmptyObject(appService.deployData.Writable.Pipeline.Functions[functionName].Parameters)){
@@ -60,7 +89,7 @@ orgEdgexFoundry.appService = (function () {
                         deviceNameStr += "<option value="+val.name+">"+val.name+"</option>\n";
                     });
                     deviceNameStr += "</select></div>";
-                    $("#paramsBox").append(deviceNameStr);
+                    $("#appservice_paramsBox").append(deviceNameStr);
                 }else if(val.Name == "ValueDescriptors"){
                     var valueDescriptorNameStr = "<div class=\"form-group\">\n" +
                         "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
@@ -69,17 +98,17 @@ orgEdgexFoundry.appService = (function () {
                         valueDescriptorNameStr += "<option value="+val.split("------")[1]+">"+val+"</option>\n";
                     });
                     valueDescriptorNameStr += "</select></div>";
-                    $("#paramsBox").append(valueDescriptorNameStr);
+                    $("#appservice_paramsBox").append(valueDescriptorNameStr);
                 }else if(val.Name == "persistOnError" || val.Name == "autoreconnect" || val.Name == "retain"){
-                    $("#paramsBox").append("<div class=\"form-group\">\n" +
+                    $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
                         "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
                         "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
-                        "<option value=\"false\">false</option>\n" +
-                        "<option value=\"true\">true</option>\n" +
+                        "<option value=false>false</option>\n" +
+                        "<option value=true>true</option>\n" +
                         "</select>"+
                         "</div>");
                 }else{
-                    $("#paramsBox").append("<div class=\"form-group\">\n" +
+                    $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
                         "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
                         "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
                         "</div>");
@@ -92,46 +121,16 @@ orgEdgexFoundry.appService = (function () {
                     }
                 }
             });
-            if(functionName == "MQTTSend"){
-                var addressable = filterFunction[0].Addressable;
-                $.each(addressable, function (index,val) {
-                    var addressVal = '';
-                    if(!$.isEmptyObject(appService.deployData.Writable.Pipeline.Functions[functionName].Addressable)){
-                        addressVal = appService.deployData.Writable.Pipeline.Functions[functionName].Addressable[val.Name];
-                    }
-                    if(val.Name == "Protocol"){
-                        $("#paramsBox").append("<div class=\"form-group\">\n" +
-                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                            "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
-                            "<option value=\"tcp\">tcp</option>\n" +
-                            "<option value=\"http\">http</option>\n" +
-                            "<option value=\"zmq\">zmq</option>\n" +
-                            "<option value=\"mac\">mac</option>\n" +
-                            "<option value=\"other\">other</option>\n" +
-                            "</select>"+
-                            "</div>");
-                    }else{
-                        $("#paramsBox").append("<div class=\"form-group\">\n" +
-                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                            "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
-                            "</div>");
-                    }
-                    if(addressVal != null && addressVal != ''){
-                        $("#"+type+"_"+functionName+"_"+val.Name).val(addressVal);
-                    }
-                });
-            }
-            $('#myModal').modal({
+            $('#appservice_model').modal({
                 backdrop: "static"
             });
-            $(".modal-content").css("height","auto");
             $('.selectpicker').selectpicker();
         }
     };
 
     AppService.prototype.saveParams = function(){
-        var paramElementArr = $("#paramsBox").find("input");
-        $.each($("#paramsBox").find("select"),function (index,val) {
+        var paramElementArr = $("#appservice_paramsBox").find("input");
+        $.each($("#appservice_paramsBox").find("select"),function (index,val) {
             paramElementArr.push(val);
         });
         var type = paramElementArr[0].id.split("_")[0];
@@ -163,24 +162,24 @@ orgEdgexFoundry.appService = (function () {
 
     AppService.prototype.initPipeline = function initPipeline() {
         $.each(appService.PipelineFunctionList,function (key,value) {
-            $("#accordion").append("<div class=\"panel panel-default\">\n" +
+            $("#appservice_accordion").append("<div class=\"panel panel-default\">\n" +
                 "<div class=\"panel-heading\">\n" +
                 "<h4 class=\"panel-title\">\n" +
-                "<a data-toggle=\"collapse\" data-parent=\"#accordion\"\n" +
+                "<a data-toggle=\"collapse\" data-parent=\"#appservice_accordion\"\n" +
                 "href=\"#"+key+"\">\n" +
                 ""+key+"\n" +
                 "</a>\n" +
                 "</h4>\n" +
                 "</div>\n" +
                 "<div id=\""+key+"\" class=\"panel-collapse collapse\">\n" +
-                "<div class=\"panel-body\" id=\"plus"+key+"\">\n" +
+                "<div class=\"panel-body\" id=\"appservice_plus"+key+"\">\n" +
                 "</div>\n" +
                 "</div>\n" +
                 "</div>");
             $.each(value,function (index,val) {
-                $("#plus"+key).append("<div class=\"helper-dialog-wrapper drop-card\" id = \""+key+"_"+val.Name+"\" title=\""+key+"_"+val.Name+"\">\n" +
-                    "<div class=\"description\">\n" +
-                    "<h5 align=\"center\" class=\"transform\">"+val.Name+"</h5>\n" +
+                $("#appservice_plus"+key).append("<div class=\"helper-dialog-wrapper appservice_drop_card\" id = \""+key+"_"+val.Name+"\" title=\""+key+"_"+val.Name+"\">\n" +
+                    "<div class=\"appservice_description\">\n" +
+                    "<h5 align=\"center\" class=\"appservice_transform\">"+val.Name+"</h5>\n" +
                     "</div>\n" +
                     "</div>");
             })
@@ -190,7 +189,7 @@ orgEdgexFoundry.appService = (function () {
 
     AppService.prototype.dragDlg = function (){
         var moveDivId;
-        var leftContainer = $("#left");
+        var leftContainer = $("#appservice_left");
         var x = 0;
         var y = 0;
         var l = 0;
@@ -229,10 +228,10 @@ orgEdgexFoundry.appService = (function () {
                     params = filterFunction[0].Parameters;
                     var button ;
                     if(params != null){
-                        button ='<button type="button" onclick="orgEdgexFoundry.appService.clickParamButton(this)" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
+                        button ='<button type="button" onclick="orgEdgexFoundry.appService.clickParamButton(this)" class="btn btn-success appservice_paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" placeholder="Set Params" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
                             '<i class="fa fa-wrench" aria-hidden="true"></i>&nbsp;Set Params</button>';
                     }else {
-                        button ='<button type="button" disabled="disabled" class="btn btn-success paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
+                        button ='<button type="button" disabled="disabled" class="btn btn-success appservice_paramButton" value="" id="button_'+moveDivId+'" title="'+$("#"+moveDivId)[0].getAttribute("title")+'" onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true">' +
                             '&nbsp;No parameters required.</button>';
                     }
                     $("#"+moveDivId).append(button);
@@ -241,7 +240,7 @@ orgEdgexFoundry.appService = (function () {
                     desc = filterFunction[0].Description;
                     var descElement=document.createElement("p");
                     descElement.innerHTML= desc;
-                    $("#"+moveDivId).find("div[class='description']")[0].append(descElement);
+                    $("#"+moveDivId).find("div[class='appservice_description']")[0].append(descElement);
                     $("#"+moveDivId).css("left",0);
                     $("#"+moveDivId).css("top",20);
                     $("#"+moveDivId).css("position","relative");
@@ -256,9 +255,9 @@ orgEdgexFoundry.appService = (function () {
                         appService.deployData.Writable.Pipeline.ExecutionOrder = appService.deployData.Writable.Pipeline.ExecutionOrder + "," + functionName;
                     }
                 }else{
-                    $("#plus"+moveDivId.split("_")[0]).append($("#"+moveDivId));
+                    $("#appservice_plus"+moveDivId.split("_")[0]).append($("#"+moveDivId));
                     $("#"+moveDivId)[0].removeChild($("#"+moveDivId).find("button")[0]);
-                    $("#"+moveDivId).find("div[class='description']")[0].removeChild($("#"+moveDivId).find("p")[0]);
+                    $("#"+moveDivId).find("div[class='appservice_description']")[0].removeChild($("#"+moveDivId).find("p")[0]);
                     $("#"+moveDivId).css("left",0);
                     $("#"+moveDivId).css("top",0);
                     delete appService.deployData.Writable.Pipeline.Functions[functionName];
@@ -300,6 +299,14 @@ orgEdgexFoundry.appService = (function () {
     };
 
     AppService.prototype.deployToConsul = function(){
+        if($.isEmptyObject(appService.deployData.Writable.Pipeline.Functions)){
+            bootbox.alert({
+                title:"Alert",
+                message: "The deploy must contain functions.",
+                className: 'red-green-buttons'
+            });
+            return;
+        }
         $.each(appService.deployData.Writable.Pipeline.Functions,function (k, v) {
             if(!v.hasOwnProperty("Parameters")){
                 appService.deployData.Writable.Pipeline.Functions[k].Parameters = {
@@ -309,6 +316,13 @@ orgEdgexFoundry.appService = (function () {
                 appService.deployData.Writable.Pipeline.Functions[k].Parameters = {
                     "p" : "",
                 }
+            }
+            if(appService.deployData.Writable.Pipeline.Functions[k].Parameters != null){
+                $.each(appService.deployData.Writable.Pipeline.Functions[k].Parameters,function (key,val) {
+                    if(val == "true" || val == "false"){
+                        appService.deployData.Writable.Pipeline.Functions[k].Parameters[key] = JSON.parse(val);
+                    }
+                });
             }
         });
         $.ajax({
@@ -329,9 +343,6 @@ orgEdgexFoundry.appService = (function () {
                     message: "deploy failure!",
                     className: 'red-green-buttons'
                 });
-            },
-            complete:function () {
-                $(".modal-content").css("height","30%");
             }
         });
     };
@@ -341,7 +352,7 @@ orgEdgexFoundry.appService = (function () {
             "LogLevel": "INFO",
             "Pipeline": {
                 "ExecutionOrder": "",
-                "UseTargetTypeOfByteArray":'false',
+                "UseTargetTypeOfByteArray":false,
                 "Functions": {
                 }
             }
@@ -472,8 +483,8 @@ orgEdgexFoundry.appService = (function () {
                     },
                     {
                         'Name':'persistOnError',
-                        'Default': 'false',
-                        'Hint': 'false',
+                        'Default': false,
+                        'Hint': false,
                         'Required': false
                     },
                 ],
@@ -491,8 +502,8 @@ orgEdgexFoundry.appService = (function () {
                     },
                     {
                         'Name':'persistOnError',
-                        'Default': 'false',
-                        'Hint': 'false',
+                        'Default': false,
+                        'Hint': false,
                         'Required': false
                     },
                 ],
@@ -510,8 +521,8 @@ orgEdgexFoundry.appService = (function () {
                     },
                     {
                         'Name':'persistOnError',
-                        'Default': 'false',
-                        'Hint': 'false',
+                        'Default': false,
+                        'Hint': false,
                         'Required': false
                     },
                 ],
@@ -535,14 +546,14 @@ orgEdgexFoundry.appService = (function () {
                     },
                     {
                         'Name':'autoreconnect',
-                        'Default': 'false',
-                        'Hint': 'false',
+                        'Default': false,
+                        'Hint': false,
                         'Required': true
                     },
                     {
                         'Name':'retain',
-                        'Default': 'false',
-                        'Hint': 'false',
+                        'Default': false,
+                        'Hint': false,
                         'Required': true
                     },
                     {
@@ -553,8 +564,8 @@ orgEdgexFoundry.appService = (function () {
                     },
                     {
                         'Name':'persistOnError',
-                        'Default': 'false',
-                        'Hint': 'false',
+                        'Default': false,
+                        'Hint': false,
                         'Required': true
                     }
                 ],
