@@ -5,6 +5,9 @@
     <title></title>
     <link rel="stylesheet" href="/css/notification.css">
     <script type="text/javascript" src="/js/pages/notification.js"></script>
+    <script>
+        $('.selectpicker').selectpicker();
+    </script>
   </head>
   <body>
     <!-- notification section start -->
@@ -124,7 +127,7 @@
                 <div class="panel-heading">
                   <h3 class="panel-title">
                     Channels
-                    <button onclick="orgEdgexFoundry.supportNotification.hidenChannelsBtn()" type="button" class="close pull-right" aria-label="Close"><span style="color:#333!important;" aria-hidden="true">&times;</span></button>
+                    <button onclick="orgEdgexFoundry.supportNotification.hiddenChannelsBtn()" type="button" class="close pull-right" aria-label="Close"><span style="color:#333!important;" aria-hidden="true">&times;</span></button>
                   </h3>
                 </div>
                 <div class="panel-body" style="padding:0;">
@@ -162,10 +165,10 @@
           </div>
           <div class="panel panel-default" style="border:none;outline:none;margin:0;">
             <div class="panel-heading" style="padding:5px 2px;">
-              <div class="edgexIconBtn add-subscription"  onclick="orgEdgexFoundry.supportNotification.commitSubscriptionBtn('new');">
+              <div class="edgexIconBtn add-subscription"  onclick="orgEdgexFoundry.supportNotification.commitSubscriptionBtn('add');">
                 <i class="fa fa-check fa-lg" aria-hidden="true"></i>
               </div>
-              <div class="edgexIconBtn update-subscription" style="display:none;" onclick="orgEdgexFoundry.supportNotification.commitSubscriptionBtn();">
+              <div class="edgexIconBtn update-subscription" style="display:none;" onclick="orgEdgexFoundry.supportNotification.commitSubscriptionBtn('update');">
                 <i class="fa fa-check fa-lg" aria-hidden="true"></i>
               </div>
               <div class="edgexIconBtn" onclick="orgEdgexFoundry.supportNotification.cancelAddOrUpdateBtn()">
@@ -174,41 +177,108 @@
             </div>
           </div>
           <div class="panel-body" style="padding:0;">
-            <form class="">
-              <fieldset>
-                <legend>Basic</legend>
-                <input type="hidden" name="id">
-                <div class="form-group">
-                  <label for="slug">Slug</label>
-                  <input type="text" class="form-control" name="slug" placeholder="slug">
-                </div>
-                <div class="form-group">
-                  <label for="receiver">Receiver</label>
-                  <input type="text" class="form-control" name="receiver" placeholder="receiver">
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <input type="text" class="form-control" name="description" placeholder="description">
-                </div>
-                <div class="form-group">
-                  <label for="subscribedLabels">SubscribedLabels</label>
-                  <input type="text" class="form-control" name="subscribedLabels" placeholder="subscribedLabels,separated by comma (',') with multiple value.">
-                </div>
-                <div class="form-group">
-                  <label for="subscribedCategories">SubscribedCategories</label>
-                  <input type="text" class="form-control" name="subscribedCategories" placeholder="subscribedCategories,only SECURITY/HW_HEALTH/SW_HEALTH, separated by comma (',') with multiple value.">
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend>Channels</legend>
-                <!-- <div class="dynamicChannelsSection">
-
-                </div> -->
-                <div class="form-group">
-                  <label for="channels">Channels</label>
-                  <input type="text" class="form-control" name="channels" placeholder="channels,currently only supports EMAIL, separated by comma (',') with multiple value. ">
-                </div>
-              </fieldset>
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>Subscription</legend>
+                    <input type="hidden" name="id">
+                    <div class="form-group">
+                        <label for="slug" class="col-md-1 control-label">Slug</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="slug" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="receiver" class="col-md-1 control-label">Name</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="receiver" placeholder="subscriptionName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-md-1 control-label">Description</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="description" placeholder="subscriptionDescription">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscribedLabels" class="col-md-1 control-label">Labels</label>
+                        <div class="col-md-10">
+                            <select class="form-control selectpicker" multiple name="subscribedLabels">
+                                <option selected value="metadata">metadata</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscribedCategories" class="col-md-1 control-label">Categories</label>
+                        <div class="col-md-10">
+                            <select class="form-control selectpicker" multiple name="subscribedCategories">
+                                <option selected value="SECURITY">SECURITY</option>
+                                <option value="HW_HEALTH">HW_HEALTH</option>
+                                <option value="SW_HEALTH">SW_HEALTH</option>
+                            </select>
+                        </div>
+                    </div>
+                    <fieldset>
+                        <legend>Channels</legend>
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-1">
+                                <button type="button" class="btn btn-success btn-channel-add" title="New" onclick="orgEdgexFoundry.supportNotification.addNewSubscriptionChannelBtn()"><i class="fa fa-plus"></i> </button>
+                                <button type="button" class="btn btn-success btn-channel-commit-add" title="Save" style="display: none" onclick="orgEdgexFoundry.supportNotification.commitSubscriptionChannelBtn('add')"><i class="fa fa-check"></i> </button>
+                                <button type="button" class="btn btn-success btn-channel-commit-update" title="Save" style="display: none" onclick="orgEdgexFoundry.supportNotification.commitSubscriptionChannelBtn('update')"><i class="fa fa-check"></i> </button>
+                                <button type="button" class="btn btn-success btn-channel-commit-delete" title="Save" style="display: none" onclick="orgEdgexFoundry.supportNotification.commitSubscriptionChannelBtn('delete')"><i class="fa fa-check"></i> </button>
+                                <button type="button" class="btn btn-success btn-channel-cancel" title="Close" style="display: none" onclick="orgEdgexFoundry.supportNotification.cancelAddOrUpdateSubscriptionChannelBtn()"><i class="fa fa-close"></i> </button>
+                            </div>
+                        </div>
+                        <div id="edgex-support-subscription-channel-tabel" class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Email</th>
+                                        <th>Url</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="edgex-support-subscription-channel-config" style="display: none">
+                            <fieldset>
+                                <legend>ChannelConfig</legend>
+                                <div class="form-group">
+                                    <label for="channelType" class="col-md-1 control-label">Type</label>
+                                    <div class="col-md-10">
+                                        <select class="form-control" name="channelType">
+                                            <option value="REST">REST</option>
+                                            <option selected value="EMAIL">EMAIL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="edgex-support-subscription-email">
+                                    <div class="form-group">
+                                        <label for="channelEmail" class="col-md-1 control-label">Emails</label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" name="channelEmail"  placeholder="multiple email address,separated by comma (',')">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="edgex-support-subscription-rest">
+                                    <div class="form-group">
+                                        <label for="channelRestUrl" class="col-md-1 control-label">Url</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="channelRestUrl" placeholder="callback endpoint url">
+                                        </div>
+                                        <label for="channelRestMethod" class="col-md-1 control-label">Method</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" value="POST" name="channelRestMethod" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </fieldset>
+                </fieldset>
             </form>
           </div>
         </div>
