@@ -74,3 +74,13 @@ legend{
   white-space: nowrap;
   text-align: center;
 }
+
+table.table td i.add {
+  color: #27C46B;
+}
+table.table td i.edit {
+  color: #FFC107;
+}
+table.table td i.delete {
+  color: #E34724;
+}

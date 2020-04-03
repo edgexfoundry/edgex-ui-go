@@ -53,7 +53,8 @@ orgEdgexFoundry.supportNotification = (function(){
   "use strict";
 
   function SupportNotification(){
-
+      this.subscriptionChannelListCache = [];
+      this.editedSubscriptionChannelIndex = -1;
   }
 
   SupportNotification.prototype = {
@@ -77,8 +78,12 @@ orgEdgexFoundry.supportNotification = (function(){
     renderTransmissionList: null,
     seacrchTransmissionBtn: null,
 
-    hidenChannelsBtn: null,
-  }
+    hiddenChannelsBtn: null,
+
+    addNewSubscriptionChannelBtn: null,
+    commitSubscriptionChannelBtn: null,
+    cancelAddOrUpdateSubscriptionChannelBtn:null,
+  };
 
   var notification = new SupportNotification();
 
@@ -130,6 +135,7 @@ orgEdgexFoundry.supportNotification = (function(){
   };
 
   SupportNotification.prototype.renderNotificationList = function(data){
+    $("#edgex-support-notification-list table tfoot").hide();
     $("#edgex-support-notification-list table tbody").empty();
     $.each(data,function(i,v){
       var rowData = "<tr>";
@@ -253,15 +259,15 @@ orgEdgexFoundry.supportNotification = (function(){
       rowData += '<td class="notification-edit-icon"><input type="hidden" value=\''+JSON.stringify(v)+'\'><div class="edgexIconBtn"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> </div></td>';
       // rowData += '<td><input type="radio" name="notificationRowRadio" value="'+v.id+'"></td>';
       rowData += "<td>" + (i + 1) +"</td>";
-      rowData += "<td>" +  v.id + "</td>";
-      rowData += "<td>" +  v.slug + "</td>";
-      rowData += "<td>" +  v.receiver + "</td>";
-      rowData += "<td>" +  v.description + "</td>";
-      rowData += "<td>" +  v.subscribedCategories.join(',') + "</td>";
-      rowData += "<td>" +  v.subscribedLabels.join(',') + "</td>";
+      rowData += "<td>" +  (v.id ? v.id : "") + "</td>";
+      rowData += "<td>" +  (v.slug ? v.slug : "") + "</td>";
+      rowData += "<td>" +  (v.receiver ? v.receiver : "")  + "</td>";
+      rowData += "<td>" +  (v.description ? v.description : "") + "</td>";
+      rowData += "<td>" +  (v.subscribedCategories ? v.subscribedCategories.join(',') : "") + "</td>";
+      rowData += "<td>" +  (v.subscribedLabels ? v.subscribedLabels.join(',') : "") + "</td>";
       rowData += "<td class='subscription-channel-icon'>" + "<input type='hidden' value=\'"+JSON.stringify(v.channels)+"\'>" + "<i class='fa fa-search-plus fa-lg'></i>" + "</td>";
-      rowData += "<td>" +  dateToString(v.created) + "</td>";
-      rowData += "<td>" +  dateToString(v.modified) + "</td>";
+      rowData += "<td>" +  (v.created ? dateToString(v.created) : "") + "</td>";
+      rowData += "<td>" +  (v.modified ? dateToString(v.modified): "") + "</td>";
       rowData += "</tr>";
       $("#edgex-support-subscription-list table tbody").append(rowData);
     });
@@ -272,21 +278,12 @@ orgEdgexFoundry.supportNotification = (function(){
     });
 
     $("#edgex-support-subscription-list .notification-edit-icon").on('click',function(){
-      var notification = JSON.parse($(this).children('input[type="hidden"]').val());
+      var subscriptionConfig = JSON.parse($(this).children('input[type="hidden"]').val());
       $("#edgex-foundry-support-subscription-list-main").hide();
       $(".edgex-support-subscription-edit").show();
       $(".edgex-support-subscription-edit .add-subscription").hide();
       $(".edgex-support-subscription-edit .update-subscription").show();
-      $(".edgex-support-subscription-edit input[name='id']").val(notification.id);
-      $(".edgex-support-subscription-edit input[name='slug']").val(notification.slug);
-      $(".edgex-support-subscription-edit input[name='receiver']").val(notification.receiver);
-      $(".edgex-support-subscription-edit input[name='description']").val(notification.description);
-      $(".edgex-support-subscription-edit input[name='subscribedLabels']").val(notification.subscribedLabels.join(','));
-      $(".edgex-support-subscription-edit input[name='subscribedCategories']").val(notification.subscribedCategories.join(','));
-      if(notification.channels[0].type == "EMAIL"){
-        $(".edgex-support-subscription-edit input[name='channels']").val(notification.channels[0].mailAddresses.join(','));
-      }
-
+      renderSubscriptionConfig(subscriptionConfig,'update');
     });
 
     $("#edgex-support-subscription-list .subscription-channel-icon").on('click',function(){
@@ -295,15 +292,15 @@ orgEdgexFoundry.supportNotification = (function(){
       //debugger
       $.each(channels,function(i,v){
         var rowData = "<tr>";
-        rowData += "<td>" +  v.type + "</td>";
+        rowData += "<td>" + (v.type ? v.type : "") + "</td>";
         if(v.type == "EMAIL") {
-          rowData += "<td>" +  v.mailAddresses.join(',') + "</td>";
-          rowData += "<td>" +  " " + "</td>";
-          rowData += "<td>" + " " + "</td>";
+          rowData += "<td>" + (v.mailAddresses ? v.mailAddresses.join(',') : "") + "</td>";
+          rowData += "<td></td>";
+          rowData += "<td></td>";
         }else{
-          rowData += "<td>" +  " " + "</td>";
-          rowData += "<td>" +  v.url + "</td>";
-          rowData += "<td>" +  v.httpMethod + "</td>";
+          rowData += "<td></td>";
+          rowData += "<td>" + (v.url ? v.url : "") + "</td>";
+          rowData += "<td>" +  "POST" + "</td>";
         }
         rowData += "</tr>";
         $("#edgex-foundry-support-subscription-main .edgex-support-subscription-channels-list table tbody").append(rowData);
@@ -343,54 +340,58 @@ orgEdgexFoundry.supportNotification = (function(){
   }
 
   SupportNotification.prototype.cancelAddOrUpdateBtn = function(){
-    $(".edgex-support-subscription-edit").hide();
-    $("#edgex-foundry-support-subscription-list-main").show();
+      resetSubscriptionConfig();
+      $(".edgex-support-subscription-edit").hide();
+      $("#edgex-foundry-support-subscription-list-main").show();
   }
 
   SupportNotification.prototype.addSubscriptionBtn = function(){
     $("#edgex-foundry-support-subscription-list-main").hide();
-    $(".edgex-support-subscription-edit").show();
-    $(".edgex-support-subscription-edit form")[0].reset();
     $(".edgex-support-subscription-edit .update-subscription").hide();
     $(".edgex-support-subscription-edit .add-subscription").show();
-  }
+    var addSubscriptionConfig = {
+      "slug" : "client-subscription-" + new Date().getTime(),
+    };
+    renderSubscriptionConfig(addSubscriptionConfig,"add");
+    $(".edgex-support-subscription-edit").show();
+  };
 
-  SupportNotification.prototype.commitSubscriptionBtn = function(type){
+  SupportNotification.prototype.commitSubscriptionBtn = function(operateType){
+      var subscription = {
+          slug: $(".edgex-support-subscription-edit input[name='slug']").val(),
+          receiver: $(".edgex-support-subscription-edit input[name='receiver']").val(),
+          description: $(".edgex-support-subscription-edit input[name='description']").val(),
+          subscribedLabels: $(".edgex-support-subscription-edit select[name='subscribedLabels']").val(),
+          subscribedCategories: $(".edgex-support-subscription-edit select[name='subscribedCategories']").val(),
+          channels: notification.subscriptionChannelListCache,
+      };
+      //debugger
+      if (operateType == "add") {
+          commitSubscription("POST",subscription);
+      }else{
+          subscription['id'] = $(".edgex-support-subscription-edit input[name='id']").val();
+          commitSubscription("PUT",subscription);
+      }
+  };
 
-    var subscription = {
-      id: $(".edgex-support-subscription-edit input[name='id']").val(),
-      slug: $(".edgex-support-subscription-edit input[name='slug']").val(),
-      receiver: $(".edgex-support-subscription-edit input[name='receiver']").val(),
-      description: $(".edgex-support-subscription-edit input[name='description']").val(),
-      subscribedLabels: $(".edgex-support-subscription-edit input[name='subscribedLabels']").val().split(','),
-      subscribedCategories: $(".edgex-support-subscription-edit input[name='subscribedCategories']").val().replace(new RegExp(' ', 'ig'),'').split(','),
-      channels:[
-        {
-          "type":"EMAIL",
-          "mailAddresses": $(".edgex-support-subscription-edit input[name='channels']").val().replace(new RegExp(' ', 'ig'),'').split(',')
-        }
-      ]
-    }
-
-    //debugger
-    if (type == "new") {
-      commitNewSubscription(subscription)
-    }else{
-      updateSubscription(subscription)
-    }
-  }
-
-  function commitNewSubscription(subscription){
+  function commitSubscription(methodType,subscription){
     $.ajax({
       url:'/support-notification/api/v1/subscription',
-      type:'POST',
+      type:methodType,
       data:JSON.stringify(subscription),
       success:function(){
+          var successMsg = "";
+          if (methodType == "POST"){
+              successMsg = "Add subscription success!";
+          }else{
+              successMsg = "Update subscription success!";
+          }
+          notification.cancelAddOrUpdateBtn();
+          orgEdgexFoundry.supportNotification.loadSubscriptionList();
         bootbox.alert({
-          message: "Add subscription success!",
+          message: successMsg,
           className: 'red-green-buttons'
         });
-        orgEdgexFoundry.supportNotification.loadSubscriptionList();
       },
       statusCode: {
         400: function(event){
@@ -423,59 +424,219 @@ orgEdgexFoundry.supportNotification = (function(){
         }
       }
     });
-  }
-
-  function updateSubscription(subscription){
-    $.ajax({
-      url:'/support-notification/api/v1/subscription',
-      type:'PUT',
-      data:JSON.stringify(subscription),
-      success:function(){
-        bootbox.alert({
-          message: "Update subscription success!",
-          className: 'red-green-buttons'
-        });
-        orgEdgexFoundry.supportNotification.loadSubscriptionList();
-      },
-      statusCode: {
-        400: function(event){
-          debugger
-          bootbox.alert({
-            title:'Error',
-            message: "Bad request!",
-            className: 'red-green-buttons'
-          });
-        },
-        404: function(){
-          bootbox.alert({
-            title:'Error',
-            message: "unknown or unanticipated issues !",
-            className: 'red-green-buttons'
-          });
-        },
-        409: function(){
-          bootbox.alert({
-            title:'Error',
-            message: "The slug is duplicate. Please try another one.",
-            className: 'red-green-buttons'
-          });
-        },
-        503: function(){
-          bootbox.alert({
-            title:'Error',
-            message: "For unanticipated or unknown issues encountered.",
-            className: 'red-green-buttons'
-          });s
-        }
-      }
-    });
-  }
+  };
 
   SupportNotification.prototype.updateSubscriptionBtn = function(){
 
+  };
+  SupportNotification.prototype.hiddenChannelsBtn = function(){
+      $("#edgex-foundry-support-subscription-main .edgex-support-subscription-channels-list table tbody").empty();
+      $(".edgex-support-subscription-channels-panel").hide();
+  };
+
+  SupportNotification.prototype.addNewSubscriptionChannelBtn = function () {
+      switchChannelCommitToAddMode();
+      renderSubscriptionChannelConfig();
+  };
+
+  SupportNotification.prototype.commitSubscriptionChannelBtn = function (operateType) {
+      var channelConfig = {};
+      channelConfig['type'] = $(".edgex-support-subscription-edit select[name='channelType']").val();
+      if (channelConfig['type'] == "EMAIL"){
+          channelConfig['mailAddresses'] = $(".edgex-support-subscription-edit input[name='channelEmail']").val().split(",");
+      }else if(channelConfig['type'] == "REST"){
+          channelConfig['url'] = $(".edgex-support-subscription-edit input[name='channelRestUrl']").val();
+      }
+      if(operateType == "add"){
+          //add
+          notification.subscriptionChannelListCache.push(channelConfig);
+      }else if(operateType == "update"){
+          //update
+          if(notification.editedSubscriptionChannelIndex >= 0){
+              notification.subscriptionChannelListCache[notification.editedSubscriptionChannelIndex] = channelConfig;
+              notification.editedSubscriptionChannelIndex = -1;
+          }
+      }else if((operateType == "delete")){
+          //delete
+      }
+      renderSubscriptionChannelTable(notification.subscriptionChannelListCache);
+      notification.cancelAddOrUpdateSubscriptionChannelBtn();
+  };
+
+  SupportNotification.prototype.cancelAddOrUpdateSubscriptionChannelBtn = function () {
+      $(".edgex-support-subscription-edit .btn-channel-add").show();
+      $(".edgex-support-subscription-edit .btn-channel-commit-add").hide();
+      $(".edgex-support-subscription-edit .btn-channel-commit-update").hide();
+      $(".edgex-support-subscription-edit .btn-channel-commit-delete").hide();
+      $(".edgex-support-subscription-edit .btn-channel-cancel").hide();
+      $(".edgex-support-subscription-channel-config").hide();
+  };
+
+  function switchChannelCommitToAddMode() {
+      $(".edgex-support-subscription-edit .btn-channel-add").hide();
+      $(".edgex-support-subscription-edit .btn-channel-commit-add").show();
+      $(".edgex-support-subscription-edit .btn-channel-cancel").show();
   }
-  SupportNotification.prototype.hidenChannelsBtn = function(){
-    $(".edgex-support-subscription-channels-panel").hide();
+
+  function switchChannelCommitToUpdateMode() {
+        $(".edgex-support-subscription-edit .btn-channel-add").hide();
+        $(".edgex-support-subscription-edit .btn-channel-commit-update").show();
+        $(".edgex-support-subscription-edit .btn-channel-cancel").show();
+    }
+
+  function switchChannelCommitToDeleteMode() {
+        $(".edgex-support-subscription-edit .btn-channel-add").hide();
+        $(".edgex-support-subscription-edit .btn-channel-commit-delete").show();
+        $(".edgex-support-subscription-edit .btn-channel-cancel").show();
+    }
+
+  function renderSubscriptionConfig(config,addOrUpdate){
+      //{
+      //   "created": 1586425389320,
+      //   "modified": 1585800017388,
+      //   "id": "075a21be-0d7f-403c-8790-afdb8df2ca94",
+      //   "slug": "s1",
+      //   "receiver": "sub-test-name",
+      //   "description": "test",
+      //   "subscribedCategories": [
+      //     "SW_HEALTH"
+      //   ],
+      //   "subscribedLabels": [
+      //     "metadata"
+      //   ],
+      //   "channels": [
+      //     {
+      //       "type": "EMAIL",
+      //       "mailAddresses": [
+      //         "test@test.com"
+      //       ],
+      //       "url":""
+      //     }
+      //   ]
+      // }
+      if(!config){
+          return;
+      }
+      if(config['id']){
+          $(".edgex-support-subscription-edit input[name='id']").val(config['id']);
+      }
+      if(config['slug']){
+          $(".edgex-support-subscription-edit input[name='slug']").val(config['slug']);
+      }
+      if(config['receiver']){
+          $(".edgex-support-subscription-edit input[name='receiver']").val(config['receiver']);
+      }
+      if(config['description']){
+          $(".edgex-support-subscription-edit input[name='description']").val(config['description']);
+      }
+      if(config['subscribedLabels']){
+          $(".edgex-support-subscription-edit select[name='subscribedLabels']").selectpicker('val', config['subscribedLabels']);
+      }
+      if(config['subscribedCategories']){
+          $(".edgex-support-subscription-edit select[name='subscribedCategories']").selectpicker('val', config['subscribedCategories']);
+      }
+      if(config['channels']){
+          renderSubscriptionChannelTable(config['channels']);
+      }
+  }
+
+    function renderSubscriptionChannelTable(channels) {
+        $("#edgex-support-subscription-channel-tabel table tbody").empty();
+        notification.subscriptionChannelListCache = channels;
+        $.each(channels, function (i, v) {
+            appendSubscriptionChannelRow(i,v);
+        });
+        $("#edgex-support-subscription-channel-tabel .channel-edit").off('click');
+        $("#edgex-support-subscription-channel-tabel .channel-edit").on('click',function () {
+            switchChannelCommitToUpdateMode();
+            var updateIndex = Number($(this).children('input').val());
+            notification.editedSubscriptionChannelIndex = updateIndex;
+            renderSubscriptionChannelConfig(notification.subscriptionChannelListCache[updateIndex],"update");
+        });
+        $("#edgex-support-subscription-channel-tabel .channel-delete").off('click');
+        $("#edgex-support-subscription-channel-tabel .channel-delete").on('click',function () {
+            switchChannelCommitToDeleteMode();
+            var deleteIndex = Number($(this).children('input').val());
+            notification.subscriptionChannelListCache.splice(deleteIndex,1);
+            renderSubscriptionChannelTable(notification.subscriptionChannelListCache);
+        });
+    }
+
+    function appendSubscriptionChannelRow(index,channelConfig) {
+        var rowData = "<tr>";
+        rowData += "<td>" + channelConfig['type'] + "</td>";
+        if (channelConfig['type'] == "EMAIL") {
+            rowData += "<td>" + channelConfig['mailAddresses'].join(',') + "</td>";
+            rowData += "<td></td>";
+        }else if(channelConfig['type'] == "REST") {
+            rowData += "<td></td>";
+            rowData += "<td>" + channelConfig['url'] + "</td>";
+        }else{
+            rowData += "<td></td>";
+            rowData += "<td></td>";
+        }
+        rowData += "<td>\n" +
+            "<i class=\"fa fa-lg fa-edit edit channel-edit\" title=\"Edit\"><input type=\"hidden\" value='"+ index +"'></i>\n" +
+            "<i class=\"fa fa-trash-o fa-lg delete channel-delete\" title=\"Delete\"><input type=\"hidden\" value='"+ index +"'></i>\n" +
+            "</td>";
+        $("#edgex-support-subscription-channel-tabel table tbody").append(rowData);
+    };
+
+  function renderSubscriptionChannelConfig(channelConfig,addOrUpdate) {
+      resetSubscriptionChannelConfig();
+      if(addOrUpdate == 'add'){
+          $(".edgex-support-subscription-edit select[name='channelType']").prop('disabled',false);
+      }else if(addOrUpdate == 'update'){
+          $(".edgex-support-subscription-edit select[name='channelType']").prop('disabled',true);
+      }else{
+          $(".edgex-support-subscription-edit select[name='channelType']").prop('disabled',false);
+      }
+      if(channelConfig && channelConfig['type']){
+          $(".edgex-support-subscription-edit select[name='channelType']").val(channelConfig['type']);
+      }else{
+          $(".edgex-support-subscription-edit select[name='channelType']").val("EMAIL");
+      }
+      $(".edgex-support-subscription-edit select[name='channelType']").off('change');
+      $(".edgex-support-subscription-edit select[name='channelType']").on('change', function () {
+          var selectedValue = $(this).val();
+          if (selectedValue == 'REST') {
+              if(channelConfig && channelConfig['url']){
+                  $(".edgex-support-subscription-edit input[name='channelRestUrl']").val(channelConfig['url']);
+              }
+              $(".edgex-support-subscription-rest").show();
+              $(".edgex-support-subscription-email").hide();
+          } else if(selectedValue == 'EMAIL') {
+              if(channelConfig && channelConfig['mailAddresses']){
+                  $(".edgex-support-subscription-edit input[name='channelEmail']").val(channelConfig['mailAddresses']);
+              }
+              $(".edgex-support-subscription-rest").hide();
+              $(".edgex-support-subscription-email").show();
+          }else{
+              $(".edgex-support-subscription-rest").hide();
+              $(".edgex-support-subscription-email").show();
+          }
+      });
+      $(".edgex-support-subscription-edit select[name='channelType']").change();
+      $(".edgex-support-subscription-channel-config").show();
+  };
+
+  function resetSubscriptionConfig() {
+      $(".edgex-support-subscription-edit input[name='id']").val("");
+      $(".edgex-support-subscription-edit input[name='slug']").val("");
+      $(".edgex-support-subscription-edit input[name='receiver']").val("");
+      $(".edgex-support-subscription-edit input[name='description']").val("");
+      $(".edgex-support-subscription-edit select[name='subscribedLabels']").selectpicker('val', []);
+      $(".edgex-support-subscription-edit select[name='subscribedCategories']").selectpicker('val',[]);
+      notification.cancelAddOrUpdateSubscriptionChannelBtn();
+      notification.subscriptionChannelListCache = [];
+      $("#edgex-support-subscription-channel-tabel table tbody").empty();
+      resetSubscriptionChannelConfig();
+  }
+
+  function resetSubscriptionChannelConfig(){
+      $(".edgex-support-subscription-edit select[name='channelType']").val("EMAIL");
+      $(".edgex-support-subscription-edit input[name='channelEmail']").val("");
+      $(".edgex-support-subscription-edit input[name='channelRestUrl']").val("");
   }
   //===============subscription section end=========================
 
