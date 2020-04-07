@@ -38,5 +38,5 @@ SupportSchedulerPort   = "48085"
 Host = "localhost"
 Port = 8500
 Type = "consul"
-ConfigRegistryStem="edgex/appservices/1.0/"
-ServiceKey="AppService"
+ConfigRegistryStem="edgex/appservices/"
+ServiceVersion="1.0"

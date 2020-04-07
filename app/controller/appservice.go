@@ -23,11 +23,45 @@ import (
 	"github.com/edgexfoundry/go-mod-registry/registry"
 	"github.com/edgexfoundry/edgex-ui-go/app/configs"
 	"github.com/pelletier/go-toml"
+	"os"
+	"github.com/gorilla/mux"
 )
 
 const AppServiceConfigurableFileName = "configuration.toml"
 
+func ListAppServicesProfile(w http.ResponseWriter, r *http.Request){
+	configuration := make(map[string]interface{})
+	client, err := initRegistryClientByServiceKey(configs.RegistryConf.ServiceVersion,false)
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, "InternalServerError", http.StatusInternalServerError)
+		return
+	}
+	rawConfiguration,err := client.GetConfiguration(&configuration)
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, "InternalServerError", http.StatusInternalServerError)
+		return
+	}
+	actual, ok := rawConfiguration.(*map[string]interface{})
+	if !ok {
+		log.Printf("Configuration from Registry failed type check")
+		http.Error(w,"InternalServerError",http.StatusInternalServerError)
+		return
+	}
+	jsonData,err := json.Marshal(*actual)
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, "InternalServerError", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	w.Write([]byte(jsonData))
+}
+
 func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+	serviceKey := vars["servicekey"]
 	configuration := make(map[string]interface{})
 	err := json.NewDecoder(r.Body).Decode(&configuration)
 	if err != nil {
@@ -35,7 +69,7 @@ func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	client, err := initRegistryClient()
+	client, err := initRegistryClientByServiceKey(serviceKey,true)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
@@ -58,7 +92,9 @@ func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request){
 
 func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request){
 	configuration := make(map[string]interface{})
-	client, err := initRegistryClient()
+	vars := mux.Vars(r)
+	serviceKey := vars["servicekey"]
+	client, err := initRegistryClientByServiceKey(serviceKey,true)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
@@ -93,13 +129,17 @@ func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte(configurationTomlString))
 }
 
-func initRegistryClient()(registry.Client,error){
+func initRegistryClientByServiceKey(serviceKey string,needVersionPath bool)(registry.Client,error){
 	registryConfig := types.Config{
 		Host:            configs.RegistryConf.Host,
 		Port:            configs.RegistryConf.Port,
 		Type:            configs.RegistryConf.Type,
-		Stem:            configs.RegistryConf.ConfigRegistryStem,
-		ServiceKey:      configs.RegistryConf.ServiceKey,
+		ServiceKey:      serviceKey,
+	}
+	if needVersionPath {
+		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem  + configs.RegistryConf.ServiceVersion + string(os.PathSeparator)
+	}else{
+		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem
 	}
 	client, err := registry.NewRegistryClient(registryConfig)
 	if err != nil {
