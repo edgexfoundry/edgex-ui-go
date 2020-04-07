@@ -84,7 +84,7 @@ orgEdgexFoundry.appService = (function () {
                 if(val.Name == "DeviceNames"){
                     var deviceNameStr = "<div class=\"form-group\">\n" +
                         "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                        "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
+                        "<select title=\"All devices\" id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
                     $.each(appService.devicesCache,function (index,val) {
                         deviceNameStr += "<option value="+val.name+">"+val.name+"</option>\n";
                     });
@@ -93,7 +93,7 @@ orgEdgexFoundry.appService = (function () {
                 }else if(val.Name == "ValueDescriptors"){
                     var valueDescriptorNameStr = "<div class=\"form-group\">\n" +
                         "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                        "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
+                        "<select title=\"All Value Descriptors\" id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
                     $.each(appService.valueDescriptorsCache,function (index,val) {
                         valueDescriptorNameStr += "<option value="+val.split("------")[1]+">"+val+"</option>\n";
                     });
@@ -325,6 +325,21 @@ orgEdgexFoundry.appService = (function () {
                 });
             }
         });
+        var executionOrderArr = appService.deployData.Writable.Pipeline.ExecutionOrder.split(",");
+        var newExectionArr = [];
+        executionOrderArr.forEach(function (value,index) {
+            if(value  != "FilterByDeviceName" && value != "FilterByValueDescriptor" && value  != "HTTPPost" && value != "HTTPPostJSON" && value  != "HTTPPostXML" && value != "MQTTSend"){
+                newExectionArr.push(executionOrderArr[index]);
+            }
+        });
+        executionOrderArr.forEach(function (value,index) {
+            if(value  == "FilterByDeviceName" || value == "FilterByValueDescriptor"){
+                newExectionArr.unshift(executionOrderArr[index]);
+            }else if(value  == "HTTPPost" || value == "HTTPPostJSON" || value  == "HTTPPostXML" || value == "MQTTSend"){
+                newExectionArr.push(executionOrderArr[index]);
+            }
+        });
+        appService.deployData.Writable.Pipeline.ExecutionOrder = newExectionArr.join(",");
         $.ajax({
             url: '/api/v1/appservice/configurable/deploy',
             type: 'POST',
@@ -368,7 +383,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'DeviceNames',
                         'Default': '',
-                        'Hint':'Random-Float-Device,Random-Integer-Device',
+                        'Hint':'',
                         'Required': true
                     }
                 ],
@@ -381,7 +396,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'ValueDescriptors',
                         'Default': '',
-                        'Hint': 'Int8,Int64',
+                        'Hint': '',
                         'Required': true
                     }
                 ],

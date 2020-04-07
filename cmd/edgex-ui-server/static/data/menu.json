@@ -8,11 +8,6 @@
 		"url": "/pages/devices/deviceService.html",
 		"icon":"fa fa-gears"
 	},{
-			"title":"Logging",
-			"url": "/pages/logging.html",
-			"icon":"fa fa-bar-chart",
-			"children":[]
-		},{
 			"title":"Scheduler",
 			"url": "/pages/scheduler.html",
 			"icon":"fa fa-clock-o fa-lg",
