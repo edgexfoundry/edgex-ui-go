@@ -93,11 +93,11 @@ type DynamicProxy struct {
 }
 
 type RegistryConfig struct{
-	Host string
-	Port int
-	Type string
+	Host               string
+	Port               int
+	Type               string
 	ConfigRegistryStem string
-	ServiceKey string
+	ServiceVersion     string
 }
 
 func LoadConfig(confFilePath string) error {
