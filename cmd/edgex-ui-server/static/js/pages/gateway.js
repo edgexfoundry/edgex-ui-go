@@ -19,128 +19,146 @@ $(document).ready(function(){
 });
 
 var gatewayManagementModule = {
-	selectedRow:null,
-	gatewayDataCache:[],
-	loadGatewayList:function(){
-		$.ajax({
-			url: '/api/v1/gateway',
-			type: 'GET',
-			success: function(data){
-				//debugger
-				gatewayManagementModule.gatewayDataCache = data;
-				$("#gateway_list > table > tbody").empty();
-				gatewayManagementModule.renderGatewayList(data);
-				if(window.sessionStorage.getItem('selectedGateway') != null ){
-					var selectedGateway = JSON.parse(window.sessionStorage.getItem('selectedGateway'));
-					gatewayManagementModule.selectedRow = selectedGateway;
-					var inputs = $("#gateway_list > table > tbody").find("input:radio");
-					$.each(inputs,function(index,ele){
-						if($(ele).prop('value') == selectedGateway.id ){
-							$(ele).prop('checked',true);
-						}
-					});
-				}
+    selectedRow: null,
+    gatewayDataCache: [],
+    loadGatewayList: function () {
+        $.ajax({
+            url: '/api/v1/gateway',
+            type: 'GET',
+            success: function (data) {
+                gatewayManagementModule.gatewayDataCache = data;
+                gatewayManagementModule.renderGatewayList(data);
+            },
+            error: function () {
+            }
+        });
+    },
+    renderGatewayList: function (data) {
+        $("#gateway_list > table > tbody").empty();
+        if (data.length != 0) {
+            $("#gateway_list > table > tfoot").hide();
+        }
+        var eachCount = 0;
+        $.each(data, function (index, element) {
+            eachCount++;
+            var rowData = '<tr>';
+            if (window.sessionStorage.getItem('selectedGateway')) {
+                var selectedGateway = JSON.parse(window.sessionStorage.getItem('selectedGateway'));
+                if (selectedGateway.id == element.id) {
+                    rowData += '<td><input type="radio" name="gatewayRadio" checked value="' + element.id + '"></td>';
+                    gatewayManagementModule.selectedRow = element;
+                } else {
+                    rowData += '<td><input type="radio" name="gatewayRadio" value="' + element.id + '"></td>';
+                }
+            } else {
+                rowData += '<td><input type="radio" name="gatewayRadio" value="' + element.id + '"></td>';
+            }
+            rowData += '<td>' + (index + 1) + '</td>';
+            rowData += '<td>' + element.id + '</td>';
+            rowData += '<td>' + element.name + '</td>';
+            rowData += '<td>' + element.description + '</td>';
+            rowData += '<td>' + element.address + '</td>';
+            rowData += '<td>' + dateToString(element.created) + '</td>';
+            rowData += "</tr>";
+            $("#gateway_list > table > tbody").append(rowData);
 
-				if(data.length != 0){
-					$("#gateway_list > table > tfoot").hide();
-				}
-
-			},
-			error: function(){
-			}
-		});
-	},
-	renderGatewayList:function(data){
-		$.each(data,function(index,element){
-			var rowData = '<tr>';
-			rowData += '<td><input type="radio" name="gatewayRadio" value="'+element.id+'"></td>';
-			rowData += '<td>' + (index + 1) +'</td>';
-			rowData += '<td>' + element.id + '</td>';
-			rowData += '<td>' + element.name + '</td>';
-			rowData += '<td>' + element.description + '</td>';
-			rowData += '<td>' + element.address + '</td>';
-			rowData += '<td>' + dateToString(element.created) + '</td>';
-			rowData += "</tr>";
-			$("#gateway_list > table > tbody").append(rowData);
-		});
-		$("#gateway_list > table input:radio").on('click',function(){
-			var currentRowID =  $(this).val();
-			$.each(gatewayManagementModule.gatewayDataCache,function(index,ele){
-				if(ele.id == currentRowID){
-					gatewayManagementModule.selectedRow = Object.assign({},ele);
-					window.sessionStorage.setItem('selectedGateway',JSON.stringify(Object.assign({},gatewayManagementModule.selectedRow)));
-				}
-			});
-			var param = {"hostIP":gatewayManagementModule.selectedRow.address};
-			$.ajax({
-				url: '/api/v1/gateway/proxy',
-				type: 'POST',
-				contentType:'application/json',
-				data:JSON.stringify(param),
-				success:function(data){
-					//alert("Already change gateway to " + gatewayManagementModule.selectedRow.name);
-				}
-			});
-		});
-	}
-}
+            if (eachCount >= data.length) {
+                gatewayManagementModule.addRowOnClicked();
+            }
+        });
+    },
+    resetGatewayConfigForm() {
+        $("#add_new_gateway input[id ='name']").val("");
+        $("#add_new_gateway input[id ='description']").val("");
+        $("#add_new_gateway input[id ='address']").val("");
+    },
+    addRowOnClicked() {
+        $('#gateway_list').off('click', 'tbody tr');
+        $('#gateway_list').on('click', 'tbody tr', function (event) {
+            var selectedRow = this;
+            var selectedRadio = $(selectedRow).find("input:radio")[0];
+            $(selectedRadio).prop('checked', true);
+            var selectedGatewayID = $(selectedRadio).val();
+            $.each(gatewayManagementModule.gatewayDataCache, function (index, ele) {
+                if (ele.id == selectedGatewayID) {
+                    gatewayManagementModule.selectedRow = Object.assign({}, ele);
+                    window.sessionStorage.setItem('selectedGateway', JSON.stringify(Object.assign({}, gatewayManagementModule.selectedRow)));
+                    var param = {"hostIP": gatewayManagementModule.selectedRow.address};
+                    $.ajax({
+                        url: '/api/v1/gateway/proxy',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(param),
+                        success: function (data) {
+                            //alert("Already change gateway to " + gatewayManagementModule.selectedRow.name);
+                        }
+                    });
+                }
+            });
+        });
+        //Auto click radio checked row
+        $('#gateway_list').find("tbody tr").each(function (rowIndex, r) {
+            var checkedValue = $(r).find("input[name='gatewayRadio']").prop('checked');
+            if (checkedValue) {
+                $(r).click();
+            }
+        });
+    }
+};
 
 var gatewayManagementModuleBtnGroup = {
-	add:function(){
-		$("#gateway_content_main").hide();
-		$("#add_new_gateway").show("fast");
-	},
-	deleteOne:function(){
-		var ro = gatewayManagementModule.selectedRow;
-		$.ajax({
-			url:'/api/v1/gateway/' + gatewayManagementModule.selectedRow['id'] + '',
-			type:'DELETE',
-			success:function(){
-				gatewayManagementModule.selectedRow = null;
-				window.sessionStorage.removeItem('selectedGateway');
-				gatewayManagementModule.loadGatewayList();
-			}
-		});
-	},
-	refresh:function(){
-		gatewayManagementModule.loadGatewayList();
-	},
-	addNewGateway: function(){
-		var gateway_new = {}
-		gateway_new["name"] = $("#name").val();
-		gateway_new["description"] = $("#description").val();
-		gateway_new["address"] = $("#address").val();
+    add: function () {
+        $("#gateway_content_main").hide();
+        $("#add_new_gateway").show("fast");
+    },
+    deleteOne: function () {
+    	if(gatewayManagementModule.selectedRow){
+            var deletedGatewayId = gatewayManagementModule.selectedRow['id'];
+            if(deletedGatewayId){
+                $.ajax({
+                    url: '/api/v1/gateway/' + deletedGatewayId + '',
+                    type: 'DELETE',
+                    success: function () {
+                        gatewayManagementModule.selectedRow = null;
+                        window.sessionStorage.removeItem('selectedGateway');
+                        gatewayManagementModule.loadGatewayList();
+                    }
+                });
+            }}
+    },
+    refresh: function () {
+        gatewayManagementModule.loadGatewayList();
+    },
+    addNewGateway: function () {
+        var gateway_new = {};
+        gateway_new["name"] = $("#name").val();
+        gateway_new["description"] = $("#description").val();
+        gateway_new["address"] = $("#address").val().replace(/\s/g,"");
 
-		$.ajax({
-			url:'/api/v1/gateway',
-			type:'POST',
-			data:JSON.stringify(gateway_new),
-			contentType:'application/json',
-			success:function(){
-				gatewayManagementModuleBtnGroup.back();
-			}
-		});
-	},
-	back:function(){
-		$("#add_new_gateway").hide("fast");
-		$("#gateway_content_main").show();
-		gatewayManagementModule.loadGatewayList();
-	}
-}
-
-
-var gatewayListDataTest = [
-	{
-		'id':'1234567890',
-		'name':'test-gateway-01',
-		'description':'this just test-01',
-		'address':'10.112.122.222',
-		'created':1513156359765
-	},{
-		'id':'0987654321',
-		'name':'test-gateway-02',
-		'description':'this just test-02',
-		'address':'10.211.55.9',
-		'created':1513156359765
-	}
-]
+        $.ajax({
+            url: '/api/v1/gateway',
+            type: 'POST',
+            data: JSON.stringify(gateway_new),
+            contentType: 'application/json',
+            complete: function (jqXHR, textStatus) {
+                if (jqXHR.status == 200) {
+                    gateway_new['id'] = jqXHR.responseText;
+                    window.sessionStorage.setItem('selectedGateway',JSON.stringify(Object.assign({}, gateway_new)));
+                    gatewayManagementModuleBtnGroup.back();
+                } else {
+                    bootbox.alert({
+                        title: "Error",
+                        message: jqXHR.responseText,
+                        className: 'red-green-buttons'
+                    });
+                }
+            },
+        });
+    },
+    back: function () {
+        $("#add_new_gateway").hide("fast");
+        $("#gateway_content_main").show();
+        gatewayManagementModule.resetGatewayConfigForm();
+        gatewayManagementModule.loadGatewayList();
+    }
+};
