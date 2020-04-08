@@ -24,10 +24,13 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/app/domain"
 	"github.com/edgexfoundry/edgex-ui-go/app/repository"
 	mux "github.com/gorilla/mux"
+	"github.com/edgexfoundry/edgex-ui-go/app/controller/errors"
+	"regexp"
 )
 
 const (
 	HostIPKey = "hostIP"
+	GatewayIPV4Pattern = `^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$`
 )
 
 func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +53,28 @@ func AddGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	repository.GetGatewayRepos().Insert(&g)
+	err = checkAddGatewayParams(g)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+	gatewayId,err := repository.GetGatewayRepos().Insert(&g)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+	w.Write([]byte(gatewayId))
+}
+
+func checkAddGatewayParams(gateway domain.Gateway) error{
+	if len(gateway.Name) == 0 {
+		return errors.NewErrGatewayNameEmpty()
+	}
+	addressMatch,err := regexp.MatchString(GatewayIPV4Pattern,gateway.Address)
+	if err != nil || !addressMatch{
+		return errors.NewErrGatewayAddressInvalid(gateway.Address)
+	}
+	return nil
 }
 
 func QueryAllGateway(w http.ResponseWriter, r *http.Request) {
