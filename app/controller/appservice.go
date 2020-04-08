@@ -23,7 +23,6 @@ import (
 	"github.com/edgexfoundry/go-mod-registry/registry"
 	"github.com/edgexfoundry/edgex-ui-go/app/configs"
 	"github.com/pelletier/go-toml"
-	"os"
 	"github.com/gorilla/mux"
 )
 
@@ -137,7 +136,7 @@ func initRegistryClientByServiceKey(serviceKey string,needVersionPath bool)(regi
 		ServiceKey:      serviceKey,
 	}
 	if needVersionPath {
-		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem  + configs.RegistryConf.ServiceVersion + string(os.PathSeparator)
+		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem  + configs.RegistryConf.ServiceVersion + "/"
 	}else{
 		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem
 	}
