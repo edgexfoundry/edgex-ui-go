@@ -7,7 +7,7 @@ StaticResourcesPath = "./static"
 
 #Using an default memory db if not configed.
 [Database]
-Host = "localhost"
+Host = "edgex-mongo"
 Name = "edgex-ui-go"
 Port = 27017
 Username = "su"
@@ -35,7 +35,7 @@ SupportSchedulerPath   = "/support-scheduler"
 SupportSchedulerPort   = "48085"
 
 [Registry]
-Host = "localhost"
+Host = "edgex-core-consul"
 Port = 8500
 Type = "consul"
 ConfigRegistryStem="edgex/appservices/"

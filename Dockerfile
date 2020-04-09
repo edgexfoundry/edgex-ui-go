@@ -31,4 +31,4 @@ COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-ser
 
 WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
 
-ENTRYPOINT ["./edgex-ui-server"]
+ENTRYPOINT ["./edgex-ui-server","-conf=res/docker/configuration.toml"]
