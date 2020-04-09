@@ -6,7 +6,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * Unless required by internallicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
@@ -22,12 +22,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/edgexfoundry/edgex-ui-go/app"
-	"github.com/edgexfoundry/edgex-ui-go/app/common"
-	"github.com/edgexfoundry/edgex-ui-go/app/configs"
-	"github.com/edgexfoundry/edgex-ui-go/app/repository/mm"
-	"github.com/edgexfoundry/edgex-ui-go/app/repository/mongo"
+	"github.com/edgexfoundry/edgex-ui-go/internal"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/edgex-ui-go/internal/pkg/usage"
+	"github.com/edgexfoundry/edgex-ui-go/internal/repository/mm"
+	"github.com/edgexfoundry/edgex-ui-go/internal/repository/mongo"
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 		mm.DBConnect()
 	}
 
-	r := app.InitRestRoutes()
+	r := internal.InitRestRoutes()
 
 	server := &http.Server{
 		Handler:      common.GeneralFilter(r),

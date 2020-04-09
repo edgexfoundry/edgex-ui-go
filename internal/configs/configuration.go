@@ -36,9 +36,9 @@ var (
 )
 
 type config struct {
-	Server Service      `toml:"Service"`
-	DB     Database     `toml:"Database"`
-	Proxy  DynamicProxy `toml:"DynamicProxy"`
+	Server       Service        `toml:"Service"`
+	DB           Database       `toml:"Database"`
+	Proxy        DynamicProxy   `toml:"DynamicProxy"`
 	RegistryConf RegistryConfig `toml:"Registry"`
 }
 
@@ -92,7 +92,7 @@ type DynamicProxy struct {
 	SupportSchedulerPort string
 }
 
-type RegistryConfig struct{
+type RegistryConfig struct {
 	Host               string
 	Port               int
 	Type               string

@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/gorilla/websocket"
 )
 

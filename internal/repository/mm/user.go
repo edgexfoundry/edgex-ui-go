@@ -17,7 +17,7 @@
 package mm
 
 import (
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 )
 
 type UserRepository struct {

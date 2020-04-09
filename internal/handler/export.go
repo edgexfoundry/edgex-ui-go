@@ -14,16 +14,16 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package controller
+package handler
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/common"
-	"github.com/edgexfoundry/edgex-ui-go/app/component"
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/component"
+	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 )
 
 func ExportShow(w http.ResponseWriter, r *http.Request) {

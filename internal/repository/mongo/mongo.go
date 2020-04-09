@@ -22,8 +22,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/configs"
-	mgo "gopkg.in/mgo.v2"
+	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
+	"gopkg.in/mgo.v2"
 )
 
 var (
