@@ -1,6 +1,6 @@
 module github.com/edgexfoundry/edgex-ui-go
 
-go 1.11
+go 1.13
 
 require (
 	github.com/BurntSushi/toml v0.3.1
