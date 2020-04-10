@@ -14,22 +14,23 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package controller
+package handler
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/common"
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
-	"github.com/edgexfoundry/edgex-ui-go/app/repository"
-	mux "github.com/gorilla/mux"
-	"github.com/edgexfoundry/edgex-ui-go/app/controller/errors"
 	"regexp"
+
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
+	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
+	mux "github.com/gorilla/mux"
 )
 
 const (
-	HostIPKey = "hostIP"
+	HostIPKey          = "hostIP"
 	GatewayIPV4Pattern = `^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$`
 )
 
@@ -58,7 +59,7 @@ func AddGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	gatewayId,err := repository.GetGatewayRepos().Insert(&g)
+	gatewayId, err := repository.GetGatewayRepos().Insert(&g)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
@@ -66,12 +67,12 @@ func AddGateway(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(gatewayId))
 }
 
-func checkAddGatewayParams(gateway domain.Gateway) error{
+func checkAddGatewayParams(gateway domain.Gateway) error {
 	if len(gateway.Name) == 0 {
 		return errors.NewErrGatewayNameEmpty()
 	}
-	addressMatch,err := regexp.MatchString(GatewayIPV4Pattern,gateway.Address)
-	if err != nil || !addressMatch{
+	addressMatch, err := regexp.MatchString(GatewayIPV4Pattern, gateway.Address)
+	if err != nil || !addressMatch {
 		return errors.NewErrGatewayAddressInvalid(gateway.Address)
 	}
 	return nil

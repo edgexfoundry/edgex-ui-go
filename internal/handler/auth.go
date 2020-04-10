@@ -14,16 +14,16 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package controller
+package handler
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/common"
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
-	"github.com/edgexfoundry/edgex-ui-go/app/repository"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
 )
 
 const (

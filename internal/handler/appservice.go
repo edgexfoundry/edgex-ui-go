@@ -12,31 +12,32 @@
  * the License.
  *******************************************************************************/
 
-package controller
+package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
-	"encoding/json"
 	"net/http"
+
+	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/go-mod-registry/pkg/types"
 	"github.com/edgexfoundry/go-mod-registry/registry"
-	"github.com/edgexfoundry/edgex-ui-go/app/configs"
-	"github.com/pelletier/go-toml"
 	"github.com/gorilla/mux"
+	"github.com/pelletier/go-toml"
 )
 
 const AppServiceConfigurableFileName = "configuration.toml"
 
-func ListAppServicesProfile(w http.ResponseWriter, r *http.Request){
+func ListAppServicesProfile(w http.ResponseWriter, r *http.Request) {
 	configuration := make(map[string]interface{})
-	client, err := initRegistryClientByServiceKey(configs.RegistryConf.ServiceVersion,false)
+	client, err := initRegistryClientByServiceKey(configs.RegistryConf.ServiceVersion, false)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	rawConfiguration,err := client.GetConfiguration(&configuration)
+	rawConfiguration, err := client.GetConfiguration(&configuration)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
@@ -45,10 +46,10 @@ func ListAppServicesProfile(w http.ResponseWriter, r *http.Request){
 	actual, ok := rawConfiguration.(*map[string]interface{})
 	if !ok {
 		log.Printf("Configuration from Registry failed type check")
-		http.Error(w,"InternalServerError",http.StatusInternalServerError)
+		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	jsonData,err := json.Marshal(*actual)
+	jsonData, err := json.Marshal(*actual)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
@@ -58,7 +59,7 @@ func ListAppServicesProfile(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte(jsonData))
 }
 
-func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request){
+func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
 	configuration := make(map[string]interface{})
@@ -68,20 +69,20 @@ func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	client, err := initRegistryClientByServiceKey(serviceKey,true)
+	client, err := initRegistryClientByServiceKey(serviceKey, true)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	configurationTomlTree,err := toml.TreeFromMap(configuration)
+	configurationTomlTree, err := toml.TreeFromMap(configuration)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	err = client.PutConfigurationToml(configurationTomlTree,true)
-	if err != nil{
+	err = client.PutConfigurationToml(configurationTomlTree, true)
+	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
@@ -89,17 +90,17 @@ func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte("ok"))
 }
 
-func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request){
+func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request) {
 	configuration := make(map[string]interface{})
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
-	client, err := initRegistryClientByServiceKey(serviceKey,true)
+	client, err := initRegistryClientByServiceKey(serviceKey, true)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	rawConfiguration,err := client.GetConfiguration(&configuration)
+	rawConfiguration, err := client.GetConfiguration(&configuration)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
@@ -108,16 +109,16 @@ func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request){
 	actual, ok := rawConfiguration.(*map[string]interface{})
 	if !ok {
 		log.Printf("Configuration from Registry failed type check")
-		http.Error(w,"InternalServerError",http.StatusInternalServerError)
+		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	configurationTomlTree,err := toml.TreeFromMap(*actual)
+	configurationTomlTree, err := toml.TreeFromMap(*actual)
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	configurationTomlString,err := configurationTomlTree.ToTomlString()
+	configurationTomlString, err := configurationTomlTree.ToTomlString()
 	if err != nil {
 		log.Printf(err.Error())
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
@@ -128,24 +129,24 @@ func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte(configurationTomlString))
 }
 
-func initRegistryClientByServiceKey(serviceKey string,needVersionPath bool)(registry.Client,error){
+func initRegistryClientByServiceKey(serviceKey string, needVersionPath bool) (registry.Client, error) {
 	registryConfig := types.Config{
-		Host:            configs.RegistryConf.Host,
-		Port:            configs.RegistryConf.Port,
-		Type:            configs.RegistryConf.Type,
-		ServiceKey:      serviceKey,
+		Host:       configs.RegistryConf.Host,
+		Port:       configs.RegistryConf.Port,
+		Type:       configs.RegistryConf.Type,
+		ServiceKey: serviceKey,
 	}
 	if needVersionPath {
-		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem  + configs.RegistryConf.ServiceVersion + "/"
-	}else{
+		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem + configs.RegistryConf.ServiceVersion + "/"
+	} else {
 		registryConfig.Stem = configs.RegistryConf.ConfigRegistryStem
 	}
 	client, err := registry.NewRegistryClient(registryConfig)
 	if err != nil {
-		return nil,fmt.Errorf("Connection to Registry could not be made: %v", err)
+		return nil, fmt.Errorf("Connection to Registry could not be made: %v", err)
 	}
 	if !client.IsAlive() {
-		return nil,fmt.Errorf("Registry (%s) is not running", registryConfig.Type)
+		return nil, fmt.Errorf("Registry (%s) is not running", registryConfig.Type)
 	}
-	return client,nil
+	return client, nil
 }

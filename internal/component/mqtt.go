@@ -21,7 +21,7 @@ import (
 	"strconv"
 
 	MQTT "github.com/eclipse/paho.mqtt.golang"
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 )
 
 const (
