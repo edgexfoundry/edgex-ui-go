@@ -22,10 +22,5 @@ require (
 	github.com/pelletier/go-toml v1.7.0
 	go.mongodb.org/mongo-driver v1.3.1 // indirect
 	golang.org/x/sys v0.0.0-20200409092240-59c9f1ba88fa // indirect
-
-	golang.org/x/net v0.0.0-20190419010253-1f3472d942ba // indirect
-	github.com/kr/pretty v0.1.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce
-	github.com/pelletier/go-toml v1.2.0
 )
