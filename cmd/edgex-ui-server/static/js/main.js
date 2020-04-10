@@ -14,17 +14,17 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-$(document).ready(function(){
+$(document).ready(function () {
 
 	//global ajax setting to redirect to login when session timeout (but user stay in old page) or user logout
 	//don't worry about user bypassing it,the back-end has set permission to pass if user logout or session timeout.
 	//here just improve user experience.
 	$.ajaxSetup({
-		cache:false,//prevent browser cache result to redirect  failed.
-		headers:{"X-Session-Token":window.sessionStorage.getItem("X_Session_Token")},
+		cache: false,//prevent browser cache result to redirect  failed.
+		headers: { "X-Session-Token": window.sessionStorage.getItem("X_Session_Token") },
 		statusCode: {
-			302: function() {
-				window.location.href='/login.html?ran='+Math.random(); //prevent browser cache result to redirect  failed.
+			302: function () {
+				window.location.href = '/login.html?ran=' + Math.random(); //prevent browser cache result to redirect  failed.
 			}
 		}
 	});
@@ -33,14 +33,14 @@ $(document).ready(function(){
 
 	//get menu data dynamically.
 	$.ajax({
-		url:"/data/menu.json",
-		type:"GET",
-		success:function(data){
+		url: "/data/menu.json",
+		type: "GET",
+		success: function (data) {
 			var menu = eval(data);
 			menuRender(menu);
 			$(".center .tab-content #edgex-foundry-tab-Gateway ").load("/pages/gateway.html");
 			// $(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
-			$(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.5)'});
+			$(".sidebar li[url='/pages/gateway.html']").css({ color: '#339933', borderBottom: '', backgroundColor: 'rgba(51, 153, 51, 0.5)' });
 			edgexFoundryCreatedTabs.push("edgex-foundry-tab-Gateway");
 			$("a[href='#edgex-foundry-tab-Gateway']").tab('show');
 			bindCloseTab();
@@ -48,48 +48,48 @@ $(document).ready(function(){
 	});
 
 	//logout control
-	$(".headbar li.logout").on("click",function(){
+	$(".headbar li.logout").on("click", function () {
 		$.ajax({
-			url:'/api/v1/auth/logout?ran='+Math.random(),
-			type:'GET',
-			success:function(){
-				window.location.href='/login.html?ran='+Math.random();
+			url: '/api/v1/auth/logout?ran=' + Math.random(),
+			type: 'GET',
+			success: function () {
+				window.location.href = '/login.html?ran=' + Math.random();
 			}
 		});
 	});
 
 	//user information control
-	$(".headbar li.user").on("click",function(){
+	$(".headbar li.user").on("click", function () {
 		$(".main_msgbox").load("/pages/userInfo.html")
-		$(".main_msgbox").animate({"right":"0"},"fast");
+		$(".main_msgbox").animate({ "right": "0" }, "fast");
 		$(".main_shelter").show("fast");
 	});
 
 	//notification control
-	$(".headbar li.notification").on("click",function(){
+	$(".headbar li.notification").on("click", function () {
 		// $(".main_msgbox").load("")
 		// $(".main_msgbox").animate({"right":"0"},"fast");
 		// $(".main_shelter").show("fast");
 	});
 
 	//globe shelter control
-	$(".main_shelter").on("click",function(){
+	$(".main_shelter").on("click", function () {
 		$(".main_shelter").hide("fast");
-		$(".main_msgbox").animate({"right":"-400px"},"fast");
+		$(".main_msgbox").animate({ "right": "-400px" }, "fast");
 	});
 
 	//render side_bar menu dynamically when load index page.
-	function menuRender(data){
-		for(var i=0; i<data.length;i++){
+	function menuRender(data) {
+		for (var i = 0; i < data.length; i++) {
 			var menu = data[i];
 			var subMenu = menu.children;
-			var str = '<li url="' + menu.url + '" tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="'+menu.icon+'"></i><span>'+menu.title+'</span></li>';
-			if( subMenu != null && subMenu.length != 0 ){
+			var str = '<li url="' + menu.url + '" tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="' + menu.icon + '"></i><span>' + menu.title + '</span></li>';
+			if (subMenu != null && subMenu.length != 0) {
 				var second_level_menu = "";
-				for(var j = 0; j < subMenu.length; j++){
-					second_level_menu += '<li url="' + subMenu[j].url + '" tabindex=' + subMenu[j].title + '><span></span><i class="'+subMenu[j].icon+'"></i><span>'+subMenu[j].title+'<span></li>';
+				for (var j = 0; j < subMenu.length; j++) {
+					second_level_menu += '<li url="' + subMenu[j].url + '" tabindex=' + subMenu[j].title + '><span></span><i class="' + subMenu[j].icon + '"></i><span>' + subMenu[j].title + '<span></li>';
 				}
-				str = '<li children="true"><i class="fa fa-caret-right"></i><i class="' + menu.icon + '"></i><span>'+menu.title+'</span></li><div class="second_level" style="display:none"><ul>'+second_level_menu+'</ul></div>';
+				str = '<li children="true"><i class="fa fa-caret-right"></i><i class="' + menu.icon + '"></i><span>' + menu.title + '</span></li><div class="second_level" style="display:none"><ul>' + second_level_menu + '</ul></div>';
 				$(".sidebar ul:first").append(str);
 				continue;
 			}
@@ -97,12 +97,12 @@ $(document).ready(function(){
 		}
 
 		//bind menu event of click
-		$(".sidebar li").on('click',function(event){
+		$(".sidebar li").on('click', function (event) {
 			event.stopPropagation();//prevent event propagate to parent node when click on current node
 			//if not leaf node,expand current node.
-			if($(this).attr("children") == "true"){
+			if ($(this).attr("children") == "true") {
 				//toggle menu icon when expand current node.
-				$(this).find("i:first").toggleClass(function() {
+				$(this).find("i:first").toggleClass(function () {
 					if ($(this).hasClass("fa fa-caret-right")) {
 						$(this).removeClass();
 						return 'fa fa-caret-down';
@@ -116,30 +116,30 @@ $(document).ready(function(){
 			}
 
 			//if no select one gateway instance,not load other resource.
-			if( window.sessionStorage.getItem('selectedGateway') == null ){
+			if (window.sessionStorage.getItem('selectedGateway') == null) {
 				//alert('please select a gateway instance firstly!');
 				bootbox.alert({
-					title:"Alert",
-					message:"Please select or create a gateway firstly !",
+					title: "Alert",
+					message: "Please select or create a gateway firstly !",
 					className: 'red-green-buttons'
 				});
 				return;
 			};
 			// $(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:''});
 			// $(this).css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
-			$(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:'',backgroundColor:''});
-			$(this).css({color:'#339933',borderBottom: '',backgroundColor:'rgba(51, 153, 51, 0.5)'});
+			$(".sidebar li").not($(this)).css({ color: '', borderBottom: '', borderBottomColor: '', backgroundColor: '' });
+			$(this).css({ color: '#339933', borderBottom: '', backgroundColor: 'rgba(51, 153, 51, 0.5)' });
 			//if current node is leaf node，load html resource.
 			var tabindex = $(this).attr("tabindex");
 			var url = $(this).attr("url");
-			createTabByTitle(tabindex,url);
+			createTabByTitle(tabindex, url);
 		});
 	}
 
 
 	function bindCloseTab() {
-		$("#edgex-foundry-tabs-index-main .edgex-tab button").off('click').on('click',function(){
-		  event.stopPropagation();
+		$("#edgex-foundry-tabs-index-main .edgex-tab button").off('click').on('click', function () {
+			event.stopPropagation();
 			if ($(this).parent().attr("tabindex") == "edgex-foundry-tab-Gateway") {
 				bootbox.alert({
 					message: "Can not remove gateway tab!",
@@ -150,10 +150,10 @@ $(document).ready(function(){
 			var btn = this;
 
 			bootbox.confirm({
-	      title: "confirm",
-	      message: "Are you sure to remove it ? ",
-	      className: 'green-red-buttons',
-	      callback: function(result){
+				title: "confirm",
+				message: "Are you sure to remove it ? ",
+				className: 'green-red-buttons',
+				callback: function (result) {
 					if (result) {
 						//debugger
 						var tabindex = $(btn).parent().attr("tabindex");
@@ -162,39 +162,39 @@ $(document).ready(function(){
 							nexttab = $(btn).parent().prev();
 						}
 						var nexttabindex = nexttab.attr("tabindex");
-						$("a[href='#"+nexttabindex+"']").tab('show');
-						$("#"+tabindex+"").remove();
+						$("a[href='#" + nexttabindex + "']").tab('show');
+						$("#" + tabindex + "").remove();
 						$(btn).parent().remove();
-						edgexFoundryCreatedTabs.splice(edgexFoundryCreatedTabs.indexOf(tabindex),1);
+						edgexFoundryCreatedTabs.splice(edgexFoundryCreatedTabs.indexOf(tabindex), 1);
 
 					}
 				}
 			});
-	  });
+		});
 	}
 
 
-	function createTabByTitle(title,url){
+	function createTabByTitle(title, url) {
 		//debugger
-		if (edgexFoundryCreatedTabs.indexOf("edgex-foundry-tab-"+title) != -1) {
-			$("a[href='#edgex-foundry-tab-"+title+"']").tab('show');
+		if (edgexFoundryCreatedTabs.indexOf("edgex-foundry-tab-" + title) != -1) {
+			$("a[href='#edgex-foundry-tab-" + title + "']").tab('show');
 			return;
 		}
-		var tabTitle = '<li role="presentation" tabindex="edgex-foundry-tab-'+title+'" class="edgex-tab" style="position:relative!important;">';
-				tabTitle += '<button type="button" value="edgex-foundry-tab-'+title+'" class="close" style="position:absolute!important;top:-2px;;right:4px;z-index:10;display:none;" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-				tabTitle += '<a href="#edgex-foundry-tab-'+title+'" aria-controls="edgex-foundry-tab-'+title+'" role="tab" data-toggle="tab">'
-				tabTitle += '<span class="text-success" style="font-weight:bold;">'+title+'</span>'
-				tabTitle += '</a>'
-				tabTitle += '</li>'
+		var tabTitle = '<li role="presentation" tabindex="edgex-foundry-tab-' + title + '" class="edgex-tab" style="position:relative!important;">';
+		tabTitle += '<button type="button" value="edgex-foundry-tab-' + title + '" class="close" style="position:absolute!important;top:-2px;;right:4px;z-index:10;display:none;" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+		tabTitle += '<a href="#edgex-foundry-tab-' + title + '" aria-controls="edgex-foundry-tab-' + title + '" role="tab" data-toggle="tab">'
+		tabTitle += '<span class="text-success" style="font-weight:bold;">' + title + '</span>'
+		tabTitle += '</a>'
+		tabTitle += '</li>'
 		$("#edgex-foundry-tabs-index-main").append(tabTitle);
 
-		var tabContent = '<div role="tabpanel" class="tab-pane" id="edgex-foundry-tab-'+title+'">';
-				tabContent += '</div>';
+		var tabContent = '<div role="tabpanel" class="tab-pane" id="edgex-foundry-tab-' + title + '">';
+		tabContent += '</div>';
 
 		$("#edgex-foundry-tabs-content").append(tabContent);
 		$("#edgex-foundry-tabs-content #edgex-foundry-tab-" + title).load(url);
 
-		$("a[href='#edgex-foundry-tab-"+title+"']").tab('show');
+		$("a[href='#edgex-foundry-tab-" + title + "']").tab('show');
 		bindCloseTab();
 		edgexFoundryCreatedTabs.push("edgex-foundry-tab-" + title);
 	}

@@ -14,13 +14,13 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package app
+package internal
 
 import (
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/component"
-	"github.com/edgexfoundry/edgex-ui-go/app/controller"
+	"github.com/edgexfoundry/edgex-ui-go/internal/component"
+	"github.com/edgexfoundry/edgex-ui-go/internal/handler"
 	mux "github.com/gorilla/mux"
 )
 
@@ -29,21 +29,21 @@ func InitRestRoutes() http.Handler {
 
 	s := r.PathPrefix("/api/v1").Subrouter()
 	s.HandleFunc("/ping", ping).Methods(http.MethodGet)
-	s.HandleFunc("/auth/login", controller.Login).Methods(http.MethodPost)
-	s.HandleFunc("/auth/logout", controller.Logout).Methods(http.MethodGet)
+	s.HandleFunc("/auth/login", handler.Login).Methods(http.MethodPost)
+	s.HandleFunc("/auth/logout", handler.Logout).Methods(http.MethodGet)
 
-	s.HandleFunc("/gateway", controller.QueryAllGateway).Methods(http.MethodGet)
-	s.HandleFunc("/gateway", controller.AddGateway).Methods(http.MethodPost)
-	s.HandleFunc("/gateway/{id}", controller.RemoveGateway).Methods(http.MethodDelete)
-	s.HandleFunc("/gateway/proxy", controller.ProxyConfigGateway).Methods(http.MethodPost)
+	s.HandleFunc("/gateway", handler.QueryAllGateway).Methods(http.MethodGet)
+	s.HandleFunc("/gateway", handler.AddGateway).Methods(http.MethodPost)
+	s.HandleFunc("/gateway/{id}", handler.RemoveGateway).Methods(http.MethodDelete)
+	s.HandleFunc("/gateway/proxy", handler.ProxyConfigGateway).Methods(http.MethodPost)
 
-	s.HandleFunc("/exportshow", controller.ExportShow).Methods(http.MethodPost)
+	s.HandleFunc("/exportshow", handler.ExportShow).Methods(http.MethodPost)
 
-	s.HandleFunc("/profile/download", controller.DowloadProfile).Methods(http.MethodGet)
+	s.HandleFunc("/profile/download", handler.DowloadProfile).Methods(http.MethodGet)
 
-	s.HandleFunc("/appservice/deploy/servicekey/{servicekey}",controller.DeployConfigurableProfile).Methods(http.MethodPost)
-	s.HandleFunc("/appservice/download/servicekey/{servicekey}",controller.DownloadConfigurableProfile).Methods(http.MethodGet)
-	s.HandleFunc("/appservice/list",controller.ListAppServicesProfile).Methods(http.MethodGet)
+	s.HandleFunc("/appservice/deploy/servicekey/{servicekey}", handler.DeployConfigurableProfile).Methods(http.MethodPost)
+	s.HandleFunc("/appservice/download/servicekey/{servicekey}", handler.DownloadConfigurableProfile).Methods(http.MethodGet)
+	s.HandleFunc("/appservice/list", handler.ListAppServicesProfile).Methods(http.MethodGet)
 
 	s1 := r.PathPrefix("").Subrouter()
 	s1.HandleFunc("/ws", component.WebSocketHandler)

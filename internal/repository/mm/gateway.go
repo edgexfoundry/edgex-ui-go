@@ -19,7 +19,7 @@ package mm
 import (
 	"time"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 	"gopkg.in/mgo.v2/bson"
 )
 

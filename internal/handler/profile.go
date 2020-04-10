@@ -14,34 +14,33 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package mm
+package handler
 
 import (
-	"log"
-	"time"
+	"io/ioutil"
+	"net/http"
+	"path/filepath"
 
-	"github.com/edgexfoundry/edgex-ui-go/app/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 )
 
-type MemoryDB struct {
-	Gateways []domain.Gateway
-	Users    []domain.User
-}
+const (
+	TemplateDirName     = "templates"
+	ProfileTemplateName = "profileTemplate.yml"
+)
 
-var dataStore = MemoryDB{
-	Gateways: make([]domain.Gateway, 0),
-	Users:    make([]domain.User, 0),
-}
+func DowloadProfile(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	relativeTemplateFilePath := filepath.Join(configs.ServerConf.StaticResourcesPath, TemplateDirName, ProfileTemplateName)
+	data, err := ioutil.ReadFile(relativeTemplateFilePath)
 
-func DBConnect() bool {
-	timestamp := time.Now().UnixNano() / 1000000
-	u := domain.User{
-		Name:     "admin",
-		Password: "admin",
-		Created:  timestamp,
-		Modified: timestamp,
+	if err == nil {
+		contentType := "application/x-yaml;charset=UTF-8"
+		w.Header().Set("Content-Type", contentType)
+		w.Header().Set("Content-disposition", "attachment;filename=\""+ProfileTemplateName+"\"")
+		w.Write(data)
+	} else {
+		w.WriteHeader(404)
+		w.Write([]byte("404 download failure!"))
 	}
-	dataStore.Users = append(dataStore.Users, u)
-	log.Println("Connect to memoryDB success !")
-	return true
 }
