@@ -19,6 +19,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"regexp"
 
@@ -64,7 +65,29 @@ func AddGateway(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
+
 	w.Write([]byte(gatewayId))
+}
+
+func HeartBeatGateway(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	vars := mux.Vars(r)
+	id := vars["id"]
+	g, err := repository.GetGatewayRepos().Select(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadGateway)
+		return
+	}
+	client := http.Client{
+		Timeout: time.Duration(2 * time.Second),
+	}
+	url := "http://" + g.Address + ":48081/api/v1/ping"
+	_, err = client.Get(url)
+	if err != nil {
+		w.Write([]byte("0"))
+	} else {
+		w.Write([]byte("1"))
+	}
 }
 
 func checkAddGatewayParams(gateway domain.Gateway) error {

@@ -24,6 +24,7 @@ type Gateway struct {
 	Name        string        `json:"name"`
 	Description string        `json:"description"`
 	Address     string        `json:"address"`
+	Health      bool          `json:"health"`
 	Created     int64         `bson:"created" json:"created"`
 	Modified    int64         `bson:"modified" json:"modified"`
 }
