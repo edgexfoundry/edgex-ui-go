@@ -14,13 +14,41 @@
 * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-$(document).ready(function(){
-	gatewayManagementModule.loadGatewayList();
+$(document).ready(function () {
+    gatewayManagementModule.loadGatewayList();
+    window.setInterval(gatewayManagementModule.heartBeat, 3000);
 });
 
 var gatewayManagementModule = {
     selectedRow: null,
     gatewayDataCache: [],
+    heartBeat: function () {
+        if (gatewayManagementModule.gatewayDataCache.length == 0) {
+            return
+        }
+        $.each(gatewayManagementModule.gatewayDataCache, function (i, g) {
+            $.ajax({
+                url: '/api/v1/gateway/heartbeat/' + g.id,
+                type: 'GET',
+                success: function (r) {
+                    var target = $("#gateway_list > table").find("#" + g.id);
+                    target.empty();
+                    if (r == "0") {
+                        target.append('<div class="edgexIconBtn"><i class="fa fa-times fa-lg" aria-hidden="true" style="color:red;"></i></div>');
+                    } else {
+                        target.append('<div class="edgexIconBtn"><i class="fa fa-check fa-lg" aria-hidden="true"></i></div>');
+                    }
+
+                },
+                error: function () {
+                    var target = $("#gateway_list > table").find("#" + g.id);
+                    target.empty();
+                    target.append('<div class="edgexIconBtn"><i class="fa fa-times fa-lg" aria-hidden="true" style="color:red;"></i></div>');
+                }
+            });
+        });
+
+    },
     loadGatewayList: function () {
         $.ajax({
             url: '/api/v1/gateway',
@@ -56,6 +84,12 @@ var gatewayManagementModule = {
             rowData += '<td>' + (index + 1) + '</td>';
             rowData += '<td>' + element.id + '</td>';
             rowData += '<td>' + element.name + '</td>';
+            if (element.health) {
+                rowData += '<td id="' + element.id + '"><div class="edgexIconBtn"><i class="fa fa-check fa-lg" aria-hidden="true"></i></div></td>';
+            } else {
+                rowData += '<td id="' + element.id + '"><div class="edgexIconBtn"><i class="fa fa-times fa-lg" aria-hidden="true" style="color:red;"></i></div></td>';
+            }
+
             rowData += '<td>' + element.description + '</td>';
             rowData += '<td>' + element.address + '</td>';
             rowData += '<td>' + dateToString(element.created) + '</td>';
@@ -83,7 +117,7 @@ var gatewayManagementModule = {
                 if (ele.id == selectedGatewayID) {
                     gatewayManagementModule.selectedRow = Object.assign({}, ele);
                     window.sessionStorage.setItem('selectedGateway', JSON.stringify(Object.assign({}, gatewayManagementModule.selectedRow)));
-                    var param = {"hostIP": gatewayManagementModule.selectedRow.address};
+                    var param = { "hostIP": gatewayManagementModule.selectedRow.address };
                     $.ajax({
                         url: '/api/v1/gateway/proxy',
                         type: 'POST',
@@ -112,9 +146,9 @@ var gatewayManagementModuleBtnGroup = {
         $("#add_new_gateway").show("fast");
     },
     deleteOne: function () {
-    	if(gatewayManagementModule.selectedRow){
+        if (gatewayManagementModule.selectedRow) {
             var deletedGatewayId = gatewayManagementModule.selectedRow['id'];
-            if(deletedGatewayId){
+            if (deletedGatewayId) {
                 $.ajax({
                     url: '/api/v1/gateway/' + deletedGatewayId + '',
                     type: 'DELETE',
@@ -124,7 +158,8 @@ var gatewayManagementModuleBtnGroup = {
                         gatewayManagementModule.loadGatewayList();
                     }
                 });
-            }}
+            }
+        }
     },
     refresh: function () {
         gatewayManagementModule.loadGatewayList();
@@ -133,7 +168,7 @@ var gatewayManagementModuleBtnGroup = {
         var gateway_new = {};
         gateway_new["name"] = $("#name").val();
         gateway_new["description"] = $("#description").val();
-        gateway_new["address"] = $("#address").val().replace(/\s/g,"");
+        gateway_new["address"] = $("#address").val().replace(/\s/g, "");
 
         $.ajax({
             url: '/api/v1/gateway',
@@ -143,7 +178,7 @@ var gatewayManagementModuleBtnGroup = {
             complete: function (jqXHR, textStatus) {
                 if (jqXHR.status == 200) {
                     gateway_new['id'] = jqXHR.responseText;
-                    window.sessionStorage.setItem('selectedGateway',JSON.stringify(Object.assign({}, gateway_new)));
+                    window.sessionStorage.setItem('selectedGateway', JSON.stringify(Object.assign({}, gateway_new)));
                     gatewayManagementModuleBtnGroup.back();
                 } else {
                     bootbox.alert({

@@ -46,7 +46,14 @@ func (gr *GatewayRepository) Exists(id string) (bool, error) {
 }
 
 func (gr *GatewayRepository) Select(id string) (domain.Gateway, error) {
-	return dataStore.Gateways[0], nil
+	index := 0
+	for i, g := range dataStore.Gateways {
+		if g.Id.Hex() == id {
+			index = i
+			break
+		}
+	}
+	return dataStore.Gateways[index], nil
 }
 
 func (gr *GatewayRepository) Update(gateway domain.Gateway) error {
