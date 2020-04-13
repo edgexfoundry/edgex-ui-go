@@ -25,7 +25,9 @@
         </div>
         <div class="appservice_wrap">
             <aside id="appservice_left">
-
+                <select class="form-control" id="appservice_service_select" onchange="orgEdgexFoundry.appService.changeServiceSelect();">
+                    <option value="" disabled selected hidden>Please choose an app service</option>
+                </select>
             </aside>
 
             <section id="appservice_right">

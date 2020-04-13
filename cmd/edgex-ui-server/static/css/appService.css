@@ -9,6 +9,9 @@
     background:#fafcfd;
     float: left;
 }
+#appservice_service_select{
+    margin-top: 1%;
+}
 #appservice_right{
     width:20%;
     min-height:800px;
