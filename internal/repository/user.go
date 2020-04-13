@@ -14,9 +14,10 @@ import (
 
 type UserRepos interface {
 	Select(id string) (domain.User, error)
+	SelectByName(name string) (domain.User, error)
 	SelectAll() ([]domain.User, error)
 	Exists(id string) (bool, error)
-	ExistsUser(user domain.User) (bool, error)
+	ExistsUser(user domain.User) (domain.User, error)
 	Insert(user domain.User) (string, error)
 	Update(user domain.User) error
 	Delete(id string) error

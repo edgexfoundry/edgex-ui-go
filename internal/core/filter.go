@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package common
+package core
 
 import (
 	"net/http"
@@ -23,6 +23,11 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
+)
+
+const (
+	RootURIPath = "/"
 )
 
 //{Token:User}
@@ -39,8 +44,8 @@ func AuthFilter(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
 
-		if path == "/" {
-			http.FileServer(http.Dir(configs.ServerConf.StaticResourcesPath)).ServeHTTP(w, r)
+		if path == LoginUriPath || path == UserCreaterUriPath {
+			h.ServeHTTP(w, r)
 			return
 		}
 
@@ -55,8 +60,14 @@ func AuthFilter(h http.Handler) http.Handler {
 			return
 		}
 
-		if path == LoginUriPath {
-			h.ServeHTTP(w, r)
+		users, _ := repository.GetUserRepos().SelectAll()
+		if len(users) == 0 && path != UserCreaterHtmlPage {
+			http.Redirect(w, r, UserCreaterHtmlPage, http.StatusTemporaryRedirect)
+			return
+		}
+
+		if path == RootURIPath {
+			http.FileServer(http.Dir(configs.ServerConf.StaticResourcesPath)).ServeHTTP(w, r)
 			return
 		}
 

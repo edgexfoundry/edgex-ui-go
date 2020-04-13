@@ -13,16 +13,17 @@
  *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
- 
+
 function login() {
-    var name = $("#userName").val();
-    var pwd = $("#userPwd").val();
+    var name = $("#Username").val().trim();
+    var pwd = $("#Userpassword").val().trim();
+    debugger
     $.ajax({
         url: '/api/v1/auth/login',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
-            'name': name,
+            'username': name,
             'password': pwd
         }),
         success: function(data) {
@@ -41,11 +42,16 @@ function login() {
                     headers: {
                         "X-Session-Token": window.sessionStorage.getItem("X_Session_Token")
                     },
-                    success: function(data) {
-                        //alert("Already change gateway to " + gatewayManagementModule.selectedRow.name);
-                    }
+                    success: function(data) {}
                 });
             }
+        },
+        error: function(result) {
+            bootbox.alert({
+                title: 'Error',
+                message: result.responseText,
+                className: 'red-green-buttons'
+            });
         }
     });
 
@@ -53,6 +59,14 @@ function login() {
 
 $(document).ready(function() {
     $(".login_form button").on('click', function() {
+        if ($("#Username").val().trim() == "") {
+            $("#Username").focus();
+            return
+        }
+        if ($("#Userpassword").val().trim() == "") {
+            $("#Userpassword").focus();
+            return
+        }
         login();
     });
     document.addEventListener('keyup', (event) => {
