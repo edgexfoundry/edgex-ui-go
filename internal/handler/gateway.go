@@ -23,7 +23,7 @@ import (
 
 	"regexp"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/core"
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
 	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
@@ -44,7 +44,7 @@ func ProxyConfigGateway(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	targetIP := m[HostIPKey]
-	common.DynamicProxyCache[r.Header.Get(common.SessionTokenKey)] = targetIP
+	core.DynamicProxyCache[r.Header.Get(core.SessionTokenKey)] = targetIP
 }
 
 func AddGateway(w http.ResponseWriter, r *http.Request) {
@@ -103,14 +103,14 @@ func checkAddGatewayParams(gateway domain.Gateway) error {
 
 func QueryAllGateway(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	w.Header().Set(common.ContentTypeKey, common.JsonContentType)
+	w.Header().Set(core.ContentTypeKey, core.JsonContentType)
 	gatewayList, err := repository.GetGatewayRepos().SelectAll()
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
 	}
 	result, _ := json.Marshal(&gatewayList)
-	w.Header().Set(common.ContentTypeKey, common.JsonContentType)
+	w.Header().Set(core.ContentTypeKey, core.JsonContentType)
 	w.Write(result)
 }
 

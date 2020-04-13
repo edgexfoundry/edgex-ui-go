@@ -18,49 +18,41 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
+
+	"github.com/edgexfoundry/edgex-ui-go/internal/core"
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
 )
 
-const (
-	UserNameKey = "name"
-	PasswordKey = "password"
-)
-
 func Login(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-
-	m := make(map[string]string)
-	err := json.NewDecoder(r.Body).Decode(&m)
+	var cred domain.Credential
+	err := json.NewDecoder(r.Body).Decode(&cred)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		http.Error(w, errors.NewErrParserJsonBody().Error(), http.StatusBadRequest)
 		return
 	}
-	name := m[UserNameKey]
-	pwd := m[PasswordKey]
-
-	u := domain.User{Name: name, Password: pwd}
-	ok, err := repository.GetUserRepos().ExistsUser(u)
+	u := domain.User{Name: cred.Username, Password: cred.Password}
+	u, err = repository.GetUserRepos().ExistsUser(u)
 
 	if err != nil {
-		log.Println("User: " + name + " login failed : " + err.Error())
-		w.Write([]byte("log failed : " + err.Error()))
+		log.Printf("User: %s login failed ", cred.Username)
+		http.Error(w, fmt.Sprintf("user %s %s, login failed", cred.Username, err.Error()), http.StatusUnauthorized)
 		return
 	}
 
-	if ok {
-		token := common.GetMd5String(name)
-		common.TokenCache[token] = u
-		log.Println("User: " + name + " login.")
-		w.Write([]byte(token))
-	}
+	token := core.GetMd5String(u.Name)
+	core.TokenCache[token] = u
+	log.Printf("User: %s login ", u.Name)
+	w.Write([]byte(token))
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-	token := r.Header.Get(common.SessionTokenKey)
-	delete(common.TokenCache, token)
+	token := r.Header.Get(core.SessionTokenKey)
+	delete(core.TokenCache, token)
 }

@@ -26,16 +26,16 @@ import (
 type UserMongoRepository struct {
 }
 
-func (ur *UserMongoRepository) ExistsUser(u domain.User) (bool, error) {
+func (ur *UserMongoRepository) ExistsUser(u domain.User) (domain.User, error) {
 	ds := DS.DataStore()
 	defer ds.S.Close()
-
-	coll := ds.S.DB(database).C(userScheme)
-	count, err := coll.Find(bson.M{"name": u.Name, "password": u.Password}).Count()
-	if err != nil {
-		return false, err
+	var result domain.User
+	col := ds.S.DB(database).C(userScheme)
+	err := col.Find(bson.M{"name": u.Name, "password": u.Password}).One(&result)
+	if err == nil {
+		return result, nil
 	}
-	return count > 0, nil
+	return result, err
 }
 
 func (ur *UserMongoRepository) Exists(id string) (bool, error) {
@@ -109,6 +109,11 @@ func (ur *UserMongoRepository) Select(id string) (domain.User, error) {
 		return result, err
 	}
 	return result, nil
+}
+
+func (ur *UserMongoRepository) SelectByName(name string) (domain.User, error) {
+
+	return domain.User{}, nil
 }
 
 func (ur *UserMongoRepository) SelectAll() ([]domain.User, error) {

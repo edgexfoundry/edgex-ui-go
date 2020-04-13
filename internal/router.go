@@ -29,6 +29,7 @@ func InitRestRoutes() http.Handler {
 
 	s := r.PathPrefix("/api/v1").Subrouter()
 	s.HandleFunc("/ping", ping).Methods(http.MethodGet)
+	s.HandleFunc("/user", handler.AddUser).Methods(http.MethodPost)
 	s.HandleFunc("/auth/login", handler.Login).Methods(http.MethodPost)
 	s.HandleFunc("/auth/logout", handler.Logout).Methods(http.MethodGet)
 

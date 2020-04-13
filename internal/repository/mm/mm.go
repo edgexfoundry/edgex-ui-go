@@ -18,7 +18,6 @@ package mm
 
 import (
 	"log"
-	"time"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 )
@@ -28,20 +27,9 @@ type MemoryDB struct {
 	Users    []domain.User
 }
 
-var dataStore = MemoryDB{
-	Gateways: make([]domain.Gateway, 0),
-	Users:    make([]domain.User, 0),
-}
+var dataStore = MemoryDB{}
 
 func DBConnect() bool {
-	timestamp := time.Now().UnixNano() / 1000000
-	u := domain.User{
-		Name:     "admin",
-		Password: "admin",
-		Created:  timestamp,
-		Modified: timestamp,
-	}
-	dataStore.Users = append(dataStore.Users, u)
 	log.Println("Connect to memoryDB success !")
 	return true
 }

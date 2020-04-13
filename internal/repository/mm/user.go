@@ -17,21 +17,24 @@
 package mm
 
 import (
+	"time"
+
+	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
+
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type UserRepository struct {
 }
 
-func (ur *UserRepository) ExistsUser(u domain.User) (bool, error) {
-	ok := false
+func (ur *UserRepository) ExistsUser(u domain.User) (domain.User, error) {
 	for _, v := range dataStore.Users {
 		if v.Name == u.Name && v.Password == u.Password {
-			ok = true
-			break
+			return v, nil
 		}
 	}
-	return ok, nil
+	return domain.User{}, errors.NewErrResourceNotFound()
 }
 
 func (ur *UserRepository) Exists(id string) (bool, error) {
@@ -39,8 +42,12 @@ func (ur *UserRepository) Exists(id string) (bool, error) {
 }
 
 func (ur *UserRepository) Insert(u domain.User) (string, error) {
+	ts := time.Now().UnixNano() / 1000000
+	u.Created = ts
+	u.Id = bson.NewObjectId()
 
-	return "", nil
+	dataStore.Users = append(dataStore.Users, u)
+	return u.Id.Hex(), nil
 }
 
 func (ur *UserRepository) Update(u domain.User) error {
@@ -56,6 +63,15 @@ func (ur *UserRepository) Delete(id string) error {
 func (ur *UserRepository) Select(id string) (domain.User, error) {
 
 	return dataStore.Users[0], nil
+}
+
+func (ur *UserRepository) SelectByName(name string) (domain.User, error) {
+	for _, u := range dataStore.Users {
+		if u.Name == name {
+			return u, nil
+		}
+	}
+	return domain.User{}, errors.NewErrResourceNotFound()
 }
 
 func (ur *UserRepository) SelectAll() ([]domain.User, error) {
