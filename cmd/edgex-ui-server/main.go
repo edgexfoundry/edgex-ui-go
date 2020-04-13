@@ -18,16 +18,14 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	_ "net/http/pprof"
 	"strconv"
 	"time"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal"
-	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
+	"github.com/edgexfoundry/edgex-ui-go/internal/core"
 	"github.com/edgexfoundry/edgex-ui-go/internal/pkg/usage"
 	"github.com/edgexfoundry/edgex-ui-go/internal/repository/mm"
-	"github.com/edgexfoundry/edgex-ui-go/internal/repository/mongo"
 )
 
 func main() {
@@ -44,21 +42,21 @@ func main() {
 		log.Printf("Load config failed. Error:%v\n", err)
 		return
 	}
-	ok := mongo.DBConnect()
-	if !ok {
-		mm.DBConnect()
-	}
-
+	// ok := mongo.DBConnect()
+	// if !ok {
+	// 	mm.DBConnect()
+	// }
+	mm.DBConnect()
 	r := internal.InitRestRoutes()
 
 	server := &http.Server{
-		Handler:      common.GeneralFilter(r),
+		Handler:      core.GeneralFilter(r),
 		Addr:         ":" + strconv.FormatInt(configs.ServerConf.Port, 10),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	log.Println("EdgeX UI Server Listen At " + server.Addr)
+	log.Println("EdgeX UI Server Listen On " + server.Addr)
 
 	log.Fatal(server.ListenAndServe())
 }
