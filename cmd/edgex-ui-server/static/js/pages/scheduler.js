@@ -95,8 +95,8 @@ orgEdgexFoundry.supportScheduler = (function(){
       rowData += "<td>" + (i + 1) +"</td>";
       rowData += "<td>" +  v.id + "</td>";
       rowData += "<td>" +  v.name + "</td>";
-      rowData += "<td>" +  (v.start?v.start:"") + "</td>";
-      rowData += "<td>" +  (v.end?v.end:"") + "</td>";
+      rowData += "<td>" +  (v.start?ISO8601DateStrToLocalDateStr(v.start):"") + "</td>";
+      rowData += "<td>" +  (v.end?ISO8601DateStrToLocalDateStr(v.end):"") + "</td>";
       rowData += "<td>" +  (v.frequency?v.frequency:"") + "</td>";
       rowData += "<td>" +  (v.cron?v.cron:"") + "</td>";
       rowData += "<td>" +  (v.runOnce?"true":"false") + "</td>";
@@ -161,26 +161,20 @@ orgEdgexFoundry.supportScheduler = (function(){
   };
 
   SupportScheduler.prototype.commitSchedulerBtn = function(type){
-    var schedulerData = {
+      var schedulerData = {
       name: $("#edgex-support-scheduler-add-or-update form input[name='schedulerName']").val(),
-      start: $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val(),
-      end: $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val(),
       runOnce: false,
       frequency: "",
     };
-    //NOTICE:
-    // Due to time zone issue, start time and end time conditions temporarily unavailable.
-    // var startTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val();
-    // var endTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val();
-    var startTimeVal = "";
-    var endTimeVal = "";
+    var startTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val();
+    var endTimeVal = $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val();
     if(startTimeVal != ""){
-      schedulerData.start = new Date(startTimeVal).Format("yyyyMMddThhmmss");
+      schedulerData.start = LocalDateStrToISO8601DateStr(startTimeVal);
     }else{
       schedulerData.start = "";
     }
     if(endTimeVal != ""){
-      schedulerData.end = new Date(endTimeVal).Format("yyyyMMddThhmmss");
+      schedulerData.end = LocalDateStrToISO8601DateStr(endTimeVal);
     }else{
       schedulerData.end = "";
     }
@@ -315,12 +309,12 @@ orgEdgexFoundry.supportScheduler = (function(){
       $("#edgex-support-scheduler-add-or-update form input[name='schedulerName']").val(schedulerItem.name?schedulerItem.name:"");
       var startTime = "";
       if(schedulerItem.start != undefined && schedulerItem.start != ""){
-        startTime = ISO8601FormatToDate(schedulerItem.start).Format("yyyy-MM-dd hh:mm:ss");
+        startTime = ISO8601DateStrToLocalDateStr(schedulerItem.start);
       }
       $("#edgex-support-scheduler-add-or-update form input[name='schedulerStart']").val(startTime);
       var endTime = "";
       if(schedulerItem.end != undefined && schedulerItem.end != ""){
-          endTime = ISO8601FormatToDate(schedulerItem.end).Format("yyyy-MM-dd hh:mm:ss");
+          endTime = ISO8601DateStrToLocalDateStr(schedulerItem.end);
       }
       $("#edgex-support-scheduler-add-or-update form input[name='schedulerEnd']").val(endTime);
       var frequencyValue = '0.0';
