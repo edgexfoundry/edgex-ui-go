@@ -16,7 +16,6 @@
 
 $(document).ready(function () {
     gatewayManagementModule.loadGatewayList();
-    window.setInterval(gatewayManagementModule.heartBeat, 3000);
 });
 
 var gatewayManagementModule = {
@@ -56,6 +55,7 @@ var gatewayManagementModule = {
             success: function (data) {
                 gatewayManagementModule.gatewayDataCache = data;
                 gatewayManagementModule.renderGatewayList(data);
+                gatewayManagementModule.heartBeat();
             },
             error: function () {
             }

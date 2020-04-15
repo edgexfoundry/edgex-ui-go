@@ -29,6 +29,15 @@ import (
 
 const AppServiceConfigurableFileName = "configuration.toml"
 
+func HeartBeatAppService(w http.ResponseWriter, r *http.Request){
+	_, err := initRegistryClientByServiceKey(configs.RegistryConf.ServiceVersion, false)
+	if err != nil{
+		w.Write([]byte(""))
+	}else{
+		w.Write([]byte("pong"))
+	}
+}
+
 func ListAppServicesProfile(w http.ResponseWriter, r *http.Request) {
 	configuration := make(map[string]interface{})
 	client, err := initRegistryClientByServiceKey(configs.RegistryConf.ServiceVersion, false)

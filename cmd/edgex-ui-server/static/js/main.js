@@ -83,7 +83,7 @@ $(document).ready(function () {
 		for (var i = 0; i < data.length; i++) {
 			var menu = data[i];
 			var subMenu = menu.children;
-			var str = '<li url="' + menu.url + '" tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="' + menu.icon + '"></i><span>' + menu.title + '</span></li>';
+			var str = '<li url="' + menu.url + '" tabindex=' + menu.title + ' ><i class="fa fa-caret-right" style="visibility:hidden"></i><i class="fa fa-circle" style="color: green"></i><i class="' + menu.icon + '"></i><span>' + menu.title + '</span></li>';
 			if (subMenu != null && subMenu.length != 0) {
 				var second_level_menu = "";
 				for (var j = 0; j < subMenu.length; j++) {
@@ -133,9 +133,144 @@ $(document).ready(function () {
 			var tabindex = $(this).attr("tabindex");
 			var url = $(this).attr("url");
 			createTabByTitle(tabindex, url);
+			checkServicesHealthy(this,tabindex);
 		});
 	}
 
+    function checkServicesHealthy(thisTab, tabIndex) {
+        switch (tabIndex) {
+            case 'Gateway':
+                var selectedGateway = gatewayManagementModule.selectedRow;
+                if (selectedGateway) {
+                    $.ajax({
+                        url: '/api/v1/gateway/heartbeat/' + selectedGateway.id,
+                        type: 'GET',
+                        success: function (data) {
+                            if (data == "1") {
+                                renderByCheckResult(thisTab, "healthy");
+                            } else {
+                                renderByCheckResult(thisTab, "unhealthy");
+                            }
+                        },
+                        error: function () {
+                            renderByCheckResult(thisTab, "unhealthy");
+                        },
+                    });
+                } else {
+                    renderByCheckResult(thisTab, "unhealthy");
+                }
+                break;
+            case 'DeviceService':
+                $.when($.ajax({
+                    url: '/core-metadata/api/v1/ping',
+                    type: 'GET',
+                }), $.ajax({
+                    url: '/core-command/api/v1/ping',
+                    type: 'GET',
+                })).done(function (coreMetadataResult, coreCommandResult) {
+                    if (coreMetadataResult.indexOf('pong') > -1 && coreCommandResult.indexOf('pong') > -1) {
+                        renderByCheckResult(thisTab, "healthy");
+                    } else {
+                        renderByCheckResult(thisTab, "unhealthy");
+                    }
+                }).fail(function (error) {
+                    renderByCheckResult(thisTab, "unhealthy");
+                });
+                break;
+            case 'Scheduler':
+                $.ajax({
+                    url: '/support-scheduler/api/v1/ping',
+                    type: 'GET',
+                    success: function (data) {
+                        if (data == "pong") {
+                            renderByCheckResult(thisTab, "healthy");
+                        } else {
+                            renderByCheckResult(thisTab, "unhealthy");
+                        }
+                    },
+                    error: function () {
+                        renderByCheckResult(thisTab, "unhealthy");
+                    },
+                });
+                break;
+            case 'Notification':
+                $.ajax({
+                    url: '/support-notification/api/v1/ping',
+                    type: 'GET',
+                    success: function (data) {
+                        if (data == "pong") {
+                            renderByCheckResult(thisTab, "healthy");
+                        } else {
+                            renderByCheckResult(thisTab, "unhealthy");
+                        }
+                    },
+                    error: function () {
+                        renderByCheckResult(thisTab, "unhealthy");
+                    },
+                });
+                break;
+            case 'Multimedia':
+                renderByCheckResult(thisTab, "unhealthy");
+                break;
+            case 'Export':
+                $.ajax({
+                    url: '/core-export/api/v1/ping',
+                    type: 'GET',
+                    success: function (data) {
+                        if (data == "pong") {
+                            renderByCheckResult(thisTab, "healthy");
+                        } else {
+                            renderByCheckResult(thisTab, "unhealthy");
+                        }
+                    },
+                    error: function () {
+                        renderByCheckResult(thisTab, "unhealthy");
+                    },
+                });
+                break;
+            case 'RuleEngine':
+                $.ajax({
+                    url: '/rule-engine/api/v1/ping',
+                    type: 'GET',
+                    success: function (data) {
+                        if (data == "pong") {
+                            renderByCheckResult(thisTab, "healthy");
+                        } else {
+                            renderByCheckResult(thisTab, "unhealthy");
+                        }
+                    },
+                    error: function () {
+                        renderByCheckResult(thisTab, "unhealthy");
+                    },
+                });
+                break;
+            case 'AppServices':
+                $.ajax({
+                    url: '/api/v1/appservice/heartbeat',
+                    type: 'GET',
+                    success: function (data) {
+                        if (data == "pong") {
+                            renderByCheckResult(thisTab, "healthy");
+                        } else {
+                            renderByCheckResult(thisTab, "unhealthy");
+                        }
+                    },
+                    error: function () {
+                        renderByCheckResult(thisTab, "unhealthy");
+                    },
+                });
+                break;
+        }
+
+        function renderByCheckResult(thisTab, result) {
+            var target = $(thisTab).find("i.fa.fa-circle");
+            if (result == 'healthy') {
+                $(target).css("color", "green");
+            } else {
+                $(target).css("color", "red");
+            }
+        }
+    }
 
 	function bindCloseTab() {
 		$("#edgex-foundry-tabs-index-main .edgex-tab button").off('click').on('click', function () {
