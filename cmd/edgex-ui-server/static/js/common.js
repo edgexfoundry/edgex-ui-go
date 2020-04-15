@@ -53,12 +53,18 @@ Date.prototype.Format = function (fmt) {
 };
 
 //ISO 8601 format (YYYYMMDD'T'HHmmss)
-var ISO8601FormatToDate = function (dateString) {
-    var year = dateString.substring(0,4);
-    var month = dateString.substring(4,6);
-    var day = dateString.substring(6,8);
-    var hour = dateString.substring(9,11);
-    var minute = dateString.substring(11,13);
-    var second = dateString.substring(13);
-    return new Date(year,month,day,hour,minute,second);
+var ISO8601DateStrToLocalDateStr = function (iso8601String) {
+    var year = iso8601String.substring(0,4);
+    var month = iso8601String.substring(4,6);
+    var day = iso8601String.substring(6,8);
+    var hour = iso8601String.substring(9,11);
+    var minute = iso8601String.substring(11,13);
+    var second = iso8601String.substring(13);
+    return new Date(Date.UTC(year,month,day,hour,minute,second)).Format("yyyy-MM-dd hh:mm:ss");
+};
+
+//YYYYMMDD'T'HHmmss
+var LocalDateStrToISO8601DateStr = function (localString) {
+    //iso8601 YYYY-MM-DDTHH:mm:ss.sssZ
+    return new Date(localString).toISOString().replace(/\..+/,'').replace(/[-:]/g,"")
 };

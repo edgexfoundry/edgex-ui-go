@@ -22,7 +22,7 @@ var gatewayManagementModule = {
     selectedRow: null,
     gatewayDataCache: [],
     heartBeat: function () {
-        if (gatewayManagementModule.gatewayDataCache.length == 0) {
+        if (!gatewayManagementModule.gatewayDataCache) {
             return
         }
         $.each(gatewayManagementModule.gatewayDataCache, function (i, g) {
@@ -63,7 +63,7 @@ var gatewayManagementModule = {
     },
     renderGatewayList: function (data) {
         $("#gateway_list > table > tbody").empty();
-        if (data.length != 0) {
+        if (data && data.length != 0) {
             $("#gateway_list > table > tfoot").hide();
         }
         var eachCount = 0;
