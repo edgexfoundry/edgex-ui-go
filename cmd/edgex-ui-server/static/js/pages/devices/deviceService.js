@@ -334,7 +334,7 @@ orgEdgexFoundry.deviceService = (function(){
 			rowData += '<td class="device-service-addressable-search-icon"><input type="hidden" value=\''+JSON.stringify(v.addressable)+'\'>' + '<i class="fa fa-search-plus fa-lg"></i>' + '</td>';
       rowData += "<td>" +  v.operatingState + "</td>";
       rowData += "<td>" +  v.adminState + "</td>";
-			rowData += '<td class="device-service-devices-inlcuded-icon"><input type="hidden" value=\''+v.name+'\'>' + '<i class="fa fa-sitemap fa-lg"></i>' + '</td>';
+			rowData += '<td class="device-service-devices-included-icon"><input type="hidden" value=\''+v.name+'\'>' + '<i class="fa fa-sitemap fa-lg"></i>' + '</td>';
       rowData += "<td>" +  dateToString(v.created) + "</td>";
       rowData += "<td>" +  dateToString(v.modified) + "</td>";
       rowData += "</tr>";
@@ -346,7 +346,7 @@ orgEdgexFoundry.deviceService = (function(){
 			$(".device-service-addressable").show();
 		});
 
-		$(".device-service-devices-inlcuded-icon").on('click',function(){
+		$(".device-service-devices-included-icon").on('click',function(){
 			var serviceName = $(this).children('input[type="hidden"]').val();
       		deviceService.selectedDeviceServiceName = serviceName;
 			deviceService.loadDevice(serviceName);

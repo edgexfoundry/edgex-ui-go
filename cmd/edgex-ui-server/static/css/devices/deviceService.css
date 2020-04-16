@@ -16,10 +16,14 @@
  *******************************************************************************/
 @charset "UTF-8";
 
-.device-service-addressable-search-icon {
+.device-service-addressable-search-icon,
+.device-service-devices-included-icon,
+.device-command-icon {
   color:rgb(68, 157, 68);
 }
-.device-service-addressable-search-icon i:hover {
+.device-service-addressable-search-icon i:hover,
+.device-service-devices-included-icon i:hover,
+.device-command-icon i:hover {
   /*color:black;*/
   font-size:30px;
   z-index: 999;
