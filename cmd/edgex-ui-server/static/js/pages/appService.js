@@ -223,7 +223,7 @@ orgEdgexFoundry.appService = (function () {
             $.each(value,function (index,val) {
                 $("#appservice_plus"+key).append("<div class=\"helper-dialog-wrapper appservice_drop_card\" id = \""+key+"_"+val.Name+"\" title=\""+val.Name+"\">\n" +
                     "<div class=\"appservice_description\">\n" +
-                    "<h5 align=\"center\" class=\"appservice_transform\">"+val.Name+"</h5>\n" +
+                    "<h5 align=\"left\" class=\"appservice_transform\">"+val.Name+"</h5>\n" +
                     "</div>\n" +
                     "</div>");
             })
@@ -607,6 +607,12 @@ orgEdgexFoundry.appService = (function () {
                         'Required': false
                     },
                 ],
+                'Addressable': null
+            },
+            {
+                'Name':'SetOutputData',
+                'Description':'',
+                'Parameters': null,
                 'Addressable': null
             },
             {
