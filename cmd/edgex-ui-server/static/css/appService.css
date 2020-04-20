@@ -11,6 +11,7 @@
 }
 #appservice_service_select{
     margin-top: 1%;
+    width: 40%;
 }
 #appservice_right{
     width:20%;
@@ -19,7 +20,8 @@
     float: right;
 }
 .appservice_drop_card{
-    margin-top: 20px;
+    margin-top: 3%;
+    margin-bottom: 3%;
     height: 80px;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -52,6 +54,10 @@
 }
 .appservice_triggers_group{
     padding:10px;
+}
+.appservice_select_lable{
+    text-align: right;
+    padding-top: 1%;
 }
 #appservice_model .modal-dialog{
     position:fixed;
