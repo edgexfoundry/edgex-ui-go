@@ -60,20 +60,20 @@ orgEdgexFoundry.appService = (function () {
                         addressVal = appService.deployData.Writable.Pipeline.Functions[functionName].Addressable[val.Name];
                     }
                     if(val.Name == "Protocol"){
-                        $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
-                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                            "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
-                            "<option value=\"tcp\">tcp</option>\n" +
-                            "<option value=\"http\">http</option>\n" +
-                            "<option value=\"zmq\">zmq</option>\n" +
-                            "<option value=\"mac\">mac</option>\n" +
-                            "<option value=\"other\">other</option>\n" +
+                        $("#appservice_paramsBox").append("<div class='form-group'>\n" +
+                            "<label for='"+type+"_"+functionName+"_"+val.Name+"'>"+val.Name+"</label>\n" +
+                            "<select id='"+type+"_"+functionName+"_"+val.Name+"' name='input_"+val.Name+"' class='form-control params'>\n" +
+                            "<option value='tcp'>tcp</option>\n" +
+                            "<option value='http'>http</option>\n" +
+                            "<option value='zmq'>zmq</option>\n" +
+                            "<option value='mac'>mac</option>\n" +
+                            "<option value='other'>other</option>\n" +
                             "</select>"+
                             "</div>");
                     }else{
-                        $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
-                            "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                            "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                        $("#appservice_paramsBox").append("<div class='form-group'>\n" +
+                            "<label for='"+type+"_"+functionName+"_"+val.Name+"'>"+val.Name+"</label>\n" +
+                            "<input type='text' name='input_"+val.Name+"' class='form-control params' id='"+type+"_"+functionName+"_"+val.Name+"' placeholder='"+val.Hint+"'>\n" +
                             "</div>");
                     }
                     if(addressVal != null && addressVal != ''){
@@ -88,34 +88,34 @@ orgEdgexFoundry.appService = (function () {
                 }
                 if(val.Name == "DeviceNames"){
                     var deviceNameStr = "<div class=\"form-group\">\n" +
-                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                        "<select title=\"All devices\" id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
+                        "<label for='"+type+"_"+functionName+"_"+val.Name+"'>"+val.Name+"</label>\n" +
+                        "<select title='All devices' id='"+type+"_"+functionName+"_"+val.Name+"' name='input_"+val.Name+"' class='selectpicker params show-tick form-control' multiple data-live-search='false'>";
                     $.each(appService.devicesCache,function (index,val) {
                         deviceNameStr += "<option value="+val.name+">"+val.name+"</option>\n";
                     });
                     deviceNameStr += "</select></div>";
                     $("#appservice_paramsBox").append(deviceNameStr);
                 }else if(val.Name == "ValueDescriptors"){
-                    var valueDescriptorNameStr = "<div class=\"form-group\">\n" +
-                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                        "<select title=\"All Value Descriptors\" id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"selectpicker params show-tick form-control\" multiple data-live-search=\"false\">";
+                    var valueDescriptorNameStr = "<div class='form-group'>\n" +
+                        "<label for='"+type+"_"+functionName+"_"+val.Name+"'>"+val.Name+"</label>\n" +
+                        "<select title='All Value Descriptors' id='"+type+"_"+functionName+"_"+val.Name+"' name='input_"+val.Name+"' class='selectpicker params show-tick form-control' multiple data-live-search='false'>";
                     $.each(appService.valueDescriptorsCache,function (index,val) {
                         valueDescriptorNameStr += "<option value="+val.split("------")[1]+">"+val+"</option>\n";
                     });
                     valueDescriptorNameStr += "</select></div>";
                     $("#appservice_paramsBox").append(valueDescriptorNameStr);
                 }else if(val.Name == "persistOnError" || val.Name == "autoreconnect" || val.Name == "retain"){
-                    $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
-                        "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                        "<select id=\""+type+"_"+functionName+"_"+val.Name+"\" name=\"input_"+val.Name+"\" class=\"form-control params\">\n" +
+                    $("#appservice_paramsBox").append("<div class='form-group'>\n" +
+                        "<label for='"+type+"_"+functionName+"_"+val.Name+"'>"+val.Name+"</label>\n" +
+                        "<select id='"+type+"_"+functionName+"_"+val.Name+"' name='input_"+val.Name+"' class='form-control params'>\n" +
                         "<option value=false>false</option>\n" +
                         "<option value=true>true</option>\n" +
                         "</select>"+
                         "</div>");
                 }else{
-                    $("#appservice_paramsBox").append("<div class=\"form-group\">\n" +
+                    $("#appservice_paramsBox").append("<div class='form-group'>\n" +
                         "<label for=\""+type+"_"+functionName+"_"+val.Name+"\">"+val.Name+"</label>\n" +
-                        "<input type=\"text\" name=\"input_"+val.Name+"\"\" class=\"form-control params\" id=\""+type+"_"+functionName+"_"+val.Name+"\" placeholder=\""+val.Hint+"\">\n" +
+                        "<input type='text' name='input_"+val.Name+"' class='form-control params' id='"+type+"_"+functionName+"_"+val.Name+"' placeholder='"+val.Hint+"'>\n" +
                         "</div>");
                 }
                 if(inputVal != null && inputVal != ''){
@@ -206,24 +206,24 @@ orgEdgexFoundry.appService = (function () {
 
     AppService.prototype.initPipeline = function initPipeline() {
         $.each(appService.PipelineFunctionList,function (key,value) {
-            $("#appservice_accordion").append("<div class=\"panel panel-default\">\n" +
-                "<div class=\"panel-heading\">\n" +
-                "<h4 class=\"panel-title\">\n" +
-                "<a data-toggle=\"collapse\" data-parent=\"#appservice_accordion\"\n" +
-                "href=\"#"+key+"\">\n" +
+            $("#appservice_accordion").append("<div class='panel panel-default'>\n" +
+                "<div class='panel-heading'>\n" +
+                "<h4 class='panel-title'>\n" +
+                "<a data-toggle='collapse' data-parent='#appservice_accordion'\n" +
+                "href='#"+key+"'>\n" +
                 ""+key+"\n" +
                 "</a>\n" +
                 "</h4>\n" +
                 "</div>\n" +
-                "<div id=\""+key+"\" class=\"panel-collapse collapse\">\n" +
-                "<div class=\"panel-body\" id=\"appservice_plus"+key+"\">\n" +
+                "<div id='"+key+"' class='panel-collapse collapse'>\n" +
+                "<div class='panel-body' id='appservice_plus"+key+"'>\n" +
                 "</div>\n" +
                 "</div>\n" +
                 "</div>");
             $.each(value,function (index,val) {
-                $("#appservice_plus"+key).append("<div class=\"helper-dialog-wrapper appservice_drop_card\" id = \""+key+"_"+val.Name+"\" title=\""+val.Name+"\">\n" +
-                    "<div class=\"appservice_description\">\n" +
-                    "<h5 align=\"left\" class=\"appservice_transform\">"+val.Name+"</h5>\n" +
+                $("#appservice_plus"+key).append("<div class='helper-dialog-wrapper appservice_drop_card' id = '"+key+"_"+val.Name+"' title='"+val.Name+"'>\n" +
+                    "<div class='appservice_description'>\n" +
+                    "<h5 align='left' class='appservice_transform'>"+val.Name+"</h5>\n" +
                     "</div>\n" +
                     "</div>");
             })
