@@ -1,60 +1,21 @@
 # edgex-ui-go
 [![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry/edgex-ui-go)](https://goreportcard.com/report/github.com/edgexfoundry/edgex-ui-go) [![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
-> Go implementation of EdgeX Web UI.
+
+EdgeX UI is an implementation of [EdgeX API](https://github.com/edgexfoundry/edgex-go/tree/master/api) on the page,It is provided as an easy way to use EdgeX.
 
 <p align="center">
   <img src ="assets/images/export.png" />
 </p>
 
-```
-├── app
-│   ├── common
-│   ├── component
-│   ├── configs
-│   ├── controller
-│   ├── domain
-│   └── repository
-│       ├── mm
-│       └── mongo
-├── assets
-│   └── images
-├── bin
-│   └── edgex-ui-go-launch.sh
-├── cmd
-│   └── edgex-ui-server
-│       ├── res
-│       ├── main.go
-│       └── static
-│           ├── css
-│           ├── data
-│           ├── js
-│           ├── pages
-│           ├── index.html
-│           ├── templates
-│           └── vendors       
-│               
-└── docs
-    ├── api
-    └── deployments
-```
+## Get Started
 
+[EdgeX UI  Video Demo](https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s)
 
-## Some video demo links
+- First you need to make sure that EdgeX containers are already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/master/README.md). After you complete the start of the edgex containers, the UI will also be started by default.
 
-* https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s
-* https://www.edgexfoundry.club
+- With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
 
-## face to face room at the appointed time, please contact to us before you want to have face-to-face chat.
-
-https://VMware.zoom.us/j/3697467292
-
-## Running in docker
-
-```
-docker pull edgexfoundry/docker-edgex-ui-go:1.0.0
-
-docker run -it -d -p 4000:4000 --name edgex-ui-go edgexfoundry/docker-edgex-ui-go:1.0.0
-```
+**Note** Before you log in for the first time, you need to create a user.
 
 ## Install and Deploy
 
@@ -75,17 +36,6 @@ cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
 make build
 ```
 
-Before starting the web-based UI for the first time, you'll need to initialize the Mongo database and ensure that the settings are pointing to your MongoDB instance.
-Without Mongo, the project defaults to using an in-memory database.
-
-To initialize Mongo from the root of the project directory:
-
-```
-mongo docs/deployments/initmongo.js
-```
-
-Mongo settings can be found under `cmd/res/configuration.toml`.
-
 To start the application and the web-based UI:
 
 ```
@@ -104,25 +54,6 @@ To test the web-based UI:
 ```
 make test
 ```
-
-## Using the application
-
-### Logging in
-
-With a modern browser, navigate to http://localhost:4000.
-The default user credentials are:
-
-```
-Username   : admin
-Password   : admin
-```
-
-## Displaying EdgeX Go Microservices Data on the UI
-
-> prepare : make sure you have installed Docker and its stable version.
-
-### Starting EdgeX with Docker
-
 To start all the EdgeX Go microservices in Docker, run the following command in the root of the EdgeX Go directory:
 
 ```
@@ -134,6 +65,15 @@ For more information and detailed instructions on using EdgeX, please reference 
 ## Community
 - Chat: https://chat.edgexfoundry.org/home
 - Mainling lists: https://lists.edgexfoundry.org/mailman/listinfo
+- [EdgeX Chinese Club](https://www.edgexfoundry.club/)
 
 ## License
 [Apache-2.0](LICENSE)
+
+## Feedback
+
+- If you find a bug or want to request a new feature, please open a [GitHub Issue](https://github.com/edgexfoundry/edgex-ui-go/issues).
+
+- Have a online chat at the appointed time on the [zoom](https://VMware.zoom.us/j/3697467292).
+
+  **Note** Please contact to us before you want to have a online chat.
