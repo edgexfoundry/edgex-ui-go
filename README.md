@@ -1,7 +1,9 @@
 # edgex-ui-go
+> Go implementation of EdgeX Web UI.
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry/edgex-ui-go)](https://goreportcard.com/report/github.com/edgexfoundry/edgex-ui-go) [![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
 
-EdgeX UI is an implementation of [EdgeX API](https://github.com/edgexfoundry/edgex-go/tree/master/api) on the page,It is provided as an easy way to use EdgeX.
+
 
 <p align="center">
   <img src ="assets/images/export.png" />
