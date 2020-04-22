@@ -7,16 +7,6 @@ EdgeX UI is an implementation of [EdgeX API](https://github.com/edgexfoundry/edg
   <img src ="assets/images/export.png" />
 </p>
 
-## Get Started
-
-[EdgeX UI  Video Demo](https://www.youtube.com/watch?v=2EOHR_gUeic&t=570s)
-
-- First you need to make sure that EdgeX containers are already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/master/README.md). After you complete the start of the edgex containers, the UI will also be started by default.
-
-- With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
-
-**Note** Before you log in for the first time, you need to create a user.
-
 ## Install and Deploy
 
 To fetch the code and compile the web-based UI:
@@ -60,12 +50,14 @@ To start all the EdgeX Go microservices in Docker, run the following command in 
 make run_docker
 ```
 
-For more information and detailed instructions on using EdgeX, please reference [the main EdgeX documentation.](https://nexus.edgexfoundry.org/content/sites/docs/staging/master/docs/_build/html/#)
+With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
+> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/master/README.md). 
+
 
 ## Community
+- EdgeXFoundry Chinese Club: https://www.edgexfoundry.club
 - Chat: https://chat.edgexfoundry.org/home
 - Mainling lists: https://lists.edgexfoundry.org/mailman/listinfo
-- [EdgeX Chinese Club](https://www.edgexfoundry.club/)
 
 ## License
 [Apache-2.0](LICENSE)
