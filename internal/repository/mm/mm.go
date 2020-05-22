@@ -23,7 +23,6 @@ import (
 )
 
 type MemoryDB struct {
-	Gateways []domain.Gateway
 	Users    []domain.User
 }
 

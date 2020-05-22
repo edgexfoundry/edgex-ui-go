@@ -7,32 +7,56 @@ StaticResourcesPath = "./static"
 
 #Using an default memory db automatically if not configed here.
 [Database]
-Host = "localhost"
-Name = "edgex-ui-go"
-Port = 27017
+Host = ""
+Name = ""
+Port = 0
 Username = "su"
 Password = "su"
   [Database.Scheme]
   User = "user"
-  Gateway = "gateway"
 
-[DynamicProxy]
-CoreDataPath     = "/core-data"
-CoreDataPort     = "48080"
-CoreMetadataPath = "/core-metadata"
-CoreMetadataPort = "48081"
-CoreCommandPath  = "/core-command"
-CoreCommandPort  = "48082"
-CoreExportPath   = "/core-export"
-CoreExportPort   = "48071"
-RuleEnginePath   = "/rule-engine"
-RuleEnginePort   = "48075"
-SupportLoggingPath   = "/support-logging"
-SupportLoggingPort   = "48061"
-SupportNotificationPath   = "/support-notification"
-SupportNotificationPort   = "48060"
-SupportSchedulerPath   = "/support-scheduler"
-SupportSchedulerPort   = "48085"
+[Clients]
+    [Clients.CoreData]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48080
+    PathPrefix = "/core-data"
+
+    [Clients.Metadata]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48081
+    PathPrefix = "/core-metadata"
+
+    [Clients.CoreCommand]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48082
+    PathPrefix = "/core-command"
+
+    [Clients.Notification]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48060
+    PathPrefix = "/support-notification"
+
+    [Clients.Scheduler]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48085
+    PathPrefix = "/support-scheduler"
+
+    [Clients.RuleEngine]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48075
+    PathPrefix = "/rule-engine"
+
+    [Clients.CoreExport]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48071
+    PathPrefix = "/core-export"
 
 [Registry]
 Host = "localhost"

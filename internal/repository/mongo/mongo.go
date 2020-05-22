@@ -32,7 +32,6 @@ var (
 	dbPort        int64
 	dbUserName    string
 	dbPassword    string
-	gatewayScheme string
 	userScheme    string
 )
 
@@ -52,11 +51,10 @@ func loadConf() {
 	dbPort = configs.DBConf.Port
 	dbUserName = configs.DBConf.Username
 	dbPassword = configs.DBConf.Password
-	gatewayScheme = configs.DBConf.Scheme.Gateway
 	userScheme = configs.DBConf.Scheme.User
 
-	log.Println(fmt.Sprintf("mongoDB connection info %s in %s:%d with credential (%s / %x), with scheme: %s, %s.",
-		database, dbHost, dbPort, dbUserName, md5.Sum([]byte(dbPassword)), gatewayScheme, userScheme))
+	log.Println(fmt.Sprintf("mongoDB connection info %s in %s:%d with credential (%s / %x), with scheme: %s.",
+		database, dbHost, dbPort, dbUserName, md5.Sum([]byte(dbPassword)), userScheme))
 }
 
 func DBConnect() bool {
