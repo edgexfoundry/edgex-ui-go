@@ -17,7 +17,6 @@
 function login() {
     var name = $("#Username").val().trim();
     var pwd = $("#Userpassword").val().trim();
-    debugger
     $.ajax({
         url: '/api/v1/auth/login',
         type: 'POST',
@@ -27,24 +26,8 @@ function login() {
             'password': pwd
         }),
         success: function(data) {
-            window.sessionStorage.setItem("X_Session_Token", data)
+            window.sessionStorage.setItem("X_Session_Token", data);
             window.location.href = '/?X-Session-Token=' + data;
-            var selectedGateway = JSON.parse(window.sessionStorage.getItem('selectedGateway'))
-            if (selectedGateway) {
-                var addr = {
-                    "hostIP": selectedGateway.address
-                };
-                $.ajax({
-                    url: '/api/v1/proxy',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(addr),
-                    headers: {
-                        "X-Session-Token": window.sessionStorage.getItem("X_Session_Token")
-                    },
-                    success: function(data) {}
-                });
-            }
         },
         error: function(result) {
             bootbox.alert({

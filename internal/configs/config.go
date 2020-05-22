@@ -11,7 +11,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  *
- * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 package configs
@@ -19,8 +18,8 @@ package configs
 import (
 	"log"
 	"path/filepath"
-
 	"github.com/BurntSushi/toml"
+	"fmt"
 )
 
 const (
@@ -30,15 +29,14 @@ const (
 var (
 	ServerConf   Service
 	DBConf       Database
-	ProxyConf    DynamicProxy
 	ProxyMapping map[string]string
 	RegistryConf RegistryConfig
 )
 
-type config struct {
+type ConfigurationStruct struct {
 	Server       Service        `toml:"Service"`
 	DB           Database       `toml:"Database"`
-	Proxy        DynamicProxy   `toml:"DynamicProxy"`
+	Clients      map[string]ClientInfo   `toml:"Clients"`
 	RegistryConf RegistryConfig `toml:"Registry"`
 }
 
@@ -52,7 +50,6 @@ type Service struct {
 
 type Scheme struct {
 	User    string
-	Gateway string
 }
 
 type Database struct {
@@ -66,30 +63,15 @@ type Database struct {
 	Scheme   Scheme
 }
 
-type DynamicProxy struct {
-	CoreDataPath string
-	CoreDataPort string
-
-	CoreMetadataPath string
-	CoreMetadataPort string
-
-	CoreCommandPath string
-	CoreCommandPort string
-
-	CoreExportPath string
-	CoreExportPort string
-
-	RuleEnginePath string
-	RuleEnginePort string
-
-	SupportLoggingPath string
-	SupportLoggingPort string
-
-	SupportNotificationPath string
-	SupportNotificationPort string
-
-	SupportSchedulerPath string
-	SupportSchedulerPort string
+type ClientInfo struct {
+	// Host is the hostname or IP address of a service.
+	Host string
+	// Port defines the port on which to access a given service
+	Port int
+	// Protocol indicates the protocol to use when accessing a given service
+	Protocol string
+	// Proxy path prefix
+	PathPrefix string
 }
 
 type RegistryConfig struct {
@@ -111,31 +93,21 @@ func LoadConfig(confFilePath string) error {
 		return err
 	}
 	log.Printf("Loading configuration from: %s\n", absPath)
-	var conf config
+	var conf ConfigurationStruct
 	if _, err := toml.DecodeFile(absPath, &conf); err != nil {
 		log.Printf("Decode Config File Error:%v", err)
 		return err
 	}
 	ServerConf = conf.Server
 	DBConf = conf.DB
-	ProxyConf = conf.Proxy
 	RegistryConf = conf.RegistryConf
-	initProxyMapping()
+	initProxyMapping(conf)
 	return nil
 }
 
-func initProxyMapping() {
-
+func initProxyMapping(conf ConfigurationStruct) {
 	ProxyMapping = make(map[string]string, 10)
-
-	ProxyMapping[ProxyConf.CoreDataPath] = ProxyConf.CoreDataPort
-	ProxyMapping[ProxyConf.CoreMetadataPath] = ProxyConf.CoreMetadataPort
-	ProxyMapping[ProxyConf.CoreCommandPath] = ProxyConf.CoreCommandPort
-	ProxyMapping[ProxyConf.CoreExportPath] = ProxyConf.CoreExportPort
-
-	ProxyMapping[ProxyConf.RuleEnginePath] = ProxyConf.RuleEnginePort
-
-	ProxyMapping[ProxyConf.SupportLoggingPath] = ProxyConf.SupportLoggingPort
-	ProxyMapping[ProxyConf.SupportNotificationPath] = ProxyConf.SupportNotificationPort
-	ProxyMapping[ProxyConf.SupportSchedulerPath] = ProxyConf.SupportSchedulerPort
+	for _, client := range conf.Clients {
+		ProxyMapping[client.PathPrefix] = fmt.Sprintf("%s://%s:%d", client.Protocol, client.Host, client.Port)
+	}
 }

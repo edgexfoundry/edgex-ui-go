@@ -1,9 +1,5 @@
 [
 	{
-		"title":"Gateway",
-		"url": "/pages/gateway.html",
-		"icon":"fa fa-bank"
-	},{
 		"title":"DeviceService",
 		"url": "/pages/devices/deviceService.html",
 		"icon":"fa fa-gears"

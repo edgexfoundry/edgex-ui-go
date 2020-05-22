@@ -38,12 +38,8 @@ $(document).ready(function () {
 		success: function (data) {
 			var menu = eval(data);
 			menuRender(menu);
-			$(".center .tab-content #edgex-foundry-tab-Gateway ").load("/pages/gateway.html");
-			// $(".sidebar li[url='/pages/gateway.html']").css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
-			$(".sidebar li[url='/pages/gateway.html']").css({ color: '#339933', borderBottom: '', backgroundColor: 'rgba(51, 153, 51, 0.5)' });
-			edgexFoundryCreatedTabs.push("edgex-foundry-tab-Gateway");
-			$("a[href='#edgex-foundry-tab-Gateway']").tab('show');
 			bindCloseTab();
+            $('.sidebar ul li:first').click()
 		}
 	});
 
@@ -114,17 +110,6 @@ $(document).ready(function () {
 				$(this).next("div.second_level").slideToggle("normal");
 				return;
 			}
-
-			//if no select one gateway instance,not load other resource.
-			if (window.sessionStorage.getItem('selectedGateway') == null) {
-				//alert('please select a gateway instance firstly!');
-				bootbox.alert({
-					title: "Alert",
-					message: "Please select or create a gateway firstly !",
-					className: 'red-green-buttons'
-				});
-				return;
-			};
 			// $(".sidebar li").not($(this)).css({color:'',borderBottom: '',borderBottomColor:''});
 			// $(this).css({color:'#339933',borderBottom: '2px solid',borderBottomColor:'#339933'});
 			$(".sidebar li").not($(this)).css({ color: '', borderBottom: '', borderBottomColor: '', backgroundColor: '' });
@@ -139,27 +124,6 @@ $(document).ready(function () {
 
     function checkServicesHealthy(thisTab, tabIndex) {
         switch (tabIndex) {
-            case 'Gateway':
-                var selectedGateway = gatewayManagementModule.selectedRow;
-                if (selectedGateway) {
-                    $.ajax({
-                        url: '/api/v1/gateway/heartbeat/' + selectedGateway.id,
-                        type: 'GET',
-                        success: function (data) {
-                            if (data == "1") {
-                                renderByCheckResult(thisTab, "healthy");
-                            } else {
-                                renderByCheckResult(thisTab, "unhealthy");
-                            }
-                        },
-                        error: function () {
-                            renderByCheckResult(thisTab, "unhealthy");
-                        },
-                    });
-                } else {
-                    renderByCheckResult(thisTab, "unhealthy");
-                }
-                break;
             case 'DeviceService':
                 $.when($.ajax({
                     url: '/core-metadata/api/v1/ping',
@@ -275,15 +239,7 @@ $(document).ready(function () {
 	function bindCloseTab() {
 		$("#edgex-foundry-tabs-index-main .edgex-tab button").off('click').on('click', function () {
 			event.stopPropagation();
-			if ($(this).parent().attr("tabindex") == "edgex-foundry-tab-Gateway") {
-				bootbox.alert({
-					message: "Can not remove gateway tab!",
-					className: 'red-green-buttons'
-				});
-				return;
-			}
 			var btn = this;
-
 			bootbox.confirm({
 				title: "confirm",
 				message: "Are you sure to remove it ? ",

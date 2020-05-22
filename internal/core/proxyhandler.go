@@ -30,36 +30,10 @@ const (
 	ForwardedHostReqHeader = "X-Forwarded-Host"
 )
 
-//target ProxyCache {token:targetIP}
-var DynamicProxyCache = make(map[string]string, 10)
-
-func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string, token string) {
+func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix string) {
 	defer r.Body.Close()
-
-	targetIP := DynamicProxyCache[token]
-	targetAddr := HttpProtocol + "://" + targetIP + ":"
-
-	switch prefix {
-	case configs.ProxyConf.CoreDataPath:
-		targetAddr += configs.ProxyConf.CoreDataPort
-	case configs.ProxyConf.CoreMetadataPath:
-		targetAddr += configs.ProxyConf.CoreMetadataPort
-	case configs.ProxyConf.CoreCommandPath:
-		targetAddr += configs.ProxyConf.CoreCommandPort
-	case configs.ProxyConf.CoreExportPath:
-		targetAddr += configs.ProxyConf.CoreExportPort
-	case configs.ProxyConf.RuleEnginePath:
-		targetAddr += configs.ProxyConf.RuleEnginePort
-	case configs.ProxyConf.SupportLoggingPath:
-		targetAddr += configs.ProxyConf.SupportLoggingPort
-	case configs.ProxyConf.SupportNotificationPath:
-		targetAddr += configs.ProxyConf.SupportNotificationPort
-	case configs.ProxyConf.SupportSchedulerPath:
-		targetAddr += configs.ProxyConf.SupportSchedulerPort
-	}
-
+	targetAddr := configs.ProxyMapping[prefix]
 	origin, _ := url.Parse(targetAddr)
-
 	director := func(req *http.Request) {
 		req.Header.Add(ForwardedHostReqHeader, req.Host)
 		req.Header.Add(OriginHostReqHeader, origin.Host)
@@ -67,7 +41,6 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 		req.URL.Host = origin.Host
 		req.URL.Path = path
 	}
-
 	proxy := &httputil.ReverseProxy{Director: director}
 	proxy.ServeHTTP(w, r)
 }
