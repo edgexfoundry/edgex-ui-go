@@ -66,6 +66,8 @@ With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* t
 
 ## Feedback
 
+- If you want to learn how to use the UI, you can refer to the user guide [user guide](https://github.com/edgexfoundry/edgex-ui-go/blob/master/docs/UseGuide.md).
+
 - If you find a bug or want to request a new feature, please open a [GitHub Issue](https://github.com/edgexfoundry/edgex-ui-go/issues).
 
 - Have a online chat at the appointed time on the [zoom](https://VMware.zoom.us/j/3697467292).
