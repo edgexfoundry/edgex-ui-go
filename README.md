@@ -9,6 +9,12 @@
   <img src ="assets/images/export.png" />
 </p>
 
+## User guide and operation video
+
+- If you want to learn how to use the UI, you can refer to the user guide [user guide](https://github.com/edgexfoundry/edgex-ui-go/blob/master/docs/UseGuide.md).
+
+- Edgex UI operation video : [youtube](https://www.youtube.com/watch?v=FuR1g64BDE8) . [youku](https://v.youku.com/v_show/id_XNDY5NzExNjcyNA==.html).
+
 ## Install and Deploy
 
 To fetch the code and compile the web-based UI:
