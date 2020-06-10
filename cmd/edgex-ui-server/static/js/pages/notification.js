@@ -116,12 +116,6 @@ orgEdgexFoundry.supportNotification = (function(){
                         message: "assigned limit perameter exceeds the current max limit !",
                         className: 'red-green-buttons'
                     });
-                }else if(jqXHR.status == 502){
-                    bootbox.alert({
-                        title: "Error",
-                        message: "Bad Gateway !",
-                        className: 'red-green-buttons'
-                    });
                 } else {
                     bootbox.alert({
                         title: "Error",
@@ -194,12 +188,6 @@ orgEdgexFoundry.supportNotification = (function(){
                         bootbox.alert({
                             title: "Error",
                             message: "assigned limit perameter exceeds the current max limit !",
-                            className: 'red-green-buttons'
-                        });
-                    }else if(jqXHR.status == 502){
-                        bootbox.alert({
-                            title: "Error",
-                            message: "Bad Gateway !",
                             className: 'red-green-buttons'
                         });
                     } else {
