@@ -18,7 +18,7 @@ package configs
 import (
 	"log"
 	"path/filepath"
-	"github.com/BurntSushi/toml"
+	"github.com/pelletier/go-toml"
 	"fmt"
 )
 
@@ -86,15 +86,26 @@ func LoadConfig(confFilePath string) error {
 	if len(confFilePath) == 0 {
 		confFilePath = defaultConfigFilePath
 	}
-
 	absPath, err := filepath.Abs(confFilePath)
 	if err != nil {
 		log.Printf("Could not create absolute path to load configuration: %s; %v", absPath, err.Error())
 		return err
 	}
 	log.Printf("Loading configuration from: %s\n", absPath)
+	configTree, err := toml.LoadFile(absPath)
+	if err != nil{
+		log.Printf("Load Config File Error:%v", err)
+		return err
+	}
+	//Override configuration from Env
+	env := NewEnvironment()
+	configTree,err = env.OverrideFromEnvironment(configTree)
+	if err != nil {
+		log.Printf("Override from environment error%v", err)
+		return err
+	}
 	var conf ConfigurationStruct
-	if _, err := toml.DecodeFile(absPath, &conf); err != nil {
+	if err := configTree.Unmarshal(&conf); err != nil {
 		log.Printf("Decode Config File Error:%v", err)
 		return err
 	}
