@@ -8,3 +8,9 @@ body {
     background-color: #f7f7f9;
     min-width: 1000px;
 }
+
+.warning {
+    font-weight: lighter;
+    color: #ffb866;
+    margin-left: 20%;
+}
