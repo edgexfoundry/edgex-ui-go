@@ -61,6 +61,7 @@ make run_docker
 With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
 > NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/master/README.md). 
 
+> NOTE: if you want remote access the UI, you shuold remove the UI network in docker-compose.yml, this way you can allow the UI to live someplace else and have access to EdgeX through Kong.
 
 ## Community
 - EdgeXFoundry Chinese Club: https://www.edgexfoundry.club

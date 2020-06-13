@@ -18,12 +18,10 @@ package core
 
 import (
 	"net/http"
-	"net/url"
 	"strings"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
-	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
 )
 
 const (
@@ -60,18 +58,18 @@ func AuthFilter(h http.Handler) http.Handler {
 			return
 		}
 
-		users, _ := repository.GetUserRepos().SelectAll()
+		/*users, _ := repository.GetUserRepos().SelectAll()
 		if len(users) == 0 && path != UserCreaterHtmlPage {
 			http.Redirect(w, r, UserCreaterHtmlPage, http.StatusTemporaryRedirect)
 			return
-		}
+		}*/
 
 		if path == RootURIPath {
 			http.FileServer(http.Dir(configs.ServerConf.StaticResourcesPath)).ServeHTTP(w, r)
 			return
 		}
 
-		var token string
+		/*var token string
 		u := r.URL.RawQuery
 		params, _ := url.ParseQuery(u)
 		value, ok := params[SessionTokenKey]
@@ -92,7 +90,7 @@ func AuthFilter(h http.Handler) http.Handler {
 			}
 			http.Redirect(w, r, LoginHtmlPage, RedirectHttpCode)
 			return
-		}
+		}*/
 
 		for prefix := range configs.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
