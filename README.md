@@ -13,7 +13,11 @@
 
 - If you want to learn how to use the UI, you can refer to the user guide [user guide](https://github.com/edgexfoundry/edgex-ui-go/blob/master/docs/UseGuide.md).
 
-- Edgex UI operation video : [youtube](https://www.youtube.com/watch?v=FuR1g64BDE8) . [youku](https://v.youku.com/v_show/id_XNDY5NzExNjcyNA==.html).
+- EdgeX UI operation video : [youtube](https://www.youtube.com/watch?v=FuR1g64BDE8) . [youku](https://v.youku.com/v_show/id_XNDY5NzExNjcyNA==.html).
+
+- [Add MQTT Device to EdgeX](./docs/ExamplesAddingMQTTDevice/AddMQTTDeviceToEdgeX.md)
+
+- [EdgeX Documentation](https://wiki.edgexfoundry.org/display/FA/EdgeX+Documentation)
 
 ## Install and Deploy
 
