@@ -17,8 +17,11 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/go-mod-registry/pkg/types"
@@ -26,6 +29,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/pelletier/go-toml"
 )
+
+var data = make(map[string]string)
 
 const AppServiceConfigurableFileName = "configuration.toml"
 
@@ -136,6 +141,39 @@ func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-toml;charset=UTF-8")
 	w.Header().Set("Content-disposition", "attachment;filename=\""+AppServiceConfigurableFileName+"\"")
 	w.Write([]byte(configurationTomlString))
+}
+
+func ReceiveDataPostJSON(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatal("parse form error ",err)
+	}
+	formData := make(map[string]interface{})
+	json.NewDecoder(r.Body).Decode(&formData)
+	jsonData, err := json.Marshal(formData)
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, "InternalServerError", http.StatusInternalServerError)
+		return
+	}
+	formatTimeStr:=time.Unix(time.Now().Unix(),0).Format("03:04:05")
+	data["time"] = formatTimeStr
+	data["currentData"] = string(jsonData)
+}
+
+func ReceiveDataPostXML(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	con, _ := ioutil.ReadAll(r.Body)
+	formatTimeStr:=time.Unix(time.Now().Unix(),0).Format("03:04:05")
+	data["time"] = formatTimeStr
+	data["currentData"] = string(con)
+}
+
+func CurrentData(w http.ResponseWriter, r *http.Request) {
+	macon,_ :=json.Marshal(data)
+	mString :=string(macon)
+	io.WriteString(w, mString)
 }
 
 func initRegistryClientByServiceKey(serviceKey string, needVersionPath bool) (registry.Client, error) {

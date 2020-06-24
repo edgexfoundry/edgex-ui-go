@@ -41,6 +41,9 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/appservice/download/servicekey/{servicekey}", handler.DownloadConfigurableProfile).Methods(http.MethodGet)
 	s.HandleFunc("/appservice/list", handler.ListAppServicesProfile).Methods(http.MethodGet)
 	s.HandleFunc("/appservice/heartbeat", handler.HeartBeatAppService).Methods(http.MethodGet)
+	s.HandleFunc("/appservice/receiveDataPostJSON", handler.ReceiveDataPostJSON).Methods(http.MethodPost)
+	s.HandleFunc("/appservice/receiveDataPostXML", handler.ReceiveDataPostXML).Methods(http.MethodPost)
+	s.HandleFunc("/appservice/currentData", handler.CurrentData).Methods(http.MethodGet)
 	s1 := r.PathPrefix("").Subrouter()
 	s1.HandleFunc("/ws", component.WebSocketHandler)
 

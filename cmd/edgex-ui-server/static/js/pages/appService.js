@@ -28,6 +28,7 @@ orgEdgexFoundry.appService = (function () {
         this.valueDescriptorsCache = [];
         this.servicekey = null;
         this.appServices = null;
+        this.interval = null;
     }
     AppService.prototype = {
         constructor:AppService,
@@ -35,6 +36,7 @@ orgEdgexFoundry.appService = (function () {
         dragDlg:null,
         downloadProfile:null,
         deployToConsul:null,
+        currentData:null,
         initServices:null,
         initPipeline:null,
         clickParamButton:null,
@@ -43,7 +45,11 @@ orgEdgexFoundry.appService = (function () {
     };
 
     var appService = new AppService();
-
+    $('#appservice_model').on('hide.bs.modal', function () {
+        if(appService.interval != null){
+            clearInterval(appService.interval);
+        }
+    });
     AppService.prototype.clickParamButton = function (e) {
         $("#appservice_paramsBox").empty();
         var type = e.id.split("_")[1];
@@ -129,6 +135,8 @@ orgEdgexFoundry.appService = (function () {
             $('#appservice_model').modal({
                 backdrop: "static"
             });
+            $('#appservice_model').find('.modal-title').text('Parameters')
+            $('#appservice_model').find('.btn-success').show();
             $('.selectpicker').selectpicker();
         }
     };
@@ -428,6 +436,37 @@ orgEdgexFoundry.appService = (function () {
         });
     };
 
+    AppService.prototype.currentData = function(){
+        $('#appservice_model').modal({
+            backdrop: "static"
+        });
+        $('#appservice_model').find('.modal-title').text('Current Data');
+        $('#appservice_model').find('.btn-success').hide();
+        $("#appservice_paramsBox").empty();
+
+        var lastTime = '';
+        appService.interval = setInterval(function() {
+            $.ajax({
+                url: '/api/v1/appservice/currentData',
+                type: 'GET',
+                contentType: "application/json",
+                success: function(data){
+                    var dataObj = JSON.parse(data);
+                    if(lastTime != dataObj.time){
+                        $("#appservice_paramsBox").append("<div class='form-group'>\n" +
+                            "<label for='"+dataObj.time+"'>"+dataObj.time+"</label>\n" +
+                            "<input type='text' name='"+dataObj.time+"' class='form-control params' value='"+dataObj.currentData+"'>\n" +
+                            "</div>");
+                        lastTime = dataObj.time;
+                    }
+                },
+                error: function(){
+                    clearInterval(appService.interval);
+                }
+            });
+        }, 500);
+    };
+
     appService.deployData = {
         "Writable": {
             "LogLevel": "INFO",
@@ -553,7 +592,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'url',
                         'Default': '',
-                        'Hint': 'http://',
+                        'Hint': 'http://localhost:4000/api/v1/appservice/receiveDataPostJSON',
                         'Required': true
                     },
                     {
@@ -578,7 +617,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'url',
                         'Default': '',
-                        'Hint': 'http://',
+                        'Hint': 'http://localhost:4000/api/v1/appservice/receiveDataPostJSON',
                         'Required': true
                     },
                     {
@@ -597,7 +636,7 @@ orgEdgexFoundry.appService = (function () {
                     {
                         'Name':'url',
                         'Default': '',
-                        'Hint': 'http://',
+                        'Hint': 'http://localhost:4000/api/v1/appservice/receiveDataPostXML',
                         'Required': true
                     },
                     {
