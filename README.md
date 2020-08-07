@@ -1,4 +1,13 @@
 # edgex-ui-go
+
+## Use and Purpose
+The EdgeX UI is for **demonstration and developer use** to manage and monitor a single instance of EdgeX Foundry (unsecured).  Specifically, it can:
+- Manage (add, remove, update) the EdgeX objects (device, device services, profiles, rules, app services, etc.)
+- Monitor the EdgeX data flow (events and readings) and services
+- Monitor and manage from on-box with EdgeX (on the same host)
+
+As is, the EdgeX UI **is not meant for production use!**  Developers can use the UI as a base from which to create additional user interfaces.  The EdgeX community is also exploring production level use cases and extending/expanding the UI for future releases that would include more production level needs such as the ability to use the UI from on or off box.
+
 > Go implementation of EdgeX Web UI.
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry/edgex-ui-go)](https://goreportcard.com/report/github.com/edgexfoundry/edgex-ui-go) [![license](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
