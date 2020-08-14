@@ -194,10 +194,10 @@ $(document).ready(function () {
                 break;
             case 'RuleEngine':
                 $.ajax({
-                    url: '/rule-engine/api/v1/ping',
+                    url: '/rule-engine',
                     type: 'GET',
                     success: function (data) {
-                        if (data == "pong") {
+                        if (data.trim() == "OK") {
                             renderByCheckResult(thisTab, "healthy");
                         } else {
                             renderByCheckResult(thisTab, "unhealthy");

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  *
- * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ * @author: Shengqi Wang, <wshengqi@vmware.com>
  * @version: 0.1.0
  *******************************************************************************/
 @charset "UTF-8";
@@ -27,13 +27,6 @@ div.info_header span {
 	font-size: 15px;
 	font-weight: bold;
 	color: #339933;
-}
-
-div#device_list {
-	/* position: relative; */
-	/* min-height: 50%; */
-	/* margin-left: 60px; */
-	
 }
 
 div.select_panle, div#action_device_list select, div#device_command_list select
@@ -67,4 +60,58 @@ div#condition_device_list table tfoot nav {
 .condition_device_list  td, .action_device_list  td {
 	padding: 5px;
 	text-align: left;
+}
+
+#ruleengine_addrules_paramsBox .page-header{
+	margin: 15px 0 20px;
+}
+
+#ruleengine_addrules_paramsBox legend{
+	padding: 0;
+}
+
+#ruleengine_addrules_paramsBox hr{
+	border-top: 2px dashed #987cb9;
+}
+
+#ruleengine_model,#ruleengine_addrules_model .modal-dialog{
+	position:fixed;
+	top:10%;
+	right:0;
+	left:0;
+	bottom:10%;
+	margin:auto;
+}
+
+#ruleengine_model,#ruleengine_addrules_model .modal-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+#ruleengine_model,#ruleengine_addrules_model .modal-body {
+	max-height:79%;
+	overflow-y:auto;
+	position: absolute;
+	top: 55px;
+	bottom: 65px;
+	width: 100%;
+}
+
+#ruleengine_model,#ruleengine_addrules_model .modal-header .close {margin-right: 15px;}
+#ruleengine_model,#ruleengine_addrules_model .modal-footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
+
+#ruleengine_model,#ruleengine_addrules_model #json-renderer {
+	padding-left: 5%;
+}
+
+.modal-backdrop {
+	z-index: -1 !important;
+	opacity: 0 !important;
+	filter: alpha(opacity=0) !important;
 }
