@@ -131,6 +131,17 @@ orgEdgexFoundry.deviceService = (function(){
                 ]
             },
             {
+                'Protocol': 'HTTP',
+                'Alias': 'HTTP',
+                'Properties': [
+                    {
+                        'Key': 'Address',
+                        'Value': '192.168.1.1',
+                        'Hint': '(required)'
+                    }
+                ]
+            },
+            {
                 'Protocol': 'other',
                 'Alias': 'others',
                 'Properties': [

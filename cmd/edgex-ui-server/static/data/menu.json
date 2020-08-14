@@ -4,26 +4,17 @@
 		"url": "/pages/devices/deviceService.html",
 		"icon":"fa fa-gears"
 	},{
-			"title":"Scheduler",
-			"url": "/pages/scheduler.html",
-			"icon":"fa fa-clock-o fa-lg",
-			"children":[]
-		},{
-			"title":"Notification",
-			"url": "/pages/notification.html",
-			"icon":"fa fa-envelope",
-			"children":[]
-		},{
-		"title":"Multimedia",
-		"url": "/pages/multimedia.html",
-		"icon":"fa fa-camera",
+		"title":"Scheduler",
+		"url": "/pages/scheduler.html",
+		"icon":"fa fa-clock-o fa-lg",
 		"children":[]
 	},{
-		"title":"Export",
-		"url": "/pages/export.html",
-		"icon":"fa fa-cloud-upload",
+		"title":"Notification",
+		"url": "/pages/notification.html",
+		"icon":"fa fa-envelope",
 		"children":[]
-	},{
+	},
+	{
 		"title":"RuleEngine",
 		"url": "/pages/ruleengine.html",
 		"icon":"fa fa-wrench",
@@ -33,5 +24,5 @@
 	"url": "/pages/appService.html",
 	"icon":"fa fa-asterisk",
 	"children":[]
-}
+	}
 ]
