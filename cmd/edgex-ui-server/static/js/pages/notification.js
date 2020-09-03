@@ -46,6 +46,12 @@ $(document).ready(function(){
   });
   orgEdgexFoundry.supportNotification.loadNotificationList();
   orgEdgexFoundry.supportNotification.loadSubscriptionList();
+  orgEdgexFoundry.supportNotification.loadTransmissionList();
+
+    $("#notification_check_all").click(function() {
+        $(":checkbox[name='notification_checkbox']").prop("checked", this.checked);
+    });
+
 });
 
 orgEdgexFoundry.supportNotification = (function(){
@@ -83,6 +89,11 @@ orgEdgexFoundry.supportNotification = (function(){
     addNewSubscriptionChannelBtn: null,
     commitSubscriptionChannelBtn: null,
     cancelAddOrUpdateSubscriptionChannelBtn:null,
+
+      cleanUp: null,
+      deleteNotificationBySlug: null,
+      toDeleteTransmission: null,
+      deleteTransmissionByStatus: null
   };
 
   var notification = new SupportNotification();
@@ -136,7 +147,7 @@ orgEdgexFoundry.supportNotification = (function(){
       // rowData += '<td class="scheduler-delete-icon"><input type="hidden" value="'+v.id+'"><div class="edgexIconBtn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> </div></td>';
       // rowData += '<td class="scheduler-edit-icon"><input type="hidden" value=\''+JSON.stringify(v)+'\'><div class="edgexIconBtn"><i class="fa fa-edit fa-lg" aria-hidden="true"></i> </div></td>';
       // rowData += '<td><input type="radio" name="notificationRowRadio" value="'+v.id+'"></td>';
-      rowData += "<td>" + (i + 1) +"</td>";
+      rowData += "<td><input type='checkbox' name='notification_checkbox' id='" + v.slug +"'></td>";
       rowData += "<td>" +  v.id + "</td>";
       rowData += "<td>" +  v.slug + "</td>";
       rowData += "<td>" +  v.sender + "</td>";
@@ -205,6 +216,104 @@ orgEdgexFoundry.supportNotification = (function(){
     function resetNotificationFormList() {
         $("#edgex-support-notification-list table tbody").empty();
         $("#edgex-support-notification-list table tfoot").show();
+    }
+
+    SupportNotification.prototype.cleanUp = function(){
+        bootbox.confirm({
+            buttons: {
+                confirm: {
+                    label: 'delete',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'cancel',
+                    className: 'btn-default'
+                }
+            },
+            title: "Warning",
+            message: 'This operation will delete all the notifications if the current timestamp minus their last modification timestamp is less than a default age setting, and the corresponding transmissions will also be deleted. Are you sure to delete this data? The operation is not recoverable!',
+            callback: function(result) {
+                if(result) {
+                    $.ajax({
+                        url:'/support-notification/api/v1/cleanup',
+                        type:'DELETE',
+                        success: function(){
+                            bootbox.alert({
+                                title:"Alert",
+                                message: "Operation succeeded!",
+                                className: 'red-green-buttons'
+                            });
+                            orgEdgexFoundry.supportNotification.loadNotificationList();
+                        },
+                        error: function(){
+                            bootbox.alert({
+                                title : "Error",
+                                message: "Operation failure!",
+                                className: 'red-green-buttons'
+                            });
+                        }
+                    });
+                } else {
+                    return;
+                }
+            },
+        });
+    }
+
+    SupportNotification.prototype.deleteNotificationBySlug = function(){
+        if($('input[name="notification_checkbox"]:checked').length == 0){
+            bootbox.alert({
+                title:"Alert",
+                message: "Please select at least one data.",
+                className: 'red-green-buttons'
+            });
+        }else{
+            bootbox.confirm({
+                buttons: {
+                    confirm: {
+                        label: 'delete',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'cancel',
+                        className: 'btn-default'
+                    }
+                },
+                title: "Please input a Slug",
+                message:"This operation will delete all selected notifications, Are you sure to delete this data? The operation is not recoverable!",
+                callback: function(result) {
+                    if(result) {
+                        var eachcount = 0;
+                        $('input[name="notification_checkbox"]:checked').each(function(){
+                            $.ajax({
+                                url:'/support-notification/api/v1/notification/slug/'+$(this).attr('id'),
+                                type:'DELETE',
+                                success: function(){
+                                    eachcount++
+                                    if(eachcount >= $('input[name="notification_checkbox"]:checked').length){
+                                        bootbox.alert({
+                                            title:"Alert",
+                                            message: "Operation succeeded!",
+                                            className: 'red-green-buttons'
+                                        });
+                                        orgEdgexFoundry.supportNotification.loadNotificationList();
+                                    }
+                                },
+                                error: function(){
+                                    bootbox.alert({
+                                        title : "Error",
+                                        message: "Operation failure!",
+                                        className: 'red-green-buttons'
+                                    });
+                                }
+                            });
+                        });
+                    } else {
+                        return;
+                    }
+                },
+            });
+        }
     }
 
   //===============notification section end=========================
@@ -634,7 +743,7 @@ orgEdgexFoundry.supportNotification = (function(){
   SupportNotification.prototype.seacrchTransmissionBtn = function(){
     var start = $("#edgex-foundry-support-transmission input[name='transmission_start_time']").val();
     var end =   $("#edgex-foundry-support-transmission input[name='transmission_end_time']").val();
-    var limit = $("#edgex-foundry-support-transmissions select[name='transmission_limit']").val();
+    var limit = $("#edgex-foundry-support-transmission select[name='transmission_limit']").val();
     start = new Date(start).valueOf();
     end = new Date(end).valueOf();
     $.ajax({
@@ -715,6 +824,65 @@ orgEdgexFoundry.supportNotification = (function(){
       $("#edgex-support-transmission-list table tbody").append(rowData);
     });
   }
+
+    SupportNotification.prototype.toDeleteTransmission = function(){
+        $('#transmission_model').modal({
+            backdrop: "static"
+        });
+        $('.selectpicker').selectpicker('deselectAll');
+    }
+
+    SupportNotification.prototype.deleteTransmissionByStatus = function(){
+        bootbox.confirm({
+            buttons: {
+                confirm: {
+                    label: 'delete',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'cancel',
+                    className: 'btn-default'
+                }
+            },
+            title: "Delete Transmissions By Status",
+            message: 'Delete all the transmissions by Status. Are you sure to delete this data? The operation is not recoverable!',
+            callback: function(result) {
+                if(result) {
+                    var statusArr = $('#transstatus').val();
+                    if(statusArr == null || statusArr == '' || statusArr.length ==0){
+                        bootbox.alert({
+                            title:"Alert",
+                            message: "Please select at least one status",
+                            className: 'red-green-buttons'
+                        });
+                        return;
+                    }
+                    for(var i=0;i<statusArr.length;i++){
+                        $.ajax({
+                        url:'/support-notification/api/v1/transmission/'+statusArr[i]+'/age/10000',
+                        type:'DELETE',
+                        error: function(){
+                                bootbox.alert({
+                                    title : "Error",
+                                    message: "Operation failure!",
+                                    className: 'red-green-buttons'
+                                });
+                                return;
+                            }
+                        });
+                    }
+                    bootbox.alert({
+                        title:"Alert",
+                        message: "Operation succeeded!",
+                        className: 'red-green-buttons'
+                    });
+                    orgEdgexFoundry.supportNotification.loadTransmissionList();
+                } else {
+                    return;
+                }
+            },
+        });
+    }
   //===============transmission section end=========================
   return notification;
 })();
