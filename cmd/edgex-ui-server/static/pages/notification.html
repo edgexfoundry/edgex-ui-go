@@ -35,6 +35,12 @@
               <div class="edgexIconBtn">
                 <i class="fa fa-search fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportNotification.searchNotificationBtn()"></i>
               </div>
+                <button type="button" class="btn btn-warning" onclick="orgEdgexFoundry.supportNotification.deleteNotificationBySlug();">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;Delete notification
+                </button>
+                <button type="button" class="btn btn-danger" onclick="orgEdgexFoundry.supportNotification.cleanUp();">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;Clean Up
+                </button>
             </form>
           </div>
         </div>
@@ -45,7 +51,7 @@
               <thead>
                 <tr class="active">
                   <!-- <th></th> -->
-                  <th>#</th>
+                  <th><input type="checkbox" id="notification_check_all"></th>
                   <th>ID</th>
                   <th>Slug</th>
                   <th>Sender</th>
@@ -309,6 +315,9 @@
               <div class="edgexIconBtn">
                 <i class="fa fa-search fa-lg fa-fw" aria-hidden="true" onclick="orgEdgexFoundry.supportNotification.seacrchTransmissionBtn()"></i>
               </div>
+                <button type="button" class="btn btn-warning" onclick="orgEdgexFoundry.supportNotification.toDeleteTransmission();">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;Delete transmission
+                </button>
             </form>
           </div>
         </div>
@@ -342,6 +351,38 @@
       </div>
     </div>
     <!-- transmission section end -->
+
+    <div class="modal fade" id="transmission_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Delete transmission</h4>
+                </div>
+                <div class="modal-body" id="transmission_paramsBox">
+                    <div class="panel-body" style="padding:0;">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Status</label>
+                                <div class="col-md-8">
+                                    <select title="select transmission status" id="transstatus" name="transstatus" class='selectpicker show-tick form-control' multiple data-live-search='false'>
+                                        <option value="acknowledged">acknowledged</option>
+                                        <option value="escalated">escalated</option>
+                                        <option value="failed">failed</option>
+                                        <option value="sent">sent</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>Close</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="orgEdgexFoundry.supportNotification.deleteTransmissionByStatus();"><span aria-hidden="true"></span>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
   </body>
 </html>
