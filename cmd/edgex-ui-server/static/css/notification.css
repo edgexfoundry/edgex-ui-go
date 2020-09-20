@@ -85,6 +85,14 @@ table.table td i.delete {
   color: #E34724;
 }
 
+#clean_up_model .modal-dialog{
+  position:fixed;
+  top:10%;
+  right:0;
+  left:0;
+  bottom:10%;
+  margin:auto;
+}
 
 #transmission_model .modal-dialog{
   position:fixed;
