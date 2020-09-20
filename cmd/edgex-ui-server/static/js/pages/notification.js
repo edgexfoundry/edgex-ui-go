@@ -44,6 +44,20 @@ $(document).ready(function(){
     time_24hr:true,
     allowInput:false
   });
+    $("#clean_up_age").flatpickr({
+        dateFormat:"Y-m-d H:i:S",
+        enableTime:true,
+        enableSeconds:true,
+        time_24hr:true,
+        allowInput:false
+    });
+    $("#transmission_age").flatpickr({
+        dateFormat:"Y-m-d H:i:S",
+        enableTime:true,
+        enableSeconds:true,
+        time_24hr:true,
+        allowInput:false
+    });
   orgEdgexFoundry.supportNotification.loadNotificationList();
   orgEdgexFoundry.supportNotification.loadSubscriptionList();
   orgEdgexFoundry.supportNotification.loadTransmissionList();
@@ -90,6 +104,7 @@ orgEdgexFoundry.supportNotification = (function(){
     commitSubscriptionChannelBtn: null,
     cancelAddOrUpdateSubscriptionChannelBtn:null,
 
+      toCleanUp: null,
       cleanUp: null,
       deleteNotificationBySlug: null,
       toDeleteTransmission: null,
@@ -218,6 +233,12 @@ orgEdgexFoundry.supportNotification = (function(){
         $("#edgex-support-notification-list table tfoot").show();
     }
 
+    SupportNotification.prototype.toCleanUp = function(){
+        $('#clean_up_model').modal({
+            backdrop: "static"
+        });
+    }
+
     SupportNotification.prototype.cleanUp = function(){
         bootbox.confirm({
             buttons: {
@@ -234,8 +255,17 @@ orgEdgexFoundry.supportNotification = (function(){
             message: 'This operation will delete all the notifications if the current timestamp minus their last modification timestamp is less than a default age setting, and the corresponding transmissions will also be deleted. Are you sure to delete this data? The operation is not recoverable!',
             callback: function(result) {
                 if(result) {
+                    var clean_up_age = $("#clean_up_age").val();
+                    if (!clean_up_age) {
+                        clean_up_age = new Date().valueOf()
+                    } else {
+                        clean_up_age = new Date(clean_up_age).valueOf();
+                    }
+                    console.log(new Date().valueOf())
+                    console.log(clean_up_age)
+                    console.log(new Date().valueOf() - 1600134667000 < clean_up_age)
                     $.ajax({
-                        url:'/support-notification/api/v1/cleanup',
+                        url:'/support-notification/api/v1/cleanup/age/'+clean_up_age,
                         type:'DELETE',
                         success: function(){
                             bootbox.alert({
@@ -848,6 +878,13 @@ orgEdgexFoundry.supportNotification = (function(){
             message: 'Delete all the transmissions by Status. Are you sure to delete this data? The operation is not recoverable!',
             callback: function(result) {
                 if(result) {
+                    var transmission_age = $("#transmission_age").val();
+                    if (!transmission_age) {
+                        transmission_age = new Date().valueOf()
+                    } else {
+                        transmission_age = new Date(transmission_age).valueOf();
+                    }
+
                     var statusArr = $('#transstatus').val();
                     if(statusArr == null || statusArr == '' || statusArr.length ==0){
                         bootbox.alert({
@@ -859,7 +896,7 @@ orgEdgexFoundry.supportNotification = (function(){
                     }
                     for(var i=0;i<statusArr.length;i++){
                         $.ajax({
-                        url:'/support-notification/api/v1/transmission/'+statusArr[i]+'/age/10000',
+                        url:'/support-notification/api/v1/transmission/'+statusArr[i]+'/age/'+transmission_age,
                         type:'DELETE',
                         error: function(){
                                 bootbox.alert({
