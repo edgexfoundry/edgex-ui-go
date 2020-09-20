@@ -884,6 +884,7 @@ orgEdgexFoundry.supportNotification = (function(){
                     } else {
                         transmission_age = new Date(transmission_age).valueOf();
                     }
+
                     var statusArr = $('#transstatus').val();
                     if(statusArr == null || statusArr == '' || statusArr.length ==0){
                         bootbox.alert({
