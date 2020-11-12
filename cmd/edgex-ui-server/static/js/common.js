@@ -60,7 +60,7 @@ var ISO8601DateStrToLocalDateStr = function (iso8601String) {
     var hour = iso8601String.substring(9,11);
     var minute = iso8601String.substring(11,13);
     var second = iso8601String.substring(13);
-    return new Date(Date.UTC(year,month,day,hour,minute,second)).Format("yyyy-MM-dd hh:mm:ss");
+    return new Date(Date.UTC(year,month-1,day,hour,minute,second)).Format("yyyy-MM-dd hh:mm:ss");
 };
 
 //YYYYMMDD'T'HHmmss
