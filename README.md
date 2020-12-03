@@ -76,6 +76,14 @@ With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* t
 
 > NOTE: if you want remote access the UI, you shuold remove the UI network in docker-compose.yml, this way you can allow the UI to live someplace else and have access to EdgeX through Kong.
 
+If you want to run edgex-ui-go with docker-compose yml file, you can reference three ways:
+
+> 1: For example [docker-compose-hanoi-ui](https://github.com/edgexfoundry/developer-scripts/blob/master/releases/hanoi/compose-files/docker-compose-hanoi-ui.yml), you can change 'networks' to the same as [docker-compose-hanoi](https://github.com/edgexfoundry/developer-scripts/blob/master/releases/hanoi/compose-files/docker-compose-hanoi.yml), and run 'docker-compose -f docker-compose-hanoi-ui.yml up -d', then the UI will connect with EdgeX Server.
+ 
+> 2: You can use the make file commands ‘make run arm64’ and ‘make run-ui arm64’ to run the Edgex Stack and UI as it uses the ‘-p edgex’ option required for the networking to link properly. 
+
+> 3: If not running from the cloned developer-scripts, you can also do this directly with ‘docker-compose -p edgex -f docker-compose-hanoi-arm64.yml up -d’ and ‘docker-compose -p edgex -f docker-compose-hanoi-ui-arm64.yml up -d’.
+
 ## Community
 - EdgeXFoundry Chinese Club: https://www.edgexfoundry.club
 - Chat: https://chat.edgexfoundry.org/home
