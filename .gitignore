@@ -1,5 +1,6 @@
 .idea/
 vendor
+web/node_modules
 *.exe
 go.sum
 *.DS_Store
