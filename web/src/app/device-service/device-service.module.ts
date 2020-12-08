@@ -24,10 +24,11 @@ import { DeviceProfileCenterComponent } from './profile/device-profile-center/de
 =======
 
 import { DeviceServiceRoutingModule } from './device-service-routing.module';
+import { DeviceServiceComponent } from './device-service.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DeviceServiceComponent],
   imports: [
     CommonModule,
     DeviceServiceRoutingModule

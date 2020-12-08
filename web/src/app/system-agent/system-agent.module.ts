@@ -19,10 +19,11 @@ import { ServiceListComponent } from './service-list/service-list.component';
 =======
 
 import { SystemAgentRoutingModule } from './system-agent-routing.module';
+import { SystemAgentComponent } from './system-agent.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [SystemAgentComponent],
   imports: [
     CommonModule,
 >>>>>>> d08a9c7... init scaffold
