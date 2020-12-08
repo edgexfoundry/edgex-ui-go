@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8f9c4f5... add part of code models with using ts, especially device , device service , command .etc.
 import { AutoEvent } from './auto-event';
 import { DeviceService } from './device-service';
 import { DeviceProfile } from './device-profile';
@@ -11,15 +14,20 @@ export interface Device extends Timestamps {
     id: string,
     name: string,
 <<<<<<< HEAD
+<<<<<<< HEAD
     description?: string,
 =======
     description: string,
 >>>>>>> d08a9c7... init scaffold
+=======
+    description?: string,
+>>>>>>> 8f9c4f5... add part of code models with using ts, especially device , device service , command .etc.
     adminState: string,
     operatingState: string,
     labels: string[],
     lastConnected: number,
     lastReported: number,
+<<<<<<< HEAD
 <<<<<<< HEAD
     service: DeviceService,
     profile: DeviceProfile,
@@ -29,4 +37,11 @@ export interface Device extends Timestamps {
 =======
     deviceService: DeviceService
 >>>>>>> d08a9c7... init scaffold
+=======
+    deviceService: DeviceService,
+    profile?: any,
+    autoEvents?: AutoEvent,
+    location?: any,
+    protocols?: any
+>>>>>>> 8f9c4f5... add part of code models with using ts, especially device , device service , command .etc.
 }
