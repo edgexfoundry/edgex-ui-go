@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DeviceServiceRoutingModule } from './device-service-routing.module';
+import { DeviceServiceComponent } from './device-service.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DeviceServiceComponent],
   imports: [
     CommonModule,
     DeviceServiceRoutingModule
