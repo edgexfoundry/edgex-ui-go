@@ -3,6 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+<<<<<<< HEAD
+=======
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
+>>>>>>> d08a9c7... init scaffold
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
@@ -16,7 +24,11 @@ const routes: Routes = [
   },
   {
     path: 'core-data',
+<<<<<<< HEAD
     loadChildren: () => import('./core-data/core-data.module').then(m => m.CoreDataModule),
+=======
+    loadChildren: () => import('./core-data/core-data.module').then(m => m.CoreDataModule)
+>>>>>>> d08a9c7... init scaffold
   },
   {
     path: 'notifications',
@@ -33,12 +45,17 @@ const routes: Routes = [
   {
     path: 'app-service',
     loadChildren: () => import('./app-service/app-service.module').then(m => m.AppServiceModule)
+<<<<<<< HEAD
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
   }
+=======
+  }
+
+>>>>>>> d08a9c7... init scaffold
 ];
 
 @NgModule({

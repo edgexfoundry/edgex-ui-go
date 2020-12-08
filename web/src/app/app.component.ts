@@ -1,13 +1,18 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd, RoutesRecognized, ChildActivationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
+=======
+import { Component } from '@angular/core';
+>>>>>>> d08a9c7... init scaffold
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+<<<<<<< HEAD
 export class AppComponent implements OnInit {
   title = 'EdgeX Console';
   isSelected: boolean = false;
@@ -113,4 +118,8 @@ export class AppComponent implements OnInit {
       this.shrink = true;
     }
   }
+=======
+export class AppComponent {
+  title = 'EdgeX Console';
+>>>>>>> d08a9c7... init scaffold
 }

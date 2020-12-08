@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< HEAD
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -57,6 +58,11 @@
               "node_modules/codemirror/addon/fold/indent-fold.js",
               "node_modules/cbor-js/cbor.js"
             ]
+=======
+              "src/styles.css"
+            ],
+            "scripts": []
+>>>>>>> d08a9c7... init scaffold
           },
           "configurations": {
             "production": {
@@ -91,8 +97,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+<<<<<<< HEAD
             "browserTarget": "web:build",
             "proxyConfig": "./proxy.conf.json"
+=======
+            "browserTarget": "web:build"
+>>>>>>> d08a9c7... init scaffold
           },
           "configurations": {
             "production": {
@@ -153,6 +163,10 @@
   },
   "defaultProject": "web",
   "cli": {
+<<<<<<< HEAD
     "analytics": "3f1e1dce-5f70-4581-a0a8-09ad75dd29e1"
+=======
+    "analytics": false
+>>>>>>> d08a9c7... init scaffold
   }
 }

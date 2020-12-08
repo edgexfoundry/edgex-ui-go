@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+<<<<<<< HEAD
 import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
@@ -8,6 +9,10 @@ const routes: Routes = [
     component: DashboardComponent
   }
 ];
+=======
+
+const routes: Routes = [];
+>>>>>>> d08a9c7... init scaffold
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

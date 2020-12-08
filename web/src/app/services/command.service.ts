@@ -1,14 +1,19 @@
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
+=======
+import { Injectable } from '@angular/core';
+>>>>>>> d08a9c7... init scaffold
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandService {
 
+<<<<<<< HEAD
   endpoint: string = "/command";
   version: string = "/api/v1";
   urlPrefix: string = `${this.endpoint}${this.version}`;
@@ -59,4 +64,7 @@ export class CommandService {
       catchError(error => this.errorSvc.handleError(error))
     )
   }
+=======
+  constructor() { }
+>>>>>>> d08a9c7... init scaffold
 }

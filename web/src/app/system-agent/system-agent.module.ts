@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { FormsModule } from '@angular/forms';
 
 
@@ -15,6 +16,16 @@ import { ServiceListComponent } from './service-list/service-list.component';
   imports: [
     CommonModule,
     FormsModule,
+=======
+
+import { SystemAgentRoutingModule } from './system-agent-routing.module';
+
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+>>>>>>> d08a9c7... init scaffold
     SystemAgentRoutingModule
   ]
 })

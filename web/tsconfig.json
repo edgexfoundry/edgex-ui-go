@@ -26,4 +26,8 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d08a9c7... init scaffold

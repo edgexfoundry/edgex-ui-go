@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { FormsModule } from '@angular/forms';
 
 import { DeviceServiceRoutingModule } from './device-service-routing.module';
@@ -20,6 +21,17 @@ import { DeviceProfileCenterComponent } from './profile/device-profile-center/de
     CommonModule,
     FormsModule,
     DeviceServiceRoutingModule,
+=======
+
+import { DeviceServiceRoutingModule } from './device-service-routing.module';
+
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+    DeviceServiceRoutingModule
+>>>>>>> d08a9c7... init scaffold
   ]
 })
 export class DeviceServiceModule { }

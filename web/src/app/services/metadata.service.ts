@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -6,12 +7,16 @@ import { Device } from '../contracts/device';
 import { DeviceProfile } from '../contracts/device-profile';
 import { DeviceService } from '../contracts/device-service';
 import { ErrorService } from './error.service';
+=======
+import { Injectable } from '@angular/core';
+>>>>>>> d08a9c7... init scaffold
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetadataService {
 
+<<<<<<< HEAD
   endpoint: string = "/metadata";
   version: string = "/api/v1";
 
@@ -205,4 +210,7 @@ export class MetadataService {
       catchError(error => this.errorSvc.handleError(error))
     )
   }
+=======
+  constructor() { }
+>>>>>>> d08a9c7... init scaffold
 }

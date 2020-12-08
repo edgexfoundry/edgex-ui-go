@@ -1,15 +1,20 @@
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SmaOperation } from '../contracts/sma-operation';
 
 import { MessageService } from '../message/message.service';
+=======
+import { Injectable } from '@angular/core';
+>>>>>>> d08a9c7... init scaffold
 
 @Injectable({
   providedIn: 'root'
 })
 export class SystemAgentService {
 
+<<<<<<< HEAD
   endpoint: string = "/system";
   version1: string = "/api/v1"
 
@@ -89,4 +94,7 @@ export class SystemAgentService {
     return this.operate(action)
   }
 
+=======
+  constructor() { }
+>>>>>>> d08a9c7... init scaffold
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+<<<<<<< HEAD
 import { DeviceServiceComponent } from './device-service.component';
 import { DeviceServiceListComponent } from './device-service-list/device-service-list.component';
 
@@ -77,6 +78,9 @@ const routes: Routes = [
     ]
   }
 ];
+=======
+const routes: Routes = [];
+>>>>>>> d08a9c7... init scaffold
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
