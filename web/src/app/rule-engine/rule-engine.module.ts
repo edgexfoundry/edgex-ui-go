@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RuleEngineRoutingModule } from './rule-engine-routing.module';
+import { RuleEngineComponent } from './rule-engine.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [RuleEngineComponent],
   imports: [
     CommonModule,
     RuleEngineRoutingModule
