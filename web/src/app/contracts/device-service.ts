@@ -1,4 +1,5 @@
-import { Timestamps } from './timestamps'
+import { Addressable } from './addressable';
+import { Timestamps } from './timestamps';
 
 export interface DeviceService extends Timestamps {
     id: string,
@@ -7,6 +8,7 @@ export interface DeviceService extends Timestamps {
     adminState: string,
     operatingState: string,
     labels: string[],
+    addressable: Addressable,
     lastConnected: number,
     lastReported: number
 }
