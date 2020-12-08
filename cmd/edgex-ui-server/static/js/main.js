@@ -196,8 +196,8 @@ $(document).ready(function () {
                 $.ajax({
                     url: '/rule-engine',
                     type: 'GET',
-                    success: function (data) {
-                        if (data.trim() == "OK") {
+                    success: function (data,status,xhr) {
+                        if (status == "success" && xhr.status == 200) {
                             renderByCheckResult(thisTab, "healthy");
                         } else {
                             renderByCheckResult(thisTab, "unhealthy");
