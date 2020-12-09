@@ -29,6 +29,7 @@
             ],
             "styles": [
 <<<<<<< HEAD
+<<<<<<< HEAD
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -60,6 +61,11 @@
             ]
 =======
               "src/styles.css"
+=======
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/font-awesome/css/font-awesome.min.css"
+>>>>>>> 65bd1bc... init index layout
             ],
             "scripts": []
 >>>>>>> d08a9c7... init scaffold
@@ -164,9 +170,13 @@
   "defaultProject": "web",
   "cli": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "analytics": "3f1e1dce-5f70-4581-a0a8-09ad75dd29e1"
 =======
     "analytics": false
 >>>>>>> d08a9c7... init scaffold
+=======
+    "analytics": "3f1e1dce-5f70-4581-a0a8-09ad75dd29e1"
+>>>>>>> 65bd1bc... init index layout
   }
 }

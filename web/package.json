@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.0.3",
     "@angular/router": "~11.0.3",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "bootstrap": "^4.5.3",
     "cbor-js": "^0.1.0",
     "codemirror": "^5.59.2",
@@ -30,6 +31,11 @@
     "popper.js": "^1.16.1",
 =======
 >>>>>>> d08a9c7... init scaffold
+=======
+    "bootstrap": "^4.5.3",
+    "bootstrap-icons": "^1.1.0",
+    "font-awesome": "^4.7.0",
+>>>>>>> 65bd1bc... init index layout
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -39,9 +45,13 @@
     "@angular/cli": "~11.0.3",
     "@angular/compiler-cli": "~11.0.3",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@angular/localize": "^11.0.3",
 =======
 >>>>>>> d08a9c7... init scaffold
+=======
+    "@angular/localize": "^11.0.3",
+>>>>>>> 65bd1bc... init index layout
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",

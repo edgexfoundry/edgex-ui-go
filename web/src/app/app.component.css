@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .sidebar {
     position: fixed;
     top:0;
@@ -17,6 +18,11 @@
 .sidebar-center {
    background-color: rgba(45,40,72, 0.9)!important;
    /* min-height: calc(100vh - 48px); */
+=======
+.sidebar-center {
+   background-color: rgba(45,40,72, 0.9)!important;
+   
+>>>>>>> 65bd1bc... init index layout
 }
 .sidebar-header {
     background-color: rgba(45,40,72)!important;
@@ -28,6 +34,7 @@
     background-color: rgba(146,44,72, 0.4) !important;
 }
 
+<<<<<<< HEAD
 .sidebar-center .nav-link:hover {
     color: rgb(146,44,72);
     background-color: rgba(146,44,72, 0.4) !important;
@@ -52,8 +59,16 @@
     left: 45px;
     right: 0;
     /* z-index: 1; */
+=======
+.center-center {
+    background-color: #DEDDDF;
+>>>>>>> 65bd1bc... init index layout
 }
 
 .center-header {
     height: 65px;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 65bd1bc... init index layout
