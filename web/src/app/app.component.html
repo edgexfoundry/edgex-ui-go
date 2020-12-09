@@ -1,1 +1,47 @@
-<router-outlet></router-outlet>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-lg-2 d-md-block sidebar px-0">
+            <div class="sidebar-center font-weight-bold text-white min-vh-100">
+                <div class="sidebar-header mw-100 p-2 " >
+                    <a class="navbar-brand " href="#">
+                        <img src="/assets/img/bg_x.png" width="40" height="40" alt="" loading="lazy">
+                    </a>
+                </div>
+                <a  class="nav-link flex-column  text-light " routerLink="/dashboard" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class=" ">Dashboard</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/system-agent" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class=" ">System</span></a>
+                <a  class="nav-link flex-column  text-light " routerLink="/device-service" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class=" ">DeviceService</span></a>
+            </div>
+            <div class="sidebar-footer">
+                
+            </div>
+        </div>
+        <div class="col-sm-10 col-md-10 col-lg-10 px-0 center">
+            <nav class="bg-light center-header p-2 font-weight-bold">
+                <div class="nav-router mw-100">
+                    <h4 class="d-inline">Current nav</h4>
+                    <h5 class="d-inline"><span class="float-right"><i class="fa fa-user-circle-o"></i> Admin</span></h5>
+                </div>
+                <div class="mw-100">
+                    <a href="#" class="text-decoration-none d-inline"><h6 class="d-inline">nav sub router</h6> </a>
+                    <h6 class="d-inline"><span class="float-right"><i class="fa fa-power-off"></i> Logout</span></h6>
+                    
+                    <!-- <div class="dropdown float-right d-inline">
+                        <button id="dropdownLangLink" type="button " class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span i18n>English</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="dropdownLangLink">
+                            <a class="dropdown-item" href="/">English</a>
+                            <a class="dropdown-item" href="/zh">中文简体</a>
+                        </div>
+                    </div> -->
+                    
+               </div>
+            </nav>
+            <div class="center-center">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+
+
