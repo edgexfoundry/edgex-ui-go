@@ -35,11 +35,15 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ad4a855... init index layout
 .sidebar-center .nav-link:hover {
     color: rgb(146,44,72);
     background-color: rgba(146,44,72, 0.4) !important;
 }
 
+<<<<<<< HEAD
 .center {
     position: absolute;
     left: 250px;
@@ -60,6 +64,12 @@
     right: 0;
     /* z-index: 1; */
 =======
+=======
+/* .sidebar-header a {
+    min-width: 300px;
+} */
+
+>>>>>>> ad4a855... init index layout
 .center-center {
 <<<<<<< HEAD
     background-color: #DEDDDF;
@@ -72,7 +82,11 @@
 .center-header {
     height: 65px;
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> 65bd1bc... init index layout
+=======
+}
+>>>>>>> ad4a855... init index layout
