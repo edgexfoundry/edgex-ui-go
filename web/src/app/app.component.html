@@ -1,50 +1,49 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2 col-md-2 col-lg-2 d-md-block sidebar px-0">
-            
+        <div class="col-sm-1 col-md-2 col-lg-2 d-md-block sidebar px-0 ">   
             <div class="sidebar-center font-weight-bold text-white min-vh-100">
                 <div class="sidebar-header mw-100 p-2 " >
-                    <a class="navbar-brand " href="#">
+                    <a class="navbar-brand">
                         <img src="/assets/img/bg_x.png" width="40" height="40" alt="" loading="lazy">
                     </a>
                 </div>
-                <a  class="nav-link flex-column  text-light" routerLink="/dashboard" routerLinkActive="active-link text-white " [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-tachometer"></i> Dashboard</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/system-agent" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-server"></i> System</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/device-service" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-gears"></i> DeviceService</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/core-data" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-database"></i> DataCenter</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/scheduler" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-clock-o"></i> Scheduler</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/notifications" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-envelope"></i> Notifications</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/rule-engine" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-sliders"></i> RuleEngine</span></a>
-                <a  class="nav-link flex-column  text-light" routerLink="/app-service" routerLinkActive="active-link text-white" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5"><i class="fa fa-cloud-upload"></i> ExportService</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-tachometer"></i> Dashboard</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/system-agent" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-server"></i> System</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/device-service" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-gears"></i> DeviceService</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/core-data" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-database"></i> DataCenter</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/scheduler" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-clock-o"></i> Scheduler</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/notifications" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-envelope"></i> Notifications</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/rule-engine" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-sliders"></i> RuleEngine</span></a>
+                <a  class="nav-link flex-column  text-light" routerLink="/app-service" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"> <span class="px-5" i18n><i class="fa fa-cloud-upload"></i> ExportService</span></a>
             </div>
             <div class="sidebar-footer">
                 
             </div>
         </div>
-        <div class="col-sm-10 col-md-10 col-lg-10 px-0 center">
-            <nav class="bg-light center-header p-2 font-weight-bold">
-                <div class="nav-router mw-100">
-                    <h4 class="d-inline">Current nav</h4>
-                    <h5 class="d-inline"><span class="float-right"><i class="fa fa-user-circle-o"></i> Admin</span></h5>
+        <div class="col-sm-11 col-md-10 col-lg-10 px-0 center">
+            <nav class="bg-light center-header px-3 pt-2 font-weight-bold">
+                <div class="nav-router mw-100 align-middle">
+                    <h4 class="d-inline ">Current nav</h4>
+                    <h5 class="d-inline float-right "><i class="fa fa-user-circle-o "></i> <span class=" ">Admin</span></h5>
+                    <div class="dropdown float-right d-inline mr-2 ">
+                        <a id="dropdownLangLink" type="button" class="p-0 btn btn-link btn-sm dropdown-toggle text-decoration-none text-reset font-weight-bold" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span i18n>English</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-sm-right font-weight-bold" aria-labelledby="dropdownLangLink">
+                            <a class="dropdown-item text-reset" href="/">English</a>
+                            <a class="dropdown-item text-reset" href="/zh">中文简体</a>
+                        </div>
+                    </div>
                     
                 </div>
-                <div class="mw-100">
-                    <a href="#" class="text-decoration-none d-inline"><h6 class="d-inline">nav sub router</h6> </a>
-                    <h6 class="d-inline"><span class="float-right"><i class="fa fa-power-off"></i> Logout</span></h6>
-                    
-                <!-- <div class="dropdown float-right d-inline">
-                        <button id="dropdownLangLink" type="button " class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span i18n>English</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="dropdownLangLink">
-                            <a class="dropdown-item" href="/">English</a>
-                            <a class="dropdown-item" href="/zh">中文简体</a>
-                        </div>
-                    </div> -->
-                    
+                <div class="mw-100 align-middle mt-1">
+                    <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> 1 sub nav  </a></h6> 
+                    <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> > 2 sub nav  </a></h6> 
+                    <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> > 3 sub nav  </a></h6> 
+                    <h6 class="d-inline float-right "><span class=""> <i class="fa fa-power-off "></i>Logout</span></h6>
                </div>
             </nav>
-            <div class="center-center">
+            <div class="center-center p-3">
                 <router-outlet></router-outlet>
             </div>
         </div>
