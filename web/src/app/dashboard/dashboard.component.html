@@ -1,12 +1,80 @@
-<p>dashboard works!</p>
+<div class="row">
+  <div class="col-4">
+    <div class="card" role="button" routerLink="/device-service">
+      <div class="card-body">
+        <h5 class="card-title">Device Services</h5>
+        <a class="card-link font-weight-bolder badge badge-info">10</a>
+        <span class="float-right badge badge-info"></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Devices</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info" routerLink="/device-service">50</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Device Profiles</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info" routerLink="/device-service"> 10</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- <div class="card">
-    <div class="card-header">
-      Featured
+<div class="row mt-3">
+  <div class="col-6">
+    <div class="card ">
+      <div class="card-body">
+        <h5 class="card-title">Schedulers</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info">10</a>
+      </div>
     </div>
-    <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Notifications</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info">10</a>
+      </div>
     </div>
-  </div> -->
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-6">
+    <div class="card shadow rounded">
+      <div class="card-body">
+        <h5 class="card-title">Events</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info">{{eventCount}}</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card shadow rounded">
+      <div class="card-body">
+        <h5 class="card-title">Readings</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info">{{readingCount}}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12">
+    <div class="card shadow rounded">
+      <div class="card-body">
+        <h5 class="card-title">System Services</h5>
+        <a href="#" class="card-link font-weight-bolder badge badge-info">10</a>
+        <a href="#" class="card-link font-weight-bolder badge badge-danger float-right">Down 0</a>
+        <a href="#" class="card-link font-weight-bolder badge badge-success float-right">Up 10</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
