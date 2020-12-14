@@ -12,6 +12,15 @@
     background-color: rgba(146,44,72, 0.4) !important;
 }
 
+.sidebar-center .nav-link:hover {
+    color: rgb(146,44,72);
+    background-color: rgba(146,44,72, 0.4) !important;
+}
+
+/* .sidebar-header a {
+    min-width: 300px;
+} */
+
 .center-center {
     /* background-color: #DEDDDF; */
 }
