@@ -5,9 +5,12 @@
 import { AutoEvent } from './auto-event';
 import { DeviceService } from './device-service';
 import { DeviceProfile } from './device-profile';
+<<<<<<< HEAD
 =======
 import { DeviceService } from './device-service';
 >>>>>>> d08a9c7... init scaffold
+=======
+>>>>>>> 66d2192... Device and DeviceService program models completed
 import { Timestamps } from './timestamps';
 
 export interface Device extends Timestamps {
@@ -39,7 +42,7 @@ export interface Device extends Timestamps {
 >>>>>>> d08a9c7... init scaffold
 =======
     deviceService: DeviceService,
-    profile?: any,
+    profile: DeviceProfile,
     autoEvents?: AutoEvent,
     location?: any,
     protocols?: any
