@@ -24,5 +24,10 @@
 	"url": "/pages/appService.html",
 	"icon":"fa fa-asterisk",
 	"children":[]
+	},{
+	"title":"CoreDataView",
+	"url": "/pages/coreDataView.html",
+	"icon":"fa fa-asterisk",
+	"children":[]
 	}
 ]

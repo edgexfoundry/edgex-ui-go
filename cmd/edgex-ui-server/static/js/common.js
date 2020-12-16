@@ -68,3 +68,25 @@ var LocalDateStrToISO8601DateStr = function (localString) {
     //iso8601 YYYY-MM-DDTHH:mm:ss.sssZ
     return new Date(localString).toISOString().replace(/\..+/,'').replace(/[-:]/g,"")
 };
+
+var UniqueArr = function UniqueArr(obj) {
+    var uniques = [];
+    var stringify = {};
+    for (var i = 0; i < obj.length; i++) {
+        var keys = Object.keys(obj[i]);
+        keys.sort(function(a, b) {
+            return (Number(a) - Number(b));
+        });
+        var str = '';
+        for (var j = 0; j < keys.length; j++) {
+            str += JSON.stringify(keys[j]);
+            str += JSON.stringify(obj[i][keys[j]]);
+        }
+        if (!stringify.hasOwnProperty(str)) {
+            uniques.push(obj[i]);
+            stringify[str] = true;
+        }
+    }
+    uniques = uniques;
+    return uniques;
+}
