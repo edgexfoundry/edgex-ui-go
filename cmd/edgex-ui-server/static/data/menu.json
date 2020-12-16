@@ -29,10 +29,13 @@
 	"url": "/pages/coreDataView.html",
 	"icon":"fa fa-asterisk",
 	"children":[]
+<<<<<<< HEAD
 	},{
 		"title":"RealTimeDataView",
 		"url": "/pages/realTimeDataView.html",
 		"icon":"fa fa-asterisk",
 		"children":[]
+=======
+>>>>>>> 98319af... core data view page complete
 	}
 ]
