@@ -1,0 +1,27 @@
+.coreDataView_wrap{
+    height: 100%;
+    width:100%;
+    margin:0 auto;
+    overflow: hidden;
+}
+.coreDataView_bottom{
+    height: 30%;
+    width: 100%;
+    min-height:300px;
+    border-top:1px solid #d6e9c6;background:#fafcfd;
+    float: left;
+}
+#coreDataView_left{
+    height: 70%;
+    width:50%;
+    min-height:500px;
+    background:#fafcfd;
+    float: left;
+}
+#coreDataView_right{
+    height: 70%;
+    width:50%;
+    min-height:500px;
+    border-left:1px solid #d6e9c6;background:#fafcfd;
+    float: right;
+}
