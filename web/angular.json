@@ -113,11 +113,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "browserTarget": "web:build",
             "proxyConfig": "./proxy.conf.json"
 =======
             "browserTarget": "web:build"
 >>>>>>> d08a9c7... init scaffold
+=======
+            "browserTarget": "web:build",
+            "proxyConfig": "./proxy.conf.json"
+>>>>>>> 9367cc6... add proxy setting
           },
           "configurations": {
             "production": {
