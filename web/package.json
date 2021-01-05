@@ -34,8 +34,14 @@
 =======
     "bootstrap": "^4.5.3",
     "bootstrap-icons": "^1.1.0",
+    "echarts": "^5.0.0",
     "font-awesome": "^4.7.0",
+<<<<<<< HEAD
 >>>>>>> 65bd1bc... init index layout
+=======
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
+>>>>>>> b83cdaa... add javascript library
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

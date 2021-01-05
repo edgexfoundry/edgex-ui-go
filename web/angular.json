@@ -67,8 +67,17 @@
               "node_modules/font-awesome/css/font-awesome.min.css"
 >>>>>>> 65bd1bc... init index layout
             ],
+<<<<<<< HEAD
             "scripts": []
 >>>>>>> d08a9c7... init scaffold
+=======
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/echarts/dist/echarts.min.js"
+            ]
+>>>>>>> b83cdaa... add javascript library
           },
           "configurations": {
             "production": {
