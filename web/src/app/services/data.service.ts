@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 =======
 >>>>>>> d08a9c7... init scaffold
+=======
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+>>>>>>> 4749e81... update and add more http service
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +16,9 @@ import { Observable, throwError } from 'rxjs';
 export class DataService {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 4749e81... update and add more http service
   endpoint: string = "/coredata";
 
   endpointHealthUrl: string = "/api/v1/ping";
@@ -35,7 +43,10 @@ export class DataService {
     return this.http.get<number>(url)
   }
 
+<<<<<<< HEAD
 =======
   constructor() { }
 >>>>>>> d08a9c7... init scaffold
+=======
+>>>>>>> 4749e81... update and add more http service
 }

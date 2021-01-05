@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -10,12 +11,21 @@ import { ErrorService } from './error.service';
 =======
 import { Injectable } from '@angular/core';
 >>>>>>> d08a9c7... init scaffold
+=======
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Device } from '../contracts/device';
+import { DeviceProfile } from '../contracts/device-profile';
+import { DeviceService } from '../contracts/device-service';
+>>>>>>> 4749e81... update and add more http service
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetadataService {
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   endpoint: string = "/metadata";
   version: string = "/api/v1";
@@ -44,12 +54,34 @@ export class MetadataService {
   deleteProfileByIdUrl: string = `${this.endpoint}${this.version}/deviceprofile/id/`;
 
   httpPostOrPutJSONOptions = {
+=======
+  endpoint: string = "/metadata";
+  devicesListUrl: string = "/api/v1/device";
+  deleteOneDeviceUrl: string = "/api/v1/device";
+  updateOneDeviceUrl: string = "/api/v1/device";
+  addOneDeviceUrl: string = "/api/v1/device";
+  findDeviceByNameUrl: string = "/api/v1/device/name";
+  findDevicesByServiceIdUrl: string = "/api/v1/device/service";
+  findDevicesByProfileIdUrl: string = "/api/v1/device/profile";
+
+
+  deviceServicesListUrl: string = "/api/v1/deviceservice";
+  updateDeviceServiceUrl: string = "/api/v1/deviceservice";
+  findDeviceServiceByIdUrl: string = "/api/v1/deviceservice";
+
+
+  deviceProfilesListUrl: string = "/api/v1/deviceprofile";
+  updateDeviceProfileUrl: string = "/api/v1/deviceprofile";
+
+  httpPostOrPutOptions = {
+>>>>>>> 4749e81... update and add more http service
     headers: new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': ''
     })
   };
 
+<<<<<<< HEAD
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
   //Device resources
@@ -120,11 +152,51 @@ export class MetadataService {
     return this.http.get<Device[]>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
+=======
+  constructor(private http: HttpClient) { }
+
+  //Device resources
+
+  addDevice(device: Device): Observable<string> {
+    let url = `${this.endpoint}${this.addOneDeviceUrl}`;
+    return this.http.post<string>(url, device, this.httpPostOrPutOptions)
+  }
+
+  deleteOneDeviceById(id: string): Observable<any> {
+    let url = `${this.endpoint}${this.deleteOneDeviceUrl}/${id}`;
+    return this.http.delete(url)
+  }
+
+  updateDevice(device: Device): Observable<any> {
+    let url = `${this.endpoint}${this.updateOneDeviceUrl}`;
+    return this.http.put(url, device, this.httpPostOrPutOptions)
+  }
+
+  findDeviceByName(name: string): Observable<Device> {
+    let url = `${this.endpoint}${this.findDeviceByNameUrl}/${name}`;
+    return this.http.get<Device>(url)
+  }
+
+  allDevices(): Observable<Device[]> {
+    let url = `${this.endpoint}${this.devicesListUrl}`;
+    return this.http.get<Device[]>(url)
+  }
+
+  findDevicesByServiceId(serviceId: string): Observable<Device[]> {
+    let url = `${this.endpoint}${this.findDevicesByServiceIdUrl}/${serviceId}`;
+    return this.http.get<Device[]>(url)
+  }
+
+  findDevicesByProfileId(profileId: string): Observable<Device[]> {
+    let url = `${this.endpoint}${this.findDevicesByProfileIdUrl}/${profileId}`;
+    return this.http.get<Device[]>(url)
+>>>>>>> 4749e81... update and add more http service
   }
 
   //Device Service resources
 
   allDeviceServices(): Observable<DeviceService[]> {
+<<<<<<< HEAD
     let url = `${this.deviceServicesListUrl}`;
     return this.http.get<DeviceService[]>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
@@ -143,11 +215,26 @@ export class MetadataService {
     return this.http.get<DeviceService>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
+=======
+    let url = `${this.endpoint}${this.deviceServicesListUrl}`;
+    return this.http.get<DeviceService[]>(url)
+  }
+
+  updateDeviceService(deviceService: DeviceService): Observable<any> {
+    let url = `${this.endpoint}${this.updateDeviceServiceUrl}`;
+    return this.http.put(url, deviceService, this.httpPostOrPutOptions)
+  }
+
+  findDevcieServiceById(id: string): Observable<DeviceService> {
+    let url = `${this.endpoint}${this.findDeviceServiceByIdUrl}/${id}`;
+    return this.http.get<DeviceService>(url)
+>>>>>>> 4749e81... update and add more http service
   }
 
   //Device Profile resources
 
   allDeviceProfoles(): Observable<DeviceProfile[]> {
+<<<<<<< HEAD
     let url = `${this.deviceProfilesListUrl}`;
     return this.http.get<DeviceProfile[]>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
@@ -213,4 +300,14 @@ export class MetadataService {
 =======
   constructor() { }
 >>>>>>> d08a9c7... init scaffold
+=======
+    let url = `${this.endpoint}${this.deviceProfilesListUrl}`;
+    return this.http.get<DeviceProfile[]>(url)
+  }
+
+  updateDeviceProfile(profile: DeviceProfile): Observable<any> {
+    let url = `${this.endpoint}${this.updateDeviceProfileUrl}`;
+    return this.http.put(url, profile, this.httpPostOrPutOptions)
+  }
+>>>>>>> 4749e81... update and add more http service
 }
