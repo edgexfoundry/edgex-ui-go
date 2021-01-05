@@ -1,9 +1,63 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SmaOperation } from '../contracts/sma-operation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SystemAgentService {
 
-  constructor() { }
+  endpoint: string = "/system";
+  version1: string = "/api/v1"
+
+  urlPrefix: string = `${this.endpoint}${this.version1}`;
+
+  endpointHealthUrl: string = "/ping";
+  versionUrl: string = "/version";
+
+  configUrl: string = "/config/";
+  metricsUrl: string = "/metrics/";
+  healthUrl: string = "/health/";
+  operationUrl: string = "/operation";
+
+  httpPostOrPutOptions = {
+    headers: new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': ''
+    })
+  };
+
+  constructor(private http: HttpClient) { }
+
+  getConfig(services: string): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}/${services}`;
+    return this.http.get(url)
+  }
+
+  getMetrics(services: string): Observable<any> {
+    let url = `${this.urlPrefix}${this.metricsUrl}/${services}`;
+    return this.http.get(url)
+  }
+
+  getHealth(services: string): Observable<any> {
+    let url = `${this.urlPrefix}${this.healthUrl}/${services}`;
+    return this.http.get(url)
+  }
+
+  //action format:
+  // {
+  //   "action":"stop",
+  //   "services":[
+  //       "edgex-support-notifications"
+  //   ],
+  //   "params":[
+  //       "graceful"
+  //       ]
+  //   }
+  operate(action: SmaOperation): Observable<any> {
+    let url = `${this.urlPrefix}${this.operationUrl}`;
+    return this.http.put(url, action, this.httpPostOrPutOptions)
+  }
+
 }
