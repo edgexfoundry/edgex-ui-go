@@ -19,5 +19,33 @@
       "pathRewrite": {
         "^/coredata": ""
       }
+    },
+    "/system": {
+        "target": "http://192.168.56.5:48090",
+        "secure": false,
+        "pathRewrite": {
+          "^/system": ""
+        }
+      },
+    "/scheduler": {
+        "target": "http://192.168.56.5:48085",
+        "secure": false,
+        "pathRewrite": {
+            "^/scheduler": ""
+        }
+    },
+    "/notifications": {
+        "target": "http://192.168.56.5:48060",
+        "secure": false,
+        "pathRewrite": {
+            "^/notifications": ""
+        }
+    },
+    "/ruleengine": {
+        "target": "http://192.168.56.5:48075",
+        "secure": false,
+        "pathRewrite": {
+            "^/ruleengine": ""
+        }
     }
   }
