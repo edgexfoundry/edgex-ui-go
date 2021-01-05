@@ -20,6 +20,9 @@
         "^/coredata": ""
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 20b789b... update with system, scheduler, notifications and ruleengine service proxy path
     },
     "/system": {
         "target": "http://192.168.56.5:48090",
@@ -48,7 +51,10 @@
         "pathRewrite": {
             "^/ruleengine": ""
         }
+<<<<<<< HEAD
 =======
 >>>>>>> cb228f5... add develop proxy setting
+=======
+>>>>>>> 20b789b... update with system, scheduler, notifications and ruleengine service proxy path
     }
   }
