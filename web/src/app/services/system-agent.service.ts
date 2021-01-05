@@ -1,13 +1,19 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cf944b9... finished system agent http service
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SmaOperation } from '../contracts/sma-operation';
+<<<<<<< HEAD
 
 import { MessageService } from '../message/message.service';
 =======
 import { Injectable } from '@angular/core';
 >>>>>>> d08a9c7... init scaffold
+=======
+>>>>>>> cf944b9... finished system agent http service
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +21,9 @@ import { Injectable } from '@angular/core';
 export class SystemAgentService {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cf944b9... finished system agent http service
   endpoint: string = "/system";
   version1: string = "/api/v1"
 
@@ -35,20 +44,35 @@ export class SystemAgentService {
     })
   };
 
+<<<<<<< HEAD
   constructor(private http: HttpClient, private msgSvc: MessageService) { }
 
   getConfig(services: string): Observable<any> {
     let url = `${this.urlPrefix}${this.configUrl}${services}`;
+=======
+  constructor(private http: HttpClient) { }
+
+  getConfig(services: string): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}/${services}`;
+>>>>>>> cf944b9... finished system agent http service
     return this.http.get(url)
   }
 
   getMetrics(services: string): Observable<any> {
+<<<<<<< HEAD
     let url = `${this.urlPrefix}${this.metricsUrl}${services}`;
+=======
+    let url = `${this.urlPrefix}${this.metricsUrl}/${services}`;
+>>>>>>> cf944b9... finished system agent http service
     return this.http.get(url)
   }
 
   getHealth(services: string): Observable<any> {
+<<<<<<< HEAD
     let url = `${this.urlPrefix}${this.healthUrl}${services}`;
+=======
+    let url = `${this.urlPrefix}${this.healthUrl}/${services}`;
+>>>>>>> cf944b9... finished system agent http service
     return this.http.get(url)
   }
 
@@ -64,6 +88,7 @@ export class SystemAgentService {
   //   }
   operate(action: SmaOperation): Observable<any> {
     let url = `${this.urlPrefix}${this.operationUrl}`;
+<<<<<<< HEAD
     return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
   }
 
@@ -97,4 +122,9 @@ export class SystemAgentService {
 =======
   constructor() { }
 >>>>>>> d08a9c7... init scaffold
+=======
+    return this.http.put(url, action, this.httpPostOrPutOptions)
+  }
+
+>>>>>>> cf944b9... finished system agent http service
 }
