@@ -19,6 +19,7 @@
       "pathRewrite": {
         "^/coredata": ""
       }
+<<<<<<< HEAD
     },
     "/system": {
         "target": "http://192.168.56.5:48090",
@@ -47,5 +48,7 @@
         "pathRewrite": {
             "^/ruleengine": ""
         }
+=======
+>>>>>>> cb228f5... add develop proxy setting
     }
   }
