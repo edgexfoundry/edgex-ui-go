@@ -16,11 +16,16 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.3.2
 >>>>>>> d556114... Bump github.com/eclipse/paho.mqtt.golang from 1.2.0 to 1.3.2
 	github.com/edgexfoundry/go-mod-registry v0.1.11
+<<<<<<< HEAD
 =======
 >>>>>>> 98d62be... Bump github.com/edgexfoundry/go-mod-registry from 0.1.11 to 0.1.27
 	github.com/gorilla/mux v1.7.1
 >>>>>>> 21a2d52... Bump github.com/gorilla/websocket from 1.4.0 to 1.4.2
 	github.com/gorilla/websocket v1.4.2
+=======
+	github.com/gorilla/mux v1.8.0
+	github.com/gorilla/websocket v1.4.0
+>>>>>>> fc2b687... Bump github.com/gorilla/mux from 1.7.1 to 1.8.0
 	github.com/hashicorp/consul/api v1.4.0 // indirect
 	github.com/hashicorp/go-hclog v0.12.2 // indirect
 	github.com/hashicorp/go-immutable-radix v1.2.0 // indirect
