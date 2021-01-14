@@ -17,6 +17,10 @@ require (
 	github.com/hashicorp/serf v0.9.0 // indirect
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mitchellh/mapstructure v1.2.2 // indirect
+<<<<<<< HEAD
+=======
+	github.com/mitchellh/reflectwalk v1.0.1 // indirect
+>>>>>>> f24d25d... Bump github.com/pelletier/go-toml from 1.7.0 to 1.8.1
 	github.com/pelletier/go-toml v1.8.1
 	golang.org/x/crypto v0.0.0-20191106202628-ed6320f186d4 // indirect
 	golang.org/x/sys v0.0.0-20200409092240-59c9f1ba88fa // indirect
