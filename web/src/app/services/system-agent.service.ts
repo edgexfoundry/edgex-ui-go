@@ -15,6 +15,8 @@ import { Injectable } from '@angular/core';
 =======
 >>>>>>> cf944b9... finished system agent http service
 
+import { MessageService } from '../message/message.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -45,6 +47,7 @@ export class SystemAgentService {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   constructor(private http: HttpClient, private msgSvc: MessageService) { }
 
   getConfig(services: string): Observable<any> {
@@ -55,24 +58,38 @@ export class SystemAgentService {
   getConfig(services: string): Observable<any> {
     let url = `${this.urlPrefix}${this.configUrl}/${services}`;
 >>>>>>> cf944b9... finished system agent http service
+=======
+  constructor(private http: HttpClient, private msgSvc: MessageService) { }
+
+  getConfig(services: string): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}${services}`;
+>>>>>>> 727932f... Finished system agent module basic feature
     return this.http.get(url)
   }
 
   getMetrics(services: string): Observable<any> {
 <<<<<<< HEAD
+<<<<<<< HEAD
     let url = `${this.urlPrefix}${this.metricsUrl}${services}`;
 =======
     let url = `${this.urlPrefix}${this.metricsUrl}/${services}`;
 >>>>>>> cf944b9... finished system agent http service
+=======
+    let url = `${this.urlPrefix}${this.metricsUrl}${services}`;
+>>>>>>> 727932f... Finished system agent module basic feature
     return this.http.get(url)
   }
 
   getHealth(services: string): Observable<any> {
 <<<<<<< HEAD
+<<<<<<< HEAD
     let url = `${this.urlPrefix}${this.healthUrl}${services}`;
 =======
     let url = `${this.urlPrefix}${this.healthUrl}/${services}`;
 >>>>>>> cf944b9... finished system agent http service
+=======
+    let url = `${this.urlPrefix}${this.healthUrl}${services}`;
+>>>>>>> 727932f... Finished system agent module basic feature
     return this.http.get(url)
   }
 
@@ -89,6 +106,9 @@ export class SystemAgentService {
   operate(action: SmaOperation): Observable<any> {
     let url = `${this.urlPrefix}${this.operationUrl}`;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 727932f... Finished system agent module basic feature
     return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
   }
 
@@ -117,6 +137,7 @@ export class SystemAgentService {
       "params": ["graceful"]
     }
     return this.operate(action)
+<<<<<<< HEAD
   }
 
 =======
@@ -124,6 +145,8 @@ export class SystemAgentService {
 >>>>>>> d08a9c7... init scaffold
 =======
     return this.http.put(url, action, this.httpPostOrPutOptions)
+=======
+>>>>>>> 727932f... Finished system agent module basic feature
   }
 
 >>>>>>> cf944b9... finished system agent http service
