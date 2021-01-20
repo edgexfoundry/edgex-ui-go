@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 .sidebar {
     position: fixed;
     top:0;
@@ -23,6 +24,20 @@
    background-color: rgba(45,40,72, 0.9)!important;
    
 >>>>>>> 65bd1bc... init index layout
+=======
+.sidebar {
+    /* min-width: 180px; */
+    /* width: 40px; */
+    /* z-index: 2; */
+}
+
+.sidebar-center {
+   background-color: rgba(45,40,72, 0.9)!important;
+   /* min-height: calc(100vh - 48px); */
+   /* max-width: 60px; */
+    
+    /* z-index: 2; */
+>>>>>>> 3b9ffd7... Update app routing and import others module format
 }
 .sidebar-header {
     background-color: rgba(45,40,72)!important;

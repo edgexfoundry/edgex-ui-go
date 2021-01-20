@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     path: '',
     redirectTo: 'dashboard',
@@ -11,6 +12,8 @@ const routes: Routes = [
   },
   {
 >>>>>>> d08a9c7... init scaffold
+=======
+>>>>>>> 3b9ffd7... Update app routing and import others module format
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
@@ -25,10 +28,14 @@ const routes: Routes = [
   {
     path: 'core-data',
 <<<<<<< HEAD
+<<<<<<< HEAD
     loadChildren: () => import('./core-data/core-data.module').then(m => m.CoreDataModule),
 =======
     loadChildren: () => import('./core-data/core-data.module').then(m => m.CoreDataModule)
 >>>>>>> d08a9c7... init scaffold
+=======
+    loadChildren: () => import('./core-data/core-data.module').then(m => m.CoreDataModule),
+>>>>>>> 3b9ffd7... Update app routing and import others module format
   },
   {
     path: 'notifications',
@@ -46,16 +53,23 @@ const routes: Routes = [
     path: 'app-service',
     loadChildren: () => import('./app-service/app-service.module').then(m => m.AppServiceModule)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3b9ffd7... Update app routing and import others module format
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
+<<<<<<< HEAD
   }
 =======
   }
 
 >>>>>>> d08a9c7... init scaffold
+=======
+  }
+>>>>>>> 3b9ffd7... Update app routing and import others module format
 ];
 
 @NgModule({
