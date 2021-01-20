@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd, RoutesRecognized } from '@angular/router';
+
 
 @Component({
   selector: 'app-system-agent',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SystemAgentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activatedRoute.url
+      .subscribe(url => console.log('The URL changed to: ' + url));
   }
 
 }

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SmaOperation } from '../contracts/sma-operation';
 
+import { MessageService } from '../message/message.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,20 +30,20 @@ export class SystemAgentService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private msgSvc: MessageService) { }
 
   getConfig(services: string): Observable<any> {
-    let url = `${this.urlPrefix}${this.configUrl}/${services}`;
+    let url = `${this.urlPrefix}${this.configUrl}${services}`;
     return this.http.get(url)
   }
 
   getMetrics(services: string): Observable<any> {
-    let url = `${this.urlPrefix}${this.metricsUrl}/${services}`;
+    let url = `${this.urlPrefix}${this.metricsUrl}${services}`;
     return this.http.get(url)
   }
 
   getHealth(services: string): Observable<any> {
-    let url = `${this.urlPrefix}${this.healthUrl}/${services}`;
+    let url = `${this.urlPrefix}${this.healthUrl}${services}`;
     return this.http.get(url)
   }
 
@@ -57,7 +59,34 @@ export class SystemAgentService {
   //   }
   operate(action: SmaOperation): Observable<any> {
     let url = `${this.urlPrefix}${this.operationUrl}`;
-    return this.http.put(url, action, this.httpPostOrPutOptions)
+    return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
+  }
+
+  start(name: string): Observable<any> {
+    let action = {
+      "action": "start",
+      "services": [name],
+      "params": ["graceful"]
+    }
+    return this.operate(action)
+  }
+
+  restart(name: string): Observable<any> {
+    let action = {
+      "action": "restart",
+      "services": [name],
+      "params": ["graceful"]
+    }
+    return this.operate(action)
+  }
+
+  stop(name: string): Observable<any> {
+    let action = {
+      "action": "stop",
+      "services": [name],
+      "params": ["graceful"]
+    }
+    return this.operate(action)
   }
 
 }

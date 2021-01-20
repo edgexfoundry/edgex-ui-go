@@ -1,0 +1,72 @@
+<div class="card mb-3">
+    <div class="card-header font-weight-bold">
+        <i class="fa fa-wrench"></i> Setting
+    </div>
+    <div class="card-body">
+        <div class="media">
+            <div class="align-self-center mr-3">
+               <i class="fa fa-server fa-3x color-edgex-red"></i>  
+            </div>
+            <div class="media-body">
+              <div class="d-inline font-weight-bold ml-3 float-right">
+                    <span class="badge badge-primary mr-1">executor </span>
+                    <span *ngIf="metrics" class="text-weight">{{metrics.executor}}</span>  
+              </div>
+              <h5 class="mt-0 font-weight-bold">{{service}} <span class="badge badge-success">up</span></h5>
+              
+              <div class="font-weight-bold d-inline">
+                <span class="badge badge-info mr-2">mem_usage</span>
+                <span *ngIf="metrics" class="text-weight">{{metrics.result.raw.mem_usage}} </span>  
+              </div>
+             
+              <div class="font-weight-bold ml-2 d-inline">
+                <span class="badge badge-warning mr-1">cpu_usage</span>
+                <span *ngIf="metrics" class="text-weight">{{metrics.result.cpuUsedPercent}}%</span>  
+              </div>
+
+              <div class="font-weight-bold ml-2 d-inline">
+                <span class="badge badge-primary mr-1">net_io</span>
+                <span *ngIf="metrics" class="text-weight">{{metrics.result.raw.net_io}}</span>  
+              </div>
+              
+            </div>
+        </div>
+        <div class="input-group mb-3 mt-3" style="width: 200px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text ">Refresh Rate</span>
+            </div>
+            <select class="form-control" [(ngModel)]="refreshRate" (ngModelChange)="onRateSelect()">
+                <option selected value=3>3s</option>
+                <option value=5>5s</option>
+                <option value=10>10s</option>
+                <option value=15>15s</option>
+              </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-area-chart"></i>Memory usage</div>
+            <div class="card-body overflow-auto">
+                <div id="memory-usage" style="width: 100%;height:300px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-area-chart"></i>CPU usage</div>
+            <div class="card-body overflow-auto">
+                <div id="cpu-usage" style="width: 100%;height:300px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 ">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-area-chart"></i>Network traffic</div>
+            <div class="card-body overflow-auto">
+                <div id="network-usage" style="width: 100%;height:300px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
