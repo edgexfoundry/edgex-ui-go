@@ -21,11 +21,19 @@ export class MessageService {
   constructor() { }
 
   success(operation = 'operation', message?: string) {
+<<<<<<< HEAD
     this.messages.push({ class: `alert alert-success shadow rounded alert-dismissible fade show`, content: `${operation} success! ${message ? message : ''}` });
   }
 
   errors(message: string) {
     this.messages.push({ class: `alert alert-danger shadow rounded alert-dismissible fade show`, content: message });
+=======
+    this.messages.push({ class: `alert alert-success shadow rounded`, content: `${operation} success! ${message ? message : ''}` });
+  }
+
+  error(message: string) {
+    this.messages.push({ class: `alert alert-danger shadow rounded`, content: message });
+>>>>>>> dd08687... update system message bud
   }
 
   clear() {
