@@ -30,12 +30,18 @@
 	"icon":"fa fa-asterisk",
 	"children":[]
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e5cb8e8... add realtime data page
 	},{
 		"title":"RealTimeDataView",
 		"url": "/pages/realTimeDataView.html",
 		"icon":"fa fa-asterisk",
 		"children":[]
+<<<<<<< HEAD
 =======
 >>>>>>> 98319af... core data view page complete
+=======
+>>>>>>> e5cb8e8... add realtime data page
 	}
 ]
