@@ -32,6 +32,7 @@ export interface Device extends Timestamps {
     lastReported: number,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     service: DeviceService,
     profile: DeviceProfile,
     autoEvents: AutoEvent[],
@@ -42,9 +43,16 @@ export interface Device extends Timestamps {
 >>>>>>> d08a9c7... init scaffold
 =======
     deviceService: DeviceService,
+=======
+    service: DeviceService,
+>>>>>>> 8630cdf... Update device interface
     profile: DeviceProfile,
-    autoEvents?: AutoEvent,
+    autoEvents: AutoEvent[],
     location?: any,
+<<<<<<< HEAD
     protocols?: any
 >>>>>>> 8f9c4f5... add part of code models with using ts, especially device , device service , command .etc.
+=======
+    protocols: any
+>>>>>>> 8630cdf... Update device interface
 }
