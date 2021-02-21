@@ -62,6 +62,7 @@ export class DeviceProfileListComponent implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');
   }
@@ -79,6 +80,21 @@ export class DeviceProfileListComponent implements OnInit {
       });
     });
     $("#deleteConfirmDialog").modal('hide');
+=======
+  delete() {
+    this.selectedProfiles.forEach((profileId) => {
+      this.metaSvc.deleteProfileById(profileId).subscribe(() => {
+        this.profileList.forEach((profile, index) => {
+          if (profile.id == profileId) {
+            this.profileList.splice(index, 1);
+          }
+        });
+
+        this.selectedProfiles = [];
+        this.msgSvc.success('delete', `  id: ${profileId}`);
+      });
+    });
+>>>>>>> 75ad599... Add Device Profile Center component for internal router
   }
 
   selectAll(event: any) {

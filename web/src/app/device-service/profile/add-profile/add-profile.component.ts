@@ -29,7 +29,16 @@ export class AddProfileComponent implements OnInit {
     let myTextarea = document.getElementById('editor');
     this.codeMirrorEditor = CodeMirror.fromTextArea(myTextarea, {
       mode: "yaml",
+<<<<<<< HEAD
       theme: "gruvbox-dark",
+=======
+      // theme: "3024-night",
+      theme: "gruvbox-dark",
+      // theme: "elegant",
+      // theme: "abcdef",
+      // theme: "material-darker",
+      // theme: "base16-dark",
+>>>>>>> 75ad599... Add Device Profile Center component for internal router
       foldGutter: true,
       smartIndent: true,
       showCursorWhenSelecting: true,
@@ -49,12 +58,20 @@ export class AddProfileComponent implements OnInit {
     });
     this.codeMirrorEditor.setSize('auto', '600px')
     this.codeMirrorEditor.on('drop', (instance: any, event: Event) => {
+<<<<<<< HEAD
       // console.log((event as DragEvent).dataTransfer?.files)
+=======
+      console.log((event as DragEvent).dataTransfer?.files)
+>>>>>>> 75ad599... Add Device Profile Center component for internal router
       this.yamlFile = (event as DragEvent).dataTransfer?.files[0];
     });
 
     this.codeMirrorEditor.on('paste', (instance: any, event: Event) => {
+<<<<<<< HEAD
       // console.log(event)
+=======
+      console.log(event)
+>>>>>>> 75ad599... Add Device Profile Center component for internal router
       // console.log((event as DragEvent).dataTransfer?.files)
       // this.yamlFile = (event as DragEvent).dataTransfer?.files[0];
     });
@@ -65,6 +82,7 @@ export class AddProfileComponent implements OnInit {
 
     this.profileYamlSource = this.codeMirrorEditor.getValue()
 
+<<<<<<< HEAD
     // let blob = new Blob([this.profileYamlSource]);
     // console.log(this.profileYamlSource)
     // let formData = new FormData();
@@ -79,5 +97,20 @@ export class AddProfileComponent implements OnInit {
       this.msgSvc.success('Add profile');
       this.router.navigate(['../device-profile-list'], { relativeTo: this.route })
     });
+=======
+    let blob = new Blob([this.profileYamlSource]);
+    console.log(this.profileYamlSource)
+    let formData = new FormData();
+    // formData.set('file', this.yamlFile as File, (this.yamlFile as File).name)
+    formData.set('file', blob, 'ssssss');
+    this.metaSvc.uploadProfileYamlFile(formData).subscribe(() => {
+      this.msgSvc.success('submit');
+      this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
+    });
+    // this.metaSvc.uploadProfileYamlContent(this.profileYamlSource).subscribe((data: string) => {
+    //   this.msgSvc.success('submit');
+    //   this.router.navigate(['../device-profile-list'], { relativeTo: this.route })
+    // });
+>>>>>>> 75ad599... Add Device Profile Center component for internal router
   }
 }
