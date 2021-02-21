@@ -33,13 +33,15 @@
 >>>>>>> d08a9c7... init scaffold
 =======
     "bootstrap": "^4.5.3",
-    "bootstrap-icons": "^1.1.0",
+    "cbor-js": "^0.1.0",
+    "codemirror": "^5.59.2",
     "echarts": "^5.0.0",
     "font-awesome": "^4.7.0",
 <<<<<<< HEAD
 >>>>>>> 65bd1bc... init index layout
 =======
     "jquery": "^3.5.1",
+    "json-stream-compression": "0.0.2",
     "popper.js": "^1.16.1",
 >>>>>>> b83cdaa... add javascript library
     "rxjs": "~6.6.0",
@@ -72,9 +74,13 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "typescript": "~4.0.5"
 =======
     "typescript": "~4.0.2"
 >>>>>>> d08a9c7... init scaffold
+=======
+    "typescript": "~4.0.5"
+>>>>>>> b69b47d... Update system config files for new dependency
   }
 }
