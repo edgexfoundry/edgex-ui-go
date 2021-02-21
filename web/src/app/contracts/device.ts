@@ -12,9 +12,9 @@ export interface Device extends Timestamps {
     labels: string[],
     lastConnected: number,
     lastReported: number,
-    deviceService: DeviceService,
+    service: DeviceService,
     profile: DeviceProfile,
-    autoEvents?: AutoEvent,
+    autoEvents: AutoEvent[],
     location?: any,
-    protocols?: any
+    protocols: any
 }
