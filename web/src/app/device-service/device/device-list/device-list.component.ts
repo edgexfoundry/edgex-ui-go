@@ -79,6 +79,7 @@ export class DeviceListComponent implements OnInit {
     })
   }
 
+<<<<<<< HEAD
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');
   }
@@ -91,12 +92,25 @@ export class DeviceListComponent implements OnInit {
           if (device.id === deviceId) {
             this.deviceList.splice(index, 1);
             this.msgSvc.success('remove device ', ` Name: ${device.name}`);
+=======
+  delete() {
+    this.selectedDevice.forEach((deviceId) => {
+      this.metaSvc.deleteOneDeviceById(deviceId).subscribe(() => {
+        this.msgSvc.success('remove device ', ` ID: ${deviceId}`);
+        this.selectedDevice = [];
+        this.deviceList.forEach((device: Device, index) => {
+          if (device.id === deviceId) {
+            this.deviceList.splice(index, 1)
+>>>>>>> a32ed8e... Add Device Center component for internal router
             return
           }
         });
       });
     });
+<<<<<<< HEAD
     $("#deleteConfirmDialog").modal('hide');
+=======
+>>>>>>> a32ed8e... Add Device Center component for internal router
   }
 
   checkAutoEvent(device: Device) {
@@ -159,6 +173,10 @@ export class DeviceListComponent implements OnInit {
     });
 
     this.cmdSvc.findCommnadsByDeviceId(deviceId).subscribe((data) => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> a32ed8e... Add Device Center component for internal router
       //hide auto events list when check command
       this.associatedAutoEventsDeviceName = "";
 
@@ -174,6 +192,10 @@ export class DeviceListComponent implements OnInit {
   selectCmd(cmd: Command) {
     this.selectedCmd = cmd;
     this.selectedCmdPutParams = cmd.put?.parameterNames;
+<<<<<<< HEAD
+=======
+
+>>>>>>> a32ed8e... Add Device Center component for internal router
     this.resetResponse();
   }
 
@@ -228,6 +250,11 @@ export class DeviceListComponent implements OnInit {
       return
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a32ed8e... Add Device Center component for internal router
     this.cmdSvc
       .issueGetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)
       .subscribe((data: any) => {

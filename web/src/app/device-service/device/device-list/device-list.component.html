@@ -1,6 +1,10 @@
 <div class="card">
     <div class="card-header"><i class="fa fa-list text-danger"></i> Device List</div>
+<<<<<<< HEAD
     <div class="card-body p-0 position-relative">
+=======
+    <div class="card-body p-0">
+>>>>>>> a32ed8e... Add Device Center component for internal router
         <div class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
@@ -12,13 +16,22 @@
                 <button type="button" class="btn btn-success" (click)="edit()" [disabled]="selectedDevice.length !== 1">
                     <span><i class="fa fa-edit mr-1"></i>Edit</span>
                 </button>
+<<<<<<< HEAD
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedDevice.length === 0">
+=======
+                <button type="button" class="btn btn-danger" (click)="delete()" [disabled]="selectedDevice.length === 0">
+>>>>>>> a32ed8e... Add Device Center component for internal router
                     <span><i class="fa fa-trash mr-1"></i>Delete</span>
                 </button>
               </div>
         </div>
+<<<<<<< HEAD
         <div class="table-responsive ">
             <table class="table table-hover text-truncate ">
+=======
+        <div class="table-responsive">
+            <table class="table table-hover text-truncate">
+>>>>>>> a32ed8e... Add Device Center component for internal router
                 <thead class="thead-light">
                     <tr>
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
@@ -253,6 +266,7 @@
             <h5 class="text-warning"> <i class="fa fa-warning"></i> no associated commands</h5>
         </div>
     </div>
+<<<<<<< HEAD
 </ng-template>
 
 <div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
@@ -274,3 +288,6 @@
         </div>
     </div>
 </div>
+=======
+</ng-template>
+>>>>>>> a32ed8e... Add Device Center component for internal router
