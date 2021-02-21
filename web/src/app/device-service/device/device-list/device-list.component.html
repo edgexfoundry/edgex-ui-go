@@ -1,0 +1,256 @@
+<div class="card">
+    <div class="card-header"><i class="fa fa-list text-danger"></i> Device List</div>
+    <div class="card-body p-0">
+        <div class="bg-light px-2 py-2">
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-primary" (click)="refresh()">
+                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                </button>
+                <button type="button" class="btn btn-info"  routerLink="../add-device">
+                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                </button>
+                <button type="button" class="btn btn-success" (click)="edit()" [disabled]="selectedDevice.length !== 1">
+                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                </button>
+                <button type="button" class="btn btn-danger" (click)="delete()" [disabled]="selectedDevice.length === 0">
+                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                </button>
+              </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover text-truncate">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Labels</th>
+                      <th scope="col">Command</th>
+                      <th scope="col">AutoEvents</th>
+                      <th scope="col">AssociatedProfile</th>
+                      <th scope="col">AssociatedService</th>
+                      <th scope="col">AdminState</th>
+                      <th scope="col">OperatingState</th>
+                      <th scope="col">Created</th>
+                      <th scope="col">Modified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let device of deviceList" [class.table-active]="isChecked(device.id) || associatedCmdDeviceName === device.name || associatedAutoEventsDeviceName === device.name">
+                        <td> <input type="checkbox" role="button"  [checked]="isChecked(device.id)" (click)="selectOne($event,device.id)"></td>
+                        <td class="user-select-all">{{device.id}}</td>
+                        <td class="user-select-all">{{device.name}}</td>
+                        <td>{{device.description}}</td>
+                        <td>{{device.labels}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary text-light" [class.badge-danger]="associatedCmdDeviceName === device.name"  role="button" (click)="checkDeviceCommand(device.id)">
+                                <i class="fa fa-terminal font-weight-bolder"></i>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-primary text-light" [class.badge-danger]="associatedAutoEventsDeviceName === device.name" role="button" (click)="checkAutoEvent(device)">
+                                <i class="fa fa-calendar-check-o font-weight-bolder"></i>
+                            </span>
+                        </td>
+                        <td>
+                            <a routerLink="../../device-profile-center" [queryParams]="{'profileId':device.profile.id}">{{device.profile.name}}</a>
+                        </td>
+                        <td>
+                            <a routerLink="../../device-service-list">{{device.service.name}}</a> 
+                        </td>
+                        <td>{{device.adminState}}</td>
+                        <td>{{device.operatingState}}</td>
+                        <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted p-1">
+        <nav aria-label="navigation">
+            <ul class="pagination justify-content-end m-0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="javascript:void(0)">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div *ngIf="associatedAutoEventsDeviceName">
+    <div *ngIf="autoEvents; else noAutoEvents">
+        <div class="card mt-3">
+            <div class="card-header">
+                <span class="badge badge-danger text-light">
+                    <i class="fa fa-calendar-check-o font-weight-bolder"></i>
+                </span>
+                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span> Associated AutoEvents
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover text-truncate">
+                        <thead class="thead-light">
+                            <th scope="col">Resource</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Onchange</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let event of autoEvents">
+                                <td>{{event.resource}}</td>
+                                <td><span class="badge badge-secondary badge-pill">{{event.frequency}}</span></td>
+                                <td><span class="">{{event.onChange}}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #noAutoEvents>
+        <div class="card mt-3">
+            <div class="card-header">
+                <span class="badge badge-danger text-light">
+                    <i class="fa fa-calendar-check-o font-weight-bolder"></i>
+                </span>
+                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span> Associated AutoEvents
+            </div>
+            <div class="card-body text-center">
+                <h5 class="text-warning"> <i class="fa fa-warning"></i> no associated AutoEvents</h5>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<div *ngIf="associatedCmdDeviceName">
+    <div *ngIf="deviceCommand; then hasAssociatedCommand else noAssociatedCommand"></div>
+</div>
+
+<ng-template #hasAssociatedCommand>
+    <div class="card mt-3">
+        <div class="card-header">
+            <span class="badge badge-danger text-light">
+                <i class="fa fa-terminal font-weight-bolder"></i>
+            </span>
+            <span class="text-primary ml-2 font-weight-bold">{{associatedCmdDeviceName}}</span>
+             Associated Commands
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 col-lg-2">
+                    <div class="card mb-2">
+                        <div class="card-header font-weight-bold">
+                            Command Name List
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                <li *ngFor="let cmd of deviceCommand" role="button" class="list-group-item list-group-item-action" [class.list-group-item-info]='selectedCmd?.id === cmd.id' (click)="selectCmd(cmd)">{{cmd.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-lg-10">
+                    <div *ngIf="selectedCmd" class="card">
+                        <div class="card-header">
+                            <span class="text-primary font-weight-bold mr-2"><i class="fa fa-thumb-tack text-danger mr-1"></i> {{selectedCmd.name}} method:</span>  
+                            <span>Get and Set</span> 
+                        </div>
+                        <div class="card-body px-2">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5">
+                                    <div class="card mb-2">
+                                        <div class="card-header">
+                                            Get
+                                            <button *ngIf="selectedCmd.get" (click)="issueGetCmd()" class="btn btn-primary btn-sm float-right">try</button>
+                                        </div>
+                                        <div class="card-body overflow-auto">
+                                            <div *ngIf="selectedCmd.get; then hasGetMethod else noGetMethod"></div>
+                                            <ng-template #hasGetMethod>
+                                                <div>
+                                                    <span class="badge badge-info">Response:</span>  
+                                                    <span *ngIf="cmdGetResponse" class="ml-2 text-primary"> {{cmdGetResponse}}</span>
+                                                    <!-- <img *ngIf="cmdBinaryResponse; else noSupportedMediaType" src="{{cmdBinaryResponseURL}}">
+                                                    <ng-template #noSupportedMediaType>
+                                                        <h6 class="text-warning"> <i class="fa fa-warning"></i> the mediaType only supports image/jpeg, image/jpg, image/png</h6>
+                                                    </ng-template> -->
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span class="badge badge-info">ResponseRaw:</span>
+                                                    <pre *ngIf="cmdGetResponseRaw" class="mt-2 bg-secondary p-2 text-light rounded">{{cmdGetResponseRaw}}</pre>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template #noGetMethod>
+                                                <h6 class="text-warning"> <i class="fa fa-warning"></i> no Get method</h6>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-lg-7">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Set
+                                            <button *ngIf="selectedCmd.put" (click)="issueSetCmd()" class="btn btn-primary btn-sm float-right">try</button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div *ngIf="selectedCmd.put; then hasPutMethod else noPutMethod"></div>
+
+                                            <ng-template #hasPutMethod>
+                                                <div *ngIf="selectedCmdPutParams" class="card mb-2">
+                                                    <div class="card-header">Set Parameters</div>
+                                                    <div class="card-body">
+                                                        <div *ngIf="selectedCmd" class="d-flex flex-column bd-highlight">
+                                                            <div *ngFor="let p of selectedCmdPutParams" class="form p-2 bd-highlight">
+                                                                <label for="{{p}}">{{p}}</label>
+                                                                <input id="{{p}}" name="{{p}}" class="form-control form-control-sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    
+                                                <div>
+                                                    <div>
+                                                        <span class="badge badge-info"> Response:</span>
+                                                        <span *ngIf="cmdSetResponse" class="ml-2 text-primary">{{cmdSetResponse}}</span>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <span class="badge badge-info"> ResponseRaw:</span>
+                                                        <pre *ngIf="cmdSetResponseRaw" class="mt-2 bg-secondary p-2 text-light rounded">{{cmdSetResponseRaw}}</pre>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template #noPutMethod>
+                                                <h6 class="text-warning"> <i class="fa fa-warning"></i> no Put method</h6>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template  #noAssociatedCommand>
+    <div class="card mt-3">
+        <div class="card-header">
+            <span class="badge badge-danger text-light">
+                <i class="fa fa-terminal font-weight-bolder"></i>
+            </span>
+            <span class="text-primary mx-1 font-weight-bold">{{associatedCmdDeviceName}}</span>
+             Associated Commands
+        </div>
+        <div class="card-body text-center">
+            <h5 class="text-warning"> <i class="fa fa-warning"></i> no associated commands</h5>
+        </div>
+    </div>
+</ng-template>
