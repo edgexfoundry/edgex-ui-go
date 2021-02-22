@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header"><i class="fa fa-list text-danger"></i> Device List</div>
-    <div class="card-body p-0">
+    <div class="card-body p-0 position-relative">
         <div class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
@@ -17,8 +17,8 @@
                 </button>
               </div>
         </div>
-        <div class="table-responsive">
-            <table class="table table-hover text-truncate">
+        <div class="table-responsive ">
+            <table class="table table-hover text-truncate ">
                 <thead class="thead-light">
                     <tr>
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>

@@ -82,11 +82,11 @@ export class DeviceListComponent implements OnInit {
   delete() {
     this.selectedDevice.forEach((deviceId) => {
       this.metaSvc.deleteOneDeviceById(deviceId).subscribe(() => {
-        this.msgSvc.success('remove device ', ` ID: ${deviceId}`);
         this.selectedDevice = [];
         this.deviceList.forEach((device: Device, index) => {
           if (device.id === deviceId) {
-            this.deviceList.splice(index, 1)
+            this.deviceList.splice(index, 1);
+            this.msgSvc.success('remove device ', ` Name: ${device.name}`);
             return
           }
         });
