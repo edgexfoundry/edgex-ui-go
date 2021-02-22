@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Command } from '../contracts/command';
-
-import { MessageService } from '../message/message.service';
+import { catchError, tap } from 'rxjs/operators';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +10,8 @@ import { MessageService } from '../message/message.service';
 export class CommandService {
 
   endpoint: string = "/command";
-  version1: string = "/api/v1";
-  urlPrefix: string = `${this.endpoint}${this.version1}`;
+  version: string = "/api/v1";
+  urlPrefix: string = `${this.endpoint}${this.version}`;
 
   endpointHealthUrl: string = "/ping";
   versionUrl: string = "/version";
@@ -26,7 +25,7 @@ export class CommandService {
     })
   };
 
-  constructor(private http: HttpClient, private msgSvc: MessageService) { }
+  constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
   findCommnadsByDeviceId(deviceId: string): Observable<any> {
     let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}`;
@@ -37,12 +36,16 @@ export class CommandService {
     let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
     return this.http.request('GET', url, {
       responseType: 'arraybuffer'
-    })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   issueGetCmd(deviceId: string, commandId: string): Observable<any> {
     let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
-    return this.http.get(url)
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   issueSetCmd(deviceId: string, commandId: string, params?: any): Observable<any> {
@@ -50,6 +53,8 @@ export class CommandService {
     return this.http.request('PUT', url, {
       body: JSON.stringify(params),
       responseType: 'text'
-    });
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 }
