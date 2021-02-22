@@ -22,6 +22,7 @@ export class MessageService {
 
   success(operation = 'operation', message?: string) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.messages.push({ class: `alert alert-success shadow rounded alert-dismissible fade show`, content: `${operation} success! ${message ? message : ''}` });
   }
 
@@ -34,6 +35,13 @@ export class MessageService {
   error(message: string) {
     this.messages.push({ class: `alert alert-danger shadow rounded`, content: message });
 >>>>>>> dd08687... update system message bud
+=======
+    this.messages.push({ class: `alert alert-success shadow rounded alert-dismissible fade show`, content: `${operation} success! ${message ? message : ''}` });
+  }
+
+  errors(message: string) {
+    this.messages.push({ class: `alert alert-danger shadow rounded alert-dismissible fade show`, content: message });
+>>>>>>> 7904af6... Update msg component for new message formater
   }
 
   clear() {
