@@ -8,6 +8,7 @@ require (
 <<<<<<< HEAD
 	github.com/eclipse/paho.mqtt.golang v1.3.2
 	github.com/edgexfoundry/go-mod-registry v0.1.27
+<<<<<<< HEAD
 	github.com/gorilla/mux v1.8.0
 =======
 	github.com/eclipse/paho.mqtt.golang v1.2.0
@@ -15,6 +16,8 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.3.2
 >>>>>>> d556114... Bump github.com/eclipse/paho.mqtt.golang from 1.2.0 to 1.3.2
 	github.com/edgexfoundry/go-mod-registry v0.1.11
+=======
+>>>>>>> 98d62be... Bump github.com/edgexfoundry/go-mod-registry from 0.1.11 to 0.1.27
 	github.com/gorilla/mux v1.7.1
 >>>>>>> 21a2d52... Bump github.com/gorilla/websocket from 1.4.0 to 1.4.2
 	github.com/gorilla/websocket v1.4.2
@@ -28,9 +31,12 @@ require (
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mitchellh/mapstructure v1.2.2 // indirect
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	github.com/mitchellh/reflectwalk v1.0.1 // indirect
 >>>>>>> f24d25d... Bump github.com/pelletier/go-toml from 1.7.0 to 1.8.1
+=======
+>>>>>>> 98d62be... Bump github.com/edgexfoundry/go-mod-registry from 0.1.11 to 0.1.27
 	github.com/pelletier/go-toml v1.8.1
 	golang.org/x/crypto v0.0.0-20191106202628-ed6320f186d4 // indirect
 	golang.org/x/sys v0.0.0-20200409092240-59c9f1ba88fa // indirect
