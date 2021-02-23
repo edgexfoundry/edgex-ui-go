@@ -1,0 +1,33 @@
+<ul class="list-group p-0">
+    <li *ngFor="let svc of deviceServiceList" class="list-group-item list-group-item-action list-group-item-light">
+        <div class="media">
+            <div class="align-self-center mr-3">
+                <i class="fa fa-tags fa-2x text-secondary"></i>  
+            </div>
+            <div class="media-body">
+                <div class="mt-0 mb-1">
+                    <h5 class="d-inline mr-3 align-middle text-dark">{{svc.name}}</h5>
+                    <span class="float-right">
+                        <i class="fa fa-calendar align-baseline text-primary"></i><span class="badge badge-light align-baseline"> {{svc.created | date:'yyyy-MM-dd hh:mm:ss'}}</span>
+                    </span>
+                </div>
+                <p *ngIf="svc.description; else nodesc">{{svc.description}}</p>
+                <ng-template #nodesc> <p class="my-1">no description.</p> </ng-template>
+                <div>
+                    <span class="badge badge-info mr-3">Port {{svc.addressable.port}}</span>
+                    <span [ngSwitch]="svc.adminState">
+                        <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success mr-3">{{svc.adminState}}</span> 
+                        <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.adminState}}</span> 
+                    </span>
+                   <span [ngSwitch]="svc.operatingState">
+                        <span *ngSwitchCase="'ENABLED'" class="badge badge-success mr-3">{{svc.operatingState}}</span>
+                        <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.operatingState}}</span>
+                   </span>
+
+                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.id)">Associated Devices &nbsp; {{associatedDevices.get(svc.id)}}</a>
+                    <span class="badge badge-secondary float-right" role="button"> <i class="fa fa-cog"></i> Setting</span>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

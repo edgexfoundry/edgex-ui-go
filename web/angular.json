@@ -30,13 +30,32 @@
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/font-awesome/css/font-awesome.min.css"
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/3024-night.css",
+              "node_modules/codemirror/theme/material-darker.css",
+              "node_modules/codemirror/theme/base16-dark.css",
+              "node_modules/codemirror/theme/abcdef.css",
+              "node_modules/codemirror/theme/elegant.css",
+              "node_modules/codemirror/theme/gruvbox-dark.css",
+              "node_modules/codemirror/addon/scroll/simplescrollbars.css",
+              "node_modules/codemirror/addon/fold/foldgutter.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/echarts/dist/echarts.min.js"
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/codemirror/lib/codemirror.js",
+              "node_modules/codemirror/mode/yaml/yaml.js",
+              "node_modules/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js",
+              "node_modules/codemirror/keymap/sublime.js",
+              "node_modules/codemirror/addon/scroll/simplescrollbars.js",
+              "node_modules/codemirror/addon/fold/foldcode.js",
+              "node_modules/codemirror/addon/fold/foldgutter.js",
+              "node_modules/codemirror/addon/mode/loadmode.js",
+              "node_modules/codemirror/addon/fold/indent-fold.js",
+              "node_modules/cbor-js/cbor.js"
             ]
           },
           "configurations": {

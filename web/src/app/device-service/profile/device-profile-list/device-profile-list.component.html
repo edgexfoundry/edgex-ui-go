@@ -1,0 +1,82 @@
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-th-list text-danger"></i> Device Profile List
+    </div>
+    <div class="card-body p-0">
+        <div class="bg-light px-2 py-2">
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-primary" (click)="refresh()">
+                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                </button>
+                <button type="button" class="btn btn-info"  routerLink="../add-profile">
+                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                </button>
+                <button type="button" class="btn btn-success" (click)="edit()"  data-toggle="tooltip" data-placement="top" title="only one should be selected" [disabled]="selectedProfiles.length !== 1">
+                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                </button>
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedProfiles.length === 0">
+                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                </button>
+              </div>
+              <button class="btn btn-secondary btn-sm text-light ml-3">upload yaml file</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover text-truncate">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col"><input type="checkbox" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">AssociatedDevice</th>
+                      <th scope="col">Labels</th>
+                      <th scope="col">Manufacturer</th>
+                      <th scope="col">Model</th>
+                      <th scope="col">Created</th>
+                      <th scope="col">Modified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let profile of profileList" [class.table-active]="isChecked(profile.id)">
+                        <td> <input type="checkbox" value="{{profile.id}}" [checked]="isChecked(profile.id)" (click)="selectOne($event,profile.id)"></td>
+                        <td class="user-select-all">{{profile.id}}</td>
+                        <td class="user-select-all">{{profile.name}}</td>
+                        <td>{{profile.description}}</td>
+                        <td class="text-center">
+                            <span >
+
+                            </span>
+                            <a routerLink="../../device-center" class="badge badge-pill badge-primary" [queryParams]="{'profileId':profile.id}"><i class="fa fa-link"></i></a>
+                        </td>
+                        <td>{{profile.labels}}</td>
+                        <td>{{profile.manufacturer}}</td>
+                        <td>{{profile.model}}</td>
+                        <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+  
+<div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
+                    <i class="fa fa-warning"></i>
+                    Warning
+                </h5>  
+            </div>
+            <div class="modal-body">
+                The data will be permanently erased!!! Are you sure to execute delete operation？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
