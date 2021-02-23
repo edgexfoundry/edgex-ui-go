@@ -1,0 +1,51 @@
+{
+    "/metadata": {
+      "target": "http://192.168.56.5:48081",
+      "secure": false,
+      "pathRewrite": {
+        "^/metadata": ""
+      }
+    },
+    "/command": {
+      "target": "http://192.168.56.5:48082",
+      "secure": false,
+      "pathRewrite": {
+        "^/command": ""
+      }
+    },
+    "/coredata": {
+      "target": "http://192.168.56.5:48080",
+      "secure": false,
+      "pathRewrite": {
+        "^/coredata": ""
+      }
+    },
+    "/system": {
+        "target": "http://192.168.56.5:48090",
+        "secure": false,
+        "pathRewrite": {
+          "^/system": ""
+        }
+      },
+    "/scheduler": {
+        "target": "http://192.168.56.5:48085",
+        "secure": false,
+        "pathRewrite": {
+            "^/scheduler": ""
+        }
+    },
+    "/notifications": {
+        "target": "http://192.168.56.5:48060",
+        "secure": false,
+        "pathRewrite": {
+            "^/notifications": ""
+        }
+    },
+    "/ruleengine": {
+        "target": "http://192.168.56.5:48075",
+        "secure": false,
+        "pathRewrite": {
+            "^/ruleengine": ""
+        }
+    }
+  }
