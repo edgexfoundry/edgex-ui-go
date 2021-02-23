@@ -79,6 +79,10 @@ export class DeviceListComponent implements OnInit {
     })
   }
 
+  deleteConfirm() {
+    $("#deleteConfirmDialog").modal('show');
+  }
+
   delete() {
     this.selectedDevice.forEach((deviceId) => {
       this.metaSvc.deleteOneDeviceById(deviceId).subscribe(() => {
@@ -92,6 +96,7 @@ export class DeviceListComponent implements OnInit {
         });
       });
     });
+    $("#deleteConfirmDialog").modal('hide');
   }
 
   checkAutoEvent(device: Device) {
@@ -154,7 +159,6 @@ export class DeviceListComponent implements OnInit {
     });
 
     this.cmdSvc.findCommnadsByDeviceId(deviceId).subscribe((data) => {
-
       //hide auto events list when check command
       this.associatedAutoEventsDeviceName = "";
 
@@ -170,7 +174,6 @@ export class DeviceListComponent implements OnInit {
   selectCmd(cmd: Command) {
     this.selectedCmd = cmd;
     this.selectedCmdPutParams = cmd.put?.parameterNames;
-
     this.resetResponse();
   }
 
@@ -224,8 +227,6 @@ export class DeviceListComponent implements OnInit {
       //   })
       return
     }
-
-
 
     this.cmdSvc
       .issueGetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)

@@ -62,19 +62,23 @@ export class DeviceProfileListComponent implements OnInit {
     });
   }
 
+  deleteConfirm() {
+    $("#deleteConfirmDialog").modal('show');
+  }
+
   delete() {
     this.selectedProfiles.forEach((profileId) => {
       this.metaSvc.deleteProfileById(profileId).subscribe(() => {
+        this.selectedProfiles = [];
         this.profileList.forEach((profile, index) => {
           if (profile.id == profileId) {
             this.profileList.splice(index, 1);
+            this.msgSvc.success('delete', `  Name: ${profile.name}`);
           }
         });
-
-        this.selectedProfiles = [];
-        this.msgSvc.success('delete', `  id: ${profileId}`);
       });
     });
+    $("#deleteConfirmDialog").modal('hide');
   }
 
   selectAll(event: any) {

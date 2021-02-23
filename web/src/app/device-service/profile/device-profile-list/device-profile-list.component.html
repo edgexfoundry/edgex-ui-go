@@ -14,7 +14,7 @@
                 <button type="button" class="btn btn-success" (click)="edit()"  data-toggle="tooltip" data-placement="top" title="only one should be selected" [disabled]="selectedProfiles.length !== 1">
                     <span><i class="fa fa-edit mr-1"></i>Edit</span>
                 </button>
-                <button type="button" class="btn btn-danger" (click)="delete()" [disabled]="selectedProfiles.length === 0">
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedProfiles.length === 0">
                     <span><i class="fa fa-trash mr-1"></i>Delete</span>
                 </button>
               </div>
@@ -59,3 +59,24 @@
         </div>
     </div>
 </div>
+  
+<div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
+                <i class="fa fa-warning"></i>
+                Warning
+            </h5>  
+        </div>
+        <div class="modal-body">
+            The data will be permanently erased. Are you sure you want to delete ？
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+        </div>
+        </div>
+    </div>
+</div>
+
