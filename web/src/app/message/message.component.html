@@ -1,0 +1,10 @@
+<div *ngIf="messageService.messages.length"  class="position-fixed overflow-hidden text-break" style="top: 10px; right: 0;min-width: 260px; max-width: 300px;z-index: 999;">
+    <div *ngFor='let message of messageService.messages'>
+        <div [class]="message.class" role="alert" >
+            {{message.content}}
+            <button type="button" class="btn btn-lg close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>

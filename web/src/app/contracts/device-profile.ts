@@ -1,3 +1,5 @@
+import { Command } from './command';
+import { DeviceResource } from './device-resource';
 import { Timestamps } from './timestamps';
 
 export interface DeviceProfile extends Timestamps {
@@ -6,8 +8,8 @@ export interface DeviceProfile extends Timestamps {
     description?: string,
     manufacturer?: string,
     model?: string,
-    labels?: string[]
-    // deviceResources
-    // deviceCommands
-    // coreCommands
+    labels?: string[],
+    deviceResources: DeviceResource[]
+    deviceCommands: DeviceProfile[],
+    coreCommands: Command[]
 }

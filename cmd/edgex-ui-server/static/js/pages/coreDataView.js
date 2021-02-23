@@ -37,9 +37,6 @@ orgEdgexFoundry.coreDataView = (function () {
         this.pieLegendData = [];
         this.pieReadingData = [];
         this.pieValueDescriptorData = [];
-        this.deviceServiceData = [];
-        this.deviceData = [];
-        this.deviceprofileData = [];
 
     }
     CoreDataView.prototype = {
@@ -435,8 +432,6 @@ orgEdgexFoundry.coreDataView = (function () {
 
         var option2 = {
             title: {
-                /*text: '南丁格尔玫瑰图',
-                subtext: '纯属虚构',*/
                 left: 'center'
             },
             tooltip: {
