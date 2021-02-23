@@ -29,5 +29,10 @@
 	"url": "/pages/coreDataView.html",
 	"icon":"fa fa-asterisk",
 	"children":[]
+	},{
+		"title":"RealTimeDataView",
+		"url": "/pages/realTimeDataView.html",
+		"icon":"fa fa-asterisk",
+		"children":[]
 	}
 ]
