@@ -30,7 +30,7 @@
     top:0;
     left: 0;
     width: 250px;
-    z-index: 5;
+    z-index: 1;
 }
 
 .sidebar-shrink {
@@ -38,7 +38,7 @@
     top:0;
     left: 0;
     width: 45px;
-    z-index: 5;
+    z-index: 1;
 }
 
 .sidebar-center {
@@ -80,16 +80,21 @@
     left: 250px;
     right: 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
     /* z-index: 1; */
 =======
     z-index: 1;
 >>>>>>> 5a07c68... Update App component for sidebar responsive layout
+=======
+    /* z-index: 1; */
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
 }
 
 .center-shrink {
     position: absolute;
     left: 45px;
     right: 0;
+<<<<<<< HEAD
 <<<<<<< HEAD
     /* z-index: 1; */
 }
@@ -115,14 +120,21 @@
 >>>>>>> 65f645d... init router for each module, sidebar init
 =======
     z-index: 1;
+=======
+    /* z-index: 1; */
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
 }
 
 .center-no-shrink {
     position: absolute;
     left: 45px;
     right: 0;
+<<<<<<< HEAD
     z-index: 1;
 >>>>>>> 5a07c68... Update App component for sidebar responsive layout
+=======
+    /* z-index: 1; */
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
 }
 
 .center-header {

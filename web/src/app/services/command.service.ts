@@ -75,8 +75,14 @@ export class CommandService {
 
   findCommnadsByDeviceId(deviceId: string): Observable<any> {
     let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}`;
+<<<<<<< HEAD
     return this.http.get(url);
 >>>>>>> 55f18fb... Update url splicing formate with version variable
+=======
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   }
 
   issueGetBinaryCmd(deviceId: string, commandId: string): Observable<any> {

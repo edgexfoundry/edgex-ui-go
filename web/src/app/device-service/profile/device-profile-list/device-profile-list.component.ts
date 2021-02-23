@@ -63,10 +63,14 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');
   }
 
+<<<<<<< HEAD
   delete() {
     this.selectedProfiles.forEach((profileId) => {
       this.metaSvc.deleteProfileById(profileId).subscribe(() => {
@@ -81,20 +85,25 @@ export class DeviceProfileListComponent implements OnInit {
     });
     $("#deleteConfirmDialog").modal('hide');
 =======
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   delete() {
     this.selectedProfiles.forEach((profileId) => {
       this.metaSvc.deleteProfileById(profileId).subscribe(() => {
+        this.selectedProfiles = [];
         this.profileList.forEach((profile, index) => {
           if (profile.id == profileId) {
             this.profileList.splice(index, 1);
+            this.msgSvc.success('delete', `  Name: ${profile.name}`);
           }
         });
-
-        this.selectedProfiles = [];
-        this.msgSvc.success('delete', `  id: ${profileId}`);
       });
     });
+<<<<<<< HEAD
 >>>>>>> 75ad599... Add Device Profile Center component for internal router
+=======
+    $("#deleteConfirmDialog").modal('hide');
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   }
 
   selectAll(event: any) {

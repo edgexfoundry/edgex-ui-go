@@ -80,10 +80,14 @@ export class DeviceListComponent implements OnInit {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');
   }
 
+<<<<<<< HEAD
   delete() {
     this.selectedDevice.forEach((deviceId) => {
       this.metaSvc.deleteOneDeviceById(deviceId).subscribe(() => {
@@ -93,6 +97,8 @@ export class DeviceListComponent implements OnInit {
             this.deviceList.splice(index, 1);
             this.msgSvc.success('remove device ', ` Name: ${device.name}`);
 =======
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   delete() {
     this.selectedDevice.forEach((deviceId) => {
       this.metaSvc.deleteOneDeviceById(deviceId).subscribe(() => {
@@ -112,9 +118,13 @@ export class DeviceListComponent implements OnInit {
       });
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
     $("#deleteConfirmDialog").modal('hide');
 =======
 >>>>>>> a32ed8e... Add Device Center component for internal router
+=======
+    $("#deleteConfirmDialog").modal('hide');
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
   }
 
   checkAutoEvent(device: Device) {
@@ -178,9 +188,12 @@ export class DeviceListComponent implements OnInit {
 
     this.cmdSvc.findCommnadsByDeviceId(deviceId).subscribe((data) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> a32ed8e... Add Device Center component for internal router
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
       //hide auto events list when check command
       this.associatedAutoEventsDeviceName = "";
 
@@ -197,9 +210,12 @@ export class DeviceListComponent implements OnInit {
     this.selectedCmd = cmd;
     this.selectedCmdPutParams = cmd.put?.parameterNames;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> a32ed8e... Add Device Center component for internal router
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
     this.resetResponse();
   }
 
@@ -255,10 +271,13 @@ export class DeviceListComponent implements OnInit {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
 >>>>>>> a32ed8e... Add Device Center component for internal router
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
     this.cmdSvc
       .issueGetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)
       .subscribe((data: any) => {

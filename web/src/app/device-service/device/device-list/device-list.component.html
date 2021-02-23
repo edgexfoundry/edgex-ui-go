@@ -21,10 +21,14 @@
                     <span><i class="fa fa-edit mr-1"></i>Edit</span>
                 </button>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedDevice.length === 0">
 =======
                 <button type="button" class="btn btn-danger" (click)="delete()" [disabled]="selectedDevice.length === 0">
 >>>>>>> a32ed8e... Add Device Center component for internal router
+=======
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedDevice.length === 0">
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
                     <span><i class="fa fa-trash mr-1"></i>Delete</span>
                 </button>
               </div>
@@ -276,11 +280,15 @@
         </div>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
 </ng-template>
 
 <div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+<<<<<<< HEAD
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
                     <i class="fa fa-warning"></i>
@@ -300,3 +308,21 @@
 =======
 </ng-template>
 >>>>>>> a32ed8e... Add Device Center component for internal router
+=======
+        <div class="modal-header">
+            <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
+                <i class="fa fa-warning"></i>
+                Warning
+            </h5>  
+        </div>
+        <div class="modal-body">
+            The data will be permanently erased. Are you sure you want to delete ？
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+        </div>
+        </div>
+    </div>
+</div>
+>>>>>>> dc1a989... Add errorHandler for all services and Add delete dialog for all delete operations
