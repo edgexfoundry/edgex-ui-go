@@ -1,0 +1,11 @@
+/* input {
+    width: 300px;
+}
+
+select {
+    width: 300px;
+} */
+
+.btn[disabled]:hover {
+    cursor: not-allowed;
+}
