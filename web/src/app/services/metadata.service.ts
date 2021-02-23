@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Device } from '../contracts/device';
 import { DeviceProfile } from '../contracts/device-profile';
 import { DeviceService } from '../contracts/device-service';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,10 +45,9 @@ export class MetadataService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
   //Device resources
-
   addDevice(device: Device): Observable<string> {
     let url = `${this.addOneDeviceUrl}`;
     return this.http.request('POST', url, {
@@ -55,12 +56,16 @@ export class MetadataService {
       headers: new HttpHeaders({
         'Content-type': 'application/json'
       })
-    })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   deleteOneDeviceById(id: string): Observable<any> {
     let url = `${this.deleteOneDeviceUrl}/id/${id}`;
-    return this.http.delete(url)
+    return this.http.delete(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   updateDevice(device: Device): Observable<any> {
@@ -71,63 +76,84 @@ export class MetadataService {
       headers: new HttpHeaders({
         'Content-type': 'application/json'
       })
-    })
-    // return this.http.put(url, device, this.httpPostOrPutJSONOptions)
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   findDeviceByName(name: string): Observable<Device> {
     let url = `${this.findDeviceByNameUrl}/${name}`;
-    return this.http.get<Device>(url)
+    return this.http.get<Device>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   findDeviceById(id: string): Observable<Device> {
     let url = `${this.findDeviceByIdUrl}/${id}`;
-    return this.http.get<Device>(url)
+    return this.http.get<Device>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
 
   allDevices(): Observable<Device[]> {
     let url = `${this.devicesListUrl}`;
-    return this.http.get<Device[]>(url)
+    return this.http.get<Device[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   findDevicesByServiceId(serviceId: string): Observable<Device[]> {
     let url = `${this.findDevicesByServiceIdUrl}/${serviceId}`;
-    return this.http.get<Device[]>(url)
+    return this.http.get<Device[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   findDevicesByProfileId(profileId: string): Observable<Device[]> {
     let url = `${this.findDevicesByProfileIdUrl}/${profileId}`;
-    return this.http.get<Device[]>(url)
+    return this.http.get<Device[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   //Device Service resources
 
   allDeviceServices(): Observable<DeviceService[]> {
     let url = `${this.deviceServicesListUrl}`;
-    return this.http.get<DeviceService[]>(url)
+    return this.http.get<DeviceService[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   updateDeviceService(deviceService: DeviceService): Observable<any> {
     let url = `${this.updateDeviceServiceUrl}`;
-    return this.http.put(url, deviceService, this.httpPostOrPutJSONOptions)
+    return this.http.put(url, deviceService, this.httpPostOrPutJSONOptions).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   findDevcieServiceById(id: string): Observable<DeviceService> {
     let url = `${this.findDeviceServiceByIdUrl}/${id}`;
-    return this.http.get<DeviceService>(url)
+    return this.http.get<DeviceService>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   //Device Profile resources
 
   allDeviceProfoles(): Observable<DeviceProfile[]> {
     let url = `${this.deviceProfilesListUrl}`;
-    return this.http.get<DeviceProfile[]>(url)
+    return this.http.get<DeviceProfile[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   findProfileById(id: string): Observable<DeviceProfile> {
     let url = `${this.findProfilesByIdUrl}/${id}`;
-    return this.http.get<DeviceProfile>(url)
+    return this.http.get<DeviceProfile>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   uploadProfileYamlFile(data: any): Observable<any> {
@@ -138,12 +164,16 @@ export class MetadataService {
       // headers: new HttpHeaders({
       //   'Content-Type': 'multipart/form-data; charset=utf-8'
       // })
-    })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   updateDeviceProfile(profile: DeviceProfile): Observable<any> {
     let url = `${this.updateDeviceProfileUrl}`;
-    return this.http.put(url, profile, this.httpPostOrPutJSONOptions)
+    return this.http.put(url, profile, this.httpPostOrPutJSONOptions).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   // updateProfileYamlContent():Observable<any> {
@@ -158,7 +188,9 @@ export class MetadataService {
       headers: new HttpHeaders({
         'Content-Type': 'text/plain; charset=utf-8'
       })
-    })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   //deprecated
@@ -169,6 +201,8 @@ export class MetadataService {
 
   deleteProfileById(id: string): Observable<any> {
     let url = `${this.deleteProfileByIdUrl}${id}`;
-    return this.http.delete(url)
+    return this.http.delete(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 }
