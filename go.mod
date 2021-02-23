@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/armon/go-metrics v0.3.3 // indirect
-	github.com/eclipse/paho.mqtt.golang v1.2.0
+	github.com/eclipse/paho.mqtt.golang v1.3.2
 	github.com/edgexfoundry/go-mod-registry v0.1.11
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
