@@ -5,3 +5,7 @@ export interface BaseResponse extends Versionable {
     message: any,
     statusCode: number
 }
+
+export interface BaseWithIdResponse extends BaseResponse {
+    id: string
+}
