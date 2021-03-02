@@ -1,0 +1,125 @@
+.wizard {
+    visibility: hidden;
+    width: 100%;
+    display: block;
+    padding: 0;
+}
+.wizard nav {
+    position: relative;
+    width: 100%;
+    background-color: #eeeeee;
+}
+@media (min-width: 768px) {
+    .wizard nav {
+        float: left !important;
+        width: 180px;
+        height: 100%;
+    }
+}
+.wizard nav .wizard-nav-header {
+    color: #ffffff;
+    background-color: #2383c4;
+}
+.wizard nav .wizard-nav-header .navbar-toggle {
+    width: 32px;
+    height: 32px;
+}
+.wizard nav .wizard-nav-header h3.wizard-nav-title {
+    margin: 0;
+    line-height: 2;
+}
+.wizard nav .nav-wizard > li {
+    width: 100%;
+}
+.wizard nav .nav-wizard > li > a {
+    color: #777777;
+    background-color: #dddddd;
+}
+.wizard nav .nav-wizard > li > a i {
+    font-size: 18px;
+    margin-right: 10px;
+}
+.wizard nav .nav-wizard > li > a .caret {
+    float: right !important;
+}
+.wizard nav .nav-wizard > li.visited > a {
+    color: #428bca;
+    background-color: #dddddd;
+}
+.wizard nav .nav-wizard > li.visited > a:hover {
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #1b6699;
+}
+.wizard nav .nav-wizard > li.active > a {
+    color: #ffffff;
+    background-color: #2383c4;
+}
+.wizard nav .nav-wizard > li.active > a .caret {
+    border-top: 0;
+    border-bottom: 4px solid;
+    content: "";
+}
+.wizard nav .nav-wizard > li.disabled > a {
+    color: #cccccc;
+    background-color: transparent;
+}
+.wizard nav .nav-wizard > li > ul > li > a {
+    padding-left: 30px;
+    color: #777777;
+    background-color: #e5e5e5;
+}
+.wizard nav .nav-wizard > li > ul > li.visited > a {
+    color: #428bca;
+    background-color: #e5e5e5;
+}
+.wizard nav .nav-wizard > li > ul > li.visited > a:hover {
+    font-weight: 600;
+    color: #1b6699;
+    background-color: #d8d8d8;
+}
+.wizard nav .nav-wizard > li > ul > li.active > a {
+    color: #2383c4;
+    background-color: #d8d8d8;
+}
+.wizard nav .nav-wizard > li > ul > li.disabled > a {
+    color: #cccccc;
+    background-color: transparent;
+}
+.wizard nav .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.wizard .wizard-body {
+    color: #333333;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 15px;
+}
+.wizard .wizard-body .wizard-content .wizard-title {
+    margin-top: 0;
+    font-weight: 500;
+}
+.wizard .wizard-body .wizard-footer {
+    height: 50px;
+    padding-top: 15px;
+}
+.wizard .wizard-body .wizard-footer button.wizard-submit {
+    display: none;
+}
+.wizard .wizard-body .wizard-footer button.wizard-cancel {
+    display: none;
+}
+@media (min-width: 768px) {
+    .wizard .wizard-body {
+        margin: 0 0 0 180px;
+    }
+}
+.wizard .wizard-pane {
+    visibility: hidden;
+    width: 100%;
+    overflow: hidden;
+    padding-right: 20px;
+}
