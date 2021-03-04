@@ -8,7 +8,9 @@ import { BaseWithIdResponse,BaseResponse } from '../contracts/v2/common/base-res
 import { Device } from '../contracts/v2/device';
 import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
 import { DeviceProfile } from '../contracts/v2/device-profile';
-import { DeviceService } from '../contracts/device-service';
+import { DeviceService } from '../contracts/v2/device-service';
+import { DeviceServiceResponse,MultiDeviceServiceResponse } from '../contracts/v2/responses/device-service-response';
+
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -32,9 +34,11 @@ export class MetadataService {
   findDevicesByProfileIdUrl: string = `${this.urlPrefix}/device/profile/id/`;
   findDevicesByProfileNameUrl: string = `${this.urlPrefix}/device/profile/name/`;
 
-  deviceServicesListUrl: string = `${this.urlPrefix}/deviceservice`;
+  deviceServicesListUrl: string = `${this.urlPrefix}/deviceservice/all`;
   updateDeviceServiceUrl: string = `${this.urlPrefix}/deviceservice`;
-  findDeviceServiceByIdUrl: string = `${this.urlPrefix}/deviceservice`;
+  findDeviceServiceByIdUrl: string = `${this.urlPrefix}/deviceservice/id/`;
+  findDeviceServiceByNameUrl: string = `${this.urlPrefix}/deviceservice/name/`;
+
 
 
   deviceProfilesListUrl: string = `${this.urlPrefix}/deviceprofile/all`;
@@ -147,9 +151,9 @@ export class MetadataService {
 
   //Device Service resources
 
-  allDeviceServices(): Observable<DeviceService[]> {
+  allDeviceServices(): Observable<MultiDeviceServiceResponse> {
     let url = `${this.deviceServicesListUrl}`;
-    return this.http.get<DeviceService[]>(url).pipe(
+    return this.http.get<MultiDeviceServiceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
@@ -161,9 +165,17 @@ export class MetadataService {
     )
   }
 
-  findDevcieServiceById(id: string): Observable<DeviceService> {
-    let url = `${this.findDeviceServiceByIdUrl}/${id}`;
-    return this.http.get<DeviceService>(url).pipe(
+  //deprecated
+  findDevcieServiceById(id: string): Observable<DeviceServiceResponse> {
+    let url = `${this.findDeviceServiceByIdUrl}${id}`;
+    return this.http.get<DeviceServiceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findDevcieServiceByName(name: string): Observable<DeviceServiceResponse> {
+    let url = `${this.findDeviceServiceByNameUrl}${name}`;
+    return this.http.get<DeviceServiceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }

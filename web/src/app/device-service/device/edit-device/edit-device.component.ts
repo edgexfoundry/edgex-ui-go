@@ -3,8 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
-import { Device } from '../../../contracts/device';
-import { DeviceService } from '../../../contracts/device-service';
+import { Device } from '../../../contracts/v2/device';
+import { DeviceResponse } from '../../../contracts/v2/responses/device-response';
+import { DeviceService } from '../../../contracts/v2/device-service';
+import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
 import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 import { AutoEvent } from '../../../contracts/auto-event';
@@ -53,9 +55,9 @@ export class EditDeviceComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      let deviceId = params['deviceId'];
-      this.metaSvc.findDeviceById(deviceId).subscribe((data: Device) => {
-        this.device = data;
+      let deviceName = params['deviceName'];
+      this.metaSvc.findDeviceByName(deviceName).subscribe((data: DeviceResponse) => {
+        this.device = data.device;
 
         this.setAutoEventInternal(this.device.autoEvents)
 
@@ -65,10 +67,10 @@ export class EditDeviceComponent implements OnInit {
         }
 
 
-        this.metaSvc.allDeviceServices().subscribe((data: DeviceService[]) => {
-          this.deviceServiceList = data;
+        this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
+          this.deviceServiceList = data.services;
           this.deviceServiceList.forEach((svc) => {
-            if (svc.name === this.device?.service.name) {
+            if (svc.name === this.device?.serviceName) {
               this.selectedSvc = svc;
               return
             }
@@ -78,7 +80,7 @@ export class EditDeviceComponent implements OnInit {
         this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
           this.deviceProfileList = data.profiles;
           this.deviceProfileList.forEach((profile) => {
-            if (profile.name === this.device?.profile.name) {
+            if (profile.name === this.device?.profileName) {
               this.selectedProfile = profile;
               return
             }
@@ -197,8 +199,8 @@ export class EditDeviceComponent implements OnInit {
     let protocol: protocol = {};
     let properties: properties = {};
 
-    d.service = this.selectedSvc as DeviceService;
-    d.profile = this.selectedProfile as DeviceProfile;
+    d.serviceName = this.selectedSvc?.name as string;
+    d.profileName = this.selectedProfile?.name as string;
 
     this.protocolPropertyList.forEach(p => {
       properties[p.key] = p.value;

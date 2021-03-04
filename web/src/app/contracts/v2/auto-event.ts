@@ -1,5 +1,5 @@
 export interface AutoEvent {
-    frequency:string,
+    frequency: string,
     onChange: boolean,
     resource: string
 }

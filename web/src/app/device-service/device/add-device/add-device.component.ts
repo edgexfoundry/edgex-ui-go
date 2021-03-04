@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { DeviceService } from '../../../contracts/device-service';
-import { Device } from '../../../contracts/device';
+import { DeviceService } from '../../../contracts/v2/device-service';
+import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
+import { Device } from '../../../contracts/v2/device';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
 import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
-import { AutoEvent } from '../../../contracts/auto-event';
+import { AutoEvent } from '../../../contracts/v2/auto-event';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
@@ -103,8 +104,8 @@ export class AddDeviceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.metaSvc.allDeviceServices().subscribe((data: DeviceService[]) => {
-      this.deviceServiceList = data;
+    this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
+      this.deviceServiceList = data.services;
     });
     this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
       this.deviceProfileList = data.profiles;
@@ -312,8 +313,8 @@ export class AddDeviceComponent implements OnInit {
       labels: this.deviceLabels,
       adminState: this.deviceAdminState,
       operatingState: this.deviceOperatingState,
-      service: this.selectedSvc as DeviceService,
-      profile: this.selectedProfile as DeviceProfile,
+      serviceName: this.selectedSvc?.name as string,
+      profileName: this.selectedProfile?.name as string,
       protocols: protocol,
       autoEvents: autoEvents
     } as Device

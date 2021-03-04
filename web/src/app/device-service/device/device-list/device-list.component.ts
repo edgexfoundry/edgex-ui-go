@@ -4,10 +4,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MetadataService } from '../../../services/metadata.service';
 import { CommandService } from '../../../services/command.service';
 import { MessageService } from '../../../message/message.service';
-import { Device } from '../../../contracts/device';
+import { DeviceResponse,MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
+import { Device } from '../../../contracts/v2/device';
 import { Command } from '../../../contracts/command';
-import { AutoEvent } from 'src/app/contracts/auto-event';
+import { AutoEvent } from '../../../contracts/v2/auto-event';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { DeviceProfileResponse,MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 // import * as cbor from 'cbor';
 
 @Component({
@@ -18,7 +20,7 @@ import { DeviceProfile } from '../../../contracts/v2/device-profile';
 export class DeviceListComponent implements OnInit {
 
   deviceList: Device[] = [];
-  selectedDevice: string[] = [];
+  selectedDevice: Device[] = [];
   associateDeviceProfile?: DeviceProfile;
   isCheckedAll: boolean = false;
   autoEvents?: AutoEvent[];
@@ -47,11 +49,11 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      if (params['svcId']) {
-        this.metaSvc.findDevicesByServiceId(params['svcId']).subscribe((data: Device[]) => this.deviceList = data);
+      if (params['svcName']) {
+        this.metaSvc.findDevicesByServiceName(params['svcName']).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
         return
-      } else if (params['profileId']) {
-        this.metaSvc.findDevicesByProfileId(params['profileId']).subscribe((data: Device[]) => this.deviceList = data);
+      } else if (params['profileName']) {
+        this.metaSvc.findDevicesByProfileName(params['profileName']).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
         return
       } else {
         this.getDeviceList()
@@ -60,12 +62,12 @@ export class DeviceListComponent implements OnInit {
   }
 
   getDeviceList() {
-    this.metaSvc.allDevices().subscribe((data: Device[]) => { this.deviceList = data });
+    this.metaSvc.allDevices().subscribe((data: MultiDeviceResponse) => { this.deviceList = data.devices });
   }
 
   refresh() {
-    this.metaSvc.allDevices().subscribe((data: Device[]) => {
-      this.deviceList = data;
+    this.metaSvc.allDevices().subscribe((data: MultiDeviceResponse) => {
+      this.deviceList = data.devices;
       this.msgSvc.success('refresh');
     });
   }
@@ -73,7 +75,7 @@ export class DeviceListComponent implements OnInit {
   edit() {
     this.router.navigate(['../edit-device'], {
       relativeTo: this.route,
-      queryParams: { 'deviceId': this.selectedDevice[0] }
+      queryParams: { 'deviceName': this.selectedDevice[0] }
     })
   }
 
@@ -82,17 +84,18 @@ export class DeviceListComponent implements OnInit {
   }
 
   delete() {
-    this.selectedDevice.forEach((deviceId) => {
-      this.metaSvc.deleteOneDeviceById(deviceId).subscribe(() => {
+    this.selectedDevice.forEach((d) => {
+      this.metaSvc.deleteOneDeviceByName(d.name).subscribe(() => {
         this.selectedDevice = [];
         this.deviceList.forEach((device: Device, index) => {
-          if (device.id === deviceId) {
+          if (device.id === d.id) {
             this.deviceList.splice(index, 1);
             this.msgSvc.success('remove device ', ` Name: ${device.name}`);
             return
           }
         });
       });
+      
     });
     $("#deleteConfirmDialog").modal('hide');
   }
@@ -107,51 +110,47 @@ export class DeviceListComponent implements OnInit {
 
   selectAll(event: any) {
     const checkbox = event.target;
-    let self = this;
     if (checkbox.checked) {
       this.selectedDevice = [];
-      this.deviceList.forEach(function (item) {
-        self.selectedDevice.push(item.id);
-        self.isChecked(item.id);
+      this.deviceList.forEach(d => {
+        this.selectedDevice.push(d);
+        this.isChecked(d.id);
       });
       this.isCheckedAll = true;
       return
     }
     this.isCheckedAll = false;
     this.selectedDevice = [];
-    this.deviceList.forEach(function (item) {
-      self.isChecked(item.id);
+    this.deviceList.forEach(d => {
+      this.isChecked(d.id);
     });
 
   }
 
   isChecked(id: string): boolean {
-    return this.selectedDevice.findIndex(v => v === id) >= 0;
+    return this.selectedDevice.findIndex(v => v.id === id) >= 0;
   }
 
-  selectOne(event: any, id: string) {
+  selectOne(event: any, d: Device) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.selectedDevice.push(id);
-      // console.log(this.selectedDevice)
+      this.selectedDevice.push(d);
       if (this.selectedDevice.length === this.deviceList.length) {
         this.isCheckedAll = true;
       }
       return
     }
     this.isCheckedAll = false;
-    this.isChecked(id);
-    this.selectedDevice.splice(this.selectedDevice.indexOf(id), 1)
-    // console.log(this.selectedDevice)
+    this.isChecked(d.id);
+    this.selectedDevice.splice(this.selectedDevice.indexOf(d), 1)
   }
 
   checkDeviceCommand(deviceId: string) {
-
     this.resetResponse();
 
     this.deviceList.forEach((d) => {
       if (d.id === deviceId) {
-        this.associateDeviceProfile = d.profile;
+        this.metaSvc.findProfileByName(d.profileName).subscribe((data:DeviceProfileResponse) => { this.associateDeviceProfile = data.profile; });
         return
       }
     });
