@@ -14,17 +14,17 @@
                 <p *ngIf="svc.description; else nodesc">{{svc.description}}</p>
                 <ng-template #nodesc> <p class="my-1">no description.</p> </ng-template>
                 <div>
-                    <span class="badge badge-info mr-3">Port {{svc.addressable.port}}</span>
+                    <!-- <span class="badge badge-info mr-3">Port {{svc.addressable.port}}</span> -->
                     <span [ngSwitch]="svc.adminState">
                         <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success mr-3">{{svc.adminState}}</span> 
                         <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.adminState}}</span> 
                     </span>
-                   <span [ngSwitch]="svc.operatingState">
+                   <!-- <span [ngSwitch]="svc.operatingState">
                         <span *ngSwitchCase="'ENABLED'" class="badge badge-success mr-3">{{svc.operatingState}}</span>
                         <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.operatingState}}</span>
-                   </span>
+                   </span> -->
 
-                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.id)">Associated Devices &nbsp; {{associatedDevices.get(svc.id)}}</a>
+                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.name)">Associated Devices &nbsp; {{associatedDevices.get(svc.name)}}</a>
                     <span class="badge badge-secondary float-right" role="button"> <i class="fa fa-cog"></i> Setting</span>
                 </div>
             </div>

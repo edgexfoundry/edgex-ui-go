@@ -158,9 +158,9 @@ export class MetadataService {
     )
   }
 
-  updateDeviceService(deviceService: DeviceService): Observable<any> {
+  updateDeviceService(deviceService: DeviceService): Observable<BaseResponse> {
     let url = `${this.updateDeviceServiceUrl}`;
-    return this.http.put(url, deviceService, this.httpPostOrPutJSONOptions).pipe(
+    return this.http.patch<BaseResponse>(url, deviceService, this.httpPostOrPutJSONOptions).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }

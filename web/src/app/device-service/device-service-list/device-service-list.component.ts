@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { MetadataService } from '../../services/metadata.service';
-import { DeviceService } from '../../contracts/device-service';
-import { Device } from '../../contracts/device';
+import { DeviceService } from '../../contracts/v2/device-service';
+import { MultiDeviceServiceResponse } from '../../contracts/v2/responses/device-service-response';
+import { MultiDeviceResponse } from '../../contracts/v2/responses/device-response';
 
 @Component({
   selector: 'app-device-service-list',
@@ -20,18 +21,17 @@ export class DeviceServiceListComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.metaSvc.allDeviceServices().subscribe((data: DeviceService[]) => {
-      this.deviceServiceList = data;
-      let self = this;
-      this.deviceServiceList.forEach(function (svc) {
-        self.metaSvc.findDevicesByServiceId(svc.id).subscribe((data: Device[]) => { self.associatedDevices.set(svc.id, data.length) });
+    this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
+      this.deviceServiceList = data.services;
+      this.deviceServiceList.forEach((svc) => {
+        this.metaSvc.findDevicesByServiceName(svc.name).subscribe((data: MultiDeviceResponse) => { this.associatedDevices.set(svc.name, data.devices.length) });
       });
     })
   }
 
-  associatedDevicesSkip(svcId: string) {
+  associatedDevicesSkip(svcName: string) {
     let navParam: NavigationExtras = {
-      queryParams: { 'svcId': svcId },
+      queryParams: { 'svcName': svcName },
       relativeTo: this.route
     }
     this.router.navigate(['../device-center'], navParam)
