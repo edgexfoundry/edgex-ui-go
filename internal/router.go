@@ -36,6 +36,9 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/exportshow", handler.ExportShow).Methods(http.MethodPost)
 
 	s.HandleFunc("/profile/download", handler.DowloadProfile).Methods(http.MethodGet)
+	s.HandleFunc("/profile/yaml", handler.AddProfileYamlContent).Methods(http.MethodPost)
+	s.HandleFunc("/profile/yaml/name/{name}", handler.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
+	s.HandleFunc("/profile/yaml", handler.UpdateProfileYamlContent).Methods(http.MethodPut)
 
 	s.HandleFunc("/appservice/deploy/servicekey/{servicekey}", handler.DeployConfigurableProfile).Methods(http.MethodPost)
 	s.HandleFunc("/appservice/download/servicekey/{servicekey}", handler.DownloadConfigurableProfile).Methods(http.MethodGet)
