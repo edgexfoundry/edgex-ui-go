@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
+import { MessageService } from '../../../message/message.service';
+import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,14 +16,17 @@ export class EditProfileComponent implements OnInit {
   codeMirrorEditor: any;
   profileName?: string;
 
-  constructor(private metaSvc: MetadataService, private route: ActivatedRoute) { }
+  constructor(private metaSvc: MetadataService, 
+    private msgSvc: MessageService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.renderYamlSource();
     this.route.queryParams.subscribe(params => {
-      if (params['profileId']) {
+      if (params['profileName']) {
         this.profileName = params['profileName'];
-        this.metaSvc.findProfileYamlById(params['profileId']).subscribe((data: any) => {
+        this.metaSvc.findProfileYamlByNameViaUIBackend(params['profileName']).subscribe((data: any) => {
           this.profileYamlSource = data;
           this.codeMirrorEditor.setValue(this.profileYamlSource);
         });
@@ -30,20 +35,19 @@ export class EditProfileComponent implements OnInit {
   }
 
   submit() {
-    let blob = new Blob([this.profileYamlSource], { type: 'text/plain' });
-    // this.metaSvc.updateDeviceProfile(this.renderYamlSource).subscribe()
+    // let blob = new Blob([this.profileYamlSource], { type: 'text/plain' });
+    this.profileYamlSource = this.codeMirrorEditor.getValue()
+    this.metaSvc.updateProfileYamlContentViaUIBackend(this.profileYamlSource).subscribe(data => {
+      this.msgSvc.success('Update profile', `name: ${this.profileName}`);
+      this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
+    })
   }
 
   renderYamlSource() {
     let myTextarea = document.getElementById('editor');
     this.codeMirrorEditor = CodeMirror.fromTextArea(myTextarea, {
       mode: "yaml",
-      // theme: "3024-night",
       theme: "gruvbox-dark",
-      // theme: "elegant",
-      // theme: "abcdef",
-      // theme: "material-darker",
-      // theme: "base16-dark",
       foldGutter: true,
       smartIndent: true,
       showCursorWhenSelecting: true,

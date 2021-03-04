@@ -5,7 +5,8 @@ import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
 import { Device } from '../../../contracts/device';
 import { DeviceService } from '../../../contracts/device-service';
-import { DeviceProfile } from '../../../contracts/device-profile';
+import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 import { AutoEvent } from '../../../contracts/auto-event';
 
 declare type protocol = {
@@ -74,8 +75,8 @@ export class EditDeviceComponent implements OnInit {
           });
         });
 
-        this.metaSvc.allDeviceProfoles().subscribe((data: DeviceProfile[]) => {
-          this.deviceProfileList = data;
+        this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+          this.deviceProfileList = data.profiles;
           this.deviceProfileList.forEach((profile) => {
             if (profile.name === this.device?.profile.name) {
               this.selectedProfile = profile;

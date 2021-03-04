@@ -32,13 +32,13 @@
                       <th scope="col">Labels</th>
                       <th scope="col">Manufacturer</th>
                       <th scope="col">Model</th>
-                      <th scope="col">Created</th>
-                      <th scope="col">Modified</th>
+                      <!-- <th scope="col">Created</th>
+                      <th scope="col">Modified</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let profile of profileList" [class.table-active]="isChecked(profile.id)">
-                        <td> <input type="checkbox" value="{{profile.id}}" [checked]="isChecked(profile.id)" (click)="selectOne($event,profile.id)"></td>
+                    <tr *ngFor="let profile of profileList" [class.table-active]="isChecked(profile.name)">
+                        <td> <input type="checkbox" value="{{profile.name}}" [checked]="isChecked(profile.name)" (click)="selectOne($event,profile.name)"></td>
                         <td class="user-select-all">{{profile.id}}</td>
                         <td class="user-select-all">{{profile.name}}</td>
                         <td>{{profile.description}}</td>
@@ -46,17 +46,29 @@
                             <span >
 
                             </span>
-                            <a routerLink="../../device-center" class="badge badge-pill badge-primary" [queryParams]="{'profileId':profile.id}"><i class="fa fa-link"></i></a>
+                            <a routerLink="../../device-center" class="badge badge-pill badge-primary" [queryParams]="{'profileId':profile.name}"><i class="fa fa-link"></i></a>
                         </td>
                         <td>{{profile.labels}}</td>
                         <td>{{profile.manufacturer}}</td>
                         <td>{{profile.model}}</td>
-                        <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                        <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                        <!-- <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                     </tr>
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="card-footer text-muted p-1">
+        <nav aria-label="navigation">
+            <ul class="pagination justify-content-end m-0">
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
   

@@ -75,9 +75,14 @@ export class AddProfileComponent implements OnInit {
     //   this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
     // });
 
-    this.metaSvc.uploadProfileYamlContent(this.profileYamlSource).subscribe((data: string) => {
+    this.metaSvc.updateProfileYamlContentViaUIBackend(this.profileYamlSource).subscribe((data: string) => {
       this.msgSvc.success('Add profile');
       this.router.navigate(['../device-profile-list'], { relativeTo: this.route })
     });
+
+    // this.metaSvc.uploadProfileYamlContent(this.profileYamlSource).subscribe((data: string) => {
+    //   this.msgSvc.success('Add profile');
+    //   this.router.navigate(['../device-profile-list'], { relativeTo: this.route })
+    // });
   }
 }

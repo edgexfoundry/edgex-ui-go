@@ -1,6 +1,6 @@
 import { AutoEvent } from './auto-event';
 import { DeviceService } from './device-service';
-import { DeviceProfile } from './device-profile';
+import { DeviceProfile } from './v2/device-profile';
 import { Timestamps } from './timestamps';
 
 export interface Device extends Timestamps {

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Device } from '../contracts/device';
-import { DeviceProfile } from '../contracts/device-profile';
+import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
+import { DeviceProfile } from '../contracts/v2/device-profile';
 import { DeviceService } from '../contracts/device-service';
 import { ErrorService } from './error.service';
 
@@ -13,9 +14,9 @@ import { ErrorService } from './error.service';
 export class MetadataService {
 
   endpoint: string = "/metadata";
-  version: string = "/api/v1";
+  version: string = "/api/v2";
 
-  devicesListUrl: string = `${this.endpoint}${this.version}/device`;
+  devicesListUrl: string = `${this.endpoint}${this.version}/device/all`;
   deleteOneDeviceUrl: string = `${this.endpoint}${this.version}/device`;
   updateOneDeviceUrl: string = `${this.endpoint}${this.version}/device`;
   addOneDeviceUrl: string = `${this.endpoint}${this.version}/device`;
@@ -30,13 +31,15 @@ export class MetadataService {
   findDeviceServiceByIdUrl: string = `${this.endpoint}${this.version}/deviceservice`;
 
 
-  deviceProfilesListUrl: string = `${this.endpoint}${this.version}/deviceprofile`;
+  deviceProfilesListUrl: string = `${this.endpoint}${this.version}/deviceprofile/all`;
   findProfilesByIdUrl: string = `${this.endpoint}${this.version}/deviceprofile`;
+  findProfilesByNameUrl: string = `${this.endpoint}${this.version}/deviceprofile/name/`;
   updateDeviceProfileUrl: string = `${this.endpoint}${this.version}/deviceprofile`;
   uploadProfileYamlFileUrl: string = `${this.endpoint}${this.version}/deviceprofile/uploadfile`;
   uploadProfileYamlContentUrl: string = `${this.endpoint}${this.version}/deviceprofile/upload`;
   deviceProfileYamlUrl: string = `${this.endpoint}${this.version}/deviceprofile/yaml/`;
   deleteProfileByIdUrl: string = `${this.endpoint}${this.version}/deviceprofile/id/`;
+  deleteProfileByNamedUrl: string = `${this.endpoint}${this.version}/deviceprofile/name/`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -142,16 +145,33 @@ export class MetadataService {
 
   //Device Profile resources
 
-  allDeviceProfoles(): Observable<DeviceProfile[]> {
+  allDeviceProfoles(): Observable<MultiDeviceProfileResponse> {
     let url = `${this.deviceProfilesListUrl}`;
-    return this.http.get<DeviceProfile[]>(url).pipe(
+    return this.http.get<MultiDeviceProfileResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
-  findProfileById(id: string): Observable<DeviceProfile> {
+  //deprecated
+  findProfileById(id: string): Observable<DeviceProfileResponse> {
     let url = `${this.findProfilesByIdUrl}/${id}`;
-    return this.http.get<DeviceProfile>(url).pipe(
+    return this.http.get<DeviceProfileResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findProfileByName(name: string): Observable<DeviceProfileResponse> {
+    let url = `${this.findProfilesByNameUrl}/${name}`;
+    return this.http.get<DeviceProfileResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findProfileYamlByNameViaUIBackend(name: string): Observable<any> {
+    let url = "/api/v1/profile/yaml/name/" + name;
+    return this.http.request('GET', url, {
+      responseType: 'text'
+    }).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
@@ -176,10 +196,20 @@ export class MetadataService {
     )
   }
 
-  // updateProfileYamlContent():Observable<any> {
-  //   let url = `${this.endpoint}${this.uploadProfileYamlContentUrl}`;
-  // }
+  updateProfileYamlContentViaUIBackend(data: any):Observable<any> {
+    let url = "/api/v1/profile/yaml";
+    return this.http.request('PUT', url, {
+      body: data,
+      responseType: 'json',
+      headers: new HttpHeaders({
+        'Content-Type': 'text/plain; charset=utf-8'
+      })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
+  //deprecated
   uploadProfileYamlContent(data: any): Observable<string> {
     let url = `${this.uploadProfileYamlContentUrl}`;
     return this.http.request('POST', url, {
@@ -199,8 +229,16 @@ export class MetadataService {
     return this.http.request('GET', url, { responseType: 'text' })
   }
 
+  //deprecated
   deleteProfileById(id: string): Observable<any> {
     let url = `${this.deleteProfileByIdUrl}${id}`;
+    return this.http.delete(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  deleteProfileByName(name: string): Observable<any> {
+    let url = `${this.deleteProfileByNamedUrl}${name}`;
     return this.http.delete(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
