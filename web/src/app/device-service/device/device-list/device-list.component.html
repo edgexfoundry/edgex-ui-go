@@ -38,7 +38,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let device of deviceList" [class.table-active]="isChecked(device.id) || associatedCmdDeviceName === device.name || associatedAutoEventsDeviceName === device.name">
-                        <td> <input type="checkbox" role="button"  [checked]="isChecked(device.id)" (click)="selectOne($event,device.id)"></td>
+                        <td> <input type="checkbox" role="button"  [checked]="isChecked(device.id)" (click)="selectOne($event,device)"></td>
                         <td class="user-select-all">{{device.id}}</td>
                         <td class="user-select-all">{{device.name}}</td>
                         <td>{{device.description}}</td>

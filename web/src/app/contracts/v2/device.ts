@@ -1,4 +1,4 @@
-import { AutoEvent } from "../auto-event";
+import { AutoEvent } from "./auto-event";
 import { Versionable } from "./common/versionable";
 
 export interface Device extends Versionable {
@@ -7,14 +7,14 @@ export interface Device extends Versionable {
     description: string,
     adminState: string,
     operatingState: string,
-    lastConnected: number,
-    lastReported: number,
+    lastConnected?: number,
+    lastReported?: number,
     labels: string[],
-    location: {} | any,
+    location?: {} | any,
     serviceName: string,
     profileName: string,
     autoEvents: AutoEvent[],
-    protocols: {},
+    protocols: any,
     created: number,
     modified: number
 }
