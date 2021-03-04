@@ -2,7 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Device } from '../contracts/device';
+
+import { DeviceResponse,MultiDeviceResponse } from '../contracts/v2/responses/device-response';
+import { BaseWithIdResponse,BaseResponse } from '../contracts/v2/common/base-response';
+import { Device } from '../contracts/v2/device';
 import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
 import { DeviceProfile } from '../contracts/v2/device-profile';
 import { DeviceService } from '../contracts/device-service';
@@ -15,31 +18,34 @@ export class MetadataService {
 
   endpoint: string = "/metadata";
   version: string = "/api/v2";
+  urlPrefix: string = `${this.endpoint}${this.version}`;
 
-  devicesListUrl: string = `${this.endpoint}${this.version}/device/all`;
-  deleteOneDeviceUrl: string = `${this.endpoint}${this.version}/device`;
-  updateOneDeviceUrl: string = `${this.endpoint}${this.version}/device`;
-  addOneDeviceUrl: string = `${this.endpoint}${this.version}/device`;
-  findDeviceByNameUrl: string = `${this.endpoint}${this.version}/device/name`;
-  findDeviceByIdUrl: string = `${this.endpoint}${this.version}/device`;
-  findDevicesByServiceIdUrl: string = `${this.endpoint}${this.version}/device/service`;
-  findDevicesByProfileIdUrl: string = `${this.endpoint}${this.version}/device/profile`;
+  devicesListUrl: string = `${this.urlPrefix}/device/all`;
+  addOneDeviceUrl: string = `${this.urlPrefix}/device`;
+  updateOneDeviceUrl: string = `${this.urlPrefix}/device`;
+  deleteOneDeviceByIdUrl: string = `${this.urlPrefix}/device/Id/`;
+  deleteOneDeviceByNameUrl: string = `${this.urlPrefix}/device/name/`;
+  findDeviceByNameUrl: string = `${this.urlPrefix}/device/name/`;
+  findDeviceByIdUrl: string = `${this.urlPrefix}/device/id/`;
+  findDevicesByServiceIdUrl: string = `${this.urlPrefix}/device/service/id/`;
+  findDevicesByServiceNameUrl: string = `${this.urlPrefix}/device/service/name/`;
+  findDevicesByProfileIdUrl: string = `${this.urlPrefix}/device/profile/id/`;
+  findDevicesByProfileNameUrl: string = `${this.urlPrefix}/device/profile/name/`;
+
+  deviceServicesListUrl: string = `${this.urlPrefix}/deviceservice`;
+  updateDeviceServiceUrl: string = `${this.urlPrefix}/deviceservice`;
+  findDeviceServiceByIdUrl: string = `${this.urlPrefix}/deviceservice`;
 
 
-  deviceServicesListUrl: string = `${this.endpoint}${this.version}/deviceservice`;
-  updateDeviceServiceUrl: string = `${this.endpoint}${this.version}/deviceservice`;
-  findDeviceServiceByIdUrl: string = `${this.endpoint}${this.version}/deviceservice`;
-
-
-  deviceProfilesListUrl: string = `${this.endpoint}${this.version}/deviceprofile/all`;
-  findProfilesByIdUrl: string = `${this.endpoint}${this.version}/deviceprofile`;
-  findProfilesByNameUrl: string = `${this.endpoint}${this.version}/deviceprofile/name/`;
-  updateDeviceProfileUrl: string = `${this.endpoint}${this.version}/deviceprofile`;
-  uploadProfileYamlFileUrl: string = `${this.endpoint}${this.version}/deviceprofile/uploadfile`;
-  uploadProfileYamlContentUrl: string = `${this.endpoint}${this.version}/deviceprofile/upload`;
-  deviceProfileYamlUrl: string = `${this.endpoint}${this.version}/deviceprofile/yaml/`;
-  deleteProfileByIdUrl: string = `${this.endpoint}${this.version}/deviceprofile/id/`;
-  deleteProfileByNamedUrl: string = `${this.endpoint}${this.version}/deviceprofile/name/`;
+  deviceProfilesListUrl: string = `${this.urlPrefix}/deviceprofile/all`;
+  findProfilesByIdUrl: string = `${this.urlPrefix}/deviceprofile`;
+  findProfilesByNameUrl: string = `${this.urlPrefix}/deviceprofile/name/`;
+  updateDeviceProfileUrl: string = `${this.urlPrefix}/deviceprofile`;
+  uploadProfileYamlFileUrl: string = `${this.urlPrefix}/deviceprofile/uploadfile`;
+  uploadProfileYamlContentUrl: string = `${this.urlPrefix}/deviceprofile/upload`;
+  deviceProfileYamlUrl: string = `${this.urlPrefix}/deviceprofile/yaml/`;
+  deleteProfileByIdUrl: string = `${this.urlPrefix}/deviceprofile/id/`;
+  deleteProfileByNamedUrl: string = `${this.urlPrefix}/deviceprofile/name/`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -51,71 +57,90 @@ export class MetadataService {
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
   //Device resources
-  addDevice(device: Device): Observable<string> {
-    let url = `${this.addOneDeviceUrl}`;
-    return this.http.request('POST', url, {
-      body: JSON.stringify(device),
-      responseType: 'text',
-      headers: new HttpHeaders({
-        'Content-type': 'application/json'
-      })
-    }).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
-  }
-
-  deleteOneDeviceById(id: string): Observable<any> {
-    let url = `${this.deleteOneDeviceUrl}/id/${id}`;
-    return this.http.delete(url).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
-  }
-
-  updateDevice(device: Device): Observable<any> {
-    let url = `${this.updateOneDeviceUrl}`;
-    return this.http.request('PUT', url, {
-      body: JSON.stringify(device),
-      responseType: 'text',
-      headers: new HttpHeaders({
-        'Content-type': 'application/json'
-      })
-    }).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
-  }
-
-  findDeviceByName(name: string): Observable<Device> {
-    let url = `${this.findDeviceByNameUrl}/${name}`;
-    return this.http.get<Device>(url).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
-  }
-
-  findDeviceById(id: string): Observable<Device> {
-    let url = `${this.findDeviceByIdUrl}/${id}`;
-    return this.http.get<Device>(url).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
-  }
-
-
-  allDevices(): Observable<Device[]> {
+  allDevices(): Observable<MultiDeviceResponse> {
     let url = `${this.devicesListUrl}`;
-    return this.http.get<Device[]>(url).pipe(
+    return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
-  findDevicesByServiceId(serviceId: string): Observable<Device[]> {
-    let url = `${this.findDevicesByServiceIdUrl}/${serviceId}`;
-    return this.http.get<Device[]>(url).pipe(
+  addDevice(device: Device): Observable<BaseWithIdResponse> {
+    let url = `${this.addOneDeviceUrl}`;
+    return this.http.post<BaseWithIdResponse>( url,device, this.httpPostOrPutJSONOptions)
+    .pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
-  findDevicesByProfileId(profileId: string): Observable<Device[]> {
+  deleteOneDeviceByName(name: string): Observable<BaseResponse> {
+    let url = `${this.deleteOneDeviceByNameUrl}${name}`;
+    return this.http.delete<BaseResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  //deprecated
+  deleteOneDeviceById(id: string): Observable<BaseResponse> {
+    let url = `${this.deleteOneDeviceByIdUrl}${id}`;
+    return this.http.delete<BaseResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  updateDevice(device: Device): Observable<BaseResponse> {
+    let url = `${this.updateOneDeviceUrl}`;
+    return this.http.patch<BaseResponse>(url, {
+      body: JSON.stringify(device),
+      responseType: 'json',
+      headers: new HttpHeaders({
+        'Content-type': 'application/json'
+      })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findDeviceByName(name: string): Observable<DeviceResponse> {
+    let url = `${this.findDeviceByNameUrl}/${name}`;
+    return this.http.get<DeviceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  //deprecated
+  findDeviceById(id: string): Observable<DeviceResponse> {
+    let url = `${this.findDeviceByIdUrl}/${id}`;
+    return this.http.get<DeviceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  //deprecated
+  findDevicesByServiceId(serviceId: string): Observable<MultiDeviceResponse> {
+    let url = `${this.findDevicesByServiceIdUrl}${serviceId}`;
+    return this.http.get<MultiDeviceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findDevicesByServiceName(serviceName: string): Observable<MultiDeviceResponse> {
+    let url = `${this.findDevicesByServiceNameUrl}${serviceName}`;
+    return this.http.get<MultiDeviceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  //deprecated
+  findDevicesByProfileId(profileId: string): Observable<MultiDeviceResponse> {
     let url = `${this.findDevicesByProfileIdUrl}/${profileId}`;
-    return this.http.get<Device[]>(url).pipe(
+    return this.http.get<MultiDeviceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findDevicesByProfileName(profileName: string): Observable<MultiDeviceResponse> {
+    let url = `${this.findDevicesByProfileNameUrl}${profileName}`;
+    return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
