@@ -17,14 +17,29 @@
 package handler
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
+	"github.com/gorilla/mux"
+
+	client "github.com/edgexfoundry/go-mod-core-contracts/v2/v2/clients/http"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos/requests"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos/responses"
+
+	"gopkg.in/yaml.v2"
 )
 
 const (
+	metadataEndpoint     = "localhost"
+	metadataEndpointPort = "48081"
+
 	TemplateDirName     = "templates"
 	ProfileTemplateName = "profileTemplate.yml"
 )
@@ -43,4 +58,88 @@ func DowloadProfile(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(404)
 		w.Write([]byte("404 download failure!"))
 	}
+}
+
+func AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var profile dtos.DeviceProfile
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if err = yaml.Unmarshal(data, &profile); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	url := fmt.Sprintf("http://%s:%s", metadataEndpoint, metadataEndpointPort)
+	c := client.NewDeviceProfileClient(url)
+
+	profiles := []requests.DeviceProfileRequest{
+		requests.DeviceProfileRequest{
+			BaseRequest: common.NewBaseRequest(),
+			Profile:     profile,
+		},
+	}
+
+	var resp []common.BaseWithIdResponse
+	if resp, err = c.Add(context.Background(), profiles); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	result, _ := json.Marshal(resp)
+	w.Write(result)
+}
+
+func FindProfileAndConvertToYamlByName(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	vars := mux.Vars(r)
+	profileName := vars["name"]
+	url := fmt.Sprintf("http://%s:%s", metadataEndpoint, metadataEndpointPort)
+	c := client.NewDeviceProfileClient(url)
+	var resp responses.DeviceProfileResponse
+	var err error
+	if resp, err = c.DeviceProfileByName(context.Background(), profileName); err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	var out []byte
+	if out, err = yaml.Marshal(&resp.Profile); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(out)
+}
+
+func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var profile dtos.DeviceProfile
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if err = yaml.Unmarshal(data, &profile); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	url := fmt.Sprintf("http://%s:%s", metadataEndpoint, metadataEndpointPort)
+	c := client.NewDeviceProfileClient(url)
+
+	profiles := []requests.DeviceProfileRequest{
+		requests.DeviceProfileRequest{
+			BaseRequest: common.NewBaseRequest(),
+			Profile:     profile,
+		},
+	}
+
+	var resp []common.BaseResponse
+	if resp, err = c.Update(context.Background(), profiles); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	result, _ := json.Marshal(resp)
+	w.Write(result)
 }
