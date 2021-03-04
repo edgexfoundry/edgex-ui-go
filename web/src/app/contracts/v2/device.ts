@@ -9,7 +9,7 @@ export interface Device extends Versionable {
     operatingState: string,
     lastConnected?: number,
     lastReported?: number,
-    labels: string[],
+    labels?: string[],
     location?: {} | any,
     serviceName: string,
     profileName: string,

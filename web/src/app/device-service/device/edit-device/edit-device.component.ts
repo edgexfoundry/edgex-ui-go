@@ -9,7 +9,7 @@ import { DeviceService } from '../../../contracts/v2/device-service';
 import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
 import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
-import { AutoEvent } from '../../../contracts/auto-event';
+import { AutoEvent } from '../../../contracts/v2/auto-event';
 
 declare type protocol = {
   [key: string]: any;
@@ -34,6 +34,7 @@ class AutoEventInternal {
 export class EditDeviceComponent implements OnInit {
 
   device?: Device;
+  deviceLabels?: string;
   deviceServiceList!: DeviceService[];
   deviceProfileList!: DeviceProfile[];
   selectedSvc?: DeviceService;
@@ -59,6 +60,7 @@ export class EditDeviceComponent implements OnInit {
       this.metaSvc.findDeviceByName(deviceName).subscribe((data: DeviceResponse) => {
         this.device = data.device;
 
+        this.deviceLabels = this.device.labels?.join(',');
         this.setAutoEventInternal(this.device.autoEvents)
 
         this.protocolName = Object.keys(this.device.protocols)[0];
@@ -90,26 +92,27 @@ export class EditDeviceComponent implements OnInit {
     });
   }
 
+
   setAutoEventInternal(events?: AutoEvent[]) {
     let unit: string;
     events?.forEach(e => {
       let index: number = 0;
 
-      if ((e.frequency as string).indexOf('ms') !== -1) {
-        index = (e.frequency as string).indexOf('ms');
-      } else if ((e.frequency as string).indexOf('s') !== -1) {
-        index = (e.frequency as string).indexOf('s');
-      } else if ((e.frequency as string).indexOf('m') !== -1) {
-        index = (e.frequency as string).indexOf('m');
-      } else if ((e.frequency as string).indexOf('h') !== -1) {
-        index = (e.frequency as string).indexOf('h');
+      if (e.frequency.indexOf('ms') !== -1) {
+        index = e.frequency.indexOf('ms');
+      } else if (e.frequency.indexOf('s') !== -1) {
+        index = e.frequency.indexOf('s');
+      } else if (e.frequency.indexOf('m') !== -1) {
+        index = e.frequency.indexOf('m');
+      } else if (e.frequency.indexOf('h') !== -1) {
+        index = e.frequency.indexOf('h');
       }
 
-      unit = (e.frequency as string).substring(index)
+      unit = e.frequency.substring(index)
       this.autoEventsInternal.push({
-        frequency: (e.frequency as string).slice(0, index),
+        frequency: e.frequency.slice(0, index),
         onChange: e.onChange as boolean ? true : false,
-        resource: e.resource as string,
+        resource: e.sourceName,
         unit: unit
       });
     });
@@ -199,6 +202,8 @@ export class EditDeviceComponent implements OnInit {
     let protocol: protocol = {};
     let properties: properties = {};
 
+    d.labels  = this.deviceLabels?.split(",") as string[];
+
     d.serviceName = this.selectedSvc?.name as string;
     d.profileName = this.selectedProfile?.name as string;
 
@@ -213,13 +218,13 @@ export class EditDeviceComponent implements OnInit {
     this.autoEventsInternal.forEach(e => {
       d.autoEvents.push({
         frequency: `${parseInt(e.frequency)}${e.unit}`,
-        onChange: e.onChange as boolean,
-        resource: e.resource
+        onChange: e.onChange?true:false,
+        sourceName: e.resource
       })
     });
 
     this.metaSvc.updateDevice(d).subscribe(() => {
-      this.msgSvc.success('update device', `Id: ${this.device?.id}`);
+      this.msgSvc.success('update device', `name: ${this.device?.name}`);
       this.router.navigate(['../device-list'], { relativeTo: this.route });
     });
   }

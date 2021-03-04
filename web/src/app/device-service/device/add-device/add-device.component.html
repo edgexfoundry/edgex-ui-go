@@ -47,7 +47,7 @@
                                 <th scope="col">Description</th>
                                 <th scope="col">Labels</th>
                                 <th scope="col">AdminState</th>
-                                <th scope="col">OperatingState</th>
+                                <!-- <th scope="col">OperatingState</th> -->
                                 <th scope="col">Created</th>
                                 <th scope="col">Modified</th>
                             </tr>
@@ -60,7 +60,7 @@
                                 <td>{{svc.description}}</td>
                                 <td>{{svc.labels}}</td>
                                 <td>{{svc.adminState}}</td>
-                                <td>{{svc.operatingState}}</td>
+                                <!-- <td>{{svc.operatingState}}</td> -->
                                 <td>{{svc.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                                 <td>{{svc.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                             </tr>
@@ -138,8 +138,9 @@
                         <label for="operatingState" class="col-md-2 col-form-label" >OperatingState</label>
                         <div class="col-md-10">
                             <select class="form-control" name="deviceOperatingState" [(ngModel)]="deviceOperatingState">
-                                <option value="ENABLED" >ENABLED</option>
-                                <option value="DISABLED">DISABLED</option>
+                                <option value="UP">UP</option>
+                                <option value="DOWN">DOWN</option>
+                                <option value="DOWN">UNKNOWN</option>
                             </select>
                         </div>
                     </div>

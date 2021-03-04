@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { DeviceResponse,MultiDeviceResponse } from '../contracts/v2/responses/device-response';
 import { BaseWithIdResponse,BaseResponse } from '../contracts/v2/common/base-response';
 import { Device } from '../contracts/v2/device';
+import { DeviceRequest } from '../contracts/v2/requests/device-request';
 import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
 import { DeviceProfile } from '../contracts/v2/device-profile';
 import { DeviceService } from '../contracts/v2/device-service';
@@ -70,7 +71,12 @@ export class MetadataService {
 
   addDevice(device: Device): Observable<BaseWithIdResponse> {
     let url = `${this.addOneDeviceUrl}`;
-    return this.http.post<BaseWithIdResponse>( url,device, this.httpPostOrPutJSONOptions)
+    device.apiVersion = 'v2';
+    let data: DeviceRequest[]  = [{
+      apiVersion: "v2",
+      device: device
+    }]
+    return this.http.post<BaseWithIdResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
     .pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -93,15 +99,26 @@ export class MetadataService {
 
   updateDevice(device: Device): Observable<BaseResponse> {
     let url = `${this.updateOneDeviceUrl}`;
-    return this.http.patch<BaseResponse>(url, {
-      body: JSON.stringify(device),
-      responseType: 'json',
+    let data: DeviceRequest[]  = [{
+      apiVersion: "v2",
+      device: device
+    }]
+    return this.http.patch<BaseResponse>(url, JSON.stringify(data),{
       headers: new HttpHeaders({
         'Content-type': 'application/json'
       })
     }).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
+    // return this.http.patch<BaseResponse>(url, {
+    //   body: JSON.stringify(data),
+    //   responseType: 'json',
+    //   headers: new HttpHeaders({
+    //     'Content-type': 'application/json'
+    //   })
+    // }).pipe(
+    //   catchError(error => this.errorSvc.handleError(error))
+    // )
   }
 
   findDeviceByName(name: string): Observable<DeviceResponse> {
@@ -189,6 +206,16 @@ export class MetadataService {
     )
   }
 
+  addProfileYamlByNameViaUIBackend(data: any): Observable<any> {
+    let url = "/api/v1/profile/yaml";
+    return this.http.request('POST', url, {
+      body: data,
+      responseType: 'text'
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
   //deprecated
   findProfileById(id: string): Observable<DeviceProfileResponse> {
     let url = `${this.findProfilesByIdUrl}/${id}`;
@@ -235,15 +262,20 @@ export class MetadataService {
 
   updateProfileYamlContentViaUIBackend(data: any):Observable<any> {
     let url = "/api/v1/profile/yaml";
-    return this.http.request('PUT', url, {
-      body: data,
-      responseType: 'json',
+    return this.http.put(url,data,{
       headers: new HttpHeaders({
         'Content-Type': 'text/plain; charset=utf-8'
       })
-    }).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
+    })
+    // return this.http.request('PUT', url, {
+    //   body: data,
+    //   responseType: 'json',
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'text/plain; charset=utf-8'
+    //   })
+    // }).pipe(
+    //   catchError(error => this.errorSvc.handleError(error))
+    // )
   }
 
   //deprecated

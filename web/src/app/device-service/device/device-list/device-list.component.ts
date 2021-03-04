@@ -75,7 +75,7 @@ export class DeviceListComponent implements OnInit {
   edit() {
     this.router.navigate(['../edit-device'], {
       relativeTo: this.route,
-      queryParams: { 'deviceName': this.selectedDevice[0] }
+      queryParams: { 'deviceName': this.selectedDevice[0].name }
     })
   }
 

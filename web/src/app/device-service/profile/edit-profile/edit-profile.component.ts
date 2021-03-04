@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -10,7 +10,7 @@ import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-pr
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit,OnDestroy {
 
   profileYamlSource?: any;
   codeMirrorEditor: any;
@@ -27,24 +27,26 @@ export class EditProfileComponent implements OnInit {
       if (params['profileName']) {
         this.profileName = params['profileName'];
         this.metaSvc.findProfileYamlByNameViaUIBackend(params['profileName']).subscribe((data: any) => {
-          this.profileYamlSource = data;
-          this.codeMirrorEditor.setValue(this.profileYamlSource);
+          // this.profileYamlSource = data;
+          this.codeMirrorEditor.setValue(data);
         });
       }
     });
   }
 
-  submit() {
-    // let blob = new Blob([this.profileYamlSource], { type: 'text/plain' });
-    this.profileYamlSource = this.codeMirrorEditor.getValue()
-    this.metaSvc.updateProfileYamlContentViaUIBackend(this.profileYamlSource).subscribe(data => {
+  update() {
+    // this.profileYamlSource = this.codeMirrorEditor.getValue();
+    let d = $("#editor").val()
+    // console.log(d)
+    // return
+    this.metaSvc.updateProfileYamlContentViaUIBackend(this.codeMirrorEditor.getValue()).subscribe(data => {
       this.msgSvc.success('Update profile', `name: ${this.profileName}`);
       this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
     })
   }
 
   renderYamlSource() {
-    let myTextarea = document.getElementById('editor');
+    let myTextarea = document.getElementById('editor-edit');
     this.codeMirrorEditor = CodeMirror.fromTextArea(myTextarea, {
       mode: "yaml",
       theme: "gruvbox-dark",
@@ -63,8 +65,11 @@ export class EditProfileComponent implements OnInit {
       // allowDropFileTypes: ['text/plain'],
       cursorHeight: 0.85,
       autocorrect: true
-
     });
     this.codeMirrorEditor.setSize('auto', '600px')
+  }
+  
+  ngOnDestroy():void {
+    this.codeMirrorEditor = null;
   }
 }
