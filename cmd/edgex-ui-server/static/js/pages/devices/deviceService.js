@@ -24,12 +24,13 @@ orgEdgexFoundry.deviceService = (function(){
     "use strict";
 
     function DeviceService() {
-        this.deviceServiceListCache = [];
-        this.selectedRow = null;
         this.deviceProtocols = null;
-
+        this.schedulerTabNum = 0;
+        this.schedulerTabArr = [];
         this.selectedDeviceServiceName = null;
+        this.deviceServiceList = null;
         this.allDeviceServiceNameList = null;
+        this.deviceProfileList = null;
         this.allDeviceProfileNameList = null;
         this.deviceProtocolsPropertiesTemplate = [
             {
@@ -190,23 +191,247 @@ orgEdgexFoundry.deviceService = (function(){
         refreshProfile: null,
         cancelAddDeviceProfile: null,
         onSelectFileCompleted: null,
+
+        openDeviceWizard: null,
+        showUploadFileWizard: null,
+        cancelAddDeviceProfileWizard: null,
+        uploadProfileWizard: null,
+        onSelectFileCompletedWizard: null,
+        loadSchedulerForSelectWizard:null,
+        uploadDeviceWizard: null,
+        plusSchedulerSelect: null,
+        reduceSchedulerSelect: null
+
     };
 
     var deviceService = new DeviceService();
 
+    DeviceService.prototype.openDeviceWizard = function(){
+        $('#device_wizard_model').show();
+        loadDeviceProfileForSelectWizard();
+        loadSchedulerForSelectWizard();
+        loadDeviceServiceForSelectWizard();
+        $(".wizard").bootstrapWizard({
+            height: 650,
+            width: 800
+        });
+        $('#device_wizard_model').modal({
+            backdrop: "static"
+        });
+        $('#device_wizard_model').on('shown.bs.modal', function (e) {
+            deviceService.resetProtocol();
+            deviceService.addProtocol();
+        });
+        $('#device_wizard_model').on('hidden.bs.modal', function (e) {
+            $('#device_wizard_model').off('shown.bs.modal');
+            $('#device_wizard_model').off('hidden.bs.modal');
+            $('#device_wizard_model').off('submit.bw');
+        })
+        $('#device_wizard_model').on('submit.bw', function (e) {
+            var device = {
+                name: $(".edgex-support-device-wizard-step2-form input[name='deviceName']").val().trim(),
+                description: $(".edgex-support-device-wizard-step2-form input[name='deviceDescription']").val(),
+                labels: $(".edgex-support-device-wizard-step2-form input[name='deviceLabels']").val().split(','),
+                adminState: $(".edgex-support-device-wizard-step2-form select[name='deviceAdminState']").val(),
+                operatingState: $(".edgex-support-device-wizard-step2-form select[name='deviceOperatingState']").val(),
+            };
+            device['service'] = eval(deviceService.deviceServiceList).filter(function (e) { return e.name == $("#reference_service_select").val(); })[0];
+            device['profile'] = eval(deviceService.deviceProfileList).filter(function (e) { return e.name == $("#reference_profile_select").val(); })[0];
+            device['protocols'] = deviceService.getProtocolFormValue();
+            if(deviceService.schedulerTabNum!=0){
+                var autoEventArr = [];
+                $.each(deviceService.schedulerTabArr,function (key,val) {
+                    var frequency = $("#reference_scheduler_frequency_"+val).val();
+                    var resource = $("#reference_scheduler_select_"+val).val();
+                    autoEventArr[key] = {
+                        "frequency": frequency,
+                        "onChange": true,
+                        "resource": resource
+                    }
+                });
+                device['autoEvents'] = autoEventArr;
+            }
+            $.ajax({
+                url: '/core-metadata/api/v1/device',
+                type: 'POST',
+                data:JSON.stringify(device),
+                success: function(){
+                    deviceService.cancelAddOrUpdateDevice();
+                    deviceService.refreshDevice();
+                    $('#device_wizard_model').hide();
+                    $('#device_wizard_model').off('shown.bs.modal');
+                    $('#device_wizard_model').off('hidden.bs.modal');
+                    $('#device_wizard_model').off('submit.bw');
+                    bootbox.alert({
+                        message: "commit success!",
+                        className: 'red-green-buttons'
+                    });
+                },
+                statusCode: {
+                    400: function(){
+                        bootbox.alert({
+                            title: "Error",
+                            message: "the request is malformed or unparsable or if an associated object (Addressable, Profile, Service) cannot be found with the id or name provided !",
+                            className: 'red-green-buttons'
+                        });
+                    },
+                    409: function(){
+                        bootbox.alert({
+                            title: "Error",
+                            message: "the name is determined to not be unique with regard to others !",
+                            className: 'red-green-buttons'
+                        });
+                    },
+                    500: function(){
+                        bootbox.alert({
+                            title: "Error",
+                            message: "unknown or unanticipated issues !",
+                            className: 'red-green-buttons'
+                        });
+                    }
+                }
+            });
+        })
+    }
+
+    function loadDeviceProfileForSelectWizard(){
+        $('#reference_profile_select').empty();
+        $.each(deviceService.allDeviceProfileNameList, function (i, item) {
+            $('#reference_profile_select').append($('<option>', {
+                value: item,
+                text : item
+            }));
+        });
+    }
+
+    function loadDeviceServiceForSelectWizard(){
+        $('#reference_service_select').empty();
+        $.each(deviceService.allDeviceServiceNameList, function (i, item) {
+            $('#reference_service_select').append($('<option>', {
+                value: item,
+                text : item
+            }));
+        });
+    }
+
+    function loadSchedulerForSelectWizard(index){
+        if($("#reference_profile_select").val() != ''){
+            var selectedProfile = eval(deviceService.deviceProfileList).filter(function (e) { return e.name == $("#reference_profile_select").val(); })[0];
+            var deviceSources = selectedProfile['deviceCommands']
+
+            $.each(deviceSources, function (i, item) {
+                $('#reference_scheduler_select_'+index).append($('<option>', {
+                    value: item.name,
+                    text : item.name
+                }));
+            });
+        }
+    }
+
+    DeviceService.prototype.plusSchedulerSelect = function(){
+        $("#scheduler-plus-div").append("<div style='display:table;margin-top: 2%' id='schduler_"+deviceService.schedulerTabNum+"'>\n" +
+            "<label class=\"col-md-2 control-label\">Event:</label>" +
+            "<div class=\"col-md-3\">" +
+            "<select class=\"form-control\" id='reference_scheduler_select_"+deviceService.schedulerTabNum+"'></select>" +
+            "</div>" +
+            "<label class=\"col-md-2 control-label\">Frequency:</label>" +
+            "<div class=\"col-md-3\">" +
+            "<input class=\"form-control\" placeholder='10s 10m 10h' id='reference_scheduler_frequency_"+deviceService.schedulerTabNum+"'>" +
+            "</div>" +
+            "<div style=\"margin-top: 1%\" class=\"col-md-1 edgexIconBtn\" id='reduce_"+deviceService.schedulerTabNum+"' onclick=\"orgEdgexFoundry.deviceService.reduceSchedulerSelect(this.id)\">" +
+            "<i class=\"fa fa-minus fa-lg fa-fw\" aria-hidden=\"true\"></i>" +
+            "</div>" +
+            "</div>");
+        loadSchedulerForSelectWizard(deviceService.schedulerTabNum);
+        deviceService.schedulerTabArr.push(deviceService.schedulerTabNum);
+        deviceService.schedulerTabNum++;
+    }
+
+    DeviceService.prototype.reduceSchedulerSelect = function(btnId){
+        var index = btnId.split("_")[1];
+        $("#schduler_"+index).remove();
+        var arrindex = $.inArray(parseInt(index), deviceService.schedulerTabArr);
+        deviceService.schedulerTabArr.splice(arrindex,1);
+    }
+
+    DeviceService.prototype.showUploadFileWizard = function(){
+        $("#add-profile-wizard").show();
+    }
+    DeviceService.prototype.cancelAddDeviceProfileWizard = function(){
+        $("#add-profile-wizard").hide();
+    }
+
+    DeviceService.prototype.uploadProfileWizard = function () {
+        $("#add-profile-wizard").hide();
+        var formData = new FormData($("#add-profile-wizard form")[0]);
+        var reqUrl = "/core-metadata/api/v1/deviceprofile/uploadfile";
+        $.ajax({
+            url: reqUrl,
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            complete: function (jqXHR, textStatus) {
+                if (jqXHR.status == 200) {
+                    bootbox.alert({
+                        message: "Upload device profile success !",
+                        className: 'red-green-buttons'
+                    });
+                    orgEdgexFoundry.deviceService.loadDeviceProfile();
+                } else if (jqXHR.status == 409) {
+                    bootbox.alert({
+                        title: "Error",
+                        message: "Duplicate profile name !",
+                        className: 'red-green-buttons'
+                    });
+                } else {
+                    bootbox.alert({
+                        title: "Error",
+                        message: "Upload failure !",
+                        className: 'red-green-buttons'
+                    });
+                }
+            }
+        });
+    };
+
+    DeviceService.prototype.onSelectFileCompletedWizard = function() {
+        var uploadInput = $("#add-profile-action-wizard")
+        if (uploadInput[0].value) {
+            var fileSelected = uploadInput[0].files[0];
+            $("#add-profile-wizard .new-file-proview").val(fileSelected.name);
+        }
+    }
+
   DeviceService.prototype.removeProtocolField = function(deviceProtocolFieldKey) {
     delete deviceService.deviceProtocols[deviceProtocolFieldKey];
-    $(".edgexfoundry-device-protocols input[name=\'" + deviceProtocolFieldKey+ "\']").parent(".protocol-field").remove();
+      if($("#device_wizard_model").hasClass("in")){
+          $(".edgexfoundry-device-protocols-wizard input[name=\'" + deviceProtocolFieldKey+ "\']").parent(".protocol-field").remove();
+      }else{
+          $(".edgexfoundry-device-protocols input[name=\'" + deviceProtocolFieldKey+ "\']").parent(".protocol-field").remove();
+      }
+
   };
 
   DeviceService.prototype.getProtocolFormValue = function() {
     var protocolFields = Object.entries(deviceService.deviceProtocols);
     var protocols = {};
-    var protocolName =  $("#deviceProtocolNameSelect").val().trim();
+      if($("#device_wizard_model").hasClass("in")){
+          var protocolName =  $("#deviceProtocolNameSelectWizard").val().trim();
+      }else{
+          var protocolName =  $("#deviceProtocolNameSelect").val().trim();
+      }
     protocols[protocolName] = {};
     for (var i = 0; i < protocolFields.length; i++) {
-      var fieldKey =  $(".edgexfoundry-device-protocols input[name=\'" + protocolFields[i][0]+ "\']").val().trim();
-      var fieldValue =  $(".edgexfoundry-device-protocols input[name=\'" + protocolFields[i][1]+ "\']").val().trim();
+        if($("#device_wizard_model").hasClass("in")){
+            var fieldKey =  $(".edgexfoundry-device-protocols-wizard input[name=\'" + protocolFields[i][0]+ "\']").val().trim();
+            var fieldValue =  $(".edgexfoundry-device-protocols-wizard input[name=\'" + protocolFields[i][1]+ "\']").val().trim();
+        }else{
+            var fieldKey =  $(".edgexfoundry-device-protocols input[name=\'" + protocolFields[i][0]+ "\']").val().trim();
+            var fieldValue =  $(".edgexfoundry-device-protocols input[name=\'" + protocolFields[i][1]+ "\']").val().trim();
+        }
       if(fieldKey != ""){
           protocols[protocolName][fieldKey] = fieldValue;
       }
@@ -217,14 +442,28 @@ orgEdgexFoundry.deviceService = (function(){
     DeviceService.prototype.setProtocol = function (protocols) {
         var deviceProtocolName = Object.keys(protocols)[0];
         var protocolFields = Object.entries(protocols[deviceProtocolName]);
-        $('#deviceProtocolNameSelect').empty();
+        if($("#device_wizard_model").hasClass("in")){
+            $('#deviceProtocolNameSelectWizard').empty();
+        }else{
+            $('#deviceProtocolNameSelect').empty();
+        }
         $.each(deviceService.deviceProtocolsPropertiesTemplate, function (k, v) {
-            $('#deviceProtocolNameSelect').append($('<option>', {
-                value: v['Protocol'],
-                text: v['Alias'],
-            }));
-            if (v['Protocol'] == deviceProtocolName) {
-                $('#deviceProtocolNameSelect').val(deviceProtocolName);
+            if($("#device_wizard_model").hasClass("in")){
+                $('#deviceProtocolNameSelectWizard').append($('<option>', {
+                    value: v['Protocol'],
+                    text: v['Alias'],
+                }));
+                if (v['Protocol'] == deviceProtocolName) {
+                    $('#deviceProtocolNameSelectWizard').val(deviceProtocolName);
+                }
+            }else{
+                $('#deviceProtocolNameSelect').append($('<option>', {
+                    value: v['Protocol'],
+                    text: v['Alias'],
+                }));
+                if (v['Protocol'] == deviceProtocolName) {
+                    $('#deviceProtocolNameSelect').val(deviceProtocolName);
+                }
             }
         });
         deviceService.setProtocolSelectEvent();
@@ -243,33 +482,61 @@ orgEdgexFoundry.deviceService = (function(){
     if (deviceService.deviceProtocols == null) {
       return;
     }
-    $(".edgexfoundry-device-protocols .protocol-field-collection").empty();
-
+      if($("#device_wizard_model").hasClass("in")){
+          $(".protocol-field-collection-wizard").empty();
+      }else{
+          $(".edgexfoundry-device-protocols .protocol-field-collection").empty();
+      }
     deviceService.deviceProtocols = null;
   };
 
     DeviceService.prototype.addProtocol = function () {
-        $('#deviceProtocolNameSelect').empty();
-        $.each(deviceService.deviceProtocolsPropertiesTemplate, function (k, v) {
-            $('#deviceProtocolNameSelect').append($('<option>', {
-                value: v['Protocol'],
-                text: v['Alias'],
-            }));
-        });
-        deviceService.setProtocolSelectEvent();
-        $('#deviceProtocolNameSelect').change();
+        if($("#device_wizard_model").hasClass("in")){
+            $('#deviceProtocolNameSelectWizard').empty();
+            $.each(deviceService.deviceProtocolsPropertiesTemplate, function (k, v) {
+                $('#deviceProtocolNameSelectWizard').append($('<option>', {
+                    value: v['Protocol'],
+                    text: v['Alias'],
+                }));
+            });
+            deviceService.setProtocolSelectEvent();
+            $('#deviceProtocolNameSelectWizard').change();
+        }else{
+            $('#deviceProtocolNameSelect').empty();
+            $.each(deviceService.deviceProtocolsPropertiesTemplate, function (k, v) {
+                $('#deviceProtocolNameSelect').append($('<option>', {
+                    value: v['Protocol'],
+                    text: v['Alias'],
+                }));
+            });
+            deviceService.setProtocolSelectEvent();
+            $('#deviceProtocolNameSelect').change();
+        }
+
     };
 
     DeviceService.prototype.setProtocolSelectEvent = function () {
-        $('#deviceProtocolNameSelect').on('change', function () {
-            var value = $(this).val();
-            $.each(deviceService.deviceProtocolsPropertiesTemplate, function (i, v) {
-                if (v['Protocol'] == value) {
-                    deviceService.fillProtocolFields(v['Properties']);
-                    return false;
-                }
+        if($("#device_wizard_model").hasClass("in")){
+            $('#deviceProtocolNameSelectWizard').on('change', function () {
+                var value = $(this).val();
+                $.each(deviceService.deviceProtocolsPropertiesTemplate, function (i, v) {
+                    if (v['Protocol'] == value) {
+                        deviceService.fillProtocolFields(v['Properties']);
+                        return false;
+                    }
+                });
             });
-        });
+        }else{
+            $('#deviceProtocolNameSelect').on('change', function () {
+                var value = $(this).val();
+                $.each(deviceService.deviceProtocolsPropertiesTemplate, function (i, v) {
+                    if (v['Protocol'] == value) {
+                        deviceService.fillProtocolFields(v['Properties']);
+                        return false;
+                    }
+                });
+            });
+        }
     };
 
     DeviceService.prototype.fillProtocolFields = function (protocolProperties) {
@@ -293,25 +560,29 @@ orgEdgexFoundry.deviceService = (function(){
         var deviceProtocolFieldHint = "deviceProtocolFieldHint-" + fieldKeysArray.length;
         deviceService.deviceProtocols[deviceProtocolFieldKey] = deviceProtocolFieldValue;
         if (arguments.length > 0) {
-            var field = '<div class="protocol-field" style="margin-bottom:5px;">';
-            field += '<input type="text" class="form-control" style="display:inline!important;" value="' + arguments[0]['Key'] + '" name="' + deviceProtocolFieldKey + '">&nbsp;:&nbsp;';
-            field += '<input type="text" class="form-control" style="display:inline!important;" value="' + arguments[0]['Value'] + '" name="' + deviceProtocolFieldValue + '">';
+            var field = '<div class="protocol-field" style="margin-bottom:2px;">';
+            field += '<input type="text" class="form-control" style="width:35%;display:inline!important;" value="' + arguments[0]['Key'] + '" name="' + deviceProtocolFieldKey + '">&nbsp;:&nbsp;';
+            field += '<input type="text" class="form-control" style="width:35%;display:inline!important;" value="' + arguments[0]['Value'] + '" name="' + deviceProtocolFieldValue + '">';
             field += '<label class="form-control" style="display:inline!important;border:none;" name="' + deviceProtocolFieldHint + '">' + arguments[0]['Hint'] + '</label>';
             field += '<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.removeProtocolField(\'' + deviceProtocolFieldKey + '\');">';
             field += '<i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>';
             field += '</div>';
             field += '</div>';
         } else {
-            var field = '<div class="protocol-field" style="margin-bottom:5px;">';
-            field += '<input type="text" class="form-control" style="display:inline!important;" name="' + deviceProtocolFieldKey + '">&nbsp;:&nbsp;';
-            field += '<input type="text" class="form-control" style="display:inline!important;" name="' + deviceProtocolFieldValue + '">';
+            var field = '<div class="protocol-field" style="margin-bottom:2px;">';
+            field += '<input type="text" class="form-control" style="width:35%;display:inline!important;" name="' + deviceProtocolFieldKey + '">&nbsp;:&nbsp;';
+            field += '<input type="text" class="form-control" style="width:35%;display:inline!important;" name="' + deviceProtocolFieldValue + '">';
             field += '<label class="form-control" style="display:inline!important;border:none;" name="' + deviceProtocolFieldHint + '"></label>';
             field += '<div class="edgexIconBtn" onclick="orgEdgexFoundry.deviceService.removeProtocolField(\'' + deviceProtocolFieldKey + '\');">';
             field += '<i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>';
             field += '</div>';
             field += '</div>';
         }
-        $(".device-protocol .protocol-body .protocol-field-collection").append(field);
+        if($("#device_wizard_model").hasClass("in")){
+            $(".protocol-field-collection-wizard").append(field);
+        }else{
+            $(".device-protocol .protocol-body .protocol-field-collection").append(field);
+        }
     };
 
 	// =======device service start
@@ -324,6 +595,7 @@ orgEdgexFoundry.deviceService = (function(){
 					$("#edgexfoundry-device-service-list table tfoot").show();
 					return;
 				}
+				deviceService.deviceServiceList = data;
 				deviceService.renderDeviceService(data);
 			},
 			statusCode: {
@@ -726,6 +998,7 @@ orgEdgexFoundry.deviceService = (function(){
 					$(".edgexfoundry-device-profile-main table tfoot").show();
 					return;
 				}
+				deviceService.deviceProfileList = data;
 				deviceService.renderDeviceProfile(data);
 				$(".edgexfoundry-device-profile-main table tfoot").hide();
 			},
@@ -755,6 +1028,7 @@ orgEdgexFoundry.deviceService = (function(){
 			var profileId = $(this).children("input[type='hidden']").val();
 			deviceService.deleteProfile(profileId);
 		});
+        loadDeviceProfileForSelectWizard();
 	}
 
 	DeviceService.prototype.deleteProfile = function(profileId){
