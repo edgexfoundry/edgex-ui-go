@@ -79,9 +79,9 @@ export class AddDeviceComponent implements OnInit {
 
   deviceName: string = '';
   deviceDescription: string = '';
-  deviceLabels: string[] = [];
+  deviceLabels?: string;
   deviceAdminState: string = 'UNLOCKED';
-  deviceOperatingState: string = 'ENABLED';
+  deviceOperatingState: string = 'UP';
 
   protocolTemplateModel: string = "avaliable";
   protocolName: string = '';
@@ -156,7 +156,7 @@ export class AddDeviceComponent implements OnInit {
       this.autoEventsInternal.push({
         frequency: (e.frequency as string).slice(0, index),
         onChange: e.onChange as boolean,
-        resource: e.resource as string,
+        resource: e.sourceName as string,
         unit: unit
       });
     });
@@ -253,7 +253,7 @@ export class AddDeviceComponent implements OnInit {
         return this.deviceName === undefined || this.deviceName === ''
       case 3:
         let flag = false;
-        this.autoEventsInternal.forEach((event: AutoEvent) => {
+        this.autoEventsInternal.forEach((event) => {
           if (event.resource === '' || !this.eventFrequencyNumType(event.frequency)) {
             flag = true;
             return
@@ -302,15 +302,15 @@ export class AddDeviceComponent implements OnInit {
     this.autoEventsInternal.forEach((event) => {
       autoEvents.push({
         frequency: `${parseInt(event.frequency)}${event.unit}`,
-        onChange: event.onChange as boolean,
-        resource: event.resource
+        onChange: event.onChange?true:false,
+        sourceName: event.resource
       })
     });
 
     let device: Device = {
       name: this.deviceName,
       description: this.deviceDescription,
-      labels: this.deviceLabels,
+      labels: this.deviceLabels?.split(','),
       adminState: this.deviceAdminState,
       operatingState: this.deviceOperatingState,
       serviceName: this.selectedSvc?.name as string,

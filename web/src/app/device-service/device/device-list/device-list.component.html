@@ -32,8 +32,8 @@
                       <th scope="col">AssociatedService</th>
                       <th scope="col">AdminState</th>
                       <th scope="col">OperatingState</th>
-                      <th scope="col">Created</th>
-                      <th scope="col">Modified</th>
+                      <!-- <th scope="col">Created</th>
+                      <th scope="col">Modified</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -54,15 +54,15 @@
                             </span>
                         </td>
                         <td>
-                            <a routerLink="../../device-profile-center" [queryParams]="{'profileId':device.profile.id}">{{device.profile.name}}</a>
+                            <a routerLink="../../device-profile-center" [queryParams]="{'profileName':device.profileName}">{{device.profileName}}</a>
                         </td>
                         <td>
-                            <a routerLink="../../device-service-list">{{device.service.name}}</a> 
+                            <a routerLink="../../device-service-list">{{device.serviceName}}</a> 
                         </td>
                         <td>{{device.adminState}}</td>
                         <td>{{device.operatingState}}</td>
-                        <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                        <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                        <!-- <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                     </tr>
                 </tbody>
             </table>
@@ -104,7 +104,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let event of autoEvents">
-                                <td>{{event.resource}}</td>
+                                <td>{{event.sourceName}}</td>
                                 <td><span class="badge badge-secondary badge-pill">{{event.frequency}}</span></td>
                                 <td><span class="">{{event.onChange}}</span></td>
                             </tr>
