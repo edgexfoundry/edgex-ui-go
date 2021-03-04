@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
-import { DeviceProfile } from '../../../contracts/device-profile';
+import { MultiDeviceProfileResponse, DeviceProfileResponse} from '../../../contracts/v2/responses/device-profile-response';
+import { DeviceProfile } from '../../../contracts/v2/device-profile';
 
 @Component({
   selector: 'app-device-profile-list',
@@ -24,40 +24,40 @@ export class DeviceProfileListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      if (params['profileId']) {
-        this.metaSvc.findProfileById(params['profileId']).subscribe((data: DeviceProfile) => {
+      if (params['profileName']) {
+        this.metaSvc.findProfileByName(params['profileName']).subscribe((data: DeviceProfileResponse) => {
           this.profileList = [];
-          this.profileList.push(data);
+          this.profileList.push(data.profile);
         });
       } else {
-        this.metaSvc.allDeviceProfoles().subscribe((data: DeviceProfile[]) => {
-          this.profileList = data;
+        this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+          this.profileList = data.profiles;
         });
       }
     });
   }
 
   refresh() {
-    this.metaSvc.allDeviceProfoles().subscribe((data: DeviceProfile[]) => {
-      this.profileList = data;
+    this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+      this.profileList = data.profiles;
       this.msgSvc.success('refresh');
     });
   }
 
   edit() {
-    let self = this;
-    let profileName = "";
-    this.profileList.forEach(function (profile) {
-      if (profile.id === self.selectedProfiles[0]) {
-        profileName = profile.name;
-      }
-    });
+    // let self = this;
+    // let profileName = "";
+    // this.profileList.forEach(function (profile) {
+    //   if (profile.id === self.selectedProfiles[0]) {
+    //     profileName = profile.name;
+    //   }
+    // });
 
     this.router.navigate(['../edit-profile'], {
       relativeTo: this.route,
       queryParams: {
-        'profileId': this.selectedProfiles[0],
-        'profileName': profileName
+        // 'profileId': this.selectedProfiles[0],
+        'profileName': this.selectedProfiles[0]
       }
     });
   }
@@ -67,11 +67,11 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
   delete() {
-    this.selectedProfiles.forEach((profileId) => {
-      this.metaSvc.deleteProfileById(profileId).subscribe(() => {
+    this.selectedProfiles.forEach((profileName) => {
+      this.metaSvc.deleteProfileByName(profileName).subscribe(() => {
         this.selectedProfiles = [];
         this.profileList.forEach((profile, index) => {
-          if (profile.id == profileId) {
+          if (profile.name == profileName) {
             this.profileList.splice(index, 1);
             this.msgSvc.success('delete', `  Name: ${profile.name}`);
           }

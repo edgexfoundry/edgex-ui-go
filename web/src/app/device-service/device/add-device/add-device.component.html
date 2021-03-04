@@ -81,8 +81,8 @@
                                 <th scope="col">Labels</th>
                                 <th scope="col">Manufacturer</th>
                                 <th scope="col">Model</th>
-                                <th scope="col">Created</th>
-                                <th scope="col">Modified</th>
+                                <!-- <th scope="col">Created</th>
+                                <th scope="col">Modified</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -94,8 +94,8 @@
                                 <td>{{profile.labels}}</td>
                                 <td>{{profile.manufacturer}}</td>
                                 <td>{{profile.model}}</td>
-                                <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                                <!-- <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -182,8 +182,8 @@
                                         <label class="col-md-2 col-form-label">onchange</label>
                                         <div class="col-md-10">
                                             <select class="custom-select" name="onchange" [(ngModel)]="event.onChange" style="width: 250px;">
-                                                <option value=true>true</option>
-                                                <option value=false>false</option>
+                                                <option value="true">true</option>
+                                                <option value="false">false</option>
                                             </select>
                                         </div>
                                     </div>

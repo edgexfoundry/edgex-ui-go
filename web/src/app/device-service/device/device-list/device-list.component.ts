@@ -7,10 +7,8 @@ import { MessageService } from '../../../message/message.service';
 import { Device } from '../../../contracts/device';
 import { Command } from '../../../contracts/command';
 import { AutoEvent } from 'src/app/contracts/auto-event';
-import { DeviceProfile } from '../../../contracts/device-profile';
-
+import { DeviceProfile } from '../../../contracts/v2/device-profile';
 // import * as cbor from 'cbor';
-
 
 @Component({
   selector: 'app-device-list',

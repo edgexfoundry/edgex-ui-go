@@ -3,7 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { DeviceService } from '../../../contracts/device-service';
 import { Device } from '../../../contracts/device';
-import { DeviceProfile } from '../../../contracts/device-profile';
+import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 import { AutoEvent } from '../../../contracts/auto-event';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -105,8 +106,8 @@ export class AddDeviceComponent implements OnInit {
     this.metaSvc.allDeviceServices().subscribe((data: DeviceService[]) => {
       this.deviceServiceList = data;
     });
-    this.metaSvc.allDeviceProfoles().subscribe((data: DeviceProfile[]) => {
-      this.deviceProfileList = data;
+    this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+      this.deviceProfileList = data.profiles;
     });
   }
 
@@ -300,7 +301,7 @@ export class AddDeviceComponent implements OnInit {
     this.autoEventsInternal.forEach((event) => {
       autoEvents.push({
         frequency: `${parseInt(event.frequency)}${event.unit}`,
-        onChange: event.onChange,
+        onChange: event.onChange as boolean,
         resource: event.resource
       })
     });
