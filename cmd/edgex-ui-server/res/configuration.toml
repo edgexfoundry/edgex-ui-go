@@ -20,31 +20,31 @@ Password = "su"
     Protocol = 'http'
     Host = 'localhost'
     Port = 48080
-    PathPrefix = "/core-data"
+    PathPrefix = "/coredata"
 
     [Clients.Metadata]
     Protocol = 'http'
     Host = 'localhost'
     Port = 48081
-    PathPrefix = "/core-metadata"
+    PathPrefix = "/metadata"
 
     [Clients.CoreCommand]
     Protocol = 'http'
     Host = 'localhost'
     Port = 48082
-    PathPrefix = "/core-command"
+    PathPrefix = "/command"
 
     [Clients.Notification]
     Protocol = 'http'
     Host = 'localhost'
     Port = 48060
-    PathPrefix = "/support-notification"
+    PathPrefix = "/notification"
 
     [Clients.Scheduler]
     Protocol = 'http'
     Host = 'localhost'
     Port = 48085
-    PathPrefix = "/support-scheduler"
+    PathPrefix = "/scheduler"
 
     [Clients.RuleEngine]
     Protocol = 'http'
