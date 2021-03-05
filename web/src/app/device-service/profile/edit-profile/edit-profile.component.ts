@@ -3,14 +3,13 @@ import { ActivatedRoute,Router } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
-import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent implements OnInit,OnDestroy {
+export class EditProfileComponent implements OnInit, OnDestroy {
 
   profileYamlSource?: any;
   codeMirrorEditor: any;
@@ -29,16 +28,14 @@ export class EditProfileComponent implements OnInit,OnDestroy {
         this.metaSvc.findProfileYamlByNameViaUIBackend(params['profileName']).subscribe((data: any) => {
           // this.profileYamlSource = data;
           this.codeMirrorEditor.setValue(data);
+          this.codeMirrorEditor.refresh();
         });
       }
     });
   }
 
   update() {
-    // this.profileYamlSource = this.codeMirrorEditor.getValue();
-    let d = $("#editor").val()
-    // console.log(d)
-    // return
+    this.codeMirrorEditor.refresh();
     this.metaSvc.updateProfileYamlContentViaUIBackend(this.codeMirrorEditor.getValue()).subscribe(data => {
       this.msgSvc.success('Update profile', `name: ${this.profileName}`);
       this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
