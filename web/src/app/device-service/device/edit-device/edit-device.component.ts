@@ -152,7 +152,7 @@ export class EditDeviceComponent implements OnInit {
 
   selectOneProfile(event: any, name: string) {
     const checkbox = event.target;
-    this.device?.autoEvents.splice(0, this.device?.autoEvents.length);
+    
     if (checkbox.checked) {
       this.deviceProfileList.forEach((profile) => {
         if (profile.name === name) {
