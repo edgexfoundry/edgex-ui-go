@@ -16,7 +16,10 @@ export class DeviceProfileListComponent implements OnInit {
   profileList: DeviceProfile[] = [];
   selectedProfiles: string[] = [];
   isCheckedAll: boolean = false;
-
+  pagination: number = 1;
+  pageLimit: number = 5;
+  pageOffset: number = (this.pagination - 1) * this.pageLimit;
+  
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
@@ -30,7 +33,7 @@ export class DeviceProfileListComponent implements OnInit {
           this.profileList.push(data.profile);
         });
       } else {
-        this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+        this.metaSvc.allDeviceProfolesPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
           this.profileList = data.profiles;
         });
       }
@@ -38,25 +41,53 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
   refresh() {
-    this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+    this.metaSvc.allDeviceProfolesPagination(0,this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
       this.profileList = data.profiles;
       this.msgSvc.success('refresh');
+      this.pagination = 1;
     });
   }
 
-  edit() {
-    // let self = this;
-    // let profileName = "";
-    // this.profileList.forEach(function (profile) {
-    //   if (profile.id === self.selectedProfiles[0]) {
-    //     profileName = profile.name;
-    //   }
-    // });
+  prePage() {
+    this.setPagination(-1);
+    this.metaSvc.allDeviceProfolesPagination(this.pageOffset,this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
+      this.profileList = data.profiles;
+      
+    });
+  }
 
+  nextPage() {
+    this.setPagination(1);
+    this.metaSvc.allDeviceProfolesPagination(this.pageOffset,this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
+      this.profileList = data.profiles;
+    });
+  }
+
+  resetPagination() {
+    this.pageOffset = 0;
+    this.pageLimit = 5;
+  }
+
+  setPageLimit(n: number) {
+    this.pageLimit = n;
+  }
+
+  setPagination(n?: number) {
+    if (n === 1) {
+      this.pagination += 1;
+      
+    } else {
+      this.pagination -= 1;
+    }
+
+    this.pageOffset = (this.pagination - 1) * this.pageLimit;
+   
+  }
+
+  edit() {
     this.router.navigate(['../edit-profile'], {
       relativeTo: this.route,
       queryParams: {
-        // 'profileId': this.selectedProfiles[0],
         'profileName': this.selectedProfiles[0]
       }
     });
