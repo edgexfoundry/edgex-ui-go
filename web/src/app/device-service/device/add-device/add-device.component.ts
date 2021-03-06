@@ -64,7 +64,7 @@ export class AddDeviceComponent implements OnInit {
   noSelectedClass = "text-white rounded px-2 bg-secondary  font-weight-bold";
 
   deviceServiceList: DeviceService[] = [];
-  deviceProfileList: DeviceProfile[] = [];
+  // deviceProfileList: DeviceProfile[] = [];
 
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
@@ -107,9 +107,15 @@ export class AddDeviceComponent implements OnInit {
     this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
       this.deviceServiceList = data.services;
     });
-    this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
-      this.deviceProfileList = data.profiles;
-    });
+    // this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+    //   this.deviceProfileList = data.profiles;
+    // });
+  }
+
+  onSingleProfileSelected(profile: DeviceProfile) {
+    console.log("ssssssss")
+    this.selectedProfile = profile;
+    
   }
 
   onAvailProtocolSelect() {
@@ -208,22 +214,22 @@ export class AddDeviceComponent implements OnInit {
     this.autoEventsInternal.splice(this.autoEventsInternal.indexOf(event), 1);
   }
 
-  isProfileChecked(name: string): boolean {
-    return this.selectedProfile?.name === name
-  }
+  // isProfileChecked(name: string): boolean {
+  //   return this.selectedProfile?.name === name
+  // }
 
-  selectOneProfile(event: any, name: string) {
-    const checkbox = event.target;
-    if (checkbox.checked) {
-      this.deviceProfileList.forEach((profile) => {
-        if (profile.name === name) {
-          this.selectedProfile = profile;
-        }
-      });
-    } else {
-      this.selectedProfile = undefined;
-    }
-  }
+  // selectOneProfile(event: any, name: string) {
+  //   const checkbox = event.target;
+  //   if (checkbox.checked) {
+  //     this.deviceProfileList.forEach((profile) => {
+  //       if (profile.name === name) {
+  //         this.selectedProfile = profile;
+  //       }
+  //     });
+  //   } else {
+  //     this.selectedProfile = undefined;
+  //   }
+  // }
 
   isSvcChecked(name: string): boolean {
     return this.selectedSvc?.name === name
