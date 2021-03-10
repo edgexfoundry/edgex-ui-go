@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-list text-danger"></i> Interval List
+    </div>
+    <div class="card-body p-0 position-relative">
+        <div class="bg-light px-2 py-2">
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-primary" (click)="refresh()">
+                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                </button>
+                <button type="button" class="btn btn-info"  routerLink="../add-interval">
+                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                </button>
+                <button type="button" class="btn btn-success"  >
+                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                </button>
+                <button type="button" class="btn btn-danger">
+                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                </button>
+              </div>
+        </div>
+        <div class="table-responsive ">
+            <table class="table table-hover text-truncate ">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col"><input type="checkbox" role="button" (click)="selectAll($event)"></th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Start</th>
+                      <th scope="col">End</th>
+                      <th scope="col">Frequency</th>
+                      <th scope="col">RunOnce</th>
+                      <th scope="col">Created</th>
+                      <th scope="col">Modified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let interval of intervalList" [class.table-active]="isChecked(interval.id)">
+                        <td> <input type="checkbox" role="button"  [checked]="isChecked(interval.id)" (click)="selectOne($event,interval)"></td>
+                        <td class="user-select-all">{{interval.id}}</td>
+                        <td class="user-select-all">{{interval.name}}</td>
+                        <td>{{interval.start}}</td>
+                        <td>{{interval.end}}</td>
+                        <td>{{interval.frequency}}</td>
+                        <td>{{interval.runOnce}}</td>
+                        <td>{{interval.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{interval.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    
+    
