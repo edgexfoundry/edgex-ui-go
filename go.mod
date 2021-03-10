@@ -5,7 +5,7 @@ go 1.15
 require (
 	github.com/armon/go-metrics v0.3.3 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.3.2
-	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0-dev.41
+	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0-dev.46
 	github.com/edgexfoundry/go-mod-registry v0.1.27
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
@@ -22,5 +22,5 @@ require (
 	golang.org/x/crypto v0.0.0-20191106202628-ed6320f186d4 // indirect
 	golang.org/x/sys v0.0.0-20200409092240-59c9f1ba88fa // indirect
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce
-	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0
 )
