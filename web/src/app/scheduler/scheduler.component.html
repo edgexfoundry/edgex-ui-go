@@ -1,1 +1,15 @@
-<p>scheduler works!</p>
+<div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs font-weight-bold">
+          <li class="nav-item">
+            <a class="nav-link " routerLink="./interval-center" routerLinkActive="active">Interval</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="./interval-action-center" routerLinkActive="active">IntervalAction</a>
+          </li>
+      </ul>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
+</div>
