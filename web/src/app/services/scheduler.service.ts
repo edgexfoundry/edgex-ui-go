@@ -70,7 +70,7 @@ export class SchedulerService {
   //interval action resource
 
   findAllIntervalActionsPagination(offset: number, limit: number): Observable<MultiIntervalActionResponse> {
-    let url = `${this.findAllIntervalActionsPagination}?offset=${offset}&limit=${limit}`;
+    let url = `${this.intervalActionListUrl}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiIntervalActionResponse>(url)
   }
 
