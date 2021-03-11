@@ -39,7 +39,8 @@
               "node_modules/codemirror/theme/elegant.css",
               "node_modules/codemirror/theme/gruvbox-dark.css",
               "node_modules/codemirror/addon/scroll/simplescrollbars.css",
-              "node_modules/codemirror/addon/fold/foldgutter.css"
+              "node_modules/codemirror/addon/fold/foldgutter.css",
+              "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -55,7 +56,8 @@
               "node_modules/codemirror/addon/fold/foldgutter.js",
               "node_modules/codemirror/addon/mode/loadmode.js",
               "node_modules/codemirror/addon/fold/indent-fold.js",
-              "node_modules/cbor-js/cbor.js"
+              "node_modules/cbor-js/cbor.js",
+              "node_modules/flatpickr/dist/flatpickr.min.js"
             ]
           },
           "configurations": {
