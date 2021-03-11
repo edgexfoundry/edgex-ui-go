@@ -46,19 +46,19 @@ export class SchedulerService {
 
   addInterval(interval: Interval): Observable<BaseWithIdResponse> {
     let url = `${this.addOneIntervalUrl}`;
-    let data: IntervalRequest = {
+    let data: IntervalRequest[] = [{
       apiVersion: 'v2',
       interval: interval
-    };
+    }];
     return this.http.post<BaseWithIdResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
   updateInterval(interval: Interval): Observable<BaseResponse> {
     let url = `${this.updateOneIntervalUrl}`;
-    let data: IntervalRequest = {
+    let data: IntervalRequest[] = [{
       apiVersion: 'v2',
       interval: interval
-    };
+    }];
     return this.http.patch<BaseResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
@@ -76,19 +76,19 @@ export class SchedulerService {
 
   addIntervalAction(intervalAction: IntervalAction): Observable<BaseWithIdResponse> {
     let url = `${this.addOneIntervalActionUrl}`;
-    let data: IntervalActionRequest = {
+    let data: IntervalActionRequest[] = [{
       apiVersion: 'v2',
       action: intervalAction
-    };
+    }];
     return this.http.post<BaseWithIdResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
   updateIntervalAction(intervalAction: IntervalAction): Observable<BaseResponse> {
     let url = `${this.updateOneIntervaActionlUrl}`;
-    let data: IntervalActionRequest = {
+    let data: IntervalActionRequest[] = [{
       apiVersion: 'v2',
       action: intervalAction
-    };
+    }];
     return this.http.patch<BaseResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
