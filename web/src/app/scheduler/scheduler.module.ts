@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { SchedulerRoutingModule } from './scheduler-routing.module';
 import { SchedulerComponent } from './scheduler.component';
@@ -17,6 +18,7 @@ import { IntervalActionCenterComponent } from './intervalaction/interval-action-
   declarations: [SchedulerComponent, AddIntervalComponent, EditIntervalComponent, IntervalListComponent, IntervalActionListComponent, AddIntervalActionComponent, EditIntervalActionComponent, IntervalCenterComponent, IntervalActionCenterComponent],
   imports: [
     CommonModule,
+    FormsModule,
     SchedulerRoutingModule
   ]
 })
