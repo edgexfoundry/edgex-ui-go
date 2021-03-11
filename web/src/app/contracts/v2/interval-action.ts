@@ -1,20 +1,10 @@
+import { Address } from "./address";
 import { Versionable } from "./common/versionable";
 
-export interface IntervalAction extends Versionable {
+export interface IntervalAction extends Versionable, Address {
     id: string,
     name: string,
-    intervalName: string,
-    protocol: string,
-    host: string,
-    port: number,
-    path: string,
-    parameters: string,
-    httpMethod: string,
-    user: string,
-    password: string,
-    publisher: string,
-    target: string,
-    topic: string,
+    intervalName: string, 
     created: number,
     modified: number
 }
