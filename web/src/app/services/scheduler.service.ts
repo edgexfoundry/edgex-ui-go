@@ -15,7 +15,7 @@ import { IntervalActionResponse, MultiIntervalActionResponse } from '../contract
 })
 export class SchedulerService {
 
-  endpoint: string = "/metadata";
+  endpoint: string = "/scheduler";
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
@@ -39,12 +39,12 @@ export class SchedulerService {
   constructor(private http: HttpClient) { }
 
   //interval resource
-  findAllSchedulersPagination(offset: number, limit: number): Observable<MultiIntervalResponse> {
+  findAllIntervalsPagination(offset: number, limit: number): Observable<MultiIntervalResponse> {
     let url = `${this.intervalListUrl}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiIntervalResponse>(url)
   }
 
-  addScheduler(interval: Interval): Observable<BaseWithIdResponse> {
+  addInterval(interval: Interval): Observable<BaseWithIdResponse> {
     let url = `${this.addOneIntervalUrl}`;
     let data: IntervalRequest = {
       apiVersion: 'v2',
@@ -53,7 +53,7 @@ export class SchedulerService {
     return this.http.post<BaseWithIdResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
-  updateScheduler(interval: Interval): Observable<BaseResponse> {
+  updateInterval(interval: Interval): Observable<BaseResponse> {
     let url = `${this.updateOneIntervalUrl}`;
     let data: IntervalRequest = {
       apiVersion: 'v2',
@@ -62,7 +62,7 @@ export class SchedulerService {
     return this.http.patch<BaseResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
-  deleteSchedulerByName(name: string): Observable<BaseResponse> {
+  deleteIntervalByName(name: string): Observable<BaseResponse> {
     let url = `${this.deleteOneIntervalByNameUrl}${name}`;
     return this.http.delete<BaseResponse>(url)
   }
@@ -74,7 +74,7 @@ export class SchedulerService {
     return this.http.get<MultiIntervalActionResponse>(url)
   }
 
-  addSchedulerAction(intervalAction: IntervalAction): Observable<BaseWithIdResponse> {
+  addIntervalAction(intervalAction: IntervalAction): Observable<BaseWithIdResponse> {
     let url = `${this.addOneIntervalActionUrl}`;
     let data: IntervalActionRequest = {
       apiVersion: 'v2',
@@ -83,7 +83,7 @@ export class SchedulerService {
     return this.http.post<BaseWithIdResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
-  updateSchedulerAction(intervalAction: IntervalAction): Observable<BaseResponse> {
+  updateIntervalAction(intervalAction: IntervalAction): Observable<BaseResponse> {
     let url = `${this.updateOneIntervaActionlUrl}`;
     let data: IntervalActionRequest = {
       apiVersion: 'v2',
@@ -92,7 +92,7 @@ export class SchedulerService {
     return this.http.patch<BaseResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
-  deleteSchedulerActionByName(name: string): Observable<BaseResponse> {
+  deleteIntervalActionByName(name: string): Observable<BaseResponse> {
     let url = `${this.deleteOneIntervalActionByNameUrl}${name}`;
     return this.http.delete<BaseResponse>(url)
   }
