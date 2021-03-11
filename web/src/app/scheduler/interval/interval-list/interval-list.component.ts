@@ -26,7 +26,7 @@ export class IntervalListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-      this.findSchedulersPagination();
+      this.findIntervalsPagination();
   }
 
   refresh() {
@@ -37,7 +37,7 @@ export class IntervalListComponent implements OnInit {
     });
   }
 
-  findSchedulersPagination() {
+  findIntervalsPagination() {
     this.schedulerSvc.findAllIntervalsPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiIntervalResponse) => {
       this.intervalList = data.intervals;
     });
@@ -101,7 +101,7 @@ export class IntervalListComponent implements OnInit {
         });
         this.msgSvc.success('delete', `name: ${interval.name}`);
         this.resetPagination();
-        this.findSchedulersPagination();
+        this.findIntervalsPagination();
       });
     });
     $("#deleteConfirmDialog").modal('hide');
@@ -109,12 +109,12 @@ export class IntervalListComponent implements OnInit {
 
   prePage() {
     this.setPagination(-1);
-    this.findSchedulersPagination();
+    this.findIntervalsPagination();
   }
 
   nextPage() {
     this.setPagination(1);
-    this.findSchedulersPagination();
+    this.findIntervalsPagination();
   }
 
   setPagination(n?: number) {
