@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { BaseWithIdResponse, BaseResponse } from '../contracts/v2/common/base-response';
 import { IntervalRequest } from '../contracts/v2/requests/interval-request';
 import { Interval } from '../contracts/v2/interval';
-import { MultiIntervalResponse } from '../contracts/v2/responses/interval-response';
+import { IntervalResponse, MultiIntervalResponse } from '../contracts/v2/responses/interval-response';
 import { IntervalAction } from '../contracts/v2/interval-action';
 import { IntervalActionRequest } from '../contracts/v2/requests/interval-action-request';
 import { IntervalActionResponse, MultiIntervalActionResponse } from '../contracts/v2/responses/interval-action-response';
@@ -22,11 +22,13 @@ export class SchedulerService {
   intervalListUrl: string = `${this.urlPrefix}/interval/all` ;
   addOneIntervalUrl: string = `${this.urlPrefix}/interval`;
   updateOneIntervalUrl: string = `${this.urlPrefix}/interval`;
+  findOneIntervalByNameUrl: string = `${this.urlPrefix}/interval/name/`;
   deleteOneIntervalByNameUrl: string = `${this.urlPrefix}/interval/name/`;
 
   intervalActionListUrl: string = `${this.urlPrefix}/intervalaction/all`;
   addOneIntervalActionUrl: string = `${this.urlPrefix}/intervalaction`;
   updateOneIntervaActionlUrl: string = `${this.urlPrefix}/intervalactionn`;
+  findOneIntervalActionByNameUrl: string = `${this.urlPrefix}/intervalaction/name/`;
   deleteOneIntervalActionByNameUrl: string = `${this.urlPrefix}/intervalaction/name/`;
 
   httpPostOrPutJSONOptions = {
@@ -62,6 +64,11 @@ export class SchedulerService {
     return this.http.patch<BaseResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
   }
 
+  findIntervalByName(name: string): Observable<IntervalResponse> {
+    let url = `${this.findOneIntervalByNameUrl}${name}`;
+    return this.http.get<IntervalResponse>(url)
+  }
+
   deleteIntervalByName(name: string): Observable<BaseResponse> {
     let url = `${this.deleteOneIntervalByNameUrl}${name}`;
     return this.http.delete<BaseResponse>(url)
@@ -90,6 +97,11 @@ export class SchedulerService {
       action: intervalAction
     }];
     return this.http.patch<BaseResponse>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions)
+  }
+
+  findIntervalActionByName(name: string): Observable<IntervalActionResponse> {
+    let url = `${this.findOneIntervalActionByNameUrl}${name}`;
+    return this.http.get<IntervalActionResponse>(url)
   }
 
   deleteIntervalActionByName(name: string): Observable<BaseResponse> {
