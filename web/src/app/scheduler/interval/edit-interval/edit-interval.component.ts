@@ -24,12 +24,13 @@ export class EditIntervalComponent implements OnInit, OnDestroy {
     private router: Router) { }
 
   ngOnInit(): void {
+    
     this.route.queryParams.subscribe(param => {
       if (param['intervalName']) {
         this.schedulerSvc.findIntervalByName(param['intervalName']).subscribe((data: IntervalResponse) => {
           this.interval = data.interval;
           this.interval.runOnce = this.interval.runOnce?true:false;
-          setTimeout(this.initDatePickr,300);
+          this.initDatePickr();
         });
       }
     });
