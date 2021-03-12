@@ -1,1 +1,83 @@
-<p>interval-action-list works!</p>
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-list text-danger"></i> Interval Action List
+    </div>
+    <div class="card-body p-0 position-relative">
+        <div class="bg-light px-2 py-2">
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-primary" (click)="refresh()">
+                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                </button>
+                <button type="button" class="btn btn-info"  routerLink="../add-interval-action">
+                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                </button>
+                <button type="button" class="btn btn-success" (click)="edit()" [disabled]="intervalActionSelected.length !== 1">
+                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                </button>
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="intervalActionSelected.length === 0">
+                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                </button>
+              </div>
+        </div>
+        <div class="table-responsive ">
+            <table class="table table-hover text-truncate ">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Action</th>
+                      <th scope="col">Interval</th>
+                      <!-- <th scope="col">Created</th>
+                      <th scope="col">Modified</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let intervalAction of intervalActionList" [class.table-active]="isChecked(intervalAction.name)">
+                        <td> <input type="checkbox" role="button"  [checked]="isChecked(intervalAction.name)" (click)="selectOne($event,intervalAction)"></td>
+                        <td class="user-select-all">{{intervalAction.id}}</td>
+                        <td class="user-select-all">{{intervalAction.name}}</td>
+                        <td>Action</td>
+                        <td>{{intervalAction.intervalName}}</td>                        
+                        <!-- <td>{{interval.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{interval.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted p-1">
+        <nav aria-label="navigation">
+            <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-1">
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                </li>
+                <li class="page-item" >
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > intervalActionList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
+                    <i class="fa fa-warning"></i>
+                    Warning
+                </h5>  
+            </div>
+            <div class="modal-body">
+                The data will be permanently erased!!! Are you sure to execute delete operation？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="deleteIntervalActions()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
