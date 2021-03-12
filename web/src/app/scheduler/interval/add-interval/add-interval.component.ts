@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Interval } from '../../../contracts/v2/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
-import { MultiIntervalResponse } from '../../../contracts/v2/responses/interval-response';
 import { MessageService } from '../../../message/message.service';
 
 @Component({
@@ -38,21 +37,18 @@ export class AddIntervalComponent implements OnInit {
       enableTime: true,
       enableSeconds: true,
       time_24hr: true,
-      allowInput: false,
-      defaultDate: new Date()
+      allowInput: false
     });
     $("input[name='intervalEnd']").flatpickr({
       dateFormat: "YmdTHiS",
       enableTime: true,
       enableSeconds: true,
       time_24hr: true,
-      allowInput: false,
-      defaultDate: Date.now(),
+      allowInput: false
     });
   }
 
   submit() {
-    this.interval.runOnce = this.interval.runOnce?true:false;
     this.schedulerSvc.addInterval(this.interval).subscribe(() => {
       this.msgSvc.success("create new interval", `name: ${this.interval.name}`);
       this.router.navigate(['../interval-list'], { relativeTo: this.route });
