@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Interval } from '../../../contracts/v2/interval';
@@ -10,7 +10,7 @@ import { MessageService } from '../../../message/message.service';
   templateUrl: './add-interval.component.html',
   styleUrls: ['./add-interval.component.css']
 })
-export class AddIntervalComponent implements OnInit {
+export class AddIntervalComponent implements OnInit, OnDestroy {
 
   interval: Interval = {
     apiVersion: "v2",
@@ -28,10 +28,9 @@ export class AddIntervalComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    $(function () {
-      $('[data-toggle="popover"]').popover();
-    })
-
+    $('[data-toggle="popover"]').popover({
+      trigger: 'hover'
+    });
     $("input[name='intervalStart']").flatpickr({
       dateFormat: "YmdTHiS",
       enableTime: true,
@@ -53,5 +52,9 @@ export class AddIntervalComponent implements OnInit {
       this.msgSvc.success("create new interval", `name: ${this.interval.name}`);
       this.router.navigate(['../interval-list'], { relativeTo: this.route });
     });
+  }
+
+  ngOnDestroy(): void {
+    $('[data-toggle="popover"]').popover('dispose');
   }
 }
