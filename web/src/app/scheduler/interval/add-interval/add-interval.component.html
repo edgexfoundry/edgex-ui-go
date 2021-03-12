@@ -1,1 +1,67 @@
-<p>add-interval works!</p>
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-plus text-danger"></i>
+        Add Interval
+        <button class="btn btn-sm btn-success float-right" (click)="submit()" [disabled]="!interval.name">Submit</button>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group row has-validation">
+                <label for="intervalName" class="col-md-2 col-form-label" required>Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="validationIntervalNameFeedback" [class.is-invalid]="!interval.name" [class.is-valid]="interval.name" name="intervalName" [(ngModel)]="interval.name">
+                    <div id="validationIntervalNameFeedback" class="invalid-feedback">
+                        <small>the interval name can't be empty!</small> 
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="intervalStart" class="col-md-2 col-form-label">Start</label>
+                <div class="col-md-10">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-intervalStart"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="intervalStart" [(ngModel)]="interval.start">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="intervalEnd" class="col-md-2 col-form-label">End</label>
+                <div class="col-md-10">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-intervalStart"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="intervalEnd" [(ngModel)]="interval.end">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="intervalFrequency" class="col-md-2 col-form-label">
+                    <span class="mr-2">Frequency</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-toggle="popover" title="ISO8601 duration format" 
+                    data-content="
+                    P1Y2M2DT1H2M1S: 1year 2months 2days 1hour 1minute 1second&lt;br&gt; &lt;br&gt; 
+                    P2W: 2weeks &lt;br&gt; 
+                    P2D: 2days &lt;br&gt;
+                    P2DT2H: 2days2hours &lt;br&gt;
+                    PT24H: 24hours &lt;br&gt; 
+                    PT5M: 5minutes"></span>
+                </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="intervalFrequency" [(ngModel)]="interval.frequency">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="intervalRunOnce" class="col-md-2 col-form-label">RunOnce</label>
+                <div class="col-md-10">
+                    <select class="form-control" name="intervalRunOnce" [(ngModel)]="interval.runOnce">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
