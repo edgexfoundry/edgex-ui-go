@@ -5,6 +5,8 @@ import { Interval } from '../../../contracts/v2/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { MessageService } from '../../../message/message.service';
 
+import flatpickr from 'flatpickr';
+
 @Component({
   selector: 'app-add-interval',
   templateUrl: './add-interval.component.html',
@@ -21,6 +23,8 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
     frequency: "",
     runOnce: false
   };
+  calendarStart: any;
+  calendarEnd: any;
 
   constructor(private schedulerSvc:SchedulerService, 
     private msgSvc: MessageService,
@@ -31,14 +35,18 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
     $('[data-toggle="popover"]').popover({
       trigger: 'hover'
     });
-    $("input[name='intervalStart']").flatpickr({
+    this.initDatePickr();
+  }
+
+  initDatePickr() {
+    this.calendarStart = flatpickr("input[name='intervalStart']", {
       dateFormat: "YmdTHiS",
       enableTime: true,
       enableSeconds: true,
       time_24hr: true,
       allowInput: false
     });
-    $("input[name='intervalEnd']").flatpickr({
+    this.calendarEnd = flatpickr("input[name='intervalEnd']", {
       dateFormat: "YmdTHiS",
       enableTime: true,
       enableSeconds: true,
