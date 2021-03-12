@@ -20,7 +20,7 @@
                 <div class="col-md-10">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="addon-intervalStart"><i class="fa fa-calendar"></i></span>
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                         </div>
                         <input type="text" class="form-control" name="intervalStart" [(ngModel)]="interval.start">
                     </div>
@@ -31,7 +31,7 @@
                 <div class="col-md-10">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="addon-intervalStart"><i class="fa fa-calendar"></i></span>
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                         </div>
                         <input type="text" class="form-control" name="intervalEnd" [(ngModel)]="interval.end">
                     </div>
@@ -57,8 +57,8 @@
                 <label for="intervalRunOnce" class="col-md-2 col-form-label">RunOnce</label>
                 <div class="col-md-10">
                     <select class="form-control" name="intervalRunOnce" [(ngModel)]="interval.runOnce">
-                        <option value="false">false</option>
-                        <option value="true">true</option>
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
                     </select>
                 </div>
             </div>
