@@ -71,14 +71,11 @@
     <div class="card-footer text-muted p-1">
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
-                <li class="page-item disabled">
-                    <a class="page-link" href="javascript:void(0)">Previous</a>
+                <li class="page-item mr-1">
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
                 </li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="javascript:void(0)">Next</a>
+                <li class="page-item" >
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceList.length">Next <i class="fa fa-angle-double-right"></i></button>
                 </li>
             </ul>
         </nav>
