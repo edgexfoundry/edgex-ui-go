@@ -69,6 +69,13 @@ export class MetadataService {
     )
   }
 
+  allDevicesPagination(offset: number, limit: number): Observable<MultiDeviceResponse> {
+    let url = `${this.devicesListUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiDeviceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
   addDevice(device: Device): Observable<BaseWithIdResponse> {
     let url = `${this.addOneDeviceUrl}`;
     device.apiVersion = 'v2';

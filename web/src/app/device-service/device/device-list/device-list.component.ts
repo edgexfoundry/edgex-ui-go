@@ -39,6 +39,10 @@ export class DeviceListComponent implements OnInit {
   cmdSetResponse: any;
   cmdSetResponseRaw: any;
 
+  pagination: number = 1;
+  pageLimit: number = 5;
+  pageOffset: number = (this.pagination - 1) * this.pageLimit;
+
   constructor(
     private metaSvc: MetadataService,
     private cmdSvc: CommandService,
@@ -56,19 +60,27 @@ export class DeviceListComponent implements OnInit {
         this.metaSvc.findDevicesByProfileName(params['profileName']).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
         return
       } else {
-        this.getDeviceList()
+        this.getDeviceListPagination();
       }
     });
   }
 
+  //deprecated
   getDeviceList() {
     this.metaSvc.allDevices().subscribe((data: MultiDeviceResponse) => { this.deviceList = data.devices });
   }
 
+  getDeviceListPagination() {
+    this.metaSvc.allDevicesPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiDeviceResponse) => {
+      this.deviceList = data.devices;
+    });
+  }
+
   refresh() {
-    this.metaSvc.allDevices().subscribe((data: MultiDeviceResponse) => {
+    this.metaSvc.allDevicesPagination(0, this.pageLimit).subscribe((data: MultiDeviceResponse) => {
       this.deviceList = data.devices;
       this.msgSvc.success('refresh');
+      this.resetPagination();
     });
   }
 
@@ -261,5 +273,28 @@ export class DeviceListComponent implements OnInit {
           console.log(error)
         }
       );
+  }
+
+  prePage() {
+    this.setPagination(-1);
+    this.getDeviceListPagination();
+  }
+
+  nextPage() {
+    this.setPagination(1);
+    this.getDeviceListPagination();
+  }
+
+  setPagination(n?: number) {
+    if (n === 1) {
+      this.pagination += 1;
+    } else {
+      this.pagination -= 1;
+    }
+    this.pageOffset = (this.pagination - 1) * this.pageLimit;
+  }
+
+  resetPagination() {
+    this.pagination = 1;
   }
 }
