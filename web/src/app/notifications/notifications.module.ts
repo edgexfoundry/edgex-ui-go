@@ -7,9 +7,11 @@ import { SubscriptionListComponent } from './subscription/subscription-list/subs
 import { AddSubscriptionComponent } from './subscription/add-subscription/add-subscription.component';
 import { EditSubscriptionComponent } from './subscription/edit-subscription/edit-subscription.component';
 import { SubscriptionCenterComponent } from './subscription/subscription-center/subscription-center.component';
+import { NotificationListComponent } from './notification/notification-list/notification-list.component';
+import { NotificationCenterComponent } from './notification/notification-center/notification-center.component';
 
 @NgModule({
-  declarations: [NotificationsComponent, SubscriptionListComponent, AddSubscriptionComponent, EditSubscriptionComponent, SubscriptionCenterComponent],
+  declarations: [NotificationsComponent, SubscriptionListComponent, AddSubscriptionComponent, EditSubscriptionComponent, SubscriptionCenterComponent, NotificationListComponent, NotificationCenterComponent],
   imports: [
     CommonModule,
     NotificationsRoutingModule

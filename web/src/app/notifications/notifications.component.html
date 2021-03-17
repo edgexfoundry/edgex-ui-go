@@ -1,1 +1,15 @@
-<p>notifications works!</p>
+<div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs font-weight-bold">
+          <li class="nav-item">
+            <a class="nav-link " routerLink="./notification-center" routerLinkActive="active">NotificationCenter</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="./subscription-center" routerLinkActive="active">Subscription</a>
+          </li>
+      </ul>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
+</div>
