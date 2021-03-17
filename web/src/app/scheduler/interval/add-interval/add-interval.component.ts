@@ -20,7 +20,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Interval } from '../../../contracts/v2/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { MessageService } from '../../../message/message.service';
-
+import { ErrorService } from '../../../services/error.service';
+import { BaseWithIdResponse } from '../../../contracts/v2/common/base-response';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -45,7 +46,8 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
   constructor(private schedulerSvc:SchedulerService, 
     private msgSvc: MessageService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private errSvc: ErrorService) { }
 
   ngOnInit(): void {
     $('[data-toggle="popover"]').popover({
@@ -72,7 +74,10 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.schedulerSvc.addInterval(this.interval).subscribe(() => {
+    this.schedulerSvc.addInterval(this.interval).subscribe((data: BaseWithIdResponse[]) => {
+      if (this.errSvc.handleErrorForV2API(data)){
+        return
+      }
       this.msgSvc.success("create new interval", `name: ${this.interval.name}`);
       this.router.navigate(['../interval-list'], { relativeTo: this.route });
     });

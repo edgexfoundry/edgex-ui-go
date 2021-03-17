@@ -21,6 +21,8 @@ import { Interval } from '../../../contracts/v2/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { IntervalResponse } from '../../../contracts/v2/responses/interval-response';
 import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
+import { BaseResponse } from '../../../contracts/v2/common/base-response';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -37,16 +39,22 @@ export class EditIntervalComponent implements OnInit, OnDestroy {
   constructor(private schedulerSvc:SchedulerService, 
     private msgSvc: MessageService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private errSvc: ErrorService) { }
 
   ngOnInit(): void {
     
     this.route.queryParams.subscribe(param => {
       if (param['intervalName']) {
         this.schedulerSvc.findIntervalByName(param['intervalName']).subscribe((data: IntervalResponse) => {
+          if (this.errSvc.handleErrorForV2API(data)){
+            return
+          }
           this.interval = data.interval;
           this.interval.runOnce = this.interval.runOnce?true:false;
-          this.initDatePickr();
+          setTimeout(() => {
+            this.initDatePickr();
+          }, 300);
         });
       }
     });
@@ -73,7 +81,10 @@ export class EditIntervalComponent implements OnInit, OnDestroy {
   }
 
   update() {
-    this.schedulerSvc.updateInterval(this.interval as Interval).subscribe(() => {
+    this.schedulerSvc.updateInterval(this.interval as Interval).subscribe((data: BaseResponse[]) => {
+      if (this.errSvc.handleErrorForV2API(data)){
+        return
+      }
       this.msgSvc.success('update interval', `name: ${this.interval?.name}`);
       this.router.navigate(['../interval-list'],{relativeTo: this.route})
     });

@@ -21,6 +21,8 @@ import { Interval } from '../../../contracts/v2/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { MultiIntervalResponse } from '../../../contracts/v2/responses/interval-response';
 import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
+import { BaseResponse } from '../../../contracts/v2/common/base-response';
 
 @Component({
   selector: 'app-interval-list',
@@ -39,7 +41,8 @@ export class IntervalListComponent implements OnInit {
   constructor(private schedulerSvc:SchedulerService, 
     private msgSvc: MessageService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private errSvc: ErrorService) { }
 
   ngOnInit(): void {
       this.findIntervalsPagination();
@@ -47,6 +50,9 @@ export class IntervalListComponent implements OnInit {
 
   refresh() {
     this.schedulerSvc.findAllIntervalsPagination(0, this.pageLimit).subscribe((data: MultiIntervalResponse) => {
+      if (this.errSvc.handleErrorForV2API(data)){
+        return
+      }
       this.intervalList = data.intervals;
       this.msgSvc.success('refresh');
       this.resetPagination();
@@ -55,6 +61,9 @@ export class IntervalListComponent implements OnInit {
 
   findIntervalsPagination() {
     this.schedulerSvc.findAllIntervalsPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiIntervalResponse) => {
+      if (this.errSvc.handleErrorForV2API(data)){
+        return
+      }
       this.intervalList = data.intervals;
     });
   }
@@ -108,7 +117,10 @@ export class IntervalListComponent implements OnInit {
 
   deleteIntervals() {
     this.intervalSelected.forEach(interval => {
-      this.schedulerSvc.deleteIntervalByName(interval.name).subscribe(() => {
+      this.schedulerSvc.deleteIntervalByName(interval.name).subscribe((data: BaseResponse[]) => {
+        if (this.errSvc.handleErrorForV2API(data)){
+          return
+        }
         this.intervalList.forEach((item, index) => {
           if (item.name === interval.name) {
             this.intervalList.splice(index,1);
