@@ -19,49 +19,158 @@
  <div class="card">
     <div class="card-header">
         <i class="fa fa-list text-danger"></i> Notification List
+        <span class="fa fa-info-circle text-success font-weight-bold ml-1">&nbsp;The data loaded by default takes the value of status as NEW</span>
     </div>
-    <div class="card-body p-0 position-relative">
-        <div class="bg-light px-2 py-2">
+    <div class="bg-light card-header p-0">
+        <div class="px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-primary" (click)="refresh()">
-                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
-                </button>
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="notificationSelected.length === 0">
                     <span><i class="fa fa-trash mr-1"></i>Delete</span>
                 </button>
-              </div>
+            </div>
+            <a class="text-primary ml-3 text-decoration-none" role="button" (click)="advancedToggle()">
+                <span>Advanced<i class="fa fa-angle-double-right ml-1"></i></span> 
+            </a>
         </div>
-        <div class="table-responsive ">
+    </div>
+    <div [hidden]="!advancedOperation" class="bg-light card-header p-0">
+        <div class="px-2 py-2">
+            <form>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        <div class="input-group" style="width: 600px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Status</span>
+                            </div>
+                            <select class="custom-select" name="statusSelected" [(ngModel)]="statusSelected">
+                                <option value="NEW">NEW</option>
+                                <option value="PROCESSED">PROCESSED</option>
+                                <option value="ESCALATED">ESCALATED</option>
+                            </select>
+                            <div class="input-group-append" role="button" (click)="searchByStatus()">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        <div class="input-group" style="width: 600px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Category</span>
+                            </div>
+                            <select class="custom-select" name="categorySelected" [(ngModel)]="categorySelected">
+                                <option value="SECURITY">SECURITY</option>
+                                <option value="HW_HEALTH">HW_HEALTH</option>
+                                <option value="SW_HEALTH">SW_HEALTH</option>
+                            </select>
+                            <div class="input-group-append" role="button" (click)="searchByCategory()">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        <div class="input-group" style="width: 600px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Start</span>
+                            </div>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="startSelected">
+                            
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">End</span>
+                            </div>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="endSelected">
+
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button" [disabled]="!startSelected || !endSelected" (click)="searchByStartEnd()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        <div class="input-group" style="width: 600px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">CleanupByAge&nbsp;
+                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                    data-content="Deletes notifications which have age and is less than the specified one, where the age of Notification is calculated by subtracting its last modification timestamp from the current timestamp. Note that the corresponding transmissions will also be deleted.">
+                                </span>
+                                </span>
+                            </div>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="ageCleanupAll">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button"  [disabled]="!ageCleanupAll" (click)="deleteConfirm('age')"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        <div class="input-group" style="width: 600px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Cleanup&nbsp;
+                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                        data-content="Deletes the processed notifications if the current timestamp minus their last modification timestamp is less than the age parameter, and the corresponding transmissions will also be deleted. Please notice that this API is only for processed notifications (status = PROCESSED). If the deletion purpose includes each kind of notifications, please refer to cleanupAll.">
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="ageCleanupByStatusIsProcessed">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger font-weight-bold" type="button"  [disabled]="!ageCleanupByStatusIsProcessed" (click)="deleteConfirm('status')"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card-body p-0 position-relative">
+        <div class="table-responsive">
             <table class="table table-hover text-truncate ">
                 <thead class="thead-light">
                     <tr>
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
                       <th scope="col">ID</th>
-                      <th scope="col">Name</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Labels</th>
                       <th scope="col">Content</th>
                       <th scope="col">ContentType</th>
                       <th scope="col">Description</th>
-                      <th scope="col">Labels</th>
                       <th scope="col">Sender</th>
                       <th scope="col">Severity</th>
                       <th scope="col">Status</th>
-                      <!-- <th scope="col">Created</th>
-                      <th scope="col">Modified</th> -->
+                      <th scope="col">Created</th>
+                      <th scope="col">Modified</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let notification of notificationList" [class.table-active]="isChecked(notification.id)">
                         <td> <input type="checkbox" role="button"  [checked]="isChecked(notification.id)" (click)="selectOne($event,notification)"></td>
                         <td class="user-select-all">{{notification.id}}</td>
-                        <td class="user-select-all">{{notification.content}}</td>
+                        <td class="user-select-all">{{notification.category}}</td>
+                        <td>{{notification.labels}}</td>
+                        <td>{{notification.content}}</td>
                         <td>{{notification.contentType}}</td>
                         <td>{{notification.description}}</td>
-                        <td>{{notification.labels}}</td>
                         <td>{{notification.sender}}</td>
                         <td>{{notification.severity}}</td>
                         <td>{{notification.status}}</td>
-                        <!-- <td>{{interval.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
-                        <td>{{interval.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                        <td>{{notification.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                        <td>{{notification.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -80,3 +189,23 @@
         </nav>
     </div>
  </div>
+
+ <div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
+                    <i class="fa fa-warning"></i>
+                    Warning
+                </h5>  
+            </div>
+            <div class="modal-body">
+                The data will be permanently erased!!! Are you sure to execute delete operation？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="cleanup()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
