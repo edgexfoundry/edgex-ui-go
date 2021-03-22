@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { NotificationsRoutingModule } from './notifications-routing.module';
 import { NotificationsComponent } from './notifications.component';
@@ -14,6 +15,7 @@ import { NotificationCenterComponent } from './notification/notification-center/
   declarations: [NotificationsComponent, SubscriptionListComponent, AddSubscriptionComponent, EditSubscriptionComponent, SubscriptionCenterComponent, NotificationListComponent, NotificationCenterComponent],
   imports: [
     CommonModule,
+    FormsModule,
     NotificationsRoutingModule
   ]
 })

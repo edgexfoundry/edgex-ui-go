@@ -40,9 +40,11 @@ export class NotificationsService {
   findNotificationByCategoryUrl: string = `${this.urlPrefix}/notification/category/`;
   findNotificationByLabelUrl: string = `${this.urlPrefix}/notification/label/`;
   findNotificationByStatusUrl: string = `${this.urlPrefix}/notification/status/`;
-  findNotificationByStartAndEndUrl: string = `${this.urlPrefix}/notification/start/`;
+  findNotificationByStartEndUrl: string = `${this.urlPrefix}/notification/start/`;
+  deleteNotificationByIdUrl: string = `${this.urlPrefix}/notification/id/`;
   deleteNotificationByAgeAndStatusUrl: string = `${this.urlPrefix}/notification/age/`; // clean all notification which status must be PROCESSED
   cleanupNotificationByAgeUrl: string = `${this.urlPrefix}/cleanup/age/`; // clean all 
+  cleanupNotificationAllUrl: string = `${this.urlPrefix}/cleanup`;
 
   //Subscription resources 
   findAllSubscriptionsPaginationUrl: string = `${this.urlPrefix}/subscription/all`;
@@ -72,21 +74,21 @@ export class NotificationsService {
   }
 
   findNotificationsByLabelPagination(offset: number, limit: number, label: string): Observable<MultiNotificationResponse> {
-    let url = `${this.findNotificationByCategoryUrl}${label}?offset=${offset}&limit=${limit}`;
+    let url = `${this.findNotificationByLabelUrl}${label}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiNotificationResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
   findNotificationsByStatusPagination(offset: number, limit: number, status: string): Observable<MultiNotificationResponse> {
-    let url = `${this.findNotificationByCategoryUrl}${status}?offset=${offset}&limit=${limit}`;
+    let url = `${this.findNotificationByStatusUrl}${status}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiNotificationResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
   findNotificationsByStartEndPagination(offset: number, limit: number, start: number, end: number): Observable<MultiNotificationResponse> {
-    let url = `${this.findNotificationByCategoryUrl}${start}/end/${end}?offset=${offset}&limit=${limit}`;
+    let url = `${this.findNotificationByStartEndUrl}${start}/end/${end}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiNotificationResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -98,9 +100,22 @@ export class NotificationsService {
       catchError(error => this.errorSvc.handleError(error))
     )
   }
+  deleteNotificationById(id: string): Observable<BaseResponse> {
+    let url = `${this.deleteNotificationByIdUrl}${id}`;
+    return this.http.delete<BaseResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
   cleanupNotificationByAge(age: number): Observable<BaseResponse> {
     let url = `${this.cleanupNotificationByAgeUrl}${age}`;
+    return this.http.delete<BaseResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  cleanupNotificationAll(): Observable<BaseResponse> {
+    let url = `${this.cleanupNotificationAllUrl}`;
     return this.http.delete<BaseResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
