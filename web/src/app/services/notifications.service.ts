@@ -122,8 +122,8 @@ export class NotificationsService {
   }
   
   //subscription resources
-  findAllSubscriptionPagination(): Observable<MultiSubscriptionResponse> {
-    let url = `${this.findAllSubscriptionsPaginationUrl}`;
+  findAllSubscriptionPagination(offset: number, limit: number): Observable<MultiSubscriptionResponse> {
+    let url = `${this.findAllSubscriptionsPaginationUrl}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiSubscriptionResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
