@@ -1,4 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
+ import { Component, OnInit } from '@angular/core';
+ import { Router, ActivatedRoute } from '@angular/router';
+
+import { Subscription } from '../../../contracts/v2/subscription';
+import { Address } from '../../../contracts/v2/address';
+import { NotificationsService } from '../../../services/notifications.service';
+import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
+import { BaseResponse, BaseWithIdResponse} from '../../../contracts/v2/common/base-response';
+import { SubscriptionResponse, MultiSubscriptionResponse } from '../../../contracts/v2/responses/subscription-response';
 
 @Component({
   selector: 'app-subscription-list',
@@ -7,9 +32,131 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubscriptionListComponent implements OnInit {
 
-  constructor() { }
+  subscriptionList: Subscription[] = [];
+  subscriptionSelected: Subscription[] = [];
+  isCheckedAll: boolean = false;
+  pagination: number = 1;
+  pageLimit: number = 5;
+  pageOffset: number = (this.pagination - 1) * this.pageLimit;
+
+  constructor(private notiSvc: NotificationsService,
+    private msgSvc: MessageService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private errSvc: ErrorService) { }
 
   ngOnInit(): void {
+    this.findAllSubscriptionsPagination();
   }
 
+  refresh() {
+    this.notiSvc
+    .findAllSubscriptionPagination(this.pageOffset, this.pageLimit)
+    .subscribe((data: MultiSubscriptionResponse) => {
+      this.subscriptionList = data.subscriptions;
+      this.msgSvc.success('refresh');
+    })
+  }
+
+  findAllSubscriptionsPagination() {
+    this.notiSvc
+    .findAllSubscriptionPagination(this.pageOffset, this.pageLimit)
+    .subscribe((data: MultiSubscriptionResponse) => {
+      this.subscriptionList = data.subscriptions;
+    })
+  }
+
+  checkChannels(channels: Address[]) {
+
+  }
+
+  selectAll(event: any) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.subscriptionSelected = [];
+      this.subscriptionList.forEach(interval => {
+        this.subscriptionSelected.push(interval);
+        this.isChecked(interval.name);
+      });
+      this.isCheckedAll = true;
+      return
+    }
+    this.isCheckedAll = false;
+    this.subscriptionSelected = [];
+    this.subscriptionList.forEach(interval => {
+      this.isChecked(interval.name);
+    });
+  }
+
+  isChecked(name: string): boolean {
+    return this.subscriptionSelected.findIndex(v => v.name === name) >= 0;
+  }
+
+  selectOne(event: any, sub: Subscription) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.subscriptionSelected.push(sub);
+      if (this.subscriptionSelected.length === this.subscriptionList.length) {
+        this.isCheckedAll = true;
+      }
+      return
+    }
+    this.isCheckedAll = false;
+    this.isChecked(sub.name);
+    this.subscriptionSelected.splice(this.subscriptionSelected.indexOf(sub), 1)
+  }
+
+  edit() {
+    this.router.navigate(['../edit-subscription'], {
+      relativeTo: this.route,
+      queryParams: { 'subName': this.subscriptionSelected[0].name }
+    })
+  }
+
+  deleteConfirm() {
+    $("#deleteConfirmDialog").modal('show');
+  }
+
+  deleteSubs() {
+    this.subscriptionSelected.forEach(sub => {
+      this.notiSvc.deleteOneSubscriptionByName(sub.name).subscribe((data: BaseResponse) => {
+        if (this.errSvc.handleErrorForV2API(data)){
+          return
+        }
+        this.subscriptionList.forEach((item, index) => {
+          if (item.name === sub.name) {
+            this.subscriptionList.splice(index,1);
+            return
+          }
+        });
+        this.msgSvc.success('delete', `name: ${sub.name}`);
+        this.resetPagination();
+        this.findAllSubscriptionsPagination();
+      });
+    });
+    $("#deleteConfirmDialog").modal('hide');
+  }
+
+  prePage() {
+    this.setPagination(-1);
+    this.findAllSubscriptionsPagination();
+  }
+
+  nextPage() {
+    this.setPagination(1);
+    this.findAllSubscriptionsPagination();
+  }
+
+  setPagination(n?: number) {
+    if (n === 1) {
+      this.pagination += 1;
+    } else {
+      this.pagination -= 1;
+    }
+    this.pageOffset = (this.pagination - 1) * this.pageLimit;
+  }
+
+  resetPagination() {
+    this.pagination = 1;
+  }
 }
