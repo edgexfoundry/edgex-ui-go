@@ -1,5 +1,4 @@
-import { Command } from "../command";
-import { DeviceResource } from "../device-resource";
+import { DeviceResource } from "./device-resource";
 import { Versionable } from "./common/versionable";
 import { DeviceCommand } from "./device-command";
 
@@ -12,5 +11,5 @@ export interface DeviceProfile extends Versionable {
     labels: string[],
     deviceResources: DeviceResource[],
     deviceCommands: DeviceCommand[],
-    coreCommands: Command[]
+    // coreCommands: Command[] //deprecated
 }
