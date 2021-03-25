@@ -1,7 +1,10 @@
-import { ResourceOperation } from "../resource-operation";
+import { ResourceOperation } from "./resource-operation";
 
 export interface DeviceCommand  {
     name: string,
-    get: ResourceOperation[],
-    set: ResourceOperation[]
+    isHidden: boolean,
+    readWrite: string,
+    resourceOperations: ResourceOperation[]
+    // get: ResourceOperation[], //deprecated
+    // set: ResourceOperation[] //deprecated
 }

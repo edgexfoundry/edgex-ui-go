@@ -1,3 +1,4 @@
+//derecated
 export interface Command {
     name: string,
     get: boolean,

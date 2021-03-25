@@ -5,3 +5,9 @@ export interface CoreCommand {
     path: string,
     url: string
 }
+
+export interface DeviceCoreCommand {
+    deviceName: string,
+    profileName: string,
+    coreCommands: CoreCommand[]
+}
