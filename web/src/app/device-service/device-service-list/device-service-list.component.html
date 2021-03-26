@@ -1,3 +1,21 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
 <ul class="list-group p-0">
     <li *ngFor="let svc of deviceServiceList" class="list-group-item list-group-item-action list-group-item-light">
         <div class="media">
@@ -7,14 +25,14 @@
             <div class="media-body">
                 <div class="mt-0 mb-1">
                     <h5 class="d-inline mr-3 align-middle text-dark">{{svc.name}}</h5>
-                    <span class="float-right">
+                    <!-- <span class="float-right">
                         <i class="fa fa-calendar align-baseline text-primary"></i><span class="badge badge-light align-baseline"> {{svc.created | date:'yyyy-MM-dd hh:mm:ss'}}</span>
-                    </span>
+                    </span> -->
                 </div>
                 <p *ngIf="svc.description; else nodesc">{{svc.description}}</p>
                 <ng-template #nodesc> <p class="my-1">no description.</p> </ng-template>
                 <div>
-                    <!-- <span class="badge badge-info mr-3">Port {{svc.addressable.port}}</span> -->
+                    <span class="badge badge-info mr-3">Port {{getSvcPort(svc.baseAddress)}}</span>
                     <span [ngSwitch]="svc.adminState">
                         <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success mr-3">{{svc.adminState}}</span> 
                         <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.adminState}}</span> 
@@ -25,9 +43,36 @@
                    </span> -->
 
                     <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.name)">Associated Devices &nbsp; {{associatedDevices.get(svc.name)}}</a>
-                    <span class="badge badge-secondary float-right" role="button"> <i class="fa fa-cog"></i> Setting</span>
+                    <span class="badge badge-secondary float-right" role="button" (click)="edit(svc)"> <i class="fa fa-cog"></i> Setting</span>
                 </div>
             </div>
         </div>
     </li>
 </ul>
+
+<div *ngIf="deviceSvcSelected" class="card mt-3">
+    <div class="card-header">
+        <i class="fa fa-edit mr-1 text-danger"></i>
+        <span>edit {{ deviceSvcSelected.name }}</span>
+        <button class="btn btn-success btn-sm float-right" (click)="updateSvc()">Save</button>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group row">
+                <label for="deviceDesc" class="col-md-2 col-form-label">Description</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" name="deviceSvcDescription" [(ngModel)]="deviceSvcSelected.description">
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="adminState" class="col-md-2 col-form-label" >AdminState</label>
+                <div class="col-md-10">
+                    <select class="form-control"  name="deviceSvcAdminState" [(ngModel)]="deviceSvcSelected.adminState">
+                        <option value="UNLOCKED">UNLOCKED</option>
+                        <option value="LOCKED">LOCKED</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
