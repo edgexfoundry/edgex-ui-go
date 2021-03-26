@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -6,10 +22,13 @@ import { CommandService } from '../../../services/command.service';
 import { MessageService } from '../../../message/message.service';
 import { DeviceResponse,MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
 import { Device } from '../../../contracts/v2/device';
-import { Command } from '../../../contracts/command';
+import { CoreCommand } from '../../../contracts/v2/core-command';
 import { AutoEvent } from '../../../contracts/v2/auto-event';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
 import { DeviceProfileResponse,MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
+import { DeviceCoreCommandResponse } from '../../../contracts/v2/responses/device-core-command-response';
+import { EventResponse } from '../../../contracts/v2/responses/event-response';
+import { BaseReading } from '../../../contracts/v2/reading';
 // import * as cbor from 'cbor';
 
 @Component({
@@ -25,12 +44,12 @@ export class DeviceListComponent implements OnInit {
   isCheckedAll: boolean = false;
   autoEvents?: AutoEvent[];
   associatedAutoEventsDeviceName?: string;
-  deviceCommand?: Command[];
+  deviceCoreCommand?: CoreCommand[];
   associatedCmdDeviceName?: string;
   associatedCmdDeviceId?: string;
-  selectedCmd?: Command;
-  selectedCmdPutParams?: string[];
-  selectedCmdPutParamsMap = new Map<string, any>();
+  selectedCmd?: CoreCommand;
+  selectedCmdSetParams?: string[];
+  selectedCmdSetParamsMap = new Map<string, any>();
 
   cmdBinaryResponse: any;
   cmdBinaryResponseURL?: string;
@@ -157,32 +176,29 @@ export class DeviceListComponent implements OnInit {
     this.selectedDevice.splice(this.selectedDevice.indexOf(d), 1)
   }
 
-  checkDeviceCommand(deviceId: string) {
+  checkDeviceCommand(device: Device) {
     this.resetResponse();
 
-    this.deviceList.forEach((d) => {
-      if (d.id === deviceId) {
-        this.metaSvc.findProfileByName(d.profileName).subscribe((data:DeviceProfileResponse) => { this.associateDeviceProfile = data.profile; });
-        return
-      }
-    });
+    this.metaSvc
+    .findProfileByName(device.profileName)
+    .subscribe((data:DeviceProfileResponse) => this.associateDeviceProfile = data.profile);
 
-    this.cmdSvc.findCommnadsByDeviceId(deviceId).subscribe((data) => {
-      //hide auto events list when check command
+    this.cmdSvc.findDeviceAssociatedCommnadsByDeviceName(device.name).subscribe((data: DeviceCoreCommandResponse) => {
+      //hide auto events list when check a new one device command
       this.associatedAutoEventsDeviceName = "";
 
-      this.associatedCmdDeviceName = data.name;
-      this.associatedCmdDeviceId = data.id;
-      this.deviceCommand = data.commands;
+      this.associatedCmdDeviceName = data.deviceCoreCommand.deviceName;
+      this.associatedCmdDeviceId = device.id;
+      this.deviceCoreCommand = data.deviceCoreCommand.coreCommands;
       //init selectedCmd for first one
-      this.selectedCmd = data.commands ? data.commands[0] : undefined;
-      this.selectedCmdPutParams = this.selectedCmd?.put?.parameterNames;
+      this.selectedCmd = this.deviceCoreCommand ? this.deviceCoreCommand[0] : undefined;
+      // this.selectedCmdPutParams = this.selectedCmd?.put?.parameterNames;
     })
   }
 
-  selectCmd(cmd: Command) {
+  selectCmd(cmd: CoreCommand) {
     this.selectedCmd = cmd;
-    this.selectedCmdPutParams = cmd.put?.parameterNames;
+    // this.selectedCmdPutParams = cmd.put?.parameterNames;
     this.resetResponse();
   }
 
@@ -199,24 +215,25 @@ export class DeviceListComponent implements OnInit {
 
   issueGetCmd() {
     let isBinary = false;
-    this.associateDeviceProfile?.coreCommands.forEach(command => {
-      if (command.name === this.selectedCmd?.name) {
-        this.associateDeviceProfile?.deviceCommands.forEach(dc => {
-          if (command.name === dc.name) {
-            this.associateDeviceProfile?.deviceResources.forEach(dr => {
-              if (dc.get[0].deviceResource == dr.name) {
-                if (dr.properties.value.type === 'Binary') {
-                  isBinary = true;
-                  return
-                }
-              }
-              return
-            });
-          }
-          return
-        });
-      }
-    });
+
+    // this.associateDeviceProfile?.deviceResources.forEach(resource => {
+    //   if (resource.name === this.selectedCmd?.name) {
+    //     this.associateDeviceProfile?.deviceCommands.forEach(dc => {
+    //       if (command.name === dc.name) {
+    //         this.associateDeviceProfile?.deviceResources.forEach(dr => {
+    //           if (dc.get[0].deviceResource == dr.name) {
+    //             if (dr.properties.value.type === 'Binary') {
+    //               isBinary = true;
+    //               return
+    //             }
+    //           }
+    //           return
+    //         });
+    //       }
+    //       return
+    //     });
+    //   }
+    // });
 
     if (isBinary) {
       this.cmdGetResponse = "no supported preview";
@@ -237,42 +254,52 @@ export class DeviceListComponent implements OnInit {
       return
     }
 
+    // this.cmdSvc
+    //   .issueGetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)
+    //   .subscribe((data: any) => {
+    //     this.cmdGetResponseRaw = JSON.stringify(data, null, 3);
+    //     let result: any[] = [];
+    //     data.readings.forEach(function (reading: any) {
+    //       result.push(reading.value);
+    //     });
+    //     this.cmdGetResponse = result.join(',');
+    //   });
+
     this.cmdSvc
-      .issueGetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)
-      .subscribe((data: any) => {
-        this.cmdGetResponseRaw = JSON.stringify(data, null, 3);
-        let result: any[] = [];
-        data.readings.forEach(function (reading: any) {
-          result.push(reading.value);
-        });
-        this.cmdGetResponse = result.join(',');
+    .issueGetCmd(this.associatedCmdDeviceName as string, this.selectedCmd?.name as string)
+    .subscribe((resp: EventResponse) => {
+      this.cmdGetResponseRaw = JSON.stringify(resp.event.readings, null, 3);
+      let result: any[] = [];
+      resp.event.readings.forEach((reading: BaseReading) => {
+        result.push(reading.value);
       });
+      this.cmdGetResponse = result.join(',');
+    })
   }
 
   issueSetCmd() {
     let self = this;
     let params: any = {};
-    this.selectedCmdPutParams?.forEach(function (p) {
+    this.selectedCmdSetParams?.forEach(function (p) {
       params[p] = $(`#${p}`).val();
     });
-    console.log(params)
-    this.cmdSvc.issueSetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string, params)
-      .subscribe(
-        (data: any) => {
-          try {
-            JSON.parse(data);
-            self.cmdSetResponse = "success";
-            self.cmdSetResponseRaw = data;
-          } catch (e) {
-            self.cmdSetResponse = "error";
-            self.cmdSetResponseRaw = data;
-            return
-          }
-        },
-        (error: any) => {
-          console.log(error)
-        }
-      );
+    // this.cmdSvc.issueSetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string, params)
+    //   .subscribe(
+    //     (data: any) => {
+    //       try {
+    //         JSON.parse(data);
+    //         self.cmdSetResponse = "success";
+    //         self.cmdSetResponseRaw = data;
+    //       } catch (e) {
+    //         self.cmdSetResponse = "error";
+    //         self.cmdSetResponseRaw = data;
+    //         return
+    //       }
+    //     },
+    //     (error: any) => {
+    //       console.log(error)
+    //     }
+    //   );
   }
 
   prePage() {
