@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -10,6 +26,7 @@ import { DeviceRequest } from '../contracts/v2/requests/device-request';
 import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
 import { DeviceProfile } from '../contracts/v2/device-profile';
 import { DeviceService } from '../contracts/v2/device-service';
+import { DeviceServiceRequest } from '../contracts/v2/requests/device-service-request';
 import { DeviceServiceResponse,MultiDeviceServiceResponse } from '../contracts/v2/responses/device-service-response';
 
 import { ErrorService } from './error.service';
@@ -39,8 +56,6 @@ export class MetadataService {
   updateDeviceServiceUrl: string = `${this.urlPrefix}/deviceservice`;
   findDeviceServiceByIdUrl: string = `${this.urlPrefix}/deviceservice/id/`;
   findDeviceServiceByNameUrl: string = `${this.urlPrefix}/deviceservice/name/`;
-
-
 
   deviceProfilesListUrl: string = `${this.urlPrefix}/deviceprofile/all`;
   findProfilesByIdUrl: string = `${this.urlPrefix}/deviceprofile`;
@@ -184,7 +199,11 @@ export class MetadataService {
 
   updateDeviceService(deviceService: DeviceService): Observable<BaseResponse> {
     let url = `${this.updateDeviceServiceUrl}`;
-    return this.http.patch<BaseResponse>(url, deviceService, this.httpPostOrPutJSONOptions).pipe(
+    let data: DeviceServiceRequest[]  = [{
+      apiVersion: "v2",
+      service: deviceService
+    }]
+    return this.http.patch<BaseResponse>(url, JSON.stringify(data), this.httpPostOrPutJSONOptions).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }

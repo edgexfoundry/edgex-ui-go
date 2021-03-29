@@ -14,18 +14,18 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { DeviceResource } from "./device-resource";
-import { Versionable } from "./common/versionable";
-import { DeviceCommand } from "./device-command";
-
-export interface DeviceProfile extends Versionable {
-    id: string,
-    name: string,
-    manufacturer: string,
-    description: string,
-    model: string,
-    labels: string[],
-    deviceResources: DeviceResource[],
-    deviceCommands: DeviceCommand[],
-    // coreCommands: Command[] //deprecated
+export interface ResourceProperties {
+    valueType: string,
+    readWrite: string,
+    units: string,
+    minimum: string,
+    maximum: string,
+    defaultValue: string,
+    mask: string,
+    shift: string,
+    scale: string,
+    offset: string,
+    base: string,
+    assertion: string,
+    mediaType: string
 }

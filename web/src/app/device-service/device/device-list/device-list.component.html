@@ -1,3 +1,21 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
 <div class="card">
     <div class="card-header"><i class="fa fa-list text-danger"></i> Device List</div>
     <div class="card-body p-0 position-relative">
@@ -44,7 +62,7 @@
                         <td>{{device.description}}</td>
                         <td>{{device.labels}}</td>
                         <td class="text-center">
-                            <span class="badge badge-primary text-light" [class.badge-danger]="associatedCmdDeviceName === device.name"  role="button" (click)="checkDeviceCommand(device.id)">
+                            <span class="badge badge-primary text-light" [class.badge-danger]="associatedCmdDeviceName === device.name"  role="button" (click)="checkDeviceCommand(device)">
                                 <i class="fa fa-terminal font-weight-bolder"></i>
                             </span>
                         </td>
@@ -59,8 +77,18 @@
                         <td>
                             <a routerLink="../../device-service-list">{{device.serviceName}}</a> 
                         </td>
-                        <td>{{device.adminState}}</td>
-                        <td>{{device.operatingState}}</td>
+                        <td>
+                            <span [ngSwitch]="device.adminState">
+                                <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{device.adminState}}</span> 
+                                <span *ngSwitchDefault class="badge badge-danger">{{device.adminState}}</span> 
+                            </span>
+                        </td>
+                        <td>
+                            <span [ngSwitch]="device.operatingState">
+                                <span *ngSwitchCase="'UP'" class="badge badge-success"> {{device.operatingState}}</span> 
+                                <span *ngSwitchDefault class="badge badge-danger"> {{device.operatingState}}</span> 
+                            </span>
+                        </td>
                         <!-- <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
                         <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                     </tr>
@@ -127,7 +155,7 @@
 </div>
 
 <div *ngIf="associatedCmdDeviceName">
-    <div *ngIf="deviceCommand; then hasAssociatedCommand else noAssociatedCommand"></div>
+    <div *ngIf="deviceCoreCommand; then hasAssociatedCommand else noAssociatedCommand"></div>
 </div>
 
 <ng-template #hasAssociatedCommand>
@@ -148,7 +176,7 @@
                         </div>
                         <div class="card-body p-0">
                             <ul class="list-group list-group-flush">
-                                <li *ngFor="let cmd of deviceCommand" role="button" class="list-group-item list-group-item-action" [class.list-group-item-info]='selectedCmd?.id === cmd.id' (click)="selectCmd(cmd)">{{cmd.name}}</li>
+                                <li *ngFor="let cmd of deviceCoreCommand" role="button" class="list-group-item list-group-item-action" [class.list-group-item-info]='selectedCmd?.name === cmd.name' (click)="selectCmd(cmd)">{{cmd.name}}</li>
                             </ul>
                         </div>
                     </div>
@@ -193,17 +221,17 @@
                                     <div class="card">
                                         <div class="card-header">
                                             Set
-                                            <button *ngIf="selectedCmd.put" (click)="issueSetCmd()" class="btn btn-primary btn-sm float-right">try</button>
+                                            <button *ngIf="selectedCmd.set" (click)="issueSetCmd()" class="btn btn-primary btn-sm float-right">try</button>
                                         </div>
                                         <div class="card-body">
-                                            <div *ngIf="selectedCmd.put; then hasPutMethod else noPutMethod"></div>
+                                            <div *ngIf="selectedCmd.set; then hasSetMethod else noSetMethod"></div>
 
-                                            <ng-template #hasPutMethod>
-                                                <div *ngIf="selectedCmdPutParams" class="card mb-2">
+                                            <ng-template #hasSetMethod>
+                                                <div *ngIf="selectedCmdSetParams" class="card mb-2">
                                                     <div class="card-header">Set Parameters</div>
                                                     <div class="card-body">
                                                         <div *ngIf="selectedCmd" class="d-flex flex-column bd-highlight">
-                                                            <div *ngFor="let p of selectedCmdPutParams" class="form p-2 bd-highlight">
+                                                            <div *ngFor="let p of selectedCmdSetParams" class="form p-2 bd-highlight">
                                                                 <label for="{{p}}">{{p}}</label>
                                                                 <input id="{{p}}" name="{{p}}" class="form-control form-control-sm">
                                                             </div>
@@ -223,8 +251,8 @@
                                                 </div>
                                             </ng-template>
 
-                                            <ng-template #noPutMethod>
-                                                <h6 class="text-warning"> <i class="fa fa-warning"></i> no Put method</h6>
+                                            <ng-template #noSetMethod>
+                                                <h6 class="text-warning"> <i class="fa fa-warning"></i> no Set method</h6>
                                             </ng-template>
                                         </div>
                                     </div>

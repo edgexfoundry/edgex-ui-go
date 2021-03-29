@@ -1,3 +1,4 @@
+//deprecated
 export interface PropertyValue {
     valueType: string,
     readWrite: string,
