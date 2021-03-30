@@ -17,11 +17,11 @@
  -->
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header font-weight-bold">
         <i class="fa fa-th-list text-danger"></i> Device Profile List
     </div>
     <div class="card-body p-0">
-        <div class="bg-light px-2 py-2">
+        <div *ngIf="toolbars" class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
                     <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 

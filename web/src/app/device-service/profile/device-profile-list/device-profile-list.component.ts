@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -28,6 +28,8 @@ import { DeviceProfile } from '../../../contracts/v2/device-profile';
   styleUrls: ['./device-profile-list.component.css']
 })
 export class DeviceProfileListComponent implements OnInit {
+  
+  @Input() toolbars: boolean = true;
   @Input() enableSelectAll: boolean = true;
   @Output() singleProfileSelectedEvent = new EventEmitter<DeviceProfile>();
   profileList: DeviceProfile[] = [];
