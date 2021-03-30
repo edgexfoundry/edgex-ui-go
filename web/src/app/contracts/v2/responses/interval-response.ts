@@ -1,10 +1,11 @@
 import { BaseResponse } from "../common/base-response";
-import { IntervalAction } from "../interval-action";
+import { Interval } from "../interval";
 
 export interface IntervalResponse extends BaseResponse {
-    action: IntervalAction
+    interval: Interval
 }
 
 export interface MultiIntervalResponse extends BaseResponse {
-    actions: IntervalAction[]
+    intervals: Interval[]
+    
 }

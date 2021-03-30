@@ -58,6 +58,12 @@ Password = "su"
     Port = 48071
     PathPrefix = "/core-export"
 
+    [Clients.System]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 48090
+    PathPrefix = "/system"
+
 [Registry]
 Host = "localhost"
 Port = 8500

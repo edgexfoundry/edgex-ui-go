@@ -2,7 +2,7 @@ import { Versionable } from "./common/versionable";
 
 export interface BaseReading extends Versionable, SimpleReading, BinaryReading {
     id: string,
-    created: number,
+    created: number, //deprecated
     origin: number,
     deviceName: string,
     resourceName: string,
