@@ -21,7 +21,7 @@ import { DeviceService } from '../../../contracts/v2/device-service';
 import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { Device } from '../../../contracts/v2/device';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
-import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
+// import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 import { AutoEvent } from '../../../contracts/v2/auto-event';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -129,9 +129,7 @@ export class AddDeviceComponent implements OnInit {
   }
 
   onSingleProfileSelected(profile: DeviceProfile) {
-    console.log("ssssssss")
     this.selectedProfile = profile;
-    
   }
 
   onAvailProtocolSelect() {
