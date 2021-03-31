@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'device-service',
-    loadChildren: () => import('./device-service/device-service.module').then(m => m.DeviceServiceModule)
+    loadChildren: () => import('./metadata/metadata.module').then(m => m.MetadataModule)
   },
   {
     path: 'core-data',
