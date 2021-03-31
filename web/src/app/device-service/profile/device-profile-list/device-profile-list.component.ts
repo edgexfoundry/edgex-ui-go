@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -28,9 +28,13 @@ import { DeviceProfile } from '../../../contracts/v2/device-profile';
   styleUrls: ['./device-profile-list.component.css']
 })
 export class DeviceProfileListComponent implements OnInit {
-
+  
+  @Input() toolbars: boolean = true;
+  @Input() enableSelectAll: boolean = true;
+  @Output() singleProfileSelectedEvent = new EventEmitter<DeviceProfile>();
   profileList: DeviceProfile[] = [];
-  selectedProfiles: string[] = [];
+  multiProfilesSelected: string[] = [];
+  singleProfileSelected?: DeviceProfile;
   isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
@@ -56,11 +60,16 @@ export class DeviceProfileListComponent implements OnInit {
     });
   }
 
+  onSingleProfileSelectedEmitter() {
+    this.singleProfileSelectedEvent.emit(this.singleProfileSelected);
+  }
+
   refresh() {
     this.metaSvc.allDeviceProfolesPagination(0,this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
       this.profileList = data.profiles;
       this.msgSvc.success('refresh');
       this.pagination = 1;
+      this.resetCheckbox();
     });
   }
 
@@ -79,11 +88,6 @@ export class DeviceProfileListComponent implements OnInit {
     });
   }
 
-  resetPagination() {
-    this.pageOffset = 0;
-    this.pageLimit = 5;
-  }
-
   setPageLimit(n: number) {
     this.pageLimit = n;
   }
@@ -91,20 +95,30 @@ export class DeviceProfileListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-      
     } else {
       this.pagination -= 1;
     }
-
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
-   
+
+    this.resetCheckbox();
+  }
+
+  resetPagination() {
+    this.pageOffset = 0;
+    this.pageLimit = 5;
+    this.resetCheckbox();
+  }
+
+  resetCheckbox() {
+    this.isCheckedAll = false; //reset checkbox all
+    this.multiProfilesSelected = [];
   }
 
   edit() {
     this.router.navigate(['../edit-profile'], {
       relativeTo: this.route,
       queryParams: {
-        'profileName': this.selectedProfiles[0]
+        'profileName': this.multiProfilesSelected[0]
       }
     });
   }
@@ -114,9 +128,9 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
   delete() {
-    this.selectedProfiles.forEach((profileName) => {
+    this.multiProfilesSelected.forEach((profileName) => {
       this.metaSvc.deleteProfileByName(profileName).subscribe(() => {
-        this.selectedProfiles = [];
+        this.multiProfilesSelected = [];
         this.profileList.forEach((profile, index) => {
           if (profile.name == profileName) {
             this.profileList.splice(index, 1);
@@ -128,42 +142,65 @@ export class DeviceProfileListComponent implements OnInit {
     $("#deleteConfirmDialog").modal('hide');
   }
 
+  isSingleProfileChecked(name: string): boolean {
+    return this.singleProfileSelected?.name === name
+  }
+
+  selectSingleProfile(event: any, name: string) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.profileList.forEach((profile) => {
+        if (profile.name === name) {
+          this.singleProfileSelected = profile;
+        }
+      });
+    } else {
+      this.singleProfileSelected = undefined;
+    }
+    this.onSingleProfileSelectedEmitter();
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
-    let self = this;
     if (checkbox.checked) {
-      this.selectedProfiles = [];
-      this.profileList.forEach(function (item) {
-        self.selectedProfiles.push(item.id);
-        self.isChecked(item.id);
+      this.multiProfilesSelected = [];
+      this.profileList.forEach(profile => {
+        this.multiProfilesSelected.push(profile.name);
+        this.isChecked(profile.name);
       });
       this.isCheckedAll = true;
       return
     }
     this.isCheckedAll = false;
-    this.selectedProfiles = [];
-    this.profileList.forEach(function (item) {
-      self.isChecked(item.id);
+    this.multiProfilesSelected = [];
+    this.profileList.forEach(profile => {
+      this.isChecked(profile.name);
     });
   }
 
-  isChecked(id: string): boolean {
-    return this.selectedProfiles.findIndex(v => v === id) >= 0;
+  isChecked(name: string): boolean {
+    if (!this.enableSelectAll) {
+      return this.isSingleProfileChecked(name)
+    }
+    return this.multiProfilesSelected.findIndex(v => v === name) >= 0;
   }
 
-  selectOne(event: any, id: string) {
+  selectOne(event: any, name: string) {
+    if (!this.enableSelectAll) {
+      this.selectSingleProfile(event, name);
+      return
+    }
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.selectedProfiles.push(id);
-      // console.log(this.selectedDevice)
-      if (this.selectedProfiles.length === this.profileList.length) {
+      this.multiProfilesSelected.push(name);
+      if (this.multiProfilesSelected.length === this.profileList.length) {
         this.isCheckedAll = true;
       }
       return
     }
     this.isCheckedAll = false;
-    this.isChecked(id);
-    this.selectedProfiles.splice(this.selectedProfiles.indexOf(id), 1)
+    this.isChecked(name);
+    this.multiProfilesSelected.splice(this.multiProfilesSelected.indexOf(name), 1)
   }
 
 }

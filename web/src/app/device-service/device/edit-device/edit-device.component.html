@@ -116,7 +116,11 @@
             </div>
         </div>
 
-        <div class="card mb-3">
+        <div class="mb-3">
+            <app-device-profile-list  (singleProfileSelectedEvent)="onSingleProfileSelected($event)" [enableSelectAll]="false" [toolbars]="false"></app-device-profile-list>
+        </div>
+
+        <!-- <div class="card mb-3">
             <div class="card-header font-weight-bold">
                 <i class="fa fa-tags fa-lg text-danger"></i> Device Profile
             </div>
@@ -132,8 +136,8 @@
                                 <th scope="col">Labels</th>
                                 <th scope="col">Manufacturer</th>
                                 <th scope="col">Model</th>
-                                <!-- <th scope="col">Created</th>
-                                <th scope="col">Modified</th> -->
+                                <th scope="col">Created</th>
+                                <th scope="col">Modified</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -145,14 +149,14 @@
                                 <td>{{profile.labels}}</td>
                                 <td>{{profile.manufacturer}}</td>
                                 <td>{{profile.model}}</td>
-                                <!-- <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                                <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="card mb-3">
             <div class="card-header font-weight-bold">

@@ -52,7 +52,7 @@ export class EditDeviceComponent implements OnInit {
   device?: Device;
   deviceLabels?: string;
   deviceServiceList!: DeviceService[];
-  deviceProfileList!: DeviceProfile[];
+  // deviceProfileList?: DeviceProfile[];
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
 
@@ -95,19 +95,22 @@ export class EditDeviceComponent implements OnInit {
           });
         });
 
-        this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
-          this.deviceProfileList = data.profiles;
-          this.deviceProfileList.forEach((profile) => {
-            if (profile.name === this.device?.profileName) {
-              this.selectedProfile = profile;
-              return
-            }
-          });
-        });
+        // this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
+        //   this.deviceProfileList = data.profiles;
+        //   this.deviceProfileList.forEach((profile) => {
+        //     if (profile.name === this.device?.profileName) {
+        //       this.selectedProfile = profile;
+        //       return
+        //     }
+        //   });
+        // });
       });
     });
   }
 
+  onSingleProfileSelected(profile: DeviceProfile) {
+    this.selectedProfile = profile;
+  }
 
   setAutoEventInternal(events?: AutoEvent[]) {
     let unit: string;
@@ -162,24 +165,24 @@ export class EditDeviceComponent implements OnInit {
     this.autoEventsInternal.splice(this.autoEventsInternal.indexOf(event), 1);
   }
 
-  isProfileChecked(name: string): boolean {
-    return this.selectedProfile?.name === name
-  }
+  // isProfileChecked(name: string): boolean {
+  //   return this.selectedProfile?.name === name
+  // }
 
-  selectOneProfile(event: any, name: string) {
-    const checkbox = event.target;
+  // selectOneProfile(event: any, name: string) {
+  //   const checkbox = event.target;
     
-    if (checkbox.checked) {
-      this.deviceProfileList.forEach((profile) => {
-        if (profile.name === name) {
-          this.selectedProfile = profile;
-          return
-        }
-      });
-    } else {
-      this.selectedProfile = undefined;
-    }
-  }
+  //   if (checkbox.checked) {
+  //     this.deviceProfileList.forEach((profile) => {
+  //       if (profile.name === name) {
+  //         this.selectedProfile = profile;
+  //         return
+  //       }
+  //     });
+  //   } else {
+  //     this.selectedProfile = undefined;
+  //   }
+  // }
 
   isSvcChecked(name: string): boolean {
     return this.selectedSvc?.name === name
