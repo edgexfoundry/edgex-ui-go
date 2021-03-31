@@ -16,18 +16,18 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
-import { MetadataService } from '../../services/metadata.service';
-import { DeviceService } from '../../contracts/v2/device-service';
-import { MultiDeviceServiceResponse } from '../../contracts/v2/responses/device-service-response';
-import { MultiDeviceResponse } from '../../contracts/v2/responses/device-response';
-import {  MessageService } from '../../message/message.service';
+import { MetadataService } from '../../../services/metadata.service';
+import { DeviceService } from '../../../contracts/v2/device-service';
+import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
+import { MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
+import {  MessageService } from '../../../message/message.service';
 
 @Component({
-  selector: 'app-device-service-list',
-  templateUrl: './device-service-list.component.html',
-  styleUrls: ['./device-service-list.component.css']
+  selector: 'app-device-service-media-list',
+  templateUrl: './device-service-media-list.component.html',
+  styleUrls: ['./device-service-media-list.component.css']
 })
-export class DeviceServiceListComponent implements OnInit {
+export class DeviceServiceMediaListComponent implements OnInit {
 
   deviceServiceList: DeviceService[] = [];
   deviceSvcSelected?: DeviceService;

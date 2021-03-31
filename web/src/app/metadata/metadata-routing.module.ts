@@ -17,8 +17,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DeviceServiceComponent } from './device-service.component';
-import { DeviceServiceListComponent } from './device-service-list/device-service-list.component';
+import { MetadataComponent } from './metadata.component';
+import { DeviceServiceMediaListComponent } from './device-service/device-service-media-list/device-service-media-list.component';
 
 import { DeviceCenterComponent } from './device/device-center/device-center.component';
 import { DeviceListComponent } from './device/device-list/device-list.component';
@@ -33,7 +33,7 @@ import { EditProfileComponent } from './profile/edit-profile/edit-profile.compon
 const routes: Routes = [
   {
     path: '',
-    component: DeviceServiceComponent,
+    component: MetadataComponent,
     children: [
       {
         path: '',
@@ -42,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: 'device-service-list',
-        component: DeviceServiceListComponent,
+        component: DeviceServiceMediaListComponent,
       },
       {
         path: 'device-center',
@@ -98,4 +98,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DeviceServiceRoutingModule { }
+export class MetadataRoutingModule { }

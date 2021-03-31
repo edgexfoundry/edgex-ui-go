@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeviceServiceComponent } from './device-service.component';
+import { DeviceServiceListComponent } from './device-service-media-list.component';
 
-describe('DeviceServiceComponent', () => {
-  let component: DeviceServiceComponent;
-  let fixture: ComponentFixture<DeviceServiceComponent>;
+describe('DeviceServiceListComponent', () => {
+  let component: DeviceServiceListComponent;
+  let fixture: ComponentFixture<DeviceServiceListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeviceServiceComponent ]
+      declarations: [ DeviceServiceListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeviceServiceComponent);
+    fixture = TestBed.createComponent(DeviceServiceListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
