@@ -88,7 +88,10 @@
             </ng-template>
             
             <ng-template [ngSwitchCase]="1" #SelectDeviceProfile>
-                <div class="table-responsive">
+                <div class="p-2">
+                    <app-device-profile-list (singleProfileSelectedEvent)="onSingleProfileSelected($event)" [enableSelectAll]="false" [toolbars]="false"></app-device-profile-list>
+                </div>
+                <!-- <div class="table-responsive">
                     <table class="table table-hover text-truncate">
                         <thead class="thead-light">
                             <tr>
@@ -99,8 +102,8 @@
                                 <th scope="col">Labels</th>
                                 <th scope="col">Manufacturer</th>
                                 <th scope="col">Model</th>
-                                <!-- <th scope="col">Created</th>
-                                <th scope="col">Modified</th> -->
+                                <th scope="col">Created</th>
+                                <th scope="col">Modified</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,12 +115,12 @@
                                 <td>{{profile.labels}}</td>
                                 <td>{{profile.manufacturer}}</td>
                                 <td>{{profile.model}}</td>
-                                <!-- <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                                <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </ng-template>
             
             <ng-template [ngSwitchCase]="2" #DevicePrimary>

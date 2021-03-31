@@ -17,11 +17,11 @@
  -->
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header font-weight-bold">
         <i class="fa fa-th-list text-danger"></i> Device Profile List
     </div>
     <div class="card-body p-0">
-        <div class="bg-light px-2 py-2">
+        <div *ngIf="toolbars" class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
                     <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
@@ -29,10 +29,10 @@
                 <button type="button" class="btn btn-info"  routerLink="../add-profile">
                     <span><i class="fa fa-plus mr-1"></i>Add</span>
                 </button>
-                <button type="button" class="btn btn-success" (click)="edit()"  data-toggle="tooltip" data-placement="top" title="only one should be selected" [disabled]="selectedProfiles.length !== 1">
+                <button type="button" class="btn btn-success" (click)="edit()"  data-toggle="tooltip" data-placement="top" title="only one should be selected" [disabled]="multiProfilesSelected.length !== 1">
                     <span><i class="fa fa-edit mr-1"></i>Edit</span>
                 </button>
-                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedProfiles.length === 0">
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="multiProfilesSelected.length === 0">
                     <span><i class="fa fa-trash mr-1"></i>Delete</span>
                 </button>
               </div>
@@ -42,7 +42,9 @@
             <table class="table table-hover text-truncate">
                 <thead class="thead-light">
                     <tr>
-                      <th scope="col"><input type="checkbox" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
+                      <th scope="col">
+                          <input *ngIf="enableSelectAll" type="checkbox" [checked]="isCheckedAll" (click)="selectAll($event)">
+                      </th>
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>

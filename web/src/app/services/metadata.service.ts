@@ -234,7 +234,6 @@ export class MetadataService {
 
   allDeviceProfolesPagination(offset: number, limit: number): Observable<MultiDeviceProfileResponse> {
     let url = `${this.deviceProfilesListUrl}?offset=${offset}&limit=${limit}`;
-    console.log(url)
     return this.http.get<MultiDeviceProfileResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
