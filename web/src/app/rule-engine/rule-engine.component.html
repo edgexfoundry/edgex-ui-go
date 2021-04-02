@@ -1,1 +1,15 @@
-<p>rule-engine works!</p>
+<div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs font-weight-bold">
+          <li class="nav-item">
+            <a class="nav-link " routerLink="./stream-center" routerLinkActive="active">Stream</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="./rules-center" routerLinkActive="active">Rules</a>
+          </li>
+      </ul>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
+</div>
