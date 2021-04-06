@@ -1,0 +1,450 @@
+<div class="card">
+    <div class="card-header">
+        <span class="font-weight-bold">
+            <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span>
+            <span class="text-secondary">Add Rule Wizard</span>
+        </span>
+    </div>
+    <div class="card-header bg-light">
+        <nav aria-label="breadcrumb" class="mb-0 p-0">
+            <ol class="breadcrumb p-1 mb-0 bg-light">
+                <li class="breadcrumb-item">
+                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass">RulePrimary <i
+                            *ngIf="currentStep >= 1" class="fa fa-check"></i></span>
+                </li>
+                <li class="breadcrumb-item">
+                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">CreateRuleActions <i
+                            *ngIf="currentStep >= 2" class="fa fa-check"></i></span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card-header">
+        <button *ngIf="currentStep" class="btn btn-info btn-sm" (click)="previous()"><i
+                class="fa fa-long-arrow-left"></i> Previous</button>
+        <button *ngIf="1 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" [disabled]="stepStateLock()" (click)="next()">Next
+            <i class="fa fa-long-arrow-right"></i></button>
+        <ng-template #stepDone>
+            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="done()"><i
+                    class="fa fa-save"></i> Submit</button>
+        </ng-template>
+    </div>
+    <div class="card-body p-0">
+        <div [ngSwitch]="currentStep">
+            <ng-template [ngSwitchCase]="0" #RulePrimary>
+                <form class="px-5 py-4">
+                    <div class="form-group row has-validation">
+                        <label for="ruleName" class="col-md-2 col-form-label" required>Name</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="ruleName" [class.is-invalid]="!ruleName"
+                                [class.is-valid]="ruleName" name="ruleName" [(ngModel)]="ruleName">
+                            <div id="ruleName" class="invalid-feedback">
+                                <small>the rule name can't be empty!</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row has-validation">
+                        <label for="ruleSql" class="col-md-2 col-form-label" required>ruleSql</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="ruleSql" [class.is-invalid]="!ruleSql"
+                                [class.is-valid]="ruleSql" name="ruleSql" [(ngModel)]="ruleSql">
+                            <div id="ruleSql" class="invalid-feedback">
+                                <small>the sql can't be empty!</small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="1" #CreateRuleActions>
+                <form class="form-horizontal">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <div class="row border border-secondary p-2 rounded-lg mx-1">
+                                <div class="col-md-3 col-lg-3 border-right border-info">
+                                    <div class="form-group">
+                                        <label>
+                                            <div class="font-weight-bold">
+                                                  Action Name
+                                            </div>
+                                        </label>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input style="margin-top: 4%;" type="checkbox" id="restCheckbox" name="rest" (click) = "chooseRest($event.target)"
+                                                    class=".checkbox-primary"> Send the result to a Rest HTTP server.
+                                            </label>
+                                            <label>
+                                                <input style="margin-top: 4%;" type="checkbox" id="mqttCheckbox" name="mqtt" (click) = "chooseMqtt($event.target)"
+                                                    class=".checkbox-primary"> Send the result to an MQTT broker.
+                                            </label>
+                                            <label>
+                                                <input style="margin-top: 4%;" type="checkbox" id="edgexCheckbox" name="edgex" (click) = "chooseEdgex($event.target)"
+                                                    class=".checkbox-primary"> Send the result to EdgeX message bus.
+                                            </label>
+                                            <label>
+                                                <input style="margin-top: 4%;" type="checkbox" id="logCheckbox" name="log" (click) = "chooseLog($event.target)"
+                                                    class=".checkbox-primary"> Send the result to log file.
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-lg-9">
+                                    <div id="rest_action_tab">
+                                        <div id="rest_tabs" [hidden]="!showRestTabs">
+                                            <hr width="100%" color="#987cb9" size=1>
+                                            <div *ngFor="let restindex of restTabArr">
+                                                <div id="rest_{{restindex}}">
+                                                    <legend>
+                                                        <h4>Rest HTTP Server {{restindex+1}}<button type="button"
+                                                                class="btn btn-danger" id="restdelbutton_{{restindex}}"
+                                                                style="margin-left: 2%;"
+                                                                (click)="removeRestTab(restindex);"><i
+                                                                    class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i>&nbsp;Delete</button></h4>
+                                                    </legend>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Target</label>
+                                                        <div class="col-md-3">
+                                                            <select #restTargetCh class="form-control" id="EventService_{{restindex}}"
+                                                                name="EventService" (change)="restTargetChange($event.target)">
+                                                            <option *ngFor="let i of scheduleEventTarget" value="{{ i.Text }}">{{ i.Value}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <label class="col-md-1 control-label">Action</label>
+                                                        <div class="col-md-4">
+                                                            <select class="form-control"
+                                                                id="ScheduleEventServiceAction_{{restindex}}"
+                                                                name="ScheduleEventServiceAction"
+                                                                (change)="restEventServiceActionChange($event.target,restindex)">
+                                                            <option *ngFor="let item of targetActionConfigs | keyvalue " value="{{ item.key }}">{{ item.key}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Protocol</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="EventAddressProtocol_{{restindex}}"
+                                                                name="EventAddressProtocol" disabled="">
+                                                        </div>
+                                                        <div class="col-md-2">
+
+                                                        </div>
+                                                        <label class="col-md-1 control-label">Method</label>
+                                                        <div class="col-md-2">
+                                                            <select class="form-control"
+                                                                id="EventAddressMethod_{{restindex}}"
+                                                                (change)="EventAddressMethodChange($event.target,restindex)"
+                                                                name="EventAddressMethod">
+                                                                <option *ngFor="let i of scheduleEventTargetHttpMethod" value="{{ i.Value }}">{{ i.Text}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        id="EventAddressMethodCheck_{{restindex}}"
+                                                                        (change)="EventAddressMethodCheckChange($event.target,restindex)"
+                                                                        name="EventAddressMethodCheck"> Enabled
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Address</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="EventAddressAddress_{{restindex}}"
+                                                                name="EventAddressAddress"
+                                                                placeholder="edgex-core-command">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        id="EventAddressAddressCheck_{{restindex}}"
+                                                                        (change)="EventAddressAddressCheckChange($event.target,restindex)"
+                                                                        name="EventAddressAddressCheck"> Enabled
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <label class="col-md-1 control-label">Port</label>
+                                                        <div class="col-md-2">
+                                                            <input type="text" class="form-control"
+                                                                id="EventAddressPort_{{restindex}}"
+                                                                name="EventAddressPort" placeholder="48082">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        id="EventAddressPortCheck_{{restindex}}"
+                                                                        (change)="EventAddressPortCheckChange($event.target,restindex)"
+                                                                        name="EventAddressPortCheck"> Enabled
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Path</label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control"
+                                                                id="EventAddressPath_{{restindex}}"
+                                                                name="EventAddressPath"
+                                                                placeholder="/v1/device/{id}/command/{commandid}">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        id="EventAddressPathCheck_{{restindex}}"
+                                                                        (change)="EventAddressPathCheckChange($event.target,restindex)"
+                                                                        name="EventAddressPathCheck"> Enabled
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">RetryInterval</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="RetryInterval_{{restindex}}" name="RetryInterval"
+                                                                value="-1" placeholder="-1">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">SendSingle</label>
+                                                        <div class="col-md-3">
+                                                            <select class="form-control" id="SendSingle_{{restindex}}"
+                                                                name="SendSingle">
+                                                                <option value="true" selected="">true</option>
+                                                                <option value="false">false</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" id="rest_parameters_{{restindex}}">
+                                                        <label for="EventAddressParameters"
+                                                            class="col-md-2 control-label">Parameter</label>
+                                                        <div class="col-md-8">
+                                                            <textarea class="form-control" rows="4"
+                                                                id="EventAddressParameters_{{restindex}}"
+                                                                name="EventAddressParameters"
+                                                                placeholder="JSON Parameters"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="page-header"></h5>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-success" (click)="addRestTab()">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add another Rest HTTP
+                                                Server
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div id="mqtt_action_tab" [hidden]="!showMqttTabs">
+                                        <hr width="100%" color="#987cb9" size=1>
+                                        <div id="mqtt_tabs">
+                                            <div *ngFor="let mqttindex of mqttTabArr">
+                                                <div id="mqtt_{{mqttindex}}">
+                                                    <legend>
+                                                        <h4>MQTT broker {{mqttindex+1}}<button type="button"
+                                                                class="btn btn-danger" id="mqttdelbutton_{{mqttindex}}"
+                                                                style="margin-left: 2%;"
+                                                                (click)="removeMqttTab(mqttindex);"><i
+                                                                    class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i>&nbsp;Delete</button></h4>
+                                                    </legend>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Server</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="server_{{mqttindex}}" name="server"
+                                                                placeholder="tcp://127.0.0.1:1883">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Topic</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="mqtttopic_{{mqttindex}}" name="mqtt_topic"
+                                                                placeholder="analysis/result">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">ClientId</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="clientId_{{mqttindex}}" name="clientId"
+                                                                placeholder="The clientId for mqtt. ">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Protocol Version</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="protocolVersion_{{mqttindex}}"
+                                                                name="protocolVersion"
+                                                                placeholder="Default value is 3.1.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Username</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="username_{{mqttindex}}" name="username"
+                                                                placeholder="User name for the mqtt.">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Password</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="password_{{mqttindex}}" name="password"
+                                                                placeholder="Password for the mqtt.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Certification Path</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="certificationPath_{{mqttindex}}"
+                                                                name="certificationPath" placeholder="keys/***.pem">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">private Key Path</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="privateKeyPath_{{mqttindex}}" name="privateKeyPath"
+                                                                placeholder="keys/***.pem.key">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">InsecureSkipVerify</label>
+                                                        <div class="col-md-3">
+                                                            <select class="form-control"
+                                                                id="insecureSkipVerify_{{mqttindex}}"
+                                                                name="insecureSkipVerify">
+                                                                <option value="true">true</option>
+                                                                <option value="false" selected="">false</option>
+                                                            </select>
+                                                        </div>
+                                                        <label class="col-md-2 control-label">retained</label>
+                                                        <div class="col-md-3">
+                                                            <select class="form-control" id="retained_{{mqttindex}}"
+                                                                name="retained">
+                                                                <option value="true">true</option>
+                                                                <option value="false" selected="">false</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Qos</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="qos_{{mqttindex}}" name="qos"
+                                                                placeholder="QoS for message delivery.">
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="page-header"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success" (click)="addMqttTab()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add another MQTT broker
+                                        </button>
+                                    </div>
+
+                                    <div id="edgex_action_tab" [hidden]="!showEdgexTabs">
+                                        <hr width="100%" color="#987cb9" size=1>
+                                        <div id="edgex_tabs">
+                                            <div *ngFor="let edgexindex of edgexTabArr">
+                                                <div id="edgex_{{edgexindex}}">
+                                                    <legend>
+                                                        <h4>EdgeX message bus {{edgexindex+1}}<button type="button"
+                                                                class="btn btn-danger"
+                                                                id="edgexdelbutton_{{edgexindex}}"
+                                                                style="margin-left: 2%;"
+                                                                (click)="removeEdgeXTab(edgexindex);"><i
+                                                                    class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i>&nbsp;Delete</button></h4>
+                                                    </legend>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Protocol</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="protocol_{{edgexindex}}" name="protocol"
+                                                                placeholder="Default value tcp.">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Host</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="host_{{edgexindex}}" name="host"
+                                                                placeholder="Default value *.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Port</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="port_{{edgexindex}}" name="port"
+                                                                placeholder="Default value 5563.">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Topic</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="edgextopic_{{edgexindex}}" name="edgex_topic"
+                                                                placeholder="Default value events.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Content Type</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="contentType_{{edgexindex}}" name="contentType"
+                                                                placeholder="Default value application/json.">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Metadata</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="metadata_{{edgexindex}}" name="metadata"
+                                                                placeholder="A field name that allows user to specify a field name of SQL select clause.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Device Name</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="deviceName_{{edgexindex}}" name="deviceName"
+                                                                placeholder="To specify the device name in the event structure that are sent from Kuiper.">
+                                                        </div>
+                                                        <label class="col-md-2 control-label">Type</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                id="edgextype_{{edgexindex}}" name="edgex_type"
+                                                                placeholder="zero or mqtt, and zero is the default value.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 control-label">Optional</label>
+                                                        <div class="col-md-8">
+                                                            <textarea class="form-control" rows="4"
+                                                                id="edgexParameters_{{edgexindex}}"
+                                                                name="edgexParameters"
+                                                                placeholder="If mqtt message bus type is specified, then some optional values can be specified. "></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="page-header"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success" (click)="addEdgeXTab()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add another EdgeX message
+                                            bus
+                                        </button>
+                                    </div>
+                                    <div id="log_actions_tabs" [hidden]="!chooseActionLog">
+                                        <hr width="100%" color="#987cb9" size=1>
+                                        <h5 class="text-info"> <i class="fa fa-info-circle"></i> this log in action doesn't need to set any parameters. </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+        </div>
+    </div>
+</div>
