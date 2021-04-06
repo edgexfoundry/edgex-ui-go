@@ -63,6 +63,13 @@ export class CommandService {
     )
   }
 
+  findAllDeviceCommnads(): Observable<any> {
+    let url = `${this.urlPrefix}/device`;
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
   issueGetBinaryCmd(deviceId: string, commandId: string): Observable<any> {
     let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
     return this.http.request('GET', url, {
