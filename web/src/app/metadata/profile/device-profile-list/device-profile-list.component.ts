@@ -29,12 +29,13 @@ import { DeviceProfile } from '../../../contracts/v2/device-profile';
 })
 export class DeviceProfileListComponent implements OnInit {
   
+  @Input() associatedDeviceColumn: boolean = true;
   @Input() toolbars: boolean = true;
   @Input() enableSelectAll: boolean = true;
   @Output() singleProfileSelectedEvent = new EventEmitter<DeviceProfile>();
   profileList: DeviceProfile[] = [];
   multiProfilesSelected: string[] = [];
-  singleProfileSelected?: DeviceProfile;
+  @Input() singleProfileSelected?: DeviceProfile;
   isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;

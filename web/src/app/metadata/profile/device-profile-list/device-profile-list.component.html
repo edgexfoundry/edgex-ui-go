@@ -18,7 +18,8 @@
 
 <div class="card">
     <div class="card-header font-weight-bold">
-        <i class="fa fa-th-list text-danger"></i> Device Profile List
+        <i class="fa fa-list fa-lg text-danger mr-1"></i> 
+        <span>Device Profile List</span> 
     </div>
     <div class="card-body p-0">
         <div *ngIf="toolbars" class="bg-light px-2 py-2">
@@ -48,7 +49,7 @@
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
-                      <th scope="col">AssociatedDevice</th>
+                      <th *ngIf="associatedDeviceColumn" scope="col">AssociatedDevice</th>
                       <th scope="col">Labels</th>
                       <th scope="col">Manufacturer</th>
                       <th scope="col">Model</th>
@@ -62,10 +63,7 @@
                         <td class="user-select-all">{{profile.id}}</td>
                         <td class="user-select-all">{{profile.name}}</td>
                         <td>{{profile.description}}</td>
-                        <td class="text-center">
-                            <span >
-
-                            </span>
+                        <td *ngIf="associatedDeviceColumn" class="text-center">
                             <a routerLink="../../device-center" class="badge badge-pill badge-primary" [queryParams]="{'profileId':profile.name}"><i class="fa fa-link"></i></a>
                         </td>
                         <td>{{profile.labels}}</td>

@@ -17,7 +17,10 @@
  -->
 
 <div class="card">
-    <div class="card-header"><i class="fa fa-list text-danger"></i> Device List</div>
+    <div class="card-header font-weight-bold">
+        <i class="fa fa-list fa-lg text-danger mr-1"></i> 
+        <span>Device List</span>
+    </div>
     <div class="card-body p-0 position-relative">
         <div class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
@@ -44,12 +47,13 @@
                       <th scope="col">Name</th>
                       <th scope="col">Description</th>
                       <th scope="col">Labels</th>
+                      <th scope="col">AdminState</th>
+                      <th scope="col">OperatingState</th>
                       <th scope="col">Command</th>
                       <th scope="col">AutoEvents</th>
                       <th scope="col">AssociatedProfile</th>
                       <th scope="col">AssociatedService</th>
-                      <th scope="col">AdminState</th>
-                      <th scope="col">OperatingState</th>
+                      
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
                     </tr>
@@ -61,6 +65,18 @@
                         <td class="user-select-all">{{device.name}}</td>
                         <td>{{device.description}}</td>
                         <td>{{device.labels}}</td>
+                        <td>
+                            <span [ngSwitch]="device.adminState">
+                                <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{device.adminState}}</span> 
+                                <span *ngSwitchDefault class="badge badge-danger">{{device.adminState}}</span> 
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span [ngSwitch]="device.operatingState">
+                                <span *ngSwitchCase="'UP'" class="badge badge-success"> {{device.operatingState}}</span> 
+                                <span *ngSwitchDefault class="badge badge-danger"> {{device.operatingState}}</span> 
+                            </span>
+                        </td>
                         <td class="text-center">
                             <span class="badge badge-primary text-light" [class.badge-danger]="associatedCmdDeviceName === device.name"  role="button" (click)="checkDeviceCommand(device)">
                                 <i class="fa fa-terminal font-weight-bolder"></i>
@@ -77,18 +93,7 @@
                         <td>
                             <a routerLink="../../device-service-list">{{device.serviceName}}</a> 
                         </td>
-                        <td>
-                            <span [ngSwitch]="device.adminState">
-                                <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{device.adminState}}</span> 
-                                <span *ngSwitchDefault class="badge badge-danger">{{device.adminState}}</span> 
-                            </span>
-                        </td>
-                        <td>
-                            <span [ngSwitch]="device.operatingState">
-                                <span *ngSwitchCase="'UP'" class="badge badge-success"> {{device.operatingState}}</span> 
-                                <span *ngSwitchDefault class="badge badge-danger"> {{device.operatingState}}</span> 
-                            </span>
-                        </td>
+                       
                         <!-- <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
                         <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                     </tr>

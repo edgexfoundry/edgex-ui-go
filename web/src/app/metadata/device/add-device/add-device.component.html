@@ -55,7 +55,13 @@
     <div class="card-body p-0">
         <div [ngSwitch]="currentStep">
             <ng-template [ngSwitchCase]="0" #SelectDeviceService>
-                <div class="table-responsive">
+                <div class="p-2">
+                    <app-device-service-list 
+                    (singleDeviceSvcSelectedEvent)="onSingleDeviceSvcSelected($event)"
+                    [deviceSvcSelected]="selectedSvc"
+                    ></app-device-service-list>
+                </div>
+                <!-- <div class="table-responsive">
                     <table class="table table-hover text-truncate">
                         <thead class="thead-light">
                             <tr>
@@ -65,7 +71,7 @@
                                 <th scope="col">Description</th>
                                 <th scope="col">Labels</th>
                                 <th scope="col">AdminState</th>
-                                <!-- <th scope="col">OperatingState</th> -->
+                                <th scope="col">OperatingState</th>
                                 <th scope="col">Created</th>
                                 <th scope="col">Modified</th>
                             </tr>
@@ -78,18 +84,23 @@
                                 <td>{{svc.description}}</td>
                                 <td>{{svc.labels}}</td>
                                 <td>{{svc.adminState}}</td>
-                                <!-- <td>{{svc.operatingState}}</td> -->
+                                <td>{{svc.operatingState}}</td>
                                 <td>{{svc.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                                 <td>{{svc.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </ng-template>
             
             <ng-template [ngSwitchCase]="1" #SelectDeviceProfile>
                 <div class="p-2">
-                    <app-device-profile-list (singleProfileSelectedEvent)="onSingleProfileSelected($event)" [enableSelectAll]="false" [toolbars]="false"></app-device-profile-list>
+                    <app-device-profile-list 
+                    (singleProfileSelectedEvent)="onSingleProfileSelected($event)" 
+                    [singleProfileSelected]="selectedProfile"
+                    [enableSelectAll]="false" 
+                    [toolbars]="false" 
+                    [associatedDeviceColumn]="false"></app-device-profile-list>
                 </div>
                 <!-- <div class="table-responsive">
                     <table class="table table-hover text-truncate">

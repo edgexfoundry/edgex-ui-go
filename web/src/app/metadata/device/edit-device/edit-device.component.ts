@@ -22,9 +22,9 @@ import { MessageService } from '../../../message/message.service';
 import { Device } from '../../../contracts/v2/device';
 import { DeviceResponse } from '../../../contracts/v2/responses/device-response';
 import { DeviceService } from '../../../contracts/v2/device-service';
-import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
+import { DeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
-import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
+import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 import { AutoEvent } from '../../../contracts/v2/auto-event';
 
 declare type protocol = {
@@ -51,7 +51,7 @@ export class EditDeviceComponent implements OnInit {
 
   device?: Device;
   deviceLabels?: string;
-  deviceServiceList!: DeviceService[];
+  // deviceServiceList?: DeviceService[];
   // deviceProfileList?: DeviceProfile[];
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
@@ -84,32 +84,34 @@ export class EditDeviceComponent implements OnInit {
           this.protocolPropertyList.push({ 'key': key, 'value': value })
         }
 
-
-        this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
-          this.deviceServiceList = data.services;
-          this.deviceServiceList.forEach((svc) => {
-            if (svc.name === this.device?.serviceName) {
-              this.selectedSvc = svc;
-              return
-            }
-          });
-        });
-
-        // this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
-        //   this.deviceProfileList = data.profiles;
-        //   this.deviceProfileList.forEach((profile) => {
-        //     if (profile.name === this.device?.profileName) {
-        //       this.selectedProfile = profile;
-        //       return
-        //     }
-        //   });
-        // });
+        this.setDefaultDeviceSvcSelected(this.device.serviceName);
+        this.setDefaultDeviceProfileSelected(this.device.profileName);
       });
     });
   }
 
   onSingleProfileSelected(profile: DeviceProfile) {
     this.selectedProfile = profile;
+  }
+
+  onSingleDeviceSvcSelected(svc: DeviceService) {
+    this.selectedSvc = svc;
+  }
+
+  setDefaultDeviceSvcSelected(svcName: string) {
+    this.metaSvc
+    .findDevcieServiceByName(svcName)
+    .subscribe((resp: DeviceServiceResponse) => {
+      this.selectedSvc = resp.service;
+    });
+  }
+
+  setDefaultDeviceProfileSelected(profileName: string) {
+    this.metaSvc
+    .findProfileByName(profileName)
+    .subscribe((resp: DeviceProfileResponse) => {
+      this.selectedProfile = resp.profile;
+    });
   }
 
   setAutoEventInternal(events?: AutoEvent[]) {
@@ -184,23 +186,23 @@ export class EditDeviceComponent implements OnInit {
   //   }
   // }
 
-  isSvcChecked(name: string): boolean {
-    return this.selectedSvc?.name === name
-  }
+  // isSvcChecked(name: string): boolean {
+  //   return this.selectedSvc?.name === name
+  // }
 
-  selectOneSvc(event: any, name: string) {
-    const checkbox = event.target;
-    let self = this;
-    if (checkbox.checked) {
-      this.deviceServiceList.forEach(function (svc) {
-        if (svc.name === name) {
-          self.selectedSvc = svc;
-        }
-      });
-    } else {
-      this.selectedSvc = undefined;
-    }
-  }
+  // selectOneSvc(event: any, name: string) {
+  //   const checkbox = event.target;
+  //   let self = this;
+  //   if (checkbox.checked) {
+  //     this.deviceServiceList.forEach(function (svc) {
+  //       if (svc.name === name) {
+  //         self.selectedSvc = svc;
+  //       }
+  //     });
+  //   } else {
+  //     this.selectedSvc = undefined;
+  //   }
+  // }
 
   validateBeforeSave(): boolean {
     if (this.device?.name && this.protocolName) {
