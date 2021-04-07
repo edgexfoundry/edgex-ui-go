@@ -30,6 +30,11 @@ import { DeviceProfileListComponent } from './profile/device-profile-list/device
 import { AddProfileComponent } from './profile/add-profile/add-profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 
+import { ProvisionWatcherCenterComponent } from './provision-watcher/provision-watcher-center/provision-watcher-center.component';
+import { ProvisionWatcherListComponent } from './provision-watcher/provision-watcher-list/provision-watcher-list.component';
+import { AddProvisionWatcherComponent } from './provision-watcher/add-provision-watcher/add-provision-watcher.component';
+import { EditProvisionWatcherComponent } from './provision-watcher/edit-provision-watcher/edit-provision-watcher.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -78,7 +83,7 @@ const routes: Routes = [
           },
           {
             path: 'device-profile-list',
-            component: DeviceProfileListComponent
+            component: ProvisionWatcherListComponent
           },
           {
             path: 'edit-profile',
@@ -87,6 +92,29 @@ const routes: Routes = [
           {
             path: 'add-profile',
             component: AddProfileComponent
+          }
+        ]
+      },
+      {
+        path: 'provision-watcher-center',
+        component: ProvisionWatcherCenterComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'provision-watcher-list',
+            pathMatch: 'full',
+          },
+          {
+            path: 'provision-watcher-list',
+            component: DeviceProfileListComponent
+          },
+          {
+            path: 'edit-provision-watcher',
+            component: EditProvisionWatcherComponent
+          },
+          {
+            path: 'add-provision-watcher',
+            component: AddProvisionWatcherComponent
           }
         ]
       }
