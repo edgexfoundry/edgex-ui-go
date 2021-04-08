@@ -61,36 +61,6 @@
                     [deviceSvcSelected]="selectedSvc"
                     ></app-device-service-list>
                 </div>
-                <!-- <div class="table-responsive">
-                    <table class="table table-hover text-truncate">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Labels</th>
-                                <th scope="col">AdminState</th>
-                                <th scope="col">OperatingState</th>
-                                <th scope="col">Created</th>
-                                <th scope="col">Modified</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let svc of deviceServiceList" [class.table-active]="isSvcChecked(svc.name)">
-                                <td><input type="checkbox" role="button" [checked]="isSvcChecked(svc.name)" (click)="selectOneSvc($event,svc.name)"></td>
-                                <td>{{svc.id}}</td>
-                                <td>{{svc.name}}</td>
-                                <td>{{svc.description}}</td>
-                                <td>{{svc.labels}}</td>
-                                <td>{{svc.adminState}}</td>
-                                <td>{{svc.operatingState}}</td>
-                                <td>{{svc.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                                <td>{{svc.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
             </ng-template>
             
             <ng-template [ngSwitchCase]="1" #SelectDeviceProfile>
@@ -102,36 +72,6 @@
                     [toolbars]="false" 
                     [associatedDeviceColumn]="false"></app-device-profile-list>
                 </div>
-                <!-- <div class="table-responsive">
-                    <table class="table table-hover text-truncate">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Labels</th>
-                                <th scope="col">Manufacturer</th>
-                                <th scope="col">Model</th>
-                                <th scope="col">Created</th>
-                                <th scope="col">Modified</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let profile of deviceProfileList" [class.table-active]="isProfileChecked(profile.name)">
-                                <td><input type="checkbox" role="button" [checked]="isProfileChecked(profile.name)" (click)="selectOneProfile($event,profile.name)"></td>
-                                <td>{{profile.id}}</td>
-                                <td>{{profile.name}}</td>
-                                <td>{{profile.description}}</td>
-                                <td>{{profile.labels}}</td>
-                                <td>{{profile.manufacturer}}</td>
-                                <td>{{profile.model}}</td>
-                                <td>{{profile.created | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                                <td>{{profile.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
             </ng-template>
             
             <ng-template [ngSwitchCase]="2" #DevicePrimary>

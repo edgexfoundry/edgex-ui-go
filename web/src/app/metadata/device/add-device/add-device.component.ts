@@ -76,12 +76,7 @@ export class AddDeviceComponent implements OnInit {
 
   currentStep = 0;
   selectedClass = "text-white rounded px-2 bg-success  font-weight-bold";
-  // selectedClass = "text-success font-weight-bold";
   noSelectedClass = "text-white rounded px-2 bg-secondary  font-weight-bold";
-
-  // deviceServiceList: DeviceService[] = [];
-  // deviceProfileList: DeviceProfile[] = [];
-
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
   newDevice?: Device;
@@ -120,12 +115,6 @@ export class AddDeviceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
-    //   this.deviceServiceList = data.services;
-    // });
-    // this.metaSvc.allDeviceProfoles().subscribe((data: MultiDeviceProfileResponse) => {
-    //   this.deviceProfileList = data.profiles;
-    // });
   }
 
   onSingleProfileSelected(profile: DeviceProfile) {
@@ -231,41 +220,6 @@ export class AddDeviceComponent implements OnInit {
   removeAutoEvent(event: AutoEventInternal) {
     this.autoEventsInternal.splice(this.autoEventsInternal.indexOf(event), 1);
   }
-
-  // isProfileChecked(name: string): boolean {
-  //   return this.selectedProfile?.name === name
-  // }
-
-  // selectOneProfile(event: any, name: string) {
-  //   const checkbox = event.target;
-  //   if (checkbox.checked) {
-  //     this.deviceProfileList.forEach((profile) => {
-  //       if (profile.name === name) {
-  //         this.selectedProfile = profile;
-  //       }
-  //     });
-  //   } else {
-  //     this.selectedProfile = undefined;
-  //   }
-  // }
-
-  // isSvcChecked(name: string): boolean {
-  //   return this.selectedSvc?.name === name
-  // }
-
-  // selectOneSvc(event: any, name: string) {
-  //   const checkbox = event.target;
-  //   let self = this;
-  //   if (checkbox.checked) {
-  //     this.deviceServiceList.forEach(function (svc) {
-  //       if (svc.name === name) {
-  //         self.selectedSvc = svc;
-  //       }
-  //     });
-  //   } else {
-  //     this.selectedSvc = undefined;
-  //   }
-  // }
 
   stepStateLock(): boolean {
     switch (this.currentStep) {
