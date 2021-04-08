@@ -83,7 +83,7 @@ const routes: Routes = [
           },
           {
             path: 'device-profile-list',
-            component: ProvisionWatcherListComponent
+            component: DeviceProfileListComponent
           },
           {
             path: 'edit-profile',
@@ -106,7 +106,7 @@ const routes: Routes = [
           },
           {
             path: 'provision-watcher-list',
-            component: DeviceProfileListComponent
+            component: ProvisionWatcherListComponent
           },
           {
             path: 'edit-provision-watcher',
