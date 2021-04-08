@@ -191,7 +191,14 @@ export class MetadataService {
   //Device Service resources
 
   allDeviceServices(): Observable<MultiDeviceServiceResponse> {
-    let url = `${this.deviceServicesListUrl}`;
+    let url = `${this.deviceServicesListUrl}?offset=${0}&limit=${-1}`;
+    return this.http.get<MultiDeviceServiceResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  findAllDeviceServicesPagination(offset: number, limit: number): Observable<MultiDeviceServiceResponse> {
+    let url = `${this.deviceServicesListUrl}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiDeviceServiceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
