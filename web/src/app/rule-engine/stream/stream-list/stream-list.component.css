@@ -1,0 +1,6 @@
+.btn[disabled]:hover {
+    cursor: not-allowed;
+}
+#addStreamDialog #editStreamDialog{
+    margin-top: 10%;
+}
