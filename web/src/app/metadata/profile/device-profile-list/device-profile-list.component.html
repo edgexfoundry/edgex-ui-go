@@ -37,7 +37,7 @@
                     <span><i class="fa fa-trash mr-1"></i>Delete</span>
                 </button>
               </div>
-              <button class="btn btn-secondary btn-sm text-light ml-3">upload yaml file</button>
+              <!-- <button class="btn btn-secondary btn-sm text-light ml-3">upload yaml file</button> -->
         </div>
         <div class="table-responsive">
             <table class="table table-hover text-truncate">
@@ -79,6 +79,16 @@
     <div class="card-footer text-muted p-1">
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-2 mt-1">
+                    <span class="align-middle">items per page</span>
+                </li>
+                <li class="page-item mr-2 ">
+                    <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </li>
                 <li class="page-item mr-1">
                     <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
                 </li>

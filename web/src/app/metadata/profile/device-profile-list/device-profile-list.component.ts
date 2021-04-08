@@ -54,10 +54,14 @@ export class DeviceProfileListComponent implements OnInit {
           this.profileList.push(data.profile);
         });
       } else {
-        this.metaSvc.allDeviceProfolesPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
-          this.profileList = data.profiles;
-        });
+        this.findAllDeviceProfilesPagination();
       }
+    });
+  }
+
+  findAllDeviceProfilesPagination() {
+    this.metaSvc.allDeviceProfolesPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
+      this.profileList = data.profiles;
     });
   }
 
@@ -72,6 +76,11 @@ export class DeviceProfileListComponent implements OnInit {
       this.pagination = 1;
       this.resetCheckbox();
     });
+  }
+
+  onPageSelected() {
+    this.setPagination();
+    this.findAllDeviceProfilesPagination();
   }
 
   prePage() {
@@ -96,7 +105,7 @@ export class DeviceProfileListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
