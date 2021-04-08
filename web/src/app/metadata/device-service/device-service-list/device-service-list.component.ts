@@ -71,6 +71,11 @@ export class DeviceServiceListComponent implements OnInit {
     this.onSingleDeviceSvcSelectedEmitter();
   }
 
+  onPageSelected() {
+    this.setPagination();
+    this.findAllDeviceSvcPagination();
+  }
+
   prePage() {
     this.setPagination(-1);
     this.findAllDeviceSvcPagination();
@@ -84,7 +89,7 @@ export class DeviceServiceListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;

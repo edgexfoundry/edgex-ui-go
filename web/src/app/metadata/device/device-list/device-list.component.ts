@@ -302,6 +302,11 @@ export class DeviceListComponent implements OnInit {
     //   );
   }
 
+  onPageSelected() {
+    this.setPagination();
+    this.getDeviceListPagination();
+  }
+
   prePage() {
     this.setPagination(-1);
     this.getDeviceListPagination();
@@ -315,7 +320,7 @@ export class DeviceListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
