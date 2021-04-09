@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Interval } from '../../../contracts/v2/interval';
@@ -31,8 +31,12 @@ import { BaseResponse } from '../../../contracts/v2/common/base-response';
 })
 export class IntervalListComponent implements OnInit {
 
+  @Input() enableSelectAll: boolean = true;
+  @Output() singleIntervalSelectedEvent = new EventEmitter<Interval>();
+  @Input() toolbars: boolean = true;
   intervalList: Interval[] = [];
   intervalSelected: Interval[] = [];
+  @Input() singleIntervalSelected?: Interval;
   isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
@@ -68,6 +72,28 @@ export class IntervalListComponent implements OnInit {
     });
   }
 
+  onSingleIntervalSelectedEmitter() {
+    this.singleIntervalSelectedEvent.emit(this.singleIntervalSelected);
+  }
+
+  isSingleChecked(name: string) {
+    return this.singleIntervalSelected?.name === name;
+  }
+
+  selectSingleInterval(event: any, name: string) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.intervalList.forEach((interval) => {
+        if (interval.name === name) {
+          this.singleIntervalSelected = interval;
+        }
+      });
+    } else {
+      this.singleIntervalSelected = {} as Interval;
+    }
+    this.onSingleIntervalSelectedEmitter();
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
@@ -87,10 +113,17 @@ export class IntervalListComponent implements OnInit {
   }
 
   isChecked(name: string): boolean {
+    if (!this.enableSelectAll) {
+      return this.isSingleChecked(name)
+    }
     return this.intervalSelected.findIndex(v => v.name === name) >= 0;
   }
 
   selectOne(event: any, interval: Interval) {
+    if (!this.enableSelectAll) {
+      this.selectSingleInterval(event, interval.name);
+      return
+    }
     const checkbox = event.target;
     if (checkbox.checked) {
       this.intervalSelected.push(interval);
@@ -135,6 +168,11 @@ export class IntervalListComponent implements OnInit {
     $("#deleteConfirmDialog").modal('hide');
   }
 
+  onPageSelected() {
+    this.setPagination();
+    this.findIntervalsPagination();
+  }
+
   prePage() {
     this.setPagination(-1);
     this.findIntervalsPagination();
@@ -148,7 +186,7 @@ export class IntervalListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
