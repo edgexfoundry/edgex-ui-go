@@ -1,4 +1,4 @@
-import { Timestamps } from './timestamps';
+import { Timestamps } from '../timestamps';
 import { Options } from './options'; 
 
 export interface Rule extends Timestamps {

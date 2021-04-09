@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from './error.service';
-import { Stream } from '../contracts/stream';
-import { Rule } from '../contracts/rule';
+import { Stream } from '../contracts/kuiper/stream';
+import { Rule } from '../contracts/kuiper/rule';
 
 @Injectable({
   providedIn: 'root'
