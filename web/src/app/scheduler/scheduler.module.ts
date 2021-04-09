@@ -12,10 +12,11 @@ import { AddIntervalActionComponent } from './intervalaction/add-interval-action
 import { EditIntervalActionComponent } from './intervalaction/edit-interval-action/edit-interval-action.component';
 import { IntervalCenterComponent } from './interval/interval-center/interval-center.component';
 import { IntervalActionCenterComponent } from './intervalaction/interval-action-center/interval-action-center.component';
+import { IntervalComboListComponent } from './interval/interval-combo-list/interval-combo-list.component';
 
 
 @NgModule({
-  declarations: [SchedulerComponent, AddIntervalComponent, EditIntervalComponent, IntervalListComponent, IntervalActionListComponent, AddIntervalActionComponent, EditIntervalActionComponent, IntervalCenterComponent, IntervalActionCenterComponent],
+  declarations: [SchedulerComponent, AddIntervalComponent, EditIntervalComponent, IntervalListComponent, IntervalActionListComponent, AddIntervalActionComponent, EditIntervalActionComponent, IntervalCenterComponent, IntervalActionCenterComponent, IntervalComboListComponent],
   imports: [
     CommonModule,
     FormsModule,
