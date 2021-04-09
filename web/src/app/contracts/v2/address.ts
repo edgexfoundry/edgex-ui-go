@@ -14,11 +14,13 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-export interface Address extends RESTAddress, MQTTPubAddress {
+export interface Address extends RESTAddress, MQTTPubAddress, EmailAddress {
     type: string, //REST, MQTT, EMAIL
-    host: string, //required
-    port: number, //required
-    emailAddresses: string[]
+    host: string, //required unless EMAIL
+    port: number, //required unless EMAIL
+
+    //deprecated
+    // emailAddresses: string[]
 }
 
 interface RESTAddress {
@@ -35,4 +37,8 @@ interface MQTTPubAddress {
     retained: boolean,
     autoReconnect: boolean,
     connectTimeout: number
+}
+
+interface EmailAddress {
+    recipients: string[]
 }
