@@ -1,4 +1,4 @@
-import { Timestamps } from './timestamps';
+import { Timestamps } from '../timestamps';
 
 export interface StreamFields extends Timestamps {
     Name: string,

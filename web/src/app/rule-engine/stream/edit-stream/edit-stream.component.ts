@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Stream } from 'src/app/contracts/stream';
+import { Stream } from 'src/app/contracts/kuiper/stream';
 import { MessageService } from 'src/app/message/message.service';
 import { RuleEngineService } from 'src/app/services/rule-engine.service';
 
