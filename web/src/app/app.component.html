@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-12">
-            <div [class.center-shrink]="shrink" [class.center-no-shrink]="shrinkCenterNo" [class.center]="!shrink"  style="overflow-y:auto;">
+            <div [class.center-shrink]="shrink" [class.center-no-shrink]="shrinkCenterNo" [class.center]="!shrink">
                 <nav class="bg-light center-header px-3 pt-2 font-weight-bold">
                     <div class="nav-router mw-100 align-middle">
                         <h4 class="d-inline">{{currentNav}}</h4>
@@ -78,10 +78,10 @@
                             <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> > 2 sub nav  </a></h6> 
                             <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> > 3 sub nav  </a></h6> 
                         </div>
-                        <h6 class="d-inline float-right "><span class="align-middle"> <i class="fa fa-power-off mr-1"></i>Logout</span></h6>
+                        <h6 class="d-inline float-right"><span class="align-middle"> <i class="fa fa-power-off mr-1"></i>Logout</span></h6>
                    </div>
                 </nav>
-                <div class="center-center p-3" style="overflow-x: hidden;">
+                <div class="center-center p-3">
                     <router-outlet></router-outlet>
                 </div>
             </div>
