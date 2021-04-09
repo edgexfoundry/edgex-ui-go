@@ -21,7 +21,7 @@
         <i class="fa fa-list text-danger"></i> Interval List
     </div>
     <div class="card-body p-0 position-relative">
-        <div class="bg-light px-2 py-2">
+        <div *ngIf="toolbars" class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
                     <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
@@ -41,7 +41,7 @@
             <table class="table table-hover text-truncate ">
                 <thead class="thead-light">
                     <tr>
-                      <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
+                      <th scope="col"><input *ngIf="enableSelectAll" type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
                       <th scope="col">Start</th>
@@ -71,6 +71,16 @@
     <div class="card-footer text-muted p-1">
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-2 mt-1">
+                    <span class="align-middle">items per page</span>
+                </li>
+                <li class="page-item mr-2 ">
+                    <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </li>
                 <li class="page-item mr-1">
                     <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
                 </li>
