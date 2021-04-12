@@ -58,14 +58,8 @@
             <div class="form-group row">
                 <label for="intervalFrequency" class="col-md-2 col-form-label">
                     <span class="mr-2">Frequency</span> 
-                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="ISO8601 duration format" 
-                    data-content="
-                    P1Y2M2DT1H2M1S: 1year 2months 2days 1hour 1minute 1second&lt;br&gt; &lt;br&gt; 
-                    P2W: 2weeks &lt;br&gt; 
-                    P2D: 2days &lt;br&gt;
-                    P2DT2H: 2days2hours &lt;br&gt;
-                    PT24H: 24hours &lt;br&gt; 
-                    PT5M: 5minutes"></span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Frequency indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
                 </label>
                 <div class="col-md-10">
                     <input type="text" class="form-control" name="intervalFrequency" [class.is-invalid]="!interval.frequency" [class.is-valid]="interval.frequency" [(ngModel)]="interval.frequency" required>
