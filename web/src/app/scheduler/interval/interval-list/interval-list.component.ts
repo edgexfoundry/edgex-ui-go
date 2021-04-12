@@ -159,11 +159,12 @@ export class IntervalListComponent implements OnInit {
   }
 
   deleteIntervals() {
-    this.intervalSelected.forEach(interval => {
+    this.intervalSelected.forEach((interval,i) => {
       this.schedulerSvc.deleteIntervalByName(interval.name).subscribe((data: BaseResponse[]) => {
         if (this.errSvc.handleErrorForV2API(data)){
           return
         }
+        this.intervalSelected.splice(i,1);
         this.intervalList.forEach((item, index) => {
           if (item.name === interval.name) {
             this.intervalList.splice(index,1);
@@ -179,6 +180,7 @@ export class IntervalListComponent implements OnInit {
   }
 
   onPageSelected() {
+    this.resetPagination();
     this.setPagination();
     this.findIntervalsPagination();
   }
