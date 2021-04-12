@@ -30,7 +30,7 @@ export class SchedulerService {
 
   intervalActionListUrl: string = `${this.urlPrefix}/intervalaction/all`;
   addOneIntervalActionUrl: string = `${this.urlPrefix}/intervalaction`;
-  updateOneIntervaActionlUrl: string = `${this.urlPrefix}/intervalactionn`;
+  updateOneIntervaActionlUrl: string = `${this.urlPrefix}/intervalaction`;
   findOneIntervalActionByNameUrl: string = `${this.urlPrefix}/intervalaction/name/`;
   deleteOneIntervalActionByNameUrl: string = `${this.urlPrefix}/intervalaction/name/`;
 

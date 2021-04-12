@@ -136,7 +136,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div *ngIf="intervalAction.address?.type === 'MQTT'" #MQTT>
+                            <div [style.display]="intervalAction.address.type !== 'MQTT' ? 'none' : ''" #MQTT>
                                 <form>
                                     <div class="form-group row has-validation">
                                         <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
@@ -175,15 +175,23 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="addressQoS" class="col-md-2 col-form-label" required>QoS</label>
+                                        <label for="addressQoS" class="col-md-2 col-form-label">
+                                            <span class="mr-2">QoS</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            data-content="only pure integer supported!"></span>
+                                        </label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control" id="addressQoS" name="addressQoS" [(ngModel)]="intervalAction.address.qos" required>
+                                            <input type="number" class="form-control" id="addressQoS" name="addressQoS" [(ngModel)]="intervalAction.address.qos">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="addressKeepAlive" class="col-md-2 col-form-label" required>KeepAlive</label>
+                                        <label for="addressKeepAlive" class="col-md-2 col-form-label">
+                                            <span class="mr-2">KeepAlive</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            data-content="only pure integer supported!"></span>
+                                        </label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control" id="addressKeepAlive" name="addressKeepAlive" [(ngModel)]="intervalAction.address.keepAlive">
+                                            <input type="number" class="form-control" id="addressKeepAlive" name="addressKeepAlive" [(ngModel)]="intervalAction.address.keepAlive">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -205,9 +213,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="addressConnectTimeout" class="col-md-2 col-form-label" required>ConnectTimeout</label>
+                                        <label for="addressConnectTimeout" class="col-md-2 col-form-label" required>
+                                            <span class="mr-2">ConnectTimeout</span> 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            data-content="only pure integer supported!"></span>
+                                        </label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control" id="addressConnectTimeout" name="addressConnectTimeout" [(ngModel)]="intervalAction.address.connectTimeout">
+                                            <input type="number" class="form-control" id="addressConnectTimeout" name="addressConnectTimeout" [(ngModel)]="intervalAction.address.connectTimeout">
                                         </div>
                                     </div>
                                 </form>

@@ -1,1 +1,225 @@
-<p>edit-interval-action works!</p>
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="card">
+   <div class="card-header">
+       <i class="fa fa-edit text-danger"></i>
+       Edit Interval Action
+       <button class="btn btn-sm btn-success float-right" (click)="save()" [disabled]="validate()">Save</button>
+   </div>
+   <div *ngIf="intervalAction" class="card-body">
+       <form>
+           <div class="form-group row has-validation">
+               <label for="intervalActionName" class="col-md-2 col-form-label" required>Name</label>
+               <div class="col-md-10">
+                   <input type="text" class="form-control" id="validationIntervalActionName" [class.is-invalid]="!intervalAction.name" [class.is-valid]="intervalAction.name" name="intervalActionName" [(ngModel)]="intervalAction.name" required>
+                   <div id="validationIntervalActionNameFeedback" class="invalid-feedback">
+                       <small>the interval action name can't be empty!</small> 
+                   </div>
+               </div>
+           </div>
+           <div class="form-group row">
+               <label for="intervalName" class="col-md-2 col-form-label">IntervalName</label>
+               <div class="col-md-10">
+                   <div *ngIf="selectedIntervalDefault" class="mb-3">
+                       <app-interval-combo-list [validate]="true" [selectedInterval]="selectedIntervalDefault" (intervalSelectedEvent)="onSingleIntervalSelected($event)"></app-interval-combo-list>
+                   </div>
+               </div>
+           </div>
+           <div class="form-group row">
+               <label for="Address" class="col-md-2 col-form-label">Address</label>
+               <div class="col-md-10">
+                   <div class="card">
+                       <div class="card-header">
+                           <div class="form-check form-check-inline">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'REST'" [class.badge-primary]="intervalAction.address.type === 'REST'">
+                                   <input class="form-check-input" type="radio" name="inlineRadioOptions" id="REST" value="REST" [(ngModel)]="intervalAction.address.type">
+                                   <label class="form-check-label" for="REST">REST</label>
+                               </span>
+                           </div>
+                           <div class="form-check form-check-inline">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'MQTT'" [class.badge-primary]="intervalAction.address.type == 'MQTT'">
+                                   <input class="form-check-input" type="radio" name="inlineRadioOptions" id="MQTT" value="MQTT" [(ngModel)]="intervalAction.address.type">
+                                   <label class="form-check-label" for="MQTT">MQTT</label>
+                               </span>
+                           </div>
+                           <div class="form-check form-check-inline">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'EMAIL'" [class.badge-primary]="intervalAction.address.type == 'EMAIL'">
+                                   <input class="form-check-input" type="radio" name="inlineRadioOptions" id="EMAIL" value="EMAIL" [(ngModel)]="intervalAction.address.type">
+                                   <label class="form-check-label" for="EMAIL">EMAIL</label>
+                               </span>
+                           </div>
+                           <!-- <ul class="nav nav-tabs card-header-tabs">
+                               <li class="nav-item">
+                                   <a class="nav-link" [class.active]="intervalAction.address?.type === 'REST'" role="button" (click)="typeToggle('REST')">REST</a>
+                               </li>
+                               <li class="nav-item">
+                                   <a class="nav-link" [class.active]="intervalAction.address?.type === 'MQTT'" role="button" (click)="typeToggle('MQTT')">MQTT</a>
+                               </li>
+                               <li class="nav-item">
+                                   <a class="nav-link" [class.active]="intervalAction.address?.type === 'EMAIL'" role="button" (click)="typeToggle('EMAIL')">EMAIL</a>
+                               </li>
+                           </ul> -->
+                       </div>
+                       <div class="card-body">
+                           <div *ngIf="intervalAction.address.type === 'REST'" #REST>
+                               <form>
+                                   <div class="form-group row">
+                                       <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
+                                       <div class="col-md-10">
+                                           <select type="text" class="form-control" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
+                                               <option value="GET">GET</option>
+                                               <option value="POST">POST</option>
+                                               <option value="PUT">PUT</option>
+                                               <option value="DELETE">DELETE</option>
+                                               <option value="PATCH">PATCH</option>
+                                               <option value="HEAD">HEAD</option>
+                                               <option value="TRACE">TRACE</option>
+                                               <option value="CONNECT">CONNECT</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row has-validation">
+                                       <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
+                                           <div id="addressHostFeedback" class="invalid-feedback">
+                                               <small>the REST address host can't be empty!</small> 
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row has-validation">
+                                       <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
+                                           <div id="addressPortFeedback" class="invalid-feedback">
+                                               <small>the REST address port can't be empty and only pure integer is supported!</small> 
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path">
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="queryParameters" class="col-md-2 col-form-label" required>QueryParameters</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="queryParameters" name="queryParameters" [(ngModel)]="intervalAction.address.queryParameters">
+                                       </div>
+                                   </div>
+                               </form>
+                           </div>
+                           <div *ngIf="intervalAction.address?.type === 'MQTT'" #MQTT>
+                               <form>
+                                   <div class="form-group row has-validation">
+                                       <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
+                                           <div id="addressHostFeedback" class="invalid-feedback">
+                                               <small>the MQTT host can't be empty!</small> 
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row has-validation">
+                                       <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
+                                           <div id="addressPortFeedback" class="invalid-feedback">
+                                               <small>the MQTT port can't be empty and only pure integer is supported!!</small> 
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row has-validation">
+                                       <label for="addressPublisher" class="col-md-2 col-form-label" required>Publisher</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressPublisher" [class.is-invalid]="!intervalAction.address.publisher" [class.is-valid]="intervalAction.address.publisher" name="addressPublisher" [(ngModel)]="intervalAction.address.publisher" required>
+                                           <div id="addressPublisherFeedback" class="invalid-feedback">
+                                               <small>the MQTT publisher can't be empty!</small> 
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row has-validation">
+                                       <label for="addressTopic" class="col-md-2 col-form-label" required>Topic</label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="addressTopic" [class.is-invalid]="!intervalAction.address.topic" [class.is-valid]="intervalAction.address.topic" name="addressTopic" [(ngModel)]="intervalAction.address.topic" required>
+                                           <div id="addressTopicFeedback" class="invalid-feedback">
+                                               <small>the MQTT topic can't be empty!</small> 
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="addressQoS" class="col-md-2 col-form-label" required>QoS</label>
+                                       <div class="col-md-10">
+                                           <input type="number" class="form-control" id="addressQoS" name="addressQoS" [(ngModel)]="intervalAction.address.qos" required>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="addressKeepAlive" class="col-md-2 col-form-label" required>KeepAlive</label>
+                                       <div class="col-md-10">
+                                           <input type="number" class="form-control" id="addressKeepAlive" name="addressKeepAlive" [(ngModel)]="intervalAction.address.keepAlive">
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="addressRetained" class="col-md-2 col-form-label" required>Retained</label>
+                                       <div class="col-md-10">
+                                           <select type="text" class="form-control" id="addressRetained" name="addressRetained" [(ngModel)]="intervalAction.address.retained">
+                                               <option [ngValue]="false" selected>false</option>
+                                               <option [ngValue]="true">true</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="addressAutoReconnect" class="col-md-2 col-form-label" required>AutoReconnect</label>
+                                       <div class="col-md-10">
+                                           <select type="text" class="form-control" id="addressAutoReconnect" name="addressAutoReconnect" [(ngModel)]="intervalAction.address.autoReconnect">
+                                               <option [ngValue]="true" selected>true</option>
+                                               <option [ngValue]="false">false</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                                   <div class="form-group row">
+                                       <label for="addressConnectTimeout" class="col-md-2 col-form-label" required>ConnectTimeout</label>
+                                       <div class="col-md-10">
+                                           <input type="number" class="form-control" id="addressConnectTimeout" name="addressConnectTimeout" [(ngModel)]="intervalAction.address.connectTimeout">
+                                       </div>
+                                   </div>
+                               </form>
+                           </div>
+                           <div [style.display]="intervalAction.address.type !== 'EMAIL' ? 'none' : ''" #EMAIL>
+                               <form>
+                                   <div class="form-group row">
+                                       <label for="emailRecipients" class="col-md-2 col-form-label">
+                                           <span class="mr-2">EmailRecipients</span>
+                                           <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                           data-content="Multiple email addresses are separated by commas"></span>
+                                       </label>
+                                       <div class="col-md-10">
+                                           <input type="text" class="form-control" id="emailRecipients" name="emailRecipients" [(ngModel)]="addressEmailRecipients">
+                                       </div>
+                                   </div>
+                               </form>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </form>
+   </div>
+</div>
