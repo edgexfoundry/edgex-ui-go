@@ -19,7 +19,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Interval } from '../../../contracts/v2/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
-import { MultiIntervalResponse } from '../../../contracts/v2/responses/interval-response';
+import { MultiIntervalResponse, IntervalResponse } from '../../../contracts/v2/responses/interval-response';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
 import { BaseResponse } from '../../../contracts/v2/common/base-response';
@@ -49,7 +49,17 @@ export class IntervalListComponent implements OnInit {
     private errSvc: ErrorService) { }
 
   ngOnInit(): void {
-      this.findIntervalsPagination();
+    this.route.queryParams.subscribe(params => {
+      if (params['intervalName']) {
+        this.schedulerSvc.findIntervalByName(params['intervalName']).subscribe((resp:IntervalResponse)=>{
+          this.intervalList = [];
+          this.intervalList.push(resp.interval);
+          return
+        })
+      } else {
+        this.findIntervalsPagination();
+      }
+    })
   }
 
   refresh() {

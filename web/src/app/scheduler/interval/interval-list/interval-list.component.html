@@ -48,6 +48,7 @@
                       <th scope="col">End</th>
                       <th scope="col">Frequency</th>
                       <th scope="col">RunOnce</th>
+                      <!-- <th scope="col">AssociatedActions</th> -->
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
                     </tr>
@@ -61,6 +62,11 @@
                         <td>{{interval.end}}</td>
                         <td>{{interval.frequency}}</td>
                         <td>{{interval.runOnce?true:false}}</td>
+                        <!-- <td class="text-center">
+                            <a routerLink="../../interval-action-center" [queryParams]="{'intervalName':interval.name}">
+                                <i class="fa fa-share-alt-square fa-lg"></i>
+                            </a>
+                        </td> -->
                         <!-- <td>{{interval.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
                         <td>{{interval.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                     </tr>
