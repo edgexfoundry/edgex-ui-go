@@ -79,6 +79,7 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
   onPageSelected() {
+    this.resetPagination();
     this.setPagination();
     this.findAllDeviceProfilesPagination();
   }
@@ -114,8 +115,7 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
   resetPagination() {
-    this.pageOffset = 0;
-    this.pageLimit = 5;
+    this.pagination = 1;
     this.resetCheckbox();
   }
 

@@ -72,6 +72,7 @@ export class DeviceServiceListComponent implements OnInit {
   }
 
   onPageSelected() {
+    this.resetPagination();
     this.setPagination();
     this.findAllDeviceSvcPagination();
   }

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'
-import { Rule } from 'src/app/contracts/rule';
+import { Rule } from 'src/app/contracts/kuiper/rule';
 import { CommandService } from 'src/app/services/command.service';
 import { RuleEngineService } from 'src/app/services/rule-engine.service';
 
