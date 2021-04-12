@@ -97,9 +97,11 @@ export class AddIntervalActionComponent implements OnInit {
 
   submit() {
     this.intervalAction.address.recipients = this.addressEmailRecipients.split(',');
+    this.intervalAction.address.port = Number(this.intervalAction.address.port);
     console.log(this.intervalAction.address.recipients)
     this.schedulerSvc.addIntervalAction(this.intervalAction).subscribe(() => {
-      this.msgSvc.success('Add interval action',`name: ${this.intervalAction.name}`)
+      this.msgSvc.success('Add interval action',`name: ${this.intervalAction.name}`);
+      this.router.navigate(['../interval-action-list'],{ relativeTo: this.route });
     })
   }
 }
