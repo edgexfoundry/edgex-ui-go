@@ -35,6 +35,18 @@ export class IntervalComboListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let combo = document.getElementById('combo') as HTMLElement;
+    let comboBody = document.getElementById('combo-body') as HTMLElement;
+    combo.addEventListener('click',(event) => {
+      this.toggle();
+      event.stopPropagation();
+    })
+    comboBody.addEventListener('click',(event)=>{
+      event.stopPropagation();
+    })
+    window.document.addEventListener('click',(event) => {
+      this.visible = false;
+    })
   }
 
   onSingleIntervalSelected(interval: Interval) {
