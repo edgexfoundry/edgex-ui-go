@@ -42,7 +42,13 @@ export class IntervalActionListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.findIntervalActionsPagination();
+    this.route.queryParams.subscribe(params => {
+      if (params['intervalName']) {
+
+      } else {
+        this.findIntervalActionsPagination();
+      }
+    })
   }
 
   refresh() {
@@ -96,7 +102,7 @@ export class IntervalActionListComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate(['../edit-interval'], {
+    this.router.navigate(['../edit-interval-action'], {
       relativeTo: this.route,
       queryParams: { 'intervalName': this.intervalActionSelected[0].name }
     })
@@ -123,6 +129,11 @@ export class IntervalActionListComponent implements OnInit {
     $("#deleteConfirmDialog").modal('hide');
   }
 
+  onPageSelected() {
+    this.setPagination();
+    this.findIntervalActionsPagination();
+  }
+
   prePage() {
     this.setPagination(-1);
     this.findIntervalActionsPagination();
@@ -136,7 +147,7 @@ export class IntervalActionListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
