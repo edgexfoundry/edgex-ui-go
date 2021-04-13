@@ -17,6 +17,7 @@
 package core
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -25,11 +26,14 @@ import (
 )
 
 const (
-	RootURIPath = "/"
+	RootURIPath  = "/"
+	pathPrefix   = "/api"
+	staticV2Path = "static-v2/web"
 )
 
 //{Token:User}
 var TokenCache = make(map[string]domain.User, 20)
+var edgexSvcPathNames = []string{"metadata", "coredata", "command", "scheduler", "notification", "system", "rule-engine"}
 
 func GeneralFilter(h http.Handler) http.Handler {
 	authFilter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -38,23 +42,26 @@ func GeneralFilter(h http.Handler) http.Handler {
 	return AuthFilter(authFilter)
 }
 
+func hasSvcPrefixValidate(path string) bool {
+	for _, name := range edgexSvcPathNames {
+		if strings.HasPrefix(path, fmt.Sprintf("/%s/", name)) {
+			return true
+		}
+	}
+	return false
+}
+
 func AuthFilter(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
-
+		// fmt.Println(path)
 		if path == LoginUriPath || path == UserCreaterUriPath {
 			h.ServeHTTP(w, r)
 			return
 		}
 
-		if strings.HasSuffix(path, HtmlSuffix) ||
-			strings.HasSuffix(path, CssSuffix) ||
-			strings.HasSuffix(path, JsSuffix) ||
-			strings.HasSuffix(path, JsonSuffix) ||
-			strings.HasPrefix(path, VendorsPath) ||
-			strings.HasPrefix(path, DataPathPrefix) {
-
-			http.FileServer(http.Dir(configs.ServerConf.StaticResourcesPath)).ServeHTTP(w, r)
+		if !strings.HasPrefix(path, pathPrefix) && !hasSvcPrefixValidate(path) {
+			http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
 			return
 		}
 
@@ -64,10 +71,10 @@ func AuthFilter(h http.Handler) http.Handler {
 			return
 		}*/
 
-		if path == RootURIPath {
-			http.FileServer(http.Dir(configs.ServerConf.StaticResourcesPath)).ServeHTTP(w, r)
-			return
-		}
+		// if path == RootURIPath {
+		// 	http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
+		// 	return
+		// }
 
 		/*var token string
 		u := r.URL.RawQuery

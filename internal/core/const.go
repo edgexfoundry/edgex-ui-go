@@ -28,6 +28,7 @@ const (
 	HtmlSuffix          = ".html"
 	CssSuffix           = ".css"
 	JsSuffix            = ".js"
+	JsMapSuffix         = ".js.map"
 	JsonSuffix          = ".json"
 	VendorsPath         = "/vendors"
 	DataPathPrefix      = "/data"
