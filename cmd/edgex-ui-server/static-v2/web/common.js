@@ -44,9 +44,10 @@ class CommandService {
         this.urlPrefix = `${this.endpoint}${this.version}`;
         this.endpointHealthUrl = "/ping";
         this.versionUrl = "/version";
-        this.commandsByDeviceIdUrl = "/device/"; //deprecated
-        this.commandsByDeviceNameUrl = "/device/name/";
-        this.issueCmdByDeviceNameAndCmdNameUrl = "/device/name/";
+        this.deviceCorecommandListUrl = `${this.urlPrefix}/device/all`;
+        this.commandsByDeviceIdUrl = `${this.urlPrefix}/device/`; //deprecated
+        this.commandsByDeviceNameUrl = `${this.urlPrefix}/device/name/`;
+        this.issueCmdByDeviceNameAndCmdNameUrl = `${this.urlPrefix}/device/name/`;
         this.httpPostOrPutOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
                 'Content-type': 'application/json',
@@ -56,25 +57,30 @@ class CommandService {
     }
     //deprecated
     findCommnadsByDeviceId(deviceId) {
-        let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}`;
+        let url = `${this.commandsByDeviceIdUrl}${deviceId}`;
+        return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
+    }
+    allDeviceCoreCommandsPagination() {
+        let url = `${this.deviceCorecommandListUrl}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     findDeviceAssociatedCommnadsByDeviceName(name) {
-        let url = `${this.urlPrefix}${this.commandsByDeviceNameUrl}${name}`;
+        let url = `${this.commandsByDeviceNameUrl}${name}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
+    //deprecated
     findAllDeviceCommnads() {
         let url = `${this.urlPrefix}/device`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     issueGetBinaryCmd(deviceId, commandId) {
-        let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
+        let url = `${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
         return this.http.request('GET', url, {
             responseType: 'arraybuffer'
         }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     issueGetCmd(deviceName, commandName) {
-        let url = `${this.urlPrefix}${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}`;
+        let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //deprecated
@@ -85,7 +91,7 @@ class CommandService {
     //   )
     // }
     issueSetCmd(deviceId, commandId, params) {
-        let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
+        let url = `${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
         return this.http.request('PUT', url, {
             body: JSON.stringify(params),
             responseType: 'text'
