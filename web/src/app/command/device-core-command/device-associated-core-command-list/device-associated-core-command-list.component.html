@@ -1,0 +1,61 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-list text-danger mr-2"></i>
+        <span>{{deviceName}} Associated Commands List</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive ">
+            <table class="table table-hover text-truncate ">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Method</th>
+                      <th scope="col">URL</th>
+                      <th scope="col">Path</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cmd of deviceAssociatedCommandsList" [class.table-active]="isChecked(cmd.name)">
+                        <td><input type="checkbox" role="button"  [checked]="isChecked(cmd.name)" (click)="selectOne($event,cmd)"></td>
+                        <td class="user-select-all">{{cmd.name}}</td>
+                        <td>
+                            <div *ngIf="cmd.get" class="form-check form-check-inline">
+                                <span class="badge">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="get" value="get" (change)="methodChecked($event)" [(ngModel)]="method">
+                                    <label class="form-check-label" for="id">{{cmd.get}}</label>
+                                </span>
+                            </div>
+                            <div *ngIf="cmd.set" class="form-check form-check-inline">
+                                <span class="badge">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="set" value="set" (change)="methodChecked($event)" [(ngModel)]="method">
+                                    <label class="form-check-label" for="set">{{cmd.set}}</label>
+                                </span>
+                            </div>
+                        </td>
+                        <td>{{cmd.url}}</td>
+                        <td>{{cmd.path}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

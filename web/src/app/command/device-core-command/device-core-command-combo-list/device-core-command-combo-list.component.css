@@ -1,0 +1,15 @@
+.combo {
+    position: relative;
+    right: auto;
+}
+
+.combo-body {
+    position: absolute;
+    top: 33px;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    visibility: visible;
+    display: inline-block;
+}
