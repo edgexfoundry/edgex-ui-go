@@ -16,20 +16,48 @@
  *******************************************************************************
  -->
 
- <div class="combo">
-    <div class="input-group has-validation" id="combo">
-        <input type="text" class="form-control" (click)="toggle()" name="commandSelected" readonly="readonly" maxlength="0" [(ngModel)]="commandSelected.name" [class.is-invalid]="!commandSelected.name && validate" [class.is-valid]="commandSelected.name && validate" (click)="toggle()" required>
+<div class="cmd-combo-shielder" *ngIf="visible" (click)="close($event)"></div>
+<div class="cmd-combo">
+    <div class="input-group has-validation" (click)="toggle($event)">
+        <input type="text" class="form-control" 
+        name="coreCmdSelected" disabled  maxlength="0" 
+        [(ngModel)]="coreCmdSelected.path" 
+        [class.is-invalid]="(!coreCmdSelected.path || !httpMethod) && validate" 
+        [class.is-valid]="coreCmdSelected.path && httpMethod && validate"  required>
         <div class="input-group-append">
             <span class="input-group-text" role="button"><i class="fa fa-chevron-down"></i></span>
         </div> 
-        <div id="validationCommandNameFeedback" class="invalid-feedback">
+        <div id="validationCoreCmdPathFeedback" class="invalid-feedback">
             <small>the command name and method can't be empty!</small> 
         </div>
     </div>
-    <div [style.display]="!visible ? 'none': ''" id="combo-body" class="combo-body shadow rounded">
-        <app-device-associated-core-command-list 
-        (cmdMethodEvent)="cmdMethodSelected($event)"
-        [deviceName]="deviceName" 
-        (singleCmdSelectedEvent)="onCmdSelected($event)"></app-device-associated-core-command-list>
+    
+    <div *ngIf="visible" class="cmd-combo-body shadow rounded">
+        <div class="card">
+            <div *ngIf="!deviceCoreCmdListVisible" class="card-header">
+                <nav class="m-0 p-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb p-0 m-0 bg-light">
+                      <li class="breadcrumb-item text-primary"><a (click)="backtoDeviceCoreCommandList()" role="button">DeviceCoreCommandList</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">{{deviceName}}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="card-body p-0">
+                <div *ngIf="deviceCoreCmdListVisible">
+                    <app-device-core-command-list 
+                    [deviceCoreCmdSelected] = "deviceCoreCmdSelected"
+                    (deviceCoreCmdSelectedEvent)="onDeviceCoreCmdSelected($event)"></app-device-core-command-list>
+                </div>
+                <div *ngIf="!deviceCoreCmdListVisible">
+                    <app-device-associated-core-command-list 
+                    [coreCmdSelected]="coreCmdSelected"
+                    (coreCmdMethodEvent)="onCmdMethodSelected($event)"
+                    [deviceName]="deviceName" 
+                    [httpMethod]="httpMethod"
+                    (singleCoreCmdSelectedEvent)="onCoreCmdSelected($event)"></app-device-associated-core-command-list>
+                </div>
+            </div>
+        </div>
     </div>
  </div>
+ 
