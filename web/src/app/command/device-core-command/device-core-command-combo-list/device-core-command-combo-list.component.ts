@@ -16,7 +16,7 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { CoreCommand } from '../../../contracts/v2/core-command';
+import { CoreCommand, DeviceCoreCommand } from '../../../contracts/v2/core-command';
 
 @Component({
   selector: 'app-device-core-command-combo-list',
@@ -27,27 +27,57 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
 
   visible: boolean = false;
   @Input() validate: boolean = false;
-  @Input() deviceName?: string;
-  @Input() commandSelected?: CoreCommand;
+  @Input() deviceName: string = "";
+  deviceCoreCmdSelected?: DeviceCoreCommand;
+  @Input() coreCmdSelected: CoreCommand;
   @Output() commandSelectedEvent = new EventEmitter<CoreCommand>();
-  method: string = "";
+  httpMethod?: string;
   @Output() cmdMethodEvent = new EventEmitter<string>();
+  deviceCoreCmdListVisible: boolean = true;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() { 
+    this.coreCmdSelected = {} as CoreCommand;
   }
 
-  onCommandSelected(cmd: CoreCommand) {
-    this.commandSelected = cmd;
-    this.commandSelectedEvent.emit(this.commandSelected);
+  ngOnInit(): void { }
+
+  onDeviceCoreCmdSelected(deviceCoreCmd: DeviceCoreCommand) {
+    if (!deviceCoreCmd) {
+      return
+    }
+    this.deviceCoreCmdSelected = deviceCoreCmd;
+    this.deviceName = this.deviceCoreCmdSelected.deviceName;
+    this.deviceCoreCmdListVisible = false;
   }
 
-  toggle() {
+  onCmdMethodSelected(method: string) {
+    this.httpMethod = method;
+    this.cmdMethodEvent.emit(this.httpMethod);
+  }
+
+  onCoreCmdSelected(cmd: CoreCommand) {
+    this.coreCmdSelected = cmd;
+    this.commandSelectedEvent.emit(this.coreCmdSelected);
+  }
+
+  backtoDeviceCoreCommandList() {
+    this.deviceCoreCmdListVisible = true;
+  }
+
+  toggle(event: any) {
+    event.stopImmediatePropagation();
     if (this.visible) {
       this.visible = false;
       return
     }
     this.visible = true;
+  }
+
+  close(event: any) {
+    this.visible = false;
+  }
+
+  hold(event: any) {
+    event.stopImmediatePropagation();
   }
 }

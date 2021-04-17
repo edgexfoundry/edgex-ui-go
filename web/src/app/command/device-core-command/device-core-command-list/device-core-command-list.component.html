@@ -1,0 +1,75 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+     <div class="card-header">
+        <i class="fa fa-list text-danger"></i> Device Core Command List
+     </div>
+     <div class="card-body p-0">
+        <div class="table-responsive ">
+            <table class="table table-hover text-truncate ">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Device</th>
+                      <th scope="col">DeviceProfile</th>
+                      <th scope="col">AssociatedCommands</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let deviceCoreCmd of deviceCoreCmdList" [class.table-active]="isChecked(deviceCoreCmd)">
+                        <td> 
+                            <div class="form-group form-check">
+                                <input type="checkbox" role="button" class="form-check-input" [checked]="isChecked(deviceCoreCmd)" (click)="selectOne($event,deviceCoreCmd)">
+                            </div>
+                        </td>
+                        <td class="user-select-all">{{deviceCoreCmd.deviceName}}</td>
+                        <td class="user-select-all">{{deviceCoreCmd.profileName}}</td>
+                        <td>
+                            <span class="badge badge-primary" role="button" (click)="checkOne(deviceCoreCmd)">coreCommands</span>
+                        </td>                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+     </div>
+     <div class="card-footer text-muted p-1">
+        <nav aria-label="navigation">
+            <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-2 mt-1">
+                    <span class="align-middle">items per page</span>
+                </li>
+                <li class="page-item mr-2 ">
+                    <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </li>
+                <li class="page-item mr-1">
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                </li>
+                <li class="page-item" >
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceCoreCmdList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                </li>
+            </ul>
+        </nav>
+     </div>
+ </div>
+ 
+

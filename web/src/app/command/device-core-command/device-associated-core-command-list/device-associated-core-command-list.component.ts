@@ -20,7 +20,6 @@ import { CommandService } from '../../../services/command.service';
 import { DeviceCoreCommandResponse } from '../../../contracts/v2/responses/device-core-command-response';
 import { DeviceCoreCommand, CoreCommand } from '../../../contracts/v2/core-command';
 
-
 @Component({
   selector: 'app-device-associated-core-command-list',
   templateUrl: './device-associated-core-command-list.component.html',
@@ -29,11 +28,11 @@ import { DeviceCoreCommand, CoreCommand } from '../../../contracts/v2/core-comma
 export class DeviceAssociatedCoreCommandListComponent implements OnInit {
 
   @Input() deviceName?: string;
-  cmdSelected?: CoreCommand;
-  @Output() singleCmdSelectedEvent = new EventEmitter<CoreCommand>();
-  deviceAssociatedCommandsList: CoreCommand[] = [];
-  method: string = "";
-  @Output() cmdMethodEvent = new EventEmitter<string>();
+  @Input() coreCmdSelected?: CoreCommand;
+  @Output() singleCoreCmdSelectedEvent = new EventEmitter<CoreCommand>();
+  deviceAssociatedCoreCommandsList: CoreCommand[] = [];
+  @Input() httpMethod?: string;
+  @Output() coreCmdMethodEvent = new EventEmitter<string>();
 
   constructor(private cmdSvc: CommandService) { }
 
@@ -41,32 +40,39 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
     this.cmdSvc
     .findDeviceAssociatedCommnadsByDeviceName(this.deviceName as string)
     .subscribe((resp: DeviceCoreCommandResponse)=>{
-      this.deviceAssociatedCommandsList = resp.deviceCoreCommand.coreCommands;
+      this.deviceAssociatedCoreCommandsList = resp.deviceCoreCommand.coreCommands;
     })
   }
 
-  methodChecked(event: any) {
+  methodChecked(event: any, httpMethod: string) {
     const radio = event.target;
     if (radio.checked) {
-      this.cmdMethodEvent.emit(this.method);
+      this.httpMethod = httpMethod;
+    } else {
+      this.httpMethod = '';
     }
+    this.coreCmdMethodEvent.emit(this.httpMethod);
   }
 
   isChecked(name: string): boolean {
-    return this.cmdSelected?.name === name;
+    return this.coreCmdSelected?.name === name;
   }
 
-  selectOne(event: any, cmd: CoreCommand) {
+  radioUnchecked(checked?: boolean): boolean {
+    if (checked) {
+      return checked;
+    }
+    return false
+  }
+
+  selectOne(event: any, coreCmd: CoreCommand) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.deviceAssociatedCommandsList.forEach((c)=>{
-        if (c.name === cmd.name && c.path === cmd.path) {
-          this.cmdSelected = cmd;
-        } else {
-          this.cmdSelected = {} as CoreCommand;
-        }
-      })
+      this.coreCmdSelected = coreCmd;
+    } else {
+      this.coreCmdSelected = {} as CoreCommand;
     }
-    this.singleCmdSelectedEvent.emit(this.cmdSelected);
+    this.singleCoreCmdSelectedEvent.emit(this.coreCmdSelected);
+    this.coreCmdMethodEvent.emit(undefined);
   }
 }
