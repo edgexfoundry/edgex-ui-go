@@ -119,11 +119,11 @@
                                        </div>
                                    </div>
                                    <div class="form-group row">
-                                       <label for="queryParameters" class="col-md-2 col-form-label" required>QueryParameters</label>
-                                       <div class="col-md-10">
-                                           <input type="text" class="form-control" id="queryParameters" name="queryParameters" [(ngModel)]="intervalAction.address.queryParameters">
-                                       </div>
-                                   </div>
+                                        <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
+                                        </div>
+                                    </div>
                                </form>
                            </div>
                            <div *ngIf="intervalAction.address?.type === 'MQTT'" #MQTT>
