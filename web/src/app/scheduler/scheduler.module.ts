@@ -29,14 +29,16 @@ import { EditIntervalActionComponent } from './intervalaction/edit-interval-acti
 import { IntervalCenterComponent } from './interval/interval-center/interval-center.component';
 import { IntervalActionCenterComponent } from './intervalaction/interval-action-center/interval-action-center.component';
 import { IntervalComboListComponent } from './interval/interval-combo-list/interval-combo-list.component';
-
+import { CommandModule } from '../command/command.module';
 
 @NgModule({
   declarations: [SchedulerComponent, AddIntervalComponent, EditIntervalComponent, IntervalListComponent, IntervalActionListComponent, AddIntervalActionComponent, EditIntervalActionComponent, IntervalCenterComponent, IntervalActionCenterComponent, IntervalComboListComponent],
   imports: [
     CommonModule,
     FormsModule,
-    SchedulerRoutingModule
+    CommandModule,
+    SchedulerRoutingModule,
+    
   ]
 })
 export class SchedulerModule { }
