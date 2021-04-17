@@ -16,9 +16,10 @@
  *******************************************************************************
  -->
 
+ <div class="combo-shielder" *ngIf="visible" (click)="close($event)"></div>
  <div class="combo">
-    <div class="input-group has-validation" id="combo">
-        <input type="text" class="form-control" (click)="toggle()" name="selectedInterval" readonly="readonly" maxlength="0" [(ngModel)]="selectedInterval.name" [class.is-invalid]="!selectedInterval.name && validate" [class.is-valid]="selectedInterval.name && validate" (click)="toggle()" required>
+    <div class="input-group has-validation" (click)="toggle($event)">
+        <input type="text" class="form-control" name="selectedInterval" readonly="readonly" maxlength="0" [(ngModel)]="selectedInterval.name" [class.is-invalid]="!selectedInterval.name && validate" [class.is-valid]="selectedInterval.name && validate" required>
         <div class="input-group-append">
             <span class="input-group-text" role="button"><i class="fa fa-chevron-down"></i></span>
         </div> 
@@ -26,7 +27,7 @@
             <small>the interval name can't be empty!</small> 
         </div>
     </div>
-    <div [style.display]="!visible ? 'none': ''" id="combo-body" class="combo-body shadow rounded">
+    <div [style.display]="!visible ? 'none': ''" class="combo-body shadow rounded">
         <app-interval-list 
         (singleIntervalSelectedEvent)="onSingleIntervalSelected($event)"
         [singleIntervalSelected]="selectedInterval"
