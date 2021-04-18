@@ -33,6 +33,7 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
   deviceAssociatedCoreCommandsList: CoreCommand[] = [];
   @Input() httpMethod?: string;
   @Output() coreCmdMethodEvent = new EventEmitter<string>();
+  @Output() delegationEvent = new EventEmitter<boolean>();
 
   constructor(private cmdSvc: CommandService) { }
 
@@ -52,6 +53,7 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
       this.httpMethod = '';
     }
     this.coreCmdMethodEvent.emit(this.httpMethod);
+    this.delegationEvent.emit(true);
   }
 
   isChecked(name: string): boolean {
@@ -72,6 +74,7 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
     } else {
       this.coreCmdSelected = {} as CoreCommand;
     }
+    this.delegationEvent.emit(true);
     this.singleCoreCmdSelectedEvent.emit(this.coreCmdSelected);
     this.coreCmdMethodEvent.emit(undefined);
   }
