@@ -34,6 +34,7 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
   httpMethod?: string;
   @Output() cmdMethodEvent = new EventEmitter<string>();
   deviceCoreCmdListVisible: boolean = true;
+  delegation: boolean = false;
 
   constructor() { 
     this.coreCmdSelected = {} as CoreCommand;
@@ -41,8 +42,14 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  ondelegation(delegation :boolean) {
+    this.delegation = delegation;
+    (document.getElementById("cmd-combo") as HTMLElement).focus();
+  }
+
   onDeviceCoreCmdSelected(deviceCoreCmd: DeviceCoreCommand) {
     if (!deviceCoreCmd) {
+      this.deviceCoreCmdSelected = deviceCoreCmd;
       return
     }
     this.deviceCoreCmdSelected = deviceCoreCmd;
@@ -74,10 +81,12 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
   }
 
   close(event: any) {
-    this.visible = false;
-  }
-
-  hold(event: any) {
-    event.stopImmediatePropagation();
+    setTimeout(() => {
+      if (this.delegation) {
+        this.delegation = false;        
+      } else {
+        this.visible = false;
+      }
+    }, 120);
   }
 }

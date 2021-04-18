@@ -16,9 +16,9 @@
  *******************************************************************************
  -->
 
-<div class="cmd-combo-shielder" *ngIf="visible" (click)="close($event)"></div>
-<div class="cmd-combo">
-    <div class="input-group has-validation" (click)="toggle($event)">
+<!-- <div class="cmd-combo-shielder" *ngIf="visible" (click)="close($event)"></div> -->
+<div class="cmd-combo" tabindex="-1" (blur)="close($event)" id="cmd-combo">
+    <div class="input-group has-validation" (mousedown)="toggle($event)">
         <input type="text" class="form-control" 
         name="coreCmdSelected" disabled  maxlength="0" 
         [(ngModel)]="coreCmdSelected.path" 
@@ -46,12 +46,14 @@
                 <div *ngIf="deviceCoreCmdListVisible">
                     <app-device-core-command-list 
                     [deviceCoreCmdSelected] = "deviceCoreCmdSelected"
+                    (delegationEvent)="ondelegation($event)"
                     (deviceCoreCmdSelectedEvent)="onDeviceCoreCmdSelected($event)"></app-device-core-command-list>
                 </div>
                 <div *ngIf="!deviceCoreCmdListVisible">
                     <app-device-associated-core-command-list 
                     [coreCmdSelected]="coreCmdSelected"
                     (coreCmdMethodEvent)="onCmdMethodSelected($event)"
+                    (delegationEvent)="ondelegation($event)"
                     [deviceName]="deviceName" 
                     [httpMethod]="httpMethod"
                     (singleCoreCmdSelectedEvent)="onCoreCmdSelected($event)"></app-device-associated-core-command-list>
