@@ -44,7 +44,7 @@ class CommandService {
         this.urlPrefix = `${this.endpoint}${this.version}`;
         this.endpointHealthUrl = "/ping";
         this.versionUrl = "/version";
-        this.deviceCorecommandListUrl = `${this.urlPrefix}/device/all`;
+        this.deviceCoreCommandListUrl = `${this.urlPrefix}/device/all`;
         this.commandsByDeviceIdUrl = `${this.urlPrefix}/device/`; //deprecated
         this.commandsByDeviceNameUrl = `${this.urlPrefix}/device/name/`;
         this.issueCmdByDeviceNameAndCmdNameUrl = `${this.urlPrefix}/device/name/`;
@@ -60,8 +60,8 @@ class CommandService {
         let url = `${this.commandsByDeviceIdUrl}${deviceId}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
-    allDeviceCoreCommandsPagination() {
-        let url = `${this.deviceCorecommandListUrl}`;
+    allDeviceCoreCommandsPagination(offset, limit) {
+        let url = `${this.deviceCoreCommandListUrl}?offset=${offset}&limit=${limit}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     findDeviceAssociatedCommnadsByDeviceName(name) {
