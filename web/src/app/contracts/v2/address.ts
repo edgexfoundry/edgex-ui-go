@@ -25,7 +25,8 @@ export interface Address extends RESTAddress, MQTTPubAddress, EmailAddress {
 
 interface RESTAddress {
     path: string,
-    queryParameters: string,
+    requestBody: string, // replace queryParameters
+    //queryParameters: string, //deprecated
     httpMethod: string //required,'GET' 'HEAD' 'POST' 'PUT' 'DELETE' 'TRACE' 'CONNECT'
 }
 

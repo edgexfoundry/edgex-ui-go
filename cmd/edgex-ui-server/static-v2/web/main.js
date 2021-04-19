@@ -609,7 +609,7 @@ const routes = [
     },
     {
         path: 'scheduler',
-        loadChildren: () => Promise.all(/*! import() | scheduler-scheduler-module */[__webpack_require__.e("default~notifications-notifications-module~scheduler-scheduler-module"), __webpack_require__.e("scheduler-scheduler-module")]).then(__webpack_require__.bind(null, /*! ./scheduler/scheduler.module */ "lzfX")).then(m => m.SchedulerModule)
+        loadChildren: () => Promise.all(/*! import() | scheduler-scheduler-module */[__webpack_require__.e("default~notifications-notifications-module~scheduler-scheduler-module"), __webpack_require__.e("common"), __webpack_require__.e("scheduler-scheduler-module")]).then(__webpack_require__.bind(null, /*! ./scheduler/scheduler.module */ "lzfX")).then(m => m.SchedulerModule)
     },
     {
         path: 'rule-engine',

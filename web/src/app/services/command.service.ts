@@ -35,7 +35,7 @@ export class CommandService {
   endpointHealthUrl: string = "/ping";
   versionUrl: string = "/version";
 
-  deviceCorecommandListUrl: string = `${this.urlPrefix}/device/all`;
+  deviceCoreCommandListUrl: string = `${this.urlPrefix}/device/all`;
   commandsByDeviceIdUrl: string = `${this.urlPrefix}/device/`; //deprecated
   commandsByDeviceNameUrl: string = `${this.urlPrefix}/device/name/`;
   issueCmdByDeviceNameAndCmdNameUrl: string = `${this.urlPrefix}/device/name/`;
@@ -57,8 +57,8 @@ export class CommandService {
     )
   }
 
-  allDeviceCoreCommandsPagination(): Observable<MultiDeviceCoreCommandsResponse> {
-    let url = `${this.deviceCorecommandListUrl}`;
+  allDeviceCoreCommandsPagination(offset: number, limit: number): Observable<MultiDeviceCoreCommandsResponse> {
+    let url = `${this.deviceCoreCommandListUrl}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiDeviceCoreCommandsResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )

@@ -16,10 +16,10 @@
  *******************************************************************************
  -->
 
-<div class="card">
+<div class="card border-0">
     <div class="card-header">
         <i class="fa fa-list text-danger mr-2"></i>
-        <span>{{deviceName}} Associated Commands List</span>
+        <span> <span class="text-info">{{deviceName}}</span> Associated Commands List</span>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive ">
@@ -34,22 +34,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let cmd of deviceAssociatedCommandsList" [class.table-active]="isChecked(cmd.name)">
+                    <tr *ngFor="let cmd of deviceAssociatedCoreCommandsList;let i=index;" [class.table-active]="isChecked(cmd.name)">
                         <td><input type="checkbox" role="button"  [checked]="isChecked(cmd.name)" (click)="selectOne($event,cmd)"></td>
                         <td class="user-select-all">{{cmd.name}}</td>
                         <td>
-                            <div *ngIf="cmd.get" class="form-check form-check-inline">
-                                <span class="badge">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="get" value="get" (change)="methodChecked($event)" [(ngModel)]="method">
-                                    <label class="form-check-label" for="id">{{cmd.get}}</label>
-                                </span>
+                            <div>
+                                <div *ngIf="cmd.get" class="form-check form-check-inline">
+                                    <span class="badge">
+                                        <input class="form-check-input align-middle" type="radio" id="get-{{cmd}}-{{i}}" name="cmdMethod"  *ngIf="isChecked(cmd.name)" value="GET" [(ngModel)]="httpMethod" (change)="methodChecked($event,'GET')">
+                                        <label class="form-check-label align-middle" for="get-{{cmd}}-{{i}}">get</label>
+                                    </span>
+                                </div>
+                                <div *ngIf="cmd.set" class="form-check form-check-inline">
+                                    <span class="badge">
+                                        <input class="form-check-input align-middle" type="radio" id="set-{{cmd}}-{{i}}" name="cmdMethod"  *ngIf="isChecked(cmd.name)" value="PUT" [(ngModel)]="httpMethod" (change)="methodChecked($event,'PUT')">
+                                        <label class="form-check-label align-middle" for="set-{{cmd}}-{{i}}">set</label>
+                                    </span>
+                                </div>
                             </div>
-                            <div *ngIf="cmd.set" class="form-check form-check-inline">
-                                <span class="badge">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="set" value="set" (change)="methodChecked($event)" [(ngModel)]="method">
-                                    <label class="form-check-label" for="set">{{cmd.set}}</label>
-                                </span>
-                            </div>
+                            
                         </td>
                         <td>{{cmd.url}}</td>
                         <td>{{cmd.path}}</td>
