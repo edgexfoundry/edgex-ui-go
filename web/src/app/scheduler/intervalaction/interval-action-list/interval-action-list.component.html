@@ -44,8 +44,8 @@
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
-                      <th scope="col">Action</th>
-                      <th scope="col">Interval</th>
+                      <th scope="col">AssociatedInterval</th>
+                      <th scope="col">AddressType</th>
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
                     </tr>
@@ -55,8 +55,10 @@
                         <td> <input type="checkbox" role="button"  [checked]="isChecked(intervalAction.name)" (click)="selectOne($event,intervalAction)"></td>
                         <td class="user-select-all">{{intervalAction.id}}</td>
                         <td class="user-select-all">{{intervalAction.name}}</td>
-                        <td>Action</td>
-                        <td>{{intervalAction.intervalName}}</td>                        
+                        <td>
+                            <a routerLink="../../interval-center" [queryParams]="{'intervalName':intervalAction.intervalName}">{{intervalAction.intervalName}}</a>
+                        </td>
+                        <td>{{intervalAction.address.type}}</td>                        
                         <!-- <td>{{interval.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
                         <td>{{interval.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
                     </tr>
@@ -67,6 +69,16 @@
     <div class="card-footer text-muted p-1">
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-2 mt-1">
+                    <span class="align-middle">items per page</span>
+                </li>
+                <li class="page-item mr-2 ">
+                    <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </li>
                 <li class="page-item mr-1">
                     <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
                 </li>

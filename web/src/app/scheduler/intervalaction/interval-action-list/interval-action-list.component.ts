@@ -42,7 +42,13 @@ export class IntervalActionListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.findIntervalActionsPagination();
+    this.route.queryParams.subscribe(params => {
+      if (params['intervalName']) {
+
+      } else {
+        this.findIntervalActionsPagination();
+      }
+    })
   }
 
   refresh() {
@@ -96,9 +102,9 @@ export class IntervalActionListComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate(['../edit-interval'], {
+    this.router.navigate(['../edit-interval-action'], {
       relativeTo: this.route,
-      queryParams: { 'intervalName': this.intervalActionSelected[0].name }
+      queryParams: { 'intervalActionName': this.intervalActionSelected[0].name }
     })
   }
 
@@ -107,7 +113,7 @@ export class IntervalActionListComponent implements OnInit {
   }
 
   deleteIntervalActions() {
-    this.intervalActionSelected.forEach(intervalAction => {
+    this.intervalActionSelected.forEach((intervalAction,i) => {
       this.schedulerSvc.deleteIntervalActionByName(intervalAction.name).subscribe(() => {
         this.intervalActionList.forEach((item, index) => {
           if (item.name === intervalAction.name) {
@@ -115,12 +121,19 @@ export class IntervalActionListComponent implements OnInit {
             return
           }
         });
+        this.intervalActionSelected.splice(i,1);
         this.msgSvc.success('delete', `name: ${intervalAction.name}`);
         this.resetPagination();
         this.findIntervalActionsPagination();
       });
     });
     $("#deleteConfirmDialog").modal('hide');
+  }
+
+  onPageSelected() {
+    this.resetPagination();
+    this.setPagination();
+    this.findIntervalActionsPagination();
   }
 
   prePage() {
@@ -136,7 +149,7 @@ export class IntervalActionListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;

@@ -115,9 +115,9 @@ export class DeviceListComponent implements OnInit {
   }
 
   delete() {
-    this.selectedDevice.forEach((d) => {
+    this.selectedDevice.forEach((d,i) => {
       this.metaSvc.deleteOneDeviceByName(d.name).subscribe(() => {
-        this.selectedDevice = [];
+        this.selectedDevice.splice(i,1);
         this.deviceList.forEach((device: Device, index) => {
           if (device.id === d.id) {
             this.deviceList.splice(index, 1);
@@ -303,6 +303,7 @@ export class DeviceListComponent implements OnInit {
   }
 
   onPageSelected() {
+    this.resetPagination();
     this.setPagination();
     this.getDeviceListPagination();
   }

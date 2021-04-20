@@ -11,7 +11,7 @@ const routes: Routes = [
     loadChildren: () => import('./system-agent/system-agent.module').then(m => m.SystemAgentModule)
   },
   {
-    path: 'device-service',
+    path: 'metadata',
     loadChildren: () => import('./metadata/metadata.module').then(m => m.MetadataModule)
   },
   {

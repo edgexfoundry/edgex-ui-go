@@ -1,0 +1,65 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<!-- <div class="cmd-combo-shielder" *ngIf="visible" (click)="close($event)"></div> -->
+<div class="cmd-combo" tabindex="-1" (blur)="close($event)" id="cmd-combo">
+    <div class="input-group has-validation" (mousedown)="toggle($event)">
+        <input type="text" class="form-control" 
+        name="coreCmdSelected" disabled  maxlength="0" 
+        [(ngModel)]="coreCmdSelected.path" 
+        [class.is-invalid]="(!coreCmdSelected.path || !httpMethod) && validate" 
+        [class.is-valid]="coreCmdSelected.path && httpMethod && validate"  required>
+        <div class="input-group-append">
+            <span class="input-group-text" role="button"><i class="fa fa-chevron-down"></i></span>
+        </div> 
+        <div id="validationCoreCmdPathFeedback" class="invalid-feedback">
+            <small>the command name and method can't be empty!</small> 
+        </div>
+    </div>
+    
+    <div *ngIf="visible" class="cmd-combo-body shadow rounded">
+        <div class="card">
+            <div *ngIf="!deviceCoreCmdListVisible" class="card-header">
+                <nav class="m-0 p-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb p-0 m-0 bg-light">
+                      <li class="breadcrumb-item text-primary"><a (click)="backtoDeviceCoreCommandList()" role="button">DeviceCoreCommandList</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">{{deviceName}}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="card-body p-0">
+                <div *ngIf="deviceCoreCmdListVisible">
+                    <app-device-core-command-list 
+                    [deviceCoreCmdSelected] = "deviceCoreCmdSelected"
+                    (delegationEvent)="ondelegation($event)"
+                    (deviceCoreCmdSelectedEvent)="onDeviceCoreCmdSelected($event)"></app-device-core-command-list>
+                </div>
+                <div *ngIf="!deviceCoreCmdListVisible">
+                    <app-device-associated-core-command-list 
+                    [coreCmdSelected]="coreCmdSelected"
+                    (coreCmdMethodEvent)="onCmdMethodSelected($event)"
+                    (delegationEvent)="ondelegation($event)"
+                    [deviceName]="deviceName" 
+                    [httpMethod]="httpMethod"
+                    (singleCoreCmdSelectedEvent)="onCoreCmdSelected($event)"></app-device-associated-core-command-list>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+ 
