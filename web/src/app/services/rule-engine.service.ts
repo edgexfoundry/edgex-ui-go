@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { Stream } from '../contracts/kuiper/stream';
 import { Rule } from '../contracts/kuiper/rule';
+import { BaseResponse } from '../contracts/v2/common/base-response';
 
 @Injectable({
   providedIn: 'root'
@@ -40,9 +41,9 @@ export class RuleEngineService {
     )
   }
 
-  deleteOneStreamById(id: string): Observable<any> {
+  deleteOneStreamById(id: string): Observable<BaseResponse> {
     let url = `${this.streamUrl}/${id}`;
-    return this.http.delete(url)
+    return this.http.delete<BaseResponse>(url).pipe()
   }
 
   updateStream(sql: string): Observable<any> {
@@ -85,9 +86,9 @@ export class RuleEngineService {
     )
   }
 
-  deleteOneRuleById(id: string): Observable<any> {
+  deleteOneRuleById(id: string): Observable<BaseResponse> {
     let url = `${this.ruleUrl}/${id}`;
-    return this.http.delete(url);
+    return this.http.delete<BaseResponse>(url).pipe()
   }
 
   updateRule(rule: any): Observable<string> {

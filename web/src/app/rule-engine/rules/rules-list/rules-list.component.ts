@@ -55,16 +55,15 @@ export class RulesListComponent implements OnInit {
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');
   }
-
+  
   delete() {
-    this.selectedRule.forEach((id) => {
-      this.ruleSvc.deleteOneRuleById(id).subscribe((response) => {
-      if(response.code == "200"){
-      }
-        this.selectedRule = [];
+    this.selectedRule.forEach((id,i) => {
+      this.ruleSvc.deleteOneRuleById(id).subscribe(() => {
+        this.selectedRule.splice(i,1);
         this.rulesList.forEach((rule: Rule, index) => {
           if (rule.id === id) {
             this.rulesList.splice(index, 1);
+            this.msgSvc.success('remove rule ', ` Id: ${id}`);
             return
           }
         });
@@ -77,10 +76,10 @@ export class RulesListComponent implements OnInit {
              return
            }
          });
+         this.msgSvc.success('remove rule ', ` Id: ${id}`);
         }
        });
     });
-    this.refresh();
     $("#deleteConfirmDialog").modal('hide');
   }
 

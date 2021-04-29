@@ -12,6 +12,7 @@ import { RulesListComponent } from './rules/rules-list/rules-list.component';
 import { RulesCenterComponent } from './rules/rules-center/rules-center.component';
 import { AddRulesComponent } from './rules/add-rules/add-rules.component';
 import { EditRulesComponent } from './rules/edit-rules/edit-rules.component';
+import { CommandModule } from '../command/command.module';
 
 @NgModule({
   declarations: [RuleEngineComponent, StreamListComponent, StreamCenterComponent, AddStreamComponent, EditStreamComponent, RulesListComponent, RulesCenterComponent, AddRulesComponent, EditRulesComponent],
@@ -19,6 +20,7 @@ import { EditRulesComponent } from './rules/edit-rules/edit-rules.component';
     CommonModule,
     FormsModule,
     RuleEngineRoutingModule,
+    CommandModule
   ]
 })
 export class RuleEngineModule { }

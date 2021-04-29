@@ -1,76 +1,48 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router'
 import { Rule } from 'src/app/contracts/kuiper/rule';
-import { MessageService } from 'src/app/message/message.service';
-import { CommandService } from 'src/app/services/command.service';
 import { RuleEngineService } from 'src/app/services/rule-engine.service';
+
+import { MessageService } from '../../../message/message.service';
+import { CoreCommand } from '../../../contracts/v2/core-command';
 
 @Component({
   selector: 'app-edit-rules',
   templateUrl: './edit-rules.component.html',
   styleUrls: ['./edit-rules.component.css']
 })
-export class EditRulesComponent implements OnInit {
 
+export class EditRulesComponent implements OnInit {
   currentStep = 0;
   ruleName: string = '';
-  ruleActionTemp: any[] = [];
   ruleSql: string = '';
   ruleAction: any[] = [];
-  restTabNum: number = 0;
-  restTabArr: number[] = [];
-  mqttTabNum: number = 0;
-  mqttTabArr: number[] = [];
-  edgexTabNum: number = 0;
-  edgexTabArr: number[] = [];
+  ruleActionTemp: any[] = [];
+
+  restModelList: any[] = [];
+  mqttModelList: any[] = [];
+  edgexModelList: any[] = [];
   showRestTabs:boolean = false;
   showMqttTabs:boolean = false;
   showEdgexTabs:boolean = false;
   chooseActionLog:boolean = false;
   targetActionConfigs: any[] = [];
-  targetActionNum:number = 0;
-  retrieveDataResolver: any;
-  scheduleEventTarget = [
-    {
-      'Value': 'core-command',
-      'Text': 'core-command'
-    },
-    {
-      'Value': 'customized',
-      'Text': 'customized'
-    }
-  ];
-  
-  scheduleEventTargetHttpMethod = [
-    {
-      'Value': 'GET',
-      'Text': 'GET'
-    },
-    {
-      'Value': 'POST',
-      'Text': 'POST'
-    },
-    {
-      'Value': 'PUT',
-      'Text': 'PUT'
-    },
-    {
-      'Value': 'DELETE',
-      'Text': 'DELETE'
-    }
-  ];
+
+  templateSelected: string = "custom";
+
   selectedClass = "text-white rounded px-2 bg-success  font-weight-bold";
   noSelectedClass = "text-white rounded px-2 bg-secondary  font-weight-bold";
-
   constructor(private ruleSvc: RuleEngineService,
     private msgSvc: MessageService,
-    private cmdSvc: CommandService,
     private router: Router,
     private route: ActivatedRoute,
     private el:ElementRef
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.renderPopoverComponent();
+    }, 10);
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.ruleName = params['id'];
@@ -78,6 +50,13 @@ export class EditRulesComponent implements OnInit {
       }
     });
   }
+
+  ngAfterViewInit(){
+    // $timeout(function(){
+    //   $scope.apply();
+    // })
+  }
+
   toEditRule() {
     this.ruleSvc.findRuleById(this.ruleName).subscribe((rule: Rule) => {
       this.ruleSql = rule.sql;
@@ -85,6 +64,52 @@ export class EditRulesComponent implements OnInit {
         this.ruleActionTemp = rule.actions;
       }
     });
+  }
+
+  renderPopoverComponent() {
+    $('[data-toggle="popover"]').popover({
+      trigger: 'hover'
+    });
+  }
+
+  templateToggle(template: string,index:number) {
+    this.templateSelected = template;
+    switch (this.templateSelected) {
+      case 'coredata':
+        this.restModelList[index].method = 'DELETE';
+        this.restModelList[index].host = 'edgex-core-data';
+        this.restModelList[index].port = 48080;
+        setTimeout(() => {
+          this.renderPopoverComponent();
+        }, 300);
+        break;
+      case 'command':
+        this.restModelList[index].method = '';
+        this.restModelList[index].host = 'edgex-core-command';
+        this.restModelList[index].port = 48082;
+        setTimeout(() => {
+          this.renderPopoverComponent();
+        }, 300); 
+        break;
+      case 'custom':
+        this.restModelList[index].method = 'GET';
+        this.restModelList[index].retained = false;
+    }
+  }
+
+  onCmdMethodSelected(method: string,index:number) {
+    this.restModelList[index].method = method;
+  }
+
+  onCommandSelected(cmd: CoreCommand,index:number) {
+    this.restModelList[index].path = cmd.path;
+  }
+
+  isPureIntegerType(value: any): boolean {
+    if (!isNaN(value) && (parseFloat(value) === parseInt(value))) {
+      return true
+    }
+    return false
   }
 
   stepStateLock(): boolean {
@@ -110,19 +135,19 @@ export class EditRulesComponent implements OnInit {
     this.ruleActionTemp.forEach((event)=>{
       if(Object.keys(event)[0] == 'rest'){
         if(!this.showRestTabs){
-          setTimeout(() => {this.el.nativeElement.querySelector("#restCheckbox").click();},1);
+          setTimeout(() => {this.el.nativeElement.querySelector("#restCheckbox").click();},10);
           this.showRestTabs = true;
         }
         this.renderRestDataPromise(event);
       }else if(Object.keys(event)[0] == 'mqtt'){
         if(!this.showMqttTabs){
-          setTimeout(() => {this.el.nativeElement.querySelector("#mqttCheckbox").click();},1);
+          setTimeout(() => {this.el.nativeElement.querySelector("#mqttCheckbox").click();},10);
           this.showMqttTabs = true;
         }
         this.renderMqttDataPromise(event);
       }else if(Object.keys(event)[0] == 'edgex'){
         if(!this.showEdgexTabs){
-          setTimeout(() => {this.el.nativeElement.querySelector("#edgexCheckbox").click();},1);
+          setTimeout(() => {this.el.nativeElement.querySelector("#edgexCheckbox").click();},10);
           this.showEdgexTabs = true;
         }
         this.renderEdgexDataPromise(event);
@@ -137,99 +162,83 @@ export class EditRulesComponent implements OnInit {
 
   renderRestDataPromise(event:any): Promise<any> {
     return new Promise(resolve => {
-      let resultNum = this.addRestTab();
-      setTimeout(() => {
-        this.el.nativeElement.querySelector("#EventAddressMethod_"+(resultNum-1)).value = event.rest['method'];
-        this.el.nativeElement.querySelector("#RetryInterval_"+(resultNum-1)).value = event.rest['retryInterval'];
-        this.el.nativeElement.querySelector("#SendSingle_"+(resultNum-1)).value = event.rest['sendSingle'];
-        this.el.nativeElement.querySelector("#EventAddressProtocol_"+(resultNum-1)).value = event.rest['url'].split("://")[0];
-        this.el.nativeElement.querySelector("#EventAddressAddress_"+(resultNum-1)).value = event.rest['url'].split("://")[1].split(":")[0];
-        let port = event.rest['url'].split("://")[1].split(":")[1].split("/")[0];
-        let path = event.rest['url'].split(port)[1];
-        this.el.nativeElement.querySelector("#EventAddressPort_"+(resultNum-1)).value = port
-        this.el.nativeElement.querySelector("#EventAddressPath_"+(resultNum-1)).value = path;
-        if(event.rest['dataTemplate'] != undefined ){
-          $("#rest_parameters_"+(resultNum-1)).show();
-          $("#EventAddressParameters_"+(resultNum-1)).prop('disabled', false);
-          this.el.nativeElement.querySelector("#EventAddressParameters_"+(resultNum-1)).value = event.rest['dataTemplate'].replace(/\\/g,"");;
-        }
-      },500);
+      let rest:any = {
+        retryInterval: '',
+        sendSingle: 'true',
+        method: '',
+        host: '',
+        port: '',
+        path: '',
+        dataTemplate: ''
+      };
+      rest.retryInterval = event.rest['retryInterval'];
+      rest.sendSingle = event.rest['sendSingle'];
+      rest.method = event.rest['method'];
+      rest.host = event.rest['url'].split("://")[1].split(":")[0];
+      let port = event.rest['url'].split("://")[1].split(":")[1].split("/")[0];
+      let path = event.rest['url'].split(port)[1];
+      rest.port = port;
+      rest.path = path;
+      if(event.rest['dataTemplate'] != undefined ){
+        rest.dataTemplate = event.rest['dataTemplate'].replace(/\\/g,"");
+      }
+      this.addRestTab(rest);
    });
   }
 
   renderMqttDataPromise(event:any): Promise<any> {
     return new Promise(resolve => {
-      let resultNum = this.addMqttTab();
-      setTimeout(() => {
-        if(event.mqtt['server'] != undefined){
-          this.el.nativeElement.querySelector("#server_"+(resultNum-1)).value = event.mqtt['server'];
-        }
-        if(event.mqtt['topic'] != undefined){
-          this.el.nativeElement.querySelector("#mqtttopic_"+(resultNum-1)).value = event.mqtt['topic'];
-        }
-        if(event.mqtt['clientId'] != undefined){
-          this.el.nativeElement.querySelector("#clientId_"+(resultNum-1)).value = event.mqtt['clientId'];
-        }
-        if(event.mqtt['protocolVersion'] != undefined){
-          this.el.nativeElement.querySelector("#protocolVersion_"+(resultNum-1)).value = event.mqtt['protocolVersion'];
-        }
-        if(event.mqtt['username'] != undefined){
-          this.el.nativeElement.querySelector("#username_"+(resultNum-1)).value = event.mqtt['username'];
-        }
-        if(event.mqtt['password'] != undefined){
-          this.el.nativeElement.querySelector("#password_"+(resultNum-1)).value = event.mqtt['password'];
-        }
-        if(event.mqtt['certificationPath'] != undefined){
-          this.el.nativeElement.querySelector("#certificationPath_"+(resultNum-1)).value = event.mqtt['certificationPath'];
-        }
-        if(event.mqtt['privateKeyPath'] != undefined){
-          this.el.nativeElement.querySelector("#privateKeyPath_"+(resultNum-1)).value = event.mqtt['privateKeyPath'];
-        }
-        if(event.mqtt['insecureSkipVerify'] != undefined){
-          this.el.nativeElement.querySelector("#insecureSkipVerify_"+(resultNum-1)).value = event.mqtt['insecureSkipVerify'];
-        }
-        if(event.mqtt['retained'] != undefined){
-          this.el.nativeElement.querySelector("#retained_"+(resultNum-1)).value = event.mqtt['retained'];
-        }
-        if(event.mqtt['qos'] != undefined){
-          this.el.nativeElement.querySelector("#qos_"+(resultNum-1)).value = event.mqtt['qos'];
-        }
-      },1);
+      let mqtt:any = {
+        server: '',
+        topic: '',
+        clientId: '',
+        protocolVersion: '',
+        username: '',
+        password: '',
+        certificationPath: '',
+        privateKeyPath: '',
+        insecureSkipVerify: 'false',
+        retained: 'false',
+        qos: ''
+      };
+      mqtt.server = event.mqtt['server'];
+      mqtt.topic = event.mqtt['topic'];
+      mqtt.clientId = event.mqtt['clientId'];
+      mqtt.protocolVersion = event.mqtt['protocolVersion'];
+      mqtt.username = event.mqtt['username'];
+      mqtt.password = event.mqtt['password'];
+      mqtt.certificationPath = event.mqtt['certificationPath'];
+      mqtt.privateKeyPath = event.mqtt['privateKeyPath'];
+      mqtt.insecureSkipVerify = event.mqtt['insecureSkipVerify'];
+      mqtt.retained = event.mqtt['retained'];
+      mqtt.qos = event.mqtt['qos'];
+      this.addMqttTab(mqtt);
    });
   }
 
   renderEdgexDataPromise(event:any): Promise<any> {
     return new Promise(resolve => {
-      let resultNum = this.addEdgeXTab();
-      setTimeout(() => {
-        if(event.edgex['protocol'] != undefined){
-          this.el.nativeElement.querySelector("#protocol_"+(resultNum-1)).value = event.edgex['protocol'];
-        }
-        if(event.edgex['host'] != undefined){
-          this.el.nativeElement.querySelector("#host_"+(resultNum-1)).value = event.edgex['host'];
-        }
-        if(event.edgex['port'] != undefined){
-          this.el.nativeElement.querySelector("#port_"+(resultNum-1)).value = event.edgex['port'];
-        }
-        if(event.edgex['topic'] != undefined){
-          this.el.nativeElement.querySelector("#edgextopic_"+(resultNum-1)).value = event.edgex['topic'];
-        }
-        if(event.edgex['contentType'] != undefined){
-          this.el.nativeElement.querySelector("#contentType_"+(resultNum-1)).value = event.edgex['contentType'];
-        }
-        if(event.edgex['metadata'] != undefined){
-          this.el.nativeElement.querySelector("#metadata_"+(resultNum-1)).value = event.edgex['metadata'];
-        }
-        if(event.edgex['deviceName'] != undefined){
-          this.el.nativeElement.querySelector("#deviceName_"+(resultNum-1)).value = event.edgex['deviceName'];
-        }
-        if(event.edgex['type'] != undefined){
-          this.el.nativeElement.querySelector("#edgextype_"+(resultNum-1)).value = event.edgex['type'];
-        }
-        if(event.edgex['optional'] != undefined){
-          this.el.nativeElement.querySelector("#edgexParameters_"+(resultNum-1)).value = event.edgex['optional'];
-        }
-      },1);
+      let edgex:any = {
+        protocol: '',
+        host: '',
+        port: '',
+        topic: '',
+        contentType: '',
+        metadata: '',
+        deviceName: '',
+        type: '',
+        optional: ''
+      };
+      edgex.protocol = event.edgex['protocol'];
+      edgex.host = event.edgex['host'];
+      edgex.port = event.edgex['port'];
+      edgex.topic = event.edgex['topic'];
+      edgex.contentType = event.edgex['contentType'];
+      edgex.metadata = event.edgex['metadata'];
+      edgex.deviceName = event.edgex['deviceName'];
+      edgex.type = event.edgex['type'];
+      edgex.optional = event.edgex['optional'];
+      this.addEdgeXTab(edgex);
    });
   }
 
@@ -243,136 +252,47 @@ export class EditRulesComponent implements OnInit {
 
   done() {
 			if(this.el.nativeElement.querySelector("#restCheckbox").checked){
-        this.restTabArr.forEach((event) => {
-          var rest:any = {rest:{}};
-					var protocol = $("#EventAddressProtocol_"+event).val().toLowerCase();
-					var address = $("#EventAddressAddress_"+event).val();
-					var port = $("#EventAddressPort_"+event).val();
-					var path = $("#EventAddressPath_"+event).val();
-					var method = $("#EventAddressMethod_"+event).val();
-					var retryInterval = $("#RetryInterval_"+event).val();
-					var sendSingle = $("#SendSingle_"+event).val();
-					if(retryInterval != null && retryInterval != ""){
-						rest.rest.retryInterval = retryInterval;
+        this.restModelList.forEach((event) => {
+          let rest:any = {};
+					if(event.retryInterval != null && event.retryInterval != ""){
+						rest.retryInterval = event.retryInterval;
 					}
-					if(sendSingle != null && sendSingle != ""){
-						rest.rest.sendSingle = eval(sendSingle.toLowerCase());
+					if(event.sendSingle != null && event.sendSingle != ""){
+						rest.sendSingle = event.sendSingle;
 					}
-					if(protocol != null && protocol != "" && address != null && address != "" && port != null && port != "" && path != null && path != ""){
-						rest.rest.url= protocol + "://"+ address + ":" + port + path;
+					if( event.host != null && event.host != "" && event.port != null && event.port != "" && event.path != null && event.path != ""){
+						rest.url= "http://"+ event.host + ":" + event.port + event.path;
 					}else{
 						this.msgSvc.errors("Url cannot be empty.");
 						return;
 					}
-					if(method != null && method != ""){
-						rest.rest.method = method;
+					if(event.method != null && event.method != ""){
+						rest.method = event.method;
 					}
-					if(method == "PUT"){
-						var param = $("#EventAddressParameters_"+event).val();
-						if(param != null && param != ""){
-							param = param.replace(/\"/g, '\\\"');
-							rest.rest.dataTemplate = param;
+					if(event.method == "PUT"){
+						if(event.dataTemplate != null && event.dataTemplate != ""){
+							let param = event.dataTemplate.replace(/\"/g, '\\\"');
+							rest.dataTemplate = param;
 						}
 					}
           this.ruleAction.push({rest})
         });
 			}
-
+      
 			if(this.el.nativeElement.querySelector("#mqttCheckbox").checked){
-				this.mqttTabArr.forEach((event) => {
-					var mqtt:any = {mqtt:{}};
-					var server = $("#server_"+event).val();
-					var mqtttopic = $("#mqtttopic_"+event).val();
-					var clientId = $("#clientId_"+event).val();
-					var protocolVersion = $("#protocolVersion_"+event).val();
-					var username = $("#username_"+event).val();
-					var password = $("#password_"+event).val();
-					var certificationPath = $("#certificationPath_"+event).val();
-					var privateKeyPath = $("#privateKeyPath_"+event).val();
-					var insecureSkipVerify = $("#insecureSkipVerify_"+event).val();
-					var retained = $("#retained_"+event).val();
-					var qos = $("#qos_"+event).val();
-					if(server != null && server != ""){
-						mqtt.mqtt.server = server;
-					}
-					if(mqtttopic != null && mqtttopic != ""){
-						mqtt.mqtt.topic = mqtttopic;
-					}
-					if(clientId != null && clientId != ""){
-						mqtt.mqtt.clientId = clientId;
-					}
-					if(protocolVersion != null && protocolVersion != ""){
-						mqtt.mqtt.protocolVersion = protocolVersion;
-					}
-					if(username != null && username != ""){
-						mqtt.mqtt.username = username;
-					}
-					if(password != null && password != ""){
-						mqtt.mqtt.password = password;
-					}
-					if(certificationPath != null && certificationPath != ""){
-						mqtt.mqtt.certificationPath = certificationPath;
-					}
-					if(privateKeyPath != null && privateKeyPath != ""){
-						mqtt.mqtt.privateKeyPath = privateKeyPath;
-					}
-					if(insecureSkipVerify != null && insecureSkipVerify != ""){
-						mqtt.mqtt.insecureSkipVerify = insecureSkipVerify;
-					}
-					if(retained != null && retained != ""){
-						mqtt.mqtt.retained = retained;
-					}
-					if(qos != null && qos != ""){
-						mqtt.mqtt.qos = qos;
-					}
-					this.ruleAction.push({mqtt})
-				});
+				this.mqttModelList.forEach((mqtt) => {
+          this.ruleAction.push({mqtt})
+        });
 			}
 
 			if(this.el.nativeElement.querySelector("#edgexCheckbox").checked){
-				this.edgexTabArr.forEach((event) => {
-					var edgex:any = {edgex:{}};
-					var protocol = $("#protocol_"+event).val();
-					var host = $("#host_"+event).val();
-					var port = $("#port_"+event).val();
-					var edgextopic = $("#edgextopic_"+event).val();
-					var contentType = $("#contentType_"+event).val();
-					var metadata = $("#metadata_"+event).val();
-					var deviceName = $("#deviceName_"+event).val();
-					var edgextype = $("#edgextype_"+event).val();
-					var edgexParameters = $("#edgexParameters_"+event).val();
-					if(protocol != null && protocol != ""){
-						edgex.edgex.protocol = protocol;
-					}
-					if(host != null && host != ""){
-						edgex.edgex.host = host;
-					}
-					if(port != null && port != ""){
-						edgex.edgex.port = port;
-					}
-					if(edgextopic != null && edgextopic != ""){
-						edgex.edgex.topic = edgextopic;
-					}
-					if(contentType != null && contentType != ""){
-						edgex.edgex.contentType = contentType;
-					}
-					if(metadata != null && metadata != ""){
-						edgex.edgex.metadata = metadata;
-					}
-					if(deviceName != null && deviceName != ""){
-						edgex.edgex.deviceName = deviceName;
-					}
-					if(edgextype != null && edgextype != ""){
-						edgex.edgex.type = edgextype;
-					}
-					if(edgexParameters != null && edgexParameters != ""){
-						edgex.edgex.optional = edgexParameters;
-					}
-					this.ruleAction.push({edgex})
-				});
+				this.edgexModelList.forEach((edgex) => {
+          this.ruleAction.push({edgex})
+        });
 			}
+
 			if(this.el.nativeElement.querySelector("#logCheckbox").checked){
-				var log = {log:{}};
+				let log = {log:{}};
 				this.ruleAction.push({log})
 			}
     let rule: Rule = {
@@ -380,89 +300,19 @@ export class EditRulesComponent implements OnInit {
       sql:this.ruleSql,
       actions:this.ruleAction
     } as Rule
-
     this.ruleSvc.updateRule(rule).subscribe(() => {
-      this.msgSvc.success('Update Rule Success!');
-      this.router.navigate(['../rule-list'], { relativeTo: this.route })
-    });
-  }
-  EventAddressMethodCheckChange(target:any,index:any){
-    if (target.checked) {
-      $("#EventAddressMethod_"+index).prop('disabled', false);
-    } else {
-      $("#EventAddressMethod_"+index).prop('disabled', 'disabled');
-    }
-  }
-
-  EventAddressAddressCheckChange(target:any,index:any){
-    if (target.checked) {
-      $("#EventAddressAddress_"+index).prop('disabled', false);
-    } else {
-      $("#EventAddressAddress_"+index).prop('disabled', 'disabled');
-    }
-  }
-
-  EventAddressPortCheckChange(target:any,index:any){
-    if (target.checked) {
-      $("#EventAddressPort_"+index).prop('disabled', false);
-    } else {
-      $("#EventAddressPort_"+index).prop('disabled', 'disabled');
-    }
-  }
-
-  EventAddressPathCheckChange(target:any,index:any){
-    if (target.checked) {
-      $("#EventAddressPath_"+index).prop('disabled', false);
-    } else {
-      $("#EventAddressPath_"+index).prop('disabled', 'disabled');
-    }
-  }
-
-  EventAddressMethodChange(target:any,index:any){
-    if(target.value == 'GET'){
-      $("#rest_parameters_"+index).hide();
-      $("#EventAddressParameters_"+index).prop('disabled', 'disabled');
-    }else{
-      $("#rest_parameters_"+index).show();
-      $("#EventAddressParameters_"+index).prop('disabled', false);
-    }
-  }
-
-  renderTargetActionConfigs(config: any, index: number) {
-    $("#EventAddressProtocol_"+index).val('HTTP');
-    $("#EventAddressMethod_"+index).val(config['Method']);
-    $("#EventAddressAddress_"+index).val(config['Address']);
-    $("#EventAddressPort_"+index).val(config['Port']);
-    $("#EventAddressPath_"+index).val(config['Path']);
-    if(config['Parameters'] && config['Parameters'] != ''){
-    	var formattedJSONParams = JSON.stringify(config['Parameters'], null, 4);
-    	$("#EventAddressParameters_"+index).val(formattedJSONParams);
-      $("#EventAddressParameters_"+index).prop('disabled', false);
-    }else{
-      $("#EventAddressParameters_"+index).val('');
-      $("#EventAddressParameters_"+index).prop('disabled', 'disabled');
-    }
-    $("#EventAddressMethodCheck_"+index).prop('checked',config['MethodCheck']);
-    $("#EventAddressAddressCheck_"+index).prop('checked',config['AddressCheck']);
-    $("#EventAddressPortCheck_"+index).prop('checked',config['PortCheck']);
-    $("#EventAddressPathCheck_"+index).prop('checked',config['PathCheck']);
-
-    this.EventAddressMethodCheckChange(this.el.nativeElement.querySelector("#EventAddressMethodCheck_"+index),index);
-    this.EventAddressAddressCheckChange(this.el.nativeElement.querySelector("#EventAddressAddressCheck_"+index),index);
-    this.EventAddressPortCheckChange(this.el.nativeElement.querySelector("#EventAddressPortCheck_"+index),index);
-    this.EventAddressPathCheckChange(this.el.nativeElement.querySelector("#EventAddressPathCheck_"+index),index);
-    this.EventAddressMethodChange(this.el.nativeElement.querySelector("#EventAddressMethod_"+index),index);
-  }
-
-  ScheduleEventServiceActionChange(target:any,index:any) {
-    var targetActionName = target.value;
-    this.renderTargetActionConfigs(this.targetActionConfigs[targetActionName], index);
+      this.msgSvc.success('Update rule success');
+      this.router.navigate(['../rules-list'], { relativeTo: this.route })
+    })
   }
 
   chooseRest(check:any){
+    setTimeout(() => {
+      this.renderPopoverComponent();
+    }, 10);
     if(check.checked){
-      if(this.restTabArr.length == 0){
-        this.addRestTab();
+      if(this.restModelList.length == 0){
+        this.addRestTab('');
       }
       this.showRestTabs = true;
     }else{
@@ -471,9 +321,12 @@ export class EditRulesComponent implements OnInit {
   }
 
   chooseMqtt(check:any){
+    setTimeout(() => {
+      this.renderPopoverComponent();
+    }, 10);
     if(check.checked){
-      if(this.mqttTabArr.length == 0){
-        this.addMqttTab();
+      if(this.mqttModelList.length == 0){
+        this.addMqttTab('');
       }
       this.showMqttTabs = true;
     }else{
@@ -482,9 +335,12 @@ export class EditRulesComponent implements OnInit {
   }
 
   chooseEdgex(check:any){
+    setTimeout(() => {
+      this.renderPopoverComponent();
+    }, 10);
     if(check.checked){
-      if(this.edgexTabArr.length == 0){
-        this.addEdgeXTab();
+      if(this.edgexModelList.length == 0){
+        this.addEdgeXTab('');
       }
       this.showEdgexTabs = true;
     }else{
@@ -501,147 +357,69 @@ export class EditRulesComponent implements OnInit {
     
   }
 
-  restTargetChange(event:any){
-    let val = event.value;
-    let id = event.id;
-    if (val == 'core-command') {
-      this.renderCoreCommandTargetActionConfigs(id.split("_")[1]);
-    } else if (val == 'customized') {
-      this.renderCustomizedTargetActionConfigs(id.split("_")[1]);
+  addRestTab(rest:any) {
+    if(rest == ''){
+      rest = {
+        retryInterval: '',
+        sendSingle: 'true',
+        method: '',
+        host: '',
+        port: '',
+        path: '',
+        dataTemplate: ''
+      };
     }
+    this.restModelList.push(rest);
   }
 
-  resetTargetActionConfigForm(i:any) {
-		$("#EventService_"+i).empty();
-		$("#ScheduleEventServiceAction_"+i).empty();
-		$("#EventAddressProtocol_"+i).val("");
-		$("#EventAddressMethod_"+i).empty();
-		$("#EventAddressMethodCheck_"+i).prop('disabled', false);
-		$("#EventAddressAddress_"+i).val("");
-		$("#EventAddressCheck_"+i).prop('disabled', false);
-		$("#EventAddressPort_"+i).val("");
-		$("#EventAddressPortCheck_"+i).prop('disabled', false);
-		$("#EventAddressPath_"+i).val("");
-		$("#EventAddressPathCheck_"+i).prop('disabled', false);
-		$("#EventAddressParameters_"+i).val("");
-		$("#EventService_"+i).prop('disabled',false);
-		$("#ScheduleEventServiceAction_"+i).prop('disabled',false);
-	}
-
-  
-	renderCustomizedTargetActionConfigs(index:any) {
-		var config:any = {};
-		config['Method'] = 'PUT';
-		config['Address'] = '';
-		config['Port'] = '';
-		config['Path'] = '';
-		config['Parameters'] = '';
-		config['MethodCheck'] = true;
-		config['AddressCheck'] = true;
-		config['PortCheck'] = true;
-		config['PathCheck'] = true;
-		this.renderTargetActionConfigs(config,index);
-	}
-
-	renderCoreCommandTargetActionConfigs(index:any) {
-    this.cmdSvc.findAllDeviceCommnads().subscribe((devices) => {
-      if (!devices || devices.length == 0) {
-				return;
-			}
-			if (devices) {
-				for (var device of devices) {
-					if (device['commands']) {
-            this.targetActionNum  = 0;
-						for (var command of device['commands']) {
-							if (command['get']) {
-								var result = this.makeCoreCommandTargetActionConfigParams(device.name, command, "GET");
-								this.targetActionConfigs[result[0]] = result[1];
-							}
-							if (command['put'] && command['put']['parameterNames']) {
-								var result = this.makeCoreCommandTargetActionConfigParams(device.name, command, "PUT");
-								this.targetActionConfigs[result[0]] = result[1];
-							}
-              this.targetActionNum ++ ;
-						}
-					}
-				}
-			}
-      let itemId = "#ScheduleEventServiceAction_"+index;
-      setTimeout(() => {this.ScheduleEventServiceActionChange(this.el.nativeElement.querySelector(itemId),index);},1);
-    })
-	}
-
-  restEventServiceActionChange(event:any,restindex:any){
-    var targetActionName = event.value;
-		this.renderTargetActionConfigs(this.targetActionConfigs[targetActionName],restindex);
+  addMqttTab(mqtt:any) {
+    if(mqtt == ''){
+      mqtt= {
+        server: '',
+        topic: '',
+        clientId: '',
+        protocolVersion: '',
+        username: '',
+        password: '',
+        certificationPath: '',
+        privateKeyPath: '',
+        insecureSkipVerify: 'false',
+        retained: 'false',
+        qos: ''
+      };
+    }
+    this.mqttModelList.push(mqtt);
   }
 
-  makeCoreCommandTargetActionConfigParams(deviceName:string, command:any, httpMethod:string) {
-		var urlObj = new URL(command['get']['url']);
-		var config:any = {};
-		if (httpMethod == 'PUT' && command['put']['parameterNames']) {
-			var paramsObj:any = {};
-			for (var paramName of command['put']['parameterNames']){
-				paramsObj[paramName] = '';
-			}
-			config['Parameters'] = paramsObj;
-		}
-		config['Method'] = httpMethod;
-		config['Address'] = urlObj.hostname;
-		config['Port'] = urlObj.port;
-		config['Path'] = urlObj.pathname;
-		config['MethodCheck'] = false;
-		config['AddressCheck'] = false;
-		config['PortCheck'] = false;
-		config['PathCheck'] = false;
-		var configKey = this.getTargetActionName(deviceName, command['name'], httpMethod);
-		return [configKey, config];
-	}
-
-  getTargetActionName(deviceName:string, commandName:string, httpMethod:string) {
-		if(httpMethod.toUpperCase() == 'GET'){
-			return deviceName + " " + commandName + "(get)";
-		}else{
-			return deviceName + " " + commandName + "(set)";
-		}
-	}
-
-  addRestTab() {
-    let itemId = '#EventService_'+this.restTabNum;
-    setTimeout(() => {this.restTargetChange(this.el.nativeElement.querySelector(itemId));},1);
-    this.restTabArr.push(this.restTabNum);
-    this.restTabNum++;
-    return this.restTabNum;
-  }
-
-  addMqttTab() {
-    this.mqttTabArr.push(this.mqttTabNum);
-    this.mqttTabNum++;
-    return this.mqttTabNum;
-  }
-
-  addEdgeXTab() {
-    this.edgexTabArr.push(this.edgexTabNum);
-    this.edgexTabNum++;
-    return this.edgexTabNum;
+  addEdgeXTab(edgex:any) {
+    if(edgex == ''){
+      edgex = {
+        protocol: '',
+        host: '',
+        port: '',
+        topic: '',
+        contentType: '',
+        metadata: '',
+        deviceName: '',
+        type: '',
+        optional: ''
+      };
+    }
+    this.edgexModelList.push(edgex);
   }
 
   removeRestTab(index: any) {
-    $("#rest_" + index).remove();
-    var arrindex = $.inArray(parseInt(index), this.restTabArr);
-    this.restTabArr.splice(arrindex, 1);
+    let arrindex = $.inArray(parseInt(index), this.restModelList);
+    this.restModelList.splice(arrindex, 1);
   }
 
   removeMqttTab(index: any) {
-    $("#mqtt_" + index).remove();
-    var arrindex = $.inArray(parseInt(index), this.mqttTabArr);
-    this.mqttTabArr.splice(arrindex, 1);
+    let arrindex = $.inArray(parseInt(index), this.mqttModelList);
+    this.mqttModelList.splice(arrindex, 1);
   }
 
   removeEdgeXTab(index: any) {
-    $("#edgex_" + index).remove();
-    var arrindex = $.inArray(parseInt(index), this.edgexTabArr);
-    this.edgexTabArr.splice(arrindex, 1);
+    let arrindex = $.inArray(parseInt(index), this.edgexModelList);
+    this.edgexModelList.splice(arrindex, 1);
   }
-
 }
