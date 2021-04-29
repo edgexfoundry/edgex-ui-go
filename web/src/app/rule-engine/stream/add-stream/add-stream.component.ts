@@ -19,7 +19,7 @@ export class AddStreamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.addStreamSimple = '{"sql":"create stream demo () WITH ( FORMAT = \\"JSON\\", TYPE=\\"edgex\\")"}';
+    this.addStreamSimple = '{"sql":"create stream EdgexStream () WITH ( FORMAT = \\"JSON\\", TYPE=\\"edgex\\")"}';
   }
 
   submit() {

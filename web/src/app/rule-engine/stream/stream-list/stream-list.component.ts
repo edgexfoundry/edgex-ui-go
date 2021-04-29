@@ -34,7 +34,7 @@ export class StreamListComponent implements OnInit {
   }
 
   getStreamList() {
-    this.ruleSvc.allStreams().subscribe((data: Stream[]) => { this.streamList = data });
+    this.ruleSvc.allStreams().subscribe((data: Stream[]) => { this.streamList = data; });
   }
 
   refresh() {
@@ -48,7 +48,7 @@ export class StreamListComponent implements OnInit {
     this.router.navigate(['../edit-stream'], {
       relativeTo: this.route,
       queryParams: {
-        'streamName': this.selectedStream[0]
+        'streamName': this.streamList[0]
       }
     });
   }
@@ -58,28 +58,14 @@ export class StreamListComponent implements OnInit {
   }
 
   delete() {
-    this.selectedStream.forEach((name) => {
-      this.ruleSvc.deleteOneStreamById(name).subscribe(() => {
-        this.selectedStream = [];
-        this.streamList.forEach((stream: Stream, index) => {
-          if (stream.toString() === name) {
-            this.streamList.splice(index, 1);
-            return
-          }
-        });
+      this.ruleSvc.deleteOneStreamById(this.streamList[0].toString()).subscribe(() => {
+        this.msgSvc.success('delete success!');
       },error =>{
        if(error.status ==200 && error.statusText =="OK"){
-        this.selectedStream = [];
-        this.streamList.forEach((stream: Stream, index) => {
-          if (stream.toString() === name) {
-            this.streamList.splice(index, 1);
-            return
-          }
-        });
+        this.msgSvc.success('delete success!');
        }
       });
-    });
-    this.refresh();
+      this.streamList = [];
     $("#deleteConfirmDialog").modal('hide');
   }
 
