@@ -87,6 +87,6 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
       } else {
         this.visible = false;
       }
-    }, 120);
+    }, 130);
   }
 }
