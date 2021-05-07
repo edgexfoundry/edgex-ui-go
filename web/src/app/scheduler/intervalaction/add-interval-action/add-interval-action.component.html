@@ -115,19 +115,19 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
+                                                <label for="addressHostREST" class="col-md-2 col-form-label" required>Host</label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
-                                                    <div id="addressHostFeedback" class="invalid-feedback">
+                                                    <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
+                                                    <div id="addressHostRESTFeedback" class="invalid-feedback">
                                                         <small>the REST address host can't be empty!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
-                                                    <div id="addressPortFeedback" class="invalid-feedback">
+                                                    <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
+                                                    <div id="addressPortRESTFeedback" class="invalid-feedback">
                                                         <small>the REST address port can't be empty and only pure integer is supported!</small> 
                                                     </div>
                                                 </div>
@@ -157,23 +157,23 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressHost" class="col-md-2 col-form-label" required>
+                                                <label for="addressHostREST" class="col-md-2 col-form-label" required>
                                                     <span class="mr-2">Host</span>
                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                                      data-content="Both Host and Port fields are editable if you have a different host address !"></span>
                                                 </label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
-                                                    <div id="addressHostFeedback" class="invalid-feedback">
+                                                    <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
+                                                    <div id="addressHostRESTFeedback" class="invalid-feedback">
                                                         <small>the REST address host can't be empty!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
-                                                    <div id="addressPortFeedback" class="invalid-feedback">
+                                                    <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
+                                                    <div id="addressPortRESTFeedback" class="invalid-feedback">
                                                         <small>the REST address port can't be empty and only pure integer is supported!</small> 
                                                     </div>
                                                 </div>
@@ -209,23 +209,23 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressHost" class="col-md-2 col-form-label" required>
+                                                <label for="addressHostREST" class="col-md-2 col-form-label" required>
                                                     <span class="mr-2">Host</span>
                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                                      data-content="Both Host and Port fields are editable if you have a different host address !"></span>
                                                 </label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
-                                                    <div id="addressHostFeedback" class="invalid-feedback">
+                                                    <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
+                                                    <div id="addressHostRESTFeedback" class="invalid-feedback">
                                                         <small>the REST address host can't be empty!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
-                                                    <div id="addressPortFeedback" class="invalid-feedback">
+                                                    <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
+                                                    <div id="addressPortRESTFeedback" class="invalid-feedback">
                                                         <small>the REST address port can't be empty and only pure integer is supported!</small> 
                                                     </div>
                                                 </div>
@@ -249,19 +249,19 @@
                             <div [style.display]="intervalAction.address.type !== 'MQTT' ? 'none' : ''" #MQTT>
                                 <form>
                                     <div class="form-group row has-validation">
-                                        <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
+                                        <label for="addressHostMQTT" class="col-md-2 col-form-label" required>Host</label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
-                                            <div id="addressHostFeedback" class="invalid-feedback">
+                                            <input type="text" class="form-control" id="addressHostMQTT" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
+                                            <div id="addressHostMQTTFeedback" class="invalid-feedback">
                                                 <small>the MQTT host can't be empty!</small> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row has-validation">
-                                        <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
+                                        <label for="addressPortMQTT" class="col-md-2 col-form-label" required>Port</label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
-                                            <div id="addressPortFeedback" class="invalid-feedback">
+                                            <input type="text" class="form-control" id="addressPortMQTT" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
+                                            <div id="addressPortMQTTFeedback" class="invalid-feedback">
                                                 <small>the MQTT port can't be empty and only pure integer is supported!!</small> 
                                             </div>
                                         </div>
