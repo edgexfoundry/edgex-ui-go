@@ -75,6 +75,8 @@ export class DeviceCoreCommandListComponent implements OnInit {
 
   onPageSelected() {
     this.delegation();
+    this.resetPagination();
+    this.setPagination();
     this.findAllDeviceCoreCmdsPagination();
   }
 
