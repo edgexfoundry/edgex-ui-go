@@ -18,7 +18,7 @@
 
  <div class="card mb-3">
      <div class="card-header">
-        <i class="fa fa-info-circle mr-2"></i> 
+        <i class="fa fa-info-circle mr-2 text-info"></i> 
         <span>Tips</span>
      </div>
      <div class="card-body">
@@ -61,19 +61,19 @@
                         <div class="card-header">
                             <div class="form-check form-check-inline">
                                 <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'REST'" [class.badge-primary]="intervalAction.address.type === 'REST'">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="REST" value="REST" [(ngModel)]="intervalAction.address.type">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="REST" value="REST" [(ngModel)]="intervalAction.address.type" (click)="typeToggle('REST')">
                                     <label class="form-check-label" for="REST">REST</label>
                                 </span>
                             </div>
                             <div class="form-check form-check-inline">
                                 <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'MQTT'" [class.badge-primary]="intervalAction.address.type == 'MQTT'">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="MQTT" value="MQTT" [(ngModel)]="intervalAction.address.type">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="MQTT" value="MQTT" [(ngModel)]="intervalAction.address.type" (click)="typeToggle('MQTT')">
                                     <label class="form-check-label" for="MQTT">MQTT</label>
                                 </span>
                             </div>
                             <div class="form-check form-check-inline">
                                 <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'EMAIL'" [class.badge-primary]="intervalAction.address.type == 'EMAIL'">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="EMAIL" value="EMAIL" [(ngModel)]="intervalAction.address.type">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="EMAIL" value="EMAIL" [(ngModel)]="intervalAction.address.type" (click)="typeToggle('EMAIL')">
                                     <label class="form-check-label" for="EMAIL">EMAIL</label>
                                 </span>
                             </div>
@@ -90,9 +90,9 @@
                             </ul> -->
                         </div>
                         <div *ngIf="intervalAction.address.type === 'REST'" class="card-header">
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'custom'" [class.badge-primary]="templateSelected === 'custom'" (click)="templateToggle('custom')">CustomTemplate</span>
                             <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'coredata'" [class.badge-primary]="templateSelected === 'coredata'" (click)="templateToggle('coredata')">CoreDataSeviceTemplate</span>
                             <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'command'" [class.badge-primary]="templateSelected === 'command'" (click)="templateToggle('command')">CommandServiceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'custom'" [class.badge-primary]="templateSelected === 'custom'" (click)="templateToggle('custom')">CustomTemplate</span>
                         </div>
                         <div class="card-body">
                             <div *ngIf="intervalAction.address.type === 'REST'" #REST>
@@ -144,6 +144,16 @@
                                                     <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label for="requestBody" class="col-md-2 col-form-label" required>
+                                                    <span class="mr-2">ContentType</span>
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                     data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
+                                                </label>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="contentType" name="contentType" [(ngModel)]="intervalAction.address.contentType">
+                                                </div>
+                                            </div>
                                         </form>
                                     </ng-template>
                                     <ng-template [ngSwitchCase]="'coredata'" #coredataTemplate>
@@ -179,15 +189,25 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
+                                                <label for="addressPath" class="col-md-2 col-form-label" required>
+                                                    <span class="mr-2">Path</span>
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when requestBody selected!"></span>
+                                                </label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path">
+                                                    <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path" disabled>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                                <label for="requestBody" class="col-md-2 col-form-label" required>Parameter</label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" name="coredataRequestParameter" [(ngModel)]="coredataRequestParameter">
+                                                    </div>
+                                                    <!-- <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody"> -->
                                                 </div>
                                             </div>
                                         </form>

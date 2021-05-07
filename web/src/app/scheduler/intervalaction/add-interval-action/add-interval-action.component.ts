@@ -25,6 +25,7 @@ import { Address } from '../../../contracts/v2/address';
 import { IntervalAction } from '../../../contracts/v2/interval-action';
 import { Interval } from '../../../contracts/v2/interval';
 import { CoreCommand } from '../../../contracts/v2/core-command';
+import flatpickr from 'flatpickr';
 
 @Component({
   selector: 'app-add-interval-action',
@@ -35,10 +36,12 @@ export class AddIntervalActionComponent implements OnInit {
 
   intervalAction: IntervalAction;
   addressEmailRecipients: string = "";
-  templateSelected: string = "custom";
+  templateSelected: string = "coredata";
+  coredataRequestParameter = '';
+  calendarStart: any;
 
   coredataSvcAvailableAPI: string[] = [
-    "/api/v1/"
+    "/api/v2/event/age/"
   ];
 
   constructor(private schedulerSvc:SchedulerService, 
@@ -56,6 +59,21 @@ export class AddIntervalActionComponent implements OnInit {
 
   ngOnInit(): void {
     this.renderPopoverComponent();
+    this.renderCoredataDefaultTemplate();
+  }
+
+  initDatePickr() {
+    let that = this;
+    this.calendarStart = flatpickr("input[name='coredataRequestParameter']", {
+      dateFormat: "YmdTHiS",
+      enableTime: true,
+      enableSeconds: true,
+      time_24hr: true,
+      allowInput: false,
+      onChange: function(selectedDates, dateStr, instance) {
+          that.intervalAction.address.path = that.coredataSvcAvailableAPI[0] + dateStr;
+      },
+    });
   }
 
   renderPopoverComponent() {
@@ -64,16 +82,22 @@ export class AddIntervalActionComponent implements OnInit {
     });
   }
 
+  renderCoredataDefaultTemplate() {
+    this.intervalAction.address.httpMethod = 'DELETE';
+    this.intervalAction.address.host = 'edgex-core-data';
+    this.intervalAction.address.port = 48080;
+    this.intervalAction.address.path = this.coredataSvcAvailableAPI[0];
+    setTimeout(() => {
+      this.renderPopoverComponent();
+      this.initDatePickr();
+    }, 300);
+  }
+
   templateToggle(template: string) {
     this.templateSelected = template;
     switch (this.templateSelected) {
       case 'coredata':
-        this.intervalAction.address.httpMethod = 'DELETE';
-        this.intervalAction.address.host = 'edgex-core-data';
-        this.intervalAction.address.port = 48080;
-        setTimeout(() => {
-          this.renderPopoverComponent();
-        }, 300);
+        this.renderCoredataDefaultTemplate();
         break;
       case 'command':
         this.intervalAction.address.httpMethod = '';
@@ -84,6 +108,9 @@ export class AddIntervalActionComponent implements OnInit {
         }, 300); 
         break;
       case 'custom':
+        setTimeout(() => {
+          this.renderPopoverComponent();
+        }, 300); 
         this.intervalAction.address = {} as Address;
         this.intervalAction.address.type = 'REST';
         this.intervalAction.address.httpMethod = 'GET';
@@ -94,6 +121,10 @@ export class AddIntervalActionComponent implements OnInit {
 
   typeToggle(type: string) {
     this.intervalAction.address.type = type;
+    console.log(this.intervalAction.address.type)
+    if (type === 'REST') {
+      this.templateToggle('coredata');
+    }
   }
 
   onCmdMethodSelected(method: string) {
