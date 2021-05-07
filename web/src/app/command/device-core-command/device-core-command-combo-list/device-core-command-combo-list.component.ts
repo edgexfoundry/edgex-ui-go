@@ -43,8 +43,8 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
   ngOnInit(): void { }
 
   ondelegation(delegation :boolean) {
-    this.delegation = delegation;
     (document.getElementById("cmd-combo") as HTMLElement).focus();
+    this.delegation = delegation;
   }
 
   onDeviceCoreCmdSelected(deviceCoreCmd: DeviceCoreCommand) {
