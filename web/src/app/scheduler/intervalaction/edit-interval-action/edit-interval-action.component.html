@@ -47,19 +47,19 @@
                    <div class="card">
                        <div class="card-header">
                            <div class="form-check form-check-inline">
-                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'REST'" [class.badge-primary]="intervalAction.address.type === 'REST'" >
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== addr_type_REST" [class.badge-primary]="intervalAction.address.type === addr_type_REST" >
                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="REST" value="REST" [(ngModel)]="intervalAction.address.type" (change)="typeToggle('REST')">
                                    <label class="form-check-label" for="REST">REST</label>
                                </span>
                            </div>
                            <div class="form-check form-check-inline">
-                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'MQTT'" [class.badge-primary]="intervalAction.address.type === 'MQTT'" (click)="typeToggle('MQTT')">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== addr_type_MQTT" [class.badge-primary]="intervalAction.address.type === addr_type_MQTT" (click)="typeToggle('MQTT')">
                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="MQTT" value="MQTT" [(ngModel)]="intervalAction.address.type">
                                    <label class="form-check-label" for="MQTT">MQTT</label>
                                </span>
                            </div>
                            <div class="form-check form-check-inline">
-                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'EMAIL'" [class.badge-primary]="intervalAction.address.type === 'EMAIL'" (click)="typeToggle('EMAIL')">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== addr_type_EMAIL" [class.badge-primary]="intervalAction.address.type === addr_type_EMAIL" (click)="typeToggle('EMAIL')">
                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="EMAIL" value="EMAIL" [(ngModel)]="intervalAction.address.type">
                                    <label class="form-check-label" for="EMAIL">EMAIL</label>
                                </span>
@@ -76,18 +76,18 @@
                                </li>
                            </ul> -->
                        </div>
-                       <div *ngIf="intervalAction.address.type === 'REST'" class="card-header">
+                       <div *ngIf="intervalAction.address.type === addr_type_REST" class="card-header">
                             <span class="mr-2 text-primary">Available and Editable templates >></span>
                             <span class="fa fa-question-circle-o fa-lg mr-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                             data-content="custom template will be choosed by default"></span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'coredata'" [class.badge-primary]="templateSelected === 'coredata'" (click)="templateToggle('coredata')">CoreDataSeviceTemplate</span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'command'" [class.badge-primary]="templateSelected === 'command'" (click)="templateToggle('command')">CommandServiceTemplate</span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'custom'" [class.badge-primary]="templateSelected === 'custom'" (click)="templateToggle('custom')">CustomTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_coredata" [class.badge-primary]="templateSelected === template_type_coredata" (click)="templateToggle(template_type_coredata)">CoreDataSeviceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_command" [class.badge-primary]="templateSelected === template_type_command" (click)="templateToggle(template_type_command)">CommandServiceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_custom" [class.badge-primary]="templateSelected === template_type_custom" (click)="templateToggle(template_type_custom)">CustomTemplate</span>
                         </div>
                        <div class="card-body">
                            <div *ngIf="intervalAction.address.type === 'REST'" #REST>
                             <div [ngSwitch]="templateSelected">
-                                <ng-template [ngSwitchCase]="'custom'" #customTemplate>
+                                <ng-template [ngSwitchCase]="template_type_custom" #customTemplate>
                                     <form>
                                         <div class="form-group row">
                                             <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
@@ -146,7 +146,7 @@
                                         </div>
                                     </form>
                                 </ng-template>
-                                <ng-template [ngSwitchCase]="'coredata'" #coredataTemplate>
+                                <ng-template [ngSwitchCase]="template_type_coredata" #coredataTemplate>
                                     <form>
                                         <div class="form-group row">
                                             <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
@@ -202,7 +202,7 @@
                                         </div>
                                     </form>
                                 </ng-template>
-                                <ng-template [ngSwitchCase]="'command'" #commandTemplate>
+                                <ng-template [ngSwitchCase]="template_type_command" #commandTemplate>
                                     <form>
                                         <div class="form-group row">
                                             <label for="HttpMethod" class="col-md-2 col-form-label" required>
@@ -303,7 +303,7 @@
                                     </div>
                                </form> -->
                            </div>
-                           <div *ngIf="intervalAction.address?.type === 'MQTT'" #MQTT>
+                           <div *ngIf="intervalAction.address?.type === addr_type_MQTT" #MQTT>
                                <form>
                                    <div class="form-group row has-validation">
                                        <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
@@ -379,7 +379,7 @@
                                    </div>
                                </form>
                            </div>
-                           <div [style.display]="intervalAction.address.type !== 'EMAIL' ? 'none' : ''" #EMAIL>
+                           <div [style.display]="intervalAction.address.type !== addr_type_EMAIL ? 'none' : ''" #EMAIL>
                                <form>
                                    <div class="form-group row">
                                        <label for="emailRecipients" class="col-md-2 col-form-label">
