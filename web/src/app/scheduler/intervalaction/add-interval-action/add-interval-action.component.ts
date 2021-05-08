@@ -123,7 +123,6 @@ export class AddIntervalActionComponent implements OnInit {
 
   typeToggle(type: string) {
     this.intervalAction.address.type = type;
-    console.log(this.intervalAction.address.type)
     if (type === 'REST') {
       this.templateToggle('coredata');
     }
