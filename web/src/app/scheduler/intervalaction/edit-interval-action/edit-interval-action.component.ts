@@ -37,6 +37,14 @@ import flatpickr from 'flatpickr';
 })
 export class EditIntervalActionComponent implements OnInit {
 
+  addr_type_REST: string = 'REST';
+  addr_type_MQTT: string = 'MQTT';
+  addr_type_EMAIL: string = 'EMAIL';
+
+  template_type_coredata = 'coredata';
+  template_type_command = 'command';
+  template_type_custom = 'custom';
+
   intervalActionOlder: IntervalAction;
   intervalAction: IntervalAction;
   addressEmailRecipients: string = "";
@@ -94,10 +102,10 @@ export class EditIntervalActionComponent implements OnInit {
 
   setActionDefaultProperties() {
    switch (this.intervalAction.address.type) {
-      case 'REST':
+      case this.addr_type_REST:
         this.intervalAction.address.httpMethod = 'GET';
         break
-      case 'MQTT':
+      case this.addr_type_MQTT:
         this.intervalAction.address.retained = false;
         this.intervalAction.address.autoReconnect = true;
         break
@@ -118,6 +126,10 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   renderCoredataDefaultTemplate() {
+    this.intervalAction.address.httpMethod = 'DELETE';
+    this.intervalAction.address.host = 'edgex-core-data';
+    this.intervalAction.address.port = 48080;
+    this.intervalAction.address.path = this.coredataSvcAvailableAPI[0];
     setTimeout(() => {
       this.renderPopoverComponent();
       this.initDatePickr();
@@ -126,20 +138,20 @@ export class EditIntervalActionComponent implements OnInit {
 
   templateToggle(template: string) {
     this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOlder));
-    this.intervalAction.address.type = 'REST';
+    this.intervalAction.address.type = this.addr_type_REST;
     this.templateSelected = template;
     switch (this.templateSelected) {
-      case 'coredata':
+      case this.template_type_coredata:
         this.renderCoredataDefaultTemplate();
         break;
-      case 'command':
+      case this.template_type_command:
         this.intervalAction.address.path = '';
         this.intervalAction.address.httpMethod = '';
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300); 
         break;
-      case 'custom':
+      case this.template_type_custom:
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300); 
@@ -178,13 +190,13 @@ export class EditIntervalActionComponent implements OnInit {
     let result = true;
     let basic =  this.intervalAction.name && this.intervalAction.intervalName; 
     switch (this.intervalAction.address.type) {
-      case 'REST':
+      case this.addr_type_REST:
         if (basic && this.intervalAction.address.host && this.isPureIntegerType(this.intervalAction.address.port) &&
           this.intervalAction.address.path && this.intervalAction.address.httpMethod) {
             result = false
         }
         break
-      case 'MQTT': 
+      case this.addr_type_MQTT: 
         if (basic && this.intervalAction.address.host && this.isPureIntegerType(this.intervalAction.address.port) &&
           this.intervalAction.address.port &&
           this.intervalAction.address.publisher &&
@@ -192,7 +204,7 @@ export class EditIntervalActionComponent implements OnInit {
             result = false
         }
         break
-      case 'EMAIL':
+      case this.addr_type_EMAIL:
         if (basic) {
           result = false
         }
