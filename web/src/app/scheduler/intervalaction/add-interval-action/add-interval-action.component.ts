@@ -103,6 +103,8 @@ export class AddIntervalActionComponent implements OnInit {
         this.intervalAction.address.httpMethod = '';
         this.intervalAction.address.host = 'edgex-core-command';
         this.intervalAction.address.port = 48082;
+        this.intervalAction.address.path = '';
+        this.intervalAction.address.httpMethod = '';
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300); 
@@ -152,7 +154,7 @@ export class AddIntervalActionComponent implements OnInit {
     switch (this.intervalAction.address.type) {
       case 'REST':
         if (basic && this.intervalAction.address.host && this.isPureIntegerType(this.intervalAction.address.port) &&
-          this.intervalAction.address.port && this.intervalAction.address.path) {
+          this.intervalAction.address.port && this.intervalAction.address.path && this.intervalAction.address.httpMethod) {
             result = false
         }
         break
