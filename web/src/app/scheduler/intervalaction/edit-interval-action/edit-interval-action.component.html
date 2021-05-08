@@ -53,13 +53,13 @@
                                </span>
                            </div>
                            <div class="form-check form-check-inline">
-                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'MQTT'" [class.badge-primary]="intervalAction.address.type == 'MQTT'" (click)="typeToggle('MQTT')">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'MQTT'" [class.badge-primary]="intervalAction.address.type === 'MQTT'" (click)="typeToggle('MQTT')">
                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="MQTT" value="MQTT" [(ngModel)]="intervalAction.address.type">
                                    <label class="form-check-label" for="MQTT">MQTT</label>
                                </span>
                            </div>
                            <div class="form-check form-check-inline">
-                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'EMAIL'" [class.badge-primary]="intervalAction.address.type == 'EMAIL'" (click)="typeToggle('EMAIL')">
+                               <span class="badge" [class.badge-secondary]="intervalAction.address.type !== 'EMAIL'" [class.badge-primary]="intervalAction.address.type === 'EMAIL'" (click)="typeToggle('EMAIL')">
                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="EMAIL" value="EMAIL" [(ngModel)]="intervalAction.address.type">
                                    <label class="form-check-label" for="EMAIL">EMAIL</label>
                                </span>
@@ -76,7 +76,7 @@
                                </li>
                            </ul> -->
                        </div>
-                       <div [style.display]="intervalAction.address.type === 'REST' ? '' : 'none'" class="card-header">
+                       <div *ngIf="intervalAction.address.type === 'REST'" class="card-header">
                             <span class="mr-2 text-primary">Available and Editable templates >></span>
                             <span class="fa fa-question-circle-o fa-lg mr-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                             data-content="custom template will be choosed by default"></span>

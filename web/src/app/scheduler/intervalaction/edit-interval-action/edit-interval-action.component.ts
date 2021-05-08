@@ -126,6 +126,7 @@ export class EditIntervalActionComponent implements OnInit {
 
   templateToggle(template: string) {
     this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOlder));
+    this.intervalAction.address.type = 'REST';
     this.templateSelected = template;
     switch (this.templateSelected) {
       case 'coredata':
@@ -146,8 +147,8 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   typeToggle(type: string) {
-    this.intervalAction.address.type = type;
     this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOlder));
+    this.intervalAction.address.type = type;
     setTimeout(() => {
       this.renderPopoverComponent();
     }, 300); 
