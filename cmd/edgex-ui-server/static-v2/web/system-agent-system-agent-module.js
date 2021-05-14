@@ -13,13 +13,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/system-agent.service */ "nBa0");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _services_command_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/command.service */ "7PPe");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/data.service */ "EnSQ");
+/* harmony import */ var _services_metadata_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/metadata.service */ "limL");
+/* harmony import */ var _services_scheduler_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/scheduler.service */ "1ahc");
+/* harmony import */ var _services_notifications_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../services/notifications.service */ "KWWs");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
 
 
 
 
 
-function ConfigComponent_pre_6_Template(rf, ctx) { if (rf & 1) {
+
+
+
+
+
+function ConfigComponent_pre_9_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "pre");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -29,37 +54,76 @@ function ConfigComponent_pre_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx_r0.config);
 } }
 class ConfigComponent {
-    constructor(sysService, route) {
+    constructor(sysService, route, cmdSvc, dataService, metadataSvc, schedulerSvc, notiSvc) {
         this.sysService = sysService;
         this.route = route;
+        this.cmdSvc = cmdSvc;
+        this.dataService = dataService;
+        this.metadataSvc = metadataSvc;
+        this.schedulerSvc = schedulerSvc;
+        this.notiSvc = notiSvc;
+        this.service = '';
     }
     ngOnInit() {
-        this.service = this.route.snapshot.paramMap.get('name');
-        this.getConfigs();
+        this.route.queryParams.subscribe(params => {
+            if (params['svcName']) {
+                this.service = params['svcName'];
+                this.getConfigV2(params['svcName']);
+                // this.sysService.getConfigV2(params['svcName']).subscribe((resp: any) => {
+                //   this.config = JSON.stringify(resp, null, 3);
+                // });
+            }
+        });
+        // this.service = this.route.snapshot.paramMap.get('name') as string;
+        // this.getConfigs();
     }
+    getConfigV2(service) {
+        switch (service) {
+            case "edgex-core-data":
+                return this.dataService.getConfig().subscribe((resp) => { this.config = JSON.stringify(resp, null, 3); });
+            case "edgex-core-metadata":
+                return this.metadataSvc.getConfig().subscribe((resp) => { this.config = JSON.stringify(resp, null, 3); });
+            case "edgex-core-command":
+                return this.cmdSvc.getConfig().subscribe((resp) => { this.config = JSON.stringify(resp, null, 3); });
+            case "edgex-support-notifications":
+                return this.schedulerSvc.getConfig().subscribe((resp) => { this.config = JSON.stringify(resp, null, 3); });
+            case "edgex-support-scheduler":
+                return this.notiSvc.getConfig().subscribe((resp) => { this.config = JSON.stringify(resp, null, 3); });
+        }
+    }
+    //deprecated
     getConfigs() {
         this.sysService.getConfig(this.service).subscribe((data) => {
             this.config = JSON.stringify(data, null, 3);
         });
     }
+    edit() {
+    }
 }
-ConfigComponent.ɵfac = function ConfigComponent_Factory(t) { return new (t || ConfigComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"])); };
-ConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ConfigComponent, selectors: [["app-config"]], decls: 7, vars: 1, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-file-text"], [1, "card-body"], [4, "ngIf"]], template: function ConfigComponent_Template(rf, ctx) { if (rf & 1) {
+ConfigComponent.ɵfac = function ConfigComponent_Factory(t) { return new (t || ConfigComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_command_service__WEBPACK_IMPORTED_MODULE_3__["CommandService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_data_service__WEBPACK_IMPORTED_MODULE_4__["DataService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_metadata_service__WEBPACK_IMPORTED_MODULE_5__["MetadataService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_scheduler_service__WEBPACK_IMPORTED_MODULE_6__["SchedulerService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_notifications_service__WEBPACK_IMPORTED_MODULE_7__["NotificationsService"])); };
+ConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ConfigComponent, selectors: [["app-config"]], decls: 10, vars: 2, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-file-text", "text-danger", "mr-2"], [1, "btn", "btn-success", "btn-sm", "float-right", 3, "click"], [1, "fa", "fa-edit"], [1, "card-body"], [4, "ngIf"]], template: function ConfigComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "span");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "i", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4, " Config Inspect");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ConfigComponent_Template_button_click_5_listener() { return ctx.edit(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "i", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, " Edit ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, ConfigComponent_pre_6_Template, 2, 1, "pre", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, ConfigComponent_pre_9_Template, 2, 1, "pre", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.service, " Config Inspect");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.config);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb25maWcuY29tcG9uZW50LmNzcyJ9 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb25maWcuY29tcG9uZW50LmNzcyJ9 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ConfigComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -67,7 +131,7 @@ ConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 templateUrl: './config.component.html',
                 styleUrls: ['./config.component.css']
             }]
-    }], function () { return [{ type: _services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }]; }, null); })();
+    }], function () { return [{ type: _services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }, { type: _services_command_service__WEBPACK_IMPORTED_MODULE_3__["CommandService"] }, { type: _services_data_service__WEBPACK_IMPORTED_MODULE_4__["DataService"] }, { type: _services_metadata_service__WEBPACK_IMPORTED_MODULE_5__["MetadataService"] }, { type: _services_scheduler_service__WEBPACK_IMPORTED_MODULE_6__["SchedulerService"] }, { type: _services_notifications_service__WEBPACK_IMPORTED_MODULE_7__["NotificationsService"] }]; }, null); })();
 
 
 /***/ }),
@@ -87,6 +151,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_system_agent_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/system-agent.service */ "nBa0");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
 
 
 
@@ -227,22 +306,26 @@ class MetricsComponent {
         };
     }
     ngOnInit() {
-        this.service = this.route.snapshot.paramMap.get('name');
-        this.memoryUsageChart = echarts.init(document.getElementById('memory-usage'));
-        this.cpuUsageChart = echarts.init(document.getElementById('cpu-usage'));
-        this.networkUsageChart = echarts.init(document.getElementById('network-usage'));
-        this.option.legend.data.shift();
-        this.option.legend.data.push("Memory");
-        this.memoryUsageChart.setOption(this.option);
-        this.option.legend.data.shift();
-        this.option.legend.data.push("CPU");
-        this.cpuUsageChart.setOption(this.option);
-        this.networkUsageChart.setOption(this.netChartOption);
-        this.sysService.getMetrics(this.service).subscribe((data) => {
-            this.metrics = data[0];
-            this.feedAllCharts();
+        this.route.queryParams.subscribe(params => {
+            if (params['svcName']) {
+                this.service = params['svcName'];
+                this.memoryUsageChart = echarts.init(document.getElementById('memory-usage'));
+                this.cpuUsageChart = echarts.init(document.getElementById('cpu-usage'));
+                this.networkUsageChart = echarts.init(document.getElementById('network-usage'));
+                this.option.legend.data.shift();
+                this.option.legend.data.push("Memory");
+                this.memoryUsageChart.setOption(this.option);
+                this.option.legend.data.shift();
+                this.option.legend.data.push("CPU");
+                this.cpuUsageChart.setOption(this.option);
+                this.networkUsageChart.setOption(this.netChartOption);
+                this.sysService.getMetrics(params['svcName']).subscribe((data) => {
+                    this.metrics = data[0];
+                    this.feedAllCharts();
+                });
+                this.timer = window.setInterval(this.metricsTimer, this.refreshRate * 1000, this);
+            }
         });
-        this.timer = window.setInterval(this.metricsTimer, this.refreshRate * 1000, this);
     }
     metricsTimer(self) {
         self.sysService.getMetrics(self.service).subscribe((data) => {
@@ -484,8 +567,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/system-agent.service */ "nBa0");
 /* harmony import */ var _message_message_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../message/message.service */ "hsl2");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _services_error_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/error.service */ "9vc0");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 
 
 
@@ -502,21 +602,22 @@ function ServiceListComponent_tr_25_span_5_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "stopped");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-const _c0 = function (a1) { return ["../metric", a1]; };
+const _c0 = function () { return ["../metric"]; };
+const _c1 = function (a0) { return { svcName: a0 }; };
 function ServiceListComponent_tr_25_a_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 17);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "i", 24);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const s_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](1, _c0, s_r1.name));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction0"](2, _c0))("queryParams", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](3, _c1, s_r1.name));
 } }
 function ServiceListComponent_tr_25_a_8_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "i", 25);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-const _c1 = function (a1) { return ["../config", a1]; };
+const _c2 = function () { return ["../config"]; };
 function ServiceListComponent_tr_25_Template(rf, ctx) { if (rf & 1) {
     const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "tr");
@@ -528,7 +629,7 @@ function ServiceListComponent_tr_25_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, ServiceListComponent_tr_25_span_5_Template, 2, 0, "span", 14);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "td", 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ServiceListComponent_tr_25_a_7_Template, 2, 3, "a", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ServiceListComponent_tr_25_a_7_Template, 2, 5, "a", 15);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, ServiceListComponent_tr_25_a_8_Template, 2, 0, "a", 16);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "td");
@@ -564,12 +665,13 @@ function ServiceListComponent_tr_25_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", "true");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](6, _c1, s_r1.name));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction0"](7, _c2))("queryParams", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](8, _c1, s_r1.name));
 } }
 class ServiceListComponent {
-    constructor(sysService, msgSvc) {
+    constructor(sysService, msgSvc, errorSvc) {
         this.sysService = sysService;
         this.msgSvc = msgSvc;
+        this.errorSvc = errorSvc;
         this.defaultServcies = [
             "edgex-core-metadata", "edgex-core-data", "edgex-core-command",
             "edgex-support-notifications", "edgex-support-scheduler",
@@ -611,7 +713,11 @@ class ServiceListComponent {
         this.disabled = true;
         this.toggleClass = "badge badge-secondary";
         let self = this;
-        this.sysService.start(name).subscribe(() => {
+        this.sysService.start(name).subscribe((resp) => {
+            if (!resp[0].Success) {
+                this.msgSvc.errors(resp[0].errorMessage);
+                return;
+            }
             this.availServices.forEach(function (svc) {
                 if (svc.name == name) {
                     svc.state = "true";
@@ -625,7 +731,11 @@ class ServiceListComponent {
     restart(name) {
         this.disabled = true;
         let self = this;
-        this.sysService.restart(name).subscribe(() => {
+        this.sysService.restart(name).subscribe((resp) => {
+            if (!resp[0].Success) {
+                this.msgSvc.errors(resp[0].errorMessage);
+                return;
+            }
             this.availServices.forEach(function (svc) {
                 if (svc.name == name) {
                     svc.state = "true";
@@ -638,7 +748,11 @@ class ServiceListComponent {
     stop(name) {
         this.disabled = true;
         let self = this;
-        this.sysService.stop(name).subscribe(() => {
+        this.sysService.stop(name).subscribe((resp) => {
+            if (!resp[0].Success) {
+                this.msgSvc.errors(resp[0].errorMessage);
+                return;
+            }
             this.availServices.forEach(function (svc) {
                 if (svc.name == name) {
                     svc.state = "false";
@@ -649,8 +763,8 @@ class ServiceListComponent {
         });
     }
 }
-ServiceListComponent.ɵfac = function ServiceListComponent_Factory(t) { return new (t || ServiceListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"])); };
-ServiceListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServiceListComponent, selectors: [["app-service-list"]], decls: 26, vars: 2, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-list"], [1, "card-body", "p-0"], [1, "bg-light", "px-3", "py-2"], [1, "btn", "btn-primary", "btn-sm", 3, "disabled", "click"], [1, "fa", "fa-refresh", "mr-1"], [1, "table-responsive"], [1, "table", "table-hover", "text-truncate"], [1, "thead-light"], ["scope", "col"], [4, "ngFor", "ngForOf"], [3, "ngSwitch"], ["class", "badge badge-success", 4, "ngSwitchCase"], ["class", "badge badge-danger", 4, "ngSwitchDefault"], [3, "routerLink", 4, "ngSwitchCase"], [4, "ngSwitchDefault"], [3, "routerLink"], [1, "fa", "fa-file-text"], ["role", "button", 1, "badge", "badge-info", "mr-1", 3, "click"], ["role", "button", 1, "badge", "badge-warning", "mr-1", 3, "click"], ["role", "button", 1, "badge", "badge-danger", 3, "click"], [1, "badge", "badge-success"], [1, "badge", "badge-danger"], [1, "fa", "fa-area-chart"], [1, "fa", "fa-ban", "fa-stack-lg", "text-danger"]], template: function ServiceListComponent_Template(rf, ctx) { if (rf & 1) {
+ServiceListComponent.ɵfac = function ServiceListComponent_Factory(t) { return new (t || ServiceListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_error_service__WEBPACK_IMPORTED_MODULE_3__["ErrorService"])); };
+ServiceListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServiceListComponent, selectors: [["app-service-list"]], decls: 26, vars: 2, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-list", "text-danger"], [1, "card-body", "p-0"], [1, "bg-light", "px-3", "py-2"], [1, "btn", "btn-primary", "btn-sm", 3, "disabled", "click"], [1, "fa", "fa-refresh", "mr-1"], [1, "table-responsive"], [1, "table", "table-hover", "text-truncate"], [1, "thead-light"], ["scope", "col"], [4, "ngFor", "ngForOf"], [3, "ngSwitch"], ["class", "badge badge-success", 4, "ngSwitchCase"], ["class", "badge badge-danger", 4, "ngSwitchDefault"], [3, "routerLink", "queryParams", 4, "ngSwitchCase"], [4, "ngSwitchDefault"], [3, "routerLink", "queryParams"], [1, "fa", "fa-file-text"], ["role", "button", 1, "badge", "badge-info", "mr-1", 3, "click"], ["role", "button", 1, "badge", "badge-warning", "mr-1", 3, "click"], ["role", "button", 1, "badge", "badge-danger", 3, "click"], [1, "badge", "badge-success"], [1, "badge", "badge-danger"], [1, "fa", "fa-area-chart"], [1, "fa", "fa-ban", "fa-stack-lg", "text-danger"]], template: function ServiceListComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h5", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "i", 2);
@@ -688,7 +802,7 @@ ServiceListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "tbody");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](25, ServiceListComponent_tr_25_Template, 19, 8, "tr", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](25, ServiceListComponent_tr_25_Template, 19, 10, "tr", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -699,7 +813,7 @@ ServiceListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", ctx.disabled);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](19);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.availServices);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitchCase"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitchDefault"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterLinkWithHref"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzZXJ2aWNlLWxpc3QuY29tcG9uZW50LmNzcyJ9 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgSwitchCase"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgSwitchDefault"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterLinkWithHref"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzZXJ2aWNlLWxpc3QuY29tcG9uZW50LmNzcyJ9 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ServiceListComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -707,7 +821,7 @@ ServiceListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
                 templateUrl: './service-list.component.html',
                 styleUrls: ['./service-list.component.css']
             }]
-    }], function () { return [{ type: _services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"] }, { type: _message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"] }]; }, null); })();
+    }], function () { return [{ type: _services_system_agent_service__WEBPACK_IMPORTED_MODULE_1__["SystemAgentService"] }, { type: _message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"] }, { type: _services_error_service__WEBPACK_IMPORTED_MODULE_3__["ErrorService"] }]; }, null); })();
 
 
 /***/ }),
@@ -768,6 +882,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _metrics_metrics_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./metrics/metrics.component */ "F5u4");
 /* harmony import */ var _system_agent_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./system-agent.component */ "WIZq");
 /* harmony import */ var _service_list_service_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./service-list/service-list.component */ "NCsr");
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
 
 
 
@@ -791,11 +920,11 @@ const routes = [
                 component: _service_list_service_list_component__WEBPACK_IMPORTED_MODULE_5__["ServiceListComponent"],
             },
             {
-                path: 'metric/:name',
+                path: 'metric',
                 component: _metrics_metrics_component__WEBPACK_IMPORTED_MODULE_3__["MetricsComponent"],
             },
             {
-                path: 'config/:name',
+                path: 'config',
                 component: _config_config_component__WEBPACK_IMPORTED_MODULE_2__["ConfigComponent"]
             }
         ]
@@ -813,107 +942,6 @@ SystemAgentRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵ�
                 exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
             }]
     }], null, null); })();
-
-
-/***/ }),
-
-/***/ "nBa0":
-/*!**************************************************!*\
-  !*** ./src/app/services/system-agent.service.ts ***!
-  \**************************************************/
-/*! exports provided: SystemAgentService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SystemAgentService", function() { return SystemAgentService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _message_message_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../message/message.service */ "hsl2");
-
-
-
-
-
-class SystemAgentService {
-    constructor(http, msgSvc) {
-        this.http = http;
-        this.msgSvc = msgSvc;
-        this.endpoint = "/system";
-        this.version1 = "/api/v1";
-        this.urlPrefix = `${this.endpoint}${this.version1}`;
-        this.endpointHealthUrl = "/ping";
-        this.versionUrl = "/version";
-        this.configUrl = "/config/";
-        this.metricsUrl = "/metrics/";
-        this.healthUrl = "/health/";
-        this.operationUrl = "/operation";
-        this.httpPostOrPutOptions = {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
-                'Content-type': 'application/json',
-                'Authorization': ''
-            })
-        };
-    }
-    getConfig(services) {
-        let url = `${this.urlPrefix}${this.configUrl}${services}`;
-        return this.http.get(url);
-    }
-    getMetrics(services) {
-        let url = `${this.urlPrefix}${this.metricsUrl}${services}`;
-        return this.http.get(url);
-    }
-    getHealth(services) {
-        let url = `${this.urlPrefix}${this.healthUrl}${services}`;
-        return this.http.get(url);
-    }
-    //action format:
-    // {
-    //   "action":"stop",
-    //   "services":[
-    //       "edgex-support-notifications"
-    //   ],
-    //   "params":[
-    //       "graceful"
-    //       ]
-    //   }
-    operate(action) {
-        let url = `${this.urlPrefix}${this.operationUrl}`;
-        return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions);
-    }
-    start(name) {
-        let action = {
-            "action": "start",
-            "services": [name],
-            "params": ["graceful"]
-        };
-        return this.operate(action);
-    }
-    restart(name) {
-        let action = {
-            "action": "restart",
-            "services": [name],
-            "params": ["graceful"]
-        };
-        return this.operate(action);
-    }
-    stop(name) {
-        let action = {
-            "action": "stop",
-            "services": [name],
-            "params": ["graceful"]
-        };
-        return this.operate(action);
-    }
-}
-SystemAgentService.ɵfac = function SystemAgentService_Factory(t) { return new (t || SystemAgentService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"])); };
-SystemAgentService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({ token: SystemAgentService, factory: SystemAgentService.ɵfac, providedIn: 'root' });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](SystemAgentService, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"],
-        args: [{
-                providedIn: 'root'
-            }]
-    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"] }, { type: _message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"] }]; }, null); })();
 
 
 /***/ })

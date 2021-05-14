@@ -96,6 +96,7 @@ class NotificationsService {
         this.endpoint = "/notification";
         this.version = "/api/v2";
         this.urlPrefix = `${this.endpoint}${this.version}`;
+        this.configUrl = "/config";
         //Notification resources
         this.findNotificationByCategoryUrl = `${this.urlPrefix}/notification/category/`;
         this.findNotificationByLabelUrl = `${this.urlPrefix}/notification/label/`;
@@ -120,6 +121,10 @@ class NotificationsService {
                 'Authorization': ''
             })
         };
+    }
+    getConfig() {
+        let url = `${this.urlPrefix}${this.configUrl}`;
+        return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //Notification resources
     findNotificationsByCategoryPagination(offset, limit, category) {
