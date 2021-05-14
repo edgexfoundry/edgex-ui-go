@@ -40,6 +40,8 @@ export class MetadataService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  configUrl: string = "/config";
+
   devicesListUrl: string = `${this.urlPrefix}/device/all`;
   addOneDeviceUrl: string = `${this.urlPrefix}/device`;
   updateOneDeviceUrl: string = `${this.urlPrefix}/device`;
@@ -75,6 +77,13 @@ export class MetadataService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  getConfig(): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}`;
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
   //Device resources
   allDevices(): Observable<MultiDeviceResponse> {

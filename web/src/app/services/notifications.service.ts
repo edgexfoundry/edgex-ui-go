@@ -36,6 +36,8 @@ export class NotificationsService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  configUrl: string = "/config";
+  
   //Notification resources
   findNotificationByCategoryUrl: string = `${this.urlPrefix}/notification/category/`;
   findNotificationByLabelUrl: string = `${this.urlPrefix}/notification/label/`;
@@ -64,6 +66,13 @@ export class NotificationsService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  getConfig(): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}`;
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
   //Notification resources
   findNotificationsByCategoryPagination(offset: number, limit: number, category: string): Observable<MultiNotificationResponse> {
