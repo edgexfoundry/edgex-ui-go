@@ -22,6 +22,8 @@ export class SchedulerService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  configUrl: string = "/config";
+
   intervalListUrl: string = `${this.urlPrefix}/interval/all` ;
   addOneIntervalUrl: string = `${this.urlPrefix}/interval`;
   updateOneIntervalUrl: string = `${this.urlPrefix}/interval`;
@@ -42,6 +44,13 @@ export class SchedulerService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  getConfig(): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}`;
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
   //interval resource
   findAllIntervalsPagination(offset: number, limit: number): Observable<MultiIntervalResponse> {
