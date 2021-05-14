@@ -17,30 +17,24 @@
 package handler
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
-
-	"github.com/edgexfoundry/edgex-ui-go/internal/component"
-	"github.com/edgexfoundry/edgex-ui-go/internal/core"
-	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 )
 
 func ExportShow(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	token := r.Header.Get(core.SessionTokenKey)
+	// defer r.Body.Close()
+	// token := r.Header.Get(core.SessionTokenKey)
 
-	var addressable domain.Addressable
-	err := json.NewDecoder(r.Body).Decode(&addressable)
-	if _, ok := component.ExportSubscriberCache[token+addressable.Topic]; ok {
-		log.Println("It exist a client, return")
-		return
-	}
+	// var addressable domain.Addressable
+	// err := json.NewDecoder(r.Body).Decode(&addressable)
+	// if _, ok := component.ExportSubscriberCache[token+addressable.Topic]; ok {
+	// 	log.Println("It exist a client, return")
+	// 	return
+	// }
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusServiceUnavailable)
-		return
-	}
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusServiceUnavailable)
+	// 	return
+	// }
 
-	component.CreateMqttClient(addressable, token)
+	// component.CreateMqttClient(addressable, token)
 }
