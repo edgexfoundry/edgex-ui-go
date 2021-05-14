@@ -19,7 +19,6 @@ package internal
 import (
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/component"
 	"github.com/edgexfoundry/edgex-ui-go/internal/handler"
 	mux "github.com/gorilla/mux"
 )
@@ -47,8 +46,8 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/appservice/receiveDataPostJSON", handler.ReceiveDataPostJSON).Methods(http.MethodPost)
 	s.HandleFunc("/appservice/receiveDataPostXML", handler.ReceiveDataPostXML).Methods(http.MethodPost)
 	s.HandleFunc("/appservice/currentData", handler.CurrentData).Methods(http.MethodGet)
-	s1 := r.PathPrefix("").Subrouter()
-	s1.HandleFunc("/ws", component.WebSocketHandler)
+	// s1 := r.PathPrefix("").Subrouter()
+	// s1.HandleFunc("/ws", component.WebSocketHandler)
 
 	return r
 }

@@ -18,49 +18,49 @@ Password = "su"
 [Clients]
     [Clients.CoreData]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48080
     PathPrefix = "/coredata"
 
     [Clients.Metadata]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48081
     PathPrefix = "/metadata"
 
     [Clients.CoreCommand]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48082
     PathPrefix = "/command"
 
     [Clients.Notification]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48060
     PathPrefix = "/notification"
 
     [Clients.Scheduler]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48085
     PathPrefix = "/scheduler"
 
     [Clients.RuleEngine]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48075
     PathPrefix = "/rule-engine"
 
     [Clients.CoreExport]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48071
     PathPrefix = "/core-export"
 
     [Clients.System]
     Protocol = 'http'
-    Host = '192.168.56.13'
+    Host = 'localhost'
     Port = 48090
     PathPrefix = "/system"
 
