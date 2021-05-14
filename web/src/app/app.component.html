@@ -51,7 +51,7 @@
             <div [class.center-shrink]="shrink" [class.center-no-shrink]="shrinkCenterNo" [class.center]="!shrink">
                 <nav class="bg-light center-header px-3 pt-2 font-weight-bold">
                     <div class="nav-router mw-100 align-middle">
-                        <h4 class="d-inline">{{currentNav}}</h4>
+                        <h4 class="d-inline">{{pathFormat(currentNav)}}</h4>
                         
                         <h5 class="d-inline float-right "><i class="fa fa-user-circle-o mr-1"></i> <span class="">Admin</span></h5>
                         <div class="dropdown d-inline float-right mr-3">
@@ -65,18 +65,12 @@
                         </div>
                     </div>
                     <div class="mw-100 align-middle mt-1">
-                        <!-- <div class="d-inline">
+                        <div class="d-inline">
                             <h6 *ngFor="let path of navChain;let i=index;" class="d-inline">
-                                <a  *ngIf="i !== (navChain.length - 1)" routerLink="{{navChainMap.get(path)}}" class="text-decoration-none d-inline"> {{path}} </a> 
-                                <span  *ngIf="i == (navChain.length - 1)"  class="text-decoration-none d-inline"> {{path}} </span> 
+                                <a  *ngIf="i !== (navChain.length - 1)" routerLink="{{navChainMap.get(path)}}" class="text-decoration-none d-inline"> {{pathFormat(path)}} </a> 
+                                <span  *ngIf="i == (navChain.length - 1)"  class="text-decoration-none d-inline"> {{pathFormat(path)}} </span> 
                                 <span *ngIf="i !== (navChain.length - 1)">&gt;</span>
                             </h6> 
-                        </div> -->
-    
-                        <div class="d-inline">
-                            <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> 1 sub nav  </a></h6> 
-                            <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> > 2 sub nav  </a></h6> 
-                            <h6 class="d-inline"><a href="#" class="text-decoration-none d-inline"> > 3 sub nav  </a></h6> 
                         </div>
                         <h6 class="d-inline float-right"><span class="align-middle"> <i class="fa fa-power-off mr-1"></i>Logout</span></h6>
                    </div>
