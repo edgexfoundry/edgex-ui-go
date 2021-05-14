@@ -16,53 +16,51 @@
 
 package component
 
-import (
-	"log"
-	"net/http"
-	"net/url"
+// "log"
+// "net/http"
+// "net/url"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/core"
-	"github.com/gorilla/websocket"
-)
+// "github.com/edgexfoundry/edgex-ui-go/internal/core"
+// "github.com/gorilla/websocket"
 
 const (
 	ReadBufferSize  = 1024
 	WriteBufferSize = 1024
 )
 
-type WsClientConn struct {
-	clientmapping map[string]*websocket.Conn
-}
+// type WsClientConn struct {
+// 	clientmapping map[string]*websocket.Conn
+// }
 
-var wsConn *WsClientConn
+// var wsConn *WsClientConn
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  ReadBufferSize,
-	WriteBufferSize: WriteBufferSize,
-}
+// var upgrader = websocket.Upgrader{
+// 	ReadBufferSize:  ReadBufferSize,
+// 	WriteBufferSize: WriteBufferSize,
+// }
 
-func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
+// func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 
-	ws, _ := upgrader.Upgrade(w, r, nil)
-	if wsConn == nil {
-		wsConn = &WsClientConn{clientmapping: make(map[string]*websocket.Conn, 50)}
-	}
+// 	ws, _ := upgrader.Upgrade(w, r, nil)
+// 	if wsConn == nil {
+// 		wsConn = &WsClientConn{clientmapping: make(map[string]*websocket.Conn, 50)}
+// 	}
 
-	u := r.URL.RawQuery
-	m, _ := url.ParseQuery(u)
-	token := m[core.SessionTokenKey][0]
+// 	u := r.URL.RawQuery
+// 	m, _ := url.ParseQuery(u)
+// 	token := m[core.SessionTokenKey][0]
 
-	wsConn.clientmapping[token] = ws
-	log.Println("ws token:" + token)
-	log.Printf(" %d ws client connected success!", len(wsConn.clientmapping))
-}
+// 	wsConn.clientmapping[token] = ws
+// 	log.Println("ws token:" + token)
+// 	log.Printf(" %d ws client connected success!", len(wsConn.clientmapping))
+// }
 
-func WsClientSend(token string, message []byte) {
-	for k, v := range wsConn.clientmapping {
-		if k == token {
-			if v != nil {
-				v.WriteMessage(1, message)
-			}
-		}
-	}
-}
+// func WsClientSend(token string, message []byte) {
+// 	for k, v := range wsConn.clientmapping {
+// 		if k == token {
+// 			if v != nil {
+// 				v.WriteMessage(1, message)
+// 			}
+// 		}
+// 	}
+// }

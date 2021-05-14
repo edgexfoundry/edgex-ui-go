@@ -16,48 +16,46 @@
 
 package component
 
-import (
-	"log"
-	"strconv"
+// "log"
+// "strconv"
 
-	MQTT "github.com/eclipse/paho.mqtt.golang"
-	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
-)
+// MQTT "github.com/eclipse/paho.mqtt.golang"
+// "github.com/edgexfoundry/edgex-ui-go/internal/domain"
 
 const (
 	ClientIDPrefix = "edgex-go-"
 )
 
-var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
-	log.Printf("TOPIC: %s\n", msg.Topic())
-	WsClientSend(MqttTokenCache, msg.Payload())
-}
-var MqttTokenCache string
+// var f MQTT.MessageHandler = func(client MQTT.Client, msg MQTT.Message) {
+// 	log.Printf("TOPIC: %s\n", msg.Topic())
+// 	WsClientSend(MqttTokenCache, msg.Payload())
+// }
+// var MqttTokenCache string
 
-//{token:MqttClient}
-var ExportSubscriberCache = make(map[string]interface{}, 10)
+// //{token:MqttClient}
+// var ExportSubscriberCache = make(map[string]interface{}, 10)
 
-func CreateMqttClient(addressable domain.Addressable, token string) {
-	MqttTokenCache = token
-	broker := addressable.Protocol + "://" + addressable.Address + ":" + strconv.Itoa(addressable.Port)
-	opts := MQTT.NewClientOptions().AddBroker(broker)
-	opts.SetClientID(ClientIDPrefix + addressable.Topic)
-	opts.SetUsername(addressable.User)
-	opts.SetPassword(addressable.Password)
+// func CreateMqttClient(addressable domain.Addressable, token string) {
+// 	MqttTokenCache = token
+// 	broker := addressable.Protocol + "://" + addressable.Address + ":" + strconv.Itoa(addressable.Port)
+// 	opts := MQTT.NewClientOptions().AddBroker(broker)
+// 	opts.SetClientID(ClientIDPrefix + addressable.Topic)
+// 	opts.SetUsername(addressable.User)
+// 	opts.SetPassword(addressable.Password)
 
-	opts.OnConnect = func(c MQTT.Client) {
-		if t := c.Subscribe(addressable.Topic, 0, f); t.Wait() && t.Error() != nil {
-			panic(t.Error())
-		}
-	}
+// 	opts.OnConnect = func(c MQTT.Client) {
+// 		if t := c.Subscribe(addressable.Topic, 0, f); t.Wait() && t.Error() != nil {
+// 			panic(t.Error())
+// 		}
+// 	}
 
-	client := MQTT.NewClient(opts)
+// 	client := MQTT.NewClient(opts)
 
-	if t := client.Connect(); t.Wait() && t.Error() != nil {
-		panic(t.Error())
-	} else {
-		log.Println("Connected to mqtt server.")
-	}
+// 	if t := client.Connect(); t.Wait() && t.Error() != nil {
+// 		panic(t.Error())
+// 	} else {
+// 		log.Println("Connected to mqtt server.")
+// 	}
 
-	ExportSubscriberCache[token+addressable.Topic] = client
-}
+// 	ExportSubscriberCache[token+addressable.Topic] = client
+// }
