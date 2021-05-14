@@ -1,6 +1,21 @@
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SystemAgentService } from '../../services/system-agent.service';
 
@@ -120,28 +135,31 @@ export class MetricsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.service = this.route.snapshot.paramMap.get('name') as string;
+    this.route.queryParams.subscribe(params => {
+      if (params['svcName']) {
+        this.service = params['svcName'];
+        this.memoryUsageChart = echarts.init(document.getElementById('memory-usage'));
+        this.cpuUsageChart = echarts.init(document.getElementById('cpu-usage'));
+        this.networkUsageChart = echarts.init(document.getElementById('network-usage'));
 
-    this.memoryUsageChart = echarts.init(document.getElementById('memory-usage'));
-    this.cpuUsageChart = echarts.init(document.getElementById('cpu-usage'));
-    this.networkUsageChart = echarts.init(document.getElementById('network-usage'));
+        this.option.legend.data.shift();
+        this.option.legend.data.push("Memory");
+        this.memoryUsageChart.setOption(this.option);
 
-    this.option.legend.data.shift();
-    this.option.legend.data.push("Memory");
-    this.memoryUsageChart.setOption(this.option);
+        this.option.legend.data.shift();
+        this.option.legend.data.push("CPU");
+        this.cpuUsageChart.setOption(this.option);
 
-    this.option.legend.data.shift();
-    this.option.legend.data.push("CPU");
-    this.cpuUsageChart.setOption(this.option);
+        this.networkUsageChart.setOption(this.netChartOption);
 
-    this.networkUsageChart.setOption(this.netChartOption);
+        this.sysService.getMetrics(params['svcName']).subscribe((data: any) => {
+          this.metrics = data[0];
+          this.feedAllCharts();
+        })
 
-    this.sysService.getMetrics(this.service).subscribe((data: any) => {
-      this.metrics = data[0];
-      this.feedAllCharts();
+        this.timer = window.setInterval(this.metricsTimer, this.refreshRate * 1000, this)
+      }
     })
-
-    this.timer = window.setInterval(this.metricsTimer, this.refreshRate * 1000, this)
 
   }
 

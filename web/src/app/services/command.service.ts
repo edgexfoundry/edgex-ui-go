@@ -35,6 +35,8 @@ export class CommandService {
   endpointHealthUrl: string = "/ping";
   versionUrl: string = "/version";
 
+  configUrl: string = "/config";
+
   deviceCoreCommandListUrl: string = `${this.urlPrefix}/device/all`;
   commandsByDeviceIdUrl: string = `${this.urlPrefix}/device/`; //deprecated
   commandsByDeviceNameUrl: string = `${this.urlPrefix}/device/name/`;
@@ -48,6 +50,13 @@ export class CommandService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  getConfig(): Observable<any> {
+    let url = `${this.urlPrefix}${this.configUrl}`;
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
   //deprecated
   findCommnadsByDeviceId(deviceId: string): Observable<any> {
