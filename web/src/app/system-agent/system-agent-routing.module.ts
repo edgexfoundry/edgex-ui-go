@@ -20,11 +20,11 @@ const routes: Routes = [
         component: ServiceListComponent,
       },
       {
-        path: 'metric/:name',
+        path: 'metric',
         component: MetricsComponent,
       },
       {
-        path: 'config/:name',
+        path: 'config',
         component: ConfigComponent
       }
     ]
