@@ -20,6 +20,11 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 
+import { MetricsResponse } from '../contracts/v2/common/metrics-response'
+import { CountResponse } from '../contracts/v2/common/count-response';
+import { MultiReadingResponse } from '../contracts/v2/responses/reading-response';
+import { MultiEventsResponse } from '../contracts/v2/responses/event-response';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,39 +40,68 @@ export class DataService {
   eventCountUrl: string = `${this.urlPrefix}/event/count`;
   readingCountUrl: string = `${this.urlPrefix}/reading/count`;
 
+  allEventsUrl: string = `${this.urlPrefix}/event/all`;
+  allReadingsUrl: string = `${this.urlPrefix}/reading/all`;
+
+  associatedEventsByDeviceNameUrl: string = `${this.urlPrefix}/event/device/name/`;
+  associatedReadinsByDeviceNameUrl: string = `${this.urlPrefix}/reading/device/name/`;
+
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
-  getConfig(): Observable<any> {
+  getConfig(): Observable<MetricsResponse> {
     let url = `${this.urlPrefix}${this.configUrl}`;
-    return this.http.get(url).pipe(
+    return this.http.get<MetricsResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
   endpointHealth(): Observable<string> {
     let url = `${this.endpointHealthUrl}`;
-    return this.http.get<string>(url)
+    return this.http.get<string>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
-  eventCount(): Observable<any> {
+  eventCount(): Observable<CountResponse> {
     let url = `${this.eventCountUrl}`;
-    return this.http.get<any>(url)
+    return this.http.get<CountResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
-  readingCount(): Observable<any> {
+  readingCount(): Observable<CountResponse> {
     let url = `${this.readingCountUrl}`;
-    return this.http.get<any>(url)
+    return this.http.get<CountResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
-  //deprecated
-  eventCount1(): Observable<number> {
-    let url = `${this.eventCountUrl}`;
-    return this.http.get<number>(url)
+  allEventsPagination(offset: number, limit: number): Observable<MultiEventsResponse> {
+    let url = `${this.allEventsUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiEventsResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
-  //deprecated
-  readingCount1(): Observable<number> {
-    let url = `${this.readingCountUrl}`;
-    return this.http.get<number>(url)
+
+  allReadingsPagination(offset: number, limit: number): Observable<MultiReadingResponse> {
+    let url = `${this.allReadingsUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiReadingResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  allAssocaitedReadingsByDeviceNamePagination(offset: number, limit: number): Observable<MultiEventsResponse> {
+    let url = `${this.associatedEventsByDeviceNameUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiEventsResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  allAssocaitedEventsByDeviceNamePagination(offset: number, limit: number): Observable<MultiReadingResponse> {
+    let url = `${this.associatedReadinsByDeviceNameUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiReadingResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
 }
