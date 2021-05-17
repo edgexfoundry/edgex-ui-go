@@ -36,7 +36,7 @@ declare type properties = {
 };
 
 class AutoEventInternal {
-  frequency: string = '';
+  interval: string = '';
   onChange: boolean = false;
   resource: string = '';
   unit: string = ''
@@ -117,19 +117,19 @@ export class EditDeviceComponent implements OnInit {
     events?.forEach(e => {
       let index: number = 0;
 
-      if (e.frequency.indexOf('ms') !== -1) {
-        index = e.frequency.indexOf('ms');
-      } else if (e.frequency.indexOf('s') !== -1) {
-        index = e.frequency.indexOf('s');
-      } else if (e.frequency.indexOf('m') !== -1) {
-        index = e.frequency.indexOf('m');
-      } else if (e.frequency.indexOf('h') !== -1) {
-        index = e.frequency.indexOf('h');
+      if (e.interval.indexOf('ms') !== -1) {
+        index = e.interval.indexOf('ms');
+      } else if (e.interval.indexOf('s') !== -1) {
+        index = e.interval.indexOf('s');
+      } else if (e.interval.indexOf('m') !== -1) {
+        index = e.interval.indexOf('m');
+      } else if (e.interval.indexOf('h') !== -1) {
+        index = e.interval.indexOf('h');
       }
 
-      unit = e.frequency.substring(index)
+      unit = e.interval.substring(index)
       this.autoEventsInternal.push({
-        frequency: e.frequency.slice(0, index),
+        interval: e.interval.slice(0, index),
         onChange: e.onChange as boolean ? true : false,
         resource: e.sourceName,
         unit: unit
@@ -137,8 +137,8 @@ export class EditDeviceComponent implements OnInit {
     });
   }
 
-  eventFrequencyNumType(frequency: any): boolean {
-    if (!isNaN(frequency) && (parseFloat(frequency) === parseInt(frequency))) {
+  eventIntervalNumType(interval: any): boolean {
+    if (!isNaN(interval) && (parseFloat(interval) === parseInt(interval))) {
       return true
     }
     return false
@@ -154,7 +154,7 @@ export class EditDeviceComponent implements OnInit {
 
   addAutoEvent() {
     this.autoEventsInternal.push({
-      frequency: '',
+      interval: '',
       onChange: false,
       resource: '',
       unit: 'ms'
@@ -169,7 +169,7 @@ export class EditDeviceComponent implements OnInit {
     if (this.device?.name && this.protocolName) {
       let f: boolean = false;
       this.autoEventsInternal.forEach(e => {
-        if (!this.eventFrequencyNumType(e.frequency) || e.resource === '') {
+        if (!this.eventIntervalNumType(e.interval) || e.resource === '') {
           f = true;
           return
         }
@@ -199,7 +199,7 @@ export class EditDeviceComponent implements OnInit {
 
     this.autoEventsInternal.forEach(e => {
       d.autoEvents.push({
-        frequency: `${parseInt(e.frequency)}${e.unit}`,
+        interval: `${parseInt(e.interval)}${e.unit}`,
         onChange: e.onChange?true:false,
         sourceName: e.resource
       })

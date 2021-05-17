@@ -139,13 +139,13 @@
                     <table class="table table-hover text-truncate">
                         <thead class="thead-light">
                             <th scope="col">Resource</th>
-                            <th scope="col">Frequency</th>
+                            <th scope="col">Interval</th>
                             <th scope="col">Onchange</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let event of autoEvents">
                                 <td>{{event.sourceName}}</td>
-                                <td><span class="badge badge-secondary badge-pill">{{event.frequency}}</span></td>
+                                <td><span class="badge badge-secondary badge-pill">{{event.interval}}</span></td>
                                 <td><span class="">{{event.onChange}}</span></td>
                             </tr>
                         </tbody>
