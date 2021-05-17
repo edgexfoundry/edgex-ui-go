@@ -1,5 +1,6 @@
 export interface AutoEvent {
-    frequency: string,
+    interval: string, // replace frequency
+    //frequency: string, //deprecated
     onChange?: boolean,
     sourceName: string
 }
