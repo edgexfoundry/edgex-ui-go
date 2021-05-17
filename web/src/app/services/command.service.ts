@@ -22,6 +22,7 @@ import { ErrorService } from './error.service';
 
 import { DeviceCoreCommandResponse, MultiDeviceCoreCommandsResponse } from '../contracts/v2/responses/device-core-command-response';
 import { EventResponse } from '../contracts/v2/responses/event-response';
+import { BaseResponse } from '../contracts/v2/common/base-response';
 
 @Injectable({
   providedIn: 'root'
@@ -39,10 +40,10 @@ export class CommandService {
 
   deviceCoreCommandListUrl: string = `${this.urlPrefix}/device/all`;
   commandsByDeviceIdUrl: string = `${this.urlPrefix}/device/`; //deprecated
-  commandsByDeviceNameUrl: string = `${this.urlPrefix}/device/name/`;
+  commandsByDeviceNameUrl: string = `${this.urlPrefix}/device/name/`; //deprecated
   issueCmdByDeviceNameAndCmdNameUrl: string = `${this.urlPrefix}/device/name/`;
 
-  httpPostOrPutOptions = {
+  httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': ''
@@ -112,13 +113,21 @@ export class CommandService {
   //   )
   // }
 
-  issueSetCmd(deviceId: string, commandId: string, params?: any): Observable<any> {
-    let url = `${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
-    return this.http.request('PUT', url, {
-      body: JSON.stringify(params),
-      responseType: 'text'
-    }).pipe(
+  issueSetCmd(deviceName: string, commandName: string, params?: any): Observable<BaseResponse> {
+    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}`;
+    return this.http.put<BaseResponse>(url, JSON.stringify(params),this.httpPostOrPutJSONOptions).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
+
+  //deprecated
+  // issueSetCmd(deviceId: string, commandId: string, params?: any): Observable<any> {
+  //   let url = `${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
+  //   return this.http.request('PUT', url, {
+  //     body: JSON.stringify(params),
+  //     responseType: 'text'
+  //   }).pipe(
+  //     catchError(error => this.errorSvc.handleError(error))
+  //   )
+  // }
 }
