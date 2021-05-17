@@ -39,9 +39,9 @@ export class ServiceListComponent implements OnInit {
   defaultServcies = [
     "edgex-core-metadata", "edgex-core-data", "edgex-core-command",
     "edgex-support-notifications", "edgex-support-scheduler",
-    "edgex-redis",
+    // "edgex-redis",
     "rule-engine",
-    "edgex-ui-go",
+    // "edgex-ui-go",
     //"edgex-sys-mgmt-agent",
     "edgex-app-service-configurable-rules"];
 

@@ -17,7 +17,10 @@
  -->
 
 <div class="card">
-    <h5 class="card-header"><i class="fa fa-list text-danger"></i> Services List</h5>
+    <div class="card-header">
+        <i class="fa fa-list text-danger mr-2"></i> 
+        <span>System Services List</span>
+    </div>
     <div class="card-body p-0">
         <div class="bg-light px-3 py-2">
             <button class="btn btn-primary btn-sm " [disabled]="disabled" (click)="refresh()">
