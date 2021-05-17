@@ -53,7 +53,7 @@ class ModusRTUProtocolTemplate {
 }
 
 class AutoEventInternal {
-  frequency: string = '';
+  interval: string = '';
   onChange: boolean = false;
   resource: string = '';
   unit: string = ''
@@ -82,7 +82,7 @@ export class AddDeviceComponent implements OnInit {
   newDevice?: Device;
 
   autoEventsInternal: AutoEventInternal[] = [{
-    frequency: '',
+    interval: '',
     onChange: false,
     resource: '',
     unit: 'ms'
@@ -156,18 +156,18 @@ export class AddDeviceComponent implements OnInit {
 
     events.forEach(e => {
       let index: number = 0;
-      if ((e.frequency as string).indexOf('ms')) {
-        index = (e.frequency as string).indexOf('ms');
-      } else if ((e.frequency as string).indexOf('s')) {
-        index = (e.frequency as string).indexOf('s');
-      } else if ((e.frequency as string).indexOf('m')) {
-        index = (e.frequency as string).indexOf('m');
-      } else if ((e.frequency as string).indexOf('h')) {
-        index = (e.frequency as string).indexOf('h');
+      if ((e.interval as string).indexOf('ms')) {
+        index = (e.interval as string).indexOf('ms');
+      } else if ((e.interval as string).indexOf('s')) {
+        index = (e.interval as string).indexOf('s');
+      } else if ((e.interval as string).indexOf('m')) {
+        index = (e.interval as string).indexOf('m');
+      } else if ((e.interval as string).indexOf('h')) {
+        index = (e.interval as string).indexOf('h');
       }
-      unit = (e.frequency as string).substring(index)
+      unit = (e.interval as string).substring(index)
       this.autoEventsInternal.push({
-        frequency: (e.frequency as string).slice(0, index),
+        interval: (e.interval as string).slice(0, index),
         onChange: e.onChange as boolean,
         resource: e.sourceName as string,
         unit: unit
@@ -175,8 +175,8 @@ export class AddDeviceComponent implements OnInit {
     });
   }
 
-  eventFrequencyNumType(frequency: any): boolean {
-    if (!isNaN(frequency) && (parseFloat(frequency) === parseInt(frequency))) {
+  eventIntervalNumType(interval: any): boolean {
+    if (!isNaN(interval) && (parseFloat(interval) === parseInt(interval))) {
       return true
     }
     return false
@@ -210,7 +210,7 @@ export class AddDeviceComponent implements OnInit {
 
   addAutoEvent() {
     this.autoEventsInternal.push({
-      frequency: '',
+      interval: '',
       onChange: false,
       resource: '',
       unit: 'ms'
@@ -232,7 +232,7 @@ export class AddDeviceComponent implements OnInit {
       case 3:
         let flag = false;
         this.autoEventsInternal.forEach((event) => {
-          if (event.resource === '' || !this.eventFrequencyNumType(event.frequency)) {
+          if (event.resource === '' || !this.eventIntervalNumType(event.interval)) {
             flag = true;
             return
           }
@@ -279,7 +279,7 @@ export class AddDeviceComponent implements OnInit {
 
     this.autoEventsInternal.forEach((event) => {
       autoEvents.push({
-        frequency: `${parseInt(event.frequency)}${event.unit}`,
+        interval: `${parseInt(event.interval)}${event.unit}`,
         onChange: event.onChange?true:false,
         sourceName: event.resource
       })
