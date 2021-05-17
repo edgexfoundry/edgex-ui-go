@@ -56,15 +56,15 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intervalFrequency" class="col-md-2 col-form-label">
-                    <span class="mr-2">Frequency</span> 
+                <label for="intervalInterval" class="col-md-2 col-form-label">
+                    <span class="mr-2">Interval</span> 
                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="ISO8601 duration format" 
-                    data-content='Frequency indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
+                    data-content='Interval indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
                 </label>
                 <div class="col-md-10">
-                    <input type="text" class="form-control" name="intervalFrequency" [class.is-invalid]="!interval.frequency" [class.is-valid]="interval.frequency" [(ngModel)]="interval.frequency" required>
-                    <div id="validationIntervalFrequencyFeedback" class="invalid-feedback">
-                        <small>the interval frequency can't be empty!</small> 
+                    <input type="text" class="form-control" name="intervalInterval" [class.is-invalid]="!interval.interval" [class.is-valid]="interval.interval" [(ngModel)]="interval.interval" required>
+                    <div id="validationIntervalIntervalFeedback" class="invalid-feedback">
+                        <small>the interval interval can't be empty!</small> 
                     </div>
                 </div>
             </div>
