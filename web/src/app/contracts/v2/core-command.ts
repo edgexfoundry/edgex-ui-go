@@ -19,7 +19,8 @@ export interface CoreCommand {
     get: boolean,
     set: boolean,
     path: string,
-    url: string
+    url: string,
+    parameters: CoreCommandParameter[]
 }
 
 export interface DeviceCoreCommand {
@@ -27,3 +28,8 @@ export interface DeviceCoreCommand {
     profileName: string,
     coreCommands: CoreCommand[]
 }
+
+export interface CoreCommandParameter {
+    resourceName: string,
+    valueType: string
+} 
