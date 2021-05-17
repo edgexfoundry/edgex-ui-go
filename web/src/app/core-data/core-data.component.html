@@ -1,1 +1,50 @@
-<p>core-data works!</p>
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card mb-2">
+   <div class="card-header">
+    <i class="fa fa-info-circle mr-2 text-info"></i> 
+     <span>Tips</span>
+   </div>
+   <div class="card-body">
+      An event represents a collection of one or more sensor readings. 
+      Some sensors or devices are only providing a single value – a single reading - at a time. Other sensors spew multiple values whenever they are read.
+      An event must have at least one reading. Events are associated to a sensor or device.
+      <br>
+      <br>
+      The following data is only for the convenience of the user to view the data format of the data center, which does not make any sense to manipulate!
+      <br>
+      The dynamic display effect of the data is that only the API of the Core Data service is called periodically, with intervals of 3 seconds.
+   </div>
+</div>
+
+ <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs font-weight-bold">
+          <li class="nav-item">
+            <a class="nav-link " routerLink="./event" routerLinkActive="active">Event</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="./reading" routerLinkActive="active">Reading</a>
+          </li>
+      </ul>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
+</div>
