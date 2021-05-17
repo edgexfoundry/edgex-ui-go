@@ -29,6 +29,8 @@ import { DeviceProfileResponse,MultiDeviceProfileResponse } from '../../../contr
 import { DeviceCoreCommandResponse } from '../../../contracts/v2/responses/device-core-command-response';
 import { EventResponse } from '../../../contracts/v2/responses/event-response';
 import { BaseReading } from '../../../contracts/v2/reading';
+import { CoreCommandParameter } from '../../../contracts/v2/core-command';
+import { BaseResponse } from '../../../contracts/v2/common/base-response';
 // import * as cbor from 'cbor';
 
 @Component({
@@ -39,6 +41,9 @@ import { BaseReading } from '../../../contracts/v2/reading';
 export class DeviceListComponent implements OnInit {
 
   deviceList: Device[] = [];
+  associatedSvcName: string = '';
+  associatedProfileName: string = '';
+
   selectedDevice: Device[] = [];
   associateDeviceProfile?: DeviceProfile;
   isCheckedAll: boolean = false;
@@ -47,9 +52,9 @@ export class DeviceListComponent implements OnInit {
   deviceCoreCommand?: CoreCommand[];
   associatedCmdDeviceName?: string;
   associatedCmdDeviceId?: string;
-  selectedCmd?: CoreCommand;
-  selectedCmdSetParams?: string[];
-  selectedCmdSetParamsMap = new Map<string, any>();
+  selectedCmd: CoreCommand = {} as CoreCommand;
+  selectedCmdSetParams: CoreCommandParameter[] = [];
+  // selectedCmdSetParamsMap = new Map<string, any>();
 
   cmdBinaryResponse: any;
   cmdBinaryResponseURL?: string;
@@ -73,10 +78,12 @@ export class DeviceListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['svcName']) {
-        this.metaSvc.findDevicesByServiceName(params['svcName']).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
+        this.associatedSvcName = params['svcName'];
+        this.getDeviceListByAssociatedSvc(this.associatedSvcName);
         return
       } else if (params['profileName']) {
-        this.metaSvc.findDevicesByProfileName(params['profileName']).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
+        this.associatedProfileName = params['profileName'];
+        this.getDeviceListByAssociatedProfile(this.associatedProfileName);
         return
       } else {
         this.getDeviceListPagination();
@@ -84,9 +91,33 @@ export class DeviceListComponent implements OnInit {
     });
   }
 
-  //deprecated
+  renderPopoverComponent() {
+    setTimeout(() => {
+      $('[data-toggle="popover"]').popover({
+        trigger: 'hover'
+      });
+    }, 250);
+  }
+
+  
   getDeviceList() {
-    this.metaSvc.allDevices().subscribe((data: MultiDeviceResponse) => { this.deviceList = data.devices });
+    if (this.associatedSvcName !== '') {
+      this.getDeviceListByAssociatedSvc(this.associatedSvcName);
+      return
+    }
+    if (this.associatedProfileName !== '') {
+      this.getDeviceListByAssociatedProfile(this.associatedSvcName);
+      return
+    }
+    this.getDeviceListPagination();
+  }
+
+  getDeviceListByAssociatedSvc(svcName: string) {
+    this.metaSvc.findDevicesByServiceName(this.pageOffset, this.pageLimit, svcName).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
+  }
+
+  getDeviceListByAssociatedProfile(profileName: string) {
+    this.metaSvc.findDevicesByProfileName(this.pageOffset, this.pageLimit, profileName).subscribe((data: MultiDeviceResponse) => this.deviceList = data.devices);
   }
 
   getDeviceListPagination() {
@@ -96,6 +127,8 @@ export class DeviceListComponent implements OnInit {
   }
 
   refresh() {
+    this.associatedProfileName = '';
+    this.associatedSvcName = '';
     this.metaSvc.allDevicesPagination(0, this.pageLimit).subscribe((data: MultiDeviceResponse) => {
       this.deviceList = data.devices;
       this.msgSvc.success('refresh');
@@ -191,14 +224,15 @@ export class DeviceListComponent implements OnInit {
       this.associatedCmdDeviceId = device.id;
       this.deviceCoreCommand = data.deviceCoreCommand.coreCommands;
       //init selectedCmd for first one
-      this.selectedCmd = this.deviceCoreCommand ? this.deviceCoreCommand[0] : undefined;
-      // this.selectedCmdPutParams = this.selectedCmd?.put?.parameterNames;
+      this.selectedCmd = this.deviceCoreCommand[0];
+      this.selectedCmdSetParams = this.selectedCmd.parameters;
     })
   }
 
   selectCmd(cmd: CoreCommand) {
+    // this.renderPopoverComponent();
     this.selectedCmd = cmd;
-    // this.selectedCmdPutParams = cmd.put?.parameterNames;
+    this.selectedCmdSetParams = this.selectedCmd.parameters;
     this.resetResponse();
   }
 
@@ -281,41 +315,30 @@ export class DeviceListComponent implements OnInit {
     let self = this;
     let params: any = {};
     this.selectedCmdSetParams?.forEach(function (p) {
-      params[p] = $(`#${p}`).val();
+      params[p.resourceName] = $(`#${p.resourceName}`).val().trim();
     });
-    // this.cmdSvc.issueSetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string, params)
-    //   .subscribe(
-    //     (data: any) => {
-    //       try {
-    //         JSON.parse(data);
-    //         self.cmdSetResponse = "success";
-    //         self.cmdSetResponseRaw = data;
-    //       } catch (e) {
-    //         self.cmdSetResponse = "error";
-    //         self.cmdSetResponseRaw = data;
-    //         return
-    //       }
-    //     },
-    //     (error: any) => {
-    //       console.log(error)
-    //     }
-    //   );
+    this.cmdSvc
+    .issueSetCmd(this.associatedCmdDeviceName as string, this.selectedCmd?.name as string, params)
+    .subscribe((resp: BaseResponse) => {
+      this.cmdSetResponseRaw = JSON.stringify(resp, null, 3);
+      this.cmdSetResponse = resp.message
+    })
   }
 
   onPageSelected() {
     this.resetPagination();
     this.setPagination();
-    this.getDeviceListPagination();
+    this.getDeviceList();
   }
 
   prePage() {
     this.setPagination(-1);
-    this.getDeviceListPagination();
+    this.getDeviceList();
   }
 
   nextPage() {
     this.setPagination(1);
-    this.getDeviceListPagination();
+    this.getDeviceList();
   }
 
   setPagination(n?: number) {

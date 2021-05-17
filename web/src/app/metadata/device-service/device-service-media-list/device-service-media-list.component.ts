@@ -31,7 +31,7 @@ export class DeviceServiceMediaListComponent implements OnInit {
 
   deviceServiceList: DeviceService[] = [];
   deviceSvcSelected?: DeviceService;
-  associatedDevices = new Map<string, number>();
+  associatedDevices = new Map<string, string>();
 
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
@@ -42,7 +42,11 @@ export class DeviceServiceMediaListComponent implements OnInit {
     this.metaSvc.allDeviceServices().subscribe((data: MultiDeviceServiceResponse) => {
       this.deviceServiceList = data.services;
       this.deviceServiceList.forEach((svc) => {
-        this.metaSvc.findDevicesByServiceName(svc.name).subscribe((data: MultiDeviceResponse) => { this.associatedDevices.set(svc.name, data.devices.length) });
+        this.metaSvc
+        .findDevicesByServiceName(0, 20, svc.name)
+        .subscribe((data: MultiDeviceResponse) => { 
+          this.associatedDevices.set(svc.name, data.devices.length > 20 ? '20+' : String(data.devices.length)) 
+        });
       });
     })
   }

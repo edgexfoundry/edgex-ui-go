@@ -18,8 +18,18 @@
 
 <div class="card">
     <div class="card-header font-weight-bold">
-        <i class="fa fa-list fa-lg text-danger mr-1"></i> 
-        <span>Device List</span>
+        <i class="fa fa-list text-danger mr-2"></i> 
+        <span *ngIf="associatedSvcName !== ''"> 
+            <span class="mr-1">DeviceService</span>
+            <span class="text-danger mr-1">{{associatedSvcName}}</span> 
+            <span>Associated Device List</span>
+        </span>
+        <span *ngIf="associatedProfileName !== ''"> 
+            <span class="mr-1">DeviceProfile</span>
+            <span class="text-danger mr-1">{{associatedProfileName}}</span>
+            <span>Associated Device List</span>
+        </span>
+        <span  *ngIf="associatedProfileName === '' && associatedSvcName === ''">Device List</span>
     </div>
     <div class="card-body p-0 position-relative">
         <div class="bg-light px-2 py-2">
@@ -247,8 +257,20 @@
                                                     <div class="card-body">
                                                         <div *ngIf="selectedCmd" class="d-flex flex-column bd-highlight">
                                                             <div *ngFor="let p of selectedCmdSetParams" class="form p-2 bd-highlight">
-                                                                <label for="{{p}}">{{p}}</label>
-                                                                <input id="{{p}}" name="{{p}}" class="form-control form-control-sm">
+                                                                <div *ngIf="p.valueType == 'Bool'; else valueTypeIsNotBool">
+                                                                    <label for="{{p.resourceName}}">
+                                                                         {{p.resourceName}}
+                                                                    </label> 
+                                                                    <select id="{{p.resourceName}}" name="{{p.resourceName}}" class="form-control form-control-sm">
+                                                                        <option [ngValue]="false">false</option>
+                                                                        <option [ngValue]="true">true</option>
+                                                                    </select>
+                                                                </div>
+                                                                <ng-template #valueTypeIsNotBool>
+                                                                    <label for="{{p.resourceName}}">{{p.resourceName}}</label>
+                                                                    <input id="{{p.resourceName}}" name="{{p.resourceName}}" placeholder="valueType: {{p.valueType}}" class="form-control form-control-sm">
+                                                                </ng-template>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>

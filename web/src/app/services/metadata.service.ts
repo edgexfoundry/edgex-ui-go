@@ -175,8 +175,8 @@ export class MetadataService {
     )
   }
 
-  findDevicesByServiceName(serviceName: string): Observable<MultiDeviceResponse> {
-    let url = `${this.findDevicesByServiceNameUrl}${serviceName}`;
+  findDevicesByServiceName(offset: number, limit: number, serviceName: string): Observable<MultiDeviceResponse> {
+    let url = `${this.findDevicesByServiceNameUrl}${serviceName}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -190,8 +190,8 @@ export class MetadataService {
     )
   }
 
-  findDevicesByProfileName(profileName: string): Observable<MultiDeviceResponse> {
-    let url = `${this.findDevicesByProfileNameUrl}${profileName}`;
+  findDevicesByProfileName(offset: number, limit: number, profileName: string): Observable<MultiDeviceResponse> {
+    let url = `${this.findDevicesByProfileNameUrl}${profileName}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
