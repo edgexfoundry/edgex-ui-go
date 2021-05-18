@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/armon/go-metrics v0.3.3 // indirect
-	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0-dev.89
+	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0-dev.90
 	github.com/edgexfoundry/go-mod-registry v0.1.27
 	github.com/gorilla/mux v1.8.0
 	github.com/hashicorp/consul/api v1.4.0 // indirect
