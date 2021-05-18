@@ -315,7 +315,9 @@ export class MetadataService {
       headers: new HttpHeaders({
         'Content-Type': 'text/plain; charset=utf-8'
       })
-    })
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
     // return this.http.request('PUT', url, {
     //   body: data,
     //   responseType: 'json',
