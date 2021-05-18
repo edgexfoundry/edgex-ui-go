@@ -58,12 +58,6 @@ Password = "su"
     Port = 48090
     PathPrefix = "/system"
 
-    [Clients.CoreExport]
-    Protocol = 'http'
-    Host = 'edgex-core-export'
-    Port = 48071
-    PathPrefix = "/core-export"
-
 [Registry]
 Host = "edgex-core-consul"
 Port = 8500
