@@ -242,7 +242,7 @@ class AddIntervalComponent {
             name: "",
             start: "",
             end: "",
-            frequency: "",
+            interval: "",
             runOnce: false
         };
     }
@@ -282,7 +282,7 @@ class AddIntervalComponent {
     }
 }
 AddIntervalComponent.ɵfac = function AddIntervalComponent_Factory(t) { return new (t || AddIntervalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_scheduler_service__WEBPACK_IMPORTED_MODULE_2__["SchedulerService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_message_message_service__WEBPACK_IMPORTED_MODULE_3__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_error_service__WEBPACK_IMPORTED_MODULE_5__["ErrorService"])); };
-AddIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AddIntervalComponent, selectors: [["app-add-interval"]], decls: 53, vars: 16, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-plus", "text-danger"], [1, "btn", "btn-sm", "btn-success", "float-right", 3, "disabled", "click"], [1, "card-body"], [1, "form-group", "row", "has-validation"], ["for", "intervalName", "required", "", 1, "col-md-2", "col-form-label"], [1, "col-md-10"], ["type", "text", "id", "validationIntervalName", "name", "intervalName", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalNameFeedback", 1, "invalid-feedback"], [1, "form-group", "row"], ["for", "intervalStart", 1, "col-md-2", "col-form-label"], [1, "input-group", "mb-3"], [1, "input-group-prepend"], [1, "input-group-text"], [1, "fa", "fa-calendar"], ["type", "text", "name", "intervalStart", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalEnd", 1, "col-md-2", "col-form-label"], ["type", "text", "name", "intervalEnd", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalFrequency", 1, "col-md-2", "col-form-label"], [1, "mr-2"], ["role", "button", "data-html", "true", "data-animation", "true", "data-trigger", "focus", "data-toggle", "popover", "title", "format tips", "data-content", "Frequency indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be \"ns\", \"us\" (or \"\u00B5s\"), \"ms\", \"s\", \"m\", \"h\" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, \"100ms\", \"24h\"", 1, "fa", "fa-question-circle-o", "fa-lg"], ["type", "text", "name", "intervalFrequency", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalFrequencyFeedback", 1, "invalid-feedback"], ["for", "intervalRunOnce", 1, "col-md-2", "col-form-label"], ["name", "intervalRunOnce", 1, "custom-select", 3, "ngModel", "ngModelChange"], [3, "ngValue"]], template: function AddIntervalComponent_Template(rf, ctx) { if (rf & 1) {
+AddIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AddIntervalComponent, selectors: [["app-add-interval"]], decls: 53, vars: 16, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-plus", "text-danger"], [1, "btn", "btn-sm", "btn-success", "float-right", 3, "disabled", "click"], [1, "card-body"], [1, "form-group", "row", "has-validation"], ["for", "intervalName", "required", "", 1, "col-md-2", "col-form-label"], [1, "col-md-10"], ["type", "text", "id", "validationIntervalName", "name", "intervalName", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalNameFeedback", 1, "invalid-feedback"], [1, "form-group", "row"], ["for", "intervalStart", 1, "col-md-2", "col-form-label"], [1, "input-group", "mb-3"], [1, "input-group-prepend"], [1, "input-group-text"], [1, "fa", "fa-calendar"], ["type", "text", "name", "intervalStart", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalEnd", 1, "col-md-2", "col-form-label"], ["type", "text", "name", "intervalEnd", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalInterval", 1, "col-md-2", "col-form-label"], [1, "mr-2"], ["role", "button", "data-html", "true", "data-animation", "true", "data-trigger", "focus", "data-toggle", "popover", "title", "format tips", "data-content", "Interval indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be \"ns\", \"us\" (or \"\u00B5s\"), \"ms\", \"s\", \"m\", \"h\" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, \"100ms\", \"24h\"", 1, "fa", "fa-question-circle-o", "fa-lg"], ["type", "text", "name", "intervalInterval", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalIntervalFeedback", 1, "invalid-feedback"], ["for", "intervalRunOnce", 1, "col-md-2", "col-form-label"], ["name", "intervalRunOnce", 1, "custom-select", 3, "ngModel", "ngModelChange"], [3, "ngValue"]], template: function AddIntervalComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "i", 2);
@@ -346,17 +346,17 @@ AddIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "div", 10);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "label", 19);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](36, "span", 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](37, "Frequency");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](37, "Interval");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](38, "span", 21);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](39, "div", 7);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](40, "input", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function AddIntervalComponent_Template_input_ngModelChange_40_listener($event) { return ctx.interval.frequency = $event; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function AddIntervalComponent_Template_input_ngModelChange_40_listener($event) { return ctx.interval.interval = $event; });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "div", 23);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](42, "small");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](43, "the interval frequency can't be empty!");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](43, "the interval interval can't be empty!");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -382,7 +382,7 @@ AddIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", !ctx.interval.name || !ctx.interval.frequency);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", !ctx.interval.name || !ctx.interval.interval);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("is-invalid", !ctx.interval.name)("is-valid", ctx.interval.name);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.interval.name);
@@ -391,8 +391,8 @@ AddIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](9);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.interval.end);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("is-invalid", !ctx.interval.frequency)("is-valid", ctx.interval.frequency);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.interval.frequency);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("is-invalid", !ctx.interval.interval)("is-valid", ctx.interval.interval);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.interval.interval);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.interval.runOnce);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
@@ -1786,17 +1786,17 @@ function EditIntervalComponent_form_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "div", 11);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](28, "label", 20);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "span", 21);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](30, "Frequency");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](30, "Interval");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](31, "span", 22);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](32, "div", 8);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "input", 23);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function EditIntervalComponent_form_7_Template_input_ngModelChange_33_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r3); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.interval.frequency = $event; });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function EditIntervalComponent_form_7_Template_input_ngModelChange_33_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r3); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.interval.interval = $event; });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "div", 24);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "small");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36, "the interval frequency can't be empty!");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36, "the interval interval can't be empty!");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -1828,8 +1828,8 @@ function EditIntervalComponent_form_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](9);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx_r0.interval.end);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("is-invalid", !ctx_r0.interval.frequency)("is-valid", ctx_r0.interval.frequency);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx_r0.interval.frequency);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("is-invalid", !ctx_r0.interval.interval)("is-valid", ctx_r0.interval.interval);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx_r0.interval.interval);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx_r0.interval.runOnce);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
@@ -1895,7 +1895,7 @@ class EditIntervalComponent {
     }
 }
 EditIntervalComponent.ɵfac = function EditIntervalComponent_Factory(t) { return new (t || EditIntervalComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_scheduler_service__WEBPACK_IMPORTED_MODULE_2__["SchedulerService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_message_message_service__WEBPACK_IMPORTED_MODULE_3__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_error_service__WEBPACK_IMPORTED_MODULE_5__["ErrorService"])); };
-EditIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: EditIntervalComponent, selectors: [["app-edit-interval"]], decls: 8, vars: 3, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-edit", "text-danger"], [1, "btn", "btn-sm", "btn-success", "float-right", 3, "disabled", "click"], [1, "card-body"], [4, "ngIf"], [1, "form-group", "row", "has-validation"], ["for", "intervalName", "required", "", 1, "col-md-2", "col-form-label"], [1, "col-md-10"], ["type", "text", "name", "intervalName", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalNameFeedback", 1, "invalid-feedback"], [1, "form-group", "row"], ["for", "intervalStart", 1, "col-md-2", "col-form-label"], [1, "input-group", "mb-3"], [1, "input-group-prepend"], [1, "input-group-text"], [1, "fa", "fa-calendar"], ["type", "text", "name", "intervalStart", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalEnd2", 1, "col-md-2", "col-form-label"], ["type", "text", "name", "intervalEnd", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalFrequency", 1, "col-md-2", "col-form-label"], [1, "mr-2"], ["role", "button", "data-html", "true", "data-animation", "true", "data-trigger", "focus", "data-toggle", "popover", "title", "ISO8601 duration format", "data-content", "Frequency indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be \"ns\", \"us\" (or \"\u00B5s\"), \"ms\", \"s\", \"m\", \"h\" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, \"100ms\", \"24h\"", 1, "fa", "fa-question-circle-o", "fa-lg"], ["type", "text", "name", "intervalFrequency", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalFrequencyFeedback", 1, "invalid-feedback"], ["for", "intervalRunOnce", 1, "col-md-2", "col-form-label"], ["name", "intervalRunOnce", 1, "custom-select", 3, "ngModel", "ngModelChange"], [3, "ngValue"]], template: function EditIntervalComponent_Template(rf, ctx) { if (rf & 1) {
+EditIntervalComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: EditIntervalComponent, selectors: [["app-edit-interval"]], decls: 8, vars: 3, consts: [[1, "card"], [1, "card-header"], [1, "fa", "fa-edit", "text-danger"], [1, "btn", "btn-sm", "btn-success", "float-right", 3, "disabled", "click"], [1, "card-body"], [4, "ngIf"], [1, "form-group", "row", "has-validation"], ["for", "intervalName", "required", "", 1, "col-md-2", "col-form-label"], [1, "col-md-10"], ["type", "text", "name", "intervalName", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalNameFeedback", 1, "invalid-feedback"], [1, "form-group", "row"], ["for", "intervalStart", 1, "col-md-2", "col-form-label"], [1, "input-group", "mb-3"], [1, "input-group-prepend"], [1, "input-group-text"], [1, "fa", "fa-calendar"], ["type", "text", "name", "intervalStart", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalEnd2", 1, "col-md-2", "col-form-label"], ["type", "text", "name", "intervalEnd", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "intervalInterval", 1, "col-md-2", "col-form-label"], [1, "mr-2"], ["role", "button", "data-html", "true", "data-animation", "true", "data-trigger", "focus", "data-toggle", "popover", "title", "ISO8601 duration format", "data-content", "Interval indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be \"ns\", \"us\" (or \"\u00B5s\"), \"ms\", \"s\", \"m\", \"h\" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, \"100ms\", \"24h\"", 1, "fa", "fa-question-circle-o", "fa-lg"], ["type", "text", "name", "intervalInterval", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["id", "validationIntervalIntervalFeedback", 1, "invalid-feedback"], ["for", "intervalRunOnce", 1, "col-md-2", "col-form-label"], ["name", "intervalRunOnce", 1, "custom-select", 3, "ngModel", "ngModelChange"], [3, "ngValue"]], template: function EditIntervalComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "i", 2);
@@ -2424,7 +2424,7 @@ function IntervalListComponent_tr_25_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](interval_r9.end);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](interval_r9.frequency);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](interval_r9.interval);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](interval_r9.runOnce ? true : false);
 } }
@@ -2622,7 +2622,7 @@ IntervalListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](19, "End");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "th", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](21, "Frequency");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](21, "Interval");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "th", 8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](23, "RunOnce");

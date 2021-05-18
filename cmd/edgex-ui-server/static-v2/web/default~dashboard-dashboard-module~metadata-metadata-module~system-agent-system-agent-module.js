@@ -47,9 +47,9 @@ class CommandService {
         this.configUrl = "/config";
         this.deviceCoreCommandListUrl = `${this.urlPrefix}/device/all`;
         this.commandsByDeviceIdUrl = `${this.urlPrefix}/device/`; //deprecated
-        this.commandsByDeviceNameUrl = `${this.urlPrefix}/device/name/`;
+        this.commandsByDeviceNameUrl = `${this.urlPrefix}/device/name/`; //deprecated
         this.issueCmdByDeviceNameAndCmdNameUrl = `${this.urlPrefix}/device/name/`;
-        this.httpPostOrPutOptions = {
+        this.httpPostOrPutJSONOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
                 'Content-type': 'application/json',
                 'Authorization': ''
@@ -95,12 +95,9 @@ class CommandService {
     //     catchError(error => this.errorSvc.handleError(error))
     //   )
     // }
-    issueSetCmd(deviceId, commandId, params) {
-        let url = `${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
-        return this.http.request('PUT', url, {
-            body: JSON.stringify(params),
-            responseType: 'text'
-        }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
+    issueSetCmd(deviceName, commandName, params) {
+        let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}`;
+        return this.http.put(url, JSON.stringify(params), this.httpPostOrPutJSONOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
 }
 CommandService.ɵfac = function CommandService_Factory(t) { return new (t || CommandService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_error_service__WEBPACK_IMPORTED_MODULE_3__["ErrorService"])); };
@@ -336,8 +333,8 @@ class MetadataService {
         let url = `${this.findDevicesByServiceIdUrl}${serviceId}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
-    findDevicesByServiceName(serviceName) {
-        let url = `${this.findDevicesByServiceNameUrl}${serviceName}`;
+    findDevicesByServiceName(offset, limit, serviceName) {
+        let url = `${this.findDevicesByServiceNameUrl}${serviceName}?offset=${offset}&limit=${limit}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //deprecated
@@ -345,8 +342,8 @@ class MetadataService {
         let url = `${this.findDevicesByProfileIdUrl}/${profileId}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
-    findDevicesByProfileName(profileName) {
-        let url = `${this.findDevicesByProfileNameUrl}${profileName}`;
+    findDevicesByProfileName(offset, limit, profileName) {
+        let url = `${this.findDevicesByProfileNameUrl}${profileName}?offset=${offset}&limit=${limit}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //Device Service resources
@@ -423,7 +420,7 @@ class MetadataService {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
                 'Content-Type': 'text/plain; charset=utf-8'
             })
-        });
+        }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
         // return this.http.request('PUT', url, {
         //   body: data,
         //   responseType: 'json',
