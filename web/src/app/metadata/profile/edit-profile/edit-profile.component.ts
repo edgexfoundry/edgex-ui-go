@@ -19,6 +19,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -33,6 +34,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   constructor(private metaSvc: MetadataService, 
     private msgSvc: MessageService,
+    private errSvc: ErrorService, 
     private router: Router,
     private route: ActivatedRoute) { }
 
@@ -53,6 +55,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   update() {
     this.codeMirrorEditor.refresh();
     this.metaSvc.updateProfileYamlContentViaUIBackend(this.codeMirrorEditor.getValue()).subscribe(data => {
+      if (this.errSvc.handleErrorForV2API(data)){
+        return
+      }
       this.msgSvc.success('Update profile', `name: ${this.profileName}`);
       this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
     })
