@@ -37,9 +37,6 @@ import (
 )
 
 const (
-	metadataEndpoint     = "localhost"
-	metadataEndpointPort = "48081"
-
 	TemplateDirName     = "templates"
 	ProfileTemplateName = "profileTemplate.yml"
 )
@@ -73,7 +70,8 @@ func AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	url := fmt.Sprintf("http://%s:%s", metadataEndpoint, metadataEndpointPort)
+	conf := configs.GetConfigs()
+	url := fmt.Sprintf("%s://%s:%d", conf.Clients["Metadata"].Protocol, conf.Clients["Metadata"].Host, conf.Clients["Metadata"].Port)
 	c := client.NewDeviceProfileClient(url)
 
 	profiles := []requests.DeviceProfileRequest{
@@ -96,7 +94,8 @@ func FindProfileAndConvertToYamlByName(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	profileName := vars["name"]
-	url := fmt.Sprintf("http://%s:%s", metadataEndpoint, metadataEndpointPort)
+	conf := configs.GetConfigs()
+	url := fmt.Sprintf("%s://%s:%d", conf.Clients["Metadata"].Protocol, conf.Clients["Metadata"].Host, conf.Clients["Metadata"].Port)
 	c := client.NewDeviceProfileClient(url)
 	var resp responses.DeviceProfileResponse
 	var err error
@@ -125,7 +124,8 @@ func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	url := fmt.Sprintf("http://%s:%s", metadataEndpoint, metadataEndpointPort)
+	conf := configs.GetConfigs()
+	url := fmt.Sprintf("%s://%s:%d", conf.Clients["Metadata"].Protocol, conf.Clients["Metadata"].Host, conf.Clients["Metadata"].Port)
 	c := client.NewDeviceProfileClient(url)
 
 	profiles := []requests.DeviceProfileRequest{
@@ -141,5 +141,10 @@ func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, _ := json.Marshal(resp)
+	// if resp[0].StatusCode != 200 {
+	// 	http.Error(w, string(result), resp[0].StatusCode)
+	// 	return
+	// }
+
 	w.Write(result)
 }

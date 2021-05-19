@@ -42,7 +42,7 @@
                         <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.operatingState}}</span>
                    </span> -->
 
-                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.name)">Associated Devices &nbsp; {{associatedDevices.get(svc.name)}}</a>
+                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.name)"><i class="fa fa-sitemap"></i> Associated Devices &nbsp; {{associatedDevices.get(svc.name)}}</a>
                     <span class="badge badge-secondary float-right" role="button" (click)="edit(svc)"> <i class="fa fa-cog"></i> Setting</span>
                 </div>
             </div>

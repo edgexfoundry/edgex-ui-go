@@ -161,12 +161,12 @@
                     <div class="card-body">
                         <form>
                             <div class="form-group row has-validation">
-                                <label class="col-md-2 col-form-label">Frequency</label>
+                                <label class="col-md-2 col-form-label">Interval</label>
                                 <div class="col-md-10">
                                     <div class="input-group mb-3"  style="width: 250px;">
-                                        <input type="text" name="frequency" [(ngModel)]="event.frequency" [class.is-invalid]="!eventFrequencyNumType(event.frequency)" [class.is-valid]="eventFrequencyNumType(event.frequency)" class="form-control" required>
+                                        <input type="text" name="interval" [(ngModel)]="event.interval" [class.is-invalid]="!eventIntervalNumType(event.interval)" [class.is-valid]="eventIntervalNumType(event.interval)" class="form-control" required>
                                         <div class="input-group-append">
-                                            <select class="custom-select" name="eventFrequencyUnit" [(ngModel)]="event.unit" required>
+                                            <select class="custom-select" name="eventIntervalUnit" [(ngModel)]="event.unit" required>
                                                 <option value="ms">millisecond</option>
                                                 <option value="s">second</option>
                                                 <option value="m">minute</option>

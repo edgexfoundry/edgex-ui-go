@@ -16,10 +16,11 @@
 package configs
 
 import (
+	"fmt"
 	"log"
 	"path/filepath"
+
 	"github.com/pelletier/go-toml"
-	"fmt"
 )
 
 const (
@@ -33,11 +34,13 @@ var (
 	RegistryConf RegistryConfig
 )
 
+var configs *ConfigurationStruct
+
 type ConfigurationStruct struct {
-	Server       Service        `toml:"Service"`
-	DB           Database       `toml:"Database"`
-	Clients      map[string]ClientInfo   `toml:"Clients"`
-	RegistryConf RegistryConfig `toml:"Registry"`
+	Server       Service               `toml:"Service"`
+	DB           Database              `toml:"Database"`
+	Clients      map[string]ClientInfo `toml:"Clients"`
+	RegistryConf RegistryConfig        `toml:"Registry"`
 }
 
 type Service struct {
@@ -49,7 +52,7 @@ type Service struct {
 }
 
 type Scheme struct {
-	User    string
+	User string
 }
 
 type Database struct {
@@ -82,6 +85,10 @@ type RegistryConfig struct {
 	ServiceVersion     string
 }
 
+func GetConfigs() *ConfigurationStruct {
+	return configs
+}
+
 func LoadConfig(confFilePath string) error {
 	if len(confFilePath) == 0 {
 		confFilePath = defaultConfigFilePath
@@ -93,13 +100,13 @@ func LoadConfig(confFilePath string) error {
 	}
 	log.Printf("Loading configuration from: %s\n", absPath)
 	configTree, err := toml.LoadFile(absPath)
-	if err != nil{
+	if err != nil {
 		log.Printf("Load Config File Error:%v", err)
 		return err
 	}
 	//Override configuration from Env
 	env := NewEnvironment()
-	configTree,err = env.OverrideFromEnvironment(configTree)
+	configTree, err = env.OverrideFromEnvironment(configTree)
 	if err != nil {
 		log.Printf("Override from environment error%v", err)
 		return err
@@ -109,14 +116,15 @@ func LoadConfig(confFilePath string) error {
 		log.Printf("Decode Config File Error:%v", err)
 		return err
 	}
-	ServerConf = conf.Server
-	DBConf = conf.DB
-	RegistryConf = conf.RegistryConf
-	initProxyMapping(conf)
+	configs = &conf
+	ServerConf = configs.Server
+	DBConf = configs.DB
+	RegistryConf = configs.RegistryConf
+	initProxyMapping(configs)
 	return nil
 }
 
-func initProxyMapping(conf ConfigurationStruct) {
+func initProxyMapping(conf *ConfigurationStruct) {
 	ProxyMapping = make(map[string]string, 10)
 	for _, client := range conf.Clients {
 		ProxyMapping[client.PathPrefix] = fmt.Sprintf("%s://%s:%d", client.Protocol, client.Host, client.Port)

@@ -37,7 +37,7 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
     name: "",
     start: "",
     end: "",
-    frequency: "",
+    interval: "",
     runOnce: false
   };
   calendarStart: any;

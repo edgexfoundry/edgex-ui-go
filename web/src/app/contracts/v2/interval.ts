@@ -5,7 +5,8 @@ export interface Interval extends Versionable {
     name: string,
     start?: string,
     end?: string,
-    frequency?: string,
+    interval: string, // replace frequency
+    //frequency: string, //deprecated
     runOnce?: boolean,
     created?: number,
     modified?: number

@@ -52,12 +52,6 @@ Password = "su"
     Port = 48075
     PathPrefix = "/rule-engine"
 
-    [Clients.CoreExport]
-    Protocol = 'http'
-    Host = 'localhost'
-    Port = 48071
-    PathPrefix = "/core-export"
-
     [Clients.System]
     Protocol = 'http'
     Host = 'localhost'

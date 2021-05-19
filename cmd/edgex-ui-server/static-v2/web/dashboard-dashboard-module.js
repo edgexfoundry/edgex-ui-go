@@ -237,11 +237,11 @@ DashboardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefin
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](69, "div", 18);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](70, "div", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](71, "h5", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](72, "Services Status");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](72, "System Services Monitor");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](73, "h5");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](74, "span", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](75, "10");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](75, "7");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
