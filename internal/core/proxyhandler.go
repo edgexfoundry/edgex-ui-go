@@ -41,6 +41,5 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 		req.URL.Host = origin.Host
 		req.URL.Path = path
 	}
-	proxy := &httputil.ReverseProxy{Director: director}
-	proxy.ServeHTTP(w, r)
+	(&httputil.ReverseProxy{Director: director}).ServeHTTP(w, r)
 }
