@@ -19,43 +19,43 @@ Password = "su"
     [Clients.CoreData]
     Protocol = 'http'
     Host = 'edgex-core-data'
-    Port = 48080
+    Port = 59880
     PathPrefix = "/coredata"
 
     [Clients.Metadata]
     Protocol = 'http'
     Host = 'edgex-core-metadata'
-    Port = 48081
+    Port = 59881
     PathPrefix = "/metadata"
 
     [Clients.CoreCommand]
     Protocol = 'http'
     Host = 'edgex-core-command'
-    Port = 48082
+    Port = 59882
     PathPrefix = "/command"
 
     [Clients.Notification]
     Protocol = 'http'
     Host = 'edgex-support-notifications'
-    Port = 48060
+    Port = 59860
     PathPrefix = "/notification"
 
     [Clients.Scheduler]
     Protocol = 'http'
     Host = 'edgex-support-scheduler'
-    Port = 48085
+    Port = 59861
     PathPrefix = "/scheduler"
 
     [Clients.RuleEngine]
     Protocol = 'http'
     Host = 'edgex-kuiper'
-    Port = 48075
+    Port = 59720
     PathPrefix = "/rule-engine"
 
     [Clients.System]
     Protocol = 'http'
     Host = 'edgex-sys-mgmt-agent'
-    Port = 48090
+    Port = 58890
     PathPrefix = "/system"
 
 [Registry]
