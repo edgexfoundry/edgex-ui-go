@@ -11,6 +11,7 @@ export interface Subscription extends Versionable {
     labels: string[],
     resendLimit: number,
     resendInterval: string,
+    adminState: string,
     created: number,
     modified: number
 }
