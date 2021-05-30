@@ -1,1 +1,215 @@
-<p>add-subscription works!</p>
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+    <div class="card-header">
+        <i class="fa fa-plus text-danger mr-2"></i>
+        <span>Add Subscription</span> 
+        <button class="btn btn-sm btn-success float-right" (click)="submit()" [disabled]="validate()">Submit</button>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group row has-validation">
+                <label for="subscriptionName" class="col-md-2 col-form-label" required>Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="validationSubscriptionName" [class.is-invalid]="!subscription.name" [class.is-valid]="subscription.name" name="subscriptionName" [(ngModel)]="subscription.name" required>
+                    <div id="validationSubscriptionNameFeedback" class="invalid-feedback">
+                        <small>the subscription name can't be empty!</small> 
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionStart" class="col-md-2 col-form-label">
+                    <span class="mr-2">Categories</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Links the subscription to one or more categories of notification. Multiple categories are separated by commas, such as: xxx,yyy,zzz'></span>
+                </label>
+                <div class="col-md-10">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="subscriptionStart" [(ngModel)]="subCategories" [class.is-invalid]="!subCategories" [class.is-valid]="subCategories" required>
+                        <div id="validationSubscriptionNameFeedback" class="invalid-feedback">
+                            <small>the subscription categories can't be empty!</small> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionLabels" class="col-md-2 col-form-label">
+                    <span class="mr-2">Labels</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Arbitrary labels that can be applied to the subscription for further categorization or identification. Multiple labels are separated by commas, such as: xxx,yyy,zzz'></span>
+                </label>
+                <div class="col-md-10">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="subscriptionLabels" [(ngModel)]="subLabels" [class.is-invalid]="!subLabels" [class.is-valid]="subLabels">
+                        <div id="validationSubscriptionNameFeedback" class="invalid-feedback">
+                            <small>the subscription labels can't be empty!</small> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionReceiver" class="col-md-2 col-form-label">
+                    <span class="mr-2">Receiver</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Receiver indicates the name of the party interested in the notification.'></span>
+                </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="subscriptionReceiver" [class.is-invalid]="!subscription.receiver" [class.is-valid]="subscription.receiver" [(ngModel)]="subscription.receiver" required>
+                    <div id="validationSubscriptionReceiverFeedback" class="invalid-feedback">
+                        <small>the subscription receiver can't be empty!</small> 
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionResendInterval" class="col-md-2 col-form-label">
+                    <span class="mr-2">ResendInterval</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Subscription ResendInterval indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
+                </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="subscriptionResendInterval" [(ngModel)]="subscription.resendInterval" required>
+                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionResendLimit" class="col-md-2 col-form-label">
+                    <span class="mr-2">ResendLimit</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Pure integer! Subscription ResendLimit indicates the retry limit for attempts to send notifications.'></span>
+                </label>
+                <div class="col-md-10">
+                    <input type="number" class="form-control" name="subscriptionResendLimit" [(ngModel)]="subscription.resendLimit" required> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionAdminState" class="col-md-2 col-form-label">AdminState</label>
+                <div class="col-md-10">
+                    <select class="custom-select" name="subscriptionAdminState" [(ngModel)]="subscription.adminState">
+                        <option value="UNLOCKED">UNLOCKED</option>
+                        <option value="LOCKED">LOCKED</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="subscriptionChannels" class="col-md-2 col-form-label">Channels</label>
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header" [class.border]="channelTemplates.length === 0"  [class.border-danger]="channelTemplates.length === 0">
+                            <span class="mr-2">Add Channel Template</span>
+                            <span *ngIf="channelTemplates.length === 0" [class.text-danger]="channelTemplates.length === 0" class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                            data-content="At least one channel must be created"></span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <span role="button" class="badge badge-secondary mr-2" (click)="addChannelTemplate('EMAIL')">
+                                    <i class="fa fa-plus-circle"></i> EMAIL Channel Template
+                                </span>
+                                <span role="button" class="badge badge-secondary" (click)="addChannelTemplate('REST')">
+                                    <i class="fa fa-plus-circle"></i> REST Channel Template
+                                </span>
+                            </div>
+                            <div *ngFor="let template of channelTemplates; let i=index" class="card mb-3">
+                                <div class="card-body">
+                                    <div *ngIf="template.type === 'EMAIL'">
+                                        <form>
+                                            <div class="form-group row">
+                                                <label for="emailRecipients" class="col-md-2 col-form-label">
+                                                    <span class="mr-2">EmailRecipients</span>
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                                    data-content="Multiple email addresses are separated by commas, such as: xxx@xxx.com, yyy@yyy.com"></span>
+                                                </label>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="emailRecipients" name="emailRecipients" [class.is-invalid]="!template.recipients" [class.is-valid]="template.recipients" [(ngModel)]="template.recipients">
+                                                    <div id="emailRecipientsFeedback" class="invalid-feedback">
+                                                        <small>the email address port can't be empty</small> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <button class="btn btn-danger btn-sm" (click)="removeChannelTemplate(template)"><i class="fa fa-trash"></i> Remove</button>
+                                    </div>
+                                    <div *ngIf="template.type === 'REST'">
+                                        <form>
+                                            <div class="form-group row">
+                                                <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
+                                                <div class="col-md-10">
+                                                    <select type="text" class="form-control" name="httpMethod" [(ngModel)]="template.httpMethod">
+                                                        <option value="GET">GET</option>
+                                                        <option value="POST">POST</option>
+                                                        <option value="PUT">PUT</option>
+                                                        <option value="DELETE">DELETE</option>
+                                                        <option value="PATCH">PATCH</option>
+                                                        <option value="HEAD">HEAD</option>
+                                                        <option value="TRACE">TRACE</option>
+                                                        <option value="CONNECT">CONNECT</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row has-validation">
+                                                <label for="addressHostREST" class="col-md-2 col-form-label" required>Host</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!template.host" [class.is-valid]="template.host" name="addressHost" [(ngModel)]="template.host" required>
+                                                    <div id="addressHostRESTFeedback" class="invalid-feedback">
+                                                        <small>the REST address host can't be empty!</small> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row has-validation">
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
+                                                <div class="col-md-10">
+                                                    <input type="number" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(template.port)" [class.is-valid]="isPureIntegerType(template.port)" name="addressPort" [(ngModel)]="template.port" placeholder="Pure integer !" required>
+                                                    <div id="addressPortRESTFeedback" class="invalid-feedback">
+                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="template.path">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="form-group row">
+                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="template.requestBody">
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="form-group row">
+                                                <label for="requestBody" class="col-md-2 col-form-label" required>
+                                                    <span class="mr-2">ContentType</span>
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                     data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
+                                                </label>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="contentType" name="contentType" [(ngModel)]="template.contentType">
+                                                </div>
+                                            </div> -->
+                                        </form>
+                                        <button class="btn btn-danger btn-sm" (click)="removeChannelTemplate(template)"><i class="fa fa-trash"></i> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
