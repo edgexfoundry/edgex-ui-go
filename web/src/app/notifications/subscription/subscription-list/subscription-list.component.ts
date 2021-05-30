@@ -34,6 +34,7 @@ export class SubscriptionListComponent implements OnInit {
 
   subscriptionList: Subscription[] = [];
   subscriptionSelected: Subscription[] = [];
+  // checkedSubscription?: Subscription;
   isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
@@ -66,8 +67,12 @@ export class SubscriptionListComponent implements OnInit {
     })
   }
 
-  checkChannels(channels: Address[]) {
-
+  checkChannels(sub: Subscription) {
+    // this.checkedSubscription = sub;
+    this.router.navigate(['../edit-subscription'], {
+      relativeTo: this.route,
+      queryParams: { 'subName': sub.name }
+    })
   }
 
   selectAll(event: any) {
@@ -137,6 +142,12 @@ export class SubscriptionListComponent implements OnInit {
     $("#deleteConfirmDialog").modal('hide');
   }
 
+  onPageSelected() {
+    this.resetPagination();
+    this.setPagination();
+    this.findAllSubscriptionsPagination();
+  }
+
   prePage() {
     this.setPagination(-1);
     this.findAllSubscriptionsPagination();
@@ -150,7 +161,7 @@ export class SubscriptionListComponent implements OnInit {
   setPagination(n?: number) {
     if (n === 1) {
       this.pagination += 1;
-    } else {
+    } else if (n === -1) {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
