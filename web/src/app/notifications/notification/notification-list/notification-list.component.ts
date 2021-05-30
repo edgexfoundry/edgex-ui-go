@@ -53,7 +53,8 @@ export class NotificationListComponent implements OnInit {
     $('[data-toggle="popover"]').popover({
       trigger: 'hover'
     });
-    this.searchByStatus();
+    this.setSearchMode('status');
+    this.findNotificationsByStatusPagination(true);
     this.initDatePickr();
   }
 
@@ -287,6 +288,11 @@ export class NotificationListComponent implements OnInit {
       case 'duration':
         this.findNotificationsByStartEndPagination(true);
     }
+  }
+
+  onPageSelected() {
+    this.resetPagination();
+    this.paginationBySearchMode();
   }
 
   prePage() {
