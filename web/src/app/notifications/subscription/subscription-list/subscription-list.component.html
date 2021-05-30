@@ -63,7 +63,11 @@
                         <td>{{sub.description}}</td>
                         <td>{{sub.categories}}</td>
                         <td>{{sub.labels}}</td>
-                        <td role="button" (click)="checkChannels(sub.channels)"><i class="fa fa-paper-plane-o"></i></td>
+                        <td class="text-center">
+                            <span class="badge badge-primary text-light" role="button" (click)="checkChannels(sub)"> 
+                                <i class="fa fa-paper-plane-o"></i> {{sub.channels.length}}
+                            </span>
+                        </td>
                         <td>{{sub.receiver}}</td>
                         <td>{{sub.resendLimit}}</td>
                         <td>{{sub.resendInterval}}</td>
@@ -77,6 +81,16 @@
      <div class="card-footer text-muted p-1">
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-2 mt-1">
+                    <span class="align-middle">items per page</span>
+                </li>
+                <li class="page-item mr-2 ">
+                    <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </li>
                 <li class="page-item mr-1">
                     <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
                 </li>
@@ -87,6 +101,16 @@
         </nav>
     </div>
  </div>
+
+ <!-- <div class="card">
+     <div class="card-header">
+        <i class="fa fa-paper-plane-o text-danger mr-2"></i>
+         <span>{{checkedSubscription.name}} Associated Channels List</span>
+     </div>
+     <div class="card-body">
+
+    </div>
+ </div> -->
 
  <div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
     <div class="modal-dialog">
