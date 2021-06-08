@@ -42,16 +42,21 @@
                 <tr *ngFor="let s of availServices">
                     <td>{{s.name}}</td>
                     <td [ngSwitch]="s.state">
-                        <span *ngSwitchCase="'true'" class="badge badge-success">running</span>
+                        <span *ngSwitchCase="'healthy'" class="badge badge-success">running</span>
                         <span *ngSwitchDefault  class="badge badge-danger">stopped</span>
                     </td>
                     <td [ngSwitch]="s.state">
-                        <a *ngSwitchCase="'true'" [routerLink]="['../metric']" [queryParams]="{svcName: s.name}"><i class="fa fa-area-chart"></i></a>
+                        <a *ngSwitchCase="'healthy'" [routerLink]="['../metric']" [queryParams]="{svcName: s.name}"><i class="fa fa-area-chart"></i></a>
                         <a *ngSwitchDefault>
                             <i class="fa fa-ban fa-stack-lg text-danger"></i>
                         </a>
                     </td>
-                    <td><a [routerLink]="['../config']" [queryParams]="{svcName: s.name}"> <i class="fa fa-file-text"></i> </a></td>
+                    <td [ngSwitch]="s.state">
+                        <a *ngSwitchCase="'healthy'" [routerLink]="['../config']" [queryParams]="{svcName: s.name}"> <i class="fa fa-file-text"></i> </a>
+                        <a *ngSwitchDefault>
+                            <i class="fa fa-ban fa-stack-lg text-danger"></i>
+                        </a>
+                    </td>
                     <td>
                         <span class="badge badge-info mr-1"  role="button" (click)="start(s.name)">start</span>
                         <span class="badge badge-warning mr-1"  role="button" (click)="restart(s.name)">restart</span>
