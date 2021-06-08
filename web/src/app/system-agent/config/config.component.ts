@@ -48,7 +48,8 @@ export class ConfigComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['svcName']) {
         this.service = params['svcName'];
-        this.getConfigV2(params['svcName'])
+        this.getConfigs();
+        // this.getConfigV2(params['svcName'])
         // this.sysService.getConfigV2(params['svcName']).subscribe((resp: any) => {
         //   this.config = JSON.stringify(resp, null, 3);
         // });
@@ -58,6 +59,7 @@ export class ConfigComponent implements OnInit {
     // this.getConfigs();
   }
 
+  //deprecated
   getConfigV2(service: string): any {
     switch (service) {
       case "edgex-core-data":
@@ -73,7 +75,7 @@ export class ConfigComponent implements OnInit {
     }
   }
 
-  //deprecated
+  
   getConfigs() {
     this.sysService.getConfig(this.service as string).subscribe((data: any) => {
       this.config = JSON.stringify(data, null, 3);
