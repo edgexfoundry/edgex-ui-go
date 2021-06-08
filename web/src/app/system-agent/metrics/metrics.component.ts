@@ -153,7 +153,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.networkUsageChart.setOption(this.netChartOption);
 
         this.sysService.getMetrics(params['svcName']).subscribe((data: any) => {
-          this.metrics = data[0];
+          // this.metrics = data[0];
+          this.metrics = data.metrics['edgex-'+params['svcName']];
           this.feedAllCharts();
         })
 
@@ -165,7 +166,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   metricsTimer(self: any) {
     self.sysService.getMetrics(self.service as string).subscribe((data: any) => {
-      self.metrics = data[0];
+      // self.metrics = data[0];
+      this.metrics = data.metrics['edgex-'+self.service];
       self.feedAllCharts();
     });
   }
