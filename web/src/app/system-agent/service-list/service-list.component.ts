@@ -19,6 +19,7 @@ import { SystemAgentService } from '../../services/system-agent.service';
 
 import { MessageService } from '../../message/message.service';
 import { ErrorService } from '../../services/error.service';
+import { HealthResponse } from '../../contracts/v2/responses/health-response';
 
 interface service {
   name: string,
@@ -55,8 +56,8 @@ export class ServiceListComponent implements OnInit {
     private errorSvc: ErrorService) { }
 
   ngOnInit(): void {
-    this.sysService.getHealth(this.defaultServcies.join(",")).subscribe(data => {
-      for (const [k, v] of Object.entries(data)) {
+    this.sysService.getHealth(this.defaultServcies.join(",")).subscribe((resp: HealthResponse) => {
+      for (const [k, v] of Object.entries(resp.health)) {
         if (v) {
           let s: service = { name: `${k}`, state: `${v}` }
           this.availServices.push(s)
@@ -67,11 +68,11 @@ export class ServiceListComponent implements OnInit {
 
   refresh() {
     this.disabled = true;
-    this.sysService.getHealth(this.defaultServcies.join(",")).subscribe(data => {
+    this.sysService.getHealth(this.defaultServcies.join(",")).subscribe((resp: HealthResponse) => {
 
       this.availServices = [];
 
-      for (const [k, v] of Object.entries(data)) {
+      for (const [k, v] of Object.entries(resp.health)) {
         if (v) {
           let s: service = { name: `${k}`, state: `${v}` }
           this.availServices.push(s)
@@ -86,7 +87,7 @@ export class ServiceListComponent implements OnInit {
     this.disabled = true;
     this.toggleClass = "badge badge-secondary";
     let self = this;
-    this.sysService.start(name).subscribe((resp: any) => {
+    this.sysService.startV2(name).subscribe((resp: any) => {
       if (!resp[0].Success) {
         this.msgSvc.errors(resp[0].errorMessage)
         return
@@ -105,7 +106,7 @@ export class ServiceListComponent implements OnInit {
   restart(name: string) {
     this.disabled = true;
     let self = this;
-    this.sysService.restart(name).subscribe((resp: any) => {
+    this.sysService.restartV2(name).subscribe((resp: any) => {
       if (!resp[0].Success) {
         this.msgSvc.errors(resp[0].errorMessage)
         return
@@ -123,7 +124,8 @@ export class ServiceListComponent implements OnInit {
   stop(name: string) {
     this.disabled = true;
     let self = this;
-    this.sysService.stop(name).subscribe((resp: any) => {
+    this.sysService.stopV2(name).subscribe((resp: any) => {
+      console.log(resp)
       if (!resp[0].Success) {
         this.msgSvc.errors(resp[0].errorMessage)
         return
