@@ -17,8 +17,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SmaOperation } from '../contracts/sma-operation';
 
+import { SmaOperation } from '../contracts/sma-operation';
+import { HealthResponse } from '../contracts/v2/responses/health-response';
+import { OperationRequest } from '../contracts/v2/requests/operation-request';
 import { MessageService } from '../message/message.service';
 import { CommandService } from '../services/command.service';
 import { DataService } from '../services/data.service';
@@ -41,7 +43,7 @@ export class SystemAgentService {
   endpointHealthUrl: string = "/ping";
   versionUrl: string = "/version";
 
-  configUrl: string = "/config/";
+  configUrl: string = "/configs/";
   metricsUrl: string = "/metrics/";
   healthUrl: string = "/health/";
   operationUrl: string = "/operation";
@@ -61,15 +63,7 @@ export class SystemAgentService {
     private schedulerSvc: SchedulerService,
     private notiSvc :NotificationsService) { }
 
-    // defaultServcies = [
-    //   "edgex-core-metadata", "edgex-core-data", "edgex-core-command",
-    //   "edgex-support-notifications", "edgex-support-scheduler",
-    //   "edgex-redis",
-    //   "rule-engine",
-    //   "edgex-ui-go",
-    //   //"edgex-sys-mgmt-agent",
-    //   "edgex-app-service-configurable-rules"];
-
+  //deprecated
   getConfigV2(service: string): any {
     switch (service) {
       case "edgex-core-data":
@@ -85,21 +79,58 @@ export class SystemAgentService {
     }
   }
 
-
-  //deprecated
   getConfig(services: string): Observable<any> {
-    let url = `${this.urlPrefixV1}${this.configUrl}${services}`;
+    let url = `${this.urlPrefixV2}${this.configUrl}${services}`;
     return this.http.get(url)
   }
 
-  getMetrics(services: string): Observable<any> {
-    let url = `${this.urlPrefixV1}${this.metricsUrl}${services}`;
+  getMetrics(service: string): Observable<any> {
+    service = `edgex-${service}`;
+    let url = `${this.urlPrefixV2}${this.metricsUrl}${service}`;
     return this.http.get(url)
   }
 
-  getHealth(services: string): Observable<any> {
-    let url = `${this.urlPrefixV1}${this.healthUrl}${services}`;
-    return this.http.get(url)
+  getHealth(services: string): Observable<HealthResponse> {
+    let svcs: string[] = services.split(',');
+    let t: string[] = [];
+    svcs.forEach((s,i) => {
+      t.push(s.replace('edgex-',''))
+    });
+    services = t.toString();
+    let url = `${this.urlPrefixV2}${this.healthUrl}${services}`;
+    return this.http.get<HealthResponse>(url)
+  }
+
+  operateV2(action: OperationRequest[]): Observable<any> {
+    let url = `${this.urlPrefixV1}${this.operationUrl}`;
+    return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
+  }
+
+  startV2(name: string): Observable<any> {
+    let action: OperationRequest[] = [{
+      apiVersion: 'v2',
+      serviceName: name,
+      action: 'start'
+    }]
+    return this.operateV2(action)
+  }
+
+  stopV2(name: string): Observable<any> {
+    let action: OperationRequest[] = [{
+      apiVersion: 'v2',
+      serviceName: name,
+      action: 'stop'
+    }]
+    return this.operateV2(action)
+  }
+
+  restartV2(name: string): Observable<any> {
+    let action: OperationRequest[] = [{
+      apiVersion: 'v2',
+      serviceName: name,
+      action: 'restart'
+    }]
+    return this.operateV2(action)
   }
 
   //action format:
@@ -112,11 +143,12 @@ export class SystemAgentService {
   //       "graceful"
   //       ]
   //   }
-  operate(action: SmaOperation): Observable<any> {
+  operate(action: SmaOperation): Observable<any> { //deprecated
     let url = `${this.urlPrefixV1}${this.operationUrl}`;
     return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
   }
 
+  //deprecated
   start(name: string): Observable<any> {
     let action = {
       "action": "start",
@@ -126,6 +158,7 @@ export class SystemAgentService {
     return this.operate(action)
   }
 
+  //deprecated
   restart(name: string): Observable<any> {
     let action = {
       "action": "restart",
@@ -135,6 +168,7 @@ export class SystemAgentService {
     return this.operate(action)
   }
 
+  //deprecated
   stop(name: string): Observable<any> {
     let action = {
       "action": "stop",
