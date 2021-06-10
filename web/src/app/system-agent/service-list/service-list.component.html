@@ -23,8 +23,12 @@
     </div>
     <div class="card-body p-0">
         <div class="bg-light px-3 py-2">
-            <button class="btn btn-primary btn-sm " [disabled]="disabled" (click)="refresh()">
-                <span><i class="fa fa-refresh mr-1"></i>refresh</span> 
+            <button *ngIf="operationBtnDisabled" class="btn btn-primary" type="button" disabled>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
+            <button *ngIf="!operationBtnDisabled" class="btn btn-primary btn-sm " [disabled]="operationBtnDisabled" (click)="refresh()">
+                <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
             </button>
         </div>
         <div class="table-responsive">
@@ -41,26 +45,39 @@
                 <tbody>
                 <tr *ngFor="let s of availServices">
                     <td>{{s.name}}</td>
-                    <td [ngSwitch]="s.state">
-                        <span *ngSwitchCase="'healthy'" class="badge badge-success">running</span>
+                    <td [ngSwitch]="s.alive">
+                        <span *ngSwitchCase="true" class="badge badge-success">running</span>
                         <span *ngSwitchDefault  class="badge badge-danger">stopped</span>
                     </td>
-                    <td [ngSwitch]="s.state">
-                        <a *ngSwitchCase="'healthy'" [routerLink]="['../metric']" [queryParams]="{svcName: s.name}"><i class="fa fa-area-chart"></i></a>
+                    <td [ngSwitch]="s.alive">
+                        <a *ngSwitchCase="true" [routerLink]="['../metric']" [queryParams]="{svcName: s.name}"><i class="fa fa-area-chart"></i></a>
                         <a *ngSwitchDefault>
                             <i class="fa fa-ban fa-stack-lg text-danger"></i>
                         </a>
                     </td>
-                    <td [ngSwitch]="s.state">
-                        <a *ngSwitchCase="'healthy'" [routerLink]="['../config']" [queryParams]="{svcName: s.name}"> <i class="fa fa-file-text"></i> </a>
+                    <td [ngSwitch]="s.alive">
+                        <a *ngSwitchCase="true" [routerLink]="['../config']" [queryParams]="{svcName: s.name}"> <i class="fa fa-file-text"></i> </a>
                         <a *ngSwitchDefault>
                             <i class="fa fa-ban fa-stack-lg text-danger"></i>
                         </a>
                     </td>
                     <td>
-                        <span class="badge badge-info mr-1"  role="button" (click)="start(s.name)">start</span>
-                        <span class="badge badge-warning mr-1"  role="button" (click)="restart(s.name)">restart</span>
-                        <span class="badge badge-danger" role="button" (click)="stop(s.name)">stop</span>
+                        <span *ngIf="!operationBtnDisabled; else LoadingTemplate">
+                            <span class="badge badge-info mr-1"  role="button" (click)="start(s.name)">start</span>
+                            <span class="badge badge-warning mr-1"  role="button" (click)="restart(s.name)">restart</span>
+                            <span class="badge badge-danger" role="button" (click)="stop(s.name)">stop</span>
+                        </span>
+                        <ng-template #LoadingTemplate>
+                            <div class="spinner-grow spinner-grow-sm text-info mr-1" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow spinner-grow-sm text-warning mr-1" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow spinner-grow-sm text-danger" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </ng-template>
                     </td>
                 </tr>
                 </tbody>

@@ -422,16 +422,14 @@ class SystemAgentService {
         this.schedulerSvc = schedulerSvc;
         this.notiSvc = notiSvc;
         this.endpoint = "/system";
-        this.version1 = "/api/v1";
         this.version2 = "/api/v2";
-        this.urlPrefixV1 = `${this.endpoint}${this.version1}`;
         this.urlPrefixV2 = `${this.endpoint}${this.version2}`;
         this.endpointHealthUrl = "/ping";
         this.versionUrl = "/version";
-        this.configUrl = "/config/";
-        this.metricsUrl = "/metrics/";
-        this.healthUrl = "/health/";
-        this.operationUrl = "/operation";
+        this.configUrl = "/system/config";
+        this.metricsUrl = "/system/metrics";
+        this.healthUrl = "/system/health";
+        this.operationUrl = "/system/operation";
         this.httpPostOrPutOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
                 'Content-type': 'application/json',
@@ -439,78 +437,55 @@ class SystemAgentService {
             })
         };
     }
-    // defaultServcies = [
-    //   "edgex-core-metadata", "edgex-core-data", "edgex-core-command",
-    //   "edgex-support-notifications", "edgex-support-scheduler",
-    //   "edgex-redis",
-    //   "rule-engine",
-    //   "edgex-ui-go",
-    //   //"edgex-sys-mgmt-agent",
-    //   "edgex-app-service-configurable-rules"];
-    getConfigV2(service) {
-        switch (service) {
-            case "edgex-core-data":
-                return this.dataService.getConfig().subscribe((resp) => { return resp; });
-            case "edgex-core-metadata":
-                return this.metadataSvc.getConfig().subscribe((resp) => { return resp; });
-            case "edgex-core-command":
-                return this.cmdSvc.getConfig().subscribe((resp) => { return resp; });
-            case "edgex-support-notifications":
-                return this.schedulerSvc.getConfig().subscribe((resp) => { return resp; });
-            case "edgex-support-scheduler":
-                return this.notiSvc.getConfig().subscribe((resp) => { return resp; });
-        }
-    }
-    //deprecated
-    getConfig(services) {
-        let url = `${this.urlPrefixV1}${this.configUrl}${services}`;
+    getConfigBySvcName(serviceName) {
+        let url = `${this.urlPrefixV2}${this.configUrl}?services=${serviceName}`;
         return this.http.get(url);
     }
-    getMetrics(services) {
-        let url = `${this.urlPrefixV1}${this.metricsUrl}${services}`;
+    getMetricsBySvcName(serviceName) {
+        let svcName = `edgex-${serviceName}`;
+        let url = `${this.urlPrefixV2}${this.metricsUrl}?services=${svcName}`;
         return this.http.get(url);
     }
-    getHealth(services) {
-        let url = `${this.urlPrefixV1}${this.healthUrl}${services}`;
+    getAllSvcHealth(services) {
+        let svcs = services.split(',');
+        let t = [];
+        svcs.forEach((s, i) => {
+            t.push(s.replace('edgex-', ''));
+        });
+        services = t.toString();
+        let url = `${this.urlPrefixV2}${this.healthUrl}?services=${services}`;
         return this.http.get(url);
     }
-    //action format:
-    // {
-    //   "action":"stop",
-    //   "services":[
-    //       "edgex-support-notifications"
-    //   ],
-    //   "params":[
-    //       "graceful"
-    //       ]
-    //   }
-    operate(action) {
-        let url = `${this.urlPrefixV1}${this.operationUrl}`;
+    operateV2(action) {
+        let url = `${this.urlPrefixV2}${this.operationUrl}`;
         return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions);
     }
-    start(name) {
-        let action = {
-            "action": "start",
-            "services": [name],
-            "params": ["graceful"]
-        };
-        return this.operate(action);
+    startV2(name) {
+        name = `edgex-${name}`;
+        let action = [{
+                apiVersion: 'v2',
+                serviceName: name,
+                action: 'start'
+            }];
+        return this.operateV2(action);
     }
-    restart(name) {
-        let action = {
-            "action": "restart",
-            "services": [name],
-            "params": ["graceful"]
-        };
-        return this.operate(action);
+    stopV2(name) {
+        name = `edgex-${name}`;
+        let action = [{
+                apiVersion: 'v2',
+                serviceName: name,
+                action: 'stop'
+            }];
+        return this.operateV2(action);
     }
-    stop(name) {
-        let action = {
-            "action": "stop",
-            "services": [name],
-            "params": ["graceful"]
-        };
-        return this.operate(action);
+    restartV2(name) {
+        name = `edgex-${name}`;
+        let action = [{
+                apiVersion: 'v2',
+                serviceName: name,
+                action: 'restart'
+            }];
+        return this.operateV2(action);
     }
 }
 SystemAgentService.ɵfac = function SystemAgentService_Factory(t) { return new (t || SystemAgentService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_services_command_service__WEBPACK_IMPORTED_MODULE_3__["CommandService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_services_data_service__WEBPACK_IMPORTED_MODULE_4__["DataService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_services_metadata_service__WEBPACK_IMPORTED_MODULE_5__["MetadataService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_services_scheduler_service__WEBPACK_IMPORTED_MODULE_6__["SchedulerService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_services_notifications_service__WEBPACK_IMPORTED_MODULE_7__["NotificationsService"])); };
