@@ -238,27 +238,27 @@ class MetadataService {
         this.devicesListUrl = `${this.urlPrefix}/device/all`;
         this.addOneDeviceUrl = `${this.urlPrefix}/device`;
         this.updateOneDeviceUrl = `${this.urlPrefix}/device`;
-        this.deleteOneDeviceByIdUrl = `${this.urlPrefix}/device/Id/`;
-        this.deleteOneDeviceByNameUrl = `${this.urlPrefix}/device/name/`;
-        this.findDeviceByNameUrl = `${this.urlPrefix}/device/name/`;
-        this.findDeviceByIdUrl = `${this.urlPrefix}/device/id/`;
-        this.findDevicesByServiceIdUrl = `${this.urlPrefix}/device/service/id/`;
-        this.findDevicesByServiceNameUrl = `${this.urlPrefix}/device/service/name/`;
-        this.findDevicesByProfileIdUrl = `${this.urlPrefix}/device/profile/id/`;
-        this.findDevicesByProfileNameUrl = `${this.urlPrefix}/device/profile/name/`;
+        this.deleteOneDeviceByIdUrl = `${this.urlPrefix}/device/Id`;
+        this.deleteOneDeviceByNameUrl = `${this.urlPrefix}/device/name`;
+        this.findDeviceByNameUrl = `${this.urlPrefix}/device/name`;
+        this.findDeviceByIdUrl = `${this.urlPrefix}/device/id`;
+        this.findDevicesByServiceIdUrl = `${this.urlPrefix}/device/service/id`;
+        this.findDevicesByServiceNameUrl = `${this.urlPrefix}/device/service/name`;
+        this.findDevicesByProfileIdUrl = `${this.urlPrefix}/device/profile/id`;
+        this.findDevicesByProfileNameUrl = `${this.urlPrefix}/device/profile/name`;
         this.deviceServicesListUrl = `${this.urlPrefix}/deviceservice/all`;
         this.updateDeviceServiceUrl = `${this.urlPrefix}/deviceservice`;
-        this.findDeviceServiceByIdUrl = `${this.urlPrefix}/deviceservice/id/`;
-        this.findDeviceServiceByNameUrl = `${this.urlPrefix}/deviceservice/name/`;
+        this.findDeviceServiceByIdUrl = `${this.urlPrefix}/deviceservice/id`;
+        this.findDeviceServiceByNameUrl = `${this.urlPrefix}/deviceservice/name`;
         this.deviceProfilesListUrl = `${this.urlPrefix}/deviceprofile/all`;
         this.findProfilesByIdUrl = `${this.urlPrefix}/deviceprofile`;
-        this.findProfilesByNameUrl = `${this.urlPrefix}/deviceprofile/name/`;
+        this.findProfilesByNameUrl = `${this.urlPrefix}/deviceprofile/name`;
         this.updateDeviceProfileUrl = `${this.urlPrefix}/deviceprofile`;
         this.uploadProfileYamlFileUrl = `${this.urlPrefix}/deviceprofile/uploadfile`;
         this.uploadProfileYamlContentUrl = `${this.urlPrefix}/deviceprofile/upload`;
-        this.deviceProfileYamlUrl = `${this.urlPrefix}/deviceprofile/yaml/`;
-        this.deleteProfileByIdUrl = `${this.urlPrefix}/deviceprofile/id/`;
-        this.deleteProfileByNamedUrl = `${this.urlPrefix}/deviceprofile/name/`;
+        this.deviceProfileYamlUrl = `${this.urlPrefix}/deviceprofile/yaml`;
+        this.deleteProfileByIdUrl = `${this.urlPrefix}/deviceprofile/id`;
+        this.deleteProfileByNamedUrl = `${this.urlPrefix}/deviceprofile/name`;
         this.httpPostOrPutJSONOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
                 'Content-type': 'application/json',
@@ -290,12 +290,12 @@ class MetadataService {
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     deleteOneDeviceByName(name) {
-        let url = `${this.deleteOneDeviceByNameUrl}${name}`;
+        let url = `${this.deleteOneDeviceByNameUrl}/${name}`;
         return this.http.delete(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //deprecated
     deleteOneDeviceById(id) {
-        let url = `${this.deleteOneDeviceByIdUrl}${id}`;
+        let url = `${this.deleteOneDeviceByIdUrl}/${id}`;
         return this.http.delete(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     updateDevice(device) {
@@ -330,11 +330,11 @@ class MetadataService {
     }
     //deprecated
     findDevicesByServiceId(serviceId) {
-        let url = `${this.findDevicesByServiceIdUrl}${serviceId}`;
+        let url = `${this.findDevicesByServiceIdUrl}/${serviceId}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     findDevicesByServiceName(offset, limit, serviceName) {
-        let url = `${this.findDevicesByServiceNameUrl}${serviceName}?offset=${offset}&limit=${limit}`;
+        let url = `${this.findDevicesByServiceNameUrl}/${serviceName}?offset=${offset}&limit=${limit}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //deprecated
@@ -343,7 +343,7 @@ class MetadataService {
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     findDevicesByProfileName(offset, limit, profileName) {
-        let url = `${this.findDevicesByProfileNameUrl}${profileName}?offset=${offset}&limit=${limit}`;
+        let url = `${this.findDevicesByProfileNameUrl}/${profileName}?offset=${offset}&limit=${limit}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //Device Service resources
@@ -365,11 +365,11 @@ class MetadataService {
     }
     //deprecated
     findDevcieServiceById(id) {
-        let url = `${this.findDeviceServiceByIdUrl}${id}`;
+        let url = `${this.findDeviceServiceByIdUrl}/${id}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     findDevcieServiceByName(name) {
-        let url = `${this.findDeviceServiceByNameUrl}${name}`;
+        let url = `${this.findDeviceServiceByNameUrl}/${name}`;
         return this.http.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     //Device Profile resources
@@ -444,16 +444,16 @@ class MetadataService {
     }
     //deprecated
     findProfileYamlById(id) {
-        let url = `${this.deviceProfileYamlUrl}${id}`;
+        let url = `${this.deviceProfileYamlUrl}/${id}`;
         return this.http.request('GET', url, { responseType: 'text' });
     }
     //deprecated
     deleteProfileById(id) {
-        let url = `${this.deleteProfileByIdUrl}${id}`;
+        let url = `${this.deleteProfileByIdUrl}/${id}`;
         return this.http.delete(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
     deleteProfileByName(name) {
-        let url = `${this.deleteProfileByNamedUrl}${name}`;
+        let url = `${this.deleteProfileByNamedUrl}/${name}`;
         return this.http.delete(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(error => this.errorSvc.handleError(error)));
     }
 }
