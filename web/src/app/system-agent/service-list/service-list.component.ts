@@ -19,15 +19,15 @@ import { SystemAgentService } from '../../services/system-agent.service';
 
 import { MessageService } from '../../message/message.service';
 import { ErrorService } from '../../services/error.service';
-import { HealthResponse } from '../../contracts/v2/responses/health-response';
+import { BaseWithServiceNameResponse } from '../../contracts/v2/common/base-response';
 
 interface service {
   name: string,
-  state: string,
+  statusCode: string,
   metrics?: string,
   config?: string,
   operation?: string,
-  health?: boolean,
+  alive?: boolean,
 }
 
 @Component({
@@ -46,7 +46,7 @@ export class ServiceListComponent implements OnInit {
     //"edgex-sys-mgmt-agent",
     "edgex-app-service-configurable-rules"];
 
-  disabled: boolean = false;
+  operationBtnDisabled: boolean = false;
   toggleClass: string = "";
 
   availServices: service[] = [];
@@ -56,87 +56,93 @@ export class ServiceListComponent implements OnInit {
     private errorSvc: ErrorService) { }
 
   ngOnInit(): void {
-    this.sysService.getHealth(this.defaultServcies.join(",")).subscribe((resp: HealthResponse) => {
-      for (const [k, v] of Object.entries(resp.health)) {
-        if (v) {
-          let s: service = { name: `${k}`, state: `${v}` }
-          this.availServices.push(s)
+    this.allSvcHealthCheck();
+  }
+
+  allSvcHealthCheck() {
+    this.sysService.getAllSvcHealth(this.defaultServcies.join(",")).subscribe((resp: BaseWithServiceNameResponse[]) => {
+      this.availServices = [];
+      resp.forEach((data,index) => {
+        let s: service = { name: `${data.serviceName}`, statusCode: `${data.statusCode}` }
+        s.alive = data.statusCode === 200 ? true: false;
+        this.availServices.push(s);
+      });
+      this.availServices.sort((a,b) => {
+        if (a.name > b.name) {
+          return 1
         }
-      }
+        return -1
+      });
     });
   }
 
   refresh() {
-    this.disabled = true;
-    this.sysService.getHealth(this.defaultServcies.join(",")).subscribe((resp: HealthResponse) => {
-
+    this.operationBtnDisabled = true;
+    this.sysService.getAllSvcHealth(this.defaultServcies.join(",")).subscribe((resp: BaseWithServiceNameResponse[]) => {
       this.availServices = [];
-
-      for (const [k, v] of Object.entries(resp.health)) {
-        if (v) {
-          let s: service = { name: `${k}`, state: `${v}` }
-          this.availServices.push(s)
+      resp.forEach((data,index) => {
+        let s: service = { name: `${data.serviceName}`, statusCode: `${data.statusCode}` }
+        s.alive = data.statusCode === 200 ? true: false;
+        this.availServices.push(s);
+      });
+      this.operationBtnDisabled = false;
+      this.availServices.sort((a,b) => {
+        if (a.name > b.name) {
+          return 1
         }
-      }
-      this.disabled = false;
+        return -1
+      });
       this.msgSvc.success('refresh');
     });
   }
 
   start(name: string) {
-    this.disabled = true;
-    this.toggleClass = "badge badge-secondary";
-    let self = this;
-    this.sysService.startV2(name).subscribe((resp: any) => {
-      if (!resp[0].Success) {
-        this.msgSvc.errors(resp[0].errorMessage)
+    this.operationBtnDisabled = true;
+    this.sysService.startV2(name).subscribe((resp: BaseWithServiceNameResponse[]) => {
+      if (resp[0].statusCode !== 200 ) {
+        this.msgSvc.errors(resp[0].message);
         return
       }
-      this.availServices.forEach(function (svc) {
-        if (svc.name == name) {
-          svc.state = "true";
-          self.disabled = false;
-          self.toggleClass = "";
+      this.availServices.forEach(svc => {
+        if (`edgex-${svc.name}` === resp[0].serviceName) {
+          svc.statusCode = String(resp[0].statusCode);
+          svc.alive = true;
           return
         }
-      });
+      })
+      setTimeout(() => {
+        // this.allSvcHealthCheck();
+        this.operationBtnDisabled = false;
+      }, 2000);
+      
     });
   }
 
   restart(name: string) {
-    this.disabled = true;
-    let self = this;
-    this.sysService.restartV2(name).subscribe((resp: any) => {
-      if (!resp[0].Success) {
-        this.msgSvc.errors(resp[0].errorMessage)
+    this.operationBtnDisabled = true;
+    this.sysService.restartV2(name).subscribe((resp: BaseWithServiceNameResponse[]) => {
+      if (resp[0].statusCode !== 200 ) {
+        this.msgSvc.errors(resp[0].message);
         return
       }
-      this.availServices.forEach(function (svc) {
-        if (svc.name == name) {
-          svc.state = "true";
-          self.disabled = false;
-          return
-        }
-      });
+      setTimeout(() => {
+        this.allSvcHealthCheck();
+        this.operationBtnDisabled = false;
+      }, 2000);
     });
   }
 
   stop(name: string) {
-    this.disabled = true;
-    let self = this;
-    this.sysService.stopV2(name).subscribe((resp: any) => {
-      console.log(resp)
-      if (!resp[0].Success) {
-        this.msgSvc.errors(resp[0].errorMessage)
+    this.operationBtnDisabled = true;
+    this.sysService.stopV2(name).subscribe((resp: BaseWithServiceNameResponse[]) => {
+      if (resp[0].statusCode !== 200 ) {
+        this.msgSvc.errors(resp[0].message);
         return
       }
-      this.availServices.forEach(function (svc) {
-        if (svc.name == name) {
-          svc.state = "false";
-          self.disabled = false;
-          return
-        }
-      });
+      setTimeout(() => {
+        this.allSvcHealthCheck();
+        this.operationBtnDisabled = false;
+      }, 2000);
     });
   }
 
