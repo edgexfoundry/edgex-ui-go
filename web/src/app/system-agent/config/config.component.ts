@@ -23,7 +23,7 @@ import { DataService } from '../../services/data.service';
 import { MetadataService } from '../../services/metadata.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { SchedulerService } from '../../services/scheduler.service';
-
+import { BaseWithConfigResponse } from '../../contracts/v2/common/base-response';
 
 @Component({
   selector: 'app-config',
@@ -77,8 +77,8 @@ export class ConfigComponent implements OnInit {
 
   
   getConfigs() {
-    this.sysService.getConfig(this.service as string).subscribe((data: any) => {
-      this.config = JSON.stringify(data, null, 3);
+    this.sysService.getConfigBySvcName(this.service as string).subscribe((resp: BaseWithConfigResponse[]) => {
+      this.config = JSON.stringify(resp[0].config, null, 3);
     });
   }
 
