@@ -18,6 +18,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SystemAgentService } from '../../services/system-agent.service';
+import { BaseWithMetricsResponse } from '../../contracts/v2/common/base-response';
 
 @Component({
   selector: 'app-metrics',
@@ -152,9 +153,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
         this.networkUsageChart.setOption(this.netChartOption);
 
-        this.sysService.getMetrics(params['svcName']).subscribe((data: any) => {
-          // this.metrics = data[0];
-          this.metrics = data.metrics['edgex-'+params['svcName']];
+        this.sysService.getMetricsBySvcName(params['svcName']).subscribe((resp: BaseWithMetricsResponse[]) => {
+          this.metrics = resp[0].metrics;
           this.feedAllCharts();
         })
 
@@ -165,9 +165,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   metricsTimer(self: any) {
-    self.sysService.getMetrics(self.service as string).subscribe((data: any) => {
-      // self.metrics = data[0];
-      this.metrics = data.metrics['edgex-'+self.service];
+    self.sysService.getMetricsBySvcName(self.service as string).subscribe((resp: BaseWithMetricsResponse[]) => {
+      this.metrics = resp[0].metrics;
       self.feedAllCharts();
     });
   }
@@ -175,7 +174,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   feedAllCharts() {
     let cpuOpt = this.cpuUsageChart.getOption();
     cpuOpt.series[0].data.shift();
-    cpuOpt.series[0].data.push(this.metrics.result.cpuUsedPercent);
+    cpuOpt.series[0].data.push(this.metrics.cpuUsedPercent);
 
     cpuOpt.xAxis[0].data.shift();
     cpuOpt.xAxis[0].data.push(this.timestamp());
@@ -184,7 +183,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     let memOpt = this.memoryUsageChart.getOption();
     memOpt.series[0].data.shift();
-    memOpt.series[0].data.push(this.metrics.result.raw.mem_perc.substring(0, this.metrics.result.raw.mem_perc.length - 1));
+    memOpt.series[0].data.push(this.metrics.raw.mem_perc.substring(0, this.metrics.raw.mem_perc.length - 1));
 
     memOpt.xAxis[0].data.shift();
     memOpt.xAxis[0].data.push(this.timestamp());
@@ -192,7 +191,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.memoryUsageChart.setOption(memOpt);
 
     let netOpt = this.networkUsageChart.getOption();
-    let rx_tx_array = this.metrics.result.raw.net_io.split('/');
+    let rx_tx_array = this.metrics.raw.net_io.split('/');
     let rx = rx_tx_array[0].trim().replace("kB", "").replace("MB", "");
     let tx = rx_tx_array[1].trim().replace("kB", "").replace("MB", "");
 
