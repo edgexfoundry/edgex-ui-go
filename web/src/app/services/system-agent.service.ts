@@ -19,7 +19,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SmaOperation } from '../contracts/sma-operation';
-import { HealthResponse } from '../contracts/v2/responses/health-response';
+import { BaseWithServiceNameResponse, BaseWithConfigResponse, BaseWithMetricsResponse } from '../contracts/v2/common/base-response';
 import { OperationRequest } from '../contracts/v2/requests/operation-request';
 import { MessageService } from '../message/message.service';
 import { CommandService } from '../services/command.service';
@@ -34,19 +34,17 @@ import { SchedulerService } from '../services/scheduler.service'
 export class SystemAgentService {
 
   endpoint: string = "/system";
-  version1: string = "/api/v1";
   version2: string = "/api/v2";
 
-  urlPrefixV1: string = `${this.endpoint}${this.version1}`;
   urlPrefixV2: string = `${this.endpoint}${this.version2}`;
 
   endpointHealthUrl: string = "/ping";
   versionUrl: string = "/version";
 
-  configUrl: string = "/configs/";
-  metricsUrl: string = "/metrics/";
-  healthUrl: string = "/health/";
-  operationUrl: string = "/operation";
+  configUrl: string = "/system/config";
+  metricsUrl: string = "/system/metrics";
+  healthUrl: string = "/system/health";
+  operationUrl: string = "/system/operation";
 
   httpPostOrPutOptions = {
     headers: new HttpHeaders({
@@ -63,50 +61,35 @@ export class SystemAgentService {
     private schedulerSvc: SchedulerService,
     private notiSvc :NotificationsService) { }
 
-  //deprecated
-  getConfigV2(service: string): any {
-    switch (service) {
-      case "edgex-core-data":
-        return this.dataService.getConfig().subscribe((resp) => {return resp})
-      case "edgex-core-metadata":
-        return this.metadataSvc.getConfig().subscribe((resp) => {return resp})
-      case "edgex-core-command":
-        return this.cmdSvc.getConfig().subscribe((resp) => {return resp})
-      case "edgex-support-notifications":
-        return this.schedulerSvc.getConfig().subscribe((resp) => {return resp})
-      case "edgex-support-scheduler":
-        return this.notiSvc.getConfig().subscribe((resp) => {return resp})
-    }
+  getConfigBySvcName(serviceName: string): Observable<BaseWithConfigResponse[]> {
+    let url = `${this.urlPrefixV2}${this.configUrl}?services=${serviceName}`;
+    return this.http.get<BaseWithConfigResponse[]>(url)
   }
 
-  getConfig(services: string): Observable<any> {
-    let url = `${this.urlPrefixV2}${this.configUrl}${services}`;
-    return this.http.get(url)
+  getMetricsBySvcName(serviceName: string): Observable<BaseWithMetricsResponse[]> {
+    let svcName = `edgex-${serviceName}`;
+    let url = `${this.urlPrefixV2}${this.metricsUrl}?services=${svcName}`;
+    return this.http.get<BaseWithMetricsResponse[]>(url)
   }
 
-  getMetrics(service: string): Observable<any> {
-    service = `edgex-${service}`;
-    let url = `${this.urlPrefixV2}${this.metricsUrl}${service}`;
-    return this.http.get(url)
-  }
-
-  getHealth(services: string): Observable<HealthResponse> {
+  getAllSvcHealth(services: string): Observable<BaseWithServiceNameResponse[]> {
     let svcs: string[] = services.split(',');
     let t: string[] = [];
     svcs.forEach((s,i) => {
       t.push(s.replace('edgex-',''))
     });
     services = t.toString();
-    let url = `${this.urlPrefixV2}${this.healthUrl}${services}`;
-    return this.http.get<HealthResponse>(url)
+    let url = `${this.urlPrefixV2}${this.healthUrl}?services=${services}`;
+    return this.http.get<BaseWithServiceNameResponse[]>(url)
   }
 
-  operateV2(action: OperationRequest[]): Observable<any> {
-    let url = `${this.urlPrefixV1}${this.operationUrl}`;
-    return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
+  operateV2(action: OperationRequest[]): Observable<BaseWithServiceNameResponse[]> {
+    let url = `${this.urlPrefixV2}${this.operationUrl}`;
+    return this.http.post<BaseWithServiceNameResponse[]>(url, JSON.stringify(action), this.httpPostOrPutOptions)
   }
 
   startV2(name: string): Observable<any> {
+    name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -116,6 +99,7 @@ export class SystemAgentService {
   }
 
   stopV2(name: string): Observable<any> {
+    name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -125,6 +109,7 @@ export class SystemAgentService {
   }
 
   restartV2(name: string): Observable<any> {
+    name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -132,50 +117,4 @@ export class SystemAgentService {
     }]
     return this.operateV2(action)
   }
-
-  //action format:
-  // {
-  //   "action":"stop",
-  //   "services":[
-  //       "edgex-support-notifications"
-  //   ],
-  //   "params":[
-  //       "graceful"
-  //       ]
-  //   }
-  operate(action: SmaOperation): Observable<any> { //deprecated
-    let url = `${this.urlPrefixV1}${this.operationUrl}`;
-    return this.http.post(url, JSON.stringify(action), this.httpPostOrPutOptions)
-  }
-
-  //deprecated
-  start(name: string): Observable<any> {
-    let action = {
-      "action": "start",
-      "services": [name],
-      "params": ["graceful"]
-    }
-    return this.operate(action)
-  }
-
-  //deprecated
-  restart(name: string): Observable<any> {
-    let action = {
-      "action": "restart",
-      "services": [name],
-      "params": ["graceful"]
-    }
-    return this.operate(action)
-  }
-
-  //deprecated
-  stop(name: string): Observable<any> {
-    let action = {
-      "action": "stop",
-      "services": [name],
-      "params": ["graceful"]
-    }
-    return this.operate(action)
-  }
-
 }
