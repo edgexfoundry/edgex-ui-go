@@ -172,6 +172,9 @@ class ErrorService {
             if (Object.prototype.toString.call(error.error) === '[object Object]') {
                 this.msgSvc.errors(`code: ${error.error.statusCode} , message: ${error.error.message}`);
             }
+            else if (Object.prototype.toString.call(error.error) === '[object String]') {
+                this.msgSvc.errors(`code: ${error.status} , message: ${error.error}`);
+            }
             else {
                 this.msgSvc.errors(`code: ${error.status} , message: ${error.message}`);
             }
