@@ -1491,6 +1491,8 @@ class DeviceListComponent {
                 return;
             }
             else {
+                this.associatedSvcName = '';
+                this.associatedProfileName = '';
                 this.getDeviceListPagination();
             }
         });
@@ -1555,6 +1557,10 @@ class DeviceListComponent {
                 });
             });
         });
+        //reset coreCommand to hide coreCommand card
+        this.associatedCmdDeviceName = undefined;
+        //reset to hide autoEvents card
+        this.associatedAutoEventsDeviceName = undefined;
         $("#deleteConfirmDialog").modal('hide');
     }
     checkAutoEvent(device) {
@@ -2172,7 +2178,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _services_metadata_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/metadata.service */ "limL");
 /* harmony import */ var _message_message_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../message/message.service */ "hsl2");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _services_error_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/error.service */ "9vc0");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
 /*******************************************************************************
  * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
  *
@@ -2193,10 +2200,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 class AddProfileComponent {
-    constructor(metaSvc, msgSvc, router, route) {
+    constructor(metaSvc, msgSvc, errSvc, router, route) {
         this.metaSvc = metaSvc;
         this.msgSvc = msgSvc;
+        this.errSvc = errSvc;
         this.router = router;
         this.route = route;
     }
@@ -2246,7 +2255,10 @@ class AddProfileComponent {
         //   this.msgSvc.success('submit');
         //   this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
         // });
-        this.metaSvc.addProfileYamlByNameViaUIBackend(this.profileYamlSource).subscribe((data) => {
+        this.metaSvc.addProfileYamlByNameViaUIBackend(this.profileYamlSource).subscribe((resp) => {
+            if (this.errSvc.handleErrorForV2API(resp)) {
+                return;
+            }
             this.msgSvc.success('Add profile');
             this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
         });
@@ -2256,7 +2268,7 @@ class AddProfileComponent {
         // });
     }
 }
-AddProfileComponent.ɵfac = function AddProfileComponent_Factory(t) { return new (t || AddProfileComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_metadata_service__WEBPACK_IMPORTED_MODULE_1__["MetadataService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"])); };
+AddProfileComponent.ɵfac = function AddProfileComponent_Factory(t) { return new (t || AddProfileComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_metadata_service__WEBPACK_IMPORTED_MODULE_1__["MetadataService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_error_service__WEBPACK_IMPORTED_MODULE_3__["ErrorService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"])); };
 AddProfileComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AddProfileComponent, selectors: [["app-add-profile"]], decls: 15, vars: 0, consts: [[1, "card"], [1, "card-header"], [1, "text-danger", "font-weight-bold", "fa", "fa-code", "mr-2"], [1, "mr-3", "font-weight-bold"], [1, "fa", "fa-info-circle", "text-success", "font-weight-bold"], [1, "float-right"], ["type", "button", 1, "btn", "btn-primary", "btn-sm", 3, "click"], [1, "fa", "fa-save", "mr-1"], [1, "card-body", "p-0"], ["id", "editor", "name", "editor"]], template: function AddProfileComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -2291,7 +2303,7 @@ AddProfileComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
                 templateUrl: './add-profile.component.html',
                 styleUrls: ['./add-profile.component.css']
             }]
-    }], function () { return [{ type: _services_metadata_service__WEBPACK_IMPORTED_MODULE_1__["MetadataService"] }, { type: _message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }]; }, null); })();
+    }], function () { return [{ type: _services_metadata_service__WEBPACK_IMPORTED_MODULE_1__["MetadataService"] }, { type: _message_message_service__WEBPACK_IMPORTED_MODULE_2__["MessageService"] }, { type: _services_error_service__WEBPACK_IMPORTED_MODULE_3__["ErrorService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] }]; }, null); })();
 
 
 /***/ }),
@@ -3635,6 +3647,7 @@ class EditDeviceComponent {
     }
     onSingleProfileSelected(profile) {
         this.selectedProfile = profile;
+        this.resetAutoEventsInternal();
     }
     onSingleDeviceSvcSelected(svc) {
         this.selectedSvc = svc;
@@ -3652,6 +3665,9 @@ class EditDeviceComponent {
             .subscribe((resp) => {
             this.selectedProfile = resp.profile;
         });
+    }
+    resetAutoEventsInternal() {
+        this.autoEventsInternal = [];
     }
     setAutoEventInternal(events) {
         let unit;
