@@ -90,6 +90,7 @@ export class EditDeviceComponent implements OnInit {
 
   onSingleProfileSelected(profile: DeviceProfile) {
     this.selectedProfile = profile;
+    this.resetAutoEventsInternal();
   }
 
   onSingleDeviceSvcSelected(svc: DeviceService) {
@@ -110,6 +111,10 @@ export class EditDeviceComponent implements OnInit {
     .subscribe((resp: DeviceProfileResponse) => {
       this.selectedProfile = resp.profile;
     });
+  }
+
+  resetAutoEventsInternal () {
+    this.autoEventsInternal = [];
   }
 
   setAutoEventInternal(events?: AutoEvent[]) {

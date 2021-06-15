@@ -86,6 +86,8 @@ export class DeviceListComponent implements OnInit {
         this.getDeviceListByAssociatedProfile(this.associatedProfileName);
         return
       } else {
+        this.associatedSvcName = '';
+        this.associatedProfileName = '';
         this.getDeviceListPagination();
       }
     });
@@ -161,6 +163,10 @@ export class DeviceListComponent implements OnInit {
       });
       
     });
+    //reset coreCommand to hide coreCommand card
+    this.associatedCmdDeviceName = undefined;
+    //reset to hide autoEvents card
+    this.associatedAutoEventsDeviceName = undefined;
     $("#deleteConfirmDialog").modal('hide');
   }
 

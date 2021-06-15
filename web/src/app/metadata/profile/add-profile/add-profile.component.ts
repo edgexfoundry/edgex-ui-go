@@ -19,6 +19,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-add-profile',
@@ -33,6 +34,7 @@ export class AddProfileComponent implements OnInit {
 
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
+    private errSvc: ErrorService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -91,7 +93,10 @@ export class AddProfileComponent implements OnInit {
     //   this.router.navigate(['../device-profile-list'], { relativeTo: this.route });
     // });
 
-    this.metaSvc.addProfileYamlByNameViaUIBackend(this.profileYamlSource).subscribe((data: string) => {
+    this.metaSvc.addProfileYamlByNameViaUIBackend(this.profileYamlSource).subscribe((resp: any) => {
+      if (this.errSvc.handleErrorForV2API(resp) ) {
+        return
+      }
       this.msgSvc.success('Add profile');
       this.router.navigate(['../device-profile-list'], { relativeTo: this.route })
     });
