@@ -16,9 +16,10 @@
 
 import { DeviceResource } from "./device-resource";
 import { Versionable } from "./common/versionable";
+import { DBTimestamp } from './common/db-timestamp';
 import { DeviceCommand } from "./device-command";
 
-export interface DeviceProfile extends Versionable {
+export interface DeviceProfile extends Versionable, DBTimestamp {
     id: string,
     name: string,
     manufacturer: string,
@@ -26,6 +27,5 @@ export interface DeviceProfile extends Versionable {
     model: string,
     labels: string[],
     deviceResources: DeviceResource[],
-    deviceCommands: DeviceCommand[],
-    // coreCommands: Command[] //deprecated
+    deviceCommands: DeviceCommand[]
 }

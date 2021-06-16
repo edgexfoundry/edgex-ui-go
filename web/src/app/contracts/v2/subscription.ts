@@ -1,7 +1,8 @@
 import { Versionable } from "./common/versionable";
 import { Address } from './address';
+import { DBTimestamp } from "./common/db-timestamp";
 
-export interface Subscription extends Versionable {
+export interface Subscription extends Versionable, DBTimestamp {
     id: string,
     name: string,
     description: string,
@@ -11,7 +12,5 @@ export interface Subscription extends Versionable {
     labels: string[],
     resendLimit: number,
     resendInterval: string,
-    adminState: string,
-    created: number,
-    modified: number
+    adminState: string //oneof='LOCKED' 'UNLOCKED'
 }

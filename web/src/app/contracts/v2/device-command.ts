@@ -21,6 +21,4 @@ export interface DeviceCommand  {
     isHidden: boolean,
     readWrite: string,
     resourceOperations: ResourceOperation[]
-    // get: ResourceOperation[], //deprecated
-    // set: ResourceOperation[] //deprecated
 }

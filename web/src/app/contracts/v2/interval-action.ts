@@ -1,11 +1,13 @@
-import { Address } from "./address";
-import { Versionable } from "./common/versionable";
+import { Address } from './address';
+import { Versionable } from './common/versionable';
+import { DBTimestamp } from './common/db-timestamp';
 
-export interface IntervalAction extends Versionable {
+export interface IntervalAction extends Versionable, DBTimestamp {
     id: string,
     name: string,
     intervalName: string, 
-    created: number,
-    modified: number
     address: Address
+    content: string,
+    contentType: string,
+    adminState: string //oneof='LOCKED' 'UNLOCKED'
 }

@@ -1,12 +1,13 @@
-import { AutoEvent } from "./auto-event";
-import { Versionable } from "./common/versionable";
+import { AutoEvent } from './auto-event';
+import { Versionable } from './common/versionable';
+import { DBTimestamp } from './common/db-timestamp';
 
-export interface Device extends Versionable {
+export interface Device extends Versionable, DBTimestamp {
     id: string,
     name: string,
     description: string,
-    adminState: string,
-    operatingState: string,
+    adminState: string,   //oneof='LOCKED' 'UNLOCKED'
+    operatingState: string,  //oneof='UP' 'DOWN' 'UNKNOWN'
     lastConnected?: number,
     lastReported?: number,
     labels?: string[],
@@ -14,7 +15,5 @@ export interface Device extends Versionable {
     serviceName: string,
     profileName: string,
     autoEvents: AutoEvent[],
-    protocols: any,
-    created: number,
-    modified: number
+    protocols: any
 }
