@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { ResourceProperties } from "./resource-properties";
+import { ResourceProperties } from './resource-properties';
 
 export interface DeviceResource {
     description: string,
@@ -22,6 +22,5 @@ export interface DeviceResource {
     isHidden: boolean,
     tag: string,
     properties: ResourceProperties
-    // properties: PropertyValue, //deprecated
     attributes: {}
 }

@@ -1,14 +1,13 @@
-import { Versionable } from "./common/versionable";
+import { Versionable } from './common/versionable';
+import { DBTimestamp } from './common/db-timestamp';
 
-export interface DeviceService extends Versionable {
+export interface DeviceService extends Versionable, DBTimestamp {
     id: string,
     name: string,
     description: string,
-    lastConnected: boolean,
-    lastReported: boolean,
+    lastConnected: number,
+    lastReported: number,
     labels: string[],
     baseAddress: string,
-    adminState: string,
-    created: number,
-    modified: number
+    adminState: string //oneof='LOCKED' 'UNLOCKED'
 }

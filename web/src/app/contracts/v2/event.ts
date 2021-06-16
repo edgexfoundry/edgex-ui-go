@@ -14,16 +14,15 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Versionable } from "./common/versionable";
-import { BaseReading } from "./reading";
+import { Versionable } from './common/versionable';
+import { BaseReading } from './reading';
 
-export interface Event extends Versionable{
+export interface Event extends Versionable {
     id: string,
     deviceName: string,
     profileName: string,
     sourceName: string,
-    created: boolean,
-    origin: boolean,
+    origin: number,
     readings: BaseReading[],
-    tags: {} | any
+    tags: {}
 }

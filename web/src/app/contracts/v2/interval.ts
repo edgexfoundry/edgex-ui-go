@@ -1,13 +1,12 @@
-import { Versionable } from "./common/versionable";
+import { Versionable } from './common/versionable';
+import { DBTimestamp } from './common/db-timestamp';
 
-export interface Interval extends Versionable {
+export interface Interval extends Versionable, DBTimestamp {
     id: string,
     name: string,
     start?: string,
     end?: string,
     interval: string, // replace frequency
-    //frequency: string, //deprecated
-    runOnce?: boolean,
-    created?: number,
-    modified?: number
+
+    runOnce?: boolean //deprecated
 }
