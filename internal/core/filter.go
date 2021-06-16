@@ -40,6 +40,11 @@ func GeneralFilter(h http.Handler) http.Handler {
 }
 
 func hasSvcPrefixValidate(path string) bool {
+
+	if strings.HasSuffix(path, common.JsSuffix) {
+		return false
+	}
+
 	if len(edgexSvcPathPrefixCached) == 0 {
 		for _, client := range configs.GetConfigs().Clients {
 			edgexSvcPathPrefixCached = append(edgexSvcPathPrefixCached, client.PathPrefix)
