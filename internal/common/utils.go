@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright © 2020-2021 VMware, Inc. All Rights Reserved.
+ * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,28 +14,15 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package core
+package common
 
-const (
-	ContentTypeKey   = "Content-Type"
-	JsonContentType  = "application/json"
-	RedirectHttpCode = 302
-	SessionTokenKey  = "X-Session-Token"
-
-	AjaxRequestIdentifier = "XMLHttpRequest"
-	AjaxRequestHeader     = "X-Requested-With"
-
-	HtmlSuffix          = ".html"
-	CssSuffix           = ".css"
-	JsSuffix            = ".js"
-	JsMapSuffix         = ".js.map"
-	JsonSuffix          = ".json"
-	VendorsPath         = "/vendors"
-	DataPathPrefix      = "/data"
-	LoginUriPath        = "/api/v1/auth/login"
-	UserCreaterUriPath  = "/api/v1/user"
-	LoginHtmlPage       = "/login.html"
-	UserCreaterHtmlPage = "/usercreater.html"
-
-	NoAuthorizationMsg = "no authorization."
+import (
+	"crypto/md5"
+	"encoding/hex"
 )
+
+func GetMd5String(s string) string {
+	h := md5.New()
+	h.Write([]byte(s))
+	return hex.EncodeToString(h.Sum(nil))
+}
