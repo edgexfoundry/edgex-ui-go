@@ -47,12 +47,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := core.GetMd5String(u.Name)
-	core.TokenCache[token] = u
+	//TODO:
+	// core.TokenCache[token] = u
 	log.Printf("User: %s login ", u.Name)
 	w.Write([]byte(token))
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-	token := r.Header.Get(core.SessionTokenKey)
-	delete(core.TokenCache, token)
+	//TODO:
+	// token := r.Header.Get(core.SessionTokenKey)
+	// delete(core.TokenCache, token)
 }
