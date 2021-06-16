@@ -75,7 +75,7 @@ func AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	c := client.NewDeviceProfileClient(url)
 
 	profiles := []requests.DeviceProfileRequest{
-		requests.DeviceProfileRequest{
+		{
 			BaseRequest: common.NewBaseRequest(),
 			Profile:     profile,
 		},
@@ -129,7 +129,7 @@ func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	c := client.NewDeviceProfileClient(url)
 
 	profiles := []requests.DeviceProfileRequest{
-		requests.DeviceProfileRequest{
+		{
 			BaseRequest: common.NewBaseRequest(),
 			Profile:     profile,
 		},

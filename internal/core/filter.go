@@ -17,7 +17,6 @@
 package core
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -31,7 +30,7 @@ const (
 	staticV2Path       = "static-v2/web"
 )
 
-var edgexSvcPathNames = []string{}
+var edgexSvcPathPrefixCached = []string{}
 
 func GeneralFilter(h http.Handler) http.Handler {
 	authFilter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -41,13 +40,14 @@ func GeneralFilter(h http.Handler) http.Handler {
 }
 
 func hasSvcPrefixValidate(path string) bool {
-	if len(edgexSvcPathNames) == 0 {
+	if len(edgexSvcPathPrefixCached) == 0 {
 		for _, client := range configs.GetConfigs().Clients {
-			edgexSvcPathNames = append(edgexSvcPathNames, client.PathPrefix)
+			edgexSvcPathPrefixCached = append(edgexSvcPathPrefixCached, client.PathPrefix)
 		}
 	}
-	for _, name := range edgexSvcPathNames {
-		if strings.HasPrefix(path, fmt.Sprintf("/%s/", name)) {
+
+	for _, pathPrefix := range edgexSvcPathPrefixCached {
+		if strings.HasPrefix(path, pathPrefix) {
 			return true
 		}
 	}
