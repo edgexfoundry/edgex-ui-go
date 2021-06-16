@@ -21,16 +21,17 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 )
 
 const (
-	RootURIPath  = "/"
-	pathPrefix   = "/api"
-	staticV2Path = "static-v2/web"
+	RootURIPath        = "/"
+	localAPIPathPrefix = "/api"
+	staticV2Path       = "static-v2/web"
 )
 
-var edgexSvcPathNames = []string{"metadata", "coredata", "command", "scheduler", "notification", "system", "rule-engine"}
+var edgexSvcPathNames = []string{}
 
 func GeneralFilter(h http.Handler) http.Handler {
 	authFilter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -40,6 +41,11 @@ func GeneralFilter(h http.Handler) http.Handler {
 }
 
 func hasSvcPrefixValidate(path string) bool {
+	if len(edgexSvcPathNames) == 0 {
+		for _, client := range configs.GetConfigs().Clients {
+			edgexSvcPathNames = append(edgexSvcPathNames, client.PathPrefix)
+		}
+	}
 	for _, name := range edgexSvcPathNames {
 		if strings.HasPrefix(path, fmt.Sprintf("/%s/", name)) {
 			return true
@@ -51,20 +57,20 @@ func hasSvcPrefixValidate(path string) bool {
 func AuthFilter(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
-		if path == LoginUriPath || path == UserCreaterUriPath {
+		if path == common.LoginUriPath || path == common.UserCreaterUriPath {
 			h.ServeHTTP(w, r)
 			return
 		}
 
-		if !strings.HasPrefix(path, pathPrefix) && !hasSvcPrefixValidate(path) {
+		if !strings.HasPrefix(path, localAPIPathPrefix) && !hasSvcPrefixValidate(path) {
 			http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
 			return
 		}
 
 		for prefix := range configs.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
-				path = strings.TrimPrefix(path, prefix)
-				ProxyHandler(w, r, path, prefix)
+				originalPath := strings.TrimPrefix(path, prefix)
+				ProxyHandler(w, r, originalPath, prefix)
 				return
 			}
 		}

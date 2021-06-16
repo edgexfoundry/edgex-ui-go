@@ -22,10 +22,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
-
-	"github.com/edgexfoundry/edgex-ui-go/internal/core"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
+	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
 	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
 )
 
@@ -46,7 +45,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := core.GetMd5String(u.Name)
+	token := common.GetMd5String(u.Name)
 	//TODO:
 	// core.TokenCache[token] = u
 	log.Printf("User: %s login ", u.Name)
