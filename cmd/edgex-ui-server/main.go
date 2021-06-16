@@ -24,8 +24,7 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/internal"
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/edgex-ui-go/internal/core"
-	"github.com/edgexfoundry/edgex-ui-go/internal/pkg/usage"
-	"github.com/edgexfoundry/edgex-ui-go/internal/repository/mm"
+	"github.com/edgexfoundry/edgex-ui-go/pkg/usage"
 )
 
 func main() {
@@ -42,11 +41,7 @@ func main() {
 		log.Printf("Load config failed. Error:%v\n", err)
 		return
 	}
-	// ok := mongo.DBConnect()
-	// if !ok {
-	// 	mm.DBConnect()
-	// }
-	mm.DBConnect()
+
 	r := internal.InitRestRoutes()
 
 	server := &http.Server{

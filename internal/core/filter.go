@@ -22,7 +22,6 @@ import (
 	"strings"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
-	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
 )
 
 const (
@@ -31,8 +30,6 @@ const (
 	staticV2Path = "static-v2/web"
 )
 
-//{Token:User}
-var TokenCache = make(map[string]domain.User, 20)
 var edgexSvcPathNames = []string{"metadata", "coredata", "command", "scheduler", "notification", "system", "rule-engine"}
 
 func GeneralFilter(h http.Handler) http.Handler {
@@ -54,7 +51,6 @@ func hasSvcPrefixValidate(path string) bool {
 func AuthFilter(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
-		// fmt.Println(path)
 		if path == LoginUriPath || path == UserCreaterUriPath {
 			h.ServeHTTP(w, r)
 			return
@@ -64,40 +60,6 @@ func AuthFilter(h http.Handler) http.Handler {
 			http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
 			return
 		}
-
-		/*users, _ := repository.GetUserRepos().SelectAll()
-		if len(users) == 0 && path != UserCreaterHtmlPage {
-			http.Redirect(w, r, UserCreaterHtmlPage, http.StatusTemporaryRedirect)
-			return
-		}*/
-
-		// if path == RootURIPath {
-		// 	http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
-		// 	return
-		// }
-
-		/*var token string
-		u := r.URL.RawQuery
-		params, _ := url.ParseQuery(u)
-		value, ok := params[SessionTokenKey]
-		if ok {
-			token = value[0]
-		} else {
-			token = r.Header.Get(SessionTokenKey)
-		}
-
-		_, isValid := TokenCache[token]
-
-		if (token == "") || !(isValid) {
-			if r.Header.Get(AjaxRequestHeader) != "" &&
-				r.Header.Get(AjaxRequestHeader) == AjaxRequestIdentifier {
-				w.WriteHeader(RedirectHttpCode)
-				w.Write([]byte(NoAuthorizationMsg))
-				return
-			}
-			http.Redirect(w, r, LoginHtmlPage, RedirectHttpCode)
-			return
-		}*/
 
 		for prefix := range configs.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
