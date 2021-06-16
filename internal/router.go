@@ -32,8 +32,6 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/auth/login", handler.Login).Methods(http.MethodPost)
 	s.HandleFunc("/auth/logout", handler.Logout).Methods(http.MethodGet)
 
-	s.HandleFunc("/exportshow", handler.ExportShow).Methods(http.MethodPost)
-
 	s.HandleFunc("/profile/download", handler.DowloadProfile).Methods(http.MethodGet)
 	s.HandleFunc("/profile/yaml", handler.AddProfileYamlContent).Methods(http.MethodPost)
 	s.HandleFunc("/profile/yaml/name/{name}", handler.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
@@ -46,8 +44,6 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/appservice/receiveDataPostJSON", handler.ReceiveDataPostJSON).Methods(http.MethodPost)
 	s.HandleFunc("/appservice/receiveDataPostXML", handler.ReceiveDataPostXML).Methods(http.MethodPost)
 	s.HandleFunc("/appservice/currentData", handler.CurrentData).Methods(http.MethodGet)
-	// s1 := r.PathPrefix("").Subrouter()
-	// s1.HandleFunc("/ws", component.WebSocketHandler)
 
 	return r
 }
