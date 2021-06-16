@@ -45,29 +45,29 @@ export class MetadataService {
   devicesListUrl: string = `${this.urlPrefix}/device/all`;
   addOneDeviceUrl: string = `${this.urlPrefix}/device`;
   updateOneDeviceUrl: string = `${this.urlPrefix}/device`;
-  deleteOneDeviceByIdUrl: string = `${this.urlPrefix}/device/Id/`;
-  deleteOneDeviceByNameUrl: string = `${this.urlPrefix}/device/name/`;
-  findDeviceByNameUrl: string = `${this.urlPrefix}/device/name/`;
-  findDeviceByIdUrl: string = `${this.urlPrefix}/device/id/`;
-  findDevicesByServiceIdUrl: string = `${this.urlPrefix}/device/service/id/`;
-  findDevicesByServiceNameUrl: string = `${this.urlPrefix}/device/service/name/`;
-  findDevicesByProfileIdUrl: string = `${this.urlPrefix}/device/profile/id/`;
-  findDevicesByProfileNameUrl: string = `${this.urlPrefix}/device/profile/name/`;
+  deleteOneDeviceByIdUrl: string = `${this.urlPrefix}/device/Id`;
+  deleteOneDeviceByNameUrl: string = `${this.urlPrefix}/device/name`;
+  findDeviceByNameUrl: string = `${this.urlPrefix}/device/name`;
+  findDeviceByIdUrl: string = `${this.urlPrefix}/device/id`;
+  findDevicesByServiceIdUrl: string = `${this.urlPrefix}/device/service/id`;
+  findDevicesByServiceNameUrl: string = `${this.urlPrefix}/device/service/name`;
+  findDevicesByProfileIdUrl: string = `${this.urlPrefix}/device/profile/id`;
+  findDevicesByProfileNameUrl: string = `${this.urlPrefix}/device/profile/name`;
 
   deviceServicesListUrl: string = `${this.urlPrefix}/deviceservice/all`;
   updateDeviceServiceUrl: string = `${this.urlPrefix}/deviceservice`;
-  findDeviceServiceByIdUrl: string = `${this.urlPrefix}/deviceservice/id/`;
-  findDeviceServiceByNameUrl: string = `${this.urlPrefix}/deviceservice/name/`;
+  findDeviceServiceByIdUrl: string = `${this.urlPrefix}/deviceservice/id`;
+  findDeviceServiceByNameUrl: string = `${this.urlPrefix}/deviceservice/name`;
 
   deviceProfilesListUrl: string = `${this.urlPrefix}/deviceprofile/all`;
   findProfilesByIdUrl: string = `${this.urlPrefix}/deviceprofile`;
-  findProfilesByNameUrl: string = `${this.urlPrefix}/deviceprofile/name/`;
+  findProfilesByNameUrl: string = `${this.urlPrefix}/deviceprofile/name`;
   updateDeviceProfileUrl: string = `${this.urlPrefix}/deviceprofile`;
   uploadProfileYamlFileUrl: string = `${this.urlPrefix}/deviceprofile/uploadfile`;
   uploadProfileYamlContentUrl: string = `${this.urlPrefix}/deviceprofile/upload`;
-  deviceProfileYamlUrl: string = `${this.urlPrefix}/deviceprofile/yaml/`;
-  deleteProfileByIdUrl: string = `${this.urlPrefix}/deviceprofile/id/`;
-  deleteProfileByNamedUrl: string = `${this.urlPrefix}/deviceprofile/name/`;
+  deviceProfileYamlUrl: string = `${this.urlPrefix}/deviceprofile/yaml`;
+  deleteProfileByIdUrl: string = `${this.urlPrefix}/deviceprofile/id`;
+  deleteProfileByNamedUrl: string = `${this.urlPrefix}/deviceprofile/name`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -114,7 +114,7 @@ export class MetadataService {
   }
 
   deleteOneDeviceByName(name: string): Observable<BaseResponse> {
-    let url = `${this.deleteOneDeviceByNameUrl}${name}`;
+    let url = `${this.deleteOneDeviceByNameUrl}/${name}`;
     return this.http.delete<BaseResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -122,7 +122,7 @@ export class MetadataService {
 
   //deprecated
   deleteOneDeviceById(id: string): Observable<BaseResponse> {
-    let url = `${this.deleteOneDeviceByIdUrl}${id}`;
+    let url = `${this.deleteOneDeviceByIdUrl}/${id}`;
     return this.http.delete<BaseResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -169,14 +169,14 @@ export class MetadataService {
 
   //deprecated
   findDevicesByServiceId(serviceId: string): Observable<MultiDeviceResponse> {
-    let url = `${this.findDevicesByServiceIdUrl}${serviceId}`;
+    let url = `${this.findDevicesByServiceIdUrl}/${serviceId}`;
     return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
   findDevicesByServiceName(offset: number, limit: number, serviceName: string): Observable<MultiDeviceResponse> {
-    let url = `${this.findDevicesByServiceNameUrl}${serviceName}?offset=${offset}&limit=${limit}`;
+    let url = `${this.findDevicesByServiceNameUrl}/${serviceName}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -191,7 +191,7 @@ export class MetadataService {
   }
 
   findDevicesByProfileName(offset: number, limit: number, profileName: string): Observable<MultiDeviceResponse> {
-    let url = `${this.findDevicesByProfileNameUrl}${profileName}?offset=${offset}&limit=${limit}`;
+    let url = `${this.findDevicesByProfileNameUrl}/${profileName}?offset=${offset}&limit=${limit}`;
     return this.http.get<MultiDeviceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -226,14 +226,14 @@ export class MetadataService {
 
   //deprecated
   findDevcieServiceById(id: string): Observable<DeviceServiceResponse> {
-    let url = `${this.findDeviceServiceByIdUrl}${id}`;
+    let url = `${this.findDeviceServiceByIdUrl}/${id}`;
     return this.http.get<DeviceServiceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
   findDevcieServiceByName(name: string): Observable<DeviceServiceResponse> {
-    let url = `${this.findDeviceServiceByNameUrl}${name}`;
+    let url = `${this.findDeviceServiceByNameUrl}/${name}`;
     return this.http.get<DeviceServiceResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -345,20 +345,20 @@ export class MetadataService {
 
   //deprecated
   findProfileYamlById(id: string): Observable<any> {
-    let url = `${this.deviceProfileYamlUrl}${id}`;
+    let url = `${this.deviceProfileYamlUrl}/${id}`;
     return this.http.request('GET', url, { responseType: 'text' })
   }
 
   //deprecated
   deleteProfileById(id: string): Observable<any> {
-    let url = `${this.deleteProfileByIdUrl}${id}`;
+    let url = `${this.deleteProfileByIdUrl}/${id}`;
     return this.http.delete(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
   deleteProfileByName(name: string): Observable<any> {
-    let url = `${this.deleteProfileByNamedUrl}${name}`;
+    let url = `${this.deleteProfileByNamedUrl}/${name}`;
     return this.http.delete(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )

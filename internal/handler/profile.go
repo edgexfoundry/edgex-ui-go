@@ -27,11 +27,11 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/gorilla/mux"
 
-	client "github.com/edgexfoundry/go-mod-core-contracts/v2/v2/clients/http"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos/requests"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/v2/dtos/responses"
+	client "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/http"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/requests"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/responses"
 
 	"gopkg.in/yaml.v2"
 )
