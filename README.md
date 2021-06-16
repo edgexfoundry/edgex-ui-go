@@ -14,35 +14,19 @@ As is, the EdgeX UI **is not meant for production use!**  Developers can use the
 
 
 <p align="center">
-  <img src ="assets/images/export.png" />
+  <img src ="assets/images/metadata.png" />
 </p>
-
-## User guide and operation video
-
-- If you want to learn how to use the UI, you can refer to the user guide [user guide](https://github.com/edgexfoundry/edgex-ui-go/blob/master/docs/UseGuide.md).
-
-- EdgeX UI operation video : [youtube](https://www.youtube.com/watch?v=FuR1g64BDE8) . [youku](https://v.youku.com/v_show/id_XNDY5NzExNjcyNA==.html).
-
-- [Add MQTT Device to EdgeX](./docs/ExamplesAddingMQTTDevice/AddMQTTDeviceToEdgeX.md)
-
-- [EdgeX Documentation](https://wiki.edgexfoundry.org/display/FA/EdgeX+Documentation)
 
 ## Install and Deploy
 
-To fetch the code and compile the web-based UI:
+* Make sure you're using at least Go 1.12 (UI backend server currently uses Go 1.16.x)
+* If your code is in your GOPATH then make sure ```GO111MODULE=on``` is set
+* Run ```go mod tidy```
+    * This will add the all dependent libraries to the go.mod file and download it into the module cache
 
-Using `go get`:
 ```
-go get github.com/edgexfoundry/edgex-ui-go
-cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
-make build
-```
-
-Using Git:
-```
-cd $GOPATH/src
-git clone http://github.com/edgexfoundry/edgex-ui-go.git github.com/edgexfoundry/edgex-ui-go
-cd $GOPATH/src/github.com/edgexfoundry/edgex-ui-go
+git clone http://github.com/edgexfoundry/edgex-ui-go.git
+cd edgex-ui-go
 make build
 ```
 
