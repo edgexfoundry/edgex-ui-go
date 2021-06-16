@@ -31,15 +31,7 @@ import flatpickr from 'flatpickr';
 })
 export class AddIntervalComponent implements OnInit, OnDestroy {
 
-  interval: Interval = {
-    apiVersion: "v2",
-    id: "",
-    name: "",
-    start: "",
-    end: "",
-    interval: "",
-    runOnce: false
-  };
+  interval: Interval = {} as Interval;
   calendarStart: any;
   calendarEnd: any;
 
