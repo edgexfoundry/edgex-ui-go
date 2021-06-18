@@ -182,7 +182,7 @@
                                             <label for="addressPath" class="col-md-2 col-form-label" required>
                                                 <span class="mr-2">Path</span>
                                                 <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                                data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when requestBody selected!"></span>
+                                                data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when parameters field is selected!"></span>
                                             </label>
                                             <div class="col-md-10">
                                                 <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path" disabled>
@@ -197,7 +197,6 @@
                                                     </div>
                                                     <input type="text" class="form-control" name="coredataRequestParameter" [(ngModel)]="coredataRequestParameter">
                                                 </div>
-                                                <!-- <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody"> -->
                                             </div>
                                         </div>
                                     </form>
@@ -212,10 +211,6 @@
                                             </label>
                                             <div class="col-md-10">
                                                 <input type="text" class="form-control"  name="httpMethod" disabled [(ngModel)]="intervalAction.address.httpMethod" required>
-                                                <!-- <select type="text" class="form-control" name="httpMethod" disabled [(ngModel)]="intervalAction.address.httpMethod">
-                                                    <option value="GET">GET</option>
-                                                    <option value="PUT">PUT</option>
-                                                </select> -->
                                             </div>
                                         </div>
                                         <div class="form-group row has-validation">
@@ -255,53 +250,6 @@
                                     </form>
                                 </ng-template>
                             </div>
-                               <!-- <form>
-                                   <div class="form-group row">
-                                       <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
-                                       <div class="col-md-10">
-                                           <select type="text" class="form-control" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
-                                               <option value="GET">GET</option>
-                                               <option value="POST">POST</option>
-                                               <option value="PUT">PUT</option>
-                                               <option value="DELETE">DELETE</option>
-                                               <option value="PATCH">PATCH</option>
-                                               <option value="HEAD">HEAD</option>
-                                               <option value="TRACE">TRACE</option>
-                                               <option value="CONNECT">CONNECT</option>
-                                           </select>
-                                       </div>
-                                   </div>
-                                   <div class="form-group row has-validation">
-                                       <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
-                                       <div class="col-md-10">
-                                           <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
-                                           <div id="addressHostFeedback" class="invalid-feedback">
-                                               <small>the REST address host can't be empty!</small> 
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="form-group row has-validation">
-                                       <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
-                                       <div class="col-md-10">
-                                           <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
-                                           <div id="addressPortFeedback" class="invalid-feedback">
-                                               <small>the REST address port can't be empty and only pure integer is supported!</small> 
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="form-group row">
-                                       <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
-                                       <div class="col-md-10">
-                                           <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path">
-                                       </div>
-                                   </div>
-                                   <div class="form-group row">
-                                        <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
-                                        </div>
-                                    </div>
-                               </form> -->
                            </div>
                            <div *ngIf="intervalAction.address?.type === addr_type_MQTT" #MQTT>
                                <form>

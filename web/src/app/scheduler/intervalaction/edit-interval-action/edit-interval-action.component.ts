@@ -45,7 +45,7 @@ export class EditIntervalActionComponent implements OnInit {
   template_type_command = 'command';
   template_type_custom = 'custom';
 
-  intervalActionOlder: IntervalAction;
+  intervalActionOrigin: IntervalAction;
   intervalAction: IntervalAction;
   addressEmailRecipients: string = "";
   selectedIntervalDefault?: Interval;
@@ -63,7 +63,7 @@ export class EditIntervalActionComponent implements OnInit {
     private router: Router,
     private errSvc: ErrorService) {
       this.intervalAction = {} as IntervalAction;
-      this.intervalActionOlder = {} as IntervalAction;
+      this.intervalActionOrigin = {} as IntervalAction;
       this.intervalAction.address = {} as Address;
   }
 
@@ -73,8 +73,7 @@ export class EditIntervalActionComponent implements OnInit {
       if (params['intervalActionName']) {
         this.schedulerSvc.findIntervalActionByName(params['intervalActionName']).subscribe((resp: IntervalActionResponse)=>{
           this.intervalAction = JSON.parse(JSON.stringify(resp.action));
-          this.intervalActionOlder = JSON.parse(JSON.stringify(resp.action));
-          // this.intervalActionOlder = resp.action;
+          this.intervalActionOrigin = JSON.parse(JSON.stringify(resp.action));
           this.addressEmailRecipients  = this.intervalAction.address.recipients?this.intervalAction.address.recipients.toString():'';
           this.findDefaultSelectedIntervalByName(this.intervalAction.intervalName);
           setTimeout(() => {
@@ -128,7 +127,7 @@ export class EditIntervalActionComponent implements OnInit {
   renderCoredataDefaultTemplate() {
     this.intervalAction.address.httpMethod = 'DELETE';
     this.intervalAction.address.host = 'edgex-core-data';
-    this.intervalAction.address.port = 48080;
+    this.intervalAction.address.port = 59880;
     this.intervalAction.address.path = this.coredataSvcAvailableAPI[0];
     setTimeout(() => {
       this.renderPopoverComponent();
@@ -137,7 +136,7 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   templateToggle(template: string) {
-    this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOlder));
+    this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOrigin));
     this.intervalAction.address.type = this.addr_type_REST;
     this.templateSelected = template;
     switch (this.templateSelected) {
@@ -159,8 +158,9 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   typeToggle(type: string) {
-    this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOlder));
+    this.intervalAction = JSON.parse(JSON.stringify(this.intervalActionOrigin));
     this.intervalAction.address.type = type;
+    this.templateSelected = 'custom';
     setTimeout(() => {
       this.renderPopoverComponent();
     }, 300); 

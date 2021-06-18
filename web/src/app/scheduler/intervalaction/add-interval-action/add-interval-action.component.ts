@@ -85,7 +85,7 @@ export class AddIntervalActionComponent implements OnInit {
   renderCoredataDefaultTemplate() {
     this.intervalAction.address.httpMethod = 'DELETE';
     this.intervalAction.address.host = 'edgex-core-data';
-    this.intervalAction.address.port = 48080;
+    this.intervalAction.address.port = 59880;
     this.intervalAction.address.path = this.coredataSvcAvailableAPI[0];
     setTimeout(() => {
       this.renderPopoverComponent();
@@ -102,7 +102,7 @@ export class AddIntervalActionComponent implements OnInit {
       case 'command':
         this.intervalAction.address.httpMethod = '';
         this.intervalAction.address.host = 'edgex-core-command';
-        this.intervalAction.address.port = 48082;
+        this.intervalAction.address.port = 59882;
         this.intervalAction.address.path = '';
         this.intervalAction.address.httpMethod = '';
         setTimeout(() => {
