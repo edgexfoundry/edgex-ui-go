@@ -18,10 +18,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { DeviceService } from '../../../contracts/v2/device-service';
-import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { Device } from '../../../contracts/v2/device';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
-// import { MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
 import { AutoEvent } from '../../../contracts/v2/auto-event';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -74,12 +72,16 @@ declare type properties = {
 })
 export class AddDeviceComponent implements OnInit {
 
+  newDevice: Device;
+  deviceLabels: string = '';
+
   currentStep = 0;
   selectedClass = "text-white rounded px-2 bg-success  font-weight-bold";
   noSelectedClass = "text-white rounded px-2 bg-secondary  font-weight-bold";
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
-  newDevice?: Device;
+  autoEventResourceNameSet: string[] = [];
+  
 
   autoEventsInternal: AutoEventInternal[] = [{
     interval: '',
@@ -87,12 +89,6 @@ export class AddDeviceComponent implements OnInit {
     resource: '',
     unit: 'ms'
   }];
-
-  deviceName: string = '';
-  deviceDescription: string = '';
-  deviceLabels?: string;
-  deviceAdminState: string = 'UNLOCKED';
-  deviceOperatingState: string = 'UP';
 
   protocolTemplateModel: string = "avaliable";
   protocolName: string = '';
@@ -112,13 +108,28 @@ export class AddDeviceComponent implements OnInit {
     private msgSvc: MessageService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+    this.newDevice = {
+      adminState: 'UNLOCKED',
+      operatingState: 'UP'
+    } as Device;
+  }
 
   ngOnInit(): void {
   }
 
   onSingleProfileSelected(profile: DeviceProfile) {
     this.selectedProfile = profile;
+    this.setupAutoEventResourceNameSet(this.selectedProfile);
+  }
+
+  setupAutoEventResourceNameSet(profile: DeviceProfile) {
+    profile.deviceResources.forEach((r,i) => {
+      this.autoEventResourceNameSet.push(r.name);
+    })
+    profile.deviceCommands.forEach((cmd,i) => {
+      this.autoEventResourceNameSet.push(cmd.name);
+    })
   }
 
   onSingleDeviceSvcSelected(svc: DeviceService) {
@@ -228,7 +239,7 @@ export class AddDeviceComponent implements OnInit {
       case 1:
         return this.selectedProfile === undefined
       case 2:
-        return this.deviceName === undefined || this.deviceName === ''
+        return this.newDevice.name === ''
       case 3:
         let flag = false;
         this.autoEventsInternal.forEach((event) => {
@@ -262,7 +273,7 @@ export class AddDeviceComponent implements OnInit {
     this.currentStep += 1;
   }
 
-  done() {
+  submit() {
     let protocol: protocol = {};
     let properties: properties = {};
 
@@ -285,20 +296,14 @@ export class AddDeviceComponent implements OnInit {
       })
     });
 
-    let device: Device = {
-      name: this.deviceName,
-      description: this.deviceDescription,
-      labels: this.deviceLabels?.split(','),
-      adminState: this.deviceAdminState,
-      operatingState: this.deviceOperatingState,
-      serviceName: this.selectedSvc?.name as string,
-      profileName: this.selectedProfile?.name as string,
-      protocols: protocol,
-      autoEvents: autoEvents
-    } as Device
+    this.newDevice.labels = this.deviceLabels?.split(','),
+    this.newDevice.serviceName = this.selectedSvc?.name as string;
+    this.newDevice.profileName = this.selectedProfile?.name as string;
+    this.newDevice.protocols = protocol;
+    this.newDevice.autoEvents = autoEvents;
 
-    this.metaSvc.addDevice(device).subscribe(() => {
-      this.msgSvc.success('Add device');
+    this.metaSvc.addDevice(this.newDevice).subscribe(() => {
+      this.msgSvc.success('Add device',`name: ${this.newDevice.name}`);
       this.router.navigate(['../device-list'], { relativeTo: this.route })
     })
   }
