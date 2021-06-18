@@ -55,6 +55,7 @@ export class EditDeviceComponent implements OnInit {
   selectedProfile?: DeviceProfile;
 
   autoEventsInternal: AutoEventInternal[] = [];
+  autoEventResourceNameSet: string[] = [];
 
   protocolName?: string;
   protocolProperty: properties = {
@@ -91,6 +92,7 @@ export class EditDeviceComponent implements OnInit {
   onSingleProfileSelected(profile: DeviceProfile) {
     this.selectedProfile = profile;
     this.resetAutoEventsInternal();
+    this.setupAutoEventResourceNameSet(this.selectedProfile);
   }
 
   onSingleDeviceSvcSelected(svc: DeviceService) {
@@ -110,11 +112,21 @@ export class EditDeviceComponent implements OnInit {
     .findProfileByName(profileName)
     .subscribe((resp: DeviceProfileResponse) => {
       this.selectedProfile = resp.profile;
+      this.setupAutoEventResourceNameSet(this.selectedProfile);
     });
   }
 
   resetAutoEventsInternal () {
     this.autoEventsInternal = [];
+  }
+
+  setupAutoEventResourceNameSet(profile: DeviceProfile) {
+    profile.deviceResources.forEach((r,i) => {
+      this.autoEventResourceNameSet.push(r.name);
+    })
+    profile.deviceCommands.forEach((cmd,i) => {
+      this.autoEventResourceNameSet.push(cmd.name);
+    })
   }
 
   setAutoEventInternal(events?: AutoEvent[]) {
