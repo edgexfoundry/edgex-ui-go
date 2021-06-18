@@ -192,7 +192,7 @@
                                                 <label for="addressPath" class="col-md-2 col-form-label" required>
                                                     <span class="mr-2">Path</span>
                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                                    data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when requestBody selected!"></span>
+                                                    data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when parameters field is selected!"></span>
                                                 </label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path" disabled>
@@ -207,7 +207,6 @@
                                                         </div>
                                                         <input type="text" class="form-control" name="coredataRequestParameter" [(ngModel)]="coredataRequestParameter">
                                                     </div>
-                                                    <!-- <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody"> -->
                                                 </div>
                                             </div>
                                         </form>
@@ -222,10 +221,6 @@
                                                 </label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control"  name="httpMethod" disabled [(ngModel)]="intervalAction.address.httpMethod" required>
-                                                    <!-- <select type="text" class="form-control" name="httpMethod" disabled [(ngModel)]="intervalAction.address.httpMethod">
-                                                        <option value="GET">GET</option>
-                                                        <option value="PUT">PUT</option>
-                                                    </select> -->
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
