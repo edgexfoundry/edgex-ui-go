@@ -213,6 +213,7 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   save() {
+    this.intervalAction.address.recipients = this.addressEmailRecipients.split(',');
     this.intervalAction.address.port = Number(this.intervalAction.address.port);
     this.schedulerSvc.updateIntervalAction(this.intervalAction).subscribe(()=>{
       this.msgSvc.success('Update interval action',`name: ${this.intervalAction.name}`);
