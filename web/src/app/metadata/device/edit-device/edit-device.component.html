@@ -192,7 +192,7 @@
                                 <label class="col-md-2 col-form-label">resource</label>
                                 <div class="col-md-10">
                                     <select class="custom-select" name="resource" [(ngModel)]="event.resource" [class.is-invalid]="event.resource === ''" [class.is-valid]="event.resource !==''"  style="width: 250px;" required>
-                                        <option *ngFor="let r of selectedProfile?.deviceResources" value="{{r.name}}">{{r.name}}</option>
+                                        <option *ngFor="let r of autoEventResourceNameSet" value="{{r}}">{{r}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         resource can't be empty
