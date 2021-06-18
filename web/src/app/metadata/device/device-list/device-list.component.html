@@ -84,6 +84,7 @@
                         <td class="text-center">
                             <span [ngSwitch]="device.operatingState">
                                 <span *ngSwitchCase="'UP'" class="badge badge-success"> {{device.operatingState}}</span> 
+                                <span *ngSwitchCase="'DOWN'" class="badge badge-danger"> {{device.operatingState}}</span> 
                                 <span *ngSwitchDefault class="badge badge-danger"> {{device.operatingState}}</span> 
                             </span>
                         </td>
