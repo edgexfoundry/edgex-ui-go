@@ -67,8 +67,8 @@ export class SystemAgentService {
   }
 
   getMetricsBySvcName(serviceName: string): Observable<BaseWithMetricsResponse[]> {
-    let svcName = `edgex-${serviceName}`;
-    let url = `${this.urlPrefixV2}${this.metricsUrl}?services=${svcName}`;
+    // let svcName = `edgex-${serviceName}`;
+    let url = `${this.urlPrefixV2}${this.metricsUrl}?services=${serviceName}`;
     return this.http.get<BaseWithMetricsResponse[]>(url)
   }
 
@@ -89,7 +89,7 @@ export class SystemAgentService {
   }
 
   startV2(name: string): Observable<any> {
-    name = `edgex-${name}`;
+    // name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -99,7 +99,7 @@ export class SystemAgentService {
   }
 
   stopV2(name: string): Observable<any> {
-    name = `edgex-${name}`;
+    // name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -109,7 +109,7 @@ export class SystemAgentService {
   }
 
   restartV2(name: string): Observable<any> {
-    name = `edgex-${name}`;
+    // name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
