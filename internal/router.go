@@ -26,7 +26,7 @@ import (
 func InitRestRoutes() http.Handler {
 	r := mux.NewRouter()
 
-	s := r.PathPrefix("/api/v1").Subrouter()
+	s := r.PathPrefix("/api/v2").Subrouter()
 	s.HandleFunc("/ping", ping).Methods(http.MethodGet)
 	s.HandleFunc("/user", handler.AddUser).Methods(http.MethodPost)
 	s.HandleFunc("/auth/login", handler.Login).Methods(http.MethodPost)

@@ -63,4 +63,4 @@ Host = "localhost"
 Port = 8500
 Type = "consul"
 ConfigRegistryStem="edgex/appservices/"
-ServiceVersion="1.0"
+ServiceVersion="2.0"
