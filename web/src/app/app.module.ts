@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MessageComponent } from './message/message.component';
+import { AngularDraggableModule } from 'angular2-draggable';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { MessageComponent } from './message/message.component';
     HttpClientModule,
 
     AppRoutingModule,
+    AngularDraggableModule,
+    AngularMultiSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

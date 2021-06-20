@@ -1,0 +1,37 @@
+<ul class="list-group p-0">
+    <li *ngFor="let appService of appServiceList" class="list-group-item list-group-item-action list-group-item-light">
+        <div class="media">
+            <div class="align-self-center mr-3">
+                <i class="fa fa-tags fa-2x text-secondary"></i>  
+            </div>
+            <div class="media-body">
+                <div class="mt-0 mb-1">
+                    <h5 class="d-inline mr-3 align-middle text-dark">{{appService}}</h5>
+                </div>
+                <div>
+                    <span class="badge badge-info mr-3" role="button" (click)="appServiceDetail()">{{appService}} Details</span>
+
+                    <span class="badge badge-secondary float-right" role="button" routerLink="../app-service-configurable" routerLinkActive="active"> <i class="fa fa-cog"></i> Setting</span>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<div class="modal fade" id="appServiceDetailDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="ruleDetailDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="ruleDetailDialogLabel">
+                    App Service Details
+                </h5>
+            </div>
+            <div class="modal-body">
+                <pre class="mt-2 bg-secondary p-2 text-light rounded">{{appServiceTempStr}}</pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
