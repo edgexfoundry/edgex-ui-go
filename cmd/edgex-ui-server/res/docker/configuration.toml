@@ -3,7 +3,7 @@ Host = "edgex-ui-go"
 Port = 4000
 Labels = []
 OpenMsg = "edgeX ui started"
-StaticResourcesPath = "./static"
+StaticResourcesPath = "static/web"
 
 #Using an default memory db automatically if not configed here.
 [Database]
