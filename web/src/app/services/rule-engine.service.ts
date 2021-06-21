@@ -12,7 +12,7 @@ import { BaseResponse } from '../contracts/v2/common/base-response';
 })
 export class RuleEngineService {
 
-  endpoint: string = "/ruleengine";
+  endpoint: string = "/rule-engine";
   version: string = "";
 
   streamUrl: string = `${this.endpoint}${this.version}/streams`;

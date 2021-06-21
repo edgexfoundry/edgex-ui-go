@@ -10,7 +10,7 @@ import { AppService } from '../contracts/v2/app-service/app-service';
 })
 export class AppServiceService {
 
-  endpoint: string = "/appservice";
+  endpoint: string = "/app-service";
   version: string = "/api/v2";
 
   appServiceUrl: string = `${this.endpoint}${this.version}`;
@@ -32,15 +32,19 @@ export class AppServiceService {
   }
 
   downloadAppServiceConfig(serviceKey: string): Observable<any> {
-    let url = `${this.version}${this.endpoint}/download/servicekey/`+ serviceKey;
-    return this.http.get<any>(url).pipe(
+    let url = `${this.version}/appservice/download/servicekey/`+ serviceKey;
+    return this.http.get(url, {
+      responseType: "blob",
+      observe: 'response',
+      headers: new HttpHeaders().append("Content-Type", "application/json")
+    }).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
-  deployToConsul(appServiceWritable: any,serviceKey: string): Observable<any> {
-    let url = `${this.version}${this.endpoint}/deploy/servicekey/`+ serviceKey;
-    return this.http.post<any>(url,JSON.stringify(appServiceWritable), this.httpPostOrPutJSONOptions)
+  deployToConsul(appServiceWritable: any,serviceKey: string): Observable<string> {
+    let url = `${this.version}/appservice/deploy/servicekey/`+ serviceKey;
+    return this.http.post<string>(url,JSON.stringify(appServiceWritable), this.httpPostOrPutJSONOptions)
     .pipe(
       catchError(error => this.errorSvc.handleError(error))
     )

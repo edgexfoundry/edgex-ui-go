@@ -33,6 +33,10 @@ var data = make(map[string]string)
 
 const AppServiceConfigurableFileName = "configuration.toml"
 const defaultServiceKey = "app-rules-engine"
+type JsonResult  struct{
+	Code int `json:"code"`
+	Msg  string `json:"msg"`
+}
 
 func HeartBeatAppService(w http.ResponseWriter, r *http.Request) {
 	_, err := initRegistryClientByServiceKey(defaultServiceKey)
@@ -101,7 +105,10 @@ func DeployConfigurableProfile(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "InternalServerError", http.StatusInternalServerError)
 		return
 	}
-	w.Write([]byte("ok"))
+	var msg []byte
+	msg, _ = json.Marshal(JsonResult{Code: 200, Msg: "deploy success!"})
+	w.Write(msg)
+	//w.Write([]byte("ok"))
 }
 
 func DownloadConfigurableProfile(w http.ResponseWriter, r *http.Request) {

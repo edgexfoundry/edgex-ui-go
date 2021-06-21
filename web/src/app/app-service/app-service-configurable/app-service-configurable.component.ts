@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Device } from 'src/app/contracts/v2/device';
 import { DeviceProfile } from 'src/app/contracts/v2/device-profile';
@@ -24,7 +25,7 @@ export class AppServiceConfigurableComponent implements OnInit {
             Pipeline: {
                 ExecutionOrder: "SetResponseData",
                 UseTargetTypeOfByteArray: false,
-                Functions: []
+                Functions: {}
             }
         }
     };
@@ -554,7 +555,7 @@ export class AppServiceConfigurableComponent implements OnInit {
     appConfigurableMap: Map<string, any> = new Map();
     settingFunctionType: string = '';
     settingFunctionName: string = '';
-    constructor(private appSvc: AppServiceService, private msgSvc: MessageService, private metaSvc: MetadataService,
+    constructor(private http: HttpClient,private appSvc: AppServiceService, private msgSvc: MessageService, private metaSvc: MetadataService,
         private el: ElementRef) { }
     @ViewChild('appservice_Transforms_Btn') appservice_Transforms_Btn!: ElementRef;
 
@@ -633,38 +634,37 @@ export class AppServiceConfigurableComponent implements OnInit {
             }
         });
         //to build appconfigurablemap to deployData.
+        var executionOrderArr: string[] = this.deployData.Writable.Pipeline.ExecutionOrder.split(",");
         this.appConfigurableMap.forEach((value, key) => {
             value.forEach((element: any) => {
-                let oneFunction: Map<string, any> = new Map();
-                let paramMap: Map<string, any> = new Map();
-                let paramarr: Map<string, any> = new Map();
+                executionOrderArr.push(element.Name);
+                this.deployData.Writable.Pipeline.Functions[element.Name] = {};
+                this.deployData.Writable.Pipeline.Functions[element.Name]['Parameters'] = {};
                 if (element.Parameters != null) {
                     element.Parameters.forEach((param: any) => {
                         if (param.Default == "true" || param.Default == "false") {
                             param.Default = JSON.parse(param.Default);
                         }
-                        paramarr.set(param.Name, param.Default);
+                        this.deployData.Writable.Pipeline.Functions[element.Name]['Parameters'][param.Name] = param.Default;
                     });
-                    paramMap.set("Parameters", paramarr);
                 } else {
-                    paramMap.set("p", "");
+                    this.deployData.Writable.Pipeline.Functions[element.Name]['Parameters'] = {
+                        "p" : "",
+                    };
                 }
-                oneFunction.set(key, paramMap);
-                this.deployData.Writable.Pipeline.Functions.push(oneFunction);
             });
         });
-
-        console.log(this.deployData);
+        this.deployData.Writable.Pipeline.ExecutionOrder = executionOrderArr.join(",");
         if ($.isEmptyObject(this.deployData.Writable.Pipeline.Functions)) {
             this.msgSvc.errors("The deploy must contain functions.");
             return;
         }
 
-        var executionOrderArr: string[] = this.deployData.Writable.Pipeline.ExecutionOrder.split(",");
         var newExectionArr: string[] = [];
         executionOrderArr.forEach(function (value, index) {
             if (value != "FilterByDeviceName" && value != "FilterByValueDescriptor" && value != "HTTPPost" && value != "HTTPPostJSON" && value != "HTTPPostXML" && value != "MQTTSend") {
                 newExectionArr.push(executionOrderArr[index]);
+                
             }
         });
         executionOrderArr.forEach(function (value, index) {
@@ -675,24 +675,26 @@ export class AppServiceConfigurableComponent implements OnInit {
             }
         });
         this.deployData.Writable.Pipeline.ExecutionOrder = newExectionArr.join(",");
-
-        //send request with parameters to go service
-        this.appSvc.deployToConsul(this.deployData, this.serviceKey).subscribe(() => {
-            this.msgSvc.success('deploy to consul success');
+        this.appSvc.deployToConsul(this.deployData, this.serviceKey).subscribe((resp: any) => {
+            this.msgSvc.success('deploy to consul ');
         })
     }
 
     downloadConfiguration() {
-        this.appSvc.downloadAppServiceConfig(this.serviceKey).subscribe((data: any) => {
-            const eleLink = document.createElement('a');
-            eleLink.download = "configuration.toml";
-            eleLink.style.display = 'none';
-            const blob = new Blob([data]);
-            eleLink.href = URL.createObjectURL(blob);
-            document.body.appendChild(eleLink);
-            eleLink.click();
-            document.body.removeChild(eleLink);
-        });
+        this.appSvc.downloadAppServiceConfig(this.serviceKey).subscribe((resp: any) => {
+            this.downloadFile(resp);
+          });
+    }
+    
+    downloadFile(data:any) {
+        const blob = new Blob([data.body], {type: 'application/octet-stream'});
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const fileName = data.headers.get('content-disposition').split(';')[1].split('=')[1].split('"')[1];
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
     }
 
     onDragRightToLeftEnd(event: any) {
