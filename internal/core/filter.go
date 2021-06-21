@@ -27,7 +27,7 @@ import (
 const (
 	RootURIPath        = "/"
 	localAPIPathPrefix = "/api"
-	staticV2Path       = "static-v2/web"
+	staticV2Path       = "static/web"
 )
 
 var edgexSvcPathPrefixCached = []string{}
