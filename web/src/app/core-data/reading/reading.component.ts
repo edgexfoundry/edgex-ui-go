@@ -21,6 +21,12 @@ export class ReadingComponent implements OnInit {
   feedEvents() {
     this.feedInterval = setInterval(() => {
       this.dataSvc.allReadingsPagination(0,5).subscribe((resp: MultiReadingResponse) => {
+        if (resp.readings.length === 0) {
+          $("#data-event-stream").prepend('<p class="user-select-all">' + 
+          'no data stream available, please confirm whether there is at least one device to collect data' + 
+          '</p>');
+          return
+        }
         resp.readings.forEach((r,i) => {
           $("#data-reading-stream").prepend('<p class="user-select-all">' + JSON.stringify(r) + '</p>');
         })

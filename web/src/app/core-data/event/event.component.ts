@@ -38,6 +38,12 @@ export class EventComponent implements OnInit, OnDestroy{
   feedEvents() {
     this.feedInterval = setInterval(() => {
       this.dataSvc.allEventsPagination(0,5).subscribe((resp: MultiEventsResponse) => {
+        if (resp.events.length === 0) {
+          $("#data-event-stream").prepend('<p class="user-select-all">' + 
+          'no data stream available, please confirm whether there is at least one device to collect data' + 
+          '</p>');
+          return
+        }
         resp.events.forEach((e,i) => {
           $("#data-event-stream").prepend('<p class="user-select-all">' + JSON.stringify(e) + '</p>');
         })
