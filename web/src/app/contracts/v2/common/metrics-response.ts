@@ -14,37 +14,22 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Versionable } from './versionable';
 
-import { CoreDataComponent } from './core-data.component';
-import { EventComponent } from './event/event.component';
-import { ReadingComponent } from './reading/reading.component';
+export interface Metrics {
+    memAlloc: number,
+    memFrees: number,
+    memLiveObjects: number,
+    memMallocs: number,
+    memSys: number,
+    memTotalAlloc: number,
+    cpuBusyAvg: number,
+}
 
-const routes: Routes = [
-  {
-    path: '',
-    component: CoreDataComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'event',
-        pathMatch: 'full'
-      },
-      {
-        path: 'event',
-        component: EventComponent
-      },
-      {
-        path: 'reading',
-        component:  ReadingComponent
-      }
-    ]
-  }
-];
+export interface MetricsResponse extends Versionable {
+    metrics: Metrics
+}
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class CoreDataRoutingModule { }
+export interface MultiMetricsResponse extends Versionable {
+    metrics: any
+}

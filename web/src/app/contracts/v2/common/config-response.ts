@@ -14,37 +14,12 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Versionable } from "./versionable";
 
-import { CoreDataComponent } from './core-data.component';
-import { EventComponent } from './event/event.component';
-import { ReadingComponent } from './reading/reading.component';
+export interface ConfigResponse extends Versionable {
+    config: any;
+}
 
-const routes: Routes = [
-  {
-    path: '',
-    component: CoreDataComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'event',
-        pathMatch: 'full'
-      },
-      {
-        path: 'event',
-        component: EventComponent
-      },
-      {
-        path: 'reading',
-        component:  ReadingComponent
-      }
-    ]
-  }
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class CoreDataRoutingModule { }
+export interface MultiConfigsResponse extends Versionable {
+    configs: any;
+}
