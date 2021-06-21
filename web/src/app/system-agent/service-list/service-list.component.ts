@@ -41,10 +41,10 @@ export class ServiceListComponent implements OnInit {
     "edgex-core-metadata", "edgex-core-data", "edgex-core-command",
     "edgex-support-notifications", "edgex-support-scheduler",
     // "edgex-redis",
-    "rule-engine",
+    //"rule-engine",
     // "edgex-ui-go",
     //"edgex-sys-mgmt-agent",
-    "edgex-app-service-configurable-rules"];
+    "edgex-app-rules-engine"];
 
   operationBtnDisabled: boolean = false;
   toggleClass: string = "";
