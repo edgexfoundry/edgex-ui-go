@@ -20,10 +20,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 
-import { MetricsResponse } from '../contracts/v2/common/metrics-response'
 import { CountResponse } from '../contracts/v2/common/count-response';
 import { MultiReadingResponse } from '../contracts/v2/responses/reading-response';
 import { MultiEventsResponse } from '../contracts/v2/responses/event-response';
+import { BaseWithConfigResponse } from '../contracts/v2/common/base-response';
 
 @Injectable({
   providedIn: 'root'
@@ -48,9 +48,9 @@ export class DataService {
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
-  getConfig(): Observable<MetricsResponse> {
+  getConfig(): Observable<BaseWithConfigResponse> {
     let url = `${this.urlPrefix}${this.configUrl}`;
-    return this.http.get<MetricsResponse>(url).pipe(
+    return this.http.get<BaseWithConfigResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
