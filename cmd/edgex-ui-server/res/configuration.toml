@@ -58,6 +58,13 @@ Password = "su"
     Port = 58890
     PathPrefix = "/system"
 
+    [Clients.AppService]
+    Protocol = 'http'
+    Host = 'localhost'
+    Port = 59701
+    PathPrefix = "/app-service"
+
+
 [Registry]
 Host = "localhost"
 Port = 8500
