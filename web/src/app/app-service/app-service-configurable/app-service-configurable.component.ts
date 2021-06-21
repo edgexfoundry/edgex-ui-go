@@ -20,6 +20,7 @@ export class AppServiceConfigurableComponent implements OnInit {
     ];
     serviceKey: string = "app-rules-engine";
     deployData: any = {
+        Trigger:{},
         Writable: {
             LogLevel: "INFO",
             Pipeline: {
@@ -58,6 +59,13 @@ export class AppServiceConfigurableComponent implements OnInit {
                         'type': 'string'
                     },
                     {
+                        'Name': 'PublishHost.PublishTopic',
+                        'Default': 'rules-events',
+                        'Hint': 'rules-events',
+                        'Required': true,
+                        'type': 'string'
+                    },
+                    {
                         'Name': 'SubscribeHost.Host',
                         'Default': 'edgex-redis',
                         'Hint': 'edgex-redis',
@@ -75,6 +83,13 @@ export class AppServiceConfigurableComponent implements OnInit {
                         'Name': 'SubscribeHost.Protocol',
                         'Default': 'redis',
                         'Hint': 'redis',
+                        'Required': true,
+                        'type': 'string'
+                    },
+                    {
+                        'Name': 'SubscribeHost.SubscribeTopics',
+                        'Default': 'edgex/events/#',
+                        'Hint': 'edgex/events/#',
                         'Required': true,
                         'type': 'string'
                     },
@@ -308,7 +323,8 @@ export class AppServiceConfigurableComponent implements OnInit {
             },
             {
                 'Name': 'TransformToJSON',
-                'Description': '',
+                'Description': 'To transform the data to JSON.',
+                'IsNeedParam': 'No need to set Parameters',
                 'Parameters': null,
                 'Addressable': null
             }
@@ -637,6 +653,118 @@ export class AppServiceConfigurableComponent implements OnInit {
         var executionOrderArr: string[] = this.deployData.Writable.Pipeline.ExecutionOrder.split(",");
         this.appConfigurableMap.forEach((value, key) => {
             value.forEach((element: any) => {
+                if(element.Name == 'EdgexMessageBus'){
+                    this.deployData.Trigger[element.Name] = {};
+                    element.Parameters.forEach((param: any) => {
+                        if (param.Default == "true" || param.Default == "false") {
+                            param.Default = JSON.parse(param.Default);
+                        }
+                        if(param.Name == "PublishHost.Host"){
+                            if(this.deployData.Trigger[element.Name]['PublishHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['PublishHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['PublishHost']['Host'] = param.Default;
+                        } else if(param.Name == "PublishHost.Port"){
+                            if(this.deployData.Trigger[element.Name]['PublishHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['PublishHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['PublishHost']['Port'] = param.Default;
+                        } else if(param.Name == "PublishHost.Protocol"){
+                            if(this.deployData.Trigger[element.Name]['PublishHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['PublishHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['PublishHost']['Protocol'] = param.Default;
+                        } else if(param.Name == "PublishHost.PublishTopic"){
+                            if(this.deployData.Trigger[element.Name]['PublishHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['PublishHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['PublishHost']['PublishTopic'] = param.Default;
+                        } else if(param.Name == "SubscribeHost.Host"){
+                            if(this.deployData.Trigger[element.Name]['SubscribeHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['SubscribeHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['SubscribeHost']['Host'] = param.Default;
+                        } else if(param.Name == "SubscribeHost.Port"){
+                            if(this.deployData.Trigger[element.Name]['SubscribeHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['SubscribeHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['SubscribeHost']['Port'] = param.Default;
+                        } else if(param.Name == "SubscribeHost.Protocol"){
+                            if(this.deployData.Trigger[element.Name]['SubscribeHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['SubscribeHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['SubscribeHost']['Protocol'] = param.Default;
+                        } else if(param.Name == "SubscribeHost.SubscribeTopics"){
+                            if(this.deployData.Trigger[element.Name]['SubscribeHost'] == undefined){
+                                this.deployData.Trigger[element.Name]['SubscribeHost'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['SubscribeHost']['SubscribeTopics'] = param.Default;
+                        } else if(param.Name == "AutoReconnect"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['AutoReconnect'] = param.Default;
+                        } else if(param.Name == "ClientId"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['ClientId'] = param.Default;
+                        } else if(param.Name == "ConnectTimeout"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['ConnectTimeout'] = param.Default;
+                        } else if(param.Name == "KeepAlive"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['KeepAlive'] = param.Default;
+                        } else if(param.Name == "Password"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['Password'] = param.Default;
+                        } else if(param.Name == "Qos"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['Qos'] = param.Default;
+                        } else if(param.Name == "Retained"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['Retained'] = param.Default;
+                        } else if(param.Name == "SkipCertVerify"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['SkipCertVerify'] = param.Default;
+                        } else if(param.Name == "Username"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['Username'] = param.Default;
+                        } else if(param.Name == "authmode"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['authmode'] = param.Default;
+                        } else if(param.Name == "secretname"){
+                            if(this.deployData.Trigger[element.Name]['Optional'] == undefined){
+                                this.deployData.Trigger[element.Name]['Optional'] = {};
+                            }
+                            this.deployData.Trigger[element.Name]['Optional']['secretname'] = param.Default;
+                        } 
+                    });
+                }else if(element.Name == 'ExternalMqtt'){
+                    this.deployData.Trigger[element.Name] = {};
+                    element.Parameters.forEach((param: any) => {
+                        if (param.Default == "true" || param.Default == "false") {
+                            param.Default = JSON.parse(param.Default);
+                        }
+                        this.deployData.Trigger[element.Name][param.Name] = param.Default;
+                    });
+                }
                 executionOrderArr.push(element.Name);
                 this.deployData.Writable.Pipeline.Functions[element.Name] = {};
                 this.deployData.Writable.Pipeline.Functions[element.Name]['Parameters'] = {};
