@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/armon/go-metrics v0.3.3 // indirect
 	github.com/edgexfoundry/go-mod-configuration/v2 v2.0.0-dev.10
-	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0-dev.100
+	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0-dev.101
 	github.com/gorilla/mux v1.8.0
 	github.com/hashicorp/go-hclog v0.12.2 // indirect
 	github.com/hashicorp/go-immutable-radix v1.2.0 // indirect
