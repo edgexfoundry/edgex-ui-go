@@ -41,6 +41,9 @@ COPY Makefile .
 RUN make update
 
 COPY . .
+
+RUN go mod tidy
+
 RUN ${MAKE}
 
 FROM alpine:3.12
