@@ -57,6 +57,12 @@ Password = "su"
     Host = 'edgex-sys-mgmt-agent'
     Port = 58890
     PathPrefix = "/system"
+    
+    [Clients.AppService]
+    Protocol = 'http'
+    Host = 'edgex-app-rules-engine'
+    Port = 59701
+    PathPrefix = "/app-service"
 
 [Registry]
 Host = "edgex-core-consul"
