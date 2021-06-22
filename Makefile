@@ -45,4 +45,4 @@ run:
 docker: $(DOCKERS)
 
 docker_edgex_ui_go:
-	docker build --label "git_sha=$(GIT_SHA)" -t edgexfoundry/edgex-ui:$(VERSION) .
+	docker build --label "git_sha=$(GIT_SHA)" -t edgexfoundry/edgex-ui:$(VERSION)-dev .
