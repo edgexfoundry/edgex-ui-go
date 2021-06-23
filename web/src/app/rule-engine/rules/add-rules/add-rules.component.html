@@ -109,12 +109,12 @@
                                                                 <span class="badge mr-2 badge-danger" role="button" (click)="removeRestTab(restindex);"><i
                                                                     class="fa fa-trash-o"
                                                                     aria-hidden="true"></i>&nbsp;Delete</span>
-                                                                    <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'command'" [class.badge-primary]="templateSelected === 'command'" (click)="templateToggle('command',restindex)">CommandServiceTemplate</span>
-                                                                    <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'custom'" [class.badge-primary]="templateSelected === 'custom'" (click)="templateToggle('custom',restindex)">CustomTemplate</span>
-                                                                    <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'coredata'" [class.badge-primary]="templateSelected === 'coredata'" (click)="templateToggle('coredata',restindex)">CoreDataSeviceTemplate</span>
+                                                                    <span class="badge mr-2" id="rest_btn_com{{restindex}}" role="button" [class.badge-secondary]="templateSelectedList[restindex] !== 'command'" [class.badge-primary]="templateSelectedList[restindex] === 'command'" (click)="templateToggle('command',restindex)">CommandServiceTemplate</span>
+                                                                    <span class="badge mr-2" id="rest_btn_cus{{restindex}}" role="button" [class.badge-secondary]="templateSelectedList[restindex] !== 'custom'" [class.badge-primary]="templateSelectedList[restindex] === 'custom'" (click)="templateToggle('custom',restindex)">CustomTemplate</span>
+                                                                    <span class="badge mr-2" id="rest_btn_core{{restindex}}" role="button" [class.badge-secondary]="templateSelectedList[restindex] !== 'coredata'" [class.badge-primary]="templateSelectedList[restindex] === 'coredata'" (click)="templateToggle('coredata',restindex)">CoreDataSeviceTemplate</span>
                                                             </div>
                                                             <div class="card-body">
-                                                                <div [ngSwitch]="templateSelected">
+                                                                <div [ngSwitch]="templateSelectedList[restindex]">
                                                                     <ng-template [ngSwitchCase]="'custom'" #customTemplate>
                                                                         <form>
                                                                             <div class="form-group row">

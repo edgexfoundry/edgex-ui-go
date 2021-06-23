@@ -13,6 +13,7 @@ export class EditStreamComponent implements OnInit {
 
   streamTemp?: Stream;
   editStreamSimple:string = '';
+  editStreamName:string = '';
   
   constructor(
     private ruleSvc: RuleEngineService,
@@ -23,6 +24,7 @@ export class EditStreamComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['streamName']) {
+        this.editStreamName = params['streamName'];
         this.toEditStream(params['streamName']);
       }
     });
@@ -64,7 +66,7 @@ export class EditStreamComponent implements OnInit {
   }
 
   submit() {
-    this.ruleSvc.updateStream(this.editStreamSimple).subscribe(() => {
+    this.ruleSvc.updateStream(this.editStreamSimple,this.editStreamName).subscribe(() => {
       this.msgSvc.success('Update Stream Success!');
       this.router.navigate(['../stream-list'], { relativeTo: this.route })
     });
