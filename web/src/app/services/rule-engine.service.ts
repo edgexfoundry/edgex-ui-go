@@ -46,8 +46,8 @@ export class RuleEngineService {
     return this.http.delete<BaseResponse>(url).pipe()
   }
 
-  updateStream(sql: string): Observable<any> {
-    let url = `${this.streamUrl}`;
+  updateStream(sql: string,id:string): Observable<any> {
+    let url = `${this.streamUrl}/`+id;
     return this.http.request('PUT', url, {
       body: sql,
       responseType: 'text',
@@ -92,7 +92,7 @@ export class RuleEngineService {
   }
 
   updateRule(rule: any): Observable<string> {
-    let url = `${this.ruleUrl}`;
+    let url = `${this.ruleUrl}/`+rule.id;
     return this.http.request('PUT', url, {
       body: JSON.stringify(rule),
       responseType: 'text',

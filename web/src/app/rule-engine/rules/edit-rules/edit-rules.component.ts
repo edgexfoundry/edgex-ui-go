@@ -18,6 +18,7 @@ export class EditRulesComponent implements OnInit {
   ruleSql: string = '';
   ruleAction: any[] = [];
   ruleActionTemp: any[] = [];
+  editRule!: Rule;
 
   restModelList: any[] = [];
   mqttModelList: any[] = [];
@@ -28,7 +29,7 @@ export class EditRulesComponent implements OnInit {
   chooseActionLog:boolean = false;
   targetActionConfigs: any[] = [];
 
-  templateSelected: string = "custom";
+  templateSelectedList: string[] = [];
 
   selectedClass = "text-white rounded px-2 bg-success  font-weight-bold";
   noSelectedClass = "text-white rounded px-2 bg-secondary  font-weight-bold";
@@ -60,6 +61,7 @@ export class EditRulesComponent implements OnInit {
   toEditRule() {
     this.ruleSvc.findRuleById(this.ruleName).subscribe((rule: Rule) => {
       this.ruleSql = rule.sql;
+      this.editRule = rule;
       if(rule.actions != null && rule.actions.length>0){
         this.ruleActionTemp = rule.actions;
       }
@@ -73,12 +75,12 @@ export class EditRulesComponent implements OnInit {
   }
 
   templateToggle(template: string,index:number) {
-    this.templateSelected = template;
-    switch (this.templateSelected) {
+    this.templateSelectedList[index] = template;
+    switch (this.templateSelectedList[index]) {
       case 'coredata':
         this.restModelList[index].method = 'DELETE';
         this.restModelList[index].host = 'edgex-core-data';
-        this.restModelList[index].port = 48080;
+        this.restModelList[index].port = 59880;
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300);
@@ -86,7 +88,7 @@ export class EditRulesComponent implements OnInit {
       case 'command':
         this.restModelList[index].method = '';
         this.restModelList[index].host = 'edgex-core-command';
-        this.restModelList[index].port = 48082;
+        this.restModelList[index].port = 59882;
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300); 
@@ -243,6 +245,12 @@ export class EditRulesComponent implements OnInit {
   }
 
   previous() {
+    this.showRestTabs = false;
+    this.showMqttTabs = false;
+    this.showEdgexTabs = false;
+    this.restModelList = [];
+    this.mqttModelList = [];
+    this.edgexModelList = [];
     this.currentStep = this.currentStep - 1;
   }
 
@@ -295,12 +303,10 @@ export class EditRulesComponent implements OnInit {
 				let log = {log:{}};
 				this.ruleAction.push({log})
 			}
-    let rule: Rule = {
-      id:this.ruleName,
-      sql:this.ruleSql,
-      actions:this.ruleAction
-    } as Rule
-    this.ruleSvc.updateRule(rule).subscribe(() => {
+    this.editRule.id = this.ruleName;
+    this.editRule.sql = this.ruleSql;
+    this.editRule.actions = this.ruleAction;
+    this.ruleSvc.updateRule(this.editRule).subscribe(() => {
       this.msgSvc.success('Update rule success');
       this.router.navigate(['../rules-list'], { relativeTo: this.route })
     })
@@ -369,6 +375,7 @@ export class EditRulesComponent implements OnInit {
         dataTemplate: ''
       };
     }
+    this.templateSelectedList[this.templateSelectedList.length] = "command";
     this.restModelList.push(rest);
   }
 

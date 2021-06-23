@@ -27,7 +27,7 @@ export class AddRulesComponent implements OnInit {
   chooseActionLog:boolean = false;
   targetActionConfigs: any[] = [];
 
-  templateSelected: string = "custom";
+  templateSelectedList: string[] = [];
 
   selectedClass = "text-white rounded px-2 bg-success  font-weight-bold";
   noSelectedClass = "text-white rounded px-2 bg-secondary  font-weight-bold";
@@ -51,12 +51,12 @@ export class AddRulesComponent implements OnInit {
   }
 
   templateToggle(template: string,index:number) {
-    this.templateSelected = template;
-    switch (this.templateSelected) {
+    this.templateSelectedList[index] = template;
+    switch (this.templateSelectedList[index]) {
       case 'coredata':
         this.restModelList[index].method = 'DELETE';
         this.restModelList[index].host = 'edgex-core-data';
-        this.restModelList[index].port = 48080;
+        this.restModelList[index].port = 59880;
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300);
@@ -64,7 +64,7 @@ export class AddRulesComponent implements OnInit {
       case 'command':
         this.restModelList[index].method = '';
         this.restModelList[index].host = 'edgex-core-command';
-        this.restModelList[index].port = 48082;
+        this.restModelList[index].port = 59882;
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300); 
@@ -238,6 +238,7 @@ export class AddRulesComponent implements OnInit {
       path: '',
       dataTemplate: ''
     };
+    this.templateSelectedList[this.templateSelectedList.length] = "command";
     this.restModelList.push(rest);
 
   }
