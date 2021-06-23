@@ -49,7 +49,7 @@ export class AddIntervalActionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private errSvc: ErrorService) { 
-      this.intervalAction = {} as IntervalAction;
+      this.intervalAction = { adminState: 'UNLOCKED' } as IntervalAction;
       this.intervalAction.address = {} as Address;
       this.intervalAction.address.type = 'REST';
       this.intervalAction.address.httpMethod = 'GET';

@@ -42,6 +42,15 @@
                </div>
            </div>
            <div class="form-group row">
+                <label for="adminState" class="col-md-2 col-form-label">AdminState</label>
+                <div class="col-md-10">
+                    <select class="custom-select" name="adminState" [(ngModel)]="intervalAction.adminState">
+                        <option value="UNLOCKED">UNLOCKED</option>
+                        <option value="LOCKED">LOCKED</option>
+                    </select>
+                </div>
+           </div>
+           <div class="form-group row">
                <label for="Address" class="col-md-2 col-form-label">Address</label>
                <div class="col-md-10">
                    <div class="card">

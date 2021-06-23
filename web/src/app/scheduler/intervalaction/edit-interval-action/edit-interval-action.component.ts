@@ -74,6 +74,10 @@ export class EditIntervalActionComponent implements OnInit {
         this.schedulerSvc.findIntervalActionByName(params['intervalActionName']).subscribe((resp: IntervalActionResponse)=>{
           this.intervalAction = JSON.parse(JSON.stringify(resp.action));
           this.intervalActionOrigin = JSON.parse(JSON.stringify(resp.action));
+
+          this.intervalActionOrigin.adminState = this.intervalActionOrigin.adminState === '' ? "UNLOCKED" : this.intervalActionOrigin.adminState;
+          this.intervalAction.adminState = this.intervalAction.adminState === '' ? "UNLOCKED" : this.intervalAction.adminState;
+
           this.addressEmailRecipients  = this.intervalAction.address.recipients?this.intervalAction.address.recipients.toString():'';
           this.findDefaultSelectedIntervalByName(this.intervalAction.intervalName);
           setTimeout(() => {
