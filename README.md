@@ -51,7 +51,7 @@ make test
 To start all the EdgeX Go microservices in Docker, run the following command in the root of the EdgeX Go directory:
 
 ```
-make run_docker
+make docker run_docker
 ```
 
 With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
