@@ -258,7 +258,12 @@ export class EditRulesComponent implements OnInit {
 						rest.retryInterval = event.retryInterval;
 					}
 					if(event.sendSingle != null && event.sendSingle != ""){
-						rest.sendSingle = event.sendSingle;
+            try {
+              rest.sendSingle = JSON.parse(event.sendSingle);
+            }
+            catch (e) {
+              rest.sendSingle = undefined;
+            }
 					}
 					if( event.host != null && event.host != "" && event.port != null && event.port != "" && event.path != null && event.path != ""){
 						rest.url= "http://"+ event.host + ":" + event.port + event.path;
