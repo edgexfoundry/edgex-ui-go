@@ -47,7 +47,10 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     private _selectedFunctionsName: string[] = [];
     @Input() 
     get selectedFunctionsName(): string[] {return this._selectedFunctionsName };
-    set selectedFunctionsName(funcNames: string[]) {this._selectedFunctionsName = funcNames;}
+    set selectedFunctionsName(funcNames: string[]) {
+        funcNames.forEach((v,i) => {funcNames[i] = v.trim()});
+        this._selectedFunctionsName = funcNames;
+    }
     @Output() selectedFunctionsNameChange = new EventEmitter<string[]>();
 
     constructor() { 
@@ -69,6 +72,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         if (this.availableFunctions.FilterByProfileName?.Parameters) {
             if (this.availableFunctions.FilterByProfileName!.Parameters.ProfileNames) {
                 this.profileNames  = this.availableFunctions.FilterByProfileName!.Parameters.ProfileNames.split(',');
+                this.profileNames.forEach((v,i) => {this.profileNames[i] = v.trim()});
             }
         }
     }
@@ -121,7 +125,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     isSelected(funcName: string): boolean {
         let selected = false
         this.selectedFunctionsName.forEach((name) => {
-            if (funcName === name) {
+            if (funcName === name.trim()) {
                 selected = true
                 return 
             }
