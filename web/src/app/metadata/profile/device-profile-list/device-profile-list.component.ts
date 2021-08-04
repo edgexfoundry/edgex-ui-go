@@ -33,8 +33,9 @@ export class DeviceProfileListComponent implements OnInit {
   @Input() toolbars: boolean = true;
   @Input() enableSelectAll: boolean = true;
   @Output() singleProfileSelectedEvent = new EventEmitter<DeviceProfile>();
+  @Output() multipleProfileSelectedEvent = new EventEmitter<string[]>();
   profileList: DeviceProfile[] = [];
-  multiProfilesSelected: string[] = [];
+  @Input() multiProfilesSelected: string[] = [];
   @Input() singleProfileSelected?: DeviceProfile;
   isCheckedAll: boolean = false;
   pagination: number = 1;
@@ -69,6 +70,10 @@ export class DeviceProfileListComponent implements OnInit {
     this.singleProfileSelectedEvent.emit(this.singleProfileSelected);
   }
 
+  onMultipleProfileSelectedEmitter() {
+    this.multipleProfileSelectedEvent.emit(this.multiProfilesSelected);
+  }
+
   refresh() {
     this.metaSvc.allDeviceProfolesPagination(0,this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
       this.profileList = data.profiles;
@@ -88,7 +93,6 @@ export class DeviceProfileListComponent implements OnInit {
     this.setPagination(-1);
     this.metaSvc.allDeviceProfolesPagination(this.pageOffset,this.pageLimit).subscribe((data: MultiDeviceProfileResponse) => {
       this.profileList = data.profiles;
-      
     });
   }
 
@@ -110,7 +114,6 @@ export class DeviceProfileListComponent implements OnInit {
       this.pagination -= 1;
     }
     this.pageOffset = (this.pagination - 1) * this.pageLimit;
-
     this.resetCheckbox();
   }
 
@@ -121,7 +124,7 @@ export class DeviceProfileListComponent implements OnInit {
 
   resetCheckbox() {
     this.isCheckedAll = false; //reset checkbox all
-    this.multiProfilesSelected = [];
+    // this.multiProfilesSelected = [];
   }
 
   edit() {
@@ -170,22 +173,31 @@ export class DeviceProfileListComponent implements OnInit {
     this.onSingleProfileSelectedEmitter();
   }
 
+  // checkedAll(): boolean {
+  //   let checkall = true;
+  //   this.profileList.forEach((p) => {
+  //     if (this.multiProfilesSelected.indexOf(p.name) === -1)  {
+  //       checkall = false
+  //     }
+  //   })
+    
+  //   return checkall
+  // }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
       this.multiProfilesSelected = [];
       this.profileList.forEach(profile => {
         this.multiProfilesSelected.push(profile.name);
-        this.isChecked(profile.name);
       });
       this.isCheckedAll = true;
-      return
+    } else {
+      this.isCheckedAll = false;
+      this.multiProfilesSelected = [];
     }
-    this.isCheckedAll = false;
-    this.multiProfilesSelected = [];
-    this.profileList.forEach(profile => {
-      this.isChecked(profile.name);
-    });
+    
+    this.onMultipleProfileSelectedEmitter()
   }
 
   isChecked(name: string): boolean {
@@ -194,6 +206,7 @@ export class DeviceProfileListComponent implements OnInit {
     }
     return this.multiProfilesSelected.findIndex(v => v === name) >= 0;
   }
+
 
   selectOne(event: any, name: string) {
     if (!this.enableSelectAll) {
@@ -206,11 +219,11 @@ export class DeviceProfileListComponent implements OnInit {
       if (this.multiProfilesSelected.length === this.profileList.length) {
         this.isCheckedAll = true;
       }
-      return
+    } else {
+      this.isCheckedAll = false;
+      this.multiProfilesSelected.splice(this.multiProfilesSelected.indexOf(name), 1);
     }
-    this.isCheckedAll = false;
-    this.isChecked(name);
-    this.multiProfilesSelected.splice(this.multiProfilesSelected.indexOf(name), 1)
+    this.onMultipleProfileSelectedEmitter()
   }
 
 }
