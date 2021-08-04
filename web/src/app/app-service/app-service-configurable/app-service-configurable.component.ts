@@ -83,15 +83,15 @@ export class AppServiceConfigurableComponent implements OnInit {
 
     loadAppSvcConfig() {
         this.appSvc.getAppSvcConfigBySvcKey(this.appServiceKey).subscribe((resp) => {
+            Object.assign(this.configTrigger, resp[this.TirggerIdentifier]);
 
-            Object.assign(this.configTrigger, resp[this.TirggerIdentifier])
-
-            let writable: Writable = resp[this.writableIdentifier]
+            let writable: Writable = resp[this.writableIdentifier];
             Object.assign(this.configWritable, writable);
             Object.assign(this.insecureSecrets, writable.InsecureSecrets)
 
             this.selectedFunctionsName = writable.Pipeline.ExecutionOrder.split(',');
             Object.assign(this.availableFunctions, writable.Pipeline.Functions);
+            // console.log(this.availableFunctions)
         })
     }
 
