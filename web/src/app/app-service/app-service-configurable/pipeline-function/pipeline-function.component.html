@@ -42,12 +42,7 @@
             <div class="card-header font-weight-bold">
                 <i class="fa fa-file-text mr-2 text-danger"></i>
                 <span>Selected Pipeline Functions</span>
-                <!-- <button *ngIf="selectedFunctionsName.length !== 0" class="btn btn-success btn-sm float-right" (click)="submit()"><i class="fa fa-save"></i> Submit</button> -->
             </div>
-            <!-- <div class="card-header py-1" *ngIf="selectedFunctionsName.length !== 0 ">
-                <button class="btn btn-danger btn-sm mr-2"><i class="fa fa-trash"></i> RemoveAll</button>
-                <button class="btn btn-success btn-sm" (click)="submit()"><i class="fa fa-save"></i> Submit</button>
-            </div> -->
             <div class="card-body">
                 <div appDragHighlight class="card mb-3" (drop)="ondropFuncExecutionOrder($event)">
                     <div class="card-header font-weight-bold text-nowrap text-truncate">
@@ -66,9 +61,7 @@
                             </tbody>
                         </table>
                         <span *ngFor="let funcName of selectedFunctionsName">
-                            <!-- <span appDragHighlight role="button" (dragover)="dropzoneShow($event)" [class.d-none]="!dropzoneToggle" [class.d-inline]="dropzoneToggle" (dragleave)="dropzoneHide($event)" class="badge badge-secondary mx-2" style="width: 20px; border: 1px; border-style: dashed;">dada</span> -->
                             <span draggable="true" role="button" id="{{funcExecOrderZoneIdentifier}}{{funcName}}" class="badge badge-secondary text-nowrap text-truncate mr-2" (dragstart)="ondragstartFuncExecutionOrder($event,funcName)">{{funcName}}</span>
-                            <!-- <span appDragHighlight role="button" (dragover)="dropzoneShow($event)" [class.d-none]="!dropzoneToggle" [class.d-inline]="dropzoneToggle" (dragleave)="dropzoneHide($event)" class="badge badge-secondary  mx-2" style="width: 20px; border: 1px; border-style: dashed;">sss</span> -->
                         </span>
                     </div>
                 </div>
@@ -248,7 +241,6 @@
                                                     <app-device-profile-combo-list 
                                                     [selectedProfiles]="profileNames"
                                                     (deviceProfileSelectedEvent)="onDeviceProfileSelectedEvent($event)"></app-device-profile-combo-list>
-                                                    <!-- <input type="text" class="form-control" name="ProfileNames" [(ngModel)]="availableFunctions.FilterByProfileName.Parameters.ProfileNames"> -->
                                                 </div>
                                             </div>
                                             <div class="form-group row">
