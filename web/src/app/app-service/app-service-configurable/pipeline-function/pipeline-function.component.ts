@@ -59,7 +59,6 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        //   console.log(this.availableFunctions)
     }
 
     ngOnChanges() {

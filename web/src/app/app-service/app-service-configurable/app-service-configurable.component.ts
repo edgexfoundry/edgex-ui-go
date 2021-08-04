@@ -91,7 +91,6 @@ export class AppServiceConfigurableComponent implements OnInit {
 
             this.selectedFunctionsName = writable.Pipeline.ExecutionOrder.split(',');
             Object.assign(this.availableFunctions, writable.Pipeline.Functions);
-            // console.log(this.availableFunctions)
         })
     }
 
@@ -101,7 +100,6 @@ export class AppServiceConfigurableComponent implements OnInit {
     }
 
     submit() {
-        // console.log(this.getFuncExecutionOrder())
         let writable = {} as Writable;
         let pipeline: any = {
             ExecutionOrder: this.getFuncExecutionOrder(),
@@ -117,10 +115,10 @@ export class AppServiceConfigurableComponent implements OnInit {
         writable.Pipeline = pipeline;
         writable.InsecureSecrets = this.insecureSecrets;
         writable.StoreAndForward = this.configWritable.StoreAndForward;
-        // this.appSvc.deployToConsul({'Writable': writable}, this.appServiceKey).subscribe(()=>{
-        //     this.msgSvc.success('deploy configuration',`service: ${this.appServiceKey}`);
-        //     this.router.navigate(['../app-service-list'],{relativeTo: this.route})
-        // })
+        this.appSvc.deployToConsul({'Writable': writable}, this.appServiceKey).subscribe(()=>{
+            this.msgSvc.success('deploy configuration',`service: ${this.appServiceKey}`);
+            this.router.navigate(['../app-service-list'],{relativeTo: this.route})
+        })
     }
 
     removeSelectedFuncsAll() {

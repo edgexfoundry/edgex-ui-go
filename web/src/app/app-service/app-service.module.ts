@@ -6,8 +6,7 @@ import { AppServiceRoutingModule } from './app-service-routing.module';
 import { AppServiceComponent } from './app-service.component';
 import { AppServiceListComponent } from './app-service-list/app-service-list.component';
 import { AppServiceConfigurableComponent } from './app-service-configurable/app-service-configurable.component';
-// import { AngularDraggableModule } from 'angular2-draggable';
-// import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+
 import { DraggableDirective } from '../directives/draggable.directive';
 import { DragHighlightDirective } from '../directives/drag-highlight.directive';
 import { AddAppServiceComponent } from './add-app-service/add-app-service.component';
