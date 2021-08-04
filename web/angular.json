@@ -41,8 +41,7 @@
               "node_modules/codemirror/theme/gruvbox-dark.css",
               "node_modules/codemirror/addon/scroll/simplescrollbars.css",
               "node_modules/codemirror/addon/fold/foldgutter.css",
-              "node_modules/flatpickr/dist/flatpickr.min.css",
-              "node_modules/angular2-multiselect-dropdown/themes/default.theme.css"
+              "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
