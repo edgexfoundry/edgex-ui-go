@@ -1,189 +1,107 @@
-<div id="edgex-foundry-support-appService">
-    <div class="panel panel-success">
-        <div class="panel-heading">
-        </div>
-        <div class="appservice_wrap">
-            <aside id="appservice_left">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="text-info">app-rules-engine</h5>
-                        <div id="appservice_button_group" class="appservice_button_group">
-                            <span class="badge mr-2 badge-success" role="button" (click)="refreshConsul();"><i
-                                    class="fa fa-refresh mr-1" aria-hidden="true"></i>&nbsp;Refresh Consul</span>
-                            <span class="badge mr-2 badge-primary" role="button" (click)="downloadConfiguration();"><i
-                                    class="fa fa-download" aria-hidden="true"></i>&nbsp;Download Configuration</span>
-                            <!-- <span class="badge mr-2 badge-info" role="button" (click)="currentData();"><i
-                                    class="fa fa-bars" aria-hidden="true"></i>&nbsp;Current Data</span> -->
-                        </div>
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
 
-                    </div>
-                    <div class="card-body app_left_body">
-                        <div *ngFor="let appItem of appConfigurableMap | keyvalue">
-                            <ul ngDraggable (stopped)="onDragLeftToRightEnd($event)" 
-                            *ngFor="let appEvent of appItem.value" 
-                            class="list-group p-0"
-                            id="{{appItem.key}}_{{appEvent.Name}}">
-                                <li class="list-group-item list-group-item-action list-group-item-light" style="margin-top: 2%;">
-                                    <div class="media">
-                                        <div class="align-self-center mr-3">
-                                            <i class="fa fa-tags fa-2x text-secondary"></i>  
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="mt-0 mb-1">
-                                                <h5 class="d-inline mr-3 align-middle text-dark">{{appEvent.Name}}</h5>
-                                            </div>
-                                            <div>
-                                                <span class="badge badge-info mr-3" role="button" >{{appEvent.Description}}</span>
-                            
-                                                <span id="{{appItem.key}}_{{appEvent.Name}}_setbtn" title="{{appItem.key}}_{{appEvent.Name}}" class="badge badge-primary float-right" (click)="setParams($event.target)" role="button" 
-                                                onmouseup="event.cancelBubble = true" onmousedown="event.cancelBubble = true" routerLinkActive="active"> <i class="fa fa-cog"></i> {{appEvent.IsNeedParam}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                    </div>
+ <div class="card">
+     <div class="card-header">
+         <i class="fa fa-tags mr-2 text-danger"></i>
+         <span class="font-weight-bold">
+            <span class="mr-2 text-info">{{appServiceKey}}</span>
+            <span>Configurable Setting</span>
+         </span>
+         <button class="btn btn-success btn-sm float-right" (click)="submit()"><i class="fa fa-save"></i> Submit</button>
+     </div>
+     <div class="card-body">
+
+        <div class="card">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-header-tabs font-weight-bold">
+                <li class="nav-item" (click)="configurableSectionChange('Trigger')">
+                    <a class="nav-link" role="button" [class.active]="configurableSection === 'Trigger'">Trigger</a>
+                  </li>
+                <li class="nav-item" (click)="configurableSectionChange('PipelineFunc')">
+                  <a class="nav-link" role="button" [class.active]="configurableSection === 'PipelineFunc'">Pipeline Functions</a>
+                </li>
+                <li class="nav-item" (click)="configurableSectionChange('InsecureSecrets')">
+                  <a class="nav-link" role="button" [class.active]="configurableSection === 'InsecureSecrets'">Insecure Secrets</a>
+                </li>
+                <li class="nav-item" (click)="configurableSectionChange('StoreAndForward')">
+                  <a class="nav-link" role="button" [class.active]="configurableSection === 'StoreAndForward'">Store And Forward</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+
+                <div *ngIf="configurableSection === 'Trigger'">
+                    <app-appsvc-trigger [(configTrigger)]="configTrigger"></app-appsvc-trigger>
                 </div>
 
-            </aside>
-
-            <section id="appservice_right">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 align="center" class="text-success">Available Transforms</h5>
-                    </div>
-                    <div class="card-body" style="min-height: 800px;">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link" #appservice_Transforms_Btn href="#appservice_Transforms"
-                                    data-toggle="tab">Transforms</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#appservice_Triggers" data-toggle="tab">Triggers</a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <div class="tab-pane fade" id="appservice_Transforms">
-                                <div id="accordion">
-                                    <div *ngFor="let transform of pipelineFunctionMap | keyvalue" class="card">
-                                        <div class="card-header">
-                                            <a class="card-link" data-toggle="collapse" href="#{{transform.key}}">
-                                                {{transform.key}}
-                                            </a>
-                                        </div>
-                                        <div id="{{transform.key}}" class="collapse" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <div ngDraggable (stopped)="onDragRightToLeftEnd($event)" 
-                                                    *ngFor="let pipeline of transform.value"
-                                                    class="helper-dialog-wrapper appservice_drop_card card"
-                                                    role="button" id='{{transform.key}}_{{pipeline.Name}}'
-                                                    title='{{pipeline.Name}}'>
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">
-                                                            {{pipeline.Name}}
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade in active" id="appservice_Triggers">
-                                <div id="accordion_triggers">
-                                    <div *ngFor="let triggerItem of triggerFunctionMap | keyvalue" class="card">
-                                        <div class="card-header">
-                                            <a class="card-link" data-toggle="collapse" href="#{{triggerItem.key}}">
-                                                {{triggerItem.key}}
-                                            </a>
-                                        </div>
-                                        <div id="{{triggerItem.key}}" class="collapse" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <div ngDraggable (stopped)="onDragRightToLeftEnd($event)" 
-                                                    *ngFor="let trigger of triggerItem.value"
-                                                    class="helper-dialog-wrapper appservice_drop_card card"
-                                                    role="button" id='{{triggerItem.key}}_{{trigger.Name}}'
-                                                    title='{{trigger.Name}}'>
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">
-                                                            {{trigger.Name}}
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                <div *ngIf="configurableSection === 'PipelineFunc'">
+                    <app-pipeline-function 
+                    [(selectedFunctionsName)]="selectedFunctionsName"
+                    [(availableFunctions)]="availableFunctions"></app-pipeline-function>
                 </div>
 
-            </section>
-        </div>
-    </div>
-</div>
+                <div *ngIf="configurableSection === 'InsecureSecrets'">
+                    <app-appsvc-insecure-secrets [(insecureSecrets)]="insecureSecrets"></app-appsvc-insecure-secrets>
+                </div>
 
-<div class="modal fade" id="appservice_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{settingFunctionName}} -Parameters</h4>
-            </div>
-            <div class="modal-body" id="appservice_paramsBox">
-                    <div *ngFor="let appItem of appConfigurableMap | keyvalue">
-                        <div *ngIf="appItem.key == settingFunctionType">
-                            <div *ngFor="let appEvent of appItem.value" >
-                                <div *ngIf="appEvent.Name == settingFunctionName">
-                                    <div *ngIf="appEvent.Name == 'FilterByDeviceName'" class="col-md-12">
-                                        <label class="col-md-3 control-label" style="margin-top: 1%;">DeviceNames : </label>
-                                        <angular2-multiselect class="col-md-8" [data]="dropdownDeviceList" [(ngModel)]="selectedDeviceItems" 
-                                            [settings]="dropdownSettings">
-                                        </angular2-multiselect>
-                                    </div>
-                                    <div *ngIf="appEvent.Name == 'FilterByValueDescriptor'" class="col-md-12">
-                                        <label class="col-md-3 control-label" style="margin-top: 1%;">ValueDescriptors : </label>
-                                        <angular2-multiselect [data]="dropdownValueDescriptorsList" [(ngModel)]="selectedValueDescriptorsItems" 
-                                            [settings]="dropdownSettings">
-                                        </angular2-multiselect>
-                                    </div>
-                                    <div *ngIf="appEvent.Name != 'FilterByDeviceName' && appEvent.Name != 'FilterByValueDescriptor'">
-                                        <form class="form-horizontal">
-                                            <div  class="form-group row" style="width: 95%; margin-left: 5%;margin-top: 2%;"
-                                            *ngFor="let appEventParams of appEvent.Parameters" >
-                                               <label class="col-md-3 control-label" style="margin-top: 1%;">{{appEventParams.Name}} : </label>
-                                               <div *ngIf="appEventParams.type == 'string'" class="col-md-8">
-                                                   <input type="text" class="form-control"
-                                                       id="{{appItem.key}}_{{appEvent.Name}}_{{appEventParams.Name}}" name="{{appItem.key}}_{{appEvent.Name}}_{{appEventParams.Name}}" placeholder="{{appEventParams.Hint}}"
-                                                       [(ngModel)]="appEventParams.Default">
-                                               </div>
-                                               <div *ngIf="appEventParams.type == 'boolean'" class="col-md-8">
-                                                   <select class="form-control"
-                                                   id="{{appItem.key}}_{{appEvent.Name}}_{{appEventParams.Name}}" name="{{appItem.key}}_{{appEvent.Name}}_{{appEventParams.Name}}"
-                                                    [(ngModel)]="appEventParams.Default">
-                                                       <option value="true">true</option>
-                                                       <option value="false">false</option>
-                                                   </select>
-                                               </div>
-                                           </div>
-                                        </form>
-                                    </div>
-                                </div>
+                <div *ngIf="configurableSection === 'StoreAndForward'">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">
+                                <span>Enabled</span>
+                                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                data-content="capability allows for export functions to persist data on failure and for the export of the data to be retried at a later time."></span>
+                            </label>
+                            <div class="col-sm-10">
+                                <select class="custom-select"  name="FilterOut" [(ngModel)]="configWritable.StoreAndForward.Enabled">
+                                    <option value="false">false</option>
+                                    <option value="true">true</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">
+                                <span>MaxRetryCount</span>
+                                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                data-content='pure number'></span>
+                            </label>
+                            <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="MaxRetryCount" [(ngModel)]="configWritable.StoreAndForward.MaxRetryCount">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">
+                                <span>RetryInterval</span>
+                                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                data-content='
+                                The format of this field is to be an unsigned integer followed by a unit,&lt;br&gt;
+                                which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
+                            </label>
+                            <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="RetryInterval" [(ngModel)]="configWritable.StoreAndForward.RetryInterval">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span
-                        aria-hidden="true"></span>Close</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                   ><span aria-hidden="true"></span>Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+          </div>
+     </div>
+ </div>
+
+

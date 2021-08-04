@@ -1,0 +1,622 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="row">
+    <div class="col-sm-4 col-md-3">
+        <div appDragHighlight class="card mb-3" (drop)="ondropBuiltinFunction($event)">
+            <div class="card-header font-weight-bold text-nowrap text-truncate">
+                <i class="fa fa-file-text mr-2 text-danger"></i>
+                <span>Builtin Pipeline Functions</span>
+            </div>
+            <div class="card-body overflow-auto">
+                <table *ngIf="selectedFunctionsName.length === objectKeys(availableFunctions).length" class="border-secondary rounded w-100 text-center" style="height: 70px; border: 1px; border-style: dashed;">
+                    <tbody>
+                        <td class="text-muted">Drop Zone</td>
+                    </tbody>
+                </table>
+                <!-- p and div tag is not support by safari, there is no drag effective -->
+                <span draggable="true" id="{{builtinFuncZoneIdentifier}}{{funcName}}" class="mb-3" [class.d-table]="!isSelected(funcName)" [class.d-none]="isSelected(funcName)"  role="button" *ngFor="let funcName of objectKeys(availableFunctions)" (dragstart)="ondragstartBuiltinFunction($event,funcName)">
+                    <span class="badge badge-secondary">{{funcName}}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+   
+    <div class="col-sm-8 col-md-9">
+        <div class="card">
+            <div class="card-header font-weight-bold">
+                <i class="fa fa-file-text mr-2 text-danger"></i>
+                <span>Selected Pipeline Functions</span>
+                <!-- <button *ngIf="selectedFunctionsName.length !== 0" class="btn btn-success btn-sm float-right" (click)="submit()"><i class="fa fa-save"></i> Submit</button> -->
+            </div>
+            <!-- <div class="card-header py-1" *ngIf="selectedFunctionsName.length !== 0 ">
+                <button class="btn btn-danger btn-sm mr-2"><i class="fa fa-trash"></i> RemoveAll</button>
+                <button class="btn btn-success btn-sm" (click)="submit()"><i class="fa fa-save"></i> Submit</button>
+            </div> -->
+            <div class="card-body">
+                <div appDragHighlight class="card mb-3" (drop)="ondropFuncExecutionOrder($event)">
+                    <div class="card-header font-weight-bold text-nowrap text-truncate">
+                        <i class="fa fa-sort-amount-asc fa-rotate-270 mr-2 text-danger"></i>
+                        <span>Func Execution Order</span>
+                        <span class="text-info ml-2">
+                            <small>
+                                <i class="fa fa-info-circle"></i> drag sorting is enabled
+                            </small>
+                        </span>
+                    </div>
+                    <div class="card-body" id="funcExecOrderSelectedBody">
+                        <table *ngIf="selectedFunctionsName.length === 0" class="border-secondary rounded w-100 text-center" style="height: 70px; border: 1px; border-style: dashed;">
+                            <tbody>
+                                <td class="text-muted">Drop Zone</td>
+                            </tbody>
+                        </table>
+                        <span *ngFor="let funcName of selectedFunctionsName">
+                            <!-- <span appDragHighlight role="button" (dragover)="dropzoneShow($event)" [class.d-none]="!dropzoneToggle" [class.d-inline]="dropzoneToggle" (dragleave)="dropzoneHide($event)" class="badge badge-secondary mx-2" style="width: 20px; border: 1px; border-style: dashed;">dada</span> -->
+                            <span draggable="true" role="button" id="{{funcExecOrderZoneIdentifier}}{{funcName}}" class="badge badge-secondary text-nowrap text-truncate mr-2" (dragstart)="ondragstartFuncExecutionOrder($event,funcName)">{{funcName}}</span>
+                            <!-- <span appDragHighlight role="button" (dragover)="dropzoneShow($event)" [class.d-none]="!dropzoneToggle" [class.d-inline]="dropzoneToggle" (dragleave)="dropzoneHide($event)" class="badge badge-secondary  mx-2" style="width: 20px; border: 1px; border-style: dashed;">sss</span> -->
+                        </span>
+                    </div>
+                </div>
+               
+                <div *ngIf="selectedFunctionsName.length !== 0 " class="card">
+                    <div class="card-header font-weight-bold">
+                        <i class="fa fa-cog mr-2 text-danger"></i>
+                        <span>Pipeline Functions Parameter Setting</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card mb-3" *ngFor="let funcName of selectedFunctionsName">
+                            <div class="card-header text-nowrap text-truncate">
+                                <i class="fa fa-tag mr-2 text-danger"></i>
+                                <span class="mr-2">Function</span>
+                                <span class="badge badge-secondary mr-2">{{funcName}}</span>
+                                <span>Parameters</span>
+                                <span role="button" class="float-right text-danger" (click)="unselectFunc(funcName)">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </div>
+                            <div class="card-body text-nowrap">
+                                
+                                <div [ngSwitch]="funcName">
+                                    <div *ngSwitchCase="'AddTags'">
+                                        <form *ngIf="availableFunctions.AddTags">
+                                            <div class="form-group row">
+                                              <label class="col-sm-2 col-form-label">
+                                                  <span>Tags</span> 
+                                                  <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="String containing comma separated list of tag key/value pairs. The tag key/value pairs are colon seperated,
+                                                     for example: 
+                                                     GatewayId:HoustonStore000123,Latitude:29.630771,Longitude:-95.377603"></span>
+                                              </label>
+                                              <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="Tags" [(ngModel)]="availableFunctions.AddTags.Parameters.Tags">
+                                              </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'Batch'">
+                                        <form *ngIf="availableFunctions.Batch">
+                                            <div class="form-group row">
+                                              <label class="col-sm-2 col-form-label">
+                                                  <span>Mode</span> 
+                                              </label>
+                                              <div class="col-sm-10">
+                                                  <select class="custom-select"  name="Mode" [(ngModel)]="availableFunctions.Batch.Parameters.Mode">
+                                                        <option value="bycount">bycount</option>
+                                                        <option value="bytime">bytime</option>
+                                                        <option value="bytimecount">bytimecount</option>
+                                                   </select>
+                                              </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>BatchThreshold</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content='Number of items to batch before sending batched items to the next function in the pipeline. &lt;br&gt;
+                                                    Used with "bycount" and "bytimecount" modes'></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <input type="text" class="form-control" name="BatchThreshold" [(ngModel)]="availableFunctions.Batch.Parameters.BatchThreshold">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>TimeInterval</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content='Amount of time to batch before sending batched items to the next function in the pipeline. &lt;br&gt;
+                                                    Used with "bytime" and "bytimecount" modes,&lt;br&gt;
+                                                    &lt;br&gt;
+                                                    The format of this field is to be an unsigned integer followed by a unit,&lt;br&gt;
+                                                    which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <input type="text" class="form-control" name="TimeInterval" [(ngModel)]="availableFunctions.Batch.Parameters.TimeInterval">
+                                                </div>
+                                              </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'Compress'">
+                                        <form *ngIf="availableFunctions.Compress">
+                                            <div class="form-group row">
+                                              <label class="col-sm-2 col-form-label">Algorithm</label>
+                                              <div class="col-sm-10">
+                                                    <select class="custom-select"  name="Algorithm" [(ngModel)]="availableFunctions.Compress.Parameters.Algorithm">
+                                                        <option value="gzip">gzip</option>
+                                                        <option value="zlib">zlib</option>
+                                                    </select>
+                                              </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'Encrypt'">
+                                        <form *ngIf="availableFunctions.Encrypt">
+                                            <div class="form-group row">
+                                              <label class="col-sm-2 col-form-label">Algorithm</label>
+                                              <div class="col-sm-10">
+                                                    <select class="custom-select"  name="Algorithm" [(ngModel)]="availableFunctions.Encrypt.Parameters.Algorithm">
+                                                        <option value="aes">aes</option>
+                                                    </select>
+                                              </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>Key</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(optional) Encryption key used for the encryption. 
+                                                    Required if not using Secret Store for the encryption key data"></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <input type="text" class="form-control" name="Key" [(ngModel)]="availableFunctions.Encrypt.Parameters.Key">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>InitVector</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Initialization vector used for the encryption."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <input type="text" class="form-control" name="InitVector" [(ngModel)]="availableFunctions.Encrypt.Parameters.InitVector">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SecretPath</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(optional) Path in the Secret Store where the encryption key is located.
+                                                     Required if Key not specified."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <input type="text" class="form-control" name="SecretPath" [(ngModel)]="availableFunctions.Encrypt.Parameters.SecretPath">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SecretName</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(optional) name of the secret for the encryption key in the Secret Store. 
+                                                    Required if Key not specified."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <input type="text" class="form-control" name="SecretName" [(ngModel)]="availableFunctions.Encrypt.Parameters.SecretName">
+                                                </div>
+                                              </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'FilterByDeviceName'">
+                                        <form *ngIf="availableFunctions.FilterByDeviceName">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">DeviceNames</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="DeviceNames" [(ngModel)]="availableFunctions.FilterByDeviceName.Parameters.DeviceNames">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>FilterOut</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Boolean indicating if the data matching the device names should be filtered out (true) or filtered for (false)."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="FilterOut" [(ngModel)]="availableFunctions.FilterByDeviceName.Parameters.FilterOut">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'FilterByProfileName'">
+                                        <form *ngIf="availableFunctions.FilterByProfileName">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">ProfileNames</label>
+                                                <div class="col-sm-10">
+                                                    <app-device-profile-combo-list 
+                                                    [selectedProfiles]="profileNames"
+                                                    (deviceProfileSelectedEvent)="onDeviceProfileSelectedEvent($event)"></app-device-profile-combo-list>
+                                                    <!-- <input type="text" class="form-control" name="ProfileNames" [(ngModel)]="availableFunctions.FilterByProfileName.Parameters.ProfileNames"> -->
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>FilterOut</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Boolean indicating if the data matching the profile names should be filtered out (true) or filtered for (false)."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="FilterOut" [(ngModel)]="availableFunctions.FilterByProfileName.Parameters.FilterOut">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'FilterByResourceName'">
+                                        <form *ngIf="availableFunctions.FilterByResourceName">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">ResourceNames</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="ResourceNames" [(ngModel)]="availableFunctions.FilterByResourceName.Parameters.ResourceNames">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>FilterOut</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Boolean indicating if the readings matching the resource names should be filtered out (true) or filtered for (false)."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="FilterOut" [(ngModel)]="availableFunctions.FilterByResourceName.Parameters.FilterOut">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'FilterBySourceName'">
+                                        <form *ngIf="availableFunctions.FilterBySourceName">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SourceNames</span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="SourceNames" [(ngModel)]="availableFunctions.FilterBySourceName.Parameters.SourceNames">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>FilterOut</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Boolean indicating if the readings matching the source names should be filtered out (true) or filtered for (false)."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="FilterOut" [(ngModel)]="availableFunctions.FilterBySourceName.Parameters.FilterOut">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'Transform'">
+                                        <form *ngIf="availableFunctions.Transform">
+                                            <div class="form-group row">
+                                              <label class="col-sm-2 col-form-label">Type</label>
+                                              <div class="col-sm-10">
+                                                    <select class="custom-select"  name="Type" [(ngModel)]="availableFunctions.Transform.Parameters.Type">
+                                                        <option value="json">json</option>
+                                                        <option value="xml">xml</option>
+                                                    </select>
+                                              </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'HTTPExport'">
+                                        <form *ngIf="availableFunctions.HTTPExport">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Method</label>
+                                                <div class="col-sm-10">
+                                                        <select class="custom-select"  name="Method" [(ngModel)]="availableFunctions.HTTPExport.Parameters.Method">
+                                                            <option value="GET">GET</option>
+                                                            <option value="POST">POST</option>
+                                                            <option value="PUT">PUT</option>
+                                                            <option value="DELETE">DELETE</option>
+                                                            <option value="PATCH">PATCH</option>
+                                                            <option value="HEAD">HEAD</option>
+                                                            <option value="TRACE">TRACE</option>
+                                                            <option value="CONNECT">CONNECT</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Url</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="Url" [(ngModel)]="availableFunctions.HTTPExport.Parameters.Url">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>MimeType</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Optional mime type for the data. Defaults to application/json if not set."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="MimeType" [(ngModel)]="availableFunctions.HTTPExport.Parameters.MimeType">
+                                                </div>
+                                            </div>
+        
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>PersistOnError</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Indicates to persist the data if the POST fails. Store and Forward must also be enabled if this is set to 'true'."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="PersistOnError" [(ngModel)]="availableFunctions.HTTPExport.Parameters.PersistOnError">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">
+                                                    <span>ContinueOnSendError</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="For chained multi destination exports, if true continues after send error so next export function executes."></span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <select class="custom-select"  name="ContinueOnSendError" [(ngModel)]="availableFunctions.HTTPExport.Parameters.ContinueOnSendError">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>ReturnInputData</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="For chained multi destination exports if true, passes the input data to next export function."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="ReturnInputData" [(ngModel)]="availableFunctions.HTTPExport.Parameters.ReturnInputData">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+        
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>HeaderName</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(Optional) Name of the header key to add to the HTTP header"></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="HeaderName" [(ngModel)]="availableFunctions.HTTPExport.Parameters.HeaderName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SecretPath</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(Optional) Path in the secret in the Secret Store where to header value is stored."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="SecretPath" [(ngModel)]="availableFunctions.HTTPExport.Parameters.SecretPath">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SecretName</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(Optional) Name of the secret for the header value in the Secret Store."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="SecretName" [(ngModel)]="availableFunctions.HTTPExport.Parameters.SecretName">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'MQTTExport'">
+                                        <form *ngIf="availableFunctions.MQTTExport">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>BrokerAddress</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="tcp://broker-host:1883"></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="BrokerAddress" [(ngModel)]="availableFunctions.MQTTExport.Parameters.BrokerAddress">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Topic</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="Topic" [(ngModel)]="availableFunctions.MQTTExport.Parameters.Topic">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">ClientId</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="ClientId" [(ngModel)]="availableFunctions.MQTTExport.Parameters.ClientId">
+                                                </div>
+                                            </div>
+        
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Qos</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" class="form-control" name="Qos" [(ngModel)]="availableFunctions.MQTTExport.Parameters.Qos">
+                                                </div>
+                                            </div>
+        
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">AutoReconnect</label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="AutoReconnect" [(ngModel)]="availableFunctions.MQTTExport.Parameters.AutoReconnect">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Retain</label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="Retain" [(ngModel)]="availableFunctions.MQTTExport.Parameters.Retain">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SkipVerify</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Boolean indicating if the certificate verification should be skipped."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="SkipVerify" [(ngModel)]="availableFunctions.MQTTExport.Parameters.SkipVerify">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>PersistOnError</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Indicates to persist the data if the POST fails. Store and Forward must also be enabled if this is set to 'true'."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <select class="custom-select"  name="PersistOnError" [(ngModel)]="availableFunctions.MQTTExport.Parameters.PersistOnError">
+                                                        <option value="false">false</option>
+                                                        <option value="true">true</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+        
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>AuthMode</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Mode of authentication to use when connecting to the MQTT Broker.&lt;br&gt;
+                                                    &lt;br&gt;
+                                                    none - No authentication required.&lt;br&gt;
+                                                    &lt;br&gt;
+                                                    usernamepassword - Use username and password authentication. The Secret Store (Vault or InsecureSecrets) must contain the username and password secrets.&lt;br&gt;
+                                                    &lt;br&gt;
+                                                    clientcert - Use Client Certificate authentication. The Secret Store (Vault or InsecureSecrets) must contain the clientkey and clientcert secrets.&lt;br&gt;
+                                                    &lt;br&gt;
+                                                    cacert - Use CA Certificate authentication. The Secret Store (Vault or InsecureSecrets) must contain the cacert secret."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                      <select class="custom-select"  name="AuthMode" [(ngModel)]="availableFunctions.MQTTExport.Parameters.AuthMode">
+                                                          <option value="none">none</option>
+                                                          <option value="usernamepassword">usernamepassword</option>
+                                                          <option value="clientcert">clientcert</option>
+                                                          <option value="cacert">cacert</option>
+                                                      </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>SecretPath</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Path in the secret store where to authorization secrets are stored."></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="SecretPath" [(ngModel)]="availableFunctions.MQTTExport.Parameters.SecretPath">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'JSONLogic'">
+                                        <form *ngIf="availableFunctions.JSONLogic">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Rule</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="Rule" [(ngModel)]="availableFunctions.JSONLogic.Parameters.Rule">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'PushToCore'">
+                                        <form *ngIf="availableFunctions.PushToCore">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">ProfileName</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="ProfileName" [(ngModel)]="availableFunctions.PushToCore.Parameters.ProfileName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">DeviceName</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="DeviceName" [(ngModel)]="availableFunctions.PushToCore.Parameters.DeviceName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">ResourceName</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="ResourceName" [(ngModel)]="availableFunctions.PushToCore.Parameters.ResourceName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>ValueType</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Value type to use the new Event Reading's value type"></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="ValueType" [(ngModel)]="availableFunctions.PushToCore.Parameters.ValueType">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">
+                                                    <span>MediaType</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="Media type to use the new Event Reading's value type. Required when the value type is Binary"></span>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="MediaType" [(ngModel)]="availableFunctions.PushToCore.Parameters.MediaType">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngSwitchCase="'SetResponseData'">
+                                        <form *ngIf="availableFunctions.SetResponseData">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">
+                                                    <span>ResponseContentType</span>
+                                                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    data-content="(Optional) Used to specify content-type header for response, for example, application/json"></span>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" name="ResponseContentType" [(ngModel)]="availableFunctions.SetResponseData.Parameters.ResponseContentType">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

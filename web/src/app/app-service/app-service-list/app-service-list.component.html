@@ -1,37 +1,53 @@
-<ul class="list-group p-0">
-    <li *ngFor="let appService of appServiceList" class="list-group-item list-group-item-action list-group-item-light">
-        <div class="media">
-            <div class="align-self-center mr-3">
-                <i class="fa fa-tags fa-2x text-secondary"></i>  
-            </div>
-            <div class="media-body">
-                <div class="mt-0 mb-1">
-                    <h5 class="d-inline mr-3 align-middle text-dark">{{appService}}</h5>
-                </div>
-                <div>
-                    <span class="badge badge-info mr-3" role="button" (click)="appServiceDetail()">{{appService}} Details</span>
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
 
-                    <span class="badge badge-secondary float-right" role="button" routerLink="../app-service-configurable" routerLinkActive="active"> <i class="fa fa-cog"></i> Setting</span>
+ <div class="card">
+     <div class="card-header">
+         <i class="fa fa-list mr-2 text-danger"></i>
+         <span class="font-weight-bold">App Service List</span>
+     </div>
+     <div class="card-header py-2">
+         <a class="btn btn-sm btn-primary" routerLink="../add-app-service">
+             <i class="fa fa-plus mr-2"></i>New App
+         </a>
+     </div>
+     <div class="card-body">
+        <ul class="list-group p-0">
+            <li *ngFor="let appSvc of appServiceList" class="list-group-item list-group-item-action list-group-item-light">
+                <div class="media">
+                    <div class="align-self-center mr-3">
+                        <i class="fa fa-tags fa-2x text-secondary"></i>  
+                    </div>
+                    <div class="media-body">
+                        <div class="mt-0 mb-3">
+                            <h5 class="d-inline mr-3 align-middle text-dark">
+                                {{appSvc.name}}
+                                <i class="fa fa-trash text-danger float-right" role="button" (click)="removeSvc(appSvc)"></i>
+                            </h5>                            
+                        </div>
+                        <div>
+                            <span class="badge badge-info mr-3" role="button" >port {{appSvc.port}}</span>
+        
+                            <span class="badge badge-secondary float-right" role="button" routerLink="../app-service-configurable" [queryParams]="{'appSvcKey':appSvc.name}"> <i class="fa fa-cog"></i> Configurable</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </li>
-</ul>
-
-<div class="modal fade" id="appServiceDetailDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="ruleDetailDialogLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="ruleDetailDialogLabel">
-                    App Service Details
-                </h5>
-            </div>
-            <div class="modal-body">
-                <pre class="mt-2 bg-secondary p-2 text-light rounded">{{appServiceTempStr}}</pre>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+            </li>
+        </ul>
+     </div>
+ </div>
