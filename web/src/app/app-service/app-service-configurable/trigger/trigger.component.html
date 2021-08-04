@@ -1,0 +1,338 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div>
+    <div class="alert alert-info mb-3" role="alert">
+        <small>
+            <i class="fa fa-info-circle"></i> 
+            App service needs to restart when Trigger is changed, so this section only lets user to know what Trigger the app service used right now! <br>
+            And Next, UI will support user to change the Trigger section.
+        </small>
+    </div>
+    
+    <form>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+                <span>Type</span>
+                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                    data-content="Trigger type"></span>
+            </label>
+            <div class="col-sm-10">
+                <select class="custom-select"  name="Type" [(ngModel)]="configTrigger.Type" (ngModelChange)="onTriggerSelected()">
+                    <option value="edgex-messagebus">edgex-messagebus</option>
+                    <option value="external-mqtt">external-mqtt</option>
+                    <option value="http">http</option>
+                    <!-- <option value="custom">custom</option> -->
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div *ngIf="configTrigger.Type === 'edgex-messagebus'" class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-tags mr-2 text-danger"></i>
+            <span class="font-weight-bold">EdgexMessageBus Trigger</span>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">
+                        <span>Type</span>
+                        <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                        data-content="EdgeX Message Bus type"></span>
+                    </label>
+                    <div class="col-sm-10">
+                        <select class="custom-select"  name="Type" [(ngModel)]="configTrigger.EdgexMessageBus!.Type">
+                            <option value="redis">redis</option>
+                            <option value="mqtt">mqtt</option>
+                            <option value="zero">zero</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">
+                            <i class="fa fa-tag mr-2 text-danger"></i>
+                            <span>Subscribe Host</span> 
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Host</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="Host" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.Host">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Port</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="Port" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.Port">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Protocol</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="Protocol" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.Protocol">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-md-3 col-form-label text-nowrap text-truncate">SubscribeTopics</label>
+                                    <div class="col-sm-9 col-md-9">
+                                      <input type="text" class="form-control" name="SubscribeTopics" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.SubscribeTopics">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">
+                            <i class="fa fa-tag mr-2 text-danger"></i>
+                            <span>Publish Host</span> 
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Host</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="Host" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.Host">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Port</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="Port" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.Port">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Protocol</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="Protocol" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.Protocol">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">PublishTopic</label>
+                                    <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="PublishTopic" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.PublishTopic">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header font-weight-bold">
+                            <i class="fa fa-tag mr-2 text-danger"></i>
+                            <span>Optional</span>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">ClientId</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" name="ClientId" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.ClientId">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Qos</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" name="Qos" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.Qos">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KeepAlive</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" name="KeepAlive" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.KeepAlive">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Retained</label>
+                                    <div class="col-sm-10">
+                                        <select class="custom-select"  name="Retain" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.Retained">
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">AutoReconnect</label>
+                                    <div class="col-sm-10">
+                                        <select class="custom-select"  name="AutoReconnect" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.AutoReconnect">
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">ConnectTimeout</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" name="ConnectTimeout" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.ConnectTimeout">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">authmode</label>
+                                    <div class="col-sm-10">
+                                        <select class="custom-select"  name="authmode" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.authmode">
+                                            <option value="none">none</option>
+                                            <option value="usernamepassword">usernamepassword</option>
+                                            <option value="clientcert">clientcert</option>
+                                            <option value="cacert">cacert</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">SkipCertVerify</label>
+                                    <div class="col-sm-10">
+                                        <select class="custom-select"  name="SkipCertVerify" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.SkipCertVerify">
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">secretname</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" name="secretname" [(ngModel)]="configTrigger.EdgexMessageBus!.Optional.secretname">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="configTrigger.Type === 'external-mqtt'" class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-tags mr-2 text-danger"></i>
+            <span class="font-weight-bold">External MQTT Trigger</span>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Url</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="Url" [(ngModel)]="configTrigger.ExternalMqtt!.Url">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">SubscribeTopics</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="SubscribeTopics" [(ngModel)]="configTrigger.ExternalMqtt!.SubscribeTopics">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">PublishTopic</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="PublishTopic" [(ngModel)]="configTrigger.ExternalMqtt!.PublishTopic">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">ClientId</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="ClientId" [(ngModel)]="configTrigger.ExternalMqtt!.ClientId">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">ConnectTimeout</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="ConnectTimeout" [(ngModel)]="configTrigger.ExternalMqtt!.ConnectTimeout">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">AutoReconnect</label>
+                    <div class="col-sm-10">
+                        <select class="custom-select"  name="AutoReconnect" [(ngModel)]="configTrigger.ExternalMqtt!.AutoReconnect">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">KeepAlive</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="KeepAlive" [(ngModel)]="configTrigger.ExternalMqtt!.KeepAlive">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">QoS</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="QoS" [(ngModel)]="configTrigger.ExternalMqtt!.QoS">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Retain</label>
+                    <div class="col-sm-10">
+                        <select class="custom-select"  name="Retain" [(ngModel)]="configTrigger.ExternalMqtt!.Retain">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">SkipCertVerify</label>
+                    <div class="col-sm-10">
+                        <select class="custom-select"  name="SkipCertVerify" [(ngModel)]="configTrigger.ExternalMqtt!.SkipCertVerify">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">SecretPath</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="SecretPath" [(ngModel)]="configTrigger.ExternalMqtt!.SecretPath">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">AuthMode</label>
+                    <div class="col-sm-10">
+                        <select class="custom-select"  name="AuthMode" [(ngModel)]="configTrigger.ExternalMqtt!.AuthMode">
+                            <option value="none">none</option>
+                            <option value="usernamepassword">usernamepassword</option>
+                            <option value="clientcert">clientcert</option>
+                            <option value="cacert">cacert</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div *ngIf="configTrigger.Type === 'http'" class="card">
+        <div class="card-header">
+            <i class="fa fa-tags mr-2 text-danger"></i>
+            <span class="font-weight-bold">HTTP Trigger</span>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info mb-3" role="alert">
+                <small>
+                    <i class="fa fa-info-circle"></i> 
+                    no optional fields needs to setup for http trigger
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
