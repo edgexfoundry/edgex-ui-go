@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -39,6 +39,9 @@ import { BaseResponse } from '../../../contracts/v2/common/base-response';
   styleUrls: ['./device-list.component.css']
 })
 export class DeviceListComponent implements OnInit {
+
+  @Input() toolbars: boolean = true;
+  @Input() enableSelectAll: boolean = true;
 
   deviceList: Device[] = [];
   associatedSvcName: string = '';
