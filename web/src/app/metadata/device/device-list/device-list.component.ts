@@ -324,7 +324,9 @@ export class DeviceListComponent implements OnInit {
     let self = this;
     let params: any = {};
     this.selectedCmdSetParams?.forEach(function (p) {
-      params[p.resourceName] = $(`#${p.resourceName}`).val().trim();
+      if ($(`#${p.resourceName}`).val().trim() !== "") {
+        params[p.resourceName] = $(`#${p.resourceName}`).val().trim();
+      }
     });
     this.cmdSvc
     .issueSetCmd(this.associatedCmdDeviceName as string, this.selectedCmd?.name as string, params)
