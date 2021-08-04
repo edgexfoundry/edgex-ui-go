@@ -1,19 +1,36 @@
+/*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from './error.service';
-import { AppService } from '../contracts/v2/app-service/app-service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppServiceService {
 
-  endpoint: string = "/app-service";
+  
   version: string = "/api/v2";
 
-  appServiceUrl: string = `${this.endpoint}${this.version}`;
+  appSvcDeployConfigUrl: string = `${this.version}/appsvc/deploy/servicekey`;
+  appSvcGetConfigUrl: string = `${this.version}/appsvc/config/servicekey`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -24,27 +41,16 @@ export class AppServiceService {
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
-  getAppServiceConfig(): Observable<AppService> {
-    let url = `${this.appServiceUrl}/config`;
-    return this.http.get<AppService>(url).pipe(
+  getAppSvcConfigBySvcKey(svcKey: string): Observable<any> {
+    let url = `${this.appSvcGetConfigUrl}/${svcKey}`;
+    return this.http.get(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
 
-  downloadAppServiceConfig(serviceKey: string): Observable<any> {
-    let url = `${this.version}/appservice/download/servicekey/`+ serviceKey;
-    return this.http.get(url, {
-      responseType: "blob",
-      observe: 'response',
-      headers: new HttpHeaders().append("Content-Type", "application/json")
-    }).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
-  }
-
-  deployToConsul(appServiceWritable: any,serviceKey: string): Observable<string> {
-    let url = `${this.version}/appservice/deploy/servicekey/`+ serviceKey;
-    return this.http.post<string>(url,JSON.stringify(appServiceWritable), this.httpPostOrPutJSONOptions)
+  deployToConsul(appServiceWritable: any,svcKey: string): Observable<any> {
+    let url = `${this.appSvcDeployConfigUrl}/${svcKey}`;
+    return this.http.post(url,JSON.stringify(appServiceWritable), this.httpPostOrPutJSONOptions)
     .pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
