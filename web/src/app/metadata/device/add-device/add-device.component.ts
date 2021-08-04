@@ -39,6 +39,9 @@ class ModusTCPProtocolTemplate {
   Address: string = "";
   Port: string = "";
   UnitID: string = "";
+
+  Timeout: string = "";
+  IdleTimeout: string = "";
 }
 
 class ModusRTUProtocolTemplate {
@@ -48,6 +51,9 @@ class ModusRTUProtocolTemplate {
   DataBits: string = "";
   StopBits: string = "";
   Parity: string = ""; // Parity: N - None, O - Odd, E - Even
+
+  Timeout: string = "";
+  IdleTimeout: string = "";
 }
 
 class AutoEventInternal {
@@ -124,6 +130,7 @@ export class AddDeviceComponent implements OnInit {
   }
 
   setupAutoEventResourceNameSet(profile: DeviceProfile) {
+    this.autoEventResourceNameSet = [];
     profile.deviceResources.forEach((r,i) => {
       this.autoEventResourceNameSet.push(r.name);
     })
