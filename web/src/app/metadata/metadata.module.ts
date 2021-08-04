@@ -18,13 +18,19 @@ import { ProvisionWatcherCenterComponent } from './provision-watcher/provision-w
 import { ProvisionWatcherListComponent } from './provision-watcher/provision-watcher-list/provision-watcher-list.component';
 import { EditProvisionWatcherComponent } from './provision-watcher/edit-provision-watcher/edit-provision-watcher.component';
 import { AddProvisionWatcherComponent } from './provision-watcher/add-provision-watcher/add-provision-watcher.component';
+import { DeviceComboListComponent } from './device/device-combo-list/device-combo-list.component';
+import { DeviceProfileComboListComponent } from './profile/device-profile-combo-list/device-profile-combo-list.component';
 
 @NgModule({
-  declarations: [MetadataComponent, DeviceServiceMediaListComponent, DeviceServiceListComponent, DeviceListComponent, EditDeviceComponent, AddDeviceComponent, DeviceProfileListComponent, EditProfileComponent, AddProfileComponent, DeviceCenterComponent, DeviceProfileCenterComponent, ProvisionWatcherCenterComponent, ProvisionWatcherListComponent, EditProvisionWatcherComponent, AddProvisionWatcherComponent],
+  declarations: [MetadataComponent, DeviceServiceMediaListComponent, DeviceServiceListComponent, DeviceListComponent, EditDeviceComponent, AddDeviceComponent, DeviceProfileListComponent, EditProfileComponent, AddProfileComponent, DeviceCenterComponent, DeviceProfileCenterComponent, ProvisionWatcherCenterComponent, ProvisionWatcherListComponent, EditProvisionWatcherComponent, AddProvisionWatcherComponent, DeviceComboListComponent, DeviceProfileComboListComponent],
   imports: [
     CommonModule,
     FormsModule,
     MetadataRoutingModule,
+  ],
+  exports: [
+    DeviceProfileListComponent,DeviceListComponent,
+    DeviceComboListComponent, DeviceProfileComboListComponent
   ]
 })
 export class MetadataModule { }
