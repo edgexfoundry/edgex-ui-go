@@ -65,13 +65,13 @@ func GetServiceConfig(w http.ResponseWriter, r *http.Request) {
 	serviceKey := vars["servicekey"]
 	client, err := getConfigurationClient(serviceKey)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadGateway)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
 	hasConfig, err := client.HasConfiguration()
 	if !hasConfig {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		http.Error(w, fmt.Sprintf("service [%s] not found on register center", serviceKey), http.StatusNotFound)
 		return
 	}
 
