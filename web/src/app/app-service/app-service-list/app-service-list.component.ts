@@ -34,7 +34,11 @@ export class AppServiceListComponent implements OnInit {
   appServiceList: appService[] = [
     {
       name: 'app-rules-engine',
-      port: '59701'
+      port: '59701',
+    },
+    {
+      name: 'app-sample',
+      port: '59700'
     }
   ];
 
@@ -44,7 +48,7 @@ export class AppServiceListComponent implements OnInit {
   ngOnInit(): void {
     let edgexAppSvcList = window.localStorage.getItem('edgexAppSvcList');
     if (edgexAppSvcList) {
-      this.appServiceList = JSON.parse(edgexAppSvcList);
+      Object.assign(this.appServiceList, JSON.parse(edgexAppSvcList));
       return
     }
     window.localStorage.setItem('edgexAppSvcList',JSON.stringify(this.appServiceList));
