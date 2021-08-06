@@ -16,11 +16,99 @@
  *******************************************************************************
  -->
 
+<div class="combo-shielder" *ngIf="visible" (click)="close($event)"></div>
 <div class="combo">
-    <div class="input-group has-validation">
-        <input type="text" class="form-control" name="selectedDevices" readonly="readonly" maxlength="0" [(ngModel)]="selectedDevices" >
+    <div class="input-group has-validation" (mousedown)="toggle($event)">
+        <input type="text" class="form-control" name="deviceNamesSelected" disabled [(ngModel)]="deviceNamesSelectedStr">
+        <div class="input-group-append">
+            <span class="input-group-text" role="button"><i class="fa fa-chevron-down"></i></span>
+        </div> 
     </div>
-    <div [style.display]="!visible ? 'none': ''" class="combo-body">
-       <app-device-list></app-device-list> 
+    <div *ngIf="visible" class="combo-body shadow rounded">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-list text-danger mr-2"></i> 
+                <span>Device List</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover text-truncate">
+                        <thead class="thead-light">
+                            <tr>
+                              <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
+                              <th scope="col">ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Description</th>
+                              <th scope="col">Labels</th>
+                              <th scope="col">AdminState</th>
+                              <th scope="col">OperatingState</th>
+                              <th scope="col">AssociatedProfile</th>
+                              <th scope="col">AssociatedService</th>
+                              <!-- <th scope="col">Created</th>
+                              <th scope="col">Modified</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let device of deviceList" [class.table-active]="isChecked(device.name)">
+                                <td> <input type="checkbox" role="button"  [checked]="isChecked(device.name)" (click)="selectOne($event,device.name)"></td>
+                                <td class="user-select-all">{{device.id}}</td>
+                                <td class="user-select-all">{{device.name}}</td>
+                                <td>{{device.description}}</td>
+                                <td>{{device.labels}}</td>
+                                <td>
+                                    <span [ngSwitch]="device.adminState">
+                                        <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{device.adminState}}</span> 
+                                        <span *ngSwitchDefault class="badge badge-danger">{{device.adminState}}</span> 
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span [ngSwitch]="device.operatingState">
+                                        <span *ngSwitchCase="'UP'" class="badge badge-success"> {{device.operatingState}}</span> 
+                                        <span *ngSwitchCase="'DOWN'" class="badge badge-danger"> {{device.operatingState}}</span> 
+                                        <span *ngSwitchDefault class="badge badge-danger"> {{device.operatingState}}</span> 
+                                    </span>
+                                </td>
+                                
+                                <td>
+                                   <span class="text-primary">{{device.profileName}}</span>
+                                </td>
+                                <td>
+                                    <span class="text-primary">{{device.serviceName}}</span>
+                                </td>
+                               
+                                <!-- <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                                <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted p-1">
+                <nav aria-label="navigation">
+                    <ul class="pagination justify-content-end m-0">
+                        <li class="page-item mr-2 mt-1">
+                            <span class="align-middle">items per page</span>
+                        </li>
+                        <li class="page-item mr-2 ">
+                            <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                            </select>
+                        </li>
+                        <li class="page-item mr-1">
+                            <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                        </li>
+                        <li class="page-item" >
+                            <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- <ng-template #deviceListTemplate>
+    
+</ng-template> -->

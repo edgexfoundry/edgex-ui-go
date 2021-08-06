@@ -62,11 +62,20 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        this.setSelectedProfiles()
-        this.selectedFunctionsNameChange.emit(this.selectedFunctionsName)
+        this.setSelectedDevices();
+        this.setSelectedProfiles();
+        this.selectedFunctionsNameChange.emit(this.selectedFunctionsName);
         this.availableFunctionsChange.emit(this.availableFunctions);
     }
  
+    setSelectedDevices() {
+        if (this.availableFunctions.FilterByDeviceName?.Parameters) {
+            if (this.availableFunctions.FilterByDeviceName!.Parameters.DeviceNames) {
+                this.deviceNames  = this.availableFunctions.FilterByDeviceName!.Parameters.DeviceNames.split(',');
+            }
+        }
+    }
+
     setSelectedProfiles() {
         if (this.availableFunctions.FilterByProfileName?.Parameters) {
             if (this.availableFunctions.FilterByProfileName!.Parameters.ProfileNames) {
@@ -96,6 +105,10 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     onDeviceProfileSelectedEvent(profiles: string[]) {
         this.profileNames = profiles;
         this.availableFunctions.FilterByProfileName!.Parameters.ProfileNames = this.profileNames.join(',');
+    }
+
+    onDeviceNamesChange() {
+        this.availableFunctions.FilterByDeviceName!.Parameters.DeviceNames = this.deviceNames.join(',');
     }
 
     renderPopoverComponent() {
