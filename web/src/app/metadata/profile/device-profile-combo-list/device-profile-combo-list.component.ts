@@ -29,8 +29,9 @@ export class DeviceProfileComboListComponent implements OnInit {
 
   @Input() 
   get selectedProfiles(): string[] { return this._selectedProfiles } 
-  set selectedProfiles(profiles : string[]) {
-    this._selectedProfiles = profiles
+  set selectedProfiles(profileNames : string[]) {
+    profileNames.forEach((v,i) => {profileNames[i] = v.trim()});
+    this._selectedProfiles = profileNames;
     this.selectedProfilesStr = this._selectedProfiles.join(',');
   }
   selectedProfilesStr: string = "";
