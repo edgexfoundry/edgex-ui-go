@@ -31,7 +31,6 @@ import { EventResponse } from '../../../contracts/v2/responses/event-response';
 import { BaseReading } from '../../../contracts/v2/reading';
 import { CoreCommandParameter } from '../../../contracts/v2/core-command';
 import { BaseResponse } from '../../../contracts/v2/common/base-response';
-// import * as cbor from 'cbor';
 
 @Component({
   selector: 'app-device-list',
@@ -49,7 +48,6 @@ export class DeviceListComponent implements OnInit {
 
   selectedDevice: Device[] = [];
   associateDeviceProfile?: DeviceProfile;
-  isCheckedAll: boolean = false;
   autoEvents?: AutoEvent[];
   associatedAutoEventsDeviceName?: string;
   deviceCoreCommand?: CoreCommand[];
@@ -57,7 +55,6 @@ export class DeviceListComponent implements OnInit {
   associatedCmdDeviceId?: string;
   selectedCmd: CoreCommand = {} as CoreCommand;
   selectedCmdSetParams: CoreCommandParameter[] = [];
-  // selectedCmdSetParamsMap = new Map<string, any>();
 
   cmdBinaryResponse: any;
   cmdBinaryResponseURL?: string;
@@ -181,41 +178,51 @@ export class DeviceListComponent implements OnInit {
     this.associatedCmdDeviceName = "";
   }
 
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    this.deviceList.forEach(device => {
+      if (this.selectedDevice.findIndex(d => d.name === device.name) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.selectedDevice = [];
-      this.deviceList.forEach(d => {
-        this.selectedDevice.push(d);
-        this.isChecked(d.id);
+      this.deviceList.forEach(device => {
+        if (this.selectedDevice.findIndex(d => d.name === device.name) !== -1) {
+          return
+        }
+        this.selectedDevice.push(device);
       });
-      this.isCheckedAll = true;
-      return
+    } else {
+      this.deviceList.forEach(device => {
+        this.selectedDevice.forEach((deviceSelected, index) => {
+          if (deviceSelected.name === device.name) {
+            this.selectedDevice.splice(index,1);
+          }
+        })
+      });
     }
-    this.isCheckedAll = false;
-    this.selectedDevice = [];
-    this.deviceList.forEach(d => {
-      this.isChecked(d.id);
-    });
-
   }
 
   isChecked(id: string): boolean {
-    return this.selectedDevice.findIndex(v => v.id === id) >= 0;
+    return this.selectedDevice.findIndex(device => device.id === id) >= 0;
   }
 
-  selectOne(event: any, d: Device) {
+  selectOne(event: any, device: Device) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.selectedDevice.push(d);
-      if (this.selectedDevice.length === this.deviceList.length) {
-        this.isCheckedAll = true;
-      }
+      this.selectedDevice.push(device);
       return
     }
-    this.isCheckedAll = false;
-    this.isChecked(d.id);
-    this.selectedDevice.splice(this.selectedDevice.indexOf(d), 1)
+    this.selectedDevice.forEach((d,i) => {
+      if (d.name === device.name) {
+        this.selectedDevice.splice(i, 1);
+      }
+    })
   }
 
   checkDeviceCommand(device: Device) {
@@ -338,7 +345,6 @@ export class DeviceListComponent implements OnInit {
 
   onPageSelected() {
     this.resetPagination();
-    this.setPagination();
     this.getDeviceList();
   }
 
@@ -363,5 +369,6 @@ export class DeviceListComponent implements OnInit {
 
   resetPagination() {
     this.pagination = 1;
+    this.pageOffset = (this.pagination - 1) * this.pageLimit;
   }
 }
