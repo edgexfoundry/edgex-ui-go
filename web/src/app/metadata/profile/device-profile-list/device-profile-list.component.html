@@ -44,7 +44,7 @@
                 <thead class="thead-light">
                     <tr>
                       <th scope="col">
-                          <input *ngIf="enableSelectAll" type="checkbox" [checked]="isCheckedAll" (click)="selectAll($event)">
+                          <input *ngIf="enableSelectAll" type="checkbox" [checked]="isCheckedAll()" (click)="selectAll($event)">
                       </th>
                       <th scope="col">ID</th>
                       <th scope="col">Name</th>
