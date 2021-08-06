@@ -80,7 +80,6 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         if (this.availableFunctions.FilterByProfileName?.Parameters) {
             if (this.availableFunctions.FilterByProfileName!.Parameters.ProfileNames) {
                 this.profileNames  = this.availableFunctions.FilterByProfileName!.Parameters.ProfileNames.split(',');
-                this.profileNames.forEach((v,i) => {this.profileNames[i] = v.trim()});
             }
         }
     }
