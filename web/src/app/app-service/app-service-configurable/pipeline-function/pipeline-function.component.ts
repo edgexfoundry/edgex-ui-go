@@ -41,7 +41,9 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     private _availableFunctions: Functions;
     @Input() 
     get availableFunctions(): Functions {return this._availableFunctions};
-    set availableFunctions(funcs: Functions) {Object.assign(this._availableFunctions, funcs);};
+    set availableFunctions(funcs: Functions) {
+        Object.assign(this._availableFunctions, funcs)
+    };
     @Output() availableFunctionsChange = new EventEmitter<Functions>();
 
     private _selectedFunctionsName: string[] = [];
@@ -64,7 +66,6 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     ngOnChanges() {
         this.setSelectedDevices();
         this.setSelectedProfiles();
-        this.selectedFunctionsNameChange.emit(this.selectedFunctionsName);
         this.availableFunctionsChange.emit(this.availableFunctions);
     }
  
@@ -86,7 +87,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
 
     initAvailableFunctions() {
             this.availableFunctions.AddTags = {Parameters:{Tags:""}} as AddTags;
-            this.availableFunctions.Batch = {Parameters:{Mode:"",BatchThreshold:"",TimeInterval:""}} as Batch;
+            this.availableFunctions.Batch = {Parameters:{}} as Batch;
             this.availableFunctions.FilterByDeviceName = {Parameters:{FilterOut:"false"}} as FilterByDeviceName;
             this.availableFunctions.FilterByProfileName = {Parameters:{FilterOut:"false"}} as FilterByProfileName;
             this.availableFunctions.FilterBySourceName = {Parameters:{FilterOut:"false"}} as FilterBySourceName;
@@ -119,14 +120,16 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     }
 
     selectOnefunc(funcName: string) {
-        this.selectedFunctionsName.push(funcName)
+        this.selectedFunctionsName.push(funcName);
+        this.selectedFunctionsNameChange.emit(this.selectedFunctionsName);
     }
 
     unselectFunc(funcName: string) {
         if (this.selectedFunctionsName.indexOf(funcName) === -1)  {
             return
         }
-        this.selectedFunctionsName.splice(this.selectedFunctionsName.indexOf(funcName),1)
+        this.selectedFunctionsName.splice(this.selectedFunctionsName.indexOf(funcName),1);
+        this.selectedFunctionsNameChange.emit(this.selectedFunctionsName);
     }
 
     getFuncExecutionOrder(): string {
@@ -162,6 +165,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         t.splice(t.indexOf(src),1);
         t.splice(t.indexOf(dest),0,src);
         this.selectedFunctionsName = t;
+        this.selectedFunctionsNameChange.emit(this.selectedFunctionsName);
     }
 
     ondropFuncExecutionOrder(event: any) {

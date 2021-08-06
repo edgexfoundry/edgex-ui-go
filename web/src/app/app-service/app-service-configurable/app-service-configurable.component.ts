@@ -88,9 +88,8 @@ export class AppServiceConfigurableComponent implements OnInit {
             let writable: Writable = resp[this.writableIdentifier];
             Object.assign(this.configWritable, writable);
             Object.assign(this.insecureSecrets, writable.InsecureSecrets)
-
             this.selectedFunctionsName = writable.Pipeline.ExecutionOrder.split(',');
-            Object.assign(this.availableFunctions, writable.Pipeline.Functions);
+            this.availableFunctions = writable.Pipeline.Functions; // don't used assign, all properties will change to un-enumerable in the children component
         })
     }
 
