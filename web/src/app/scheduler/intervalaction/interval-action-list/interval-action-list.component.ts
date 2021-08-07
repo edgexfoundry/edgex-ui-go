@@ -31,7 +31,7 @@ export class IntervalActionListComponent implements OnInit {
 
   intervalActionList: IntervalAction[] = [];
   intervalActionSelected: IntervalAction[] = [];
-  isCheckedAll: boolean = false;
+  // isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -65,40 +65,52 @@ export class IntervalActionListComponent implements OnInit {
     });
   }
 
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    if (this.intervalActionList && this.intervalActionList.length === 0) {
+      checkedAll = false
+    }
+    this.intervalActionList.forEach(action => {
+      if (this.intervalActionSelected.findIndex(actionSelected => actionSelected.name === action.name) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.intervalActionSelected = [];
       this.intervalActionList.forEach(intervalAction => {
+        if (this.intervalActionSelected.findIndex(actionSelected => actionSelected.name === intervalAction.name) !== -1) {
+            return
+        }
         this.intervalActionSelected.push(intervalAction);
-        this.isChecked(intervalAction.name);
       });
-      this.isCheckedAll = true;
-      return
+    } else {
+      this.intervalActionList.forEach(intervalAction => {
+        let found = this.intervalActionSelected.findIndex(actionSelected => actionSelected.name === intervalAction.name);
+        if (found !== -1) {
+          this.intervalActionSelected.splice(found,1)
+        }
+      });
     }
-    this.isCheckedAll = false;
-    this.intervalActionSelected = [];
-    this.intervalActionList.forEach(intervalAction => {
-      this.isChecked(intervalAction.name);
-    });
   }
 
   isChecked(name: string): boolean {
-    return this.intervalActionSelected.findIndex(v => v.name === name) >= 0;
+    return this.intervalActionSelected.findIndex(intervalAction => intervalAction.name === name) >= 0;
   }
 
   selectOne(event: any, intervalAction: IntervalAction) {
     const checkbox = event.target;
     if (checkbox.checked) {
       this.intervalActionSelected.push(intervalAction);
-      if (this.intervalActionSelected.length === this.intervalActionList.length) {
-        this.isCheckedAll = true;
-      }
       return
     }
-    this.isCheckedAll = false;
-    this.isChecked(intervalAction.name);
-    this.intervalActionSelected.splice(this.intervalActionSelected.indexOf(intervalAction), 1)
+    let found = this.intervalActionSelected.findIndex(actionSelected => actionSelected.name === intervalAction.name);
+    if (found !== -1) {
+      this.intervalActionSelected.splice(found,1)
+    }
   }
 
   edit() {

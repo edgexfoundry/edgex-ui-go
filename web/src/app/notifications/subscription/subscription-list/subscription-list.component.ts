@@ -35,7 +35,6 @@ export class SubscriptionListComponent implements OnInit {
   subscriptionList: Subscription[] = [];
   subscriptionSelected: Subscription[] = [];
   // checkedSubscription?: Subscription;
-  isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -75,40 +74,52 @@ export class SubscriptionListComponent implements OnInit {
     })
   }
 
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    if (this.subscriptionList && this.subscriptionList.length === 0) {
+      checkedAll = false
+    }
+    this.subscriptionList.forEach(subscription => {
+      if (this.subscriptionSelected.findIndex(subscriptionSelected => subscriptionSelected.id === subscription.id) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.subscriptionSelected = [];
-      this.subscriptionList.forEach(interval => {
-        this.subscriptionSelected.push(interval);
-        this.isChecked(interval.name);
+      this.subscriptionList.forEach(subscription => {
+        if (this.subscriptionSelected.findIndex(sub => sub.name === subscription.name) !== -1) {
+          return
+        }
+        this.subscriptionSelected.push(subscription);
       });
-      this.isCheckedAll = true;
       return
     }
-    this.isCheckedAll = false;
-    this.subscriptionSelected = [];
-    this.subscriptionList.forEach(interval => {
-      this.isChecked(interval.name);
+    this.subscriptionList.forEach(subscription => {
+      let found = this.subscriptionSelected.findIndex(sub => sub.name === subscription.name);
+      if (found !== -1) {
+        this.subscriptionSelected.splice(found,1)
+      }
     });
   }
 
   isChecked(name: string): boolean {
-    return this.subscriptionSelected.findIndex(v => v.name === name) >= 0;
+    return this.subscriptionSelected.findIndex(subscription => subscription.name === name) >= 0;
   }
 
-  selectOne(event: any, sub: Subscription) {
+  selectOne(event: any, subscription: Subscription) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.subscriptionSelected.push(sub);
-      if (this.subscriptionSelected.length === this.subscriptionList.length) {
-        this.isCheckedAll = true;
-      }
+      this.subscriptionSelected.push(subscription);
       return
     }
-    this.isCheckedAll = false;
-    this.isChecked(sub.name);
-    this.subscriptionSelected.splice(this.subscriptionSelected.indexOf(sub), 1)
+    let found = this.subscriptionSelected.findIndex(sub => sub.name === subscription.name);
+    if (found !== -1) {
+      this.subscriptionSelected.splice(found,1)
+    }
   }
 
   edit() {

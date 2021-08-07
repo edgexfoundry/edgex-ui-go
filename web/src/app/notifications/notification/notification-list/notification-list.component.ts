@@ -30,7 +30,6 @@ export class NotificationListComponent implements OnInit {
 
   notificationList: Notification[] = [];
   notificationSelected: Notification[] = [];
-  isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -241,40 +240,53 @@ export class NotificationListComponent implements OnInit {
     $("#deleteConfirmDialog").modal('hide');
   }
 
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    if (this.notificationList && this.notificationList.length === 0) {
+      checkedAll = false
+    }
+    this.notificationList.forEach(notification => {
+      if (this.notificationSelected.findIndex(notificationSelected => notificationSelected.id === notification.id) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.notificationSelected = [];
       this.notificationList.forEach(notification => {
+        if (this.notificationSelected.findIndex(notiSelected => notiSelected.id === notification.id) !== -1) {
+          return
+        }
         this.notificationSelected.push(notification);
-        this.isChecked(notification.id);
       });
-      this.isCheckedAll = true;
       return
     }
-    this.isCheckedAll = false;
-    this.notificationSelected = [];
     this.notificationList.forEach(notification => {
-      this.isChecked(notification.id);
+      let found = this.notificationSelected.findIndex(notiSelected => notiSelected.id === notification.id)
+      if (found !== -1) {
+        this.notificationSelected.splice(found,1)
+      }
     });
   }
 
   isChecked(id: string): boolean {
-    return this.notificationSelected.findIndex(v => v.id === id) >= 0;
+    return this.notificationSelected.findIndex(notification => notification.id === id) >= 0;
   }
 
   selectOne(event: any, notification: Notification) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.notificationSelected.push(notification);
-      if (this.notificationSelected.length === this.notificationList.length) {
-        this.isCheckedAll = true;
-      }
+      this.notificationSelected.push(notification)
       return
     }
-    this.isCheckedAll = false;
-    this.isChecked(notification.id);
-    this.notificationSelected.splice(this.notificationSelected.indexOf(notification), 1)
+
+    let found = this.notificationSelected.findIndex(notiSelected => notiSelected.id === notification.id)
+    if (found !== -1) {
+      this.notificationSelected.splice(found,1)
+    }
   }
 
   paginationBySearchMode() {
