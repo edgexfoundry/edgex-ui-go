@@ -20,9 +20,11 @@ import { EditProvisionWatcherComponent } from './provision-watcher/edit-provisio
 import { AddProvisionWatcherComponent } from './provision-watcher/add-provision-watcher/add-provision-watcher.component';
 import { DeviceComboListComponent } from './device/device-combo-list/device-combo-list.component';
 import { DeviceProfileComboListComponent } from './profile/device-profile-combo-list/device-profile-combo-list.component';
+import { SourceComboListComponent } from './profile/source-combo-list/source-combo-list.component';
+import { ResourceComboListComponent } from './profile/resource-combo-list/resource-combo-list.component';
 
 @NgModule({
-  declarations: [MetadataComponent, DeviceServiceMediaListComponent, DeviceServiceListComponent, DeviceListComponent, EditDeviceComponent, AddDeviceComponent, DeviceProfileListComponent, EditProfileComponent, AddProfileComponent, DeviceCenterComponent, DeviceProfileCenterComponent, ProvisionWatcherCenterComponent, ProvisionWatcherListComponent, EditProvisionWatcherComponent, AddProvisionWatcherComponent, DeviceComboListComponent, DeviceProfileComboListComponent],
+  declarations: [MetadataComponent, DeviceServiceMediaListComponent, DeviceServiceListComponent, DeviceListComponent, EditDeviceComponent, AddDeviceComponent, DeviceProfileListComponent, EditProfileComponent, AddProfileComponent, DeviceCenterComponent, DeviceProfileCenterComponent, ProvisionWatcherCenterComponent, ProvisionWatcherListComponent, EditProvisionWatcherComponent, AddProvisionWatcherComponent, DeviceComboListComponent, DeviceProfileComboListComponent, SourceComboListComponent, ResourceComboListComponent],
   imports: [
     CommonModule,
     FormsModule,
