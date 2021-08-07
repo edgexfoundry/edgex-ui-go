@@ -180,6 +180,9 @@ export class DeviceListComponent implements OnInit {
 
   isCheckedAll(): boolean {
     let checkedAll = true;
+    if (this.deviceList &&  this.deviceList.length === 0) {
+      checkedAll = false
+    }
     this.deviceList.forEach(device => {
       if (this.selectedDevice.findIndex(d => d.name === device.name) === -1) {
         checkedAll = false

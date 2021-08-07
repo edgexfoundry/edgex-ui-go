@@ -37,7 +37,7 @@ export class IntervalListComponent implements OnInit {
   intervalList: Interval[] = [];
   intervalSelected: Interval[] = [];
   @Input() singleIntervalSelected?: Interval;
-  isCheckedAll: boolean = false;
+  // isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -104,29 +104,43 @@ export class IntervalListComponent implements OnInit {
     this.onSingleIntervalSelectedEmitter();
   }
 
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    if (this.intervalList &&  this.intervalList.length === 0) {
+      checkedAll = false
+    }
+    this.intervalList.forEach(interval => {
+      if (this.intervalSelected.findIndex(intervalSelected => intervalSelected.name === interval.name) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.intervalSelected = [];
       this.intervalList.forEach(interval => {
+        if (this.intervalSelected.findIndex((intervalSelected) => intervalSelected.name === interval.name) !== -1) {
+          return
+        }
         this.intervalSelected.push(interval);
-        this.isChecked(interval.name);
       });
-      this.isCheckedAll = true;
-      return
-    }
-    this.isCheckedAll = false;
-    this.intervalSelected = [];
-    this.intervalList.forEach(interval => {
-      this.isChecked(interval.name);
-    });
+    } else {
+      this.intervalList.forEach(interval => {
+        let found = this.intervalSelected.findIndex((intervalSelected) => intervalSelected.name === interval.name);
+        if (found !== -1) {
+          this.intervalSelected.splice(found,1)
+        }
+      });
+    }   
   }
 
   isChecked(name: string): boolean {
     if (!this.enableSelectAll) {
       return this.isSingleChecked(name)
     }
-    return this.intervalSelected.findIndex(v => v.name === name) >= 0;
+    return this.intervalSelected.findIndex(interval => interval.name === name) >= 0;
   }
 
   selectOne(event: any, interval: Interval) {
@@ -134,17 +148,17 @@ export class IntervalListComponent implements OnInit {
       this.selectSingleInterval(event, interval.name);
       return
     }
+
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.intervalSelected.push(interval);
-      if (this.intervalSelected.length === this.intervalList.length) {
-        this.isCheckedAll = true;
-      }
+      this.intervalSelected.push(interval)
       return
     }
-    this.isCheckedAll = false;
-    this.isChecked(interval.name);
-    this.intervalSelected.splice(this.intervalSelected.indexOf(interval), 1)
+
+    let found = this.intervalSelected.findIndex(intervalSelected => intervalSelected.name === interval.name);
+    if (found !== -1) {
+      this.intervalSelected.splice(found, 1)
+    }
   }
 
   edit() {

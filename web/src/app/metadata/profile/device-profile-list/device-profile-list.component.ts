@@ -175,6 +175,9 @@ export class DeviceProfileListComponent implements OnInit {
 
   isCheckedAll(): boolean {
     let checkall = true;
+    if (this.profileList && this.profileList.length === 0) {
+      checkall = false
+    }
     this.profileList.forEach((p) => {
       if (this.multiProfilesSelected.indexOf(p.name) === -1)  {
         checkall = false
