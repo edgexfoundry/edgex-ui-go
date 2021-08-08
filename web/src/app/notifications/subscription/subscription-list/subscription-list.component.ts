@@ -34,7 +34,6 @@ export class SubscriptionListComponent implements OnInit {
 
   subscriptionList: Subscription[] = [];
   subscriptionSelected: Subscription[] = [];
-  // checkedSubscription?: Subscription;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -67,7 +66,6 @@ export class SubscriptionListComponent implements OnInit {
   }
 
   checkChannels(sub: Subscription) {
-    // this.checkedSubscription = sub;
     this.router.navigate(['../edit-subscription'], {
       relativeTo: this.route,
       queryParams: { 'subName': sub.name }
