@@ -37,7 +37,6 @@ export class DeviceProfileListComponent implements OnInit {
   profileList: DeviceProfile[] = [];
   @Input() multiProfilesSelected: string[] = [];
   @Input() singleProfileSelected?: DeviceProfile;
-  // isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -123,8 +122,6 @@ export class DeviceProfileListComponent implements OnInit {
   }
 
   resetCheckbox() {
-    // this.isCheckedAll = false; //reset checkbox all
-    // this.multiProfilesSelected = [];
   }
 
   edit() {

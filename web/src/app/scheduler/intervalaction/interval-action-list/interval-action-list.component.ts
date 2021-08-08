@@ -31,7 +31,6 @@ export class IntervalActionListComponent implements OnInit {
 
   intervalActionList: IntervalAction[] = [];
   intervalActionSelected: IntervalAction[] = [];
-  // isCheckedAll: boolean = false;
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
