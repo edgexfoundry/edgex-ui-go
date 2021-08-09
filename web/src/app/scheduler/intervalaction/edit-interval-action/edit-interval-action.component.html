@@ -101,7 +101,7 @@
                                         <div class="form-group row">
                                             <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
                                             <div class="col-md-10">
-                                                <select type="text" class="form-control" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
+                                                <select type="text" class="custom-select" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
                                                     <option value="GET">GET</option>
                                                     <option value="POST">POST</option>
                                                     <option value="PUT">PUT</option>
@@ -160,7 +160,7 @@
                                         <div class="form-group row">
                                             <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
                                             <div class="col-md-10">
-                                                <select type="text" class="form-control" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
+                                                <select type="text" class="custom-select" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
                                                     <option value="DELETE">DELETE</option>
                                                 </select>
                                             </div>
@@ -313,7 +313,7 @@
                                    <div class="form-group row">
                                        <label for="addressRetained" class="col-md-2 col-form-label" required>Retained</label>
                                        <div class="col-md-10">
-                                           <select type="text" class="form-control" id="addressRetained" name="addressRetained" [(ngModel)]="intervalAction.address.retained">
+                                           <select type="text" class="custom-select" id="addressRetained" name="addressRetained" [(ngModel)]="intervalAction.address.retained">
                                                <option [ngValue]="false" selected>false</option>
                                                <option [ngValue]="true">true</option>
                                            </select>
@@ -322,7 +322,7 @@
                                    <div class="form-group row">
                                        <label for="addressAutoReconnect" class="col-md-2 col-form-label" required>AutoReconnect</label>
                                        <div class="col-md-10">
-                                           <select type="text" class="form-control" id="addressAutoReconnect" name="addressAutoReconnect" [(ngModel)]="intervalAction.address.autoReconnect">
+                                           <select type="text" class="custom-select" id="addressAutoReconnect" name="addressAutoReconnect" [(ngModel)]="intervalAction.address.autoReconnect">
                                                <option [ngValue]="true" selected>true</option>
                                                <option [ngValue]="false">false</option>
                                            </select>
