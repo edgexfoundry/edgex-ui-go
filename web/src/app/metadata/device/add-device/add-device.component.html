@@ -100,7 +100,7 @@
                     <div class="form-group row">
                         <label for="adminState" class="col-md-2 col-form-label" >AdminState</label>
                         <div class="col-md-10">
-                            <select class="form-control"  name="deviceAdminState" [(ngModel)]="newDevice.adminState">
+                            <select class="custom-select"  name="deviceAdminState" [(ngModel)]="newDevice.adminState">
                                 <option value="UNLOCKED">UNLOCKED</option>
                                 <option value="LOCKED">LOCKED</option>
                             </select>
@@ -109,7 +109,7 @@
                     <div class="form-group row">
                         <label for="operatingState" class="col-md-2 col-form-label" >OperatingState</label>
                         <div class="col-md-10">
-                            <select class="form-control" name="deviceOperatingState" [(ngModel)]="newDevice.operatingState">
+                            <select class="custom-select" name="deviceOperatingState" [(ngModel)]="newDevice.operatingState">
                                 <option value="UP">UP</option>
                                 <option value="DOWN">DOWN</option>
                                 <option value="DOWN">UNKNOWN</option>
