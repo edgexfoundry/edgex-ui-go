@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "datasource",
+  "name": "EdgeXFoundry",
+  "id": "vmware-edgexfoundry",
+  "metrics": true,
+  "info": {
+    "description": "",
+    "author": {
+      "name": "Huaqiao Zhang, huaqiaoz@vmware.com",
+      "url": ""
+    },
+    "keywords": [
+      "edgex",
+      "vmware"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/grafana-starter-datasource"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/grafana-starter-datasource/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=7.0.0",
+    "plugins": []
+  },
+  "routes": [
+    {
+      "path": "edgexfoundry",
+      "url": "{{ .JsonData.path }}"
+    }
+  ]
+}
