@@ -6,57 +6,6 @@
 # $SNAP_DATA 
 # also see https://github.com/edgexfoundry/edgex-ui-go/issues/111 for more 
 # details and upstream issue status
-cd "$SNAP_DATA/config/edgex-ui-server"
 
-exec "$SNAP/bin/edgex-ui-server"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+cd "$SNAP/bin"
+exec ./edgex-ui-server --conf "$SNAP_DATA/config/edgex-ui-server/res/configuration.toml"
