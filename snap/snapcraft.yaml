@@ -1,19 +1,22 @@
 name: edgex-ui
 base: core18 
-version: '2.0' 
-# version-script: |
-#   echo $(cat VERSION)-$(date +%Y%m%d)+$(git rev-parse --short HEAD)
-summary: EdgeX Web management UI
+type: app
+version: '1.0'
+summary: A graphical user interface for EdgeX Foundry 
 description: |
-  .
+  The EdgeX UI is for demonstration and developer use 
+  to manage and monitor a single instance of EdgeX Foundry
+
 grade: stable
 confinement: strict
 
+icon: snap/local/assets/edgex-snap-icon.png
+
+epoch: 1
+
 architectures:
-  - build-on: armhf
   - build-on: arm64
   - build-on: amd64
-  # - build-on: i386
 
 apps:
   edgex-ui:
@@ -30,6 +33,7 @@ parts:
     source: cmd/edgex-ui-server
     prime: 
        - static/web/*
+       
   local-snap-assets:
     plugin: dump
     source: snap/local/runtime-helpers
