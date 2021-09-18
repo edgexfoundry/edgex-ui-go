@@ -32,7 +32,7 @@ class MqttProtocolTemplate {
   User: string = "";
   Password: string = "";
   ClientId: string = "";
-  Topic: string = "";
+  CommandTopic: string = "";
 }
 
 class ModusTCPProtocolTemplate {
