@@ -1,0 +1,60 @@
+name: edgex-ui
+base: core18 
+type: app
+version: '1.0'
+summary: A graphical user interface for EdgeX Foundry 
+description: |
+  The EdgeX UI is for demonstration and developer use 
+  to manage and monitor a single instance of EdgeX Foundry
+
+grade: stable
+confinement: strict
+
+icon: snap/local/assets/edgex-snap-icon.png
+
+epoch: 1
+
+architectures:
+  - build-on: arm64
+  - build-on: amd64
+
+apps:
+  edgex-ui:
+    command: bin/edgex-ui-wrapper.sh
+    daemon: simple
+    restart-condition: always
+    plugs:
+      - network
+      - network-bind
+
+parts:
+  web-static:
+    plugin: dump
+    source: cmd/edgex-ui-server
+    prime: 
+       - static/web/*
+       
+  local-snap-assets:
+    plugin: dump
+    source: snap/local/runtime-helpers
+    prime:
+      - bin/*
+
+  edgex-ui:
+    source: .
+    plugin: make
+    build-packages: [git, libzmq3-dev, zip, pkg-config]
+    build-snaps:
+      - go/1.16/stable
+    stage-packages: [libzmq5]
+    override-build: |
+      go mod tidy
+      make build
+      mkdir -p "$SNAPCRAFT_PART_INSTALL/bin"
+      mkdir -p "$SNAPCRAFT_PART_INSTALL/config/edgex-ui-server/res"
+      cp cmd/edgex-ui-server/edgex-ui-server $SNAPCRAFT_PART_INSTALL/bin/edgex-ui-server
+      # change the StaticResourcesPath to point to $SNAP
+      cat "./cmd/edgex-ui-server/res/configuration.toml" | \
+        sed -e s@"StaticResourcesPath = \"./static\""@"StaticResourcesPath = \"\$SNAP/static\""@ > \
+       "$SNAPCRAFT_PART_INSTALL/config/edgex-ui-server/res/configuration.toml"
+
