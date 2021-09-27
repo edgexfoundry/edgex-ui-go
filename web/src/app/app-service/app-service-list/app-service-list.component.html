@@ -21,11 +21,6 @@
          <i class="fa fa-list mr-2 text-danger"></i>
          <span class="font-weight-bold">App Service List</span>
      </div>
-     <!-- <div class="card-header py-2">
-         <a class="btn btn-sm btn-primary" routerLink="../add-app-service">
-             <i class="fa fa-plus mr-2"></i>New App
-         </a>
-     </div> -->
      <div class="card-body">
         <ul class="list-group p-0">
             <li *ngFor="let appSvc of appServiceList" class="list-group-item list-group-item-action list-group-item-light">
@@ -37,7 +32,6 @@
                         <div class="mt-0 mb-3">
                             <h5 class="d-inline mr-3 align-middle text-dark">
                                 {{appSvc.ServiceId}}
-                                <!-- <i class="fa fa-trash text-danger float-right" role="button" (click)="removeSvc(appSvc)"></i> -->
                             </h5>                            
                         </div>
                         <div>
