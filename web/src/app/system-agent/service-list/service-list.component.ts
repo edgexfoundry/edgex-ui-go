@@ -19,6 +19,7 @@ import { SystemAgentService } from '../../services/system-agent.service';
 
 import { MessageService } from '../../message/message.service';
 import { ErrorService } from '../../services/error.service';
+import { AppServiceService } from '../../services/app-service.service';
 import { BaseWithServiceNameResponse } from '../../contracts/v2/common/base-response';
 
 interface service {
@@ -36,15 +37,7 @@ interface service {
   styleUrls: ['./service-list.component.css']
 })
 export class ServiceListComponent implements OnInit {
-
-  defaultServcies = [
-    "edgex-core-metadata", "edgex-core-data", "edgex-core-command",
-    "edgex-support-notifications", "edgex-support-scheduler",
-    // "edgex-redis",
-    //"rule-engine",
-    // "edgex-ui-go",
-    //"edgex-sys-mgmt-agent",
-    "edgex-app-rules-engine"];
+  defaultServcies: string[] = [];
 
   operationBtnDisabled: boolean = false;
   toggleClass: string = "";
@@ -56,7 +49,16 @@ export class ServiceListComponent implements OnInit {
     private errorSvc: ErrorService) { }
 
   ngOnInit(): void {
-    this.allSvcHealthCheck();
+    this.GetAllSvc();
+  }
+
+  GetAllSvc() {
+    this.sysService.getRegisteredServiceAll().subscribe((resp: any) => {
+      resp.forEach((svc: any) => {
+        this.defaultServcies.push(svc.ServiceId);
+      });
+      this.allSvcHealthCheck();
+    });
   }
 
   allSvcHealthCheck() {
@@ -104,7 +106,7 @@ export class ServiceListComponent implements OnInit {
         return
       }
       this.availServices.forEach(svc => {
-        if (`edgex-${svc.name}` === resp[0].serviceName) {
+        if (`${svc.name}` === resp[0].serviceName) {
           svc.statusCode = String(resp[0].statusCode);
           svc.alive = true;
           return
