@@ -22,7 +22,7 @@
          <span>New App Service</span>
      </div>
      <div class="card-header">
-        <button class="btn btn-sm btn-success" (click)="save()" [disabled]="!appSvc.name || !appSvc.port"><i class="fa fa-save mr-2"></i>Save</button>
+        <button class="btn btn-sm btn-success" (click)="save()" [disabled]="!appSvc.ServiceId || !appSvc.Port"><i class="fa fa-save mr-2"></i>Save</button>
      </div>
      <div class="card-body">
          <form>
@@ -33,7 +33,7 @@
                         data-content="App Service Key indicates the name of app service which is also the name on register center."></span>
                 </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" [class.is-invalid]="!appSvc.name"  [class.is-valid]="appSvc.name"  name="appSvcKey" [(ngModel)]="appSvc.name">
+                    <input type="text" class="form-control" [class.is-invalid]="!appSvc.ServiceId"  [class.is-valid]="appSvc.ServiceId" name="appSvcKey" [(ngModel)]="appSvc.ServiceId">
                     <div id="appSvcKeyFeedback" class="invalid-feedback">
                         <small>the app service key can't be empty!</small> 
                     </div>
@@ -42,7 +42,7 @@
             <div class="form-group row has-validation">
                 <label class="col-sm-2 col-form-label">App Service Port</label>
                 <div class="col-sm-10">
-                      <input type="text" class="form-control" [class.is-invalid]="!appSvc.port" [class.is-valid]="appSvc.port"  name="appSvcPort" [(ngModel)]="appSvc.port">
+                      <input type="text" class="form-control" [class.is-invalid]="!appSvc.Port" [class.is-valid]="appSvc.Port"  name="appSvcPort" [(ngModel)]="appSvc.Port">
                       <div id="appSvcPortFeedback" class="invalid-feedback">
                         <small>the app service port can't be empty!</small> 
                     </div>

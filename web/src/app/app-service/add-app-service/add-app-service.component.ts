@@ -17,10 +17,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-interface appService {
-  name: string,
-  port: string
-}
+import { ServiceEndpoint } from '../../contracts/v2/register-center/service-endpoint';
 
 @Component({
   selector: 'app-add-app-service',
@@ -29,11 +26,11 @@ interface appService {
 })
 export class AddAppServiceComponent implements OnInit {
 
-  appSvc: appService;
+  appSvc: ServiceEndpoint;
 
   constructor(private router: Router,
     private route: ActivatedRoute) {
-    this.appSvc = {} as appService;
+    this.appSvc = {} as ServiceEndpoint;
   }
 
   ngOnInit(): void {
@@ -49,7 +46,7 @@ export class AddAppServiceComponent implements OnInit {
   save() {
     let appSvcListStr = window.localStorage.getItem('edgexAppSvcList');
     if (appSvcListStr) {
-      let appSvcList = JSON.parse(appSvcListStr) as appService[];
+      let appSvcList = JSON.parse(appSvcListStr) as ServiceEndpoint[];
       appSvcList.push(this.appSvc);
       window.localStorage.setItem('edgexAppSvcList',JSON.stringify(appSvcList));
     }
