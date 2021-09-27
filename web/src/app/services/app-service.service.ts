@@ -20,17 +20,18 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 
+import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppServiceService {
 
-  
   version: string = "/api/v2";
 
   appSvcDeployConfigUrl: string = `${this.version}/appsvc/deploy/servicekey`;
   appSvcGetConfigUrl: string = `${this.version}/appsvc/config/servicekey`;
+  appSvcAllUrl: string = `${this.version}/registercenter/service/all`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -52,6 +53,13 @@ export class AppServiceService {
     let url = `${this.appSvcDeployConfigUrl}/${svcKey}`;
     return this.http.post(url,JSON.stringify(appServiceWritable), this.httpPostOrPutJSONOptions)
     .pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  getAllAppSvc(): Observable<ServiceEndpoint[]> {
+    let url  = `${this.appSvcAllUrl}`;
+    return this.http.get<ServiceEndpoint[]>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }

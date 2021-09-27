@@ -17,16 +17,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import { SmaOperation } from '../contracts/sma-operation';
 import { BaseWithServiceNameResponse, BaseWithConfigResponse, BaseWithMetricsResponse } from '../contracts/v2/common/base-response';
 import { OperationRequest } from '../contracts/v2/requests/operation-request';
-import { MessageService } from '../message/message.service';
-import { CommandService } from '../services/command.service';
-import { DataService } from '../services/data.service';
-import { MetadataService } from '../services/metadata.service';
-import { NotificationsService } from '../services/notifications.service';
-import { SchedulerService } from '../services/scheduler.service'
+import { ErrorService } from '../services/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -38,58 +33,56 @@ export class SystemAgentService {
 
   urlPrefixV2: string = `${this.endpoint}${this.version2}`;
 
-  endpointHealthUrl: string = "/ping";
-  versionUrl: string = "/version";
-
-  configUrl: string = "/system/config";
-  metricsUrl: string = "/system/metrics";
-  healthUrl: string = "/system/health";
-  operationUrl: string = "/system/operation";
+  allRegisteredSvcUrl: string = '/api/v2/registercenter/service/all';
+  configUrl: string = `${this.urlPrefixV2}/system/config`;
+  metricsUrl: string =  `${this.urlPrefixV2}/system/metrics`;
+  healthUrl: string = `${this.urlPrefixV2}/system/health`;
+  operationUrl: string = `${this.urlPrefixV2}/system/operation`;
 
   httpPostOrPutOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 
-  constructor(private http: HttpClient, 
-    private msgSvc: MessageService,
-    private cmdSvc: CommandService,
-    private dataService: DataService,
-    private metadataSvc:MetadataService,
-    private schedulerSvc: SchedulerService,
-    private notiSvc :NotificationsService) { }
+  constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  getRegisteredServiceAll(): Observable<any> {
+    let url = this.allRegisteredSvcUrl;
+    return this.http.get(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  } 
 
   getConfigBySvcName(serviceName: string): Observable<BaseWithConfigResponse[]> {
-    let url = `${this.urlPrefixV2}${this.configUrl}?services=${serviceName}`;
-    return this.http.get<BaseWithConfigResponse[]>(url)
+    let url = `${this.configUrl}?services=${serviceName}`;
+    return this.http.get<BaseWithConfigResponse[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   getMetricsBySvcName(serviceName: string): Observable<BaseWithMetricsResponse[]> {
-    // let svcName = `edgex-${serviceName}`;
-    let url = `${this.urlPrefixV2}${this.metricsUrl}?services=${serviceName}`;
-    return this.http.get<BaseWithMetricsResponse[]>(url)
+    let url = `${this.metricsUrl}?services=${serviceName}`;
+    return this.http.get<BaseWithMetricsResponse[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   getAllSvcHealth(services: string): Observable<BaseWithServiceNameResponse[]> {
-    let svcs: string[] = services.split(',');
-    let t: string[] = [];
-    svcs.forEach((s,i) => {
-      t.push(s.replace('edgex-',''))
-    });
-    services = t.toString();
-    let url = `${this.urlPrefixV2}${this.healthUrl}?services=${services}`;
-    return this.http.get<BaseWithServiceNameResponse[]>(url)
+    let url = `${this.healthUrl}?services=${services}`;
+    return this.http.get<BaseWithServiceNameResponse[]>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   operateV2(action: OperationRequest[]): Observable<BaseWithServiceNameResponse[]> {
-    let url = `${this.urlPrefixV2}${this.operationUrl}`;
-    return this.http.post<BaseWithServiceNameResponse[]>(url, JSON.stringify(action), this.httpPostOrPutOptions)
+    let url = `${this.operationUrl}`;
+    return this.http.post<BaseWithServiceNameResponse[]>(url, JSON.stringify(action), this.httpPostOrPutOptions).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
   }
 
   startV2(name: string): Observable<any> {
-    // name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -99,7 +92,6 @@ export class SystemAgentService {
   }
 
   stopV2(name: string): Observable<any> {
-    // name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
@@ -109,7 +101,6 @@ export class SystemAgentService {
   }
 
   restartV2(name: string): Observable<any> {
-    // name = `edgex-${name}`;
     let action: OperationRequest[] = [{
       apiVersion: 'v2',
       serviceName: name,
