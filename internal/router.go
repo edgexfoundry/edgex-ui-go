@@ -40,6 +40,8 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/appsvc/deploy/servicekey/{servicekey}", handler.DeployConfigurable).Methods(http.MethodPost)
 	s.HandleFunc("/appsvc/config/servicekey/{servicekey}", handler.GetServiceConfig).Methods(http.MethodGet)
 
+	s.HandleFunc("/registercenter/service/all", handler.GetRegisteredServiceAll).Methods(http.MethodGet)
+
 	return r
 }
 
