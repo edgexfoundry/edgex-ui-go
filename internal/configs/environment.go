@@ -16,11 +16,11 @@
 package configs
 
 import (
-	"os"
-	"strings"
 	"github.com/pelletier/go-toml"
+	"os"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 type environment struct {
