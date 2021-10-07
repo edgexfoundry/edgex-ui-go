@@ -23,7 +23,7 @@ import (
 )
 
 type MemoryDB struct {
-	Users    []domain.User
+	Users []domain.User
 }
 
 var dataStore = MemoryDB{}

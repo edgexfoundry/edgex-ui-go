@@ -21,6 +21,9 @@ GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 
 GIT_SHA=$(shell git rev-parse HEAD)
 
+tidy:
+	go mod tidy
+
 build: $(MICROSERVICES)
 	$(GO) build ./...
 
@@ -31,8 +34,11 @@ clean:
 	rm -f $(MICROSERVICES)
 
 test:
-	GO111MODULE=on go test -coverprofile=coverage.out ./...
-	GO111MODULE=on go vet ./...
+	$(GO) test -coverprofile=coverage.out ./...
+	$(GO) vet ./...
+	gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")
+	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
+#./bin/test-attribution-txt.sh #Missing, someone needs to add
 
 prepare:
 
@@ -49,3 +55,6 @@ docker_edgex_ui_go:
 	-t edgexfoundry/edgex-ui:$(GIT_SHA) \
 	-t edgexfoundry/edgex-ui:$(VERSION)-dev \
 	.
+
+vendor:
+	$(GO) mod vendor
