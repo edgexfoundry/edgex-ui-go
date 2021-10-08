@@ -27,12 +27,12 @@ import (
 )
 
 var (
-	database      string
-	dbHost        string
-	dbPort        int64
-	dbUserName    string
-	dbPassword    string
-	userScheme    string
+	database   string
+	dbHost     string
+	dbPort     int64
+	dbUserName string
+	dbPassword string
+	userScheme string
 )
 
 type DataStore struct {
