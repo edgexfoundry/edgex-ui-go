@@ -25,8 +25,8 @@ github.com/edgexfoundry/go-mod-configuration/v2 v2.0.0 h1:S1rUyJPJWSvlkNHLbHLFWB
 github.com/edgexfoundry/go-mod-configuration/v2 v2.0.0/go.mod h1:NZnjQtCdQtPH/eoOuTKA+8+FsoUU3WSlZ5JpXWuiYQQ=
 github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0 h1:tvfovdyoHOb392L59hiuA90awiXLX5IR3HOgbcWZkVQ=
 github.com/edgexfoundry/go-mod-core-contracts/v2 v2.0.0/go.mod h1:pfXURRetgIto0GR0sCjDrfa71hqJ1wxmQWi/mOzWfWU=
-github.com/edgexfoundry/go-mod-registry/v2 v2.0.1-dev.6 h1:R9RwKBxk65+a/wqI8yaNWF1LdlA8WqaaDufOoAK8YW8=
-github.com/edgexfoundry/go-mod-registry/v2 v2.0.1-dev.6/go.mod h1:+MNlQm8Ks9ZmxqrMK4O3KdBA6E7nRK9M+qBtv/1lPcA=
+github.com/edgexfoundry/go-mod-registry/v2 v2.0.1-dev.7 h1:ch3KwzwhAX78Aiwyc87jJE2y6QJboLS6ikth8JKhw90=
+github.com/edgexfoundry/go-mod-registry/v2 v2.0.1-dev.7/go.mod h1:+MNlQm8Ks9ZmxqrMK4O3KdBA6E7nRK9M+qBtv/1lPcA=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.9.0 h1:8xPHl4/q1VyqGIPif1F+1V3Y3lSmrq01EabUW3CoW5s=
 github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL+zU=
