@@ -18,18 +18,25 @@
 
  <div class="card">
     <div class="card-header">
-        <i class="fa fa-list text-danger"></i> Notification List
-        <span class="fa fa-info-circle text-success font-weight-bold ml-1">&nbsp;The data loaded by default takes the value of status as NEW</span>
+        <i class="fa fa-list text-danger mr-1"></i>
+        <span i18n>Notification List</span>
+        <span class="fa fa-info-circle text-success font-weight-bold ml-1" i18n>&nbsp;The data loaded by default takes the value of status as NEW</span>
     </div>
     <div class="bg-light card-header p-0">
         <div class="px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="notificationSelected.length === 0">
-                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                    <span>
+                        <i class="fa fa-trash mr-1"></i>
+                        <span i18n>Delete</span>
+                    </span>
                 </button>
             </div>
             <a class="text-primary ml-3 text-decoration-none" role="button" (click)="advancedToggle()">
-                <span>Advanced<i class="fa fa-angle-double-right ml-1"></i></span> 
+                <span>
+                    <span i18n>Advanced</span>
+                    <i class="fa fa-angle-double-right ml-1"></i>
+                </span> 
             </a>
         </div>
     </div>
@@ -40,7 +47,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 600px;">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Status</span>
+                                <span class="input-group-text" i18n>Status</span>
                             </div>
                             <select class="custom-select" name="statusSelected" [(ngModel)]="statusSelected">
                                 <option value="NEW">NEW</option>
@@ -74,7 +81,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 600px;">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Start</span>
+                                <span class="input-group-text" i18n>Start</span>
                             </div>
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -82,7 +89,7 @@
                             <input type="text" class="form-control" name="startSelected">
                             
                             <div class="input-group-prepend">
-                                <span class="input-group-text">End</span>
+                                <span class="input-group-text" i18n>End</span>
                             </div>
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -99,7 +106,8 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 600px;">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">CleanupByAge&nbsp;
+                                <span class="input-group-text">
+                                    <span i18n>CleanupByAge</span>&nbsp;
                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                     data-content="Deletes notifications which have age and is less than the specified one, where the age of Notification is calculated by subtracting its last modification timestamp from the current timestamp. Note that the corresponding transmissions will also be deleted.">
                                 </span>
@@ -119,7 +127,8 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 600px;">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Cleanup&nbsp;
+                                <span class="input-group-text">
+                                    <span i18n>Cleanup</span>&nbsp;
                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                         data-content="Deletes the processed notifications if the current timestamp minus their last modification timestamp is less than the age parameter, and the corresponding transmissions will also be deleted. Please notice that this API is only for processed notifications (status = PROCESSED). If the deletion purpose includes each kind of notifications, please refer to cleanupAll.">
                                     </span>
@@ -145,16 +154,16 @@
                     <tr>
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
                       <th scope="col">ID</th>
-                      <th scope="col">Category</th>
-                      <th scope="col">Labels</th>
-                      <th scope="col">Content</th>
-                      <th scope="col">ContentType</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Sender</th>
-                      <th scope="col">Severity</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Created</th>
-                      <th scope="col">Modified</th>
+                      <th scope="col" i18n>Category</th>
+                      <th scope="col" i18n>Labels</th>
+                      <th scope="col" i18n>Content</th>
+                      <th scope="col" i18n>ContentType</th>
+                      <th scope="col" i18n>Description</th>
+                      <th scope="col" i18n>Sender</th>
+                      <th scope="col" i18n>Severity</th>
+                      <th scope="col" i18n>Status</th>
+                      <th scope="col" i18n>Created</th>
+                      <th scope="col" i18n>Modified</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -180,7 +189,7 @@
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
                 <li class="page-item mr-2 mt-1">
-                    <span class="align-middle">items per page</span>
+                    <span class="align-middle" i18n>items per page</span>
                 </li>
                 <li class="page-item mr-2 ">
                     <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
@@ -190,10 +199,16 @@
                     </select>
                 </li>
                 <li class="page-item mr-1">
-                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                        <i class="fa fa-angle-double-left mr-1"></i> 
+                        <span i18n>Previous</span> 
+                    </button>
                 </li>
                 <li class="page-item" >
-                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > notificationList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > notificationList.length">
+                        <span i18n>Next</span>
+                        <i class="fa fa-angle-double-right ml-1"></i>
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -205,16 +220,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
-                    <i class="fa fa-warning"></i>
-                    Warning
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
                 </h5>  
             </div>
-            <div class="modal-body">
+            <div class="modal-body" i18n>
                 The data will be permanently erased!!! Are you sure to execute delete operation？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="cleanup()">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="cleanup()" i18n>Confirm</button>
             </div>
         </div>
     </div>

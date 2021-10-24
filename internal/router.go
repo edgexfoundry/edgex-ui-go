@@ -31,6 +31,7 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/user", handler.AddUser).Methods(http.MethodPost)
 	s.HandleFunc("/auth/login", handler.Login).Methods(http.MethodPost)
 	s.HandleFunc("/auth/logout", handler.Logout).Methods(http.MethodGet)
+	s.HandleFunc("/auth/securemode", handler.SecureMode).Methods(http.MethodGet)
 
 	s.HandleFunc("/profile/download", handler.DowloadProfile).Methods(http.MethodGet)
 	s.HandleFunc("/profile/yaml", handler.AddProfileYamlContent).Methods(http.MethodPost)

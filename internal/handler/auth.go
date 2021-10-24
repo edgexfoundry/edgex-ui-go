@@ -54,6 +54,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func Logout(w http.ResponseWriter, r *http.Request) {
 	//TODO:
-	// token := r.Header.Get(core.SessionTokenKey)
-	// delete(core.TokenCache, token)
+}
+
+func SecureMode(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	mode := "insecure"
+	if common.IsSecurityEnabled() {
+		mode = "secure"
+	}
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Write([]byte(mode))
 }

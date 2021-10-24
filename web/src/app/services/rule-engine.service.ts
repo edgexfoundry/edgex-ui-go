@@ -12,7 +12,7 @@ import { BaseResponse } from '../contracts/v2/common/base-response';
 })
 export class RuleEngineService {
 
-  endpoint: string = "/rule-engine";
+  endpoint: string = "/rules-engine";
   version: string = "";
 
   streamUrl: string = `${this.endpoint}${this.version}/streams`;
@@ -21,8 +21,7 @@ export class RuleEngineService {
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 

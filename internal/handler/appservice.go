@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
 	"github.com/edgexfoundry/go-mod-configuration/v2/configuration"
 	"github.com/edgexfoundry/go-mod-configuration/v2/pkg/types"
@@ -34,13 +35,18 @@ func DeployConfigurable(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
 	configuration := make(map[string]interface{})
-
-	if err := json.NewDecoder(r.Body).Decode(&configuration); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+	var err error
+	var token string
+	var code int
+	if common.IsSecurityEnabled() {
+		token, err, code = getAclTokenOfConsul(w, r)
+		if err != nil || code != http.StatusOK {
+			http.Error(w, "unable to get consul acl token", code)
+			return
+		}
 	}
 
-	client, err := getConfigurationClient(serviceKey)
+	client, err := getConfigurationClient(serviceKey, token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -63,7 +69,17 @@ func GetServiceConfig(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
-	client, err := getConfigurationClient(serviceKey)
+	var err error
+	var token string
+	var code int
+	if common.IsSecurityEnabled() {
+		token, err, code = getAclTokenOfConsul(w, r)
+		if err != nil || code != http.StatusOK {
+			http.Error(w, "unable to get consul acl token", code)
+			return
+		}
+	}
+	client, err := getConfigurationClient(serviceKey, token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -98,12 +114,13 @@ func GetServiceConfig(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
-func getConfigurationClient(serviceKey string) (configuration.Client, error) {
+func getConfigurationClient(serviceKey string, token string) (configuration.Client, error) {
 	configurationConfig := types.ServiceConfig{
-		Host:     configs.RegistryConf.Host,
-		Port:     configs.RegistryConf.Port,
-		Type:     configs.RegistryConf.Type,
-		BasePath: configs.RegistryConf.ConfigRegistryStem + configs.RegistryConf.ServiceVersion + "/" + serviceKey,
+		Host:        configs.RegistryConf.Host,
+		Port:        configs.RegistryConf.Port,
+		Type:        configs.RegistryConf.Type,
+		BasePath:    configs.RegistryConf.ConfigRegistryStem + configs.RegistryConf.ServiceVersion + "/" + serviceKey,
+		AccessToken: token,
 	}
 	client, err := configuration.NewConfigurationClient(configurationConfig)
 	if err != nil {

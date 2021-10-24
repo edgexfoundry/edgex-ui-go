@@ -2,31 +2,41 @@
     <div class="card-header">
         <span class="font-weight-bold">
             <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span>
-            <span class="text-secondary">Add Rule Wizard</span>
+            <span class="text-secondary" i18n>Add Rule Wizard</span>
         </span>
     </div>
     <div class="card-header bg-light">
         <nav aria-label="breadcrumb" class="mb-0 p-0">
             <ol class="breadcrumb p-1 mb-0 bg-light">
                 <li class="breadcrumb-item">
-                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass">RulePrimary <i
-                            *ngIf="currentStep >= 1" class="fa fa-check"></i></span>
+                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass">
+                        <span i18n>RulePrimary</span> 
+                        <i *ngIf="currentStep >= 1" class="fa fa-check ml-1"></i>
+                    </span>
                 </li>
                 <li class="breadcrumb-item">
-                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">CreateRuleActions <i
-                            *ngIf="currentStep >= 2" class="fa fa-check"></i></span>
+                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">
+                        <span i18n>CreateRuleActions</span> 
+                        <i *ngIf="currentStep >= 2" class="fa fa-check ml-1"></i>
+                    </span>
                 </li>
             </ol>
         </nav>
     </div>
     <div class="card-header">
-        <button *ngIf="currentStep" class="btn btn-info btn-sm" (click)="previous()"><i
-                class="fa fa-long-arrow-left"></i> Previous</button>
-        <button *ngIf="1 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" [disabled]="stepStateLock()" (click)="next()">Next
-            <i class="fa fa-long-arrow-right"></i></button>
+        <button *ngIf="currentStep" class="btn btn-info btn-sm" (click)="previous()">
+            <i class="fa fa-long-arrow-left mr-1"></i> 
+            <span i18n>Previous</span>
+        </button>
+        <button *ngIf="1 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" [disabled]="stepStateLock()" (click)="next()">
+            <span i18n>Next</span>
+            <i class="fa fa-long-arrow-right ml-1"></i>
+        </button>
         <ng-template #stepDone>
-            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="done()"><i
-                    class="fa fa-save"></i> Submit</button>
+            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="done()">
+                <i class="fa fa-save mr-1"></i> 
+                <span i18n>Submit</span>
+            </button>
         </ng-template>
     </div>
     <div class="card-body p-0">
@@ -35,7 +45,7 @@
                 <form class="px-5 py-4">
                     <div class="form-group row has-validation">
                         <label for="ruleName" class="col-md-2 col-form-label">
-                            <span class="mr-2">Name</span> 
+                            <span class="mr-2" i18n>Name</span> 
                             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
                             data-content='The identification of the rule. The rule name cannot be duplicated in the same Kuiper instance.'></span>
                         </label>
@@ -43,13 +53,13 @@
                             <input type="text" class="form-control" id="ruleName" [class.is-invalid]="!ruleName"
                                 [class.is-valid]="ruleName" name="ruleName" [(ngModel)]="ruleName">
                             <div id="ruleName" class="invalid-feedback">
-                                <small>the rule name can't be empty!</small>
+                                <small i18n>the rule name can't be empty!</small>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row has-validation">
                         <label for="ruleSql" class="col-md-2 col-form-label">
-                            <span class="mr-2">ruleSql</span> 
+                            <span class="mr-2" i18n>ruleSql</span> 
                             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
                             data-content='The sql query to run for the rule.The Table name must be your stream name.For example "SELECT EdgexStream.temperature, EdgexStream.temp FROM EdgexStream where EdgexStream.temperature > EdgexStream.temp ".'></span>
                         </label>
@@ -57,7 +67,7 @@
                             <input type="text" class="form-control" id="ruleSql" [class.is-invalid]="!ruleSql"
                                 [class.is-valid]="ruleSql" name="ruleSql" [(ngModel)]="ruleSql">
                             <div id="ruleSql" class="invalid-feedback">
-                                <small>the sql can't be empty!</small>
+                                <small i18n>the sql can't be empty!</small>
                             </div>
                         </div>
                     </div>
@@ -72,26 +82,26 @@
                                 <div class="col-md-3 col-lg-3 border-right border-info">
                                     <div class="form-group">
                                         <label>
-                                            <div class="font-weight-bold">
+                                            <div class="font-weight-bold" i18n>
                                                   Action Type
                                             </div>
                                         </label>
                                         <div class="checkbox">
                                             <label>
                                                 <input style="margin-top: 4%;" type="checkbox" id="restCheckbox" name="rest" (click) = "chooseRest($event.target)"
-                                                    class=".checkbox-primary"> Send the result to a Rest HTTP server.
+                                                    class=".checkbox-primary" i18n> Send the result to a Rest HTTP server.
                                             </label>
                                             <label>
                                                 <input style="margin-top: 4%;" type="checkbox" id="mqttCheckbox" name="mqtt" (click) = "chooseMqtt($event.target)"
-                                                    class=".checkbox-primary"> Send the result to an MQTT broker.
+                                                    class=".checkbox-primary" i18n> Send the result to an MQTT broker.
                                             </label>
                                             <label>
                                                 <input style="margin-top: 4%;" type="checkbox" id="edgexCheckbox" name="edgex" (click) = "chooseEdgex($event.target)"
-                                                    class=".checkbox-primary"> Send the result to EdgeX message bus.
+                                                    class=".checkbox-primary" i18n> Send the result to EdgeX message bus.
                                             </label>
                                             <label>
                                                 <input style="margin-top: 4%;" type="checkbox" id="logCheckbox" name="log" (click) = "chooseLog($event.target)"
-                                                    class=".checkbox-primary"> Send the result to log file.
+                                                    class=".checkbox-primary" i18n> Send the result to log file.
                                             </label>
                                         </div>
                                     </div>
@@ -105,7 +115,7 @@
                                                     <div class="col-md-10">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                Rest {{restindex+1}}
+                                                                <span i18n>Rest</span>  {{restindex+1}}
                                                                 <span class="badge mr-2 badge-danger" role="button" (click)="removeRestTab(restindex);"><i
                                                                     class="fa fa-trash-o"
                                                                     aria-hidden="true"></i>&nbsp;Delete</span>

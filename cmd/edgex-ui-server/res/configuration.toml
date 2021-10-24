@@ -20,43 +20,43 @@ Password = "su"
     Protocol = 'http'
     Host = 'localhost'
     Port = 59880
-    PathPrefix = "/coredata"
+    PathPrefix = "/core-data"
 
     [Clients.Metadata]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59881
-    PathPrefix = "/metadata"
+    PathPrefix = "/core-metadata"
 
     [Clients.CoreCommand]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59882
-    PathPrefix = "/command"
+    PathPrefix = "/core-command"
 
     [Clients.Notification]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59860
-    PathPrefix = "/notification"
+    PathPrefix = "/support-notifications"
 
     [Clients.Scheduler]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59861
-    PathPrefix = "/scheduler"
+    PathPrefix = "/support-scheduler"
 
     [Clients.RuleEngine]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59720
-    PathPrefix = "/rule-engine"
+    PathPrefix = "/rules-engine"
 
     [Clients.System]
     Protocol = 'http'
     Host = 'localhost'
     Port = 58890
-    PathPrefix = "/system"
+    PathPrefix = "/sys-mgmt-agent"
 
     [Clients.AppService]
     Protocol = 'http'
@@ -71,3 +71,11 @@ Port = 8500
 Type = "consul"
 ConfigRegistryStem="edgex/appservices/"
 ServiceVersion="2.0"
+
+[Kong]
+Server = "localhost"
+AdminPort = 8001
+AdminPortSSL = 8444
+ApplicationPort = 8000
+ApplicationPortSSL = 8443
+StatusPort = 8100

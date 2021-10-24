@@ -19,16 +19,18 @@
  <div>
     <div class="alert alert-info mb-3" role="alert">
         <small>
-            <i class="fa fa-info-circle"></i> 
-            App service needs to restart when Trigger is changed, so this section only lets user to know what Trigger the app service used right now! <br>
-            And Next, UI will support user to change the Trigger section.
+            <i class="fa fa-info-circle mr-1"></i>
+            <span i18n>
+                App service needs to restart when Trigger is changed, so this section only lets user to know what Trigger the app service used right now! <br>
+                And Next, UI will support user to change the Trigger section.
+            </span>
         </small>
     </div>
     
     <form>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">
-                <span>Type</span>
+                <span i18n>Type</span>
                 <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                     data-content="Trigger type"></span>
             </label>
@@ -46,13 +48,13 @@
     <div *ngIf="configTrigger.Type === 'edgex-messagebus'" class="card mb-3">
         <div class="card-header">
             <i class="fa fa-tags mr-2 text-danger"></i>
-            <span class="font-weight-bold">EdgexMessageBus Trigger</span>
+            <span class="font-weight-bold" i18n>EdgexMessageBus Trigger</span>
         </div>
         <div class="card-body">
             <form>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">
-                        <span>Type</span>
+                        <span i18n>Type</span>
                         <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                         data-content="EdgeX Message Bus type"></span>
                     </label>
@@ -70,30 +72,30 @@
                     <div class="card mb-3">
                         <div class="card-header font-weight-bold">
                             <i class="fa fa-tag mr-2 text-danger"></i>
-                            <span>Subscribe Host</span> 
+                            <span i18n>Subscribe Host</span> 
                         </div>
                         <div class="card-body">
                             <form>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Host</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Host</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="Host" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.Host">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Port</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Port</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="Port" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.Port">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Protocol</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Protocol</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="Protocol" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.Protocol">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-md-3 col-form-label text-nowrap text-truncate">SubscribeTopics</label>
+                                    <label class="col-sm-3 col-md-3 col-form-label text-nowrap text-truncate" i18n>SubscribeTopics</label>
                                     <div class="col-sm-9 col-md-9">
                                       <input type="text" class="form-control" name="SubscribeTopics" [(ngModel)]="configTrigger.EdgexMessageBus!.SubscribeHost.SubscribeTopics">
                                     </div>
@@ -111,25 +113,25 @@
                         <div class="card-body">
                             <form>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Host</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Host</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="Host" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.Host">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Port</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Port</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="Port" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.Port">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Protocol</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Protocol</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="Protocol" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.Protocol">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">PublishTopic</label>
+                                    <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>PublishTopic</label>
                                     <div class="col-sm-9">
                                       <input type="text" class="form-control" name="PublishTopic" [(ngModel)]="configTrigger.EdgexMessageBus!.PublishHost.PublishTopic">
                                     </div>
@@ -144,7 +146,7 @@
                     <div class="card">
                         <div class="card-header font-weight-bold">
                             <i class="fa fa-tag mr-2 text-danger"></i>
-                            <span>Optional</span>
+                            <span i18n>Optional</span>
                         </div>
                         <div class="card-body">
                             <form>
@@ -324,13 +326,13 @@
     <div *ngIf="configTrigger.Type === 'http'" class="card">
         <div class="card-header">
             <i class="fa fa-tags mr-2 text-danger"></i>
-            <span class="font-weight-bold">HTTP Trigger</span>
+            <span class="font-weight-bold" i18n>HTTP Trigger</span>
         </div>
         <div class="card-body">
             <div class="alert alert-info mb-3" role="alert">
                 <small>
-                    <i class="fa fa-info-circle"></i> 
-                    no optional fields needs to setup for http trigger
+                    <i class="fa fa-info-circle mr-1"></i> 
+                    <span i18n>no optional fields needs to setup for http trigger</span> 
                 </small>
             </div>
         </div>

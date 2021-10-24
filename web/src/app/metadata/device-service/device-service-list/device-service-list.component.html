@@ -19,7 +19,7 @@
  <div class="card">
      <div class="card-header font-weight-bold">
         <i class="fa fa-list mr-2 text-danger"></i>
-        <span>Device Service List</span>
+        <span i18n>Device Service List</span>
      </div>
      <div class="card-body p-0">
         <div class="table-responsive">
@@ -27,14 +27,14 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Labels</th>
-                        <th scope="col">AdminState</th>
+                        <th scope="col" i18n>ID</th>
+                        <th scope="col" i18n>Name</th>
+                        <th scope="col" i18n>Description</th>
+                        <th scope="col" i18n>Labels</th>
+                        <th scope="col" i18n>AdminState</th>
                         <!-- <th scope="col">OperatingState</th> -->
-                        <th scope="col">Created</th>
-                        <th scope="col">Modified</th>
+                        <th scope="col" i18n>Created</th>
+                        <th scope="col" i18n>Modified</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,7 @@
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
                 <li class="page-item mr-2 mt-1">
-                    <span class="align-middle">items per page</span>
+                    <span class="align-middle" i18n>items per page</span>
                 </li>
                 <li class="page-item mr-2 ">
                     <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
@@ -67,10 +67,16 @@
                     </select>
                 </li>
                 <li class="page-item mr-1">
-                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                        <i class="fa fa-angle-double-left mr-1"></i> 
+                        <span i18n>Previous</span>
+                    </button>
                 </li>
                 <li class="page-item" >
-                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceServiceList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceServiceList.length">
+                        <span i18n>Next</span>
+                        <i class="fa fa-angle-double-right ml-1"></i>
+                    </button>
                 </li>
             </ul>
         </nav>

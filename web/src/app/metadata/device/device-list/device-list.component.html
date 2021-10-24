@@ -20,31 +20,43 @@
     <div class="card-header font-weight-bold">
         <i class="fa fa-list text-danger mr-2"></i> 
         <span *ngIf="associatedSvcName !== ''"> 
-            <span class="mr-1">DeviceService</span>
+            <span class="mr-1" i18n>DeviceService</span>
             <span class="text-danger mr-1">{{associatedSvcName}}</span> 
-            <span>Associated Device List</span>
+            <span i18n>Associated Device List</span>
         </span>
         <span *ngIf="associatedProfileName !== ''"> 
-            <span class="mr-1">DeviceProfile</span>
+            <span class="mr-1" i18n>DeviceProfile</span>
             <span class="text-danger mr-1">{{associatedProfileName}}</span>
-            <span>Associated Device List</span>
+            <span i18n>Associated Device List</span>
         </span>
-        <span  *ngIf="associatedProfileName === '' && associatedSvcName === ''">Device List</span>
+        <span  *ngIf="associatedProfileName === '' && associatedSvcName === ''" i18n>Device List</span>
     </div>
     <div class="card-body p-0 position-relative">
         <div class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
-                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                    <span>
+                        <i class="fa fa-refresh mr-1"></i>
+                        <span i18n>Refresh</span>
+                    </span> 
                 </button>
                 <button type="button" class="btn btn-info"  routerLink="../add-device">
-                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                    <span>
+                        <i class="fa fa-plus mr-1"></i>
+                        <span i18n>Add</span> 
+                    </span>
                 </button>
                 <button type="button" class="btn btn-success" (click)="edit()" [disabled]="selectedDevice.length !== 1">
-                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                    <span>
+                        <i class="fa fa-edit mr-1"></i>
+                        <span i18n>Edit</span> 
+                    </span>
                 </button>
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedDevice.length === 0">
-                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                    <span>
+                        <i class="fa fa-trash mr-1"></i>
+                        <span i18n>Delete</span>
+                    </span>
                 </button>
               </div>
         </div>
@@ -53,16 +65,16 @@
                 <thead class="thead-light">
                     <tr>
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
-                      <th scope="col">ID</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Labels</th>
-                      <th scope="col">AdminState</th>
-                      <th scope="col">OperatingState</th>
-                      <th scope="col">Command</th>
-                      <th scope="col">AutoEvents</th>
-                      <th scope="col">AssociatedProfile</th>
-                      <th scope="col">AssociatedService</th>
+                      <th scope="col" i18n>ID</th>
+                      <th scope="col" i18n>Name</th>
+                      <th scope="col" i18n>Description</th>
+                      <th scope="col" i18n>Labels</th>
+                      <th scope="col" i18n>AdminState</th>
+                      <th scope="col" i18n>OperatingState</th>
+                      <th scope="col" i18n>Command</th>
+                      <th scope="col" i18n>AutoEvents</th>
+                      <th scope="col" i18n>AssociatedProfile</th>
+                      <th scope="col" i18n>AssociatedService</th>
                       
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
@@ -116,7 +128,7 @@
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
                 <li class="page-item mr-2 mt-1">
-                    <span class="align-middle">items per page</span>
+                    <span class="align-middle" i18n>items per page</span>
                 </li>
                 <li class="page-item mr-2 ">
                     <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
@@ -126,10 +138,16 @@
                     </select>
                 </li>
                 <li class="page-item mr-1">
-                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                        <i class="fa fa-angle-double-left mr-1"></i>
+                        <span i18n>Previous</span>  
+                    </button>
                 </li>
                 <li class="page-item" >
-                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceList.length">
+                        <span i18n>Next</span>
+                        <i class="fa fa-angle-double-right ml-1"></i>
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -143,15 +161,15 @@
                 <span class="badge badge-danger text-light">
                     <i class="fa fa-calendar-check-o font-weight-bolder"></i>
                 </span>
-                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span> Associated AutoEvents
+                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span><span i18n>Associated AutoEvents</span> 
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover text-truncate">
                         <thead class="thead-light">
-                            <th scope="col">Resource</th>
-                            <th scope="col">Interval</th>
-                            <th scope="col">Onchange</th>
+                            <th scope="col" i18n>Resource</th>
+                            <th scope="col" i18n>Interval</th>
+                            <th scope="col" i18n>Onchange</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let event of autoEvents">
@@ -171,10 +189,13 @@
                 <span class="badge badge-danger text-light">
                     <i class="fa fa-calendar-check-o font-weight-bolder"></i>
                 </span>
-                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span> Associated AutoEvents
+                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span><span i18n>Associated AutoEvents</span>
             </div>
             <div class="card-body text-center">
-                <h5 class="text-warning"> <i class="fa fa-warning"></i> no associated AutoEvents</h5>
+                <h5 class="text-warning">
+                    <i class="fa fa-warning mr-1"></i> 
+                    <span i18n>no associated AutoEvents</span>
+                </h5>
             </div>
         </div>
     </ng-template>
@@ -191,13 +212,13 @@
                 <i class="fa fa-terminal font-weight-bolder"></i>
             </span>
             <span class="text-primary ml-2 font-weight-bold">{{associatedCmdDeviceName}}</span>
-             Associated Commands
+            <span i18n>Associated Commands</span>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2 col-lg-2">
                     <div class="card mb-2">
-                        <div class="card-header font-weight-bold">
+                        <div class="card-header font-weight-bold" i18n>
                             Command Name List
                         </div>
                         <div class="card-body p-0">
@@ -211,7 +232,7 @@
                     <div *ngIf="selectedCmd" class="card">
                         <div class="card-header">
                             <span class="text-primary font-weight-bold mr-2"><i class="fa fa-thumb-tack text-danger mr-1"></i> {{selectedCmd.name}} method:</span>  
-                            <span>Get and Set</span> 
+                            <span i18n>Get and Set</span> 
                         </div>
                         <div class="card-body px-2">
                             <div class="row">
@@ -225,7 +246,7 @@
                                             <div *ngIf="selectedCmd.get; then hasGetMethod else noGetMethod"></div>
                                             <ng-template #hasGetMethod>
                                                 <div>
-                                                    <span class="badge badge-info">Response:</span>  
+                                                    <span class="badge badge-info" i18n>Response:</span>  
                                                     <span *ngIf="cmdGetResponse" class="ml-2 text-primary"> {{cmdGetResponse}}</span>
                                                     <!-- <img *ngIf="cmdBinaryResponse; else noSupportedMediaType" src="{{cmdBinaryResponseURL}}">
                                                     <ng-template #noSupportedMediaType>
@@ -233,12 +254,12 @@
                                                     </ng-template> -->
                                                 </div>
                                                 <div class="mt-3">
-                                                    <span class="badge badge-info">ResponseRaw:</span>
+                                                    <span class="badge badge-info" i18n>ResponseRaw:</span>
                                                     <pre *ngIf="cmdGetResponseRaw" class="mt-2 bg-secondary p-2 text-light rounded">{{cmdGetResponseRaw}}</pre>
                                                 </div>
                                             </ng-template>
                                             <ng-template #noGetMethod>
-                                                <h6 class="text-warning"> <i class="fa fa-warning"></i> no Get method</h6>
+                                                <h6 class="text-warning"> <i class="fa fa-warning mr-1"></i><span i18n>no Get method</span></h6>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -254,7 +275,7 @@
 
                                             <ng-template #hasSetMethod>
                                                 <div *ngIf="selectedCmdSetParams" class="card mb-2">
-                                                    <div class="card-header">Set Parameters</div>
+                                                    <div class="card-header" i18n>Set Parameters</div>
                                                     <div class="card-body">
                                                         <div *ngIf="selectedCmd" class="d-flex flex-column bd-highlight">
                                                             <div *ngFor="let p of selectedCmdSetParams" class="form p-2 bd-highlight">
@@ -279,18 +300,18 @@
                     
                                                 <div>
                                                     <div>
-                                                        <span class="badge badge-info"> Response:</span>
+                                                        <span class="badge badge-info" i18n>Response:</span>
                                                         <span *ngIf="cmdSetResponse" class="ml-2 text-primary">{{cmdSetResponse}}</span>
                                                     </div>
                                                     <div class="mt-3">
-                                                        <span class="badge badge-info"> ResponseRaw:</span>
+                                                        <span class="badge badge-info" i18n>ResponseRaw:</span>
                                                         <pre *ngIf="cmdSetResponseRaw" class="mt-2 bg-secondary p-2 text-light rounded">{{cmdSetResponseRaw}}</pre>
                                                     </div>
                                                 </div>
                                             </ng-template>
 
                                             <ng-template #noSetMethod>
-                                                <h6 class="text-warning"> <i class="fa fa-warning"></i> no Set method</h6>
+                                                <h6 class="text-warning"> <i class="fa fa-warning mr-1"></i><span i18n>no Set method</span></h6>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -310,10 +331,10 @@
                 <i class="fa fa-terminal font-weight-bolder"></i>
             </span>
             <span class="text-primary mx-1 font-weight-bold">{{associatedCmdDeviceName}}</span>
-             Associated Commands
+            <span i18n>Associated Commands</span> 
         </div>
         <div class="card-body text-center">
-            <h5 class="text-warning"> <i class="fa fa-warning"></i> no associated commands</h5>
+            <h5 class="text-warning"> <i class="fa fa-warning"></i><span i18n>no associated commands</span></h5>
         </div>
     </div>
 </ng-template>
@@ -323,16 +344,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
-                    <i class="fa fa-warning"></i>
-                    Warning
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
                 </h5>  
             </div>
-            <div class="modal-body">
+            <div class="modal-body" i18n>
                 The data will be permanently erased!!! Are you sure to execute delete operation？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
             </div>
         </div>
     </div>

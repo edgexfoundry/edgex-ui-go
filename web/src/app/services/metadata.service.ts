@@ -36,7 +36,7 @@ import { ErrorService } from './error.service';
 })
 export class MetadataService {
 
-  endpoint: string = "/metadata";
+  endpoint: string = "/core-metadata";
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
@@ -71,8 +71,7 @@ export class MetadataService {
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 

@@ -26,11 +26,13 @@ import { IntervalActionCenterComponent } from './intervalaction/interval-action-
 import { IntervalActionListComponent } from './intervalaction/interval-action-list/interval-action-list.component';
 import { AddIntervalActionComponent } from './intervalaction/add-interval-action/add-interval-action.component';
 import { EditIntervalActionComponent } from './intervalaction/edit-interval-action/edit-interval-action.component';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: SchedulerComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

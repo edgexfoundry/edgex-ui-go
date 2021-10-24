@@ -19,44 +19,47 @@
 <div *ngIf="device" class="card">
     <div class="card-header font-weight-bold">
         <i class="fa fa-edit text-danger fa-lg"></i> 
-        <span class="mx-2">Edit Device</span>
+        <span class="mx-2" i18n>Edit Device</span>
         <span class="text-primary">{{device.name}}</span> 
     </div>
     <div class="card-header py-1">
         <button type="button" class="btn btn-success" (click)="save()"  [disabled]="validateBeforeSave()">
-            <span><i class="fa fa-save mr-1"></i>Save</span>
+            <span>
+                <i class="fa fa-save mr-1"></i>
+                <span i18n>Save</span> 
+            </span>
         </button>
     </div>
     <div class="card-body">
         <div class="card mb-3">
             <div class="card-header font-weight-bold">
-                <i class="fa fa-tags fa-lg text-danger"></i> Device Primary
+                <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>Device Primary</span>
             </div>
             <div class="card-body">
                 <form>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">DeviceName</label>
+                        <label class="col-md-2 col-form-label" i18n>DeviceName</label>
                         <div class="col-md-10">
                             <input type="text" name="name" [(ngModel)]="device.name" [class.is-invalid]="device.name === ''" class="form-control" required>
-                            <div class="invalid-feedback">
+                            <div class="invalid-feedback" i18n>
                                device name can't not be empty!
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Description</label>
+                        <label class="col-md-2 col-form-label" i18n>Description</label>
                         <div class="col-md-10">
                             <input type="text" name="description" [(ngModel)]="device.description" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Labels</label>
+                        <label class="col-md-2 col-form-label" i18n>Labels</label>
                         <div class="col-md-10">
                             <input type="text" name="labels" [(ngModel)]="deviceLabels"  class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="adminState" class="col-md-2 col-form-label" >AdminState</label>
+                        <label for="adminState" class="col-md-2 col-form-label" i18n>AdminState</label>
                         <div class="col-md-10">
                             <select class="custom-select"  name="adminState" [(ngModel)]="device.adminState">
                                 <option value="UNLOCKED">UNLOCKED</option>
@@ -65,7 +68,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="operatingState" class="col-md-2 col-form-label" >OperatingState</label>
+                        <label for="operatingState" class="col-md-2 col-form-label" i18n>OperatingState</label>
                         <div class="col-md-10">
                             <select class="custom-select" name="operatingState" [(ngModel)]="device.operatingState">
                                 <option value="UP">UP</option>
@@ -94,7 +97,7 @@
 
         <div class="card mb-3">
             <div class="card-header font-weight-bold">
-                <i class="fa fa-tags fa-lg text-danger"></i> Device Protocol
+                <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>Device Protocol</span>
             </div>
             <div class="card-body">
                 <div class="card">
@@ -102,10 +105,10 @@
                         <div class="row ">
                             <div class="col-md-2 col-lg-2 border-right border-secondary">
                                 <div class="form-group">
-                                    <label>Protocol Name</label>
+                                    <label i18n>Protocol Name</label>
                                     <input type="text" class="form-control" [class.is-invalid]="!protocolName" [class.is-valid]="protocolName" name="protocolName" [(ngModel)]="protocolName">
                                     <div class="invalid-feedback">
-                                        <small>the protocol name can't be empty!</small> 
+                                        <small i18n>the protocol name can't be empty!</small> 
                                     </div>
                                 </div>
                             </div>
@@ -113,8 +116,7 @@
                                 <div>
                                     <p class="badge badge-secondary font-weight-bold">
                                         <span class="fa fa-plus-circle mr-2"></span>
-                                        <span class="user-select-none" role="button" (click)="addProtocolProperty()">Add Protocol Property</span>
-                                        
+                                        <span class="user-select-none" role="button" (click)="addProtocolProperty()" i18n>Add Protocol Property</span>
                                     </p>
                                 </div>
     
@@ -122,7 +124,7 @@
                                     <form class="form-inline mb-1">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text">PropertyKey</span>
+                                                <span class="input-group-text" i18n>PropertyKey</span>
                                             </div>
                                             <input type="text" class="form-control" name="propertyKey" [(ngModel)]="property.key" style="width: 300px;">
                                         </div>
@@ -131,7 +133,7 @@
                                         </div>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text">PropertyValue</span>
+                                                <span class="input-group-text" i18n>PropertyValue</span>
                                             </div>
                                             <input type="text" class="form-control" name="PropertyValue" [(ngModel)]="property.value" style="width: 300px;">
                                         </div>
@@ -150,18 +152,18 @@
 
         <div class="card mb-3">
             <div class="card-header font-weight-bold">
-                <i class="fa fa-tags fa-lg text-danger"></i>  AutoEvents
+                <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>AutoEvents</span>
             </div>
             <div class="card-body">
                 <p class="badge badge-secondary font-weight-bold">
                     <span class="fa fa-plus-circle mr-2"></span>
-                    <span class="user-select-none" role="button" (click)="addAutoEvent()">Add More AutoEvent</span>
+                    <span class="user-select-none" role="button" (click)="addAutoEvent()" i18n>Add More AutoEvent</span>
                 </p>
                 <div class="card mb-3" *ngFor="let event of autoEventsInternal">
                     <div class="card-body">
                         <form>
                             <div class="form-group row has-validation">
-                                <label class="col-md-2 col-form-label">Interval</label>
+                                <label class="col-md-2 col-form-label" i18n>Interval</label>
                                 <div class="col-md-10">
                                     <div class="input-group mb-3"  style="width: 250px;">
                                         <input type="text" name="interval" [(ngModel)]="event.interval" [class.is-invalid]="!eventIntervalNumType(event.interval)" [class.is-valid]="eventIntervalNumType(event.interval)" class="form-control" required>
@@ -173,14 +175,14 @@
                                                 <option value="h">hour</option>
                                             </select>
                                         </div>
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback" i18n>
                                             can only be a pure integer number
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">onchange</label>
+                                <label class="col-md-2 col-form-label" i18n>onchange</label>
                                 <div class="col-md-10">
                                     <select class="custom-select" name="onchange" [(ngModel)]="event.onChange" style="width: 250px;">
                                         <option value="true">true</option>
@@ -189,17 +191,20 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">resource</label>
+                                <label class="col-md-2 col-form-label" i18n>resource</label>
                                 <div class="col-md-10">
                                     <select class="custom-select" name="resource" [(ngModel)]="event.resource" [class.is-invalid]="event.resource === ''" [class.is-valid]="event.resource !==''"  style="width: 250px;" required>
                                         <option *ngFor="let r of autoEventResourceNameSet" value="{{r}}">{{r}}</option>
                                     </select>
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback" i18n>
                                         resource can't be empty
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-danger btn-sm" (click)="removeAutoEvent(event)"><i class="fa fa-trash"></i> Remove</button>
+                            <button class="btn btn-danger btn-sm" (click)="removeAutoEvent(event)">
+                                <i class="fa fa-trash mr-1"></i>
+                                <span i18n>Remove</span>
+                            </button>
                         </form>
                     </div>
                 </div>

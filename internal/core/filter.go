@@ -68,12 +68,21 @@ func AuthFilter(h http.Handler) http.Handler {
 		}
 
 		if !strings.HasPrefix(path, localAPIPathPrefix) && !hasSvcPrefixValidate(path) {
-			http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
-			return
+			if path == "/" {
+				http.FileServer(http.Dir(staticV2Path+"/en-US")).ServeHTTP(w, r)
+				return
+			} else {
+				http.FileServer(http.Dir(staticV2Path)).ServeHTTP(w, r)
+				return
+			}
 		}
 
 		for prefix := range configs.ProxyMapping {
 			if strings.HasPrefix(path, prefix) {
+				if common.IsSecurityEnabled() {
+					kong(w, r)
+					return
+				}
 				originalPath := strings.TrimPrefix(path, prefix)
 				ProxyHandler(w, r, originalPath, prefix)
 				return

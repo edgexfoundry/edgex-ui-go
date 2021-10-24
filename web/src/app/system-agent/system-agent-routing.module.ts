@@ -20,11 +20,13 @@ import { ConfigComponent } from './config/config.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { SystemAgentComponent } from './system-agent.component';
 import { ServiceListComponent } from './service-list/service-list.component';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: SystemAgentComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
