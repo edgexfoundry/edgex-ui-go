@@ -43,6 +43,7 @@ type ConfigurationStruct struct {
 	DB           Database              `toml:"Database"`
 	Clients      map[string]ClientInfo `toml:"Clients"`
 	RegistryConf RegistryConfig        `toml:"Registry"`
+	Kong         KongInfo              `toml:"Kong"`
 }
 
 type Service struct {
@@ -85,6 +86,15 @@ type RegistryConfig struct {
 	Type               string
 	ConfigRegistryStem string
 	ServiceVersion     string
+}
+
+type KongInfo struct {
+	Server             string
+	AdminPort          int
+	AdminPortSSL       int
+	ApplicationPort    int
+	ApplicationPortSSL int
+	StatusPort         int
 }
 
 func GetConfigs() *ConfigurationStruct {

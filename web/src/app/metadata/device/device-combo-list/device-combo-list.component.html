@@ -28,7 +28,7 @@
         <div class="card">
             <div class="card-header">
                 <i class="fa fa-list text-danger mr-2"></i> 
-                <span>Device List</span>
+                <span i18n>Device List</span>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -36,14 +36,14 @@
                         <thead class="thead-light">
                             <tr>
                               <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
-                              <th scope="col">ID</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Description</th>
-                              <th scope="col">Labels</th>
-                              <th scope="col">AdminState</th>
-                              <th scope="col">OperatingState</th>
-                              <th scope="col">AssociatedProfile</th>
-                              <th scope="col">AssociatedService</th>
+                              <th scope="col" i18n>ID</th>
+                              <th scope="col" i18n>Name</th>
+                              <th scope="col" i18n>Description</th>
+                              <th scope="col" i18n>Labels</th>
+                              <th scope="col" i18n>AdminState</th>
+                              <th scope="col" i18n>OperatingState</th>
+                              <th scope="col" i18n>AssociatedProfile</th>
+                              <th scope="col" i18n>AssociatedService</th>
                               <!-- <th scope="col">Created</th>
                               <th scope="col">Modified</th> -->
                             </tr>
@@ -87,7 +87,7 @@
                 <nav aria-label="navigation">
                     <ul class="pagination justify-content-end m-0">
                         <li class="page-item mr-2 mt-1">
-                            <span class="align-middle">items per page</span>
+                            <span class="align-middle" i18n>items per page</span>
                         </li>
                         <li class="page-item mr-2 ">
                             <select class="form-control" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
@@ -97,10 +97,16 @@
                             </select>
                         </li>
                         <li class="page-item mr-1">
-                            <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                            <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                                <i class="fa fa-angle-double-left mr-1"></i>
+                                <span i18n>Previous</span> 
+                            </button>
                         </li>
                         <li class="page-item" >
-                            <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                            <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > deviceList.length">
+                                <span i18n>Next</span>
+                                <i class="fa fa-angle-double-right ml-1"></i>
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -108,7 +114,3 @@
         </div>
     </div>
 </div>
-
-<!-- <ng-template #deviceListTemplate>
-    
-</ng-template> -->

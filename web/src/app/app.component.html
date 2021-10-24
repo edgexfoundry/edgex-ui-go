@@ -22,7 +22,7 @@
         <div class="px-0" [class.sidebar-shrink]="shrink" [class.sidebar]="!shrink">   
             <div class="sidebar-center font-weight-bold text-white vh-100">
                 <div class="sidebar-header p-2">
-                    <img src="/assets/img/bg_x.png" [class.d-none]='shrink' class="mt-2" width="35" height="34" alt="" loading="lazy">
+                    <img src="assets/img/bg_x.png" [class.d-none]='shrink' class="mt-2" width="35" height="34" alt="" loading="lazy">
                     <p class="float-right mt-3 mr-2">
                         <i class="fa fa-navicon fa-lg text-light" (click)="sideBarToggle()" role="button"></i>
                     </p>
@@ -71,16 +71,25 @@
                     <div class="nav-router mw-100 align-middle">
                         <h4 class="d-inline">{{pathFormat(currentNav)}}</h4>
                         
-                        <!-- <h5 class="d-inline float-right "><i class="fa fa-user-circle-o mr-1"></i> <span class="">Admin</span></h5>
-                        <div class="dropdown d-inline float-right mr-3">
+                        <!-- <h5 class="d-inline float-right "><i class="fa fa-user-circle-o mr-1"></i> <span class="">Admin</span></h5> -->
+                        <!-- <div class="dropdown d-inline float-right mr-2">
                             <a id="dropdownLangLink" type="button" class="p-0 btn btn-link btn-sm dropdown-toggle text-decoration-none text-reset font-weight-bold" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span i18n>English</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right font-weight-bold" aria-labelledby="dropdownLangLink">
-                                <a class="dropdown-item disabled text-reset" href="/">English</a>
-                                <a class="dropdown-item disabled text-reset" href="/zh">中文简体</a>
+                                <a class="dropdown-item text-reset" href="/">English</a>
+                                <a class="dropdown-item text-reset" href="/zh">中文简体</a>
                             </div>
                         </div> -->
+                        <div class="dropdown float-right">
+                            <button id="dropdownLangLink" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span i18n>English</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" aria-labelledby="dropdownLangLink">
+                                <a class="dropdown-item" href="/">English</a>
+                                <a class="dropdown-item" href="/zh">中文简体</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="mw-100 align-middle mt-1">
                         <div class="d-inline">
@@ -90,7 +99,12 @@
                                 <span *ngIf="i !== (navChain.length - 1)">&gt;</span>
                             </h6> 
                         </div>
-                        <!-- <h6 class="d-inline float-right"><span class="align-middle"> <i class="fa fa-power-off mr-1"></i>Logout</span></h6> -->
+                        <!-- <h6 class="d-inline float-right">
+                            <span class="align-middle">
+                                <i role="button" class="fa fa-power-off mr-1"></i>
+                               <span i18n>Logout</span>
+                            </span>
+                        </h6> -->
                    </div>
                 </nav>
                 <div class="center-center p-3">
@@ -100,5 +114,3 @@
         </div>
     </div>
 </div>
-
-

@@ -57,7 +57,7 @@ export class ErrorService {
       }
     }
     return throwError(
-      `Backend returned code ${(error.error as any).statusCode}, ` +
+      `Backend returned code ${error.status}, ` +
       `body was: ${(error.error as any).message}`);
   }
 }

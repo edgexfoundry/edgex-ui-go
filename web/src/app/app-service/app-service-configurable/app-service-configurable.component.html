@@ -21,9 +21,12 @@
          <i class="fa fa-tags mr-2 text-danger"></i>
          <span class="font-weight-bold">
             <span class="mr-2 text-info">{{appServiceKey}}</span>
-            <span>Configurable Setting</span>
+            <span i18n>Configurable Setting</span>
          </span>
-         <button class="btn btn-success btn-sm float-right" (click)="submit()"><i class="fa fa-save"></i> Submit</button>
+         <button class="btn btn-success btn-sm float-right" (click)="submit()">
+             <i class="fa fa-save mr-1"></i>
+             <span i18n>Submit</span>
+            </button>
      </div>
      <div class="card-body">
 
@@ -31,16 +34,16 @@
             <div class="card-header">
               <ul class="nav nav-tabs card-header-tabs font-weight-bold">
                 <li class="nav-item" (click)="configurableSectionChange('Trigger')">
-                    <a class="nav-link" role="button" [class.active]="configurableSection === 'Trigger'">Trigger</a>
+                    <a class="nav-link" role="button" [class.active]="configurableSection === 'Trigger'" i18n>Trigger</a>
                   </li>
                 <li class="nav-item" (click)="configurableSectionChange('PipelineFunc')">
-                  <a class="nav-link" role="button" [class.active]="configurableSection === 'PipelineFunc'">Pipeline Functions</a>
+                  <a class="nav-link" role="button" [class.active]="configurableSection === 'PipelineFunc'" i18n>Pipeline Functions</a>
                 </li>
                 <li class="nav-item" (click)="configurableSectionChange('InsecureSecrets')">
-                  <a class="nav-link" role="button" [class.active]="configurableSection === 'InsecureSecrets'">Insecure Secrets</a>
+                  <a class="nav-link" role="button" [class.active]="configurableSection === 'InsecureSecrets'" i18n>Insecure Secrets</a>
                 </li>
                 <li class="nav-item" (click)="configurableSectionChange('StoreAndForward')">
-                  <a class="nav-link" role="button" [class.active]="configurableSection === 'StoreAndForward'">Store And Forward</a>
+                  <a class="nav-link" role="button" [class.active]="configurableSection === 'StoreAndForward'" i18n>Store And Forward</a>
                 </li>
               </ul>
             </div>

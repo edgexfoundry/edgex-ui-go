@@ -2,31 +2,37 @@
     <div class="card-header">
         <span class="font-weight-bold">
             <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span>
-            <span class="text-secondary">Add Rule Wizard</span>
+            <span class="text-secondary" i18n>Add Rule Wizard</span>
         </span>
     </div>
     <div class="card-header bg-light">
         <nav aria-label="breadcrumb" class="mb-0 p-0">
             <ol class="breadcrumb p-1 mb-0 bg-light">
                 <li class="breadcrumb-item">
-                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass">RulePrimary <i
+                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass" i18n>RulePrimary <i
                             *ngIf="currentStep >= 1" class="fa fa-check"></i></span>
                 </li>
                 <li class="breadcrumb-item">
-                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">CreateRuleActions <i
+                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass" i18n>CreateRuleActions <i
                             *ngIf="currentStep >= 2" class="fa fa-check"></i></span>
                 </li>
             </ol>
         </nav>
     </div>
     <div class="card-header">
-        <button *ngIf="currentStep" class="btn btn-info btn-sm" (click)="previous()"><i
-                class="fa fa-long-arrow-left"></i> Previous</button>
-        <button *ngIf="1 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" [disabled]="stepStateLock()" (click)="next()">Next
-            <i class="fa fa-long-arrow-right"></i></button>
+        <button *ngIf="currentStep" class="btn btn-info btn-sm" (click)="previous()">
+            <i class="fa fa-long-arrow-left mr-1"></i>
+            <span i18n>Previous</span>
+        </button>
+        <button *ngIf="1 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" [disabled]="stepStateLock()" (click)="next()">
+            <span i18n>Next</span> 
+            <i class="fa fa-long-arrow-right ml-1"></i>
+        </button>
         <ng-template #stepDone>
-            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="done()"><i
-                    class="fa fa-save"></i> Submit</button>
+            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="done()">
+                <i class="fa fa-save mr-1"></i>
+                <span i18n>Submit</span>
+            </button>
         </ng-template>
     </div>
     <div class="card-body p-0">
@@ -72,7 +78,7 @@
                                 <div class="col-md-3 col-lg-3 border-right border-info">
                                     <div class="form-group">
                                         <label>
-                                            <div class="font-weight-bold">
+                                            <div class="font-weight-bold" i18n>
                                                   Action Type
                                             </div>
                                         </label>

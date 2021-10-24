@@ -28,7 +28,7 @@ import { ErrorService } from '../services/error.service';
 })
 export class SystemAgentService {
 
-  endpoint: string = "/system";
+  endpoint: string = "/sys-mgmt-agent";
   version2: string = "/api/v2";
 
   urlPrefixV2: string = `${this.endpoint}${this.version2}`;

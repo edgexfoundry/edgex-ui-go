@@ -1,0 +1,54 @@
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="login bg-dark">
+    <div class="card login-form">
+        <div class="card-header">
+            <span i18n>Log in to EdgeX with a token</span>
+        </div>
+        <div class="card-body bg-light shadow">
+            <form class="">
+                <div class="form-group">
+                    <label for="accessToken" class="col-form-label">
+                        <span class="mr-1" i18n>Token</span> 
+                    </label>
+                    <div class="">
+                        <input type="password" class="form-control" id="accessToken" name="accessToken"  [class.is-invalid]="!tokenIsValid" [(ngModel)]="accessToken" (ngModelChange)="onInput()">
+                        <div class="invalid-feedback">
+                            <small i18n>the token is invalid!</small> 
+                        </div>
+                    </div>
+                </div>
+
+                <button *ngIf="loading" class="btn btn-success btn-sm w-100" type="button" disabled>
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    <span>Loading...</span>
+                </button>
+                <button *ngIf="!loading" type="button" class="btn btn-success btn-sm w-100" (click)="login()">
+                    <span i18n>Login</span> 
+                </button>
+
+                <div class="mt-2">
+                    <a class="text-decoration-none" href="https://docs.edgexfoundry.org/2.0/security/Ch-APIGateway/" target="_blank">
+                        <small i18n>How to get access token?</small>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

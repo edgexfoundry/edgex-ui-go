@@ -1,0 +1,2836 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2c954b535ba8804a42ffdcfca1db862f8d60cb8e" datatype="html">
+        <source>New App Service</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/add-app-service/add-app-service.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/add-app-service/add-app-service.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-media-list/device-service-media-list.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ce8674f26fa4944ad0991a1d8894d2c390ca5875" datatype="html">
+        <source>App Service Key</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/add-app-service/add-app-service.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="afc9b25f5104f974a07b370cc8682383a045a5db" datatype="html">
+        <source>the app service key can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/add-app-service/add-app-service.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="08faca4ae1602fbafaec5b506c20ef6e45a56911" datatype="html">
+        <source>App Service Port</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/add-app-service/add-app-service.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a03ebdf429be85925004fc150340930d04325035" datatype="html">
+        <source>the app service port can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/add-app-service/add-app-service.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="663be5ce32a04cc1a2daecb9b3370356440cc143" datatype="html">
+        <source>Configurable Setting</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/app-service-configurable.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71c77bb8cecdf11ec3eead24dd1ba506573fa9cd" datatype="html">
+        <source>Submit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/app-service-configurable.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/add-profile/add-profile.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/add-stream/add-stream.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/edit-stream/edit-stream.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4ef33b4d376762e82c74ca9fe1c976a376f9ee77" datatype="html">
+        <source>Trigger</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/app-service-configurable.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4114722ce9155338e9a93ddc4b20a5eff4a8e088" datatype="html">
+        <source>Pipeline Functions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/app-service-configurable.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7983b1a078b930512fcf4f12b907646236cf52b8" datatype="html">
+        <source>Insecure Secrets</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/app-service-configurable.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="42035c268dc965a34537f6f8a9fc98e3edeeb000" datatype="html">
+        <source>Store And Forward</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/app-service-configurable.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9f8747d02bf0bf6bf3695bda444894c9f78daaf6" datatype="html">
+        <source>Insecure Secrets that are used when running in non-secure mode, i.e. when Vault isn&apos;t available. This is a dynamic map of configuration, so can empty if no secrets are used or can have as many or few user-defined secrets. It simulates a Secret Store in non-secure mode. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/insecure-secrets/insecure-secrets.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="18570ead11fff4c87a3816761f2ad7da7b1b62d1" datatype="html">
+        <source>Builtin Pipeline Functions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="267f2c06c6676ea05b076afa15c522abd5e087c3" datatype="html">
+        <source>Drop Zone</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="43bce4e167c961f24a68629d9577e843771aa525" datatype="html">
+        <source>Selected Pipeline Functions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e187f8403b3be578587c8416eecbc3f0b855dda0" datatype="html">
+        <source>Func Execution Order</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c2d8954ef9756a99200bbca559745329d0b3a819" datatype="html">
+        <source>drag sorting is enabled</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fc6fb396a82a39f777887073a3236f7220c115ce" datatype="html">
+        <source>Pipeline Functions Parameter Setting</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/pipeline-function/pipeline-function.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c8c72311bfe8a233fc6caa7cd50bffb7521c4f5d" datatype="html">
+        <source> App service needs to restart when Trigger is changed, so this section only lets user to know what Trigger the app service used right now! <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> And Next, UI will support user to change the Trigger section. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html">
+        <source>Type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f74badfb3002539420c7f6666298152fe162a3ec" datatype="html">
+        <source>EdgexMessageBus Trigger</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="967799a2f18bc94ab5160efada6f125fa4b68c18" datatype="html">
+        <source>Subscribe Host</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fe22ca53e651df951dac25b67c17894b0980f767" datatype="html">
+        <source>Host</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">170</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">276</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cb2741a46e3560f6bc6dfd99d385e86b08b26d72" datatype="html">
+        <source>Port</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">176</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">192</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">249</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">285</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="acc04ca445d64958d843622f9ce95c0378198c24" datatype="html">
+        <source>Protocol</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="16a46a077f018cf0c1486151499d503223a64b9c" datatype="html">
+        <source>SubscribeTopics</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6521d237babfbfe0cd522038f93b15d128f5df8f" datatype="html">
+        <source>PublishTopic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5317cde482fdb766008de3e1ae09cf0610366abc" datatype="html">
+        <source>Optional</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ae9058f7c55b9ba484b3f62582c0b8cbe291a30a" datatype="html">
+        <source>HTTP Trigger</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">329</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b0f44f0e9b60d2a6b9ba873a5885679db7ca37e5" datatype="html">
+        <source>no optional fields needs to setup for http trigger</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-configurable/trigger/trigger.component.html</context>
+          <context context-type="linenumber">335</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b5d91b56c878aaf12251ab10e35a2d3f9252f2b2" datatype="html">
+        <source>App Service List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-list/app-service-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bb85dfff97ff70f0adffe0d73f206e038ff13886" datatype="html">
+        <source>Configurable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-service/app-service-list/app-service-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f65253954b66e929a8b4d5ecaf61f9129f8cec64" datatype="html">
+        <source>Dashboard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8011e20c5bbe51602d459a860fbf29b599b55edd" datatype="html">
+        <source>System</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f721a500a68c357e8f2a01e60510f6a01e4ba529" datatype="html">
+        <source>Metadata</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39ed1a4c5c62e11b175d54adfb13169467630266" datatype="html">
+        <source>DataCenter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="24de26644d57d10d8e846b29952de9e18a315927" datatype="html">
+        <source>Scheduler</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8bcabdf6b16cad0313a86c7e940c5e3ad7f9f8ab" datatype="html">
+        <source>Notifications</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01808941ea53c44fa1ca779136cd0ae6c2e831b4" datatype="html">
+        <source>RuleEngine</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="215e38ed8c63500e368f9d9193821b0ced6ddbb8" datatype="html">
+        <source>AppService</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a0843de0a64adcc7ee6a946408b6876cd8abdcae" datatype="html">
+        <source>English</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1ab6c7380ce8657c61aa3020bf3f7babf6d1b505" datatype="html">
+        <source>Log in to EdgeX with a token</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1edc1fc6cfbbb22353050ad6788508b3ed584f53" datatype="html">
+        <source>Token</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3f37f7b321ae2ca5fb90d5b4ed7246f8e6da07b5" datatype="html">
+        <source>the token is invalid!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e3ee274173149b7e7ba670aa7026b247cd6e9190" datatype="html">
+        <source>How to get access token?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/auth/login/login.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0512c446ecac2e0e553d745dd6e6c4873c193de3" datatype="html">
+        <source> An event represents a collection of one or more sensor readings. Some sensors or devices are only providing a single value – a single reading - at a time. Other sensors spew multiple values whenever they are read. An event must have at least one reading. Events are associated to a sensor or device. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> The following data is only for the convenience of the user to view the data format of the data center, which does not make any sense to manipulate! <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> The dynamic display effect of the data is that only the API of the Core Data service is called periodically, with intervals of 3 seconds. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/core-data.component.html</context>
+          <context context-type="linenumber">25,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a20835f355331a7398ce79b54cff3c57e96b3c75" datatype="html">
+        <source>Event</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/core-data.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="440387abefa7c51156990554beb9f5f18576decb" datatype="html">
+        <source>Reading</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/core-data.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8f7f2004dc95c211bdea65de80a475c3fafd462c" datatype="html">
+        <source>Event Data Stream</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/event/event.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8434d4a28744d7df82cd39ef8da4266fcbc40064" datatype="html">
+        <source>Start</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/event/event.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/reading/reading.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b2838c6165a9672a17db188f4dd9676574353dd8" datatype="html">
+        <source>Pause</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/event/event.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/reading/reading.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="038a54f23f7c96e5411be3785cf3539a2e9395fb" datatype="html">
+        <source>Reading Data Stream</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core-data/reading/reading.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b383940abbc818505dc7092af5faa5c8e004af3e" datatype="html">
+        <source> Device Services </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3e24569eca61d598c8b01defbbbb1fa8bd5222bc" datatype="html">
+        <source>Devices</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3e4d1bfbda2c6f91aee9d8c7fb0ec1eeabf845ca" datatype="html">
+        <source>Device Profiles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2e050d8fbb343003519ae579b2b195d76e813fac" datatype="html">
+        <source>Schedulers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="af88c1e95a1d16d3cdbb7210981e0bfb6dc1d137" datatype="html">
+        <source>Events</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01a9bb04814dce4aa6ee48a43abc5361bd52994a" datatype="html">
+        <source>Readings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81b88998cd82cbccaf3350dd07a13191462a452b" datatype="html">
+        <source>System Services Monitor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="44202c57517c7627e95387e587fc24c2f070fad5" datatype="html">
+        <source>Device Service List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="45cc8ca94b5a50842a9a8ef804a5ab089a38ae5c" datatype="html">
+        <source>ID</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-media-list/device-service-media-list.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2af7efecfae8d7fed3b07f718a623eca1ad8163f" datatype="html">
+        <source>Labels</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1d142945bec1a6e2b3e7deac3c6427f928292a6e" datatype="html">
+        <source>AdminState</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-media-list/device-service-media-list.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b051734b0ee9021991c91b3ed4e81c244322462" datatype="html">
+        <source>Created</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6986e0df8092d822ac2c076520d83994c78834fc" datatype="html">
+        <source>Modified</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f672d85076e90d002f365447c8eca5303d03bc28" datatype="html">
+        <source>items per page</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">192</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="680d5c75b7fd8d37961083608b9fcdc4167b4c43" datatype="html">
+        <source>Previous</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">204</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f732c304c7433e5a83ffcd862c3dce709a0f4982" datatype="html">
+        <source>Next</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-list/device-service-list.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f10860fb464f104d159bb2c2da88c6805521e45" datatype="html">
+        <source>Associated Devices</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-media-list/device-service-media-list.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb86764ada7a05e0b5532eca14671f8ad7d13e61" datatype="html">
+        <source>Setting</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-media-list/device-service-media-list.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a568d6cc7b8a3f14399663426bb1b4fc137b1a8d" datatype="html">
+        <source>edit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device-service/device-service-media-list/device-service-media-list.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="609256cd8bf42da3b568e00bfff2c657e2ad9ec0" datatype="html">
+        <source>Add Device Wizard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d393bdb016a302425ca6b39c401be21b9bf09b00" datatype="html">
+        <source>SelectDeviceService</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="343af2d7e602e97f4d9565c12d11bb814dd5d983" datatype="html">
+        <source>SelectDeviceProfile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7a2177b2931472147abde3e27be8eef57151a9d0" datatype="html">
+        <source>DevicePrimary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e00a76ca538d52e65edd85bc0464b1cf74aea4c2" datatype="html">
+        <source>CreateAutoEvent</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e67e638d5c6a98c11fcfaba46f83577f6b8edf8b" datatype="html">
+        <source>CreateDeviceProtocol</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb075d0450deb6f381616f7da4b9244ced843053" datatype="html">
+        <source>Skip</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8850525282a1df734b129b3a17fb2114ef383264" datatype="html">
+        <source>the device name can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9363f4ad93d7c68e4874654181580561b5a17733" datatype="html">
+        <source>OperatingState</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c4bb147b888bed6a436a2757b734e4b7ed103263" datatype="html">
+        <source> this step is optional, you can skip it then use scheduler service to create schedule job.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0fdafa578b6780e4a779f363a23649f444089eea" datatype="html">
+        <source>Add More AutoEvent</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7d49310535abb3792d8c9c991dd0d990d73d29af" datatype="html">
+        <source>Interval</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/scheduler.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cdac0db67961c1ca7bdbec69d485fdae9bdff31a" datatype="html">
+        <source> can only be a pure integer number </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">176,177</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e065441d536eccd78e6afee57f30a52d7f9ffa45" datatype="html">
+        <source>onchange</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">182</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">185</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="26c341198bdd2da2c23ce843c36306364f391d3c" datatype="html">
+        <source>resource</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">191</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4958b48aea7370d01a322abcd989067e52595dba" datatype="html">
+        <source> resource can&apos;t be empty </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">197,198</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="019d4bd6a5690f0cfa0ecf346a4e6bf7f0d8debb" datatype="html">
+        <source>Remove</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">203</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">206</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">212</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dc7ec19ed2813bfd00cab0328338a7d1615e0d9d" datatype="html">
+        <source>Avaliable Protocol Templates</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">218</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9888dcf35a7df9ced0c1545f6fc027809c35c683" datatype="html">
+        <source>Custom Protocol Templates</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">223</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5363ed16315fa98329d11a210a8b8625e7e41646" datatype="html">
+        <source>Protocol Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">233</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">289</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1a044258fe09cfb1cdfb49ee7a83d75f6399b416" datatype="html">
+        <source>the protocol name can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">242</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">292</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5333cbc3cc1472cdd7e6c7d0fea0baa5bbabc2c3" datatype="html">
+        <source>PropertyKey</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">252</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">309</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="098372ca2b5ef24ba769bf66f90c1a5c78aa4c8c" datatype="html">
+        <source>PropertyVaule</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="438c24bd4796af8c99eae66a6fed37e4b3fb8480" datatype="html">
+        <source> all avaliable protocol templates refer to the device service released by edgex, such as device-virtual, device-rest, device-mqtt, device-modbus </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">273,274</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c54fcdb98b17ef814108d5f92f02be2bf2b9a43b" datatype="html">
+        <source>this device service doesn&apos;t need to set protocol properties</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">278</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2dcca2ae6ed2169eaaa40cda382fdd7d7324f278" datatype="html">
+        <source>Add Protocol Property</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">301</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="04243d1ee3dbeaa55e36ccb9d280dfc57a6a15b4" datatype="html">
+        <source>PropertyValue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/add-device/add-device.component.html</context>
+          <context context-type="linenumber">318</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e3d93aa1810ad561bb3bd9a520557f8abc85d77a" datatype="html">
+        <source>Device List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9e9b7f418122557b3ba7d55a2150ab198173f6af" datatype="html">
+        <source>AssociatedProfile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a44a6b4b938d2a6332a0f9331d86652b7c5e3a7c" datatype="html">
+        <source>AssociatedService</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-combo-list/device-combo-list.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2416a1e3a709b9af1861c857ee987d48fee6bafc" datatype="html">
+        <source>DeviceService</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b771d18339c5b68883c181432dc4bdb1c29148f0" datatype="html">
+        <source>Associated Device List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5ec2b14816e2c70048530375e9f282e358fca079" datatype="html">
+        <source>DeviceProfile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c8d1785038d461ec66b5799db21864182b35900a" datatype="html">
+        <source>Refresh</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f6755cff4957d5c3c89bafce5651f1b6fa2b1fd9" datatype="html">
+        <source>Add</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="28f86ffd419b869711aa13f5e5ff54be6d70731c" datatype="html">
+        <source>Edit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="826b25211922a1b46436589233cb6f1a163d89b7" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4c9e898707b87b70f1b88ad110c78c5e52608fc9" datatype="html">
+        <source>Command</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="35fca55cbf6dec55161ca53204796e740cf6c294" datatype="html">
+        <source>AutoEvents</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="431b071afea3d47ca3c7daeab990426d7add7475" datatype="html">
+        <source>Associated AutoEvents</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">192</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ffde342dc48f0b074d3dbcbb2f665216a2dd3deb" datatype="html">
+        <source>Resource</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9df4d4e04224e37cd1934e35383b6a00f4271790" datatype="html">
+        <source>Onchange</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">172</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c9745540d07f4daa50e7c58351124a2af8cf966c" datatype="html">
+        <source>no associated AutoEvents</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">197</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b24dbc003f47263f3f2a0c692bd994ad68bb8901" datatype="html">
+        <source>Associated Commands</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">215</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">334</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2a376692f8689ea45b3a05fcb72d00e6ce3a8ee8" datatype="html">
+        <source> Command Name List </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">222,223</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e358949a99129e3227c2aab0f7ab7032cd748ec2" datatype="html">
+        <source>Get and Set</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">235</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="20fa923f713d65971258a4e3e2d361810d70851d" datatype="html">
+        <source>Response:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">249</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">303</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="76a61db4410be134cb4af00d19be7c6a8a675038" datatype="html">
+        <source>ResponseRaw:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">257</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">307</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fbfd0f26581bb8a0a6a4611f5feaaa7e3e8eb673" datatype="html">
+        <source>no Get method</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">262</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ea4a954fea227791a794e74708bea879106d3bd1" datatype="html">
+        <source>Set Parameters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">278</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d8eb8432cbefc0e2b5b75f6f0468d75635e1acb5" datatype="html">
+        <source>no Set method</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">314</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8b96ca5d62dfe08bd1cc0d7dea4fee131ad37f65" datatype="html">
+        <source>no associated commands</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">337</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a8059e31694578c1b0344a76a345357dd60e8f01" datatype="html">
+        <source>Warning</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">348</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="17fe87cbe7a544733a64c75d9d34fb78f34da0ee" datatype="html">
+        <source> The data will be permanently erased!!! Are you sure to execute delete operation？ </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">352,353</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">131,132</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">228,229</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">134,135</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">110,111</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">355</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">231</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">133</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="68e710782ccb5398b3acb8844caf0b199da2c3da" datatype="html">
+        <source>Confirm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/device-list/device-list.component.html</context>
+          <context context-type="linenumber">356</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">232</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9118c1457cc33211a910ef2aab4f6516c2df38bc" datatype="html">
+        <source>Edit Device</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="430c29b3242045ca34951a0d043151f23e0c2ac4" datatype="html">
+        <source>Device Primary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a607737936207e1eca93541dd1e7fe2ccd9376c4" datatype="html">
+        <source>DeviceName</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0a31a2d8da7ff156c26f1516271450b849f50b4d" datatype="html">
+        <source> device name can&apos;t not be empty! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eeefd6d4cb0db107001931ae2f1ef7a3b6233c49" datatype="html">
+        <source>Device Protocol</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0e6203aa5869134ab20f04934f12a12c029ccabc" datatype="html">
+        <source> can only be a pure integer number </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">179,180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8f78e5196ff6f96fdd53da3836e6ca42704e158d" datatype="html">
+        <source> resource can&apos;t be empty </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/device/edit-device/edit-device.component.html</context>
+          <context context-type="linenumber">200,201</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aaa70ae7f82466ca1cbc28eeb2b3a4fe312fa8df" datatype="html">
+        <source>Device Service</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/metadata.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ea64d4177bd648e1a20c92669e6857762b811d8c" datatype="html">
+        <source>Device</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/metadata.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6c2cb2d687af4547debcf727ef8cc07dc43c2644" datatype="html">
+        <source>Device Profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/metadata.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="703db1fd56e25af23401bf8a0a77a0a1a2875107" datatype="html">
+        <source>Add Profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/add-profile/add-profile.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a9b1740625b337a65effc29ab00feb48af8644b9" datatype="html">
+        <source> drag-and-drop is enabled</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/add-profile/add-profile.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="257663015f99d5c3799a7ec8879ef848925d22ff" datatype="html">
+        <source>Device Profile List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="335ff41fa44f6245753a2823de71e7093ead7b82" datatype="html">
+        <source>AssociatedDevice</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e01caade9e74f9cb2b0ee7ed9580af14fbfd873d" datatype="html">
+        <source>Manufacturer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6ec98fa3d6504ba1fd03465194b53706c8263c99" datatype="html">
+        <source>Model</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/metadata/profile/device-profile-list/device-profile-list.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="091b91e95af2665f861209d6f74bd8545be0f090" datatype="html">
+        <source>Notification List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a7685d4fdc0570059286929b826cbd9963e193a4" datatype="html">
+        <source> The data loaded by default takes the value of status as NEW</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bc2e854e111ecf2bd7db170da5e3c2ed08181d88" datatype="html">
+        <source>Advanced</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b68ce78c3f2c548391d812c248217f8a212491e1" datatype="html">
+        <source>End</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e6631d2b101efdd216449d03f23ae42f2a53ccb4" datatype="html">
+        <source>CleanupByAge</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6500ee30bf90b390ffb1d7354c62da20b0dc3857" datatype="html">
+        <source>Cleanup</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="607de17c2a755f65775881c19e276e7c933bcf94" datatype="html">
+        <source>Category</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4ab4cb601522b9194922554d934c4c30bd93567d" datatype="html">
+        <source>Content</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0e94a970dd5f8e2d07e5ba7317ed58aae8836a7b" datatype="html">
+        <source>ContentType</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06ac97c57691e065a4ce7119df811e89279319b4" datatype="html">
+        <source>Sender</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="94287619205068b591c18493c64781424864c259" datatype="html">
+        <source>Severity</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notification/notification-list/notification-list.component.html</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dfb6e8f1028903902ead54d62afeb71adfa750ff" datatype="html">
+        <source>Notification</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notifications.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="47bbc861efa59ba4135e6aa8f63213420e3f3b91" datatype="html">
+        <source>Subscription</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/notifications.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0b16d4490e0d8606145b898eed2b7049f9e9c6fa" datatype="html">
+        <source>Add Subscription</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8486aec2fbb5b24aea58c212b74b2a17ff726fc8" datatype="html">
+        <source>the subscription name can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="04201f9d27abd7d6f58a4328ab98063ce1072006" datatype="html">
+        <source>Categories</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d3d7320c8d0bf0e362f87125efabc3b3cfd7022" datatype="html">
+        <source>the subscription categories can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d6f1dfcc31f90815de78223a49f0397dc92e3431" datatype="html">
+        <source>the subscription labels can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a5d65ca62a35d5292fac9d7a4eb5e3c22c3ef67" datatype="html">
+        <source>Receiver</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="87ebb25280d79166b740fc21a22391f4acf1fc44" datatype="html">
+        <source>the subscription receiver can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="409de1d839043126610f6e22166fd94446ae400e" datatype="html">
+        <source>ResendInterval</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="88db63b2f9ade0fac1af84a62b696d3ef9a26cef" datatype="html">
+        <source>ResendLimit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="807cf11e6ac1cde912496f764c176bdfdd6b7e19" datatype="html">
+        <source>Channels</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9b45c8368dc5edef40fe902b6a0a3617de3e5a94" datatype="html">
+        <source>Add Channel Template</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8afa6a7b9860eee079059290b933cb0eb60154fc" datatype="html">
+        <source>EMAIL Channel Template</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5fa20a5a2b379e3d9088f1410b99563737c0292e" datatype="html">
+        <source>REST Channel Template</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e4e02902c47a0ed74f0f280b7afe35960d476c65" datatype="html">
+        <source>EmailRecipients</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">365</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b7b7edb5f3621682eb9d3fc9dfe69ed856b913b" datatype="html">
+        <source>the email address port can&apos;t be empty</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8df091607af034f06c66fc2b312e81a5e4bf6b44" datatype="html">
+        <source>HttpMethod</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">227</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7e62eeca2e44ce992866f9821e81cad8ae51f9df" datatype="html">
+        <source>the REST address host can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">174</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">187</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bde63df45d1434de9e4a371feb6569e322ed95f7" datatype="html">
+        <source>the REST address port can&apos;t be empty and only pure integer is supported!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">183</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">253</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="766c66ad5cc981c531aaf3fe3a2a7a346ddc8d83" datatype="html">
+        <source>Path</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/add-subscription/add-subscription.component.html</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">185</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">202</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">258</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9c480e1052b2467a6c1c1163f72d9838d0af2065" datatype="html">
+        <source>Edit Subscription</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/edit-subscription/edit-subscription.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="77e7043c93681e4dad93997d6140edc4644200ac" datatype="html">
+        <source>Subscription List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/notifications/subscription/subscription-list/subscription-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c52de707bef9c1ac094a3c58de026da076b8a963" datatype="html">
+        <source>Stream</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rule-engine.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2489eefea00931942b91f4a1ae109514b591e2e1" datatype="html">
+        <source>Rules</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rule-engine.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="963956123324ce02dd885c566fdf98e7340d4198" datatype="html">
+        <source>Add Rule Wizard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb23d9f03e26ca738c4ba6e4d09e624f43b62513" datatype="html">
+        <source>RulePrimary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="11ff293d5592c5a2c3c02725d9bd16d43c237db7" datatype="html">
+        <source>CreateRuleActions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0ec20b6e8bbb1ad6b57c1b5e27f49724d2695c8a" datatype="html">
+        <source>the rule name can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6142a889e7de3d4e1fd826382a92dd833dd65db4" datatype="html">
+        <source>ruleSql</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f4995632b305d52cb15361aa876e5ae7e41a24ca" datatype="html">
+        <source>the sql can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f07596a0b8a291251022c58a30daf5cc71c3fa24" datatype="html">
+        <source> Action Type </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">86,87</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">82,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="28757aa70ce5104c5f84cd3e206aafadae3f902c" datatype="html">
+        <source>Rest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/add-rules/add-rules.component.html</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="69b39e6bfcf4cf5eec25ad0e9566880adc841f49" datatype="html">
+        <source>RulePrimary <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i
+                            *ngIf=&quot;currentStep &gt;= 1&quot; class=&quot;fa fa-check&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9f341840b3086a3145bd5787be989bb804366fa3" datatype="html">
+        <source>CreateRuleActions <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i
+                            *ngIf=&quot;currentStep &gt;= 2&quot; class=&quot;fa fa-check&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/edit-rules/edit-rules.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2dbdd59570847575a5851e058865f410e815ae50" datatype="html">
+        <source>Rule List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b46eaed77ae1de349f384abf4ef76326360acb1c" datatype="html">
+        <source> Start</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1d0d5c9a36e72bd9643ff1ede69736ae063d652b" datatype="html">
+        <source>Stop</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6d79c6ff771d7b86ce572306867a1705200f957" datatype="html">
+        <source>Restart</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2798cc1e152b1ec07fd8daf94a2a073d1ba1ebcc" datatype="html">
+        <source>Id</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e9232adee1e1d3db7e49d5e739f4df89511e708f" datatype="html">
+        <source>Rule Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="842513d8526403a54ca8d665d2bc5d234991de50" datatype="html">
+        <source>Status Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dd6858394b44969fe9b37f8b0af1067269859739" datatype="html">
+        <source>Topology Structure</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="830990bbf6302f8747f962982a123c69497218ed" datatype="html">
+        <source>Detail</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
+        <source>Close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/rules/rules-list/rules-list.component.html</context>
+          <context context-type="linenumber">132</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b4d20fadec88b2db9043cf8b45042b4fab518835" datatype="html">
+        <source>Add Stream</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/add-stream/add-stream.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b138625934dd81ee484b99ab5a142133bff2db1d" datatype="html">
+        <source>Edit Stream</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/edit-stream/edit-stream.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e2953487a837af285c0d112516569ced3b56e15e" datatype="html">
+        <source>You don&apos;t have a stream yet. Please click this button to create a stream for the current edgex.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4f8b2bb476981727ab34ed40fde1218361f92c45" datatype="html">
+        <source>Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dcf6f8d273e6735982911b1d3fa2e8e04147c948" datatype="html">
+        <source> Stream Details </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rule-engine/stream/stream-list/stream-list.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6ff6839b588f839509bc29e80a304bde0a6fbd21" datatype="html">
+        <source>Add Interval</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="08521e5efb6ee534db7fc71e5f730009ce87ce26" datatype="html">
+        <source>RunOnce</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/add-interval/add-interval.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="502fad89d673dc46fbe0ec3447bb2fed8599d6db" datatype="html">
+        <source>Edit Interval</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/edit-interval/edit-interval.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8f54e0daa32be92eef9a923c515a61609a23fd35" datatype="html">
+        <source>Interval List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="13c52b3fa7bf3f11bb322622c4d5a385d4b9272a" datatype="html">
+        <source> Associated actions will also be deleted and the data will be permanently erased!!! Are you sure to execute delete operation？ </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/interval/interval-list/interval-list.component.html</context>
+          <context context-type="linenumber">130,131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aaaa56bb140743832df1abc0b1c9edcbf0d11820" datatype="html">
+        <source>Tips</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="427ba081f767bbdbcb1cd07322cf08b82e795f8d" datatype="html">
+        <source> The support scheduler micro service provide an internal EdgeX “clock” that can kick off operations in any EdgeX service. At a configuration specified time (called an interval), the service calls on any EdgeX service API URL via REST to trigger an operation (called an interval action). For example, the scheduling service periodically calls on core data APIs to clean up old sensed events that have been successfully exported out of EdgeX. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/> Users also can call the API of command service to collect one device&apos;s data automatically. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">25,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c082c61e2eeaa263ce2d675fe813c2e7dc5d761a" datatype="html">
+        <source>Add Interval Action</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ba61a96aaa5ea9d5c5ea5f8ca528284b7fefef50" datatype="html">
+        <source>IntervalName</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html">
+        <source>Address</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d2ade83c51286e64c4bab16b5cef1a7bf467c7d5" datatype="html">
+        <source>CoreDataSeviceTemplate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="24430007a7a0fed3f5fa7e0e090864ac08438862" datatype="html">
+        <source>CommandServiceTemplate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5011c2acd39f7cdb639fe1ade22d25ae9a641154" datatype="html">
+        <source>CustomTemplate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cbdd2169716adb6af20b4a728a06ed1159ed3191" datatype="html">
+        <source>RequestBody</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">264</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c64747f0bc3848d47c89e0af17d0c199b44ad0de" datatype="html">
+        <source>Parameter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">211</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0101069f60a4e20a87919bb81a53f286deea4f48" datatype="html">
+        <source>the MQTT host can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">280</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2e22f542671a46f3699b8aab8410fb443b5b7a62" datatype="html">
+        <source>the MQTT port can&apos;t be empty and only pure integer is supported!!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">289</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="53129c8a9a95644ed5e4dc7d4987814ad189b8a0" datatype="html">
+        <source>Publisher</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">294</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d97265469561a57873df954916729ba18b2efa06" datatype="html">
+        <source>the MQTT publisher can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">298</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b4506f4293568f9789c037b601cf38ce768ccbf6" datatype="html">
+        <source>Topic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">303</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f82fc449bcf0479bb6000734678e78ce404e696f" datatype="html">
+        <source>the MQTT topic can&apos;t be empty!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">307</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b5b6c3fad4f7882153bd302d2ab087729687702" datatype="html">
+        <source>QoS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">313</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="031578e986c18d12ae32a26548b6c0909341127c" datatype="html">
+        <source>KeepAlive</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">323</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a0fbc2733c7522cba127ffc8319d5c50929169d" datatype="html">
+        <source>Retained</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">332</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="27389be7bd42f60639f96f88018cfae51214421e" datatype="html">
+        <source>AutoReconnect</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">341</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ca849dd6e3778e95644543a5833f1633f1f7affe" datatype="html">
+        <source>ConnectTimeout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/add-interval-action/add-interval-action.component.html</context>
+          <context context-type="linenumber">351</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1497e49c9432b49c0cf10b7b1b5ab6ab405bf723" datatype="html">
+        <source>Edit Interval Action</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bebf74144025810866eba8f39fb25338deb317f8" datatype="html">
+        <source>Available and Editable templates &gt;&gt;</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/edit-interval-action/edit-interval-action.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8afbff98a28eeefa126e96de7e83e1fac74fb6c3" datatype="html">
+        <source>Interval Action List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4dcb5c4e40e671b01a4c099731a37330f9c91024" datatype="html">
+        <source>AssociatedInterval</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d1493884b67da09b43d0dba1dea0bc096f99dc1" datatype="html">
+        <source>AddressType</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c22f278ef716b5be3a4a49a2a7d2bd39b689765d" datatype="html">
+        <source>The data will be permanently erased!!! Are you sure to execute delete operation？</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/intervalaction/interval-action-list/interval-action-list.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39fb0ef9e3eb3d36f6f42034cc80473b1ec2914c" datatype="html">
+        <source>IntervalAction</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scheduler/scheduler.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1737ab48ecfdc75d62dd04a3b542b386e633e233" datatype="html">
+        <source>Config Inspect</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/config/config.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="129a2224e1f9d19eb5e11e2a07fe10a785556484" datatype="html">
+        <source>up</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="74b1b262c9500868353a1ca2da2acfc189d08d4e" datatype="html">
+        <source>mem_usage</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c72c0977ab535b0ae47d4d7705018faf73c8a1cf" datatype="html">
+        <source>cpu_usage</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="22a0064927faaff3613f589c1da9d1ebc4a9be9e" datatype="html">
+        <source>net_io</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8b7558d8b7db6942df38bdc92557e5f4087aaa50" datatype="html">
+        <source>Refresh Rate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fc80a941176a8e643bc5d9cced26685932e0e936" datatype="html">
+        <source>Memory usage</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c8f0e660b36e25a70d3e2dd00a216cacb07f94f6" datatype="html">
+        <source>CPU usage</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3a5f3928666621e7f4d24fe7153e47c0c18fd840" datatype="html">
+        <source>Network traffic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/metrics/metrics.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7659c7ebdc6c3ac058393cfdb9347aa65f793bc5" datatype="html">
+        <source>System Services List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="873b72903b1858a9cd6c8967521030b4d7d1435b" datatype="html">
+        <source>State</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="17936ba87ff97fda46db6451c061a284ec20a51d" datatype="html">
+        <source>Metric</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a8cb2e85509e56f6381c6361aef7c6515c0e75ea" datatype="html">
+        <source>Config</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="787e44bf8fb991dfb43b1c7eb7056090514d6905" datatype="html">
+        <source>Operation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="09fe06e2448282e6e0301f8127d7205e4ec4cc3b" datatype="html">
+        <source>running</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f3ebb12666577c4183f3c9687180f7963cfabf4" datatype="html">
+        <source>stopped</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8f38ad0f2ac90714bdf91f991b77ffbf08979147" datatype="html">
+        <source>start</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a4a1a27e520bd432a953d457db0ed05e3a9c629" datatype="html">
+        <source>restart</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5f3e10c4138ad2ddc19b707afdec396e35dfd8db" datatype="html">
+        <source>stop</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/system-agent/service-list/service-list.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

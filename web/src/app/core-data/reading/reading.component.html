@@ -20,16 +20,16 @@
     <div class="card-header">
         <span class="font-weight-bold">
             <span class="fa fa-area-chart mr-2 text-danger"></span> 
-            <span class="text-secondary">Reading Data Stream</span>
+            <span class="text-secondary" i18n>Reading Data Stream</span>
         </span>
     </div>
     <div class="card-header p-2">
         <div class="btn-group btn-group-sm" role="group">
             <button class="btn btn-primary" (click)="start()" [disabled]="!pauseOperate">
-                <span><i class="fa fa-play mr-1"></i>Start</span> 
+                <span><i class="fa fa-play mr-1"></i><span i18n>Start</span></span> 
             </button>
             <button type="button" class="btn btn-info" (click)="pause()" [disabled]="pauseOperate">
-                <span><i class="fa fa-pause mr-1"></i>Pause</span>
+                <span><i class="fa fa-pause mr-1"></i><span i18n>Pause</span></span>
             </button>
           
         </div>

@@ -30,7 +30,7 @@ import { BaseWithConfigResponse } from '../contracts/v2/common/base-response';
 })
 export class DataService {
 
-  endpoint: string = "/coredata";
+  endpoint: string = "/core-data";
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 

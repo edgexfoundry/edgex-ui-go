@@ -34,7 +34,7 @@ import { ErrorService } from './error.service';
 })
 export class SchedulerService {
 
-  endpoint: string = "/scheduler";
+  endpoint: string = "/support-scheduler";
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
@@ -54,8 +54,7 @@ export class SchedulerService {
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 

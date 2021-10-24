@@ -38,4 +38,6 @@ const (
 	UserCreaterHtmlPage = "/usercreater.html"
 
 	NoAuthorizationMsg = "no authorization."
+
+	EnvSecretStore = "EDGEX_SECURITY_SECRET_STORE"
 )

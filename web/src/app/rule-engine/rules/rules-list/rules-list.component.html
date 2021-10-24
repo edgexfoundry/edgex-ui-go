@@ -1,30 +1,36 @@
 <div class="card">
-    <div class="card-header"><i class="fa fa-list text-danger"></i> Rule List</div>
+    <div class="card-header">
+        <i class="fa fa-list text-danger mr-1"></i>
+        <span i18n>Rule List</span> 
+    </div>
     <div class="card-body p-0 position-relative">
         <div class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
-                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                    <span>
+                        <i class="fa fa-refresh mr-1"></i>
+                        <span i18n>Refresh</span>
+                    </span> 
                 </button>
                 <button type="button" class="btn btn-info"  routerLink="../add-rules">
-                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                    <span><i class="fa fa-plus mr-1"></i><span i18n>Add</span></span>
                 </button>
                 <button type="button" class="btn btn-success" (click)="edit()" [disabled]="selectedRule.length !== 1">
-                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                    <span><i class="fa fa-edit mr-1"></i><span i18n>Edit</span></span>
                 </button>
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedRule.length === 0">
-                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                    <span><i class="fa fa-trash mr-1"></i><span i18n>Delete</span></span>
                 </button>
               </div>
               <div class="btn-group btn-group-sm" role="group" style="margin-left: 1%;">
                 <button type="button" class="btn btn-success" (click)="start()" [disabled]="selectedRule.length !== 1">
-                    <span><i class="fa fa-play-circle-o mr-1"></i>Start</span>
+                    <span><i class="fa fa-play-circle-o mr-1"></i><span i18n> Start</span></span>
                 </button>
                 <button type="button" class="btn btn-success" (click)="stop()" [disabled]="selectedRule.length !== 1">
-                    <span><i class="fa fa-pause-circle-o mr-1"></i>Stop</span>
+                    <span><i class="fa fa-pause-circle-o mr-1"></i><span i18n>Stop</span></span>
                 </button>
                 <button type="button" class="btn btn-success" (click)="restart()" [disabled]="selectedRule.length !== 1">
-                    <span><i class="fa fa-history mr-1"></i>Restart</span>
+                    <span><i class="fa fa-history mr-1"></i><span i18n>Restart</span></span>
                 </button>
               </div>
         </div>
@@ -33,11 +39,11 @@
                 <thead class="thead-light">
                     <tr>
                       <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll" (click)="selectAll($event)"></th>
-                      <th scope="col">Id</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Rule Details</th>
-                      <th scope="col">Status Details</th>
-                      <th scope="col">Topology Structure</th>
+                      <th scope="col" i18n>Id</th>
+                      <th scope="col" i18n>Status</th>
+                      <th scope="col" i18n>Rule Details</th>
+                      <th scope="col" i18n>Status Details</th>
+                      <th scope="col" i18n>Topology Structure</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,17 +53,26 @@
                         <td>{{rule.status}}</td>
                         <td>
                             <button class="btn btn-primary" (click)="ruleDetail(rule.id)">
-                                <span><i class="fa fa-book mr-1"></i>Detail</span> 
+                                <span>
+                                    <i class="fa fa-book mr-1"></i>
+                                    <span i18n>Detail</span>
+                                </span> 
                             </button>
                         </td>
                         <td>
                             <button class="btn btn-primary" (click)="statusDetail(rule.id)">
-                                <span><i class="fa fa-book mr-1"></i>Detail</span> 
+                                <span>
+                                    <i class="fa fa-book mr-1"></i>
+                                    <span i18n>Detail</span>
+                                </span> 
                             </button>
                         </td>
                         <td>
                             <button class="btn btn-primary" (click)="topologyStructure(rule.id)">
-                                <span><i class="fa fa-book mr-1"></i>Detail</span> 
+                                <span>
+                                    <i class="fa fa-book mr-1"></i>
+                                    <span i18n>Detail</span>
+                                </span> 
                             </button>
                         </td>
                     </tr>
@@ -87,16 +102,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
-                    <i class="fa fa-warning"></i>
-                    Warning
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
                 </h5>  
             </div>
-            <div class="modal-body">
+            <div class="modal-body" i18n>
                 The data will be permanently erased!!! Are you sure to execute delete operation？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
             </div>
         </div>
     </div>
@@ -114,7 +129,7 @@
                 <pre class="mt-2 bg-secondary p-2 text-light rounded">{{ruleTemp}}</pre>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Close</button>
             </div>
         </div>
     </div>

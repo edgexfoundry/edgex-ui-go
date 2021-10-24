@@ -19,7 +19,7 @@
  <div class="card">
      <div class="card-header">
          <i class="fa fa-list mr-2 text-danger"></i>
-         <span class="font-weight-bold">App Service List</span>
+         <span class="font-weight-bold" i18n>App Service List</span>
      </div>
      <div class="card-body">
         <ul class="list-group p-0">
@@ -37,7 +37,10 @@
                         <div>
                             <span class="badge badge-info mr-3" role="button" >port {{appSvc.Port}}</span>
         
-                            <span class="badge badge-secondary float-right" role="button" routerLink="../app-service-configurable" [queryParams]="{'appSvcKey':appSvc.ServiceId}"> <i class="fa fa-cog"></i> Configurable</span>
+                            <span class="badge badge-secondary float-right" role="button" routerLink="../app-service-configurable" [queryParams]="{'appSvcKey':appSvc.ServiceId}">
+                                <i class="fa fa-cog mr-1"></i>
+                                <span i18n>Configurable</span>
+                            </span>
                         </div>
                     </div>
                 </div>
