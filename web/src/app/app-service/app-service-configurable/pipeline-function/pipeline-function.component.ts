@@ -57,7 +57,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
 
     constructor() { 
         this._availableFunctions = {} as Functions;
-        this.initAvailableFunctions();
+        // this.initAvailableFunctions();
     }
 
     ngOnInit(): void {
