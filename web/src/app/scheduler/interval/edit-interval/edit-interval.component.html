@@ -19,13 +19,13 @@
 <div class="card">
     <div class="card-header">
         <i class="fa fa-edit text-danger"></i>
-        Edit Interval {{interval?.name}}
-        <button class="btn btn-sm btn-success float-right" (click)="update()" [disabled]="!interval?.name">Submit</button>
+        <span i18n>Edit Interval</span> {{interval?.name}}
+        <button class="btn btn-sm btn-success float-right" (click)="update()" [disabled]="!interval?.name" i18n>Submit</button>
     </div>
     <div class="card-body">
         <form *ngIf="interval as Interval">
             <div class="form-group row has-validation">
-                <label for="intervalName" class="col-md-2 col-form-label" required>Name</label>
+                <label for="intervalName" class="col-md-2 col-form-label" required i18n>Name</label>
                 <div class="col-md-10">
                     <input type="text" class="form-control" [class.is-invalid]="!interval.name" [class.is-valid]="interval.name" name="intervalName" [(ngModel)]="interval.name">
                     <div id="validationIntervalNameFeedback" class="invalid-feedback">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intervalStart" class="col-md-2 col-form-label">Start</label>
+                <label for="intervalStart" class="col-md-2 col-form-label" i18n>Start</label>
                 <div class="col-md-10">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intervalEnd2" class="col-md-2 col-form-label">End</label>
+                <label for="intervalEnd2" class="col-md-2 col-form-label" i18n>End</label>
                 <div class="col-md-10">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -57,7 +57,7 @@
             </div>
             <div class="form-group row">
                 <label for="intervalInterval" class="col-md-2 col-form-label">
-                    <span class="mr-2">Interval</span> 
+                    <span class="mr-2" i18n>Interval</span> 
                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="ISO8601 duration format" 
                     data-content='Interval indicates how often the specific resource needs to be polled. It represents as a duration string. The format of this field is to be an unsigned integer followed by a unit which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
                 </label>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intervalRunOnce" class="col-md-2 col-form-label">RunOnce</label>
+                <label for="intervalRunOnce" class="col-md-2 col-form-label" i18n>RunOnce</label>
                 <div class="col-md-10">
                     <select class="custom-select" name="intervalRunOnce" [(ngModel)]="interval.runOnce">
                         <option [ngValue]="false">false</option>

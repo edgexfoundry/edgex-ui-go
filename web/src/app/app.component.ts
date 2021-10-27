@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd, RoutesRecognized, ChildActivationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
@@ -89,6 +89,7 @@ export class AppComponent implements OnInit {
         this.shrink = false;
       }
     });
+    this.router.navigate(['/initializer'], { relativeTo: this.activatedRoute })
   }
 
   pathFormat(path: string): string {

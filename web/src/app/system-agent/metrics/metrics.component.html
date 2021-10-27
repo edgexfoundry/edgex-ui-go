@@ -18,7 +18,8 @@
 
 <div class="card mb-3">
     <div class="card-header font-weight-bold">
-        <i class="fa fa-wrench"></i> Setting
+        <i class="fa fa-wrench mr-1"></i> 
+        <span i18n>Setting</span> 
     </div>
     <div class="card-body">
         <div class="media">
@@ -30,20 +31,20 @@
                     <span class="badge badge-primary mr-1">executor </span>
                     <span *ngIf="metrics" class="text-weight">{{metrics.executor}}</span>  
               </div> -->
-              <h5 class="mt-0 font-weight-bold">{{service}} <span class="badge badge-success">up</span></h5>
+              <h5 class="mt-0 font-weight-bold">{{service}} <span class="badge badge-success" i18n>up</span></h5>
               
               <div class="font-weight-bold d-inline">
-                <span class="badge badge-info mr-2">mem_usage</span>
+                <span class="badge badge-info mr-2" i18n>mem_usage</span>
                 <span *ngIf="metrics" class="text-weight">{{metrics.raw.mem_usage}} </span>  
               </div>
              
               <div class="font-weight-bold ml-2 d-inline">
-                <span class="badge badge-warning mr-1">cpu_usage</span>
+                <span class="badge badge-warning mr-1" i18n>cpu_usage</span>
                 <span *ngIf="metrics" class="text-weight">{{metrics.cpuUsedPercent}}%</span>  
               </div>
 
               <div class="font-weight-bold ml-2 d-inline">
-                <span class="badge badge-primary mr-1">net_io</span>
+                <span class="badge badge-primary mr-1" i18n>net_io</span>
                 <span *ngIf="metrics" class="text-weight">{{metrics.raw.net_io}}</span>  
               </div>
               
@@ -51,7 +52,7 @@
         </div>
         <div class="input-group mb-3 mt-3" style="width: 200px;">
             <div class="input-group-prepend">
-              <span class="input-group-text ">Refresh Rate</span>
+              <span class="input-group-text" i18n>Refresh Rate</span>
             </div>
             <select class="form-control" [(ngModel)]="refreshRate" (ngModelChange)="onRateSelect()">
                 <option selected value=3>3s</option>
@@ -65,7 +66,10 @@
 <div class="row">
     <div class="col-lg-4">
         <div class="card mb-3">
-            <div class="card-header"><i class="fa fa-area-chart"></i>Memory usage</div>
+            <div class="card-header">
+                <i class="fa fa-area-chart mr-1"></i>
+                <span i18n>Memory usage</span> 
+            </div>
             <div class="card-body overflow-auto">
                 <div class="vw-auto" id="memory-usage" style=" height:300px;"></div>
             </div>
@@ -73,7 +77,10 @@
     </div>
     <div class="col-lg-4">
         <div class="card mb-3">
-            <div class="card-header"><i class="fa fa-area-chart"></i>CPU usage</div>
+            <div class="card-header">
+                <i class="fa fa-area-chart mr-1"></i>
+                <span i18n>CPU usage</span>
+            </div>
             <div class="card-body overflow-auto">
                 <div class="vw-auto" id="cpu-usage" style="height:300px;"></div>
             </div>
@@ -81,7 +88,10 @@
     </div>
     <div class="col-lg-4 ">
         <div class="card">
-            <div class="card-header"><i class="fa fa-area-chart"></i>Network traffic</div>
+            <div class="card-header">
+                <i class="fa fa-area-chart mr-1"></i>
+                <span i18n>Network traffic</span>
+            </div>
             <div class="card-body overflow-auto">
                 <div class="vw-auto" id="network-usage" style="height:300px;"></div>
             </div>

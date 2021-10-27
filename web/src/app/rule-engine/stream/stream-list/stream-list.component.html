@@ -10,7 +10,7 @@
                         <h5 class="d-inline mr-3 align-middle text-dark">
                             <button type="button" class="btn btn-info btn-lg" routerLink="../add-stream">
                                 <i class="fa fa-plus mr-1"></i>
-                                <span>You don't have a stream yet. Please click this button to create a stream for the current edgex.</span> 
+                                <span i18n>You don't have a stream yet. Please click this button to create a stream for the current edgex.</span> 
                             </button>
                         </h5>
                     </div>
@@ -28,10 +28,16 @@
                     <h5 class="d-inline mr-3 align-middle text-dark">{{stream}}</h5>
                 </div>
                 <div>
-                    <span class="badge badge-info mr-3" role="button" (click)="streamDetail(stream)">{{stream}} Details</span>
+                    <span class="badge badge-info mr-3" role="button" (click)="streamDetail(stream)">{{stream}} <span i18n>Details</span></span>
 
-                    <span class="badge badge-secondary float-right" role="button" (click)="deleteConfirm()"  style="margin-left: 1%;"> <i class="fa fa-trash mr-1"></i> Delete</span>
-                    <span class="badge badge-success float-right" role="button" (click)="toEditStream()"> <i class="fa fa-edit mr-1"></i> Edit</span>
+                    <span class="badge badge-secondary float-right" role="button" (click)="deleteConfirm()"  style="margin-left: 1%;">
+                        <i class="fa fa-trash mr-1"></i> 
+                        <span i18n>Delete</span>
+                    </span>
+                    <span class="badge badge-success float-right" role="button" (click)="toEditStream()">
+                        <i class="fa fa-edit mr-1"></i>
+                        <span i18n>Edit</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -44,16 +50,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
-                    <i class="fa fa-warning"></i>
-                    Warning
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
                 </h5>  
             </div>
-            <div class="modal-body">
+            <div class="modal-body" i18n>
                 The data will be permanently erased!!! Are you sure to execute delete operation？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
             </div>
         </div>
     </div>
@@ -63,7 +69,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-primary" id="ruleDetailDialogLabel">
+                <h5 class="modal-title text-primary" id="ruleDetailDialogLabel" i18n>
                     Stream Details
                 </h5>
             </div>
@@ -71,7 +77,7 @@
                 <pre class="mt-2 bg-secondary p-2 text-light rounded">{{streamTempStr}}</pre>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Close</button>
             </div>
         </div>
     </div>

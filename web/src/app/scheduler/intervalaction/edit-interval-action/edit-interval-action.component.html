@@ -18,14 +18,14 @@
 
 <div class="card">
    <div class="card-header">
-       <i class="fa fa-edit text-danger"></i>
-       Edit Interval Action
-       <button class="btn btn-sm btn-success float-right" (click)="save()" [disabled]="validate()">Save</button>
+       <i class="fa fa-edit text-danger mr-1"></i>
+       <span i18n>Edit Interval Action</span> 
+       <button class="btn btn-sm btn-success float-right" (click)="save()" [disabled]="validate()" i18n>Save</button>
    </div>
    <div *ngIf="intervalAction" class="card-body">
        <form>
            <div class="form-group row has-validation">
-               <label for="intervalActionName" class="col-md-2 col-form-label" required>Name</label>
+               <label for="intervalActionName" class="col-md-2 col-form-label" required i18n>Name</label>
                <div class="col-md-10">
                    <input type="text" class="form-control" id="validationIntervalActionName" [class.is-invalid]="!intervalAction.name" [class.is-valid]="intervalAction.name" name="intervalActionName" [(ngModel)]="intervalAction.name" required>
                    <div id="validationIntervalActionNameFeedback" class="invalid-feedback">
@@ -34,7 +34,7 @@
                </div>
            </div>
            <div class="form-group row">
-               <label for="intervalName" class="col-md-2 col-form-label">IntervalName</label>
+               <label for="intervalName" class="col-md-2 col-form-label" i18n>IntervalName</label>
                <div class="col-md-10">
                    <div *ngIf="selectedIntervalDefault" class="mb-3">
                        <app-interval-combo-list [validate]="true" [selectedInterval]="selectedIntervalDefault" (intervalSelectedEvent)="onSingleIntervalSelected($event)"></app-interval-combo-list>
@@ -42,7 +42,7 @@
                </div>
            </div>
            <div class="form-group row">
-                <label for="adminState" class="col-md-2 col-form-label">AdminState</label>
+                <label for="adminState" class="col-md-2 col-form-label" i18n>AdminState</label>
                 <div class="col-md-10">
                     <select class="custom-select" name="adminState" [(ngModel)]="intervalAction.adminState">
                         <option value="UNLOCKED">UNLOCKED</option>
@@ -51,7 +51,7 @@
                 </div>
            </div>
            <div class="form-group row">
-               <label for="Address" class="col-md-2 col-form-label">Address</label>
+               <label for="Address" class="col-md-2 col-form-label" i18n>Address</label>
                <div class="col-md-10">
                    <div class="card">
                        <div class="card-header">
@@ -86,12 +86,12 @@
                            </ul> -->
                        </div>
                        <div *ngIf="intervalAction.address.type === addr_type_REST" class="card-header">
-                            <span class="mr-2 text-primary">Available and Editable templates >></span>
+                            <span class="mr-2 text-primary" i18n>Available and Editable templates >></span>
                             <span class="fa fa-question-circle-o fa-lg mr-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                             data-content="custom template will be choosed by default"></span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_coredata" [class.badge-primary]="templateSelected === template_type_coredata" (click)="templateToggle(template_type_coredata)">CoreDataSeviceTemplate</span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_command" [class.badge-primary]="templateSelected === template_type_command" (click)="templateToggle(template_type_command)">CommandServiceTemplate</span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_custom" [class.badge-primary]="templateSelected === template_type_custom" (click)="templateToggle(template_type_custom)">CustomTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_coredata" [class.badge-primary]="templateSelected === template_type_coredata" (click)="templateToggle(template_type_coredata)" i18n>CoreDataSeviceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_command" [class.badge-primary]="templateSelected === template_type_command" (click)="templateToggle(template_type_command)" i18n>CommandServiceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== template_type_custom" [class.badge-primary]="templateSelected === template_type_custom" (click)="templateToggle(template_type_custom)" i18n>CustomTemplate</span>
                         </div>
                        <div class="card-body">
                            <div *ngIf="intervalAction.address.type === 'REST'" #REST>

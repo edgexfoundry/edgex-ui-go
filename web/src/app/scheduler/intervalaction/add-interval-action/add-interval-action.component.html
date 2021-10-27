@@ -19,9 +19,9 @@
  <div class="card mb-3">
      <div class="card-header">
         <i class="fa fa-info-circle mr-2 text-info"></i> 
-        <span>Tips</span>
+        <span i18n>Tips</span>
      </div>
-     <div class="card-body">
+     <div class="card-body" i18n>
         The support scheduler micro service provide an internal EdgeX “clock” that can kick off operations in any EdgeX service. 
         At a configuration specified time (called an interval), the service calls on any EdgeX service API URL via REST to trigger an operation (called an interval action). 
         For example, the scheduling service periodically calls on core data APIs to clean up old sensed events that have been successfully exported out of EdgeX.
@@ -31,14 +31,14 @@
 
  <div class="card">
     <div class="card-header">
-        <i class="fa fa-plus text-danger"></i>
-        Add Interval Action
-        <button class="btn btn-sm btn-success float-right" (click)="submit()" [disabled]="validate()">Submit</button>
+        <i class="fa fa-plus text-danger mr-1"></i>
+        <span i18n>Add Interval Action</span> 
+        <button class="btn btn-sm btn-success float-right" (click)="submit()" [disabled]="validate()" i18n>Submit</button>
     </div>
     <div class="card-body">
         <form>
             <div class="form-group row has-validation">
-                <label for="intervalActionName" class="col-md-2 col-form-label" required>Name</label>
+                <label for="intervalActionName" class="col-md-2 col-form-label" required i18n>Name</label>
                 <div class="col-md-10">
                     <input type="text" class="form-control" id="validationIntervalActionName" [class.is-invalid]="!intervalAction.name" [class.is-valid]="intervalAction.name" name="intervalActionName" [(ngModel)]="intervalAction.name" required>
                     <div id="validationIntervalActionNameFeedback" class="invalid-feedback">
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="intervalName" class="col-md-2 col-form-label">IntervalName</label>
+                <label for="intervalName" class="col-md-2 col-form-label" i18n>IntervalName</label>
                 <div class="col-md-10">
                     <div class="mb-3">
                         <app-interval-combo-list [validate]="true" (intervalSelectedEvent)="onSingleIntervalSelected($event)"></app-interval-combo-list>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="adminState" class="col-md-2 col-form-label" >AdminState</label>
+                <label for="adminState" class="col-md-2 col-form-label" i18n>AdminState</label>
                 <div class="col-md-10">
                     <select class="custom-select" name="adminState" [(ngModel)]="intervalAction.adminState">
                         <option value="UNLOCKED">UNLOCKED</option>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="Address" class="col-md-2 col-form-label">Address</label>
+                <label for="Address" class="col-md-2 col-form-label" i18n>Address</label>
                 <div class="col-md-10">
                     <div class="card">
                         <div class="card-header">
@@ -99,9 +99,9 @@
                             </ul> -->
                         </div>
                         <div *ngIf="intervalAction.address.type === 'REST'" class="card-header">
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'coredata'" [class.badge-primary]="templateSelected === 'coredata'" (click)="templateToggle('coredata')">CoreDataSeviceTemplate</span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'command'" [class.badge-primary]="templateSelected === 'command'" (click)="templateToggle('command')">CommandServiceTemplate</span>
-                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'custom'" [class.badge-primary]="templateSelected === 'custom'" (click)="templateToggle('custom')">CustomTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'coredata'" [class.badge-primary]="templateSelected === 'coredata'" (click)="templateToggle('coredata')" i18n>CoreDataSeviceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'command'" [class.badge-primary]="templateSelected === 'command'" (click)="templateToggle('command')" i18n>CommandServiceTemplate</span>
+                            <span class="badge mr-2" role="button" [class.badge-secondary]="templateSelected !== 'custom'" [class.badge-primary]="templateSelected === 'custom'" (click)="templateToggle('custom')"  i18n>CustomTemplate</span>
                         </div>
                         <div class="card-body">
                             <div *ngIf="intervalAction.address.type === 'REST'" #REST>
@@ -109,7 +109,7 @@
                                     <ng-template [ngSwitchCase]="'custom'" #customTemplate>
                                         <form>
                                             <div class="form-group row">
-                                                <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
+                                                <label for="HttpMethod" class="col-md-2 col-form-label" required i18n>HttpMethod</label>
                                                 <div class="col-md-10">
                                                     <select type="text" class="custom-select" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
                                                         <option value="GET">GET</option>
@@ -124,7 +124,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressHostREST" class="col-md-2 col-form-label" required>Host</label>
+                                                <label for="addressHostREST" class="col-md-2 col-form-label" required i18n>Host</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                                     <div id="addressHostRESTFeedback" class="invalid-feedback">
@@ -133,29 +133,29 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required i18n>Port</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                                     <div id="addressPortRESTFeedback" class="invalid-feedback">
-                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
+                                                <label for="addressPath" class="col-md-2 col-form-label" required i18n>Path</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPath" name="addressPath" [(ngModel)]="intervalAction.address.path">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                                <label for="requestBody" class="col-md-2 col-form-label" required i18n>RequestBody</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="requestBody" class="col-md-2 col-form-label" required>
-                                                    <span class="mr-2">ContentType</span>
+                                                    <span class="mr-2" i18n>ContentType</span>
                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                                      data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
                                                 </label>
@@ -168,7 +168,7 @@
                                     <ng-template [ngSwitchCase]="'coredata'" #coredataTemplate>
                                         <form>
                                             <div class="form-group row">
-                                                <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
+                                                <label for="HttpMethod" class="col-md-2 col-form-label" required i18n>HttpMethod</label>
                                                 <div class="col-md-10">
                                                     <select type="text" class="custom-select" name="httpMethod" [(ngModel)]="intervalAction.address.httpMethod">
                                                         <option value="DELETE">DELETE</option>
@@ -184,22 +184,22 @@
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                                     <div id="addressHostRESTFeedback" class="invalid-feedback">
-                                                        <small>the REST address host can't be empty!</small> 
+                                                        <small i18n>the REST address host can't be empty!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required i18n>Port</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                                     <div id="addressPortRESTFeedback" class="invalid-feedback">
-                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="addressPath" class="col-md-2 col-form-label" required>
-                                                    <span class="mr-2">Path</span>
+                                                    <span class="mr-2" i18n>Path</span>
                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                                     data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when parameters field is selected!"></span>
                                                 </label>
@@ -208,7 +208,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="requestBody" class="col-md-2 col-form-label" required>Parameter</label>
+                                                <label for="requestBody" class="col-md-2 col-form-label" required i18n>Parameter</label>
                                                 <div class="col-md-10">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -224,7 +224,7 @@
                                         <form>
                                             <div class="form-group row">
                                                 <label for="HttpMethod" class="col-md-2 col-form-label" required>
-                                                     <span class="mr-2">HttpMethod</span>
+                                                     <span class="mr-2" i18n>HttpMethod</span>
                                                      <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                                      data-content="httpMethod field will be filled up automatically when the path field is selected! "></span>
                                                 </label>
@@ -241,27 +241,27 @@
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                                     <div id="addressHostRESTFeedback" class="invalid-feedback">
-                                                        <small>the REST address host can't be empty!</small> 
+                                                        <small i18n>the REST address host can't be empty!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row has-validation">
-                                                <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
+                                                <label for="addressPortREST" class="col-md-2 col-form-label" required i18n>Port</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                                     <div id="addressPortRESTFeedback" class="invalid-feedback">
-                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
+                                                <label for="addressPath" class="col-md-2 col-form-label" required i18n>Path</label>
                                                 <div class="col-md-10">
                                                     <app-device-core-command-combo-list [validate]="true" (cmdMethodEvent)="onCmdMethodSelected($event)" (commandSelectedEvent)="onCommandSelected($event)"></app-device-core-command-combo-list>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                                <label for="requestBody" class="col-md-2 col-form-label" required i18n>RequestBody</label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
                                                 </div>
@@ -273,44 +273,44 @@
                             <div [style.display]="intervalAction.address.type !== 'MQTT' ? 'none' : ''" #MQTT>
                                 <form>
                                     <div class="form-group row has-validation">
-                                        <label for="addressHostMQTT" class="col-md-2 col-form-label" required>Host</label>
+                                        <label for="addressHostMQTT" class="col-md-2 col-form-label" required i18n>Host</label>
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressHostMQTT" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                             <div id="addressHostMQTTFeedback" class="invalid-feedback">
-                                                <small>the MQTT host can't be empty!</small> 
+                                                <small i18n>the MQTT host can't be empty!</small> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row has-validation">
-                                        <label for="addressPortMQTT" class="col-md-2 col-form-label" required>Port</label>
+                                        <label for="addressPortMQTT" class="col-md-2 col-form-label" required i18n>Port</label>
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressPortMQTT" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                             <div id="addressPortMQTTFeedback" class="invalid-feedback">
-                                                <small>the MQTT port can't be empty and only pure integer is supported!!</small> 
+                                                <small i18n>the MQTT port can't be empty and only pure integer is supported!!</small> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row has-validation">
-                                        <label for="addressPublisher" class="col-md-2 col-form-label" required>Publisher</label>
+                                        <label for="addressPublisher" class="col-md-2 col-form-label" required i18n>Publisher</label>
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressPublisher" [class.is-invalid]="!intervalAction.address.publisher" [class.is-valid]="intervalAction.address.publisher" name="addressPublisher" [(ngModel)]="intervalAction.address.publisher" required>
                                             <div id="addressPublisherFeedback" class="invalid-feedback">
-                                                <small>the MQTT publisher can't be empty!</small> 
+                                                <small i18n>the MQTT publisher can't be empty!</small> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row has-validation">
-                                        <label for="addressTopic" class="col-md-2 col-form-label" required>Topic</label>
+                                        <label for="addressTopic" class="col-md-2 col-form-label" required i18n>Topic</label>
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressTopic" [class.is-invalid]="!intervalAction.address.topic" [class.is-valid]="intervalAction.address.topic" name="addressTopic" [(ngModel)]="intervalAction.address.topic" required>
                                             <div id="addressTopicFeedback" class="invalid-feedback">
-                                                <small>the MQTT topic can't be empty!</small> 
+                                                <small i18n>the MQTT topic can't be empty!</small> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="addressQoS" class="col-md-2 col-form-label">
-                                            <span class="mr-2">QoS</span>
+                                            <span class="mr-2" i18n>QoS</span>
                                             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
                                             data-content="only pure integer supported!"></span>
                                         </label>
@@ -320,7 +320,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="addressKeepAlive" class="col-md-2 col-form-label">
-                                            <span class="mr-2">KeepAlive</span>
+                                            <span class="mr-2" i18n>KeepAlive</span>
                                             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
                                             data-content="only pure integer supported!"></span>
                                         </label>
@@ -329,7 +329,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="addressRetained" class="col-md-2 col-form-label" required>Retained</label>
+                                        <label for="addressRetained" class="col-md-2 col-form-label" required i18n>Retained</label>
                                         <div class="col-md-10">
                                             <select type="text" class="custom-select" id="addressRetained" name="addressRetained" [(ngModel)]="intervalAction.address.retained">
                                                 <option [ngValue]="false">false</option>
@@ -338,7 +338,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="addressAutoReconnect" class="col-md-2 col-form-label" required>AutoReconnect</label>
+                                        <label for="addressAutoReconnect" class="col-md-2 col-form-label" required i18n>AutoReconnect</label>
                                         <div class="col-md-10">
                                             <select type="text" class="custom-select" id="addressAutoReconnect" name="addressAutoReconnect" [(ngModel)]="intervalAction.address.autoReconnect">
                                                 <option [ngValue]="true">true</option>
@@ -348,7 +348,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="addressConnectTimeout" class="col-md-2 col-form-label" required>
-                                            <span class="mr-2">ConnectTimeout</span> 
+                                            <span class="mr-2" i18n>ConnectTimeout</span> 
                                             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
                                             data-content="only pure integer supported!"></span>
                                         </label>
@@ -362,7 +362,7 @@
                                 <form>
                                     <div class="form-group row">
                                         <label for="emailRecipients" class="col-md-2 col-form-label">
-                                            <span class="mr-2">EmailRecipients</span>
+                                            <span class="mr-2" i18n>EmailRecipients</span>
                                             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
                                             data-content="Multiple email addresses are separated by commas"></span>
                                         </label>

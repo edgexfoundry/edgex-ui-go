@@ -17,6 +17,7 @@
 package core
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -40,6 +41,15 @@ func ProxyHandler(w http.ResponseWriter, r *http.Request, path string, prefix st
 		req.URL.Scheme = HttpProtocol
 		req.URL.Host = origin.Host
 		req.URL.Path = path
+	}
+	(&httputil.ReverseProxy{Director: director}).ServeHTTP(w, r)
+}
+
+func kong(w http.ResponseWriter, r *http.Request) {
+	targetHost := fmt.Sprintf("%s:%d", configs.GetConfigs().Kong.Server, configs.GetConfigs().Kong.ApplicationPort)
+	director := func(req *http.Request) {
+		req.URL.Scheme = HttpProtocol
+		req.URL.Host = targetHost
 	}
 	(&httputil.ReverseProxy{Director: director}).ServeHTTP(w, r)
 }

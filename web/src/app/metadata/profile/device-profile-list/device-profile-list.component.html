@@ -19,22 +19,34 @@
 <div class="card">
     <div class="card-header font-weight-bold">
         <i class="fa fa-list text-danger mr-2"></i> 
-        <span>Device Profile List</span> 
+        <span i18n>Device Profile List</span> 
     </div>
     <div class="card-body p-0">
         <div *ngIf="toolbars" class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
-                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                    <span>
+                        <i class="fa fa-refresh mr-1"></i>
+                        <span i18n>Refresh</span>
+                    </span> 
                 </button>
                 <button type="button" class="btn btn-info"  routerLink="../add-profile">
-                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                    <span>
+                        <i class="fa fa-plus mr-1"></i>
+                        <span i18n>Add</span>
+                    </span>
                 </button>
                 <button type="button" class="btn btn-success" (click)="edit()"  data-toggle="tooltip" data-placement="top" title="only one should be selected" [disabled]="multiProfilesSelected.length !== 1">
-                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                    <span>
+                        <i class="fa fa-edit mr-1"></i>
+                        <span i18n>Edit</span>
+                    </span>
                 </button>
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="multiProfilesSelected.length === 0">
-                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                    <span>
+                        <i class="fa fa-trash mr-1"></i>
+                        <span i18n>Delete</span>
+                    </span>
                 </button>
               </div>
               <!-- <button class="btn btn-secondary btn-sm text-light ml-3">upload yaml file</button> -->
@@ -47,12 +59,12 @@
                           <input *ngIf="enableSelectAll" type="checkbox" [checked]="isCheckedAll()" (click)="selectAll($event)">
                       </th>
                       <th scope="col">ID</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Description</th>
-                      <th *ngIf="associatedDeviceColumn" scope="col">AssociatedDevice</th>
-                      <th scope="col">Labels</th>
-                      <th scope="col">Manufacturer</th>
-                      <th scope="col">Model</th>
+                      <th scope="col" i18n>Name</th>
+                      <th scope="col" i18n>Description</th>
+                      <th *ngIf="associatedDeviceColumn" scope="col" i18n>AssociatedDevice</th>
+                      <th scope="col" i18n>Labels</th>
+                      <th scope="col" i18n>Manufacturer</th>
+                      <th scope="col" i18n>Model</th>
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
                     </tr>
@@ -80,7 +92,7 @@
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
                 <li class="page-item mr-2 mt-1">
-                    <span class="align-middle">items per page</span>
+                    <span class="align-middle" i18n>items per page</span>
                 </li>
                 <li class="page-item mr-2 ">
                     <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
@@ -90,10 +102,16 @@
                     </select>
                 </li>
                 <li class="page-item mr-1">
-                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                        <i class="fa fa-angle-double-left mr-1"></i>
+                        <span i18n>Previous</span>
+                    </button>
                 </li>
                 <li class="page-item" >
-                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > profileList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > profileList.length">
+                        <span i18n>Next</span>
+                        <i class="fa fa-angle-double-right ml-1"></i>
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -105,16 +123,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
-                    <i class="fa fa-warning"></i>
-                    Warning
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
                 </h5>  
             </div>
-            <div class="modal-body">
+            <div class="modal-body" i18n>
                 The data will be permanently erased!!! Are you sure to execute delete operation？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="delete()">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
             </div>
         </div>
     </div>

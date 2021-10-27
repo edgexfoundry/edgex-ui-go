@@ -35,8 +35,7 @@ export class AppServiceService {
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 

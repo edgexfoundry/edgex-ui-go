@@ -19,10 +19,16 @@ package common
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"os"
 )
 
 func GetMd5String(s string) string {
 	h := md5.New()
 	h.Write([]byte(s))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+func IsSecurityEnabled() bool {
+	env := os.Getenv(EnvSecretStore)
+	return env != "false"
 }

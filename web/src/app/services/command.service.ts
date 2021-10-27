@@ -29,7 +29,7 @@ import { BaseResponse } from '../contracts/v2/common/base-response';
 })
 export class CommandService {
 
-  endpoint: string = "/command";
+  endpoint: string = "/core-command";
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
@@ -45,8 +45,7 @@ export class CommandService {
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 

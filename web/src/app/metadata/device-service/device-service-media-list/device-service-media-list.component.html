@@ -42,8 +42,13 @@
                         <span *ngSwitchDefault class="badge badge-danger mr-3">{{svc.operatingState}}</span>
                    </span> -->
 
-                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.name)"><i class="fa fa-sitemap"></i> Associated Devices &nbsp; {{associatedDevices.get(svc.name)}}</a>
-                    <span class="badge badge-secondary float-right" role="button" (click)="edit(svc)"> <i class="fa fa-cog"></i> Setting</span>
+                    <a *ngIf="associatedDevices.size" class="badge badge-primary" role="button" (click)="associatedDevicesSkip(svc.name)">
+                        <i class="fa fa-sitemap mr-1"></i><span i18n>Associated Devices</span>&nbsp; {{associatedDevices.get(svc.name)}}
+                    </a>
+                    <span class="badge badge-secondary float-right" role="button" (click)="edit(svc)">
+                        <i class="fa fa-cog mr-1"></i>
+                        <span i18n>Setting</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -53,19 +58,19 @@
 <div *ngIf="deviceSvcSelected" class="card mt-3">
     <div class="card-header">
         <i class="fa fa-edit mr-1 text-danger"></i>
-        <span>edit {{ deviceSvcSelected.name }}</span>
-        <button class="btn btn-success btn-sm float-right" (click)="updateSvc()">Save</button>
+        <span i18n>edit</span><span class="ml-1">{{ deviceSvcSelected.name }}</span>
+        <button class="btn btn-success btn-sm float-right" (click)="updateSvc()" i18n>Save</button>
     </div>
     <div class="card-body">
         <form>
             <div class="form-group row">
-                <label for="deviceDesc" class="col-md-2 col-form-label">Description</label>
+                <label for="deviceDesc" class="col-md-2 col-form-label" i18n>Description</label>
                 <div class="col-md-10">
                   <input type="text" class="form-control" name="deviceSvcDescription" [(ngModel)]="deviceSvcSelected.description">
                 </div>
               </div>
             <div class="form-group row">
-                <label for="adminState" class="col-md-2 col-form-label" >AdminState</label>
+                <label for="adminState" class="col-md-2 col-form-label" i18n>AdminState</label>
                 <div class="col-md-10">
                     <select class="custom-select"  name="deviceSvcAdminState" [(ngModel)]="deviceSvcSelected.adminState">
                         <option value="UNLOCKED">UNLOCKED</option>

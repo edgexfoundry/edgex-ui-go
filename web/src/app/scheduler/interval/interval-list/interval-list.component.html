@@ -18,22 +18,35 @@
 
 <div class="card">
     <div class="card-header">
-        <i class="fa fa-list text-danger"></i> Interval List
+        <i class="fa fa-list text-danger"></i> 
+        <span i18n>Interval List</span>
     </div>
     <div class="card-body p-0 position-relative">
         <div *ngIf="toolbars" class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
                 <button class="btn btn-primary" (click)="refresh()">
-                    <span><i class="fa fa-refresh mr-1"></i>Refresh</span> 
+                    <span>
+                        <i class="fa fa-refresh mr-1"></i>
+                        <span i18n>Refresh</span>
+                    </span> 
                 </button>
                 <button type="button" class="btn btn-info"  routerLink="../add-interval">
-                    <span><i class="fa fa-plus mr-1"></i>Add</span>
+                    <span>
+                        <i class="fa fa-plus mr-1"></i>
+                        <span i18n>Add</span> 
+                    </span>
                 </button>
                 <button type="button" class="btn btn-success" (click)="edit()" [disabled]="intervalSelected.length !== 1">
-                    <span><i class="fa fa-edit mr-1"></i>Edit</span>
+                    <span>
+                        <i class="fa fa-edit mr-1"></i>
+                        <span i18n>Edit</span>
+                    </span>
                 </button>
                 <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="intervalSelected.length === 0">
-                    <span><i class="fa fa-trash mr-1"></i>Delete</span>
+                    <span>
+                        <i class="fa fa-trash mr-1"></i>
+                        <span i18n>Delete</span>
+                    </span>
                 </button>
               </div>
         </div>
@@ -42,12 +55,12 @@
                 <thead class="thead-light">
                     <tr>
                       <th scope="col"><input *ngIf="enableSelectAll" type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
-                      <th scope="col">ID</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Start</th>
-                      <th scope="col">End</th>
-                      <th scope="col">Interval</th>
-                      <th scope="col">RunOnce</th>
+                      <th scope="col" i18n>ID</th>
+                      <th scope="col" i18n>Name</th>
+                      <th scope="col" i18n>Start</th>
+                      <th scope="col" i18n>End</th>
+                      <th scope="col" i18n>Interval</th>
+                      <th scope="col" i18n>RunOnce</th>
                       <!-- <th scope="col">AssociatedActions</th> -->
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
@@ -78,7 +91,7 @@
         <nav aria-label="navigation">
             <ul class="pagination justify-content-end m-0">
                 <li class="page-item mr-2 mt-1">
-                    <span class="align-middle">items per page</span>
+                    <span class="align-middle" i18n>items per page</span>
                 </li>
                 <li class="page-item mr-2 ">
                     <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
@@ -88,10 +101,16 @@
                     </select>
                 </li>
                 <li class="page-item mr-1">
-                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1"> <i class="fa fa-angle-double-left"></i> Previous</button>
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                        <i class="fa fa-angle-double-left mr-1"></i>
+                        <span i18n>Previous</span>
+                    </button>
                 </li>
                 <li class="page-item" >
-                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > intervalList.length">Next <i class="fa fa-angle-double-right"></i></button>
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > intervalList.length">
+                        <span i18n>Next</span>
+                        <i class="fa fa-angle-double-right ml-1"></i>
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -103,16 +122,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
-                    <i class="fa fa-warning"></i>
-                    Warning
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
                 </h5>  
             </div>
-            <div class="modal-body">
+            <div class="modal-body" i18n>
                 Associated actions will also be deleted and the data will be permanently erased!!! Are you sure to execute delete operation？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="deleteIntervals()">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="deleteIntervals()" i18n>Confirm</button>
             </div>
         </div>
     </div>

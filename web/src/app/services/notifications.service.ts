@@ -32,7 +32,7 @@ import { ErrorService } from './error.service';
 })
 export class NotificationsService {
 
-  endpoint: string = "/notification";
+  endpoint: string = "/support-notifications";
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
@@ -60,8 +60,7 @@ export class NotificationsService {
 
   httpPostOrPutOrPatchJSONOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Authorization': ''
+      'Content-type': 'application/json'
     })
   };
 
