@@ -38,6 +38,12 @@ func DeployConfigurable(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var token string
 	var code int
+
+	if err := json.NewDecoder(r.Body).Decode(&configuration); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	if common.IsSecurityEnabled() {
 		token, err, code = getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
