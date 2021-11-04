@@ -138,7 +138,7 @@ This output is the JWT token for login UI secure mode. This token will be asked 
 
 ### Using the edgex-ui snap
 
-Open your browser: [http://localhost:4000](http://localhost:4000/):![img](https://lh5.googleusercontent.com/OzQFePPICpiaMTxEm8cnxaCFn7ageCbLR9J5TpzkGtmRIip-pB02D7H994gKvVS2CTD3YChngX72SGtaLxEVjdC4j9bgYTFCGHvRfzr25i-qIk3UNMprucpPa2oBpgI_W7KZVJ4n)
+Open your browser [http://localhost:4000](http://localhost:4000/):![img](https://lh5.googleusercontent.com/OzQFePPICpiaMTxEm8cnxaCFn7ageCbLR9J5TpzkGtmRIip-pB02D7H994gKvVS2CTD3YChngX72SGtaLxEVjdC4j9bgYTFCGHvRfzr25i-qIk3UNMprucpPa2oBpgI_W7KZVJ4n)
 
 Please use the JWT token we generated above to log in the UI homepage:![img](https://lh3.googleusercontent.com/iE5qQKWkpQsBVmjsKDmgcTO6JDc40hbb-3kp7GGJnWDWj2bH4afOFCGW7WSNNIFIMiUtV5x1duCbVAdd6D2hNS49CspfTaToVZaH7aK3I50uHKRPcfAvQ9miZqprrc7Q--ugzAfh)
 
