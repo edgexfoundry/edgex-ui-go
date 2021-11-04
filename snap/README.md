@@ -141,10 +141,10 @@ This output is the JWT token for UI login in secure mode. Please keep the token 
 
 ### Using the edgex-ui snap
 
-Open your browser [http://localhost:4000](http://localhost:4000/):![](/home/mengyi/Desktop/EdgeX_14/edgex-ui-go/snap/local/assets/ui-login.jpg)
+Open your browser [http://localhost:4000](http://localhost:4000/):![](./local/assets/ui-login.jpg)
 Please log in to EdgeX with the JWT token we generated above:
 
-![](/home/mengyi/Desktop/EdgeX_14/edgex-ui-go/snap/local/assets/ui-homepage.jpg)
+![](./local/assets/ui-homepage.jpg)
 
 **Note** - please do not enter any space or special characters when defining names in the UI. You may use camelCase or any other convention of your liking.
 
