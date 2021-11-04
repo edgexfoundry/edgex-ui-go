@@ -73,13 +73,7 @@ If you want to run edgex-ui-go with docker-compose yml file, you can reference t
 
 ### Snap 
 
-EdgeX UI is also available as a snap package. The latest development version of the edgex-ui snap can be installed using:
-
-```
-$ sudo snap install edgex-ui --edge
-```
-
-For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](https://github.com/edgexfoundry/edgex-ui-go/tree/main/snap/README.md)
+EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](https://github.com/edgexfoundry/edgex-ui-go/tree/main/snap/README.md)
 
 ## Community
 - EdgeXFoundry Chinese Club: https://www.edgexfoundry.club

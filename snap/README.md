@@ -23,6 +23,18 @@ You can see the current revisions available for your machine's architecture by r
 $ sudo snap info edgex-ui
 ```
 
+The latest stable version of the snap can be installed using:
+
+```bash
+$ sudo snap install edgex-ui
+```
+
+A specific release of the snap can be installed from a dedicated channel. For example, to install the 2.1 (Jakarta) release:
+
+```bash
+$ sudo snap install edgex-ui --channel=2.1
+```
+
 The latest development version of the edgex-ui snap can be installed using:
 
 ```bash
@@ -38,11 +50,10 @@ $ sudo snap install edgex-ui --edge
 The latest development version of the edgexfoundry snap can be installed using:
 
 ```
-$ sudo snap remove --purge edgexfoundry
 $ sudo snap install edgexfoundry --edge
 ```
 
-**Warning** - don't install the edgexfoundry snap on a system that is already running one of the included services (e.g. Consul, Redis, Vault, ...), as this may result in resource conflicts (i.e. ports) which could cause the snap install to fail
+For more details on the snap, including how to install it, please refer to  [edgexfoundry Snap](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md)
 
 After these steps, edgex-ui snap and edgexfoundry snap will automatically be running
 
@@ -96,53 +107,46 @@ Enable rules engine, to create streams and sinks:
 $ sudo snap set edgexfoundry kuiper=on
 ```
 
-Learn more of using edgexfoundry snap, please see [here](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md)
-
 ### JWT token
 
-API Gateway is needed to enter UI secure mode. Before the API Gateway can be used, a user and group must be created, and a JWT access token generated. This can be accomplished via the `secrets-config` command, or by using `snap set` commands
+API Gateway is needed to enter UI secure mode. Before the API Gateway can be used, a user and group must be created, and a JWT access token generated. This can be accomplished via the `secrets-config` and  the `snap set` commands:
 
-The first step is to add a user. You need to create a public/private keypair, which can be done with:
+1. Generate a public/private keypair
 
 ```
 $ openssl ecparam -genkey -name prime256v1 -noout -out private.pem
 $ openssl ec -in private.pem -pubout -out public.pem
 ```
 
-The second step is if you then create the user using the secrets-config command, then you need to provide:
-
-- The username
-- The public key
-- (optionally) ID. This is a unique string identifying the credential. It will be required in the next step to create the JWT token. If you don't specify it, then an auto-generated one will be output by the secrets-config command
-
-Do this using `snap set`:
+2. Configure user and public-key
 
 ```bash
 $ sudo snap set edgexfoundry env.security-proxy.user=user01,USER_ID,ES256
 $ sudo snap set edgexfoundry env.security-proxy.public-key="$(cat public.pem)"
 ```
 
-The third step is then to generate a token using the user ID which you specified:
+3. Generate a token
 
 ```bash
 $ edgexfoundry.secrets-config proxy jwt --algorithm ES256 --private_key private.pem --id USER_ID --expiration=1h
 ```
 
-An output has a long alphanumeric sequence of the format < alphanumeric >.< alphanumeric >.< alphanumeric >:
+An output has a long alphanumeric sequence of the format `<alphanumeric>.<alphanumeric>.<alphanumeric>`:
 
 ```
 eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJVU0VSX0lEIiwiZXhwIjoxNjM1OTM1NjYxLCJuYmYiOjE2MzU5MzIwNjEsImlhdCI6MTYzNTkzMjA2MX0.Kzsu_3L7wVNbjAbGfNatmyVtsmDaodOG_b5nCHKywU327xdfqpgno1g3ai1yu8hz6pG0_2eHnordCSWxaPFoMA
 ```
 
-This output is the JWT token for login UI secure mode. This token will be asked again if you exit the web page, and re-enter it. Please write the token you generated down in case you re-enter the UI web page. The needed token can not be generated for the second time
+This output is the JWT token for UI login in secure mode. Please keep the token in a safe place for future re-use as the same token cannot be regenerated or recovered from EdgeX's secret-config CLI. The token is required each time you reopen the web page.
 
 ### Using the edgex-ui snap
 
-Open your browser [http://localhost:4000](http://localhost:4000/):![img](https://lh5.googleusercontent.com/OzQFePPICpiaMTxEm8cnxaCFn7ageCbLR9J5TpzkGtmRIip-pB02D7H994gKvVS2CTD3YChngX72SGtaLxEVjdC4j9bgYTFCGHvRfzr25i-qIk3UNMprucpPa2oBpgI_W7KZVJ4n)
+Open your browser [http://localhost:4000](http://localhost:4000/):![](/home/mengyi/Desktop/EdgeX_14/edgex-ui-go/snap/local/assets/ui-login.jpg)
+Please log in to EdgeX with the JWT token we generated above:
 
-Please use the JWT token we generated above to log in the UI homepage:![img](https://lh3.googleusercontent.com/iE5qQKWkpQsBVmjsKDmgcTO6JDc40hbb-3kp7GGJnWDWj2bH4afOFCGW7WSNNIFIMiUtV5x1duCbVAdd6D2hNS49CspfTaToVZaH7aK3I50uHKRPcfAvQ9miZqprrc7Q--ugzAfh)
+![](/home/mengyi/Desktop/EdgeX_14/edgex-ui-go/snap/local/assets/ui-homepage.jpg)
 
-**Note** - please give names inside UI with CamelCase, and do not with blank space. Blank space will have problems when using REST API
+**Note** - please do not enter any space or special characters when defining names in the UI. You may use camelCase or any other convention of your liking.
 
 For more detail on how to use each section of the UI, please see [here](https://docs.edgexfoundry.org/2.1/getting-started/tools/Ch-GUI/#general)
 
