@@ -78,7 +78,7 @@ edgexfoundry.vault                         enabled   active    -
 
 Some dependency services don't start by default. We need to start them if they are not already active.
 
-Enable scheduler and notifications to avoid runtime errors (see issue [#TBA](link to issue reporting that tracks this bug)):
+Enable scheduler and notifications to avoid runtime errors (see issue [#472](https://github.com/edgexfoundry/edgex-ui-go/issues/472)):
 
 ```bash
 $ sudo snap set edgexfoundry support-scheduler=on 
