@@ -48,6 +48,10 @@ To test the web-based UI:
 ```
 make test
 ```
+## Other installation and deployment options
+
+### Docker
+
 To start all the EdgeX Go microservices in Docker, run the following command in the root of the EdgeX Go directory:
 
 ```
@@ -66,6 +70,10 @@ If you want to run edgex-ui-go with docker-compose yml file, you can reference t
 > 2: You can use the make file commands ‘make run arm64’ and ‘make run-ui arm64’ to run the Edgex Stack and UI as it uses the ‘-p edgex’ option required for the networking to link properly. 
 
 > 3: If not running from the cloned developer-scripts, you can also do this directly with ‘docker-compose -p edgex -f docker-compose-hanoi-arm64.yml up -d’ and ‘docker-compose -p edgex -f docker-compose-hanoi-ui-arm64.yml up -d’.
+
+### Snap 
+
+EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](https://github.com/edgexfoundry/edgex-ui-go/tree/main/snap/README.md)
 
 ## Community
 - EdgeXFoundry Chinese Club: https://www.edgexfoundry.club
