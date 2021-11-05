@@ -78,22 +78,12 @@ edgexfoundry.vault                         enabled   active    -
 
 Some dependency services don't start by default. We need to start them if they are not already active.
 
-Enable scheduler and notifications to avoid runtime errors (see issue [#472](https://github.com/edgexfoundry/edgex-ui-go/issues/472)):
+Enable the following four services to avoid runtime errors (see issue [#472](https://github.com/edgexfoundry/edgex-ui-go/issues/472)):
 
 ```bash
 $ sudo snap set edgexfoundry support-scheduler=on 
 $ sudo snap set edgexfoundry support-notifications=on 
-```
-
-Enable system management agent service for communication between SMA and core data, to use `system services monitor` for system health check, metric check, configuration and operation:
-
-```bash
 $ sudo snap set edgexfoundry sys-mgmt-agent=on
-```
-
-Enable rules engine, to create streams and sinks:
-
-```bash
 $ sudo snap set edgexfoundry kuiper=on
 ```
 
