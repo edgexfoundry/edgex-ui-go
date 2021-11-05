@@ -45,25 +45,15 @@ $ sudo snap install edgex-ui --edge
 
 **Note** - the snap has only been tested on Ubuntu Desktop
 
-### Install and configure edgexfoundry as a snap
+### Install and configure dependencies
+EdgeX UI depends on several other edgexfoundry services. 
 
-The latest development version of the edgexfoundry snap can be installed using:
+Please refer to [edgexfoundry Snap](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md) for installation of the snapped version.
 
-```
-$ sudo snap install edgexfoundry --edge
-```
-
-For more details on the snap, including how to install it, please refer to  [edgexfoundry Snap](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md)
-
-After these steps, edgex-ui snap and edgexfoundry snap will automatically be running
-
-##### Check services
+After these steps, edgex-ui snap and edgexfoundry services will be running as follows:
 
 ```bash
 $ sudo snap services
-```
-
-```
 Service                                    Startup   Current   Notes
 edgex-ui.edgex-ui                          enabled   active    -
 edgexfoundry.app-service-configurable      disabled  inactive  -
@@ -86,9 +76,9 @@ edgexfoundry.sys-mgmt-agent                disabled  inactive  -
 edgexfoundry.vault                         enabled   active    -
 ```
 
-##### Configure edgexfoundry
+Some dependency services don't start by default. We need to start them if they are not already active.
 
-Enable scheduler, to use Interval and interval actions for cleaning up Redis database periodically:
+Enable scheduler and notifications to avoid runtime errors (see issue [#TBA](link to issue reporting that tracks this bug)):
 
 ```bash
 $ sudo snap set edgexfoundry support-scheduler=on 
@@ -150,20 +140,20 @@ Please log in to EdgeX with the JWT token we generated above:
 
 For more detail on how to use each section of the UI, please see [here](https://docs.edgexfoundry.org/2.1/getting-started/tools/Ch-GUI/#general)
 
-##### Snap configuration
+##### Snap management
+
+The service can be stopped as follows. The `--disable` option
+ensures that as well as stopping the service now, it will not be automatically started on boot:
+
+```bash
+$ sudo snap stop --disable edgex-ui.edgex-ui
+```
 
 The service can then be started as follows. The `--enable` option
 ensures that as well as starting the service now, it will be automatically started on boot:
 
 ```bash
 $ sudo snap start --enable edgex-ui.edgex-ui
-```
-
-The service can then be stopped as follows. The `--disable` option
-ensures that as well as stopping the service now, it will be automatically stopped on boot:
-
-```bash
-$ sudo snap stop --disable edgex-ui.edgex-ui
 ```
 
 ##### Viewing logs
