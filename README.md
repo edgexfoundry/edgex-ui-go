@@ -59,36 +59,22 @@ make docker run_docker
 ```
 
 With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
-> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/master/README.md). 
-
-> NOTE: if you want remote access the UI, you shuold remove the UI network in docker-compose.yml, this way you can allow the UI to live someplace else and have access to EdgeX through Kong.
-
-If you want to run edgex-ui-go with docker-compose yml file, you can reference three ways:
-
-> 1: For example [docker-compose-hanoi-ui](https://github.com/edgexfoundry/developer-scripts/blob/master/releases/hanoi/compose-files/docker-compose-hanoi-ui.yml), you can change 'networks' to the same as [docker-compose-hanoi](https://github.com/edgexfoundry/developer-scripts/blob/master/releases/hanoi/compose-files/docker-compose-hanoi.yml), and run 'docker-compose -f docker-compose-hanoi-ui.yml up -d', then the UI will connect with EdgeX Server.
- 
-> 2: You can use the make file commands ‘make run arm64’ and ‘make run-ui arm64’ to run the Edgex Stack and UI as it uses the ‘-p edgex’ option required for the networking to link properly. 
-
-> 3: If not running from the cloned developer-scripts, you can also do this directly with ‘docker-compose -p edgex -f docker-compose-hanoi-arm64.yml up -d’ and ‘docker-compose -p edgex -f docker-compose-hanoi-ui-arm64.yml up -d’.
+> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/main/README.md). 
 
 ### Snap 
 
 EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](https://github.com/edgexfoundry/edgex-ui-go/tree/main/snap/README.md)
 
 ## Community
-- EdgeXFoundry Chinese Club: https://www.edgexfoundry.club
-- Chat: https://chat.edgexfoundry.org/home
-- Mainling lists: https://lists.edgexfoundry.org/mailman/listinfo
+- [EdgeXFoundry Chinese Club](https://www.edgexfoundry.club)
+- [EdgeXFoundry Slack #edgex-ui channel](https://slack.edgexfoundry.org/)
+- [Mailing lists](https://lists.edgexfoundry.org/g/main)
 
 ## License
 [Apache-2.0](LICENSE)
 
 ## Feedback
 
-- If you want to learn how to use the UI, you can refer to the user guide [user guide](https://github.com/edgexfoundry/edgex-ui-go/blob/master/docs/UseGuide.md).
+- If you want to learn how to use the UI, you can refer to the user guide [user guide](https://docs.edgexfoundry.org/2.1/getting-started/tools/Ch-GUI/).
 
 - If you find a bug or want to request a new feature, please open a [GitHub Issue](https://github.com/edgexfoundry/edgex-ui-go/issues).
-
-- Have a online chat at the appointed time on the [zoom](https://VMware.zoom.us/j/3697467292).
-
-  **Note** Please contact to us before you want to have a online chat.
