@@ -89,8 +89,7 @@ $ sudo snap set edgexfoundry kuiper=on
 
 ### JWT token
 
-API Gateway is needed to enter UI secure mode. Please generate the JWT token by following this 
-[instruction](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md#jwt-tokens).
+A JWT Token is required to access the UI securely through the API Gateway. To generate a JWT token, please refer to [these instructions](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md#jwt-tokens).
 
 Please keep the token in a safe place for future re-use as the same token cannot be regenerated or recovered from EdgeX's secret-config CLI. The token is required each time you reopen the web page.
 
