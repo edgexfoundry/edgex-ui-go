@@ -89,35 +89,9 @@ $ sudo snap set edgexfoundry kuiper=on
 
 ### JWT token
 
-API Gateway is needed to enter UI secure mode. Before the API Gateway can be used, a user and group must be created, and a JWT access token generated. This can be accomplished via the `secrets-config` and  the `snap set` commands:
+A JWT Token is required to access the UI securely through the API Gateway. To generate a JWT token, please refer to [these instructions](https://github.com/edgexfoundry/edgex-go/blob/main/snap/README.md#jwt-tokens).
 
-1. Generate a public/private keypair
-
-```
-$ openssl ecparam -genkey -name prime256v1 -noout -out private.pem
-$ openssl ec -in private.pem -pubout -out public.pem
-```
-
-2. Configure user and public-key
-
-```bash
-$ sudo snap set edgexfoundry env.security-proxy.user=user01,USER_ID,ES256
-$ sudo snap set edgexfoundry env.security-proxy.public-key="$(cat public.pem)"
-```
-
-3. Generate a token
-
-```bash
-$ edgexfoundry.secrets-config proxy jwt --algorithm ES256 --private_key private.pem --id USER_ID --expiration=1h
-```
-
-An output has a long alphanumeric sequence of the format `<alphanumeric>.<alphanumeric>.<alphanumeric>`:
-
-```
-eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJVU0VSX0lEIiwiZXhwIjoxNjM1OTM1NjYxLCJuYmYiOjE2MzU5MzIwNjEsImlhdCI6MTYzNTkzMjA2MX0.Kzsu_3L7wVNbjAbGfNatmyVtsmDaodOG_b5nCHKywU327xdfqpgno1g3ai1yu8hz6pG0_2eHnordCSWxaPFoMA
-```
-
-This output is the JWT token for UI login in secure mode. Please keep the token in a safe place for future re-use as the same token cannot be regenerated or recovered from EdgeX's secret-config CLI. The token is required each time you reopen the web page.
+Please keep the token in a safe place for future re-use as the same token cannot be regenerated or recovered from EdgeX's secret-config CLI. The token is required each time you reopen the web page.
 
 ### Using the edgex-ui snap
 
