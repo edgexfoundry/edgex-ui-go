@@ -33,6 +33,7 @@ export class SystemAgentService {
 
   urlPrefixV2: string = `${this.endpoint}${this.version2}`;
 
+  pingUrl: string  = "/ping";
   allRegisteredSvcUrl: string = '/api/v2/registercenter/service/all';
   configUrl: string = `${this.urlPrefixV2}/system/config`;
   metricsUrl: string =  `${this.urlPrefixV2}/system/metrics`;
@@ -46,6 +47,11 @@ export class SystemAgentService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url = `${this.urlPrefixV2}${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   getRegisteredServiceAll(): Observable<any> {
     let url = this.allRegisteredSvcUrl;

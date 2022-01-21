@@ -15,6 +15,7 @@ export class RuleEngineService {
   endpoint: string = "/rules-engine";
   version: string = "";
 
+  pingUrl: string  = `${this.endpoint}${this.version}/ping`;
   streamUrl: string = `${this.endpoint}${this.version}/streams`;
 
   ruleUrl: string = `${this.endpoint}${this.version}/rules`;
@@ -26,6 +27,11 @@ export class RuleEngineService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url = `${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   addStream(sql:string): Observable<string> {
     let url = `${this.streamUrl}`;

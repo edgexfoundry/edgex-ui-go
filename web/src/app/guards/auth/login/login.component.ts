@@ -20,8 +20,8 @@ import { catchError } from 'rxjs/operators';
 import { Observable, of,throwError } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
 
-import { AuthService } from '../../services/auth.service';
-import { ErrorService } from '../../services/error.service';
+import { AuthService } from '../../../services/auth.service';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-login',
