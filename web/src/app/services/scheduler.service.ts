@@ -38,6 +38,7 @@ export class SchedulerService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  pingUrl: string  = "/ping";
   configUrl: string = "/config";
 
   intervalListUrl: string = `${this.urlPrefix}/interval/all` ;
@@ -59,6 +60,11 @@ export class SchedulerService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url = `${this.urlPrefix}${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   getConfig(): Observable<any> {
     let url = `${this.urlPrefix}${this.configUrl}`;

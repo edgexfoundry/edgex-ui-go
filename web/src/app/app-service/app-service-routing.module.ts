@@ -20,7 +20,7 @@ import { AppServiceComponent } from './app-service.component';
 import { AppServiceListComponent } from './app-service-list/app-service-list.component';
 import { AppServiceConfigurableComponent } from './app-service-configurable/app-service-configurable.component';
 import { AddAppServiceComponent } from './add-app-service/add-app-service.component';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../guards/auth/guard/auth.guard';
 
 const routes: Routes = [
   {

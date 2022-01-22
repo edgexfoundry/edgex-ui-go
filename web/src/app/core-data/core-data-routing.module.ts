@@ -20,13 +20,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { CoreDataComponent } from './core-data.component';
 import { EventComponent } from './event/event.component';
 import { ReadingComponent } from './reading/reading.component';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../guards/auth/guard/auth.guard';
+import { CoredataAliveGuard } from '../guards/health/coredata-alive.guard';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
     component: CoreDataComponent,
+    canActivate: [AuthGuard, CoredataAliveGuard],
+    canActivateChild: [CoredataAliveGuard],
     children: [
       {
         path: '',

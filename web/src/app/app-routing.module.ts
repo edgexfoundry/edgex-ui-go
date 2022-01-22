@@ -16,8 +16,9 @@
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './auth/guards/auth.guard';
+import { AuthGuard } from './guards/auth/guard/auth.guard';
 import { InitializerComponent } from './initializer/initializer.component';
+import { ServiceUnavailableComponent } from './guards/health/service-unavailable/service-unavailable.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
   {
     path: 'initializer',
     component: InitializerComponent,
+  },
+  {
+    path: 'svc-unavailable',
+    component: ServiceUnavailableComponent,
   }
 ];
 
