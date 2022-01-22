@@ -15,7 +15,11 @@
  *******************************************************************************/
 
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router, ActivatedRoute, NavigationStart, NavigationEnd, RoutesRecognized, ChildActivationStart } from '@angular/router';
+import { Router, ActivatedRoute, 
+  NavigationStart,
+  NavigationCancel,
+  NavigationError,
+   NavigationEnd, RoutesRecognized, ChildActivationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 
@@ -42,6 +46,7 @@ export class AppComponent implements OnInit {
   navChainCache: string[] = [];
   navChain: string[] = [];
   currentNav: string = '';
+  loading = false;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
     this.navRecognized = router.events.pipe(
@@ -62,6 +67,18 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(ev => {
+      if (ev instanceof NavigationStart) {
+        this.loading = true;
+      }
+      if (
+        ev instanceof NavigationEnd ||
+        ev instanceof NavigationCancel ||
+        ev instanceof NavigationError
+      ) {
+        this.loading = false;
+      }
+    });
     this.navEnd.subscribe(evt => {
       this.navChainCache = [];
       this.navChainMap = new Map<string, string>();

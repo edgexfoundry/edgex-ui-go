@@ -108,7 +108,13 @@
                    </div>
                 </nav>
                 <div class="center-center p-3">
-                    <router-outlet></router-outlet>
+                    <div *ngIf="loading" class="text-center" style="margin-top: 20%;">
+                        <div>
+                            <span class="spinner-border mr-2" role="status" aria-hidden="true"></span>
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <router-outlet *ngIf="!loading"></router-outlet>
                 </div>
             </div>
         </div>
