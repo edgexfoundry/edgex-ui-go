@@ -25,13 +25,15 @@ import { AddStreamComponent } from './stream/add-stream/add-stream.component';
 import { EditStreamComponent } from './stream/edit-stream/edit-stream.component';
 import { StreamCenterComponent } from './stream/stream-center/stream-center.component';
 import { StreamListComponent } from './stream/stream-list/stream-list.component';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../guards/auth/guard/auth.guard';
+import { RuleEngineAliveGuard } from '../guards/health/rule-engine-alive.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: RuleEngineComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RuleEngineAliveGuard],
+    canActivateChild: [RuleEngineAliveGuard],
     children: [
       {
         path: '',

@@ -34,13 +34,15 @@ import { ProvisionWatcherCenterComponent } from './provision-watcher/provision-w
 import { ProvisionWatcherListComponent } from './provision-watcher/provision-watcher-list/provision-watcher-list.component';
 import { AddProvisionWatcherComponent } from './provision-watcher/add-provision-watcher/add-provision-watcher.component';
 import { EditProvisionWatcherComponent } from './provision-watcher/edit-provision-watcher/edit-provision-watcher.component';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../guards/auth/guard/auth.guard';
+import { MetadataAliveGuard } from '../guards/health/metadata-alive.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: MetadataComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, MetadataAliveGuard],
+    canActivateChild: [MetadataAliveGuard],
     children: [
       {
         path: '',

@@ -20,13 +20,15 @@ import { ConfigComponent } from './config/config.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { SystemAgentComponent } from './system-agent.component';
 import { ServiceListComponent } from './service-list/service-list.component';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../guards/auth/guard/auth.guard';
+import { SystemAgentAliveGuard } from '../guards/health/system-agent-alive.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: SystemAgentComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, SystemAgentAliveGuard],
+    canActivateChild: [SystemAgentAliveGuard],
     children: [
       {
         path: '',

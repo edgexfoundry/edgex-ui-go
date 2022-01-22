@@ -34,6 +34,7 @@ export class DataService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  pingUrl: string  = "/ping";
   configUrl: string = "/config";
   endpointHealthUrl: string = `${this.urlPrefix}/ping`;
 
@@ -47,6 +48,11 @@ export class DataService {
   associatedReadinsByDeviceNameUrl: string = `${this.urlPrefix}/reading/device/name/`;
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url = `${this.urlPrefix}${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   getConfig(): Observable<BaseWithConfigResponse> {
     let url = `${this.urlPrefix}${this.configUrl}`;

@@ -36,6 +36,7 @@ export class NotificationsService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  pingUrl: string  = "/ping";
   configUrl: string = "/config";
   
   //Notification resources
@@ -65,6 +66,11 @@ export class NotificationsService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url = `${this.urlPrefix}${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   getConfig(): Observable<any> {
     let url = `${this.urlPrefix}${this.configUrl}`;

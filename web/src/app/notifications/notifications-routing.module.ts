@@ -23,13 +23,15 @@ import { SubscriptionCenterComponent } from './subscription/subscription-center/
 import { SubscriptionListComponent } from './subscription/subscription-list/subscription-list.component';
 import { AddSubscriptionComponent } from './subscription/add-subscription/add-subscription.component';
 import { EditSubscriptionComponent } from './subscription/edit-subscription/edit-subscription.component';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../guards/auth/guard/auth.guard';
+import { NotificationAliveGuard } from '../guards/health/notification-alive.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: NotificationsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, NotificationAliveGuard],
+    canActivateChild: [NotificationAliveGuard],
     children: [
       {
         path: '',

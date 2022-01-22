@@ -23,15 +23,17 @@ import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MessageComponent } from './message/message.component';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './guards/auth/auth.module';
 import { httpInterceptorProviders } from './services/interceptors';
 import { InitializerComponent } from './initializer/initializer.component';
+import { ServiceUnavailableComponent } from './guards/health/service-unavailable/service-unavailable.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MessageComponent,
-    InitializerComponent
+    InitializerComponent,
+    ServiceUnavailableComponent
   ],
   imports: [
     BrowserModule,

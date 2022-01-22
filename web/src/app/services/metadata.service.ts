@@ -40,6 +40,7 @@ export class MetadataService {
   version: string = "/api/v2";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
+  pingUrl: string  = "/ping";
   configUrl: string = "/config";
 
   devicesListUrl: string = `${this.urlPrefix}/device/all`;
@@ -76,6 +77,11 @@ export class MetadataService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url = `${this.urlPrefix}${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   getConfig(): Observable<any> {
     let url = `${this.urlPrefix}${this.configUrl}`;
