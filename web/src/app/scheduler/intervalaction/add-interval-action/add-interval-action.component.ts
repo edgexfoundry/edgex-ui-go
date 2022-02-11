@@ -25,6 +25,7 @@ import { Address } from '../../../contracts/v2/address';
 import { IntervalAction } from '../../../contracts/v2/interval-action';
 import { Interval } from '../../../contracts/v2/interval';
 import { CoreCommand } from '../../../contracts/v2/core-command';
+import { CoreCommandParameter } from '../../../contracts/v2/core-command';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -34,10 +35,21 @@ import flatpickr from 'flatpickr';
 })
 export class AddIntervalActionComponent implements OnInit {
 
+  addr_type_REST: string = 'REST';
+  addr_type_MQTT: string = 'MQTT';
+  addr_type_EMAIL: string = 'EMAIL';
+
+  template_type_coredata = 'coredata';
+  template_type_command = 'command';
+  template_type_custom = 'custom';
+
   intervalAction: IntervalAction;
   addressEmailRecipients: string = "";
   templateSelected: string = "coredata";
   coredataRequestParameter = '';
+  commandServiceTemplateRequestParameters: CoreCommandParameter[] = [];
+  pushEventOfGetCmdParamter = "yes";
+  returnEventOfGetCmdParamter = "yes";
   calendarStart: any;
 
   coredataSvcAvailableAPI: string[] = [
@@ -96,10 +108,10 @@ export class AddIntervalActionComponent implements OnInit {
   templateToggle(template: string) {
     this.templateSelected = template;
     switch (this.templateSelected) {
-      case 'coredata':
+      case this.template_type_coredata:
         this.renderCoredataDefaultTemplate();
         break;
-      case 'command':
+      case this.template_type_command:
         this.intervalAction.address.httpMethod = '';
         this.intervalAction.address.host = 'edgex-core-command';
         this.intervalAction.address.port = 59882;
@@ -109,7 +121,7 @@ export class AddIntervalActionComponent implements OnInit {
           this.renderPopoverComponent();
         }, 300); 
         break;
-      case 'custom':
+      case this.template_type_custom:
         setTimeout(() => {
           this.renderPopoverComponent();
         }, 300); 
@@ -130,10 +142,14 @@ export class AddIntervalActionComponent implements OnInit {
 
   onCmdMethodSelected(method: string) {
     this.intervalAction.address.httpMethod = method;
+    setTimeout(() => {
+      this.renderPopoverComponent();
+    }, 500);
   }
 
   onCommandSelected(cmd: CoreCommand) {
     this.intervalAction.address.path = cmd.path;
+    this.commandServiceTemplateRequestParameters = cmd.parameters;
   }
 
   onSingleIntervalSelected(interval: Interval) {
@@ -151,21 +167,25 @@ export class AddIntervalActionComponent implements OnInit {
     let result = true;
     let basic =  this.intervalAction.name && this.intervalAction.intervalName; 
     switch (this.intervalAction.address.type) {
-      case 'REST':
-        if (basic && this.intervalAction.address.host && this.isPureIntegerType(this.intervalAction.address.port) &&
-          this.intervalAction.address.port && this.intervalAction.address.path && this.intervalAction.address.httpMethod) {
+      case this.addr_type_REST:
+        if (basic && this.intervalAction.address.host && 
+          this.isPureIntegerType(this.intervalAction.address.port) &&
+          // this.intervalAction.address.port &&  // if the value of port is 0 will not be passed
+          this.intervalAction.address.path && 
+          this.intervalAction.address.httpMethod) {
             result = false
         }
         break
-      case 'MQTT': 
-        if (basic && this.intervalAction.address.host && this.isPureIntegerType(this.intervalAction.address.port) &&
-          this.intervalAction.address.port &&
+      case this.addr_type_MQTT: 
+        if (basic && this.intervalAction.address.host && 
+          this.isPureIntegerType(this.intervalAction.address.port) &&
+          // this.intervalAction.address.port && // if the value of port is 0 will not be passed
           this.intervalAction.address.publisher &&
           this.intervalAction.address.topic) {
             result = false
         }
         break
-      case 'EMAIL':
+      case this.addr_type_EMAIL:
         if (basic) {
           result = false
         }
@@ -173,9 +193,42 @@ export class AddIntervalActionComponent implements OnInit {
     return result
   }
 
+  getAllCmdTemplateParametersValue(): string {
+    if (this.intervalAction.address.type !== this.addr_type_REST ||
+      this.templateSelected !== this.template_type_command) {
+      return '';
+    }
+    if (this.intervalAction.address.httpMethod == 'GET') return '';
+    let params: any = {};
+    this.commandServiceTemplateRequestParameters?.forEach(p => {
+      if ($(`#cmd-param-${p.resourceName}`).val().trim() !== "") {
+        params[p.resourceName] = $(`#cmd-param-${p.resourceName}`).val().trim();
+      }
+    });
+    return JSON.stringify(params)
+  }
+
+  resetPathParameterSuffix() {
+    if (this.intervalAction.address.path.indexOf('ds-pushevent') !== -1 ||  
+        this.intervalAction.address.path.indexOf('ds-returnevent') !== -1) {
+        this.intervalAction.address.path = this.intervalAction.address.path.split('?')[0];
+    }
+    this.intervalAction.address.path = `${this.intervalAction.address.path}?ds-pushevent=${this.pushEventOfGetCmdParamter}&ds-returnevent=${this.returnEventOfGetCmdParamter}`;
+  }
+
   submit() {
     this.intervalAction.address.recipients = this.addressEmailRecipients.split(',');
     this.intervalAction.address.port = Number(this.intervalAction.address.port);
+
+    if (this.intervalAction.address.type === this.addr_type_REST &&
+        this.templateSelected === this.template_type_command) {
+          if (this.intervalAction.address.httpMethod === 'GET') {
+            this.resetPathParameterSuffix()
+          } else if (this.intervalAction.address.httpMethod === 'PUT') {
+            this.intervalAction.content = this.getAllCmdTemplateParametersValue();
+          }
+    }
+
     this.schedulerSvc.addIntervalAction(this.intervalAction).subscribe(() => {
       this.msgSvc.success('Add interval action',`name: ${this.intervalAction.name}`);
       this.router.navigate(['../interval-action-list'],{ relativeTo: this.route });

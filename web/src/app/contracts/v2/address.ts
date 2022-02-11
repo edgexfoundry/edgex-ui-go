@@ -18,15 +18,10 @@ export interface Address extends RESTAddress, MQTTPubAddress, EmailAddress {
     type: string, //REST, MQTT, EMAIL
     host: string, //required unless EMAIL
     port: number, //required unless EMAIL
-    contentType: string
-    //deprecated
-    // emailAddresses: string[]
 }
 
 interface RESTAddress {
     path: string,
-    requestBody: string, // replace queryParameters
-    //queryParameters: string, //deprecated
     httpMethod: string //required,'GET' 'HEAD' 'POST' 'PUT' 'DELETE' 'TRACE' 'CONNECT'
 }
 
