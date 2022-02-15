@@ -28,9 +28,7 @@ import { IntervalActionResponse } from '../../../contracts/v2/responses/interval
 import { IntervalResponse } from '../../../contracts/v2/responses/interval-response';
 import { CoreCommand } from '../../../contracts/v2/core-command';
 import { CoreCommandParameter } from '../../../contracts/v2/core-command';
-
 import flatpickr from 'flatpickr';
-import { computeDecimalDigest } from '@angular/compiler/src/i18n/digest';
 
 @Component({
   selector: 'app-edit-interval-action',
@@ -197,7 +195,6 @@ export class EditIntervalActionComponent implements OnInit {
     if (!isNaN(value) && (parseFloat(value) === parseInt(value))) {
       return true
     }
-    console.log(isNaN(value))
     return false
   }
 
