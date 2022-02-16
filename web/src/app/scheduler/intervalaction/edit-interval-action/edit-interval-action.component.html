@@ -138,19 +138,23 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                            <label for="Content" class="col-md-2 col-form-label">
+                                                <span class="mr-2" i18n>Content</span>
+                                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                 data-content="the actual content to be sent as the body,such as one string format of JSON"></span>
+                                            </label>
                                             <div class="col-md-10">
-                                                <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
+                                                <input type="text" class="form-control" id="Content" name="Content" [(ngModel)]="intervalAction.content">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="requestBody" class="col-md-2 col-form-label" required>
+                                            <label for="ContentType" class="col-md-2 col-form-label">
                                                 <span class="mr-2">ContentType</span>
                                                 <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
                                                  data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
                                             </label>
                                             <div class="col-md-10">
-                                                <input type="text" class="form-control" id="contentType" name="contentType" [(ngModel)]="intervalAction.address.contentType">
+                                                <input type="text" class="form-control" id="ContentType" name="ContentType" [(ngModel)]="intervalAction.contentType">
                                             </div>
                                         </div>
                                     </form>
@@ -250,10 +254,63 @@
                                                 <app-device-core-command-combo-list [validate]="true" (cmdMethodEvent)="onCmdMethodSelected($event)" (commandSelectedEvent)="onCommandSelected($event)"></app-device-core-command-combo-list>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
+                                        <div class="form-group row"  *ngIf="intervalAction.address.path && this.intervalAction.address.httpMethod">
+                                            <label for="addressPath" class="col-md-2 col-form-label" required i18n>Parameters</label>
                                             <div class="col-md-10">
-                                                <input type="text" class="form-control" id="requestBody" name="requestBody" [(ngModel)]="intervalAction.address.requestBody">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <span>Command Parameters Setting</span>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div *ngIf="this.intervalAction.address.httpMethod == 'PUT'; else getParameter">
+                                                            <div *ngIf="commandServiceTemplateRequestParameters.length == 0">
+                                                                no paramters.
+                                                            </div>
+                                                            <div *ngFor="let param of commandServiceTemplateRequestParameters">
+                                                                <div class="form-group row">
+                                                                    <label for="{{param.resourceName}}" class="col-md-2 col-form-label" i18n>{{param.resourceName}}</label>
+                                                                    <div class="col-md-10">
+                                                                        <select *ngIf="param.valueType == 'Bool'; else valueTypeIsNotBool" id="cmd-param-{{param.resourceName}}" name="{{param.resourceName}}" class="custom-select">
+                                                                            <option [ngValue]="false">false</option>
+                                                                            <option [ngValue]="true">true</option>
+                                                                        </select>
+                                                                        <ng-template #valueTypeIsNotBool>
+                                                                            <input type="text" class="form-control" id="cmd-param-{{param.resourceName}}" name="{{param.resourceName}}" placeholder="valueType: {{param.valueType}}">
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-template #getParameter>
+                                                            <div class="form-group row">
+                                                                <label for="ds-pushevent" class="col-md-2 col-form-label">
+                                                                    <span class="mr-2" i18n>pushevent</span>
+                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                                    data-content="yes indicates a successful GET will result in an event being pushed to the EdgeX system"></span>
+                                                                </label>
+                                                                <div class="col-md-10">
+                                                                    <select id="ds-pushevent" name="ds-pushevent" class="custom-select" [(ngModel)]="pushEventOfGetCmdParamter">
+                                                                        <option value="yes">yes</option>
+                                                                        <option value="no">no</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label for="ds-returnevent" class="col-md-2 col-form-label">
+                                                                    <span class="mr-2" i18n>returnevent</span>
+                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                                    data-content="no indicates there will be no Event returned in the http response"></span>
+                                                                </label>
+                                                                <div class="col-md-10">
+                                                                    <select id="ds-returnevent" name="ds-returnevent" class="custom-select" [(ngModel)]="returnEventOfGetCmdParamter">
+                                                                        <option value="yes">yes</option>
+                                                                        <option value="no">no</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -279,6 +336,26 @@
                                                <small>the MQTT port can't be empty and only pure integer is supported!!</small> 
                                            </div>
                                        </div>
+                                   </div>
+                                   <div class="form-group row">
+                                        <label for="Content" class="col-md-2 col-form-label">
+                                            <span class="mr-2" i18n>Content</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            data-content="the actual content to be sent as the body,such as one string format of JSON"></span>
+                                        </label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="Content" name="Content" [(ngModel)]="intervalAction.content">
+                                        </div>
+                                   </div>
+                                   <div class="form-group row">
+                                        <label for="ContentType" class="col-md-2 col-form-label">
+                                            <span class="mr-2">ContentType</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
+                                        </label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="ContentType" name="ContentType" [(ngModel)]="intervalAction.contentType">
+                                        </div>
                                    </div>
                                    <div class="form-group row has-validation">
                                        <label for="addressPublisher" class="col-md-2 col-form-label" required>Publisher</label>
@@ -347,6 +424,26 @@
                                        <div class="col-md-10">
                                            <input type="text" class="form-control" id="emailRecipients" name="emailRecipients" [(ngModel)]="addressEmailRecipients">
                                        </div>
+                                   </div>
+                                   <div class="form-group row">
+                                        <label for="Content" class="col-md-2 col-form-label">
+                                            <span class="mr-2" i18n>Content</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            data-content="the actual content to be sent as the body,such as one string format of JSON"></span>
+                                        </label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="Content" name="Content" [(ngModel)]="intervalAction.content">
+                                        </div>
+                                   </div>
+                                   <div class="form-group row">
+                                        <label for="ContentType" class="col-md-2 col-form-label">
+                                            <span class="mr-2">ContentType</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
+                                        </label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="ContentType" name="ContentType" [(ngModel)]="intervalAction.contentType">
+                                        </div>
                                    </div>
                                </form>
                            </div>
