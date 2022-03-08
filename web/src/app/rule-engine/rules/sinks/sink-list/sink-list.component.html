@@ -1,0 +1,90 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div *ngIf="!sinkAddOrEditStatus">
+    <p class="badge badge-secondary font-weight-bold">
+        <span (click)="addSinkTransfer()">
+            <span class="fa fa-plus-circle mr-1"></span>
+            <span class="user-select-none" role="button" i18n>Add Sink</span>
+        </span>
+    </p>
+    <ul class="list-group">
+        <li *ngFor="let sink of ruleActions;let i=index;" class="list-group-item list-group-item-action " [class.list-group-item-light]="i !== selectedSinkIndex" [class.list-group-item-secondary]="i === selectedSinkIndex" >
+            <span class="text-dark mr-2">{{getSinkTypeOfAction(sink)}}</span>
+            <span class="float-right">
+              <span role="button" class="badge badge-info mr-2" (click)="editSinkTransfer(sink,i)"><i class="fa fa-edit"></i></span>
+              <span role="button" class="badge badge-danger" (click)="deleteSink(sink,i)"><i class="fa fa-trash"></i></span>
+            </span>
+        </li>
+    </ul>
+</div>
+
+<div class="card" *ngIf="sinkAddOrEditStatus">
+    <div class="card-header p-2">
+        <span *ngIf="sinkAddOrEditOperation === sinkOperation_ADD">
+            <i class="fa fa-plus mr-2 text-info"></i>
+            <span class="font-weight-bold">Add Sink</span>
+            <span *ngIf="sinkAddOrEditOperation === sinkOperation_EDIT" class="font-weight-bold">Edit Sink</span>
+        </span>
+        <span *ngIf="sinkAddOrEditOperation === sinkOperation_EDIT">
+            <i class="fa fa-edit mr-2 text-info"></i>
+            <span class="font-weight-bold">Edit Sink</span>
+        </span>
+        <span class="float-right">
+            <button *ngIf="sinkAddOrEditOperation === sinkOperation_ADD" class="btn btn-success btn-sm mr-2" [disabled]="!validate()" (click)="addOneNewSink()">Add</button>
+            <button *ngIf="sinkAddOrEditOperation === sinkOperation_EDIT" class="btn btn-success btn-sm mr-2" [disabled]="!validate()" (click)="updateSink()">Update</button>
+            <button class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
+        </span>
+    </div>
+    <div class="card-body">
+        <form class="mb-2">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate" i18n>Sink Type</label>
+                <div class="col-sm-9">
+                    <select class="custom-select" name="SinkType" [class.is-invalid]="!selectedSinkType" [(ngModel)]="selectedSinkType">
+                        <option value="{{EdgeX_SINK}}">{{EdgeX_SINK}}</option>
+                        <option value="{{MQTT_SINK}}">{{MQTT_SINK}}</option>
+                        <option value="{{REST_SINK}}">{{REST_SINK}}</option>
+                        <option value="{{LOG_SINK}}">{{LOG_SINK}}</option>
+                        <option value="{{NOP_SINK}}">{{NOP_SINK}}</option>
+                    </select>
+                    <div id="validationSinkTypeFeedback" class="invalid-feedback">
+                        <small i18n>please select a valid Sink Type !</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div [ngSwitch]="selectedSinkType">
+            <div *ngSwitchCase="EdgeX_SINK">
+                <app-edgex-sink [(edgeXSink)]="edgeXSink"></app-edgex-sink>
+            </div>
+            <div *ngSwitchCase="MQTT_SINK">
+                <app-mqtt-sink [(mqttSink)]="mqttSink"></app-mqtt-sink>
+            </div>
+            <div *ngSwitchCase="REST_SINK">
+                <app-rest-sink [(restSink)]="restSink"></app-rest-sink>
+            </div>
+            <div *ngSwitchCase="NOP_SINK">
+                <app-nop-sink [(nopSink)]="nopSink"></app-nop-sink>
+            </div>
+            <div  *ngSwitchCase="LOG_SINK">
+                <app-log-sink [(logSink)]="logSink"></app-log-sink>
+            </div>
+        </div>
+    </div>
+</div>

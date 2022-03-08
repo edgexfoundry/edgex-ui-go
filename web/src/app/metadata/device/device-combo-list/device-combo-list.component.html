@@ -35,7 +35,7 @@
                     <table class="table table-hover text-truncate">
                         <thead class="thead-light">
                             <tr>
-                              <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
+                              <th scope="col"><input *ngIf="!singleSelectionMode" type="checkbox" role="button" [checked]="isCheckedAll()" (click)="onSelectAll($event)"></th>
                               <th scope="col" i18n>ID</th>
                               <th scope="col" i18n>Name</th>
                               <th scope="col" i18n>Description</th>
@@ -50,7 +50,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let device of deviceList" [class.table-active]="isChecked(device.name)">
-                                <td> <input type="checkbox" role="button"  [checked]="isChecked(device.name)" (click)="selectOne($event,device.name)"></td>
+                                <td> <input type="checkbox" role="button"  [checked]="isChecked(device.name)" (click)="onSelectOne($event,device.name)"></td>
                                 <td class="user-select-all">{{device.id}}</td>
                                 <td class="user-select-all">{{device.name}}</td>
                                 <td>{{device.description}}</td>

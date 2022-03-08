@@ -1,0 +1,136 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div *ngIf="notCommandPathMsgShow"  class="alert alert-danger" role="alert">
+     <i class="fa fa-warning"></i>
+     <span i18n>
+        Invalid command service url, please don't use this template for custom http request, or select one new valid command path if you insist on using the template!
+     </span>
+</div>
+
+ <form [formGroup]="profileForm">
+    <div class="form-group row">
+        <label for="HttpMethod" class="col-md-2 col-form-label" required>
+             <span class="mr-2">HttpMethod</span>
+             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+             data-content="httpMethod field will be filled up automatically when the path field is selected! "></span>
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control"  name="httpMethod" formControlName="httpMethod" readonly="true" [(ngModel)]="cmdSvcInfo.httpMethod" required>
+        </div>
+    </div>
+    <div class="form-group row has-validation">
+        <label for="addressHostREST" class="col-md-2 col-form-label" required>
+            <span class="mr-2">Host</span>
+            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+             data-content="Both Host and Port fields are editable if you have a different host address !"></span>
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!cmdSvcInfo.host" [class.is-valid]="cmdSvcInfo.host" name="addressHost" formControlName="host" [(ngModel)]="cmdSvcInfo.host" required>
+            <div id="addressHostRESTFeedback" class="invalid-feedback">
+                <small i18n>the REST address host can't be empty!</small> 
+            </div>
+        </div>
+    </div>
+    <div class="form-group row has-validation">
+        <label for="addressPortREST" class="col-md-2 col-form-label" required>Port</label>
+        <div class="col-md-10">
+            <input type="number" class="form-control" id="addressPortREST" [class.is-invalid]="!cmdSvcInfo.port" [class.is-valid]="cmdSvcInfo.port" name="addressPort" formControlName="port" [(ngModel)]="cmdSvcInfo.port" required>
+            <div id="addressPortRESTFeedback" class="invalid-feedback">
+                <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
+        <div class="col-md-10">
+            <app-device-core-command-combo-list 
+            [validate]="true" 
+            [deviceName]="deviceName"
+            [commandName]="commandName"
+            [httpMethod]="cmdSvcInfo.httpMethod"
+            [commandPath]="cmdSvcInfo.path"
+            (cmdMethodEvent)="onCmdMethodSelected($event)" 
+            (commandSelectedEvent)="onCommandSelected($event)"></app-device-core-command-combo-list>
+        </div>
+    </div>
+    <div class="form-group row"  *ngIf="cmdSvcInfo.path && cmdSvcInfo.httpMethod && cmdSvcInfo.parametersOfPutCommand.length !== 0">
+        <label for="addressPath" class="col-md-2 col-form-label" required>Parameters</label>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <span i18n>Command Parameters Setting</span>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="cmdSvcInfo.httpMethod == 'PUT'; else getParameter">
+                        <div *ngIf="cmdSvcInfo.parametersOfPutCommand.length == 0">
+                            <span i18n>no paramters.</span>
+                        </div>
+                        <div *ngFor="let param of cmdSvcInfo.parametersOfPutCommand; let last = last">
+                            <form>
+                                <div class="form-group row">
+                                    <label for="{{param.resourceName}}" class="col-md-2 col-form-label" i18n>{{param.resourceName}}</label>
+                                    <div class="col-md-10">
+                                        <select *ngIf="param.valueType == 'Bool'; else valueTypeIsNotBool" (change)="onValueOfPutParamsChange($event)" id="cmd-param-{{param.resourceName}}" name="{{param.resourceName}}" class="custom-select">
+                                            <option [ngValue]="false">false</option>
+                                            <option [ngValue]="true">true</option>
+                                        </select>
+                                        <ng-template #valueTypeIsNotBool>
+                                            <input type="text" class="form-control" (change)="onValueOfPutParamsChange($event)" id="cmd-param-{{param.resourceName}}" name="{{param.resourceName}}" placeholder="valueType: {{param.valueType}}">
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </form>
+                            <ng-container *ngIf="last">
+                                {{ cmdParametersValueRender() }}
+                             </ng-container>
+                        </div>
+                    </div>
+                    <ng-template #getParameter>
+                        <div class="form-group row">
+                            <label for="ds-pushevent" class="col-md-2 col-form-label">
+                                <span class="mr-2" i18n>pushevent</span>
+                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                data-content="yes indicates a successful GET will result in an event being pushed to the EdgeX system"></span>
+                            </label>
+                            <div class="col-md-10">
+                                <select id="ds-pushevent" name="ds-pushevent" formControlName="pushEventOfGetCmdParamter"  class="custom-select" [(ngModel)]="cmdSvcInfo.pushEventOfGetCmdParamter">
+                                    <option value="yes">yes</option>
+                                    <option value="no">no</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ds-returnevent" class="col-md-2 col-form-label">
+                                <span class="mr-2" i18n>returnevent</span>
+                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                data-content="no indicates there will be no Event returned in the http response"></span>
+                            </label>
+                            <div class="col-md-10">
+                                <select id="ds-returnevent" name="ds-returnevent" formControlName="returnEventOfGetCmdParamter" class="custom-select" [(ngModel)]="cmdSvcInfo.returnEventOfGetCmdParamter">
+                                    <option value="yes">yes</option>
+                                    <option value="no">no</option>
+                                </select>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -28,8 +28,11 @@
        <app-device-profile-list
        [toolbars]="false"
        [associatedDeviceColumn]="false"
+       [enableSelectAll]="!singleSelectionMode"
        [multiProfilesSelected]="selectedProfiles"
        (multipleProfileSelectedEvent)="onMultipleProfileSelectedEvent($event)"
+       [singleProfileSelected]="singleProfileSelectedObject"
+       (singleProfileSelectedEvent)="onSingleProfileSelectedEvent($event)"
        ></app-device-profile-list> 
     </div>
 </div>

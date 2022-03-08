@@ -1,49 +1,67 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
 
-<ul class="list-group p-0">
-    <div *ngIf="streamList.length != 0">
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-list mr-2 text-danger"></i>
+        <span i18n>Stream List</span>
     </div>
-    <div *ngIf="streamList.length == 0">
-        <li class="list-group-item list-group-item-action list-group-item-light">
-            <div class="media">
-                <div class="media-body">
-                    <div class="mt-0 mb-1" style="text-align: center;">
-                        <h5 class="d-inline mr-3 align-middle text-dark">
-                            <button type="button" class="btn btn-info btn-lg" routerLink="../add-stream">
-                                <i class="fa fa-plus mr-1"></i>
-                                <span i18n>You don't have a stream yet. Please click this button to create a stream for the current edgex.</span> 
-                            </button>
-                        </h5>
+    <div class="card-header p-2">
+        <div class="btn-group btn-group-sm" role="group">
+            <button class="btn btn-primary btn-sm" (click)="refresh()">
+                <i class="fa fa-refresh mr-1"></i>
+                <span i18n>Refresh</span>
+            </button>
+            <button class="btn btn-success btn-sm" (click)="add()">
+                <i class="fa fa-plus-circle mr-1"></i>
+                <span i18n>Add</span>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <ul class="list-group p-0 border-0">
+            <li *ngFor="let stream of streamList" class="list-group-item list-group-item-action list-group-item-light border-top-0 border-left-0  border-right-0">
+                <div class="media">
+                    <div class="align-self-center mr-3">
+                        <i class="fa fa-tags fa-2x text-secondary"></i>  
+                    </div>
+                    <div class="media-body">
+                        <div class="mt-0 mb-1">
+                            <h5 class="d-inline mr-3 align-middle text-dark">{{stream}}</h5>
+                        </div>
+                        <div>
+                            <span class="float-right">
+                                <span class="badge badge-info mr-2" role="button" (click)="edit(stream)">
+                                    <i class="fa fa-edit mr-1"></i>
+                                    <span i18n>Edit</span>
+                                </span>
+                                <span class="badge badge-danger" role="button" (click)="deleteConfirm(stream)">
+                                    <i class="fa fa-trash mr-1"></i> 
+                                    <span i18n>Delete</span>
+                                </span>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </li>
+            </li>
+        </ul>
     </div>
-    <li *ngFor="let stream of streamList" class="list-group-item list-group-item-action list-group-item-light">
-        <div class="media">
-            <div class="align-self-center mr-3">
-                <i class="fa fa-tags fa-2x text-secondary"></i>  
-            </div>
-            <div class="media-body">
-                <div class="mt-0 mb-1">
-                    <h5 class="d-inline mr-3 align-middle text-dark">{{stream}}</h5>
-                </div>
-                <div>
-                    <span class="badge badge-info mr-3" role="button" (click)="streamDetail(stream)">{{stream}} <span i18n>Details</span></span>
-
-                    <span class="badge badge-secondary float-right" role="button" (click)="deleteConfirm()"  style="margin-left: 1%;">
-                        <i class="fa fa-trash mr-1"></i> 
-                        <span i18n>Delete</span>
-                    </span>
-                    <span class="badge badge-success float-right" role="button" (click)="toEditStream()">
-                        <i class="fa fa-edit mr-1"></i>
-                        <span i18n>Edit</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </li>
-</ul>
-
+</div>
 
 <div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -60,24 +78,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
                 <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="streamDetailDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="ruleDetailDialogLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="ruleDetailDialogLabel" i18n>
-                    Stream Details
-                </h5>
-            </div>
-            <div class="modal-body">
-                <pre class="mt-2 bg-secondary p-2 text-light rounded">{{streamTempStr}}</pre>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Close</button>
             </div>
         </div>
     </div>

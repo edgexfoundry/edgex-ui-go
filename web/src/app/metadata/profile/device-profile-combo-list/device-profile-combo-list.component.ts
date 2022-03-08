@@ -25,8 +25,9 @@ import { DeviceProfile } from '../../../contracts/v2/device-profile';
 })
 export class DeviceProfileComboListComponent implements OnInit {
 
-  private _selectedProfiles: string[]= [];
+  selectedProfilesStr: string = "";
 
+  private _selectedProfiles: string[]= [];
   @Input() 
   get selectedProfiles(): string[] { return this._selectedProfiles } 
   set selectedProfiles(profileNames : string[]) {
@@ -34,26 +35,49 @@ export class DeviceProfileComboListComponent implements OnInit {
     this._selectedProfiles = profileNames;
     this.selectedProfilesStr = this._selectedProfiles.join(',');
   }
-  selectedProfilesStr: string = "";
-  visible: boolean = false;
-
-  @Input() validate: boolean = false;
-
-  //singleMode if true indicates multiple selected, else single selected
-  @Input() singleMode: boolean = false;
-
   @Output() deviceProfileSelectedEvent = new EventEmitter<string[]>();
 
-  constructor() { }
-
-  ngOnInit(): void {
-
+  singleProfileSelectedObject: DeviceProfile = {} as DeviceProfile
+  private  _singleProfileSelected: string
+  @Input() 
+  get singleProfileSelected(): string {return this._singleProfileSelected}
+  set singleProfileSelected(profileName: string) {
+    if (!profileName) {//if value is undefined/null
+      this._singleProfileSelected = ''
+    } else {
+      this._singleProfileSelected = profileName.trim()
+    }
+    this.selectedProfilesStr = this._singleProfileSelected
+    this.singleProfileSelectedObject = {name: this._singleProfileSelected} as DeviceProfile
   }
+  @Output() singleProfileSelectedChange = new EventEmitter<string>();
+
+  visible: boolean = false;
+  @Input() validate: boolean = false;
+
+  //single-selection Mode indecates that if true indicates single selection, else multiple selection.
+  @Input() singleSelectionMode: boolean = false;
+
+  constructor() {
+    this._singleProfileSelected = ''
+  }
+
+  ngOnInit(): void {}
 
   onMultipleProfileSelectedEvent(profiles: string[]) {
     this.selectedProfiles = profiles;
     this.selectedProfilesStr = this.selectedProfiles.join(',');
     this.deviceProfileSelectedEvent.emit(this.selectedProfiles)
+  }
+
+  onSingleProfileSelectedEvent(profile: DeviceProfile) {
+    if (!profile) {
+      this.singleProfileSelected = ''
+    } else {
+      this.singleProfileSelected = profile.name
+    }
+    this.selectedProfilesStr = this.singleProfileSelected
+    this.singleProfileSelectedChange.emit(this.singleProfileSelected)
   }
 
   close(event: any) {

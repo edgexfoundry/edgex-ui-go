@@ -1,6 +1,24 @@
+/*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { Stream } from 'src/app/contracts/kuiper/stream';
+import { StreamFields } from '../../../contracts/kuiper/stream-fields';
 import { MessageService } from 'src/app/message/message.service';
 import { RuleEngineService } from 'src/app/services/rule-engine.service';
 
@@ -11,63 +29,116 @@ import { RuleEngineService } from 'src/app/services/rule-engine.service';
 })
 export class EditStreamComponent implements OnInit {
 
-  streamTemp?: Stream;
-  editStreamSimple:string = '';
-  editStreamName:string = '';
+  SQL_CUSTOM_KEYWORDS = ['STREAM','stream'];
+
+  sqlEditor: any;
+  streamJSONFormatObj?: Stream;
+  streamName: string = '';
+  streamStringFormatObj: string = '';
+  streamIsNullMsg: boolean = false;
   
   constructor(
     private ruleSvc: RuleEngineService,
     private msgSvc: MessageService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { 
+    }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['streamName']) {
-        this.editStreamName = params['streamName'];
-        this.toEditStream(params['streamName']);
+        this.streamName = params['streamName'];
+        this.getStreamByNameOrID();
+      }
+    });
+
+    this.sqlEditorRender();
+
+    $(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+  }
+
+  getStreamByNameOrID(){
+    this.ruleSvc.findStreamByName(this.streamName).subscribe((data: Stream) => {
+      this.streamJSONFormatObj = data;
+      this.dataFormatJSONToStringConvertor();
+      this.sqlEditor.setValue(this.streamStringFormatObj);
+      this.formatSql();
+    })
+  }
+
+  //stream data string format example:
+  //CREATE STREAM  my_stream (id bigint, name string, score float) WITH ( datasource = "topic/temperature", FORMAT = "json", KEY = "id");
+  dataFormatJSONToStringConvertor() {
+    if (!this.streamJSONFormatObj) {
+      return
+    }
+
+    //StreamFields
+    let fieldsKVFormatArray: string[] = [];
+    this.streamJSONFormatObj?.StreamFields?.forEach((field: StreamFields, index) => {
+      fieldsKVFormatArray.push(`${field.Name} ${field.FieldType}`)
+    })
+
+    //StreamOption
+    let streamOptKVFormatArray: string[] = [];
+    for (const [k,v] of Object.entries(this.streamJSONFormatObj!.Options)) {
+      streamOptKVFormatArray.push(`${k} = "${v}"`)
+    }
+    
+    //Stream artifacts
+    this.streamStringFormatObj = `CREATE STREAM ${this.streamJSONFormatObj?.Name} ( ${fieldsKVFormatArray.join(', ')} ) WITH ( ${streamOptKVFormatArray.join(', ')} )`
+  }
+
+  sqlEditorRender() {
+    let sqlEditorTextarea = document.getElementById('sql-editor');
+    this.SQL_CUSTOM_KEYWORDS.forEach((word) => {
+      CodeMirror.resolveMode('text/x-pgsql').keywords[word] = true;
+    })
+    this.sqlEditor = CodeMirror.fromTextArea(sqlEditorTextarea, {
+      mode: 'text/x-pgsql',
+      tabSize: 4,
+      theme: "gruvbox-dark",
+      lineNumbers: true,
+      lineWrapping: true,
+      gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+      autofocus: true,
+      matchBrackets: true,
+      styleActiveLine: true,
+      cursorHeight: 0.85,
+      hint: CodeMirror.hint.sql
+    });
+    this.sqlEditor.setSize('auto', '500px');
+    this.sqlEditor.on('drop', (instance: any, event: any) => {
+    });
+
+    this.sqlEditor.on('paste', (instance: any, event: any) => {
+    });
+
+    this.sqlEditor.on('keyup', (instance: any, event: any) => {
+      if (event.keyCode >= 65 && event.keyCode <= 90) {
+        instance.showHint({completeSingle:false})
       }
     });
   }
 
-  toEditStream(streamName:string){
-    
-    this.ruleSvc.findStreamByName(streamName).subscribe((data: Stream) => {
-      this.streamTemp = data;
-      let editStreamStr: string = '{"sql":"create stream '+this.streamTemp.Name+' (';
-      let streamFieldTemp:string = '';
-      if(this.streamTemp.StreamFields != null){
-        for (let index in this.streamTemp.StreamFields) {
-          if(Number.parseInt(index)+1 != this.streamTemp.StreamFields.length){
-            streamFieldTemp += this.streamTemp.StreamFields[index].Name + " " + this.streamTemp.StreamFields[index].FieldType + ", ";
-          }else{
-            streamFieldTemp += this.streamTemp.StreamFields[index].Name + " " + this.streamTemp.StreamFields[index].FieldType;
-          }
-        }
-      }
-      editStreamStr += streamFieldTemp+') WITH ( ';
-      if(this.streamTemp.Options.DATASOURCE != undefined){
-        editStreamStr += 'DATASOURCE = \\"'+this.streamTemp.Options.DATASOURCE+'\\",'
-      }
-      if(this.streamTemp.Options.FORMAT != undefined){
-        editStreamStr += 'FORMAT = \\"'+this.streamTemp.Options.FORMAT+'\\",';
-      }
-      if(this.streamTemp.Options.KEY != undefined){
-        editStreamStr += 'KEY = \\"'+this.streamTemp.Options.KEY+'\\",';
-      }
-      if(this.streamTemp.Options.TYPE != undefined){
-        editStreamStr += 'TYPE=\\"'+this.streamTemp.Options.TYPE+'\\"';
-      }else{
-        editStreamStr = editStreamStr.substring(0,editStreamStr.length-1);
-      }
-      editStreamStr += ')"}';
-      this.editStreamSimple = editStreamStr;
-    });
+  //sql-fomatter has a bug when a false value in sql string, true vaule is ok, holding on until the bug is fixed. but if set l=postgresql will works.
+  formatSql() {
+    let streamSql: string= '';
+    streamSql = this.sqlEditor.getValue();
+    this.sqlEditor.setValue(sqlFormatter.format(streamSql,{language: 'postgresql'}));
   }
 
   submit() {
-    this.ruleSvc.updateStream(this.editStreamSimple,this.editStreamName).subscribe(() => {
-      this.msgSvc.success('Update Stream Success!');
+    let streamSql = this.sqlEditor.getValue() as string;
+    if (!streamSql.trim()) {
+      this.streamIsNullMsg = true;
+      window.setTimeout(()=>{this.streamIsNullMsg = false},2000);
+      return
+    }
+    this.ruleSvc.updateStream(JSON.stringify({'sql': streamSql}),this.streamName).subscribe(() => {
+      this.msgSvc.success('Update Stream');
       this.router.navigate(['../stream-list'], { relativeTo: this.route })
     });
   }

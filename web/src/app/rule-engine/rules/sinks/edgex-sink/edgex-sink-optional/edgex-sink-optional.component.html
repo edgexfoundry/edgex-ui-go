@@ -1,0 +1,135 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+    <div class="card-header" role="button" data-toggle="collapse" data-target="#collapse-edgex-sink-opts" aria-expanded="false" aria-controls="collapse-edgex-sink-opts" (click)="collapseToggle()">
+        <i class="fa fa-tags text-primary mr-2"></i>
+        <span class="text-primary">EdgeX Sink Options Setting</span>
+        <span class="text-primary ml-2">
+            <i role="button" aria-disabled="true" class="fa fa-angle-double-down fa-lg" *ngIf="!collapseToggleStatus" data-toggle="collapse" data-target="#collapse-edgex-sink-opts" aria-expanded="false" aria-controls="collapse-edgex-sink-opts"></i>
+            <i role="button" aria-disabled="true" class="fa fa-angle-double-up fa-lg"  *ngIf="collapseToggleStatus" data-toggle="collapse" data-target="#collapse-edgex-sink-opts" aria-expanded="false" aria-controls="collapse-edgex-sink-opts"></i>
+        </span>
+    </div>
+    <div class="card-body collapse" id="collapse-edgex-sink-opts">
+      <form>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">ClientId</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="ClientId" [(ngModel)]="optional.ClientId">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">Username</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="Username" [(ngModel)]="optional.Username">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">Password</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="Password" [(ngModel)]="optional.Password">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">Qos</label>
+            <div class="col-sm-9">
+                <select class="custom-select"  name="Qos" [(ngModel)]="optional.Qos">
+                <option [value]='0'>0</option>
+                <option [value]='1'>1</option>
+                <option [value]='2'>2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">KeepAlive</label>
+            <div class="col-sm-9">
+                <input type="number" class="form-control" name="KeepAlive" [(ngModel)]="optional.KeepAlive">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">Retained</label>
+            <div class="col-sm-9">
+                <select class="custom-select"  name="Retained" [(ngModel)]="optional.Retained">
+                    <option [value]='false'>false</option>
+                    <option [value]='true'>true</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">AutoReconnect</label>
+            <div class="col-sm-9">
+                <select class="custom-select"  name="AutoReconnect" [(ngModel)]="optional.AutoReconnect">
+                    <option [value]='false'>false</option>
+                    <option [value]='true'>true</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">ConnectTimeout</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="ConnectTimeout" [(ngModel)]="optional.ConnectTimeout">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">CleanSession</label>
+            <div class="col-sm-9">
+                <select class="custom-select"  name="CleanSession" [(ngModel)]="optional.CleanSession">
+                    <option [value]='false'>false</option>
+                    <option [value]='true'>true</option>
+                </select>
+            </div>
+        </div>
+
+        <!--security optional-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">SkipCertVerify</label>
+            <div class="col-sm-9">
+                <select class="custom-select"  name="SkipCertVerify" [(ngModel)]="optional.SkipCertVerify">
+                    <option [value]='true'>true</option>
+                    <option [value]='false'>false</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">CertFile</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="CertFile" [(ngModel)]="optional.CertFile">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">KeyFile</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="KeyFile" [(ngModel)]="optional.KeyFile">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">CertPEMBlock</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="CertPEMBlock" [(ngModel)]="optional.CertPEMBlock">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">KeyPEMBlock</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="KeyPEMBlock" [(ngModel)]="optional.KeyPEMBlock">
+            </div>
+        </div>
+      </form>
+    </div>
+</div>
