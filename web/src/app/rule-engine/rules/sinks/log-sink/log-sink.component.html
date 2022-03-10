@@ -1,0 +1,66 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-tags text-danger mr-2"></i>
+        <span class="font-weight-bold">Log Sink</span>
+    </div>
+    <div class="card-body">
+        <p class="text-info mb-2">
+            <i class="fa fa-info-circle mr-1"></i>
+            The action is used for print output message into log file, the log file is at $eKuiper_install/log/stream.log by default.<br>
+            No properties can be specified for the action.
+        </p>
+
+        <!--some common properties of each one sink is show here, because they are used more frequently, 
+        especial the dataTemplate property is treated as request body of http request or paylod of mqtt-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                <span class="mr-2">sendSingle</span>
+                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                data-content='The output messages are received as an array. This is indicate whether to send the results one by one. If false, the output message will be {"result":"${the string of received message}"}. For example, {"result":"[{\"count\":30},"\"count\":20}]"}. Otherwise, the result message will be sent one by one with the actual field name. For the same example as above, it will send {"count":30}, then send {"count":20} to the RESTful endpoint.Default to false.'></span>
+            </label>
+            <div class="col-sm-9">
+                <select class="custom-select" name="sendSingle" [(ngModel)]="logSink.sendSingle">
+                    <option [ngValue]="false">false</option>
+                    <option [ngValue]="true">true</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                <span class="mr-2">dataTemplate</span>
+                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                data-content='here is treated as mqtt payload, The golang template format string to specify the output data format. The input of the template is the sink message which is always an array of map. If no data template is specified, the raw input will be the data.'></span>
+            </label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="dataTemplate" [(ngModel)]="logSink.dataTemplate">
+            </div>
+        </div>
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">Advanced Options</label>
+                <div class="col-sm-9">
+                    <app-sink-base-properties [sinkBaseProperties]="sinkBaseProperties"  (sinkBasePropertiesChange)="onSinkBasePropertiesChange($event)"></app-sink-base-properties>
+                </div>
+             </div>
+        </form>
+    </div>
+</div>

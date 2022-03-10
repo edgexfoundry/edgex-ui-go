@@ -28,28 +28,33 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
   visible: boolean = false;
   @Input() validate: boolean = false;
   @Input() deviceName: string = "";
+  @Input() httpMethod: string = '';
+  @Input() commandName: string = '';
+  @Input() commandPath: string = ''
+
   deviceCoreCmdSelected?: DeviceCoreCommand;
   @Input() coreCmdSelected: CoreCommand;
   @Output() commandSelectedEvent = new EventEmitter<CoreCommand>();
-  httpMethod?: string;
   @Output() cmdMethodEvent = new EventEmitter<string>();
   deviceCoreCmdListVisible: boolean = true;
-  delegation: boolean = false;
 
   constructor() { 
     this.coreCmdSelected = {} as CoreCommand;
   }
 
-  ngOnInit(): void { }
-
-  ondelegation(delegation :boolean) {
-    (document.getElementById("cmd-combo") as HTMLElement).focus();
-    this.delegation = delegation;
+  ngOnInit(): void {
+    this.deviceCoreCmdSelected = {deviceName:  this.deviceName} as DeviceCoreCommand
+    this.coreCmdSelected = {
+      name: this.commandName,
+      path: this.commandPath
+    } as CoreCommand
   }
 
   onDeviceCoreCmdSelected(deviceCoreCmd: DeviceCoreCommand) {
     if (!deviceCoreCmd) {
       this.deviceCoreCmdSelected = deviceCoreCmd;
+      this.httpMethod = '';
+      this.coreCmdSelected = {} as CoreCommand;
       return
     }
     this.deviceCoreCmdSelected = deviceCoreCmd;
@@ -81,12 +86,7 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
   }
 
   close(event: any) {
-    setTimeout(() => {
-      if (this.delegation) {
-        this.delegation = false;        
-      } else {
-        this.visible = false;
-      }
-    }, 130);
+    event.stopPropagation();
+    this.visible = false;
   }
 }

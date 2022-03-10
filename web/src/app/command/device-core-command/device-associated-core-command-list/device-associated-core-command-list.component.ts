@@ -28,12 +28,12 @@ import { DeviceCoreCommand, CoreCommand } from '../../../contracts/v2/core-comma
 export class DeviceAssociatedCoreCommandListComponent implements OnInit {
 
   @Input() deviceName?: string;
+  
   @Input() coreCmdSelected?: CoreCommand;
   @Output() singleCoreCmdSelectedEvent = new EventEmitter<CoreCommand>();
   deviceAssociatedCoreCommandsList: CoreCommand[] = [];
-  @Input() httpMethod?: string;
+  @Input() httpMethod: string  = '';
   @Output() coreCmdMethodEvent = new EventEmitter<string>();
-  @Output() delegationEvent = new EventEmitter<boolean>();
 
   constructor(private cmdSvc: CommandService) { }
 
@@ -45,7 +45,7 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
     })
   }
 
-  methodChecked(event: any, httpMethod: string) {
+  onMethodChecked(event: any, httpMethod: string) {
     const radio = event.target;
     if (radio.checked) {
       this.httpMethod = httpMethod;
@@ -53,11 +53,14 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
       this.httpMethod = '';
     }
     this.coreCmdMethodEvent.emit(this.httpMethod);
-    this.delegationEvent.emit(true);
   }
 
   isChecked(name: string): boolean {
     return this.coreCmdSelected?.name === name;
+  }
+
+  isMethodChecked(method: string): boolean {
+    return this.httpMethod === method
   }
 
   radioUnchecked(checked?: boolean): boolean {
@@ -74,7 +77,6 @@ export class DeviceAssociatedCoreCommandListComponent implements OnInit {
     } else {
       this.coreCmdSelected = {} as CoreCommand;
     }
-    this.delegationEvent.emit(true);
     this.singleCoreCmdSelectedEvent.emit(this.coreCmdSelected);
     this.coreCmdMethodEvent.emit(undefined);
   }

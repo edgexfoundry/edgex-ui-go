@@ -1,0 +1,125 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+    <div class="card-header" role="button" data-toggle="collapse" data-target="#collapse-sink-base" aria-expanded="false" aria-controls="collapse-sink-base" (click)="collapseToggle()">
+        <i class="fa fa-tags text-primary mr-2"></i>
+        <span class="text-primary" i18n>Sink Advanced Options</span>
+        <span class="text-primary ml-2">
+            <i role="button" aria-disabled="true" class="fa fa-angle-double-down fa-lg" *ngIf="!collapseToggleStatus" data-toggle="collapse" data-target="#collapse-sink-base" aria-expanded="false" aria-controls="collapse-sink-base"></i>
+            <i role="button" aria-disabled="true" class="fa fa-angle-double-up fa-lg"  *ngIf="collapseToggleStatus" data-toggle="collapse" data-target="#collapse-sink-base" aria-expanded="false" aria-controls="collapse-sink-base"></i>
+        </span>
+    </div>
+    <div class="card-body collapse" id="collapse-sink-base">
+        <form [formGroup]="profileForm">
+            <div class="form-group row">
+                <label class="col col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">concurrency</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify how many instances of the sink will be run. If the value is bigger than 1, the order of the messages may not be retained.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="concurrency" formControlName="concurrency" [(ngModel)]="sinkBaseProperties.concurrency">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">bufferLength</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify how many messages can be buffered in memory. If the buffered messages exceed the limit, the sink will block message receiving until the buffered messages have been sent out so that the buffered size is less than the limit.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="bufferLength" formControlName="bufferLength" [(ngModel)]="sinkBaseProperties.bufferLength">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">retryInterval</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify how many milliseconds will the sink retry to send data out if the previous send failed. If the specified value &lt;= 0, then it will not retry.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="retryInterval" formControlName="retryInterval" [(ngModel)]="sinkBaseProperties.retryInterval">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">retryCount</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify how many will the sink retry to send data out if the previous send failed. If the specified value &lt;= 0, then it will not retry.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="retryCount" formControlName="retryCount" [(ngModel)]="sinkBaseProperties.retryCount">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">cacheLength</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify how many messages can be cached. The cached messages will be resent to external system until the data sent out successfully. The cached message will be sent in order except in runAsync or concurrent mode. The cached message will be saved to disk in fixed intervals.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="cacheLength" formControlName="cacheLength" [(ngModel)]="sinkBaseProperties.cacheLength">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">cacheSaveInterval</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify the interval to save cached message to the disk. Notice that, if the rule is closed in plan, all the cached messages will be saved at close. A larger value can reduce the saving overhead but may lose more cache messages when the system is interrupted in error.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="cacheSaveInterval" formControlName="cacheSaveInterval"  [(ngModel)]="sinkBaseProperties.cacheSaveInterval">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">runAsync</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Whether the sink will run asynchronously for better performance. If it is true, the sink result order is not promised.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <select class="custom-select" name="runAsync" formControlName="runAsync" [(ngModel)]="sinkBaseProperties.runAsync">
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">omitIfEmpty</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='If the configuration item is set to true, when SELECT result is empty, then the result will not feed to sink operator.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <select class="custom-select" name="omitIfEmpty" formControlName="omitIfEmpty" [(ngModel)]="sinkBaseProperties.omitIfEmpty">
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+ </div>

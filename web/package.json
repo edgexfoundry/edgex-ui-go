@@ -30,6 +30,7 @@
     "json-stream-compression": "0.0.2",
     "popper.js": "^1.16.1",
     "rxjs": "^7.3.0",
+    "sql-formatter": "^4.0.2",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },

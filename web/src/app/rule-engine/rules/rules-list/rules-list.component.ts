@@ -1,29 +1,44 @@
-import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+/*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Rule } from 'src/app/contracts/kuiper/rule';
 import { RuleEngineService } from '../../../services/rule-engine.service';
 import { MessageService } from '../../../message/message.service';
-import { CommandService } from 'src/app/services/command.service';
 
 @Component({
   selector: 'app-rules-list',
   templateUrl: './rules-list.component.html',
   styleUrls: ['./rules-list.component.css']
 })
-
 export class RulesListComponent implements OnInit {
 
   rulesList: Rule[] = [];
-  selectedRule: string[] = [];
-  isCheckedAll: boolean = false;
-  ruleTemp: any;
-  ruleModelTitle:string = '';
+  selectedRules: Rule[] = [];
+
+  ruleStatusMetrics: string = '';
+  statusMetricsRuleID: string  = '';
+
+  operationStatus: boolean = false;
 
   constructor(
     private ruleSvc: RuleEngineService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
-    private commandSvc: CommandService,
     private router: Router
   ) { }
 
@@ -35,7 +50,7 @@ export class RulesListComponent implements OnInit {
   }
 
   getRulesList() {
-    this.ruleSvc.allRules().subscribe((data: Rule[]) => { this.rulesList = data ;});
+    this.ruleSvc.allRules().subscribe((data: Rule[]) => { this.rulesList = data });
   }
 
   refresh() {
@@ -48,8 +63,33 @@ export class RulesListComponent implements OnInit {
   edit() {
     this.router.navigate(['../edit-rules'], {
       relativeTo: this.route,
-      queryParams: { 'id': this.selectedRule[0] }
+      queryParams: { 'ruleID': this.selectedRules[0].id }
     })
+  }
+
+  statusMetrics(id: string){
+    this.statusMetricsRuleID = '';
+    this.ruleStatusMetrics = '';
+    this.ruleSvc.getRuleStatusMetricsById(id).subscribe((data) => {
+      this.statusMetricsRuleID = id;
+      let obj: {}
+      try {
+        obj = JSON.parse(data)
+      } catch (e) {
+        this.ruleStatusMetrics = data
+        return
+      }
+      this.ruleStatusMetrics = JSON.stringify(obj, null, 3);
+    });
+  }
+
+  statusMetricsShowClose() {
+    this.statusMetricsRuleID = '';
+    this.ruleStatusMetrics = '';
+  }
+
+  statusMetricsRefresh(id: string) {
+    this.statusMetrics(id)
   }
 
   deleteConfirm() {
@@ -57,145 +97,98 @@ export class RulesListComponent implements OnInit {
   }
   
   delete() {
-    this.selectedRule.forEach((id,i) => {
-      this.ruleSvc.deleteOneRuleById(id).subscribe(() => {
-        this.selectedRule.splice(i,1);
+    this.selectedRules.forEach((ruleSelected,i) => {
+      this.ruleSvc.deleteOneRuleById(ruleSelected.id).subscribe(() => {
+        this.selectedRules.splice(i,1);
         this.rulesList.forEach((rule: Rule, index) => {
-          if (rule.id === id) {
+          if (rule.id === ruleSelected.id) {
             this.rulesList.splice(index, 1);
-            this.msgSvc.success('remove rule ', ` Id: ${id}`);
-            return
+            this.msgSvc.success('remove rule ', ` Id: ${ruleSelected.id}`);
           }
         });
-      },error =>{
-        if(error.status ==200 && error.statusText =="OK"){
-         this.selectedRule = [];
-         this.rulesList.forEach((rule: Rule, index) => {
-           if (rule.id === id) {
-             this.rulesList.splice(index, 1);
-             return
-           }
-         });
-         this.msgSvc.success('remove rule ', ` Id: ${id}`);
-        }
-       });
+      })
     });
     $("#deleteConfirmDialog").modal('hide');
   }
 
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    if (this.rulesList && this.rulesList.length === 0) {
+      checkedAll = false
+    }
+    this.rulesList.forEach(rule => {
+      if (this.selectedRules.findIndex(ruleSelected => ruleSelected.id === rule.id) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
+  }
+
   selectAll(event: any) {
     const checkbox = event.target;
-    let self = this;
     if (checkbox.checked) {
-      this.selectedRule = [];
-      this.rulesList.forEach(function (item) {
-        self.selectedRule.push(item.id);
-        self.isChecked(item.id);
+      this.rulesList.forEach(rule => {
+        if (this.selectedRules.findIndex(ruleSelected => ruleSelected.id === rule.id) !== -1) {
+            return
+        }
+        this.selectedRules.push(rule);
       });
-      this.isCheckedAll = true;
-      return
+    } else {
+      this.rulesList.forEach(rule => {
+        let found = this.selectedRules.findIndex(ruleSelected => ruleSelected.id === rule.id);
+        if (found !== -1) {
+          this.selectedRules.splice(found,1)
+        }
+      });
     }
-    this.isCheckedAll = false;
-    this.selectedRule = [];
-    this.rulesList.forEach(function (item) {
-      self.isChecked(item.id);
-    });
-
   }
 
   isChecked(id: string): boolean {
-    return this.selectedRule.findIndex(v => v === id) >= 0;
+    return this.selectedRules.findIndex(rule => rule.id === id) >= 0;
   }
 
-  selectOne(event: any, id: string) {
+  selectOne(event: any, rule: Rule) {
     const checkbox = event.target;
     if (checkbox.checked) {
-      this.selectedRule.push(id);
-      if (this.selectedRule.length === this.rulesList.length) {
-        this.isCheckedAll = true;
-      }
+      this.selectedRules.push(rule);
       return
     }
-    this.isCheckedAll = false;
-    this.isChecked(id);
-    this.selectedRule.splice(this.selectedRule.indexOf(id), 1)
-
+    let found = this.selectedRules.findIndex(ruleSelected => ruleSelected.id === rule.id);
+    if (found !== -1) {
+      this.selectedRules.splice(found,1)
+    }
   }
 
-  start() {
-    this.selectedRule.forEach((id) => {
-      this.ruleSvc.startRule(id).subscribe(() => {
-        this.selectedRule = [];
-        this.rulesList.forEach((rule: Rule, index) => {
-          if (rule.id === id) {
-            this.rulesList.splice(index, 1);
-            this.msgSvc.success('start rule ', ` Name: ${rule.id}`);
-            this.refresh();
-            return
-          }
-        });
-      });
-    });
+  start(ruleID: string) {
+    this.operationStatus = true
+    window.setTimeout(() => {
+      this.operationStatus = false
+    },1500)
+    this.ruleSvc.startRule(ruleID).subscribe(() => {
+      this.msgSvc.success(`start ${ruleID}`);
+      this.getRulesList();
+    })
   }
 
-  stop() {
-    this.selectedRule.forEach((id) => {
-      this.ruleSvc.stopRule(id).subscribe(() => {
-        this.selectedRule = [];
-        this.rulesList.forEach((rule: Rule, index) => {
-          if (rule.id === id) {
-            this.rulesList.splice(index, 1);
-            this.msgSvc.success('stop rule ', ` Name: ${rule.id}`);
-            this.refresh();
-            return
-          }
-        });
-      });
-    });
+  stop(ruleID: string) {
+    this.operationStatus = true
+    window.setTimeout(() => {
+      this.operationStatus = false
+    },1500)
+    this.ruleSvc.stopRule(ruleID).subscribe(() => {
+      this.msgSvc.success(`stop ${ruleID}`);
+      this.getRulesList();
+    })
   }
 
-  restart() {
-    this.selectedRule.forEach((id) => {
-      this.ruleSvc.restartRule(id).subscribe(() => {
-        this.selectedRule = [];
-        this.rulesList.forEach((rule: Rule, index) => {
-          if (rule.id === id) {
-            this.rulesList.splice(index, 1);
-            this.msgSvc.success('restart rule ', ` Name: ${rule.id}`);
-            this.refresh();
-            return
-          }
-        });
-      });
-    });
-  }
-
-  ruleDetail(id: string){
-    this.ruleSvc.findRuleById(id).subscribe((data) => {
-      this.ruleTemp = JSON.stringify(data, null, 3);
-      $("#ruleDetailDialog").modal('show');
-      this.ruleModelTitle = 'Rule Details';
-    });
-  }
-
-  statusDetail(id: string){
-    this.ruleSvc.getRuleStatusById(id)
-    .subscribe((data) => {
-      this.ruleTemp = JSON.stringify(data, null, 3);
-      $("#ruleDetailDialog").modal('show');
-      this.ruleModelTitle = 'Status Details';
-    },error =>{
-      this.ruleTemp = error.error.text
-      $("#ruleDetailDialog").modal('show');
-      this.ruleModelTitle = 'Status Details';
-    });
-  }
-
-  topologyStructure(id: string){
-    this.ruleSvc.getRuleTopoById(id).subscribe((data) => {
-      this.ruleTemp = JSON.stringify(data, null, 3);
-      $("#ruleDetailDialog").modal('show');
-      this.ruleModelTitle = 'Topology Structure';
-    });
+  restart(ruleID: string) {
+    this.operationStatus = true
+    window.setTimeout(() => {
+      this.operationStatus = false
+    },1500)
+    this.ruleSvc.restartRule(ruleID).subscribe(() => {
+      this.msgSvc.success(`restart ${ruleID}`);
+      this.getRulesList();
+    })
   }
 }

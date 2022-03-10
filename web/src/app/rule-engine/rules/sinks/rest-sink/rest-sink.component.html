@@ -1,0 +1,204 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+    <div class="card-header">
+        <i class="fa fa-tags text-danger mr-2"></i>
+        <span class="font-weight-bold">REST Sink</span>
+    </div>
+    <div class="card-header">
+        <span role="button" class="badge badge-secondary mr-2" [class.badge-info]="templateTypeSelected === SVC_TYPE_COMMAND" (click)="templateTypeToggle(SVC_TYPE_COMMAND)">
+            <i class="fa fa-square-o mr-1" [class.fa-check-square]="templateTypeSelected === SVC_TYPE_COMMAND"></i>
+            <span>EdgeXCommandServiceTemplate</span>
+        </span>
+        <span role="button" class="badge badge-secondary mr-2" [class.badge-info]="templateTypeSelected === SVC_TYPE_CUSTOM" (click)="templateTypeToggle(SVC_TYPE_CUSTOM)">
+            <i class="fa fa-square-o mr-1" [class.fa-check-square]="templateTypeSelected === SVC_TYPE_CUSTOM"></i>
+            <span>CustomHttpServiceTemplate</span>
+        </span>
+    </div>
+    <div class="card-body">
+        <div *ngIf="templateTypeSelected === SVC_TYPE_COMMAND">
+            <app-command-service-template 
+            [url]="restSink.url"
+            [httpMethod]="restSink.method"
+            [requestBodyJSONStr]="restSink.dataTemplate"
+            (cmdSvcInfoChange)="onCmdSvcTemplateInfoChange($event)"></app-command-service-template>
+        </div>
+        <div *ngIf="templateTypeSelected === SVC_TYPE_CUSTOM">
+            <form>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Method</label>
+                    <div class="col-sm-9">
+                        <select class="custom-select"  name="method" [(ngModel)]="restSink.method">
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="PATCH">PATCH</option>
+                            <option value="HEAD">HEAD</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row  has-validation">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">URL</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="url" [class.is-invalid]="!restSink.url" [class.is-valid]="restSink.url"  [(ngModel)]="restSink.url">
+                        <div id="ruleName" class="invalid-feedback">
+                            <small i18n>the url can't be empty!</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">BodyType</label>
+                    <div class="col-sm-9">
+                        <select class="custom-select"  name="bodyType" [(ngModel)]="restSink.bodyType">
+                            <option value="none">none</option>
+                            <option value="json">json</option>
+                            <option value="text">text</option>
+                            <option value="html">html</option>
+                            <option value="xml">xml</option>
+                            <option value="javascript">javascript</option>
+                            <option value="form">form</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Headers</label>
+                    <div class="col-sm-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="badge badge-secondary font-weight-bold">
+                                    <span class="fa fa-plus-circle mr-2"></span>
+                                    <span class="user-select-none" role="button" (click)="addRequestHeader()" i18n>Add Headers KV</span>
+                                </p>
+                                <div *ngFor="let header of requestHeaderList; let i=index">
+                                    <form class="form-inline mb-1">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">Key</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="headerKey" [(ngModel)]="header.key"  (ngModelChange)="requestHeaderChange($event)" style="width: 200px;min-width: 200px;">
+                                        </div>
+                                        <div class="input-group mx-2">
+                                            <i class="fa fa-long-arrow-right"></i> 
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">Value</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="headerValue" [(ngModel)]="header.value" (ngModelChange)="requestHeaderChange($event)" style="width: 200px; min-width: 200px;">
+                                        </div>
+                                        <div class="input-group ml-2">
+                                            <button class="btn btn-danger btn-sm" (click)="removeRequestHeader(i)"> <i class="fa fa-trash"></i> </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                        <span class="mr-2">timeout</span>
+                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                        data-content='The timeout (milliseconds) for a HTTP request, defaults to 5000 ms'></span>
+                    </label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" name="timeout" [(ngModel)]="restSink.timeout">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                        <span class="mr-2">DebugResp</span>
+                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                        data-content='Control if print the response information into the console. If set it to true, then print response; If set to false, then skip print log. The default is false.'></span>
+                    </label>
+                    <div class="col-sm-9">
+                        <select class="custom-select"  name="debugResp" [(ngModel)]="restSink.debugResp">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <!--some common properties of each one sink is show here, because they are used more frequently, 
+                    especial the dataTemplate property is treated as request body of http request or paylod of mqtt-->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                        <span class="mr-2">sendSingle</span>
+                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                        data-content='The output messages are received as an array. This is indicate whether to send the results one by one. If false, the output message will be {"result":"${the string of received message}"}. For example, {"result":"[{\"count\":30},"\"count\":20}]"}. Otherwise, the result message will be sent one by one with the actual field name. For the same example as above, it will send {"count":30}, then send {"count":20} to the RESTful endpoint.Default to false.'></span>
+                    </label>
+                    <div class="col-sm-9">
+                        <select class="custom-select" name="sendSingle" [(ngModel)]="restSink.sendSingle">
+                            <option [ngValue]="false">false</option>
+                            <option [ngValue]="true">true</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                        <span class="mr-2">dataTemplate</span>
+                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                        data-content='here be treated as http post or put RequestBody,The golang template format string to specify the output data format. The input of the template is the sink message which is always an array of map. If no data template is specified, the raw input will be the data.'></span>
+                    </label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="dataTemplate" [(ngModel)]="restSink.dataTemplate">
+                    </div>
+                </div>
+
+                <!-- security section -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">InsecureSkipVerify</label>
+                    <div class="col-sm-9">
+                        <select class="custom-select"  name="insecureSkipVerify" [(ngModel)]="restSink.insecureSkipVerify">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">CertificationPath</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="certificationPath" [(ngModel)]="restSink.certificationPath">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">PrivateKeyPath</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="privateKeyPath" [(ngModel)]="restSink.privateKeyPath">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">RootCaPath</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="rootCaPath" [(ngModel)]="restSink.rootCaPath">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-nowrap text-truncate">Advanced Options</label>
+                    <div class="col-sm-9">
+                      <app-sink-base-properties [sinkBaseProperties]="sinkBaseProperties"  (sinkBasePropertiesChange)="onSinkBasePropertiesChange($event)"></app-sink-base-properties>
+                    </div>
+                </div>
+            </form>
+        </div>
+       
+    </div>
+</div>

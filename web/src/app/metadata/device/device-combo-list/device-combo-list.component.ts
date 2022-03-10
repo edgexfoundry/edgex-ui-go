@@ -40,17 +40,32 @@ export class DeviceComboListComponent implements OnInit {
   }
   @Output() deviceSelectedChange = new EventEmitter<string[]>();
 
-  visible: boolean = false;
+  private _singleDeviceSelected: string;
+  @Input() 
+  get singleDeviceSelected(): string {return this._singleDeviceSelected};
+  set singleDeviceSelected(deviceName: string) {
+    if (!deviceName) {// if undefined or null
+      this._singleDeviceSelected = '';
+    } else {
+      this._singleDeviceSelected = deviceName.trim() 
+    }
+    this.deviceNamesSelectedStr = this._singleDeviceSelected;
+  }
+  @Output() singleDeviceSelectedChange = new EventEmitter<string>();
 
+  visible: boolean = false;
   @Input() validate: boolean = false;
-  //singleMode if true indicates multiple selected, else single selected
-  @Input() singleMode: boolean = false;
+  
+  //single-Selection Mode indicates that if true indicates single-selection mode , else multiple-selection
+  @Input() singleSelectionMode: boolean = false;
 
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
 
-  constructor(private metaSvc: MetadataService) { }
+  constructor(private metaSvc: MetadataService) {
+    this._singleDeviceSelected = '';
+  }
 
   ngOnInit(): void {
     this.getDeviceListPagination();
@@ -62,7 +77,7 @@ export class DeviceComboListComponent implements OnInit {
     });
   }
 
-  selectAll(event: any) {
+  onSelectAll(event: any) {
     const checkbox = event.target;
     if (checkbox.checked) {
       this.deviceList.forEach(device => {
@@ -93,10 +108,29 @@ export class DeviceComboListComponent implements OnInit {
   }
 
   isChecked(deviceName: string): boolean {
+    if (this.singleSelectionMode)  {
+      return this.singleDeviceSelected === deviceName
+    }
     return this.deviceSelected.includes(deviceName)
   }
 
-  selectOne(event: any, deviceName: string) {
+  selectSingleDevice(event: any, deviceName: string) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.singleDeviceSelected = deviceName
+    } else {
+      this.singleDeviceSelected = '';
+    }
+    this.deviceNamesSelectedStr = this.singleDeviceSelected
+    this.singleDeviceSelectedChange.emit(this.singleDeviceSelected)
+  }
+
+  onSelectOne(event: any, deviceName: string) {
+    if (this.singleSelectionMode)  {
+      this.selectSingleDevice(event, deviceName)
+      return
+    }
+
     const checkbox = event.target;
     if (checkbox.checked) {
       this.deviceSelected.push(deviceName);
