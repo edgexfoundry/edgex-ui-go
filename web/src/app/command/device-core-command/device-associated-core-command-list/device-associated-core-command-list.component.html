@@ -40,14 +40,14 @@
                         <td>
                             <div>
                                 <div *ngIf="cmd.get" class="form-check form-check-inline">
-                                    <span class="badge">
-                                        <input class="form-check-input align-middle" type="radio" id="get-{{cmd}}-{{i}}" name="cmdMethod"  *ngIf="isChecked(cmd.name)" value="GET" [(ngModel)]="httpMethod" (click)="methodChecked($event,'GET')">
+                                    <span class="badge badge-secondary">
+                                        <input class="form-check-input align-middle" type="radio" id="get-{{cmd}}-{{i}}" name="cmdMethod" [checked]="isMethodChecked('GET')"  *ngIf="isChecked(cmd.name)" value="GET" [(ngModel)]="httpMethod" (click)="onMethodChecked($event,'GET')">
                                         <label class="form-check-label align-middle" for="get-{{cmd}}-{{i}}">get</label>
                                     </span>
                                 </div>
                                 <div *ngIf="cmd.set" class="form-check form-check-inline">
-                                    <span class="badge">
-                                        <input class="form-check-input align-middle" type="radio" id="set-{{cmd}}-{{i}}" name="cmdMethod"  *ngIf="isChecked(cmd.name)" value="PUT" [(ngModel)]="httpMethod" (click)="methodChecked($event,'PUT')">
+                                    <span class="badge badge-secondary">
+                                        <input class="form-check-input align-middle" type="radio" id="set-{{cmd}}-{{i}}" name="cmdMethod" [checked]="isMethodChecked('PUT')"  *ngIf="isChecked(cmd.name)" value="PUT" [(ngModel)]="httpMethod" (click)="onMethodChecked($event,'PUT')">
                                         <label class="form-check-label align-middle" for="set-{{cmd}}-{{i}}">set</label>
                                     </span>
                                 </div>

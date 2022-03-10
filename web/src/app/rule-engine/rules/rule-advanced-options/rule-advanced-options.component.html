@@ -1,0 +1,125 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="card">
+    <div class="card-header" role="button" data-toggle="collapse" data-target="#clllapse-rule-opts" aria-expanded="false" aria-controls="clllapse-rule-opts" (click)="collapseToggle($event)">
+        <i class="fa fa-tags text-primary mr-2"></i>
+        <span class="font-weight-bold text-primary">Rule Advanced Options</span>
+        <span class="text-primary ml-2">
+            <i aria-disabled="true" class="fa fa-angle-double-down fa-lg" *ngIf="!collapseToggleStatus" data-toggle="collapse" data-target="#clllapse-rule-opts" aria-expanded="false" aria-controls="clllapse-rule-opts"></i>
+            <i aria-disabled="true" class="fa fa-angle-double-up fa-lg"  *ngIf="collapseToggleStatus" data-toggle="collapse" data-target="#clllapse-rule-opts" aria-expanded="false" aria-controls="clllapse-rule-opts"></i>
+        </span>
+    </div>
+    <div class="card-body collapse" id="clllapse-rule-opts">
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">IsEventTime</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Whether to use event time or processing time as the timestamp for an event. If event time is used, the timestamp will be extracted from the payload. The timestamp filed must be specified by the stream definition.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <select class="custom-select" name="isEventTime" [(ngModel)]="ruleOptions.isEventTime">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">Qos</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify the qos of the stream. The options are 0: At most once; 1: At least once and 2: Exactly once. If qos is bigger than 0, the checkpoint mechanism will be activated to save states periodically so that the rule can be resumed from errors.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <select class="custom-select"  name="SkipCertVerify" [(ngModel)]="ruleOptions.qos">
+                        <option [ngValue]=0>0</option>
+                        <option [ngValue]=1>1</option>
+                        <option [ngValue]=2>2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">LateTolerance</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='When working with event-time windowing, it can happen that elements arrive late. LateTolerance can specify by how much time(unit is millisecond) elements can be late before they are dropped. By default, the value is 0 which means late elements are dropped.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="lateTolerance" [(ngModel)]="ruleOptions.lateTolerance">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">Concurrency</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='A rule is processed by several phases of plans according to the sql statement. This option will specify how many instances will be run for each plan. If the value is bigger than 1, the order of the messages may not be retained.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="concurrency" [(ngModel)]="ruleOptions.concurrency">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">BufferLength</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify how many messages can be buffered in memory for each plan. If the buffered messages exceed the limit, the plan will block message receiving until the buffered messages have been sent out so that the buffered size is less than the limit. A bigger value will accommodate more throughput but will also take up more memory footprint.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="bufferLength" [(ngModel)]="ruleOptions.bufferLength">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                <span class="mr-2">CheckpointInterval</span>
+                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                data-content='Specify the time interval in milliseconds to trigger a checkpoint. This is only effective when qos is bigger than 0.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="checkpointInterval" [(ngModel)]="ruleOptions.checkpointInterval">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">SendMetaToSink</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Specify whether the meta data of an event will be sent to the sink. If true, the sink can get te meta data information.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <select class="custom-select" name="sendMetaToSink" [(ngModel)]="ruleOptions.sendMetaToSink">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-nowrap text-truncate">
+                    <span class="mr-2">SendError</span>
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='Whether to send the error to sink. If true, any runtime error will be sent through the whole rule into sinks. Otherwise, the error will only be printed out in the log.'></span>
+                </label>
+                <div class="col-sm-9">
+                    <select class="custom-select" name="sendError" [(ngModel)]="ruleOptions.sendError">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

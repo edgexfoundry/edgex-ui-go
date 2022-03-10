@@ -1,16 +1,45 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="alert alert-warning" *ngIf="streamIsNullMsg" role="alert">
+    <i class="fa fa-warning mr-2"></i>
+    <span i18n>Stream can't be empty!</span> 
+</div>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header p-2">
+        <span>
+            <span class="text-danger font-weight-bold fa fa-code mr-2"></span>
+            <span class="mr-2" i18n>Edit Stream</span><span class="font-weight-bold">{{streamName}}</span> 
+        </span>
         <span class="float-right">
-            <button type="button" class="btn btn-primary btn-sm" (click)="submit()">
+            <button type="button" class="btn btn-success btn-sm"  [disabled]="!streamStringFormatObj" (click)="submit()">
                 <i class="fa fa-save mr-1"></i>
                 <span i18n>Submit</span> 
             </button>
         </span>
-        <span>
-            <span class="text-danger font-weight-bold fa fa-code mr-2"></span>
-            <span class="mr-3 font-weight-bold" i18n>Edit Stream</span> 
-            <textarea class="form-control" id="deblock_udid" name="deblock_udid" rows="10" style="min-width: 90%; margin-top: 1%;" [(ngModel)]="editStreamSimple"></textarea>
-        </span>
+    </div>
+    <div class="card-body p-0">
+        <div class="card-header bg-secondary py-2">
+            <span class="text-light">
+                <i role="button" class="fa fa-indent fa-lg mr-3" data-toggle="tooltip" data-placement="top" title="formatter" (click)="formatSql()"></i>
+            </span>
+        </div>
+        <textarea id="sql-editor" name="sql-editor"></textarea>
     </div>
 </div>
 

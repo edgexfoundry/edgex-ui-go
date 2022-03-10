@@ -30,7 +30,6 @@ export class DeviceCoreCommandListComponent implements OnInit {
   deviceCoreCmdList: DeviceCoreCommand[] = [];
   @Input() deviceCoreCmdSelected?: DeviceCoreCommand;
   @Output() deviceCoreCmdSelectedEvent = new EventEmitter<DeviceCoreCommand>();
-  @Output() delegationEvent = new EventEmitter<boolean>();
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -49,10 +48,6 @@ export class DeviceCoreCommandListComponent implements OnInit {
     })
   }
 
-  delegation() {
-    this.delegationEvent.emit(true);
-  }
-
   isChecked(cmd: DeviceCoreCommand): boolean {
     return this.deviceCoreCmdSelected?.deviceName === cmd.deviceName;
   }
@@ -64,7 +59,6 @@ export class DeviceCoreCommandListComponent implements OnInit {
     } else {
       this.deviceCoreCmdSelected = undefined;
     }
-    this.delegation();
     this.deviceCoreCmdSelectedEvent.emit(this.deviceCoreCmdSelected);
   }
 
@@ -74,20 +68,17 @@ export class DeviceCoreCommandListComponent implements OnInit {
   }
 
   onPageSelected() {
-    this.delegation();
     this.resetPagination();
     this.setPagination();
     this.findAllDeviceCoreCmdsPagination();
   }
 
   prePage() {
-    this.delegation();
     this.setPagination(-1);
     this.findAllDeviceCoreCmdsPagination();
   }
 
   nextPage() {
-    this.delegation();
     this.setPagination(1);
     this.findAllDeviceCoreCmdsPagination();
   }

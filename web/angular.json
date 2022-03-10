@@ -47,6 +47,7 @@
               "node_modules/codemirror/theme/gruvbox-dark.css",
               "node_modules/codemirror/addon/scroll/simplescrollbars.css",
               "node_modules/codemirror/addon/fold/foldgutter.css",
+              "node_modules/codemirror/addon/hint/show-hint.css",
               "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": [
@@ -54,6 +55,7 @@
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/echarts/dist/echarts.min.js",
+
               "node_modules/codemirror/lib/codemirror.js",
               "node_modules/codemirror/mode/yaml/yaml.js",
               "node_modules/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js",
@@ -63,8 +65,16 @@
               "node_modules/codemirror/addon/fold/foldgutter.js",
               "node_modules/codemirror/addon/mode/loadmode.js",
               "node_modules/codemirror/addon/fold/indent-fold.js",
+              "node_modules/codemirror/addon/edit/matchbrackets.js",
+              "node_modules/codemirror/addon/selection/active-line.js",
+
+              "node_modules/codemirror/mode/sql/sql.js",
+              "node_modules/codemirror/addon/hint/show-hint.js",
+              "node_modules/codemirror/addon/hint/sql-hint.js",
+
               "node_modules/cbor-js/cbor.js",
-              "node_modules/flatpickr/dist/flatpickr.min.js"
+              "node_modules/flatpickr/dist/flatpickr.min.js",
+              "node_modules/sql-formatter/dist/sql-formatter.min.js"
             ]
           },
           "configurations": {

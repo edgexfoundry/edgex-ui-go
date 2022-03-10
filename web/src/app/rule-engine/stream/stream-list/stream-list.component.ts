@@ -1,6 +1,21 @@
+/*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************/
+
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Stream } from '../../../contracts/kuiper/stream';
 import { RuleEngineService } from '../../../services/rule-engine.service';
 import { MessageService } from '../../../message/message.service';
 
@@ -11,13 +26,8 @@ import { MessageService } from '../../../message/message.service';
 })
 export class StreamListComponent implements OnInit {
 
-  streamTemp?: Stream;
-  streamTempStr?: string;
-  streamTempShow: boolean = false;
-  streamList: Stream[] = [];
-  selectedStream: string[] = [];
-  isCheckedAll: boolean = false;
-  addStreamSimple: string = '';
+  streamList: string[] = [];
+  selectedStream: string = '';
 
   constructor(
     private ruleSvc: RuleEngineService,
@@ -28,90 +38,49 @@ export class StreamListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-        this.getStreamList()
-    });
+    this.getStreamList()
   }
 
   getStreamList() {
-    this.ruleSvc.allStreams().subscribe((data: Stream[]) => { this.streamList = data; });
+    this.ruleSvc.allStreams().subscribe((data: string[]) => {
+      this.streamList = data; 
+    });
   }
 
   refresh() {
-    this.ruleSvc.allStreams().subscribe((data: Stream[]) => {
+    this.ruleSvc.allStreams().subscribe((data: string[]) => {
       this.streamList = data;
       this.msgSvc.success('refresh');
     });
   }
   
-  toEditStream() {
+  add() {
+    this.router.navigate(['../add-stream'], {relativeTo: this.route});
+  }
+
+  edit(streamName: string) {
     this.router.navigate(['../edit-stream'], {
       relativeTo: this.route,
       queryParams: {
-        'streamName': this.streamList[0]
+        'streamName': streamName
       }
     });
   }
 
-  deleteConfirm() {
+  deleteConfirm(streamName: string) {
+    this.selectedStream = streamName;
     $("#deleteConfirmDialog").modal('show');
   }
 
   delete() {
-      this.ruleSvc.deleteOneStreamById(this.streamList[0].toString()).subscribe(() => {
-        this.msgSvc.success('delete success!');
-      },error =>{
-       if(error.status ==200 && error.statusText =="OK"){
-        this.msgSvc.success('delete success!');
-       }
+      $("#deleteConfirmDialog").modal('hide');
+      this.ruleSvc.deleteOneStreamById(this.selectedStream).subscribe(() => {
+        this.msgSvc.success('delete', `name: ${this.selectedStream}`);
+        this.streamList.forEach((stream, i) => {
+          if (stream === this.selectedStream) {
+            this.streamList.splice(i,1)
+          }
+        })
       });
-      this.streamList = [];
-    $("#deleteConfirmDialog").modal('hide');
-  }
-
-  selectAll(event: any) {
-    const checkbox = event.target;
-    let self = this;
-    if (checkbox.checked) {
-      this.selectedStream = [];
-      this.streamList.forEach(function (item) {
-        self.selectedStream.push(item.toString());
-        self.isChecked(item);
-      });
-      this.isCheckedAll = true;
-      return
-    }
-    this.isCheckedAll = false;
-    this.selectedStream = [];
-    this.streamList.forEach(function (item) {
-      self.isChecked(item);
-    });
-
-  }
-
-  isChecked(name: any): boolean {
-    return this.selectedStream.findIndex(v => v === name) >= 0;
-  }
-
-  selectOne(event: any, name: any) {
-    const checkbox = event.target;
-    if (checkbox.checked) {
-      this.selectedStream.push(name);
-      if (this.selectedStream.length === this.streamList.length) {
-        this.isCheckedAll = true;
-      }
-      return
-    }
-    this.isCheckedAll = false;
-    this.isChecked(name);
-    this.selectedStream.splice(this.selectedStream.indexOf(name), 1)
-
-  }
-
-  streamDetail(name: any){
-    this.ruleSvc.findStreamByName(name).subscribe((data: Stream) => {
-      this.streamTempStr = JSON.stringify(data, null, 3);
-      $("#streamDetailDialog").modal('show');
-    });
   }
 }

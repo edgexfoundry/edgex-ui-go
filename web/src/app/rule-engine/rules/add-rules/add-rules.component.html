@@ -1,601 +1,131 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+ <!-- <button class="btn btn-success btn-sm float-right" (click)="submit()">
+    <i class="fa fa-save mr-1"></i> 
+    <span i18n>Submit</span>
+</button>
+ <app-wizard-stepper [stepItems]="stepItems" [(data)]="rule"></app-wizard-stepper> -->
+
+ <!-- <div class="card">
+     <div class="card-header">Add Wizard</div>
+     <div class="card-body py-0">
+        <div class="row">
+            <div class="col-md-3 bg-light pt-2">
+                <ul class="list-group ">
+                    <li class="list-group-item list-group-item-action border-0 bg-transparent">An item</li>
+                    <li class="list-group-item list-group-item-action border-0 ">A second item</li>
+                    <li class="list-group-item list-group-item-action border-0 bg-transparent">A third item</li>
+                    <li class="list-group-item list-group-item-action border-0 bg-transparent">A fourth item</li>
+                    <li class="list-group-item list-group-item-action border-0">And a fifth one</li>
+                </ul>
+            </div>
+            <div class="col-md-9 mt-2">
+                <app-sink-list [(ruleActions)]="ruleActions"></app-sink-list>
+            </div>
+        </div>
+     </div>
+ </div> -->
+
 <div class="card">
     <div class="card-header">
-        <span class="font-weight-bold">
-            <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span>
-            <span class="text-secondary" i18n>Add Rule Wizard</span>
-        </span>
-    </div>
-    <div class="card-header bg-light">
-        <nav aria-label="breadcrumb" class="mb-0 p-0">
-            <ol class="breadcrumb p-1 mb-0 bg-light">
-                <li class="breadcrumb-item">
-                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass">
-                        <span i18n>RulePrimary</span> 
-                        <i *ngIf="currentStep >= 1" class="fa fa-check ml-1"></i>
-                    </span>
-                </li>
-                <li class="breadcrumb-item">
-                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">
-                        <span i18n>CreateRuleActions</span> 
-                        <i *ngIf="currentStep >= 2" class="fa fa-check ml-1"></i>
-                    </span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-    <div class="card-header">
-        <button *ngIf="currentStep" class="btn btn-info btn-sm" (click)="previous()">
-            <i class="fa fa-long-arrow-left mr-1"></i> 
-            <span i18n>Previous</span>
+        <i class="fa fa-plus mr-1 text-danger"></i>
+        <span class="font-weight-bold" i18n>Add Rule</span>
+        <button class="btn btn-success btn-sm float-right" [disabled]="!validate()" (click)="submit()">
+            <i class="fa fa-save mr-1"></i> 
+            <span i18n>Submit</span>
         </button>
-        <button *ngIf="1 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" [disabled]="stepStateLock()" (click)="next()">
-            <span i18n>Next</span>
-            <i class="fa fa-long-arrow-right ml-1"></i>
-        </button>
-        <ng-template #stepDone>
-            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="done()">
-                <i class="fa fa-save mr-1"></i> 
-                <span i18n>Submit</span>
-            </button>
-        </ng-template>
     </div>
+   
     <div class="card-body p-0">
-        <div [ngSwitch]="currentStep">
-            <ng-template [ngSwitchCase]="0" #RulePrimary>
-                <form class="px-5 py-4">
-                    <div class="form-group row has-validation">
-                        <label for="ruleName" class="col-md-2 col-form-label">
-                            <span class="mr-2" i18n>Name</span> 
-                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                            data-content='The identification of the rule. The rule name cannot be duplicated in the same Kuiper instance.'></span>
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="ruleName" [class.is-invalid]="!ruleName"
-                                [class.is-valid]="ruleName" name="ruleName" [(ngModel)]="ruleName">
-                            <div id="ruleName" class="invalid-feedback">
-                                <small i18n>the rule name can't be empty!</small>
-                            </div>
+        <form class="px-5 py-4">
+            <div class="form-group row has-validation">
+                <label for="ruleName" class="col-md-2 col-form-label">
+                    <span class="mr-2" i18n>Name</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='The identification of the rule. The rule name cannot be duplicated in the same Kuiper instance.'></span>
+                </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="ruleName" [class.is-invalid]="!rule.id" [class.is-valid]="rule.id" name="ruleId" [(ngModel)]="rule.id">
+                    <div id="ruleName" class="invalid-feedback">
+                        <small i18n>the rule name can't be empty!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row has-validation">
+                <label for="ruleSql" class="col-md-2 col-form-label">
+                    <span class="mr-2" i18n>RuleSQL</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                    data-content='The sql query to run for the rule.The Table name must be your stream name.For example "SELECT EdgexStream.temperature, EdgexStream.temp FROM EdgexStream where EdgexStream.temperature > EdgexStream.temp ".'></span>
+                </label>
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header p-2" [class.border]="!sqlEditor.getValue()" [class.border-danger]="!sqlEditor.getValue()"> 
+                            <i class="fa fa-code text-info mr-2 font-weight-bolder"></i>
+                            <span class="font-weight-bold" i18n>SQL Editor</span>
+                            <span *ngIf="!sqlEditor.getValue()" class="text-danger float-right">
+                                <i class="fa fa-warning mr-2"></i>
+                                <span i18n>SQL can't be empty!</span>
+                            </span>
+                        </div>
+                        <div class="card-header bg-secondary py-2">
+                            <span class="text-light">
+                                <i role="button" class="fa fa-indent fa-lg mr-3" data-toggle="tooltip" data-placement="top" title="formatter" (click)="formatSql()"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea id="sql-editor" name="sql-editor"></textarea>
                         </div>
                     </div>
-                    <div class="form-group row has-validation">
-                        <label for="ruleSql" class="col-md-2 col-form-label">
-                            <span class="mr-2" i18n>ruleSql</span> 
-                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                            data-content='The sql query to run for the rule.The Table name must be your stream name.For example "SELECT EdgexStream.temperature, EdgexStream.temp FROM EdgexStream where EdgexStream.temperature > EdgexStream.temp ".'></span>
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="ruleSql" [class.is-invalid]="!ruleSql"
-                                [class.is-valid]="ruleSql" name="ruleSql" [(ngModel)]="ruleSql">
-                            <div id="ruleSql" class="invalid-feedback">
-                                <small i18n>the sql can't be empty!</small>
-                            </div>
+                </div>
+            </div>
+            <div class="form-group row has-validation">
+                <label for="ruleActions" class="col-md-2 col-form-label">
+                    <span class="mr-2" i18n>Action</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                    data-content='where the sql result data sent to'></span>
+                </label>
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header" [class.border]="!rule.actions || rule.actions.length === 0" [class.border-danger]="!rule.actions || rule.actions.length === 0">
+                            <i class="fa fa-plus mr-2 text-info"></i>
+                            <span class="font-weight-bold" i18n>Add Action</span>
+                            <span *ngIf="!rule.actions || rule.actions.length === 0" class="text-danger float-right">
+                                <i class="fa fa-warning mr-2"></i>
+                                <span i18n>at least one rule action required!</span>
+                            </span>
                         </div>
-                    </div>
-                </form>
-            </ng-template>
-
-            <ng-template [ngSwitchCase]="1" #CreateRuleActions>
-                <form class="form-horizontal">
-                    <div class="card border-0">
                         <div class="card-body">
-                            <div class="row border border-secondary p-2 rounded-lg mx-1">
-                                <div class="col-md-3 col-lg-3 border-right border-info">
-                                    <div class="form-group">
-                                        <label>
-                                            <div class="font-weight-bold" i18n>
-                                                  Action Type
-                                            </div>
-                                        </label>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input style="margin-top: 4%;" type="checkbox" id="restCheckbox" name="rest" (click) = "chooseRest($event.target)"
-                                                    class=".checkbox-primary" i18n> Send the result to a Rest HTTP server.
-                                            </label>
-                                            <label>
-                                                <input style="margin-top: 4%;" type="checkbox" id="mqttCheckbox" name="mqtt" (click) = "chooseMqtt($event.target)"
-                                                    class=".checkbox-primary" i18n> Send the result to an MQTT broker.
-                                            </label>
-                                            <label>
-                                                <input style="margin-top: 4%;" type="checkbox" id="edgexCheckbox" name="edgex" (click) = "chooseEdgex($event.target)"
-                                                    class=".checkbox-primary" i18n> Send the result to EdgeX message bus.
-                                            </label>
-                                            <label>
-                                                <input style="margin-top: 4%;" type="checkbox" id="logCheckbox" name="log" (click) = "chooseLog($event.target)"
-                                                    class=".checkbox-primary" i18n> Send the result to log file.
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-9 col-lg-9">
-                                    <div id="rest_action_tab">
-                                        <div id="rest_tabs" [hidden]="!showRestTabs">
-                                            <hr width="100%" color="#987cb9" size=1>
-                                            <div *ngFor="let rest of restModelList, let restindex = index">
-                                                <div class="form-group row" id="rest_{{restindex}}">
-                                                    <div class="col-md-10">
-                                                        <div class="card">
-                                                            <div class="card-header">
-                                                                <span i18n>Rest</span>  {{restindex+1}}
-                                                                <span class="badge mr-2 badge-danger" role="button" (click)="removeRestTab(restindex);"><i
-                                                                    class="fa fa-trash-o"
-                                                                    aria-hidden="true"></i>&nbsp;Delete</span>
-                                                                    <span class="badge mr-2" id="rest_btn_com{{restindex}}" role="button" [class.badge-secondary]="templateSelectedList[restindex] !== 'command'" [class.badge-primary]="templateSelectedList[restindex] === 'command'" (click)="templateToggle('command',restindex)">CommandServiceTemplate</span>
-                                                                    <span class="badge mr-2" id="rest_btn_cus{{restindex}}" role="button" [class.badge-secondary]="templateSelectedList[restindex] !== 'custom'" [class.badge-primary]="templateSelectedList[restindex] === 'custom'" (click)="templateToggle('custom',restindex)">CustomTemplate</span>
-                                                                    <span class="badge mr-2" id="rest_btn_core{{restindex}}" role="button" [class.badge-secondary]="templateSelectedList[restindex] !== 'coredata'" [class.badge-primary]="templateSelectedList[restindex] === 'coredata'" (click)="templateToggle('coredata',restindex)">CoreDataSeviceTemplate</span>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div [ngSwitch]="templateSelectedList[restindex]">
-                                                                    <ng-template [ngSwitchCase]="'custom'" #customTemplate>
-                                                                        <form>
-                                                                            <div class="form-group row">
-                                                                                <label class="col-md-2 col-form-label">
-                                                                                    <span class="mr-2">RetryInterval</span> 
-                                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                                    data-content='The RetryInterval type is number,like -1'></span>
-                                                                                </label>
-                                                                                <div class="col-md-3">
-                                                                                    <input type="text" class="form-control"
-                                                                                        id="retryInterval_{{restindex}}" name="retryInterval_{{restindex}}"
-                                                                                        [(ngModel)]="rest.retryInterval">
-                                                                                </div>
-                                                                                <label class="col-md-2 control-label">SendSingle</label>
-                                                                                <div class="col-md-3">
-                                                                                    <select class="form-control"
-                                                                                        id="SendSingle_{{restindex}}"
-                                                                                        name="sendSingle_{{restindex}}" [(ngModel)]="rest.sendSingle">
-                                                                                        <option value="true">true</option>
-                                                                                        <option value="false" selected="">false</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
-                                                                                <div class="col-md-10">
-                                                                                    <select type="text" id="restMethod_{{restindex}}" class="form-control" name="httpMethod_{{restindex}}" [(ngModel)]="rest.method">
-                                                                                        <option value="GET">GET</option>
-                                                                                        <option value="POST">POST</option>
-                                                                                        <option value="PUT">PUT</option>
-                                                                                        <option value="DELETE">DELETE</option>
-                                                                                        <option value="PATCH">PATCH</option>
-                                                                                        <option value="HEAD">HEAD</option>
-                                                                                        <option value="TRACE">TRACE</option>
-                                                                                        <option value="CONNECT">CONNECT</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row has-validation">
-                                                                                <label for="addressHost" class="col-md-2 col-form-label" required>Host</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressHost_{{restindex}}" [class.is-invalid]="!rest.host" [class.is-valid]="rest.host" name="addressHost_{{restindex}}" [(ngModel)]="rest.host" required>
-                                                                                    <div id="addressHostFeedback" class="invalid-feedback">
-                                                                                        <small>the REST address host can't be empty!</small> 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row has-validation">
-                                                                                <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressPort_{{restindex}}" [class.is-invalid]="!isPureIntegerType(rest.port)" [class.is-valid]="isPureIntegerType(rest.port)" name="addressPort_{{restindex}}" [(ngModel)]="rest.port" required>
-                                                                                    <div id="addressPortFeedback" class="invalid-feedback">
-                                                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressPath_{{restindex}}" name="addressPath_{{restindex}}" [(ngModel)]="rest.path">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="requestBody_{{restindex}}" name="requestBody_{{restindex}}" [(ngModel)]="rest.dataTemplate">
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-                                                                    </ng-template>
-                                                                    <ng-template [ngSwitchCase]="'coredata'" #coredataTemplate>
-                                                                        <form>
-                                                                            <div class="form-group row">
-                                                                                <label class="col-md-2 col-form-label">
-                                                                                    <span class="mr-2">RetryInterval</span> 
-                                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                                    data-content='The RetryInterval type is number,like -1'></span>
-                                                                                </label>
-                                                                                <div class="col-md-3">
-                                                                                    <input type="text" class="form-control"
-                                                                                        id="retryInterval_{{restindex}}" name="retryInterval_{{restindex}}"
-                                                                                        placeholder="-1" [(ngModel)]="rest.retryInterval">
-                                                                                </div>
-                                                                                <label class="col-md-2 control-label">SendSingle</label>
-                                                                                <div class="col-md-3">
-                                                                                    <select class="form-control"
-                                                                                        id="SendSingle_{{restindex}}"
-                                                                                        name="sendSingle_{{restindex}}" [(ngModel)]="rest.sendSingle">
-                                                                                        <option value="true">true</option>
-                                                                                        <option value="false" selected="">false</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="HttpMethod" class="col-md-2 col-form-label" required>HttpMethod</label>
-                                                                                <div class="col-md-10">
-                                                                                    <select type="text" id="restMethod_{{restindex}}" class="form-control" name="httpMethod_{{restindex}}" [(ngModel)]="rest.method">
-                                                                                        <option value="DELETE">DELETE</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row has-validation">
-                                                                                <label for="addressHost" class="col-md-2 col-form-label" required>
-                                                                                    <span class="mr-2">Host</span>
-                                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                                                                        data-content="Both Host and Port fields are editable if you have a different host address !"></span>
-                                                                                </label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressHost_{{restindex}}" [class.is-invalid]="!rest.host" [class.is-valid]="rest.host" name="addressHost_{{restindex}}" [(ngModel)]="rest.host" required>
-                                                                                    <div id="addressHostFeedback" class="invalid-feedback">
-                                                                                        <small>the REST address host can't be empty!</small> 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row has-validation">
-                                                                                <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressPort_{{restindex}}" [class.is-invalid]="!isPureIntegerType(rest.port)" [class.is-valid]="isPureIntegerType(rest.port)" name="addressPort_{{restindex}}" [(ngModel)]="rest.port" required>
-                                                                                    <div id="addressPortFeedback" class="invalid-feedback">
-                                                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressPath_{{restindex}}" name="addressPath_{{restindex}}" [(ngModel)]="rest.path">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="requestBody_{{restindex}}" name="requestBody_{{restindex}}" [(ngModel)]="rest.dataTemplate">
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-                                                                    </ng-template>
-                                                                    <ng-template [ngSwitchCase]="'command'" #commandTemplate>
-                                                                        <form>
-                                                                            <div class="form-group row">
-                                                                                <label class="col-md-2 col-form-label">
-                                                                                    <span class="mr-2">RetryInterval</span> 
-                                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                                    data-content='The RetryInterval type is number,like -1'></span>
-                                                                                </label>
-                                                                                <div class="col-md-3">
-                                                                                    <input type="text" class="form-control"
-                                                                                        id="retryInterval_{{restindex}}" name="retryInterval_{{restindex}}"
-                                                                                        placeholder="-1" [(ngModel)]="rest.retryInterval">
-                                                                                </div>
-                                                                                <label class="col-md-2 control-label">SendSingle</label>
-                                                                                <div class="col-md-3">
-                                                                                    <select class="form-control"
-                                                                                        id="SendSingle_{{restindex}}"
-                                                                                        name="sendSingle_{{restindex}}" [(ngModel)]="rest.sendSingle">
-                                                                                        <option value="true">true</option>
-                                                                                        <option value="false" selected="">false</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="HttpMethod" class="col-md-2 col-form-label" required>
-                                                                                        <span class="mr-2">HttpMethod</span>
-                                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                                                                        data-content="httpMethod field will be filled up automatically when the path field is selected! "></span>
-                                                                                </label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="httpMethod_{{restindex}}" name="httpMethod_{{restindex}}" disabled [(ngModel)]="rest.method" required>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row has-validation">
-                                                                                <label for="addressHost" class="col-md-2 col-form-label" required>
-                                                                                    <span class="mr-2">Host</span>
-                                                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                                                                        data-content="Both Host and Port fields are editable if you have a different host address !"></span>
-                                                                                </label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressHost" [class.is-invalid]="!rest.host" [class.is-valid]="rest.host" name="addressHost_{{restindex}}" [(ngModel)]="rest.host" required>
-                                                                                    <div id="addressHostFeedback" class="invalid-feedback">
-                                                                                        <small>the REST address host can't be empty!</small> 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row has-validation">
-                                                                                <label for="addressPort" class="col-md-2 col-form-label" required>Port</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="addressPort" [class.is-invalid]="!isPureIntegerType(rest.port)" [class.is-valid]="isPureIntegerType(rest.port)" name="addressPort_{{restindex}}" [(ngModel)]="rest.port" required>
-                                                                                    <div id="addressPortFeedback" class="invalid-feedback">
-                                                                                        <small>the REST address port can't be empty and only pure integer is supported!</small> 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
-                                                                                <div class="col-md-10">
-                                                                                    <app-device-core-command-combo-list [validate]="true" (cmdMethodEvent)="onCmdMethodSelected($event,restindex)" (commandSelectedEvent)="onCommandSelected($event,restindex)"></app-device-core-command-combo-list>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="requestBody" class="col-md-2 col-form-label" required>RequestBody</label>
-                                                                                <div class="col-md-10">
-                                                                                    <input type="text" class="form-control" id="requestBody_{{restindex}}" name="requestBody_{{restindex}}" [(ngModel)]="rest.dataTemplate">
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-                                                                    </ng-template>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="btn btn-success" (click)="addRestTab()">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add another Rest HTTP
-                                                Server
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div id="mqtt_action_tab" [hidden]="!showMqttTabs">
-                                        <hr width="100%" color="#987cb9" size=1>
-                                        <div id="mqtt_tabs">
-                                            <div *ngFor="let mqtt of mqttModelList, let mqttindex = index">
-                                                <div id="mqtt_{{mqttindex}}">
-                                                    <div class="col-md-10">
-                                                        <div class="card">
-                                                            <div class="card-header">
-                                                                MQTT broker {{mqttindex+1}}
-                                                                <span class="badge mr-2 badge-danger" role="button" (click)="removeMqttTab(mqttindex);"><i
-                                                                    class="fa fa-trash-o"
-                                                                    aria-hidden="true"></i>&nbsp;Delete</span>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Server</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='The Server is mqtt server address, like tcp://127.0.0.1:1883'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="server_{{mqttindex}}" name="server_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.server">
-                                                                    </div>
-                                                                    <label class="col-md-2 control-label">Topic</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="mqtttopic_{{mqttindex}}" name="mqtt_topic_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.topic">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 control-label">ClientId</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="clientId_{{mqttindex}}" name="clientId_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.clientId">
-                                                                    </div>
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">ProtocoVersion</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='Default value is 3.1.'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="protocolVersion_{{mqttindex}}"
-                                                                            name="protocolVersion_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.protocolVersion">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 control-label">Username</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="username_{{mqttindex}}" name="username_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.username">
-                                                                    </div>
-                                                                    <label class="col-md-2 control-label">Password</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="password_{{mqttindex}}" name="password_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.password">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Cert Path</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='keys/***.pem'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="certificationPath_{{mqttindex}}"
-                                                                            name="certificationPath_{{mqttindex}}" [(ngModel)]="mqtt.certificationPath">
-                                                                    </div>
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">privateKeyPath</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='keys/***.pem.key'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="privateKeyPath_{{mqttindex}}" name="privateKeyPath_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.privateKeyPath">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 control-label">InsecureSkipVerify</label>
-                                                                    <div class="col-md-3">
-                                                                        <select class="form-control"
-                                                                            id="insecureSkipVerify_{{mqttindex}}"
-                                                                            name="insecureSkipVerify_{{mqttindex}}" [(ngModel)]="mqtt.insecureSkipVerify">
-                                                                            <option value="true">true</option>
-                                                                            <option value="false" selected="">false</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <label class="col-md-2 control-label">retained</label>
-                                                                    <div class="col-md-3">
-                                                                        <select class="form-control" id="retained_{{mqttindex}}"
-                                                                            name="retained_{{mqttindex}}" [(ngModel)]="mqtt.retained">
-                                                                            <option value="true">true</option>
-                                                                            <option value="false" selected="">false</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Qos</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='QoS for message delivery.'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="qos_{{mqttindex}}" name="qos_{{mqttindex}}"
-                                                                            [(ngModel)]="mqtt.qos">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h5 class="page-header"></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-success" (click)="addMqttTab()">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add another MQTT broker
-                                        </button>
-                                    </div>
-
-                                    <div id="edgex_action_tab" [hidden]="!showEdgexTabs">
-                                        <hr width="100%" color="#987cb9" size=1>
-                                        <div id="edgex_tabs">
-                                            <div *ngFor="let edgex of edgexModelList, let edgexindex = index">
-                                                <div id="edgex_{{edgexindex}}">
-                                                    <div class="col-md-10">
-                                                        <div class="card">
-                                                            <div class="card-header">
-                                                                EdgeX message bus {{edgexindex+1}}
-                                                                <span class="badge mr-2 badge-danger" role="button" (click)="removeEdgeXTab(edgexindex);"><i
-                                                                    class="fa fa-trash-o"
-                                                                    aria-hidden="true"></i>&nbsp;Delete</span>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Protocol</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='Default value tcp.'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="protocol_{{edgexindex}}" name="protocol_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.protocol">
-                                                                    </div>
-                                                                    <label class="col-md-2 control-label">Host</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="host_{{edgexindex}}" name="host_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.host">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 control-label">Port</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="port_{{edgexindex}}" name="port_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.port">
-                                                                    </div>
-                                                                    <label class="col-md-2 control-label">Topic</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="edgextopic_{{edgexindex}}" name="edgex_topic_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.topic">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 control-label">Content Type</label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="contentType_{{edgexindex}}" name="contentType_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.contentType">
-                                                                    </div>
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Metadata</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='A field name that allows user to specify a field name of SQL select clause.'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="metadata_{{edgexindex}}" name="metadata_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.metadata">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Device Name</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='To specify the device name in the event structure that are sent from Kuiper.'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="deviceName_{{edgexindex}}" name="deviceName_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.deviceName">
-                                                                    </div>
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Type</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='zero or mqtt, and zero is the default value.'></span>
-                                                                    </label>
-                                                                    <div class="col-md-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="edgextype_{{edgexindex}}" name="edgex_type_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.type">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2 col-form-label">
-                                                                        <span class="mr-2">Optional</span> 
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
-                                                                        data-content='If mqtt message bus type is specified, then some optional values can be specified. '></span>
-                                                                    </label>
-                                                                    <div class="col-md-8">
-                                                                        <textarea class="form-control" rows="4"
-                                                                            id="edgexParameters_{{edgexindex}}"
-                                                                            name="edgexParameters_{{edgexindex}}"
-                                                                            [(ngModel)]="edgex.optional"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h5 class="page-header"></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-success" (click)="addEdgeXTab()">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add another EdgeX message
-                                            bus
-                                        </button>
-                                    </div>
-                                    <div id="log_actions_tabs" [hidden]="!chooseActionLog">
-                                        <hr width="100%" color="#987cb9" size=1>
-                                        <h5 class="text-info"> <i class="fa fa-info-circle"></i> this log in action doesn't need to set any parameters. </h5>
-                                    </div>
-                                </div>
-                            </div>
+                           <app-sink-list [(ruleActions)]="rule.actions"></app-sink-list>
                         </div>
                     </div>
-                </form>
-            </ng-template>
-
-        </div>
+                </div>
+            </div>
+            <!-- advanced options-->
+            <div class="form-group row has-validation">
+                <label for="ruleSql" class="col-md-2 col-form-label">
+                    <span class="mr-2" i18n>Options</span> 
+                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                    data-content='Advanced Options'></span>
+                </label>
+                <div class="col-md-10">
+                    <app-rule-advanced-options [(ruleOptions)]="rule.options"></app-rule-advanced-options>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
