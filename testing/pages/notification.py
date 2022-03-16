@@ -1,0 +1,53 @@
+from pages.login import LoginPage
+import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+class Notification(LoginPage):
+    def __init__(self, driver):
+        self.driver = driver
+    def addSub(self):
+        # self.driver.find_element(By.CSS_SELECTOR, ".btn-success > span").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".nav-link:nth-child(6) > span").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".text-primary > span > span").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".input-group-text > .fa-search").click()
+        self.driver.find_element(By.LINK_TEXT, "Subscription").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-info").click()
+        self.driver.find_element(By.ID, "validationSubscriptionName").click()
+        self.driver.find_element(By.ID, "validationSubscriptionName").send_keys("test-subscription-01")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".has-validation > .col-md-2").click()
+        self.driver.find_element(By.NAME, "subscriptionStart").click()
+        self.driver.find_element(By.NAME, "subscriptionStart").send_keys("new")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".form-group:nth-child(2) > .col-md-2").click()
+        self.driver.find_element(By.NAME, "subscriptionLabels").click()
+        self.driver.find_element(By.NAME, "subscriptionLabels").send_keys("label01")
+        time.sleep(1)
+        self.driver.find_element(By.NAME, "subscriptionReceiver").click()
+        self.driver.find_element(By.NAME, "subscriptionReceiver").send_keys("huaqiaoz")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".form-group:nth-child(3) > .col-md-2").click()
+        self.driver.find_element(By.NAME, "subscriptionResendInterval").click()
+        self.driver.find_element(By.NAME, "subscriptionResendInterval").send_keys("24h")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".form-group:nth-child(6) > .col-md-2").click()
+        self.driver.find_element(By.NAME, "subscriptionResendLimit").click()
+        self.driver.find_element(By.NAME, "subscriptionResendLimit").send_keys("10")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".custom-select > option:nth-child(1)").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".mr-2 > span").click()
+        self.driver.find_element(By.ID, "emailRecipients").click()
+        self.driver.find_element(By.ID, "emailRecipients").send_keys("huaqiaoz@vmware.com")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".badge:nth-child(2) > span").click()
+        self.driver.find_element(By.ID, "addressHostREST").click()
+        self.driver.find_element(By.ID, "addressHostREST").send_keys("localhost")
+        time.sleep(1)
+        self.driver.find_element(By.ID, "addressPortREST").click()
+        self.driver.find_element(By.ID, "addressPortREST").send_keys("8080")
+        time.sleep(1)
+        self.driver.find_element(By.ID, "addressPath").click()
+        self.driver.find_element(By.ID, "addressPath").send_keys("/api/v2")
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-success").click()
+
