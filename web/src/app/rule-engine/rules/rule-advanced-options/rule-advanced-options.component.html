@@ -35,8 +35,8 @@
                 </label>
                 <div class="col-sm-9">
                     <select class="custom-select" name="isEventTime" [(ngModel)]="ruleOptions.isEventTime">
-                        <option value="false">false</option>
-                        <option value="true">true</option>
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
                     </select>
                 </div>
             </div>
@@ -102,8 +102,8 @@
                 </label>
                 <div class="col-sm-9">
                     <select class="custom-select" name="sendMetaToSink" [(ngModel)]="ruleOptions.sendMetaToSink">
-                        <option value="false">false</option>
-                        <option value="true">true</option>
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
                     </select>
                 </div>
             </div>
@@ -115,8 +115,8 @@
                 </label>
                 <div class="col-sm-9">
                     <select class="custom-select" name="sendError" [(ngModel)]="ruleOptions.sendError">
-                        <option value="false">false</option>
-                        <option value="true">true</option>
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
                     </select>
                 </div>
             </div>

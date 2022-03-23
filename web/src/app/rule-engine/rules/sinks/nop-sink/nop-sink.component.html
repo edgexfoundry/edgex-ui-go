@@ -31,8 +31,8 @@
                 </label>
                 <div class="col-sm-9">
                     <select class="custom-select"  name="log" [(ngModel)]="nopSink.log">
-                        <option value="false">false</option>
-                        <option value="true">true</option>
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
                     </select>
                 </div>
             </div>
