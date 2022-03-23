@@ -82,8 +82,8 @@
                 <label class="col-sm-3 col-form-label text-nowrap text-truncate">Retained</label>
                 <div class="col-sm-9">
                     <select class="custom-select"  name="retained" [(ngModel)]="mqttSink.retained">
-                        <option value="false">false</option>
-                        <option value="true">true</option>
+                        <option [ngValue]="false">false</option>
+                        <option [ngValue]="true">true</option>
                     </select>
                 </div>
             </div>
@@ -121,8 +121,8 @@
                 <label class="col-sm-3 col-form-label text-nowrap text-truncate">InsecureSkipVerify</label>
                 <div class="col-sm-9">
                     <select class="custom-select"  name="insecureSkipVerify" [(ngModel)]="mqttSink.insecureSkipVerify">
-                        <option value="true">true</option>
-                        <option value="false">false</option>
+                        <option [ngValue]="true">true</option>
+                        <option [ngValue]="false">false</option>
                     </select>
                 </div>
             </div>

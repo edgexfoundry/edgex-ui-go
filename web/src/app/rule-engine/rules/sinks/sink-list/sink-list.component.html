@@ -61,7 +61,6 @@
                         <option value="{{MQTT_SINK}}">{{MQTT_SINK}}</option>
                         <option value="{{REST_SINK}}">{{REST_SINK}}</option>
                         <option value="{{LOG_SINK}}">{{LOG_SINK}}</option>
-                        <option value="{{NOP_SINK}}">{{NOP_SINK}}</option>
                     </select>
                     <div id="validationSinkTypeFeedback" class="invalid-feedback">
                         <small i18n>please select a valid Sink Type !</small>
@@ -78,9 +77,6 @@
             </div>
             <div *ngSwitchCase="REST_SINK">
                 <app-rest-sink [(restSink)]="restSink"></app-rest-sink>
-            </div>
-            <div *ngSwitchCase="NOP_SINK">
-                <app-nop-sink [(nopSink)]="nopSink"></app-nop-sink>
             </div>
             <div  *ngSwitchCase="LOG_SINK">
                 <app-log-sink [(logSink)]="logSink"></app-log-sink>

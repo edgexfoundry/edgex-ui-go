@@ -34,7 +34,7 @@ export class RuleAdvancedOptionsComponent implements OnInit, OnChanges {
 
   constructor() { 
     this._ruleOptions = {
-      isEventTime: false,
+        isEventTime: false,
         sendMetaToSink: false,
         sendError: true,
         qos: 0
