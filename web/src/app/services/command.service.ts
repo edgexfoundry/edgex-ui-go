@@ -98,19 +98,11 @@ export class CommandService {
   }
 
   issueGetCmd(deviceName: string, commandName: string): Observable<EventResponse> {
-    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}`;
+    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=yes&ds-returnevent=yes`;
     return this.http.get<EventResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
-
-  //deprecated
-  // issueGetCmd(deviceId: string, commandId: string): Observable<any> {
-  //   let url = `${this.urlPrefix}${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
-  //   return this.http.get(url).pipe(
-  //     catchError(error => this.errorSvc.handleError(error))
-  //   )
-  // }
 
   issueSetCmd(deviceName: string, commandName: string, params?: any): Observable<BaseResponse> {
     let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}`;
@@ -118,15 +110,4 @@ export class CommandService {
       catchError(error => this.errorSvc.handleError(error))
     )
   }
-
-  //deprecated
-  // issueSetCmd(deviceId: string, commandId: string, params?: any): Observable<any> {
-  //   let url = `${this.commandsByDeviceIdUrl}${deviceId}/command/${commandId}`;
-  //   return this.http.request('PUT', url, {
-  //     body: JSON.stringify(params),
-  //     responseType: 'text'
-  //   }).pipe(
-  //     catchError(error => this.errorSvc.handleError(error))
-  //   )
-  // }
 }

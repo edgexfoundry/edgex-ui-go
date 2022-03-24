@@ -105,14 +105,14 @@ export class MetadataService {
     )
   }
 
-  addDevice(device: Device): Observable<BaseWithIdResponse> {
+  addDevice(device: Device): Observable<BaseResponse> {
     let url = `${this.addOneDeviceUrl}`;
     device.apiVersion = 'v2';
     let data: DeviceRequest[]  = [{
       apiVersion: "v2",
       device: device
     }]
-    return this.http.post<BaseWithIdResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
+    return this.http.post<BaseResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
     .pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
@@ -146,15 +146,6 @@ export class MetadataService {
     }).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
-    // return this.http.patch<BaseResponse>(url, {
-    //   body: JSON.stringify(data),
-    //   responseType: 'json',
-    //   headers: new HttpHeaders({
-    //     'Content-type': 'application/json'
-    //   })
-    // }).pipe(
-    //   catchError(error => this.errorSvc.handleError(error))
-    // )
   }
 
   findDeviceByName(name: string): Observable<DeviceResponse> {

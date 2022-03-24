@@ -24,6 +24,7 @@ import { AutoEvent } from '../../../contracts/v2/auto-event';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
 
 class MqttProtocolTemplate {
   Schema: string = "";
@@ -112,6 +113,7 @@ export class AddDeviceComponent implements OnInit {
 
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
+    private errorSvc: ErrorService,
     private router: Router,
     private route: ActivatedRoute
   ) { 
@@ -309,7 +311,10 @@ export class AddDeviceComponent implements OnInit {
     this.newDevice.protocols = protocol;
     this.newDevice.autoEvents = autoEvents;
 
-    this.metaSvc.addDevice(this.newDevice).subscribe(() => {
+    this.metaSvc.addDevice(this.newDevice).subscribe((resp:any) => {
+      if(this.errorSvc.handleErrorForV2API(resp)) {
+        return
+      }
       this.msgSvc.success('Add device',`name: ${this.newDevice.name}`);
       this.router.navigate(['../device-list'], { relativeTo: this.route })
     })
