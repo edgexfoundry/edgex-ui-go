@@ -19,6 +19,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
 import { Device } from '../../../contracts/v2/device';
 import { DeviceResponse } from '../../../contracts/v2/responses/device-response';
 import { DeviceService } from '../../../contracts/v2/device-service';
@@ -67,7 +68,8 @@ export class EditDeviceComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private metaSvc: MetadataService,
-    private msgSvc: MessageService) { }
+    private msgSvc: MessageService,
+    private errorSvc: ErrorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -222,7 +224,10 @@ export class EditDeviceComponent implements OnInit {
       })
     });
 
-    this.metaSvc.updateDevice(d).subscribe(() => {
+    this.metaSvc.updateDevice(d).subscribe((resp: any) => {
+      if(this.errorSvc.handleErrorForV2API(resp)) {
+        return
+      }
       this.msgSvc.success('update device', `name: ${this.device?.name}`);
       this.router.navigate(['../device-list'], { relativeTo: this.route });
     });

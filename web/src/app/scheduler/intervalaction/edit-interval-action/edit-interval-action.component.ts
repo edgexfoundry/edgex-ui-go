@@ -65,7 +65,7 @@ export class EditIntervalActionComponent implements OnInit {
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private errSvc: ErrorService) {
+    private errorSvc: ErrorService) {
       this.intervalAction = {} as IntervalAction;
       this.intervalActionOrigin = {} as IntervalAction;
       this.intervalAction.address = {} as Address;
@@ -283,7 +283,10 @@ export class EditIntervalActionComponent implements OnInit {
         }
     }
     
-    this.schedulerSvc.updateIntervalAction(this.intervalAction).subscribe(()=>{
+    this.schedulerSvc.updateIntervalAction(this.intervalAction).subscribe((resp: any)=>{
+      if(this.errorSvc.handleErrorForV2API(resp)) {
+        return
+      }
       this.msgSvc.success('Update interval action',`name: ${this.intervalAction.name}`);
       this.router.navigate(['../interval-action-list'],{ relativeTo: this.route });
     });

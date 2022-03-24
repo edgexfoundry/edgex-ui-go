@@ -60,7 +60,7 @@ export class AddIntervalActionComponent implements OnInit {
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private errSvc: ErrorService) { 
+    private errorSvc: ErrorService) { 
       this.intervalAction = { adminState: 'UNLOCKED' } as IntervalAction;
       this.intervalAction.address = {} as Address;
       this.intervalAction.address.type = 'REST';
@@ -229,7 +229,10 @@ export class AddIntervalActionComponent implements OnInit {
           }
     }
 
-    this.schedulerSvc.addIntervalAction(this.intervalAction).subscribe(() => {
+    this.schedulerSvc.addIntervalAction(this.intervalAction).subscribe((resp: any) => {
+      if(this.errorSvc.handleErrorForV2API(resp)) {
+        return
+      }
       this.msgSvc.success('Add interval action',`name: ${this.intervalAction.name}`);
       this.router.navigate(['../interval-action-list'],{ relativeTo: this.route });
     })
