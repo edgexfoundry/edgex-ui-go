@@ -26,8 +26,11 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authSvc: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    let authToken =  `Bearer ${this.authSvc.getAccessToken()}`;
-    let headers = request.headers.set('X-Requested-With', 'XMLHttpRequest').set('Authorization', authToken);
+    let headers = request.headers.set('X-Requested-With', 'XMLHttpRequest');
+    if (this.authSvc.isSecureMode) {
+      let authToken =  `Bearer ${this.authSvc.getAccessToken()}`;
+      headers = request.headers.set('X-Requested-With', 'XMLHttpRequest').set('Authorization', authToken);
+    }
     const req = request.clone({
       headers: headers
     });
