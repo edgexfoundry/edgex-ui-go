@@ -68,7 +68,13 @@ func AuthFilter(h http.Handler) http.Handler {
 		}
 
 		if !strings.HasPrefix(path, localAPIPathPrefix) && !hasSvcPrefixValidate(path) {
-			if path == "/" {
+			w.Header().Add("X-Frame-Options", "SAMEORIGIN")
+			w.Header().Add("X-Content-Type-Options", "nosniff")
+			w.Header().Add("X-Download-Options", "noopen")
+			w.Header().Add("X-XSS-Protection", "1")
+			w.Header().Add("Cache-Control", "no-cache,no-store")
+			w.Header().Add("Content-Security-Policy", "base-uri 'self';default-src 'self' 'unsafe-inline';img-src 'self' http://www.w3.org/ data:;")
+			if path == RootURIPath {
 				http.FileServer(http.Dir(staticV2Path+"/en-US")).ServeHTTP(w, r)
 				return
 			} else {
