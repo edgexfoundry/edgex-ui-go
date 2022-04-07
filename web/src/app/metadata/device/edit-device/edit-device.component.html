@@ -70,11 +70,7 @@
                     <div class="form-group row">
                         <label for="operatingState" class="col-md-2 col-form-label" i18n>OperatingState</label>
                         <div class="col-md-10">
-                            <select class="custom-select" name="operatingState" [(ngModel)]="device.operatingState">
-                                <option value="UP">UP</option>
-                                <option value="DOWN">DOWN</option>
-                                <option value="DOWN">UNKNOWN</option>
-                            </select>
+                            <input type="text" name="operatingState" disabled [value]="device.operatingState" class="form-control">
                         </div>
                     </div>
                 </form>
