@@ -1,10 +1,6 @@
-/* input {
-    width: 300px;
+input[disabled]:hover {
+    cursor: not-allowed;
 }
-
-select {
-    width: 300px;
-} */
 
 .btn[disabled]:hover {
     cursor: not-allowed;
