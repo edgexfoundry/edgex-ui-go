@@ -1,0 +1,46 @@
+The following open source projects are referenced by edgex-ui-go:
+
+pelletier/go-toml (Apache 2.0) https://github.com/pelletier/go-toml
+https://github.com/pelletier/go-toml/blob/master/LICENSE
+
+edgexfoundry/go-mod-core-contracts (Apache 2.0) https://github.com/edgexfoundry/go-mod-core-contracts/v2
+https://github.com/edgexfoundry/go-mod-core-contracts/blob/master/LICENSE
+
+edgexfoundry/go-mod-registry (Apache 2.0) https://github.com/edgexfoundry/go-mod-registry/v2
+https://github.com/edgexfoundry/go-mod-registry/blob/master/LICENSE
+
+edgexfoundry/go-mod-configuration (Apache 2.0) https://github.com/edgexfoundry/go-mod-configuration/v2
+https://github.com/edgexfoundry/go-mod-configuration/blob/master/LICENSE
+
+gorilla/mux 1.6.2 (BSD-3) https://github.com/gorilla/mux
+https://github.com/gorilla/mux/blob/master/LICENSE
+
+gopkg.in/yaml.v2 (Apache 2.0) https://github.com/go-yaml/yaml
+https://github.com/go-yaml/yaml/blob/v2.4.0/LICENSE
+
+angular v12 (MIT) https://github.com/angular/angular
+https://github.com/angular/angular/blob/master/LICENSE
+
+bootstrap v4.5.3 (MIT) https://github.com/twbs/bootstrap
+https://github.com/twbs/bootstrap/blob/main/LICENSE
+
+font-awesome v4.7.0 (MIT,SIL OFL 1.1) https://github.com/FortAwesome/Font-Awesome
+https://github.com/FortAwesome/Font-Awesome/tree/4.x
+
+jquery v3.6.0 (MIT) https://github.com/jquery/jquery
+https://github.com/jquery/jquery/blob/main/LICENSE.txt
+
+codemirror v5.62.3 (MIT) https://github.com/codemirror/codemirror
+https://github.com/codemirror/CodeMirror/blob/master/LICENSE
+
+sql-formatter v4.0.2 (MIT) https://github.com/zeroturnaround/sql-formatter
+https://github.com/zeroturnaround/sql-formatter/blob/master/LICENSE
+
+echarts v5.2.1 (Apache 2.0) https://github.com/apache/echarts
+https://github.com/apache/echarts/blob/master/LICENSE
+
+flatpickr v4.6.9 (MIT) https://github.com/flatpickr/flatpickr
+https://github.com/flatpickr/flatpickr/blob/v4.6.9/LICENSE.md
+
+cbor-js v0.1.0 (MIT) https://github.com/paroga/cbor-js
+https://github.com/paroga/cbor-js/blob/master/LICENSE
