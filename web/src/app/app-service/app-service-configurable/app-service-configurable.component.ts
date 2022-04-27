@@ -15,19 +15,11 @@
  *******************************************************************************/
 
 import { Component, OnInit  } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { AppServiceService } from '../..//services/app-service.service';
-import { MessageService } from '../../message/message.service';
-import { MetadataService } from '../../services/metadata.service';
 import { Trigger } from '../../contracts/v2/appsvc/trigger';
 import { Writable } from '../../contracts/v2/appsvc/writable';
-import { Pipeline } from '../../contracts/v2/appsvc/pipeline';
-import { InsecureSecrets } from '../../contracts/v2/appsvc/insecure-secrets';
-import { Functions, AddTags, Batch,Compress, Encrypt, 
-    FilterByDeviceName, FilterByProfileName, FilterBySourceName, 
-    FilterByResourceName, HTTPExport, MQTTExport, PushToCore,
-    Transform,SetResponseData, JSONLogic } from '../../contracts/v2/appsvc/functions';
 
 @Component({
     selector: 'app-app-service-configurable',
@@ -41,22 +33,12 @@ export class AppServiceConfigurableComponent implements OnInit {
     configTrigger: Trigger;
 
     configurableSection: string = "PipelineFunc"; // Trigger ,PipelineFunc, InsecureSecrets, StoreAndForward
-
-    appServiceKey: string = 'app-rules-engine';
-    availableFunctions: Functions;
-    selectedFunctionsName: string[] = [];
-
-    insecureSecrets: InsecureSecrets;
+    appServiceKey: string = '';
 
     constructor(private appSvc: AppServiceService, 
-        private msgSvc: MessageService, 
-        private metaSvc: MetadataService,
-        private route: ActivatedRoute,
-        private router: Router) {
+        private route: ActivatedRoute) {
             this.configTrigger = {} as Trigger;
             this.configWritable = {} as Writable;
-            this.availableFunctions = {} as Functions;
-            this.insecureSecrets = {} as InsecureSecrets;
     }
     
     ngOnInit(): void {
@@ -77,50 +59,15 @@ export class AppServiceConfigurableComponent implements OnInit {
         },200)
     }
 
-    getFuncExecutionOrder(): string {
-        return this.selectedFunctionsName.join(',');
-    }
-
     loadAppSvcConfig() {
         this.appSvc.getAppSvcConfigBySvcKey(this.appServiceKey).subscribe((resp) => {
             Object.assign(this.configTrigger, resp[this.TirggerIdentifier]);
-
-            let writable: Writable = resp[this.writableIdentifier];
-            Object.assign(this.configWritable, writable);
-            Object.assign(this.insecureSecrets, writable.InsecureSecrets)
-            this.selectedFunctionsName = writable.Pipeline.ExecutionOrder.split(',');
-            this.availableFunctions = writable.Pipeline.Functions; // don't used assign, all properties will change to un-enumerable in the children component
+            Object.assign(this.configWritable, resp[this.writableIdentifier]);
         })
     }
 
     configurableSectionChange(configSection: string) {
         this.configurableSection = configSection;
         this.renderPopoverComponent();
-    }
-
-    submit() {
-        let writable = {} as Writable;
-        let pipeline: any = {
-            ExecutionOrder: this.getFuncExecutionOrder(),
-            Functions: {} 
-        } as Pipeline;
-
-        for (const [funcName, func] of Object.entries(this.availableFunctions)) {
-            if(this.selectedFunctionsName.indexOf(funcName) !== -1) {
-                pipeline.Functions[funcName] = func;
-            }
-        }
-
-        writable.Pipeline = pipeline;
-        writable.InsecureSecrets = this.insecureSecrets;
-        writable.StoreAndForward = this.configWritable.StoreAndForward;
-        this.appSvc.deployToConsul({'Writable': writable}, this.appServiceKey).subscribe(()=>{
-            this.msgSvc.success('deploy configuration',`service: ${this.appServiceKey}`);
-            this.router.navigate(['../app-service-list'],{relativeTo: this.route})
-        })
-    }
-
-    removeSelectedFuncsAll() {
-        this.selectedFunctionsName = [];
     }
 }

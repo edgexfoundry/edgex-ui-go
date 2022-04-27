@@ -36,12 +36,14 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
 
     profileNames: string[] = [];
     deviceNames: string[] = [];
+    builtinFunctions: Functions
 
     // using get and set method to avoid overwriting on init value of InsecureSecrets when parent component was binding on.
-    private _availableFunctions: Functions;
+    // availableFunctions' name is not an exacted Functions from Jakarta version, it is a superset of built-in Function, the name of property maybe the value with an exacted name of one built-in Function.
+    private _availableFunctions: Functions | any;
     @Input() 
-    get availableFunctions(): Functions {return this._availableFunctions};
-    set availableFunctions(funcs: Functions) {
+    get availableFunctions(): Functions | any {return this._availableFunctions};
+    set availableFunctions(funcs: Functions | any) {
         Object.assign(this._availableFunctions, funcs)
     };
     @Output() availableFunctionsChange = new EventEmitter<Functions>();
@@ -57,7 +59,8 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
 
     constructor() { 
         this._availableFunctions = {} as Functions;
-        // this.initAvailableFunctions();
+        this.builtinFunctions = {} as Functions
+        this.initBuiltinFunctions();
     }
 
     ngOnInit(): void {
@@ -69,6 +72,17 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         this.availableFunctionsChange.emit(this.availableFunctions);
     }
  
+    startWith(availableFuncName: string): string {
+        let builtinFuncName = 'Unknown' 
+        Object.keys(this.builtinFunctions).forEach(name => {
+            if (availableFuncName.startsWith(name))  {
+                builtinFuncName = name
+                return
+            }
+        })
+        return builtinFuncName
+    }
+
     setSelectedDevices() {
         if (this.availableFunctions.FilterByDeviceName?.Parameters) {
             if (this.availableFunctions.FilterByDeviceName!.Parameters.DeviceNames) {
@@ -85,21 +99,21 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         }
     }
 
-    initAvailableFunctions() {
-            this.availableFunctions.AddTags = {Parameters:{Tags:""}} as AddTags;
-            this.availableFunctions.Batch = {Parameters:{}} as Batch;
-            this.availableFunctions.FilterByDeviceName = {Parameters:{FilterOut:"false"}} as FilterByDeviceName;
-            this.availableFunctions.FilterByProfileName = {Parameters:{FilterOut:"false"}} as FilterByProfileName;
-            this.availableFunctions.FilterBySourceName = {Parameters:{FilterOut:"false"}} as FilterBySourceName;
-            this.availableFunctions.FilterByResourceName = {Parameters:{FilterOut:"false"}} as FilterByResourceName;
-            this.availableFunctions.Transform = {Parameters:{Type:"json"}} as Transform;
-            this.availableFunctions.Compress = {Parameters:{Algorithm:"gzip"}} as Compress;
-            this.availableFunctions.Encrypt = {Parameters:{Algorithm:"aes"}} as Encrypt;
-            this.availableFunctions.HTTPExport = {Parameters:{}} as HTTPExport;
-            this.availableFunctions.MQTTExport = {Parameters:{}} as MQTTExport;
-            this.availableFunctions.PushToCore = {Parameters:{}} as PushToCore;
-            this.availableFunctions.SetResponseData = {Parameters:{}} as SetResponseData;
-            this.availableFunctions.JSONLogic = {Parameters:{}} as JSONLogic;
+    initBuiltinFunctions() {
+            this.builtinFunctions.AddTags = {Parameters:{Tags:""}} as AddTags;
+            this.builtinFunctions.Batch = {Parameters:{}} as Batch;
+            this.builtinFunctions.FilterByDeviceName = {Parameters:{FilterOut:"false"}} as FilterByDeviceName;
+            this.builtinFunctions.FilterByProfileName = {Parameters:{FilterOut:"false"}} as FilterByProfileName;
+            this.builtinFunctions.FilterBySourceName = {Parameters:{FilterOut:"false"}} as FilterBySourceName;
+            this.builtinFunctions.FilterByResourceName = {Parameters:{FilterOut:"false"}} as FilterByResourceName;
+            this.builtinFunctions.Transform = {Parameters:{Type:"json"}} as Transform;
+            this.builtinFunctions.Compress = {Parameters:{Algorithm:"gzip"}} as Compress;
+            this.builtinFunctions.Encrypt = {Parameters:{Algorithm:"aes"}} as Encrypt;
+            this.builtinFunctions.HTTPExport = {Parameters:{}} as HTTPExport;
+            this.builtinFunctions.MQTTExport = {Parameters:{}} as MQTTExport;
+            this.builtinFunctions.PushToCore = {Parameters:{}} as PushToCore;
+            this.builtinFunctions.SetResponseData = {Parameters:{}} as SetResponseData;
+            this.builtinFunctions.JSONLogic = {Parameters:{}} as JSONLogic;
     }
 
     onDeviceProfileSelectedEvent(profiles: string[]) {

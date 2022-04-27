@@ -17,94 +17,53 @@
  -->
 
  <div class="card">
-     <div class="card-header">
-         <i class="fa fa-tags mr-2 text-danger"></i>
-         <span class="font-weight-bold">
-            <span class="mr-2 text-info">{{appServiceKey}}</span>
-            <span i18n>Configurable Setting</span>
-         </span>
-         <button class="btn btn-success btn-sm float-right" (click)="submit()">
-             <i class="fa fa-save mr-1"></i>
-             <span i18n>Submit</span>
-            </button>
-     </div>
-     <div class="card-body">
-
-        <div class="card">
-            <div class="card-header">
-              <ul class="nav nav-tabs card-header-tabs font-weight-bold">
-                <li class="nav-item" (click)="configurableSectionChange('Trigger')">
-                    <a class="nav-link" role="button" [class.active]="configurableSection === 'Trigger'" i18n>Trigger</a>
-                  </li>
-                <li class="nav-item" (click)="configurableSectionChange('PipelineFunc')">
-                  <a class="nav-link" role="button" [class.active]="configurableSection === 'PipelineFunc'" i18n>Pipeline Functions</a>
-                </li>
-                <li class="nav-item" (click)="configurableSectionChange('InsecureSecrets')">
-                  <a class="nav-link" role="button" [class.active]="configurableSection === 'InsecureSecrets'" i18n>Insecure Secrets</a>
-                </li>
-                <li class="nav-item" (click)="configurableSectionChange('StoreAndForward')">
-                  <a class="nav-link" role="button" [class.active]="configurableSection === 'StoreAndForward'" i18n>Store And Forward</a>
-                </li>
-              </ul>
+    <div class="card-header">
+        <i class="fa fa-tags mr-2 text-danger"></i>
+        <span class="font-weight-bold">
+          <span class="mr-2 text-info">{{appServiceKey}}</span>
+          <span i18n>Configurable Setting</span>
+        </span>
+    </div>
+    <div class="card-body">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs font-weight-bold">
+            <li class="nav-item" (click)="configurableSectionChange('Trigger')">
+                <a class="nav-link" role="button" [class.active]="configurableSection === 'Trigger'" i18n>Trigger</a>
+              </li>
+            <li class="nav-item" (click)="configurableSectionChange('PipelineFunc')">
+                <a class="nav-link" role="button" [class.active]="configurableSection === 'PipelineFunc'" i18n>Pipelines</a>
+            </li>
+            <li class="nav-item" (click)="configurableSectionChange('InsecureSecrets')">
+                <a class="nav-link" role="button" [class.active]="configurableSection === 'InsecureSecrets'" i18n>Insecure Secrets</a>
+            </li>
+            <li class="nav-item" (click)="configurableSectionChange('StoreAndForward')">
+                <a class="nav-link" role="button" [class.active]="configurableSection === 'StoreAndForward'" i18n>Store And Forward</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+            <div *ngIf="configurableSection === 'Trigger'">
+                <app-appsvc-trigger [configTrigger]="configTrigger"></app-appsvc-trigger>
             </div>
-            <div class="card-body">
-
-                <div *ngIf="configurableSection === 'Trigger'">
-                    <app-appsvc-trigger [(configTrigger)]="configTrigger"></app-appsvc-trigger>
-                </div>
-
-                <div *ngIf="configurableSection === 'PipelineFunc'">
-                    <app-pipeline-function 
-                    [(selectedFunctionsName)]="selectedFunctionsName"
-                    [(availableFunctions)]="availableFunctions"></app-pipeline-function>
-                </div>
-
-                <div *ngIf="configurableSection === 'InsecureSecrets'">
-                    <app-appsvc-insecure-secrets [(insecureSecrets)]="insecureSecrets"></app-appsvc-insecure-secrets>
-                </div>
-
-                <div *ngIf="configurableSection === 'StoreAndForward'">
-                    <form>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">
-                                <span>Enabled</span>
-                                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                data-content="capability allows for export functions to persist data on failure and for the export of the data to be retried at a later time."></span>
-                            </label>
-                            <div class="col-sm-10">
-                                <select class="custom-select"  name="FilterOut" [(ngModel)]="configWritable.StoreAndForward.Enabled">
-                                    <option value="false">false</option>
-                                    <option value="true">true</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">
-                                <span>MaxRetryCount</span>
-                                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                data-content='pure number'></span>
-                            </label>
-                            <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="MaxRetryCount" [(ngModel)]="configWritable.StoreAndForward.MaxRetryCount">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">
-                                <span>RetryInterval</span>
-                                <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                data-content='
-                                The format of this field is to be an unsigned integer followed by a unit,&lt;br&gt;
-                                which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
-                            </label>
-                            <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="RetryInterval" [(ngModel)]="configWritable.StoreAndForward.RetryInterval">
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div *ngIf="configurableSection === 'PipelineFunc'">
+                <app-appsvc-pipeline 
+                [appServiceKey]="appServiceKey"
+                [pipeline]="configWritable.Pipeline"></app-appsvc-pipeline>
+            </div>
+            <div *ngIf="configurableSection === 'InsecureSecrets'">
+                <app-appsvc-insecure-secrets
+                [appServiceKey]="appServiceKey"
+                [insecureSecrets]="configWritable.InsecureSecrets"></app-appsvc-insecure-secrets>
+            </div>
+            <div *ngIf="configurableSection === 'StoreAndForward'">
+                <app-appsvc-store-and-forward 
+                [appServiceKey]="appServiceKey"
+                [storeAndForward]="configWritable.StoreAndForward"></app-appsvc-store-and-forward>
             </div>
           </div>
-     </div>
+        </div>
+    </div>
  </div>
 
 

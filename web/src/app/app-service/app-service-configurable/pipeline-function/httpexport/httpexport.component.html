@@ -1,0 +1,124 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<form>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Method</label>
+        <div class="col-sm-10">
+            <select class="custom-select"  name="Method" [(ngModel)]="httpExport.Parameters.Method">
+                <option value="post">post</option>
+                <option value="put">put</option>
+                <!-- <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+                <option value="PATCH">PATCH</option>
+                <option value="HEAD">HEAD</option>
+                <option value="TRACE">TRACE</option>
+                <option value="CONNECT">CONNECT</option> -->
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Url</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="Url" [(ngModel)]="httpExport.Parameters.Url">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+            <span>MimeType</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="Optional mime type for the data. Defaults to application/json if not set."></span>
+        </label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="MimeType" [(ngModel)]="httpExport.Parameters.MimeType">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+            <span>PersistOnError</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="Indicates to persist the data if the POST fails. Store and Forward must also be enabled if this is set to 'true'."></span>
+        </label>
+        <div class="col-sm-10">
+            <select class="custom-select"  name="PersistOnError" [(ngModel)]="httpExport.Parameters.PersistOnError">
+                <option value="false">false</option>
+                <option value="true">true</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <span>ContinueOnSendError</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="For chained multi destination exports, if true continues after send error so next export function executes."></span>
+        </label>
+        <div class="col-sm-9">
+            <select class="custom-select"  name="ContinueOnSendError" [(ngModel)]="httpExport.Parameters.ContinueOnSendError">
+                <option value="false">false</option>
+                <option value="true">true</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+            <span>ReturnInputData</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="For chained multi destination exports if true, passes the input data to next export function."></span>
+        </label>
+        <div class="col-sm-10">
+            <select class="custom-select"  name="ReturnInputData" [(ngModel)]="httpExport.Parameters.ReturnInputData">
+                <option value="false">false</option>
+                <option value="true">true</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+            <span>HeaderName</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="(Optional) Name of the header key to add to the HTTP header"></span>
+        </label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="HeaderName" [(ngModel)]="httpExport.Parameters.HeaderName">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+            <span>SecretPath</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="(Optional) Path in the secret in the Secret Store where to header value is stored."></span>
+        </label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="SecretPath" [(ngModel)]="httpExport.Parameters.SecretPath">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">
+            <span>SecretName</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content="(Optional) Name of the secret for the header value in the Secret Store."></span>
+        </label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="SecretName" [(ngModel)]="httpExport.Parameters.SecretName">
+        </div>
+    </div>
+</form>

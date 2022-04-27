@@ -15,7 +15,6 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from '../../message/message.service';
 import { AppServiceService } from '../../services/app-service.service';
 import { ServiceEndpoint } from '../../contracts/v2/register-center/service-endpoint';
 
@@ -27,9 +26,7 @@ import { ServiceEndpoint } from '../../contracts/v2/register-center/service-endp
 export class AppServiceListComponent implements OnInit {
 
   appServiceList: ServiceEndpoint[] = [];
-
-  constructor(private appSvc: AppServiceService,
-    private msgSvc: MessageService) { }
+  constructor(private appSvc: AppServiceService) { }
 
   ngOnInit(): void {
     this.getAllAppSvc();

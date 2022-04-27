@@ -1,0 +1,106 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <ul class="list-unstyled" *ngIf="pipeline && !isEditStatus">
+    <li class="list-group-item list-group-item-action list-group-item-light">
+        <div class="media">
+            <div class="align-self-center mr-3">
+                <i class="fa fa-tags fa-2x text-secondary"></i>  
+            </div>
+            <div class="media-body">
+                <h5 class="text-dark mt-0">{{defaultPipelineIdentifier}}</h5>
+                <p class="mb-0"><span class="badge badge-secondary mr-1">ExecutionOrder:</span>{{pipeline.ExecutionOrder}}</p>
+                <span role="button" class="badge badge-info float-right" (click)="edit(defaultPipelineIdentifier)">
+                    <i class="fa fa-edit mr-1"></i>
+                    <span i18n>Edit</span>
+                </span>
+            </div>
+        </div>
+    </li>
+    <div *ngIf="perTopicPipelines">
+        <li *ngFor="let ptp of perTopicPipelines" class="list-group-item list-group-item-action list-group-item-light">
+            <div class="media">
+                <div class="align-self-center mr-3">
+                    <i class="fa fa-tags fa-2x text-secondary"></i>  
+                </div>
+                <div class="media-body">
+                    <h5 class="text-dark mt-0 mb-1">{{ptp.Id}}</h5>
+                    <p class="mb-0">
+                        <span class="badge badge-secondary mr-1">ExecutionOrder:</span>
+                        {{ptp.ExecutionOrder}}
+                    </p>
+                    <span class="badge badge-secondary mr-1">Topics:</span>
+                    {{ptp.Topics}}
+                    <span role="button" class="badge badge-info float-right" (click)="edit(ptp.Id)">
+                        <i class="fa fa-edit mr-1"></i>
+                        <span i18n>Edit</span>
+                    </span>
+                </div>
+            </div>
+        </li>
+    </div>
+ </ul>
+
+ <div class="card" *ngIf="isEditStatus">
+     <div class="card-header font-weight-bold">
+        <i class="fa fa-edit font-weight-bolder text-info mr-1"></i>
+        <span i18n>Edit Pipeline</span>
+        <span class="ml-1 text-info">{{selectedPipelineID}}</span>
+        <span class="float-right">
+            <button class="btn btn-sm btn-success mr-1" (click)="save()" [disabled]="!pipelineTopic || !validate()" i18n>Save</button>
+            <button class="btn btn-sm btn-secondary" (click)="cancel()" i18n>Cancel</button>
+        </span>
+     </div>
+     <div class="card-body">
+        <div>
+            <form class="has-validation">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">
+                        <span>Pipeline ID</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" disabled name="PipelineID" [ngModel]="selectedPipelineID">
+                        
+                    </div>
+                </div>
+                <div class="form-group row" *ngIf="!isDefaultPipelineIndetifier(selectedPipelineID)">
+                    <label class="col-sm-2 col-form-label">
+                        <span>Pipeline Topic</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [class.is-invalid]="!pipelineTopic" name="PipelineTopic" [(ngModel)]="pipelineTopic">
+                        <div class="invalid-feedback">
+                            <small i18n>the pipeline topic can't be empty!</small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <div class="card-header font-weight-bold">
+                <i class="fa fa-tag text-info mr-1"></i>
+                <span i18n>Pipline Functions Setting</span>
+            </div>
+            <div class="card-body">
+                <app-pipeline-function 
+                [(selectedFunctionsName)]="selectedFunctionsName"
+                [(availableFunctions)]="availableFunctions"></app-pipeline-function>
+            </div>
+        </div>
+     </div>
+ </div>

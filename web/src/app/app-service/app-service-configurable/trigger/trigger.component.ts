@@ -15,7 +15,6 @@
  *******************************************************************************/
 
 import { Component, OnInit, OnChanges , Input, Output, EventEmitter} from '@angular/core';
-
 import { Trigger, Trigger_EdgexMessageBus, Trigger_ExternalMqtt, Trigger_HTTP, EdgexMessageBusOptional } from '../../../contracts/v2/appsvc/trigger';
 
 @Component({
