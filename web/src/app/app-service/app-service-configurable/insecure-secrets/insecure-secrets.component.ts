@@ -15,8 +15,11 @@
  *******************************************************************************/
 
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
-
-import { InsecureSecrets, mqtt } from '../../../contracts/v2/appsvc/insecure-secrets';
+import { Router, ActivatedRoute } from '@angular/router';
+import { InsecureSecrets } from '../../../contracts/v2/appsvc/insecure-secrets';
+import { Writable } from "../../../contracts/v2/appsvc/writable";
+import { AppServiceService } from "../../../services/app-service.service";
+import { MessageService } from "../../../message/message.service";
 
 @Component({
   selector: 'app-appsvc-insecure-secrets',
@@ -25,6 +28,8 @@ import { InsecureSecrets, mqtt } from '../../../contracts/v2/appsvc/insecure-sec
 })
 export class InsecureSecretsComponent implements OnInit, OnChanges {
 
+  @Input() appServiceKey: string = ''
+  
   private _insecureSecrets: InsecureSecrets = {} as InsecureSecrets;
   // using get and set method to avoid overwriting on init value of InsecureSecrets when parent component was binding on.
   @Input() 
@@ -34,7 +39,10 @@ export class InsecureSecretsComponent implements OnInit, OnChanges {
   }
   @Output() insecureSecretsChange = new EventEmitter<InsecureSecrets>();
 
-  constructor() { 
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private appSvc: AppServiceService,
+    private msgSvc: MessageService) { 
     this.insecureSecrets = {
       DB: {Secrets: {}},
       mqtt: {Secrets: {}} ,
@@ -50,4 +58,12 @@ export class InsecureSecretsComponent implements OnInit, OnChanges {
     this.insecureSecretsChange.emit(this.insecureSecrets)
   }
 
+  save() {
+    let writableRequestObj = {} as Writable;
+    writableRequestObj.InsecureSecrets = this.insecureSecrets
+    this.appSvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
+      this.msgSvc.success('deploy InsecureSecrets configuration',`service: ${this.appServiceKey}`);
+      this.router.navigate(['../app-service-list'],{relativeTo: this.route})
+    })
+  }
 }

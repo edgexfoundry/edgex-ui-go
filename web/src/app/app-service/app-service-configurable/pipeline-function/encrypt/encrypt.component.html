@@ -1,0 +1,48 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<form>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Algorithm</label>
+      <div class="col-sm-10">
+            <select class="custom-select"  name="Algorithm" [(ngModel)]="encrypt.Parameters.Algorithm">
+                <option value="aes256">aes256</option>
+            </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">
+          <span>SecretPath</span>
+          <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+          data-content="(required for AES256) Path in the Secret Store where the encryption key is located."></span>
+      </label>
+      <div class="col-sm-10">
+            <input type="text" class="form-control" name="SecretPath" [(ngModel)]="encrypt.Parameters.SecretPath">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">
+          <span>SecretName</span>
+          <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+          data-content="(required for AES256) Name of the secret for the encryption key in the Secret Store."></span>
+      </label>
+      <div class="col-sm-10">
+            <input type="text" class="form-control" name="SecretName" [(ngModel)]="encrypt.Parameters.SecretName">
+      </div>
+    </div>
+</form>

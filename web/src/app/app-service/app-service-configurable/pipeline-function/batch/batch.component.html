@@ -1,0 +1,70 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<form>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">
+          <span>Mode</span> 
+      </label>
+      <div class="col-sm-10">
+          <select class="custom-select"  name="Mode" [(ngModel)]="batch.Parameters.Mode">
+                <option value="bycount">bycount</option>
+                <option value="bytime">bytime</option>
+                <option value="bytimecount">bytimecount</option>
+           </select>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="batch.Parameters.Mode === 'bycount' || batch.Parameters.Mode === 'bytimecount'">
+        <label class="col-sm-2 col-form-label">
+            <span>BatchThreshold</span>
+            <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            data-content='Number of items to batch before sending batched items to the next function in the pipeline. &lt;br&gt;
+            Used with "bycount" and "bytimecount" modes'></span>
+        </label>
+        <div class="col-sm-10">
+              <input type="text" class="form-control" name="BatchThreshold" [(ngModel)]="batch.Parameters.BatchThreshold">
+        </div>
+    </div>
+    <div class="form-group row"  *ngIf="batch.Parameters.Mode === 'bytime' || batch.Parameters.Mode === 'bytimecount'">
+      <label class="col-sm-2 col-form-label">
+          <span>TimeInterval</span>
+          <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+          data-content='Amount of time to batch before sending batched items to the next function in the pipeline. &lt;br&gt;
+          Used with "bytime" and "bytimecount" modes,&lt;br&gt;
+          &lt;br&gt;
+          The format of this field is to be an unsigned integer followed by a unit,&lt;br&gt;
+          which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
+      </label>
+      <div class="col-sm-10">
+            <input type="text" class="form-control" name="TimeInterval" [(ngModel)]="batch.Parameters.TimeInterval">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">
+          <span>IsEventData</span>
+          <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+          data-content="If true, specifies that the data being batch is Events and to un-marshal the batched data to []Event prior to returning the batched data. By default the batched data returned is [][]byte"></span>
+      </label>
+      <div class="col-sm-10">
+          <select class="custom-select"  name="IsEventData" [(ngModel)]="batch.Parameters.IsEventData">
+              <option value="false">false</option>
+              <option value="true">true</option>
+          </select>
+      </div>
+    </div>
+</form>

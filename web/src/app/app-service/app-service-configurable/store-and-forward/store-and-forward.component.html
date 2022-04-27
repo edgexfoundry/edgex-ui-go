@@ -1,0 +1,66 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+<div class="card">
+    <div class="card-header font-weight-bold">
+        <i class="fa fa-edit font-weight-bolder text-info mr-1"></i>
+        <span i18n>Edit StoreAndForward</span>
+        <span class="float-right">
+            <button class="btn btn-sm btn-success" (click)="save()" i18n>Save</button>
+        </span>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                    <span>Enabled</span>
+                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                    data-content="capability allows for export functions to persist data on failure and for the export of the data to be retried at a later time."></span>
+                </label>
+                <div class="col-sm-10">
+                    <select class="custom-select" name="Enabled" [(ngModel)]="storeAndForward.Enabled">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                    <span>MaxRetryCount</span>
+                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                    data-content='pure number'></span>
+                </label>
+                <div class="col-sm-10">
+                      <input type="text" class="form-control" name="MaxRetryCount" [(ngModel)]="storeAndForward.MaxRetryCount">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                    <span>RetryInterval</span>
+                    <span class="fa fa-question-circle-o fa-lg ml-2" role="button" data-html="true" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                    data-content='
+                    The format of this field is to be an unsigned integer followed by a unit,&lt;br&gt;
+                    which may be "ns", "us" (or "µs"), "ms", "s", "m", "h" representing nanoseconds, microseconds, milliseconds, seconds, minutes or hours. Eg, "100ms", "24h"'></span>
+                </label>
+                <div class="col-sm-10">
+                      <input type="text" class="form-control" name="RetryInterval" [(ngModel)]="storeAndForward.RetryInterval">
+                </div>
+            </div>
+        </form>        
+    </div>
+</div>

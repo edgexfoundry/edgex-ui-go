@@ -29,15 +29,7 @@ export interface Functions {
     JSONLogic?: JSONLogic,
     PushToCore?: PushToCore,
     SetResponseData?: SetResponseData,
-    
 }
-
-
-// export interface AddTags {
-//     Parameters: {
-//         Tags: string
-//     }
-// }
 
 export interface AddTags {
     Parameters: AddTagsParameters
@@ -48,26 +40,27 @@ export interface AddTagsParameters {
 }
 
 export interface Batch {
-    Parameters: {
-        Mode: string, //only can be 'bycount', 'bytime' or 'bytimecount'
-        BatchThreshold: string,
-        TimeInterval: string
-    }
+    Parameters: BatchParameters
+}
+
+export interface BatchParameters {
+    Mode: string, //only can be 'bycount', 'bytime' or 'bytimecount'
+    BatchThreshold: string,
+    TimeInterval: string,
+    IsEventData: string // 'true' or 'false'
 }
 
 export interface FilterByDeviceName {
-    Parameters: {
-        DeviceNames: string, // Comma separated list 
-        FilterOut: string //true or false
-    }
+    Parameters: FilterByDeviceNameParameters
+}
+
+export interface FilterByDeviceNameParameters {
+    DeviceNames: string, // Comma separated list 
+    FilterOut: string //true or false
 }
 
 export interface FilterByProfileName {
-    // Parameters: FilterByProfileNameParameters
-    Parameters: {
-        ProfileNames: string, // Comma separated list 
-        FilterOut: string //true or false
-    }
+    Parameters: FilterByProfileNameParameters
 }
 
 export interface FilterByProfileNameParameters {
@@ -75,89 +68,109 @@ export interface FilterByProfileNameParameters {
     FilterOut: string //true or false
 }
 
-export interface FilterByResourceName { // replaced ValueDescriptor
-    Parameters: {
-        ResourceNames: string, // Comma separated list 
-        FilterOut: string //true or false
-    }
+export interface FilterByResourceName {
+    Parameters: FilterByResourceNameParameters
+}
+
+export interface FilterByResourceNameParameters {
+    ResourceNames: string, // Comma separated list 
+    FilterOut: string //true or false
 }
 
 export interface FilterBySourceName {
-    Parameters: {
-        SourceNames: string, // Comma separated list 
-        FilterOut: string //true or false
-    }
+    Parameters: FilterBySourceNameParameters
+}
+
+export interface FilterBySourceNameParameters {
+    SourceNames: string, // Comma separated list 
+    FilterOut: string //true or false
 }
 
 export interface Transform {
-    Parameters: {
-        Type: string //Can be 'xml' or 'json'
-    }
+    Parameters: TransformParameters
+}
+
+export interface TransformParameters {
+    Type: string //Can be 'xml' or 'json'
 }
 
 export interface Compress {
-    Parameters: {
-        Algorithm: string // 'gzip' or 'zlib'
-    }
+    Parameters: CompressParameters
+}
+
+export interface CompressParameters {
+    Algorithm: string // 'gzip' or 'zlib'
 }
 
 export interface Encrypt {
-    Parameters: {
-        Algorithm: string, //only aes right now
-        Key?: string,
-        InitVector: string,
-        SecretPath?: string,
-        SecretName?:string
-    }
+    Parameters: EncryptParameters
+}
+
+export interface EncryptParameters {
+    Algorithm: string, //AES (deprecated) or AES256
+    Key?: string, //optional, deprecated
+    InitVector: string,  //  deprecated
+    SecretPath?: string,
+    SecretName?:string
 }
 
 export interface HTTPExport {
-    Parameters: {
-        Method: string, 
-        Url: string,
-        MimeType: string, //Defaults to application/json if not set
-        PersistOnError: string, //true or false, 
-        ContinueOnSendError: string, //true or false, 
-        ReturnInputData: string, //true or false, 
-        HeaderName?: string,
-        SecretPath?: string,
-        SecretName?: string
-    }
+    Parameters: HTTPExportParameters
+}
+
+export interface HTTPExportParameters {
+    Method: string, //HTTP Method to use. Can be post or put
+    Url: string,
+    MimeType: string, //Defaults to application/json if not set
+    PersistOnError: string, //true or false, Indicates to persist the data if the POST fails. Store and Forward must also be enabled if this is set to "true".
+    ContinueOnSendError: string, //true or false, For chained multi destination exports, if true continues after send error so next export function executes.
+    ReturnInputData: string, //true or false, For chained multi destination exports if true, passes the input data to next export function.
+    HeaderName?: string,
+    SecretPath?: string,
+    SecretName?: string
 }
 
 export interface MQTTExport {
-    Parameters: {
-        BrokerAddress: string, 
-        Topic: string,
-        ClientId: string,
-        Qos: number, 
-        AutoReconnect: string, //true or false, 
-        Retain: string, //true or false, 
-        SkipVerify: string, //true or false, 
-        PersistOnError: string, //true or false, 
-        AuthMode: string // none, usernamepassword, clientcert, cacert,
-        SecretPath?: string // when AuthMode is not 'none'
-    }
+    Parameters: MQTTExportParameters
+}
+
+export interface MQTTExportParameters {
+    BrokerAddress: string, 
+    Topic: string,
+    ClientId: string,
+    Qos: string, // 0,1,2
+    AutoReconnect: string, //true or false, 
+    Retain: string, //true or false, 
+    SkipVerify: string, //true or false, 
+    PersistOnError: string, //true or false, 
+    AuthMode: string // none, usernamepassword, clientcert, cacert,
+    SecretPath?: string // when AuthMode is not 'none'
 }
 
 export interface JSONLogic {
-    Parameters: {
-        Rule: string, // "{ \"and\" : [{\"<\" : [{ \"var\" : \"temp\" }, 110 ]}, {\"==\" : [{ \"var\" : \"sensor.type\" }, \"temperature\" ]} ] }"
-    }
+    Parameters: JSONLogicParameters
+}
+
+export interface JSONLogicParameters {
+    Rule: string, // "{ \"and\" : [{\"<\" : [{ \"var\" : \"temp\" }, 110 ]}, {\"==\" : [{ \"var\" : \"sensor.type\" }, \"temperature\" ]} ] }"
 }
 
 export interface PushToCore {
-    Parameters: {
-        ProfileName: string, 
-        DeviceName: string,
-        ResourceName: string, // Event'sSourceName and Reading's ResourceName
-        ValueType: string, 
-        MediaType?: string // Required when the ValueType is Binary
-    }
+    Parameters: PushToCoreParameters
+}
+
+export interface PushToCoreParameters  {
+    ProfileName: string, 
+    DeviceName: string,
+    ResourceName: string, // Event's SourceName and Reading's ResourceName
+    ValueType: string, 
+    MediaType?: string // Required when the ValueType is Binary
 }
 
 export interface SetResponseData {
-    Parameters: {
-        ResponseContentType?: string //such as "application/json"
-    }
+    Parameters: SetResponseDataParameters
+}
+
+export interface SetResponseDataParameters {
+    ResponseContentType?: string //such as "application/json"
 }
