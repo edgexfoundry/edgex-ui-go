@@ -63,7 +63,7 @@ With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* t
 
 ### Snap 
 
-EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](https://github.com/edgexfoundry/edgex-ui-go/tree/main/snap/README.md)
+EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](./snap/README.md)
 
 ## Community
 - [EdgeXFoundry Chinese Club](https://www.edgexfoundry.club)
