@@ -7,9 +7,9 @@
 
 ### Change Logs for EdgeX Dependencies
 
-- [go-mod-core-contracts](https://github.com/edgexfoundry/go-mod-core-contracts/blob/v2.1.0/CHANGELOG.md)
-- [go-mod-registry](https://github.com/edgexfoundry/go-mod-registry/blob/v2.1.0/CHANGELOG.md)
-- [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/v2.1.0/CHANGELOG.md)
+- [go-mod-core-contracts](https://github.com/edgexfoundry/go-mod-core-contracts/blob/main/CHANGELOG.md)
+- [go-mod-registry](https://github.com/edgexfoundry/go-mod-registry/blob/main/CHANGELOG.md) 
+- [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md)
 
 ## [v2.2.0] Kamakura - 2022-5-11 (Only compatible with the 2.x release)
 
