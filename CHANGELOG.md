@@ -18,11 +18,20 @@
 - Add security response header and cache control header and remove Authorization request header under unsecure mode ([#f2a648b](https://github.com/edgexfoundry/edgex-ui-go/commits/f2a648b))
 - Add GUI testing code ([#c9d48a8](https://github.com/edgexfoundry/edgex-ui-go/commits/c9d48a8))
 - Add ability to turn on/off popup messages [#474](https://github.com/edgexfoundry/edgex-ui-go/issues/474) ([#491](https://github.com/edgexfoundry/edgex-ui-go/issues/491)) ([#51fdecd](https://github.com/edgexfoundry/edgex-ui-go/commits/51fdecd))
+
 ### Bug Fixes 🐛
 - Fix update of Name and Description on device ([#a297fae](https://github.com/edgexfoundry/edgex-ui-go/commits/a297fae))
+
 ### Code Refactoring ♻
 - Remove OperatingState property when new device adding and only show it when editing ([#dce5d0b](https://github.com/edgexfoundry/edgex-ui-go/commits/dce5d0b))
 - Ruleengine refactor ([#502](https://github.com/edgexfoundry/edgex-ui-go/issues/502)) ([#3fc63fb](https://github.com/edgexfoundry/edgex-ui-go/commits/3fc63fb))
+
+### Build 👷
+- **snap:** source metadata from central repo ([#61e021d](https://github.com/edgexfoundry/edgex-ui-go/commits/61e021d))
+
+### Continuous Integration 🔄
+- gomod changes related for Go 1.17 ([#c99f146](https://github.com/edgexfoundry/edgex-ui-go/commits/c99f146))
+- Go 1.17 related changes ([#b2aff87](https://github.com/edgexfoundry/edgex-ui-go/commits/b2aff87))
 
 ## [v2.1.0] Jakarta - 2021-11-18 (Only compatible with the 2.x release)
 
@@ -40,6 +49,7 @@
 - Update device-combo-list component to support device selected in pipeline-function component ([#16dd423](https://github.com/edgexfoundry/edgex-ui-go/commits/16dd423))
 - Add new component device profile combo list supporting in app svc configuration module used for users selecting multiple profiles ([#764ebff](https://github.com/edgexfoundry/edgex-ui-go/commits/764ebff))
 - Add drag-drop zone highlight directives to improve user experience when users use drag-drop function to select pipeline functions ([#ed68206](https://github.com/edgexfoundry/edgex-ui-go/commits/ed68206))
+
 ### Bug Fixes 🐛
 - Can't set pipeline functions parameters when params value changed ([#032aeb1](https://github.com/edgexfoundry/edgex-ui-go/commits/032aeb1))
 - Pipeline functions configurable updates error ([#f003326](https://github.com/edgexfoundry/edgex-ui-go/commits/f003326))
@@ -50,10 +60,23 @@
 - All datagrid and pagination not working as expected ([#d3b4d40](https://github.com/edgexfoundry/edgex-ui-go/commits/d3b4d40))
 - GUI backend server can not update app configurable ([#0887a2a](https://github.com/edgexfoundry/edgex-ui-go/commits/0887a2a))
 - Default app svc on register center return the configurable with some fields values like func executer order, selected profiles or device names containing space character result failing parsing ([#418ef8e](https://github.com/edgexfoundry/edgex-ui-go/commits/418ef8e))
+
 ### Code Refactoring ♻
 - The whole app svc service had been refactor ([#4e4d5f8](https://github.com/edgexfoundry/edgex-ui-go/commits/4e4d5f8))
 - The whole backend of app svc config had been refactored, unused and dead code is removed ([#3651550](https://github.com/edgexfoundry/edgex-ui-go/commits/3651550))
 - The whole app service module, include app list component and app svc configurable component have been refactored ([#a441ce0](https://github.com/edgexfoundry/edgex-ui-go/commits/a441ce0))
+
+### Documentation 📖
+- Add snap/README.md and update README.md ([#470](https://github.com/edgexfoundry/edgex-ui-go/issues/470)) ([#26e4c85](https://github.com/edgexfoundry/edgex-ui-go/commits/26e4c85))
+- Update build status badge ([#28720a3](https://github.com/edgexfoundry/edgex-ui-go/commits/28720a3))
+- **snap:** remove replicated JWT instructions ([#484](https://github.com/edgexfoundry/edgex-ui-go/issues/484)) ([#7cabfbe](https://github.com/edgexfoundry/edgex-ui-go/commits/7cabfbe))
+
+### Build 👷
+- Update to released versions of go-mods ([#b7a6193](https://github.com/edgexfoundry/edgex-ui-go/commits/b7a6193))
+
+### Continuous Integration 🔄
+- Upgrade to alpine 3.14 ([#2d8aab7](https://github.com/edgexfoundry/edgex-ui-go/commits/2d8aab7))
+- Remove need for CI specific Dockerfile ([#4a3499b](https://github.com/edgexfoundry/edgex-ui-go/commits/4a3499b))
 
 ## [v2.0.0] Ireland - 2021-06-30  (Not Compatible with 1.x releases)
 
@@ -96,6 +119,29 @@
 - Exchange interval and interval action in all responses interface ([#e4b6b14](https://github.com/edgexfoundry/edgex-ui-go/commits/e4b6b14))
 - Can't select device profile ([#02320a7](https://github.com/edgexfoundry/edgex-ui-go/commits/02320a7))
 - Profile editor save button not work sometimes ([#31d26ff](https://github.com/edgexfoundry/edgex-ui-go/commits/31d26ff))
+
+### Code Refactoring ♻
+- Update config and metrics to match edgex updated ([#77eda86](https://github.com/edgexfoundry/edgex-ui-go/commits/77eda86))
+- Update ui backend server ([#a546907](https://github.com/edgexfoundry/edgex-ui-go/commits/a546907))
+- Move pkg to outside of interval package ([#5286d0b](https://github.com/edgexfoundry/edgex-ui-go/commits/5286d0b))
+- Update router path for metric and config ([#5b0d1ae](https://github.com/edgexfoundry/edgex-ui-go/commits/5b0d1ae))
+- Replace string constant with variables ([#7e8cb25](https://github.com/edgexfoundry/edgex-ui-go/commits/7e8cb25))
+- Increase the delay time for focusout ([#3b21f13](https://github.com/edgexfoundry/edgex-ui-go/commits/3b21f13))
+- Update the way to show combo list ([#f560a04](https://github.com/edgexfoundry/edgex-ui-go/commits/f560a04))
+- Update the render method of interval-combo-list component ([#a4e7631](https://github.com/edgexfoundry/edgex-ui-go/commits/a4e7631))
+- Change the module import order ([#5d03192](https://github.com/edgexfoundry/edgex-ui-go/commits/5d03192))
+- Change device service item of menu to metadata ([#b0774a3](https://github.com/edgexfoundry/edgex-ui-go/commits/b0774a3))
+- Update metadata module to match edgex v2 ([#8353ca6](https://github.com/edgexfoundry/edgex-ui-go/commits/8353ca6))
+- Replace device-service module with metadata module and change older device-service-list name to device-service-media-list name and add new device-service-list component ([#91f73f9](https://github.com/edgexfoundry/edgex-ui-go/commits/91f73f9))
+- datepickr init ([#5736ffa](https://github.com/edgexfoundry/edgex-ui-go/commits/5736ffa))
+- Replace scheduler with interval ([#033741d](https://github.com/edgexfoundry/edgex-ui-go/commits/033741d))
+
+### Documentation 📖
+- Add badges to readme ([#e506f75](https://github.com/edgexfoundry/edgex-ui-go/commits/e506f75))
+
+### Continuous Integration 🔄
+- Update local docker image names ([#e2d6bfd](https://github.com/edgexfoundry/edgex-ui-go/commits/e2d6bfd))
+- Standardize dockerfiles ([#b545b50](https://github.com/edgexfoundry/edgex-ui-go/commits/b545b50))
 
 <a name="v1.3.0"></a>
 ## [v1.3.0] - 2020-11-18
