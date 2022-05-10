@@ -3,7 +3,7 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.17
 
 require (
-	github.com/edgexfoundry/go-mod-configuration/v2 v2.1.0
+	github.com/edgexfoundry/go-mod-configuration/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.1.0
 	github.com/edgexfoundry/go-mod-registry/v2 v2.1.0
 	github.com/gorilla/mux v1.8.0
