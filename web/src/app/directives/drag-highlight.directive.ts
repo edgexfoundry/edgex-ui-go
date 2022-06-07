@@ -21,34 +21,35 @@
 })
 export class DragHighlightDirective {
 
+  classes = "border border-info shadow-lg bg-white rounded"
+
   constructor(private el: ElementRef) { }
 
   @HostListener('dragover',['$event']) ondragover(event: any) {
     event.preventDefault();
-    $(this.el.nativeElement).addClass("border border-info shadow-lg bg-white rounded")
-    // this.el.nativeElement.style.borderStyle = 'dashed';
+    let classList = this.classes.split(' ')
+    classList.forEach((v) => {
+      this.el.nativeElement.classList.add(v)
+    })
   }
 
-  @HostListener('dragenter',['$event']) ondragenter(event: any) {
-   
-  }
+  @HostListener('dragenter',['$event']) ondragenter(event: any) {}
 
-  @HostListener('dragend',['$event']) ondragend(event: any) {
-    
-  }
+  @HostListener('dragend',['$event']) ondragend(event: any) {}
 
   @HostListener('dragleave',['$event']) ondragleave(event: any) {
-    $(this.el.nativeElement).removeClass("border border-info shadow-lg bg-white  rounded");
-    // this.el.nativeElement.style.borderStyle = '';
+    let classList = this.classes.split(' ')
+    classList.forEach((v) => {
+      this.el.nativeElement.classList.remove(v)
+    })
   }
 
-  @HostListener('dragexit',['$event']) ondragexit(event: any) {
-   
-  }
+  @HostListener('dragexit',['$event']) ondragexit(event: any) {}
 
   @HostListener('drop',['$event']) ondrop(event: any) {
-    $(this.el.nativeElement).removeClass("border border-info shadow-lg bg-white rounded");
-    // this.el.nativeElement.style.borderStyle = '';
+    let classList = this.classes.split(' ')
+    classList.forEach((v) => {
+      this.el.nativeElement.classList.remove(v)
+    })
   }
-
 }

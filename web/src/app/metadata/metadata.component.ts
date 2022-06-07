@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MetadataService } from  '../services/metadata.service';
 
 @Component({
   selector: 'app-metadata',
@@ -9,9 +7,7 @@ import { MetadataService } from  '../services/metadata.service';
 })
 export class MetadataComponent implements OnInit {
 
-  constructor(private metaSvc: MetadataService,
-    private route: ActivatedRoute,
-    private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void {}
 

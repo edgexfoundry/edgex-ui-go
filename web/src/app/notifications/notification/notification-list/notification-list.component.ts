@@ -116,18 +116,6 @@ export class NotificationListComponent implements OnInit {
     this.advancedOperation = true;
   }
 
-  // loadNotificationViaStatusAsDefault(isPageOperation?: boolean) {
-  //   this.notiSvc
-  //   .findNotificationsByStatusPagination(this.pageOffset, this.pageLimit, this.statusSelected as string)
-  //   .subscribe((data: MultiNotificationResponse) => {
-  //     this.notificationList = data.notifications;
-  //     if (isPageOperation) {
-  //       return
-  //     }
-  //     this.msgSvc.success('search by status')
-  //   });
-  // }
-
   findNotificationsByCategoryPagination(isPageOperation?: boolean) {
     this.notiSvc
     .findNotificationsByCategoryPagination(this.pageOffset, this.pageLimit, this.categorySelected as string)

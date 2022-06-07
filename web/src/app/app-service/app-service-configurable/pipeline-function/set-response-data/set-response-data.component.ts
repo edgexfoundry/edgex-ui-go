@@ -28,7 +28,7 @@ export class SetResponseDataComponent implements OnInit, OnChanges {
   @Output() setResponseDataChange = new EventEmitter<SetResponseData>()
 
   constructor() {
-    this.setResponseData = {}  as SetResponseData
+    this.setResponseData = {Parameters: {ResponseContentType: ''}}  as SetResponseData
   }
 
   ngOnInit(): void {

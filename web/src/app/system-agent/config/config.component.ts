@@ -49,14 +49,8 @@ export class ConfigComponent implements OnInit {
       if (params['svcName']) {
         this.service = params['svcName'];
         this.getConfigs();
-        // this.getConfigV2(params['svcName'])
-        // this.sysService.getConfigV2(params['svcName']).subscribe((resp: any) => {
-        //   this.config = JSON.stringify(resp, null, 3);
-        // });
       }
     });
-    // this.service = this.route.snapshot.paramMap.get('name') as string;
-    // this.getConfigs();
   }
 
   //deprecated

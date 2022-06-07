@@ -19,7 +19,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
-import { BaseWithIdResponse, BaseResponse } from '../contracts/v2/common/base-response';
 
 @Injectable({
   providedIn: 'root'

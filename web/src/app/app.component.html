@@ -29,9 +29,9 @@
                 </div>
                 <div class="overflow-hidden">
                     <nav class="nav flex-column">
-                        <a  class="nav-link text-light" routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}"> 
+                        <a  class="nav-link text-light" data-testid="menu-item-dashboard" routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}"> 
                             <i class="fa fa-tachometer fa-fw mr-5"></i> 
-                            <span [class.d-none]='shrink' i18n>Dashboard</span> 
+                            <span [class.d-none]='shrink' data-testid="menu-item-dashboard-text" i18n>Dashboard</span> 
                         </a>
                         <a  class="nav-link text-light" routerLink="/system-agent" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}"> 
                             <i class="fa fa-server fa-fw mr-5"></i> 

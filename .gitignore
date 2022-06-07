@@ -1,6 +1,7 @@
 .idea/
 vendor
 web/node_modules
+web/coverage
 web/dist
 *.exe
 *.DS_Store
