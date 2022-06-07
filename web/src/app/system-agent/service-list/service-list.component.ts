@@ -15,11 +15,10 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { SystemAgentService } from '../../services/system-agent.service';
 
 import { MessageService } from '../../message/message.service';
 import { ErrorService } from '../../services/error.service';
-import { AppServiceService } from '../../services/app-service.service';
+import { SystemAgentService } from '../../services/system-agent.service';
 import { BaseWithServiceNameResponse } from '../../contracts/v2/common/base-response';
 
 interface service {

@@ -20,7 +20,6 @@ import { Rule } from 'src/app/contracts/kuiper/rule';
 import { RuleEngineService } from 'src/app/services/rule-engine.service';
 
 import { MessageService } from '../../../message/message.service';
-import { CoreCommand } from '../../../contracts/v2/core-command';
 
 @Component({
   selector: 'app-edit-rules',
@@ -45,8 +44,9 @@ export class EditRulesComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      let ruleID = params['ruleID']
-      this.getRuleByID(ruleID)
+      if(params['ruleID']) {
+        this.getRuleByID(params['ruleID'])
+      }
     })
     this.sqlEditorRender();
     $(function() {

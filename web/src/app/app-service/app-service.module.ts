@@ -23,7 +23,6 @@ import { AppServiceComponent } from './app-service.component';
 import { AppServiceListComponent } from './app-service-list/app-service-list.component';
 import { AppServiceConfigurableComponent } from './app-service-configurable/app-service-configurable.component';
 
-import { DraggableDirective } from '../directives/draggable.directive';
 import { DragHighlightDirective } from '../directives/drag-highlight.directive';
 import { AddAppServiceComponent } from './add-app-service/add-app-service.component';
 import { MetadataModule } from '../metadata/metadata.module';
@@ -49,7 +48,7 @@ import { JSONLogicComponent } from './app-service-configurable/pipeline-function
 
 @NgModule({
   declarations: [AppServiceComponent,AppServiceListComponent,
-    AppServiceConfigurableComponent,DraggableDirective,DragHighlightDirective, 
+    AppServiceConfigurableComponent,DragHighlightDirective, 
     AddAppServiceComponent, PipelineFunctionComponent, TriggerComponent, 
     InsecureSecretsComponent, StoreAndForwardComponent, PipelineComponent, 
     HTTPExportComponent, AddTagsComponent, BatchComponent, FilterByDeviceNameComponent, 

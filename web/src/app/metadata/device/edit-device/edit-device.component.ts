@@ -74,6 +74,9 @@ export class EditDeviceComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       let deviceName = params['deviceName'];
+      if (!params['deviceName']) {
+        return
+      }
       this.metaSvc.findDeviceByName(deviceName).subscribe((data: DeviceResponse) => {
         this.device = data.device;
 
