@@ -25,13 +25,14 @@ import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoin
 @Injectable({
   providedIn: 'root'
 })
-export class AppServiceService {
+export class RegistryCenterService {
 
   version: string = "/api/v2";
 
-  appSvcDeployConfigUrl: string = `${this.version}/appsvc/deploy/servicekey`;
-  appSvcGetConfigUrl: string = `${this.version}/appsvc/config/servicekey`;
-  appSvcAllUrl: string = `${this.version}/registercenter/service/all`;
+  pingUrl: string = `${this.version}/registrycenter/ping`;
+  appSvcDeployConfigUrl: string = `${this.version}/registrycenter/deploy/servicekey`;
+  appSvcGetConfigUrl: string = `${this.version}/registrycenter/config/servicekey`;
+  appSvcAllUrl: string = `${this.version}/registrycenter/service/all`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -40,6 +41,11 @@ export class AppServiceService {
   };
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+
+  ping(): Observable<any> {
+    let url  = `${this.pingUrl}`;
+    return this.http.get(url)
+  }
 
   getAppSvcConfigBySvcKey(svcKey: string): Observable<any> {
     let url = `${this.appSvcGetConfigUrl}/${svcKey}`;

@@ -19,16 +19,16 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { AppServiceListComponent } from './app-service-list.component';
-import { AppServiceService } from '../../services/app-service.service';
+import { RegistryCenterService } from '../../services/registry-center.service';
 
 describe('AppServiceListComponent: unit test', () => {
   let component: AppServiceListComponent;
   let fixture: ComponentFixture<AppServiceListComponent>;
-  let mockAppServiceService: AppServiceService
+  let mockRegistryCenterService: RegistryCenterService
 
   beforeEach(async () => {
 
-    mockAppServiceService = jasmine.createSpyObj<AppServiceService>('AppServiceService',{
+    mockRegistryCenterService = jasmine.createSpyObj<RegistryCenterService>('RegistryCenterService',{
       getAppSvcConfigBySvcKey: of(),
       deployToConsul: of(),
       getAllAppSvc: of()
@@ -37,7 +37,7 @@ describe('AppServiceListComponent: unit test', () => {
     await TestBed.configureTestingModule({
       declarations: [ AppServiceListComponent ],
       imports: [FormsModule],
-      providers:[{provide: AppServiceService,useValue: mockAppServiceService}]
+      providers:[{provide: RegistryCenterService,useValue: mockRegistryCenterService}]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppServiceListComponent);

@@ -23,6 +23,6 @@ export interface SinkBaseProperties { // or Advanced Sink Properties
     cacheLength: number,
     cacheSaveInterval: number,
     omitIfEmpty: boolean,
-    sendSingle: boolean, //The output messages are received as an array. This is indicate whether to send the results one by one.
-    dataTemplate: string
+    sendSingle?: boolean, //The output messages are received as an array. This is indicate whether to send the results one by one.
+    dataTemplate?: string
 }

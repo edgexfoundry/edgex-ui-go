@@ -24,6 +24,7 @@ import { MetadataService } from '../services/metadata.service';
 import { SchedulerService } from '../services/scheduler.service';
 import { NotificationsService } from '../services/notifications.service';
 import { SystemAgentService } from '../services/system-agent.service';
+import { RegistryCenterService } from '../services/registry-center.service';
 
 describe('DashboardComponent: unit test', () => {
   let component: DashboardComponent;
@@ -33,27 +34,36 @@ describe('DashboardComponent: unit test', () => {
   let mockSchedulerService: SchedulerService
   let mockNotificationsService: NotificationsService
   let mockSystemAgentService: SystemAgentService
+  let mockRegistryCenterService: RegistryCenterService
 
   beforeEach(async () => {
     mockDataService = jasmine.createSpyObj('DataService', {
+      ping: of({}),
       eventCount: of({}),
       readingCount: of({})
     })
     mockMetadataService = jasmine.createSpyObj('MetadataService', {
+      ping: of({}),
       allDeviceServices: of({services: []}),
       allDevices: of({devices: []}),
       allDeviceProfolesPagination: of({profiles: []})
     })
     mockSchedulerService = jasmine.createSpyObj('SchedulerService', {
+      ping: of({}),
       findAllIntervalsPagination: of({intervals: []})
     })
     mockNotificationsService = jasmine.createSpyObj('NotificationsService', {
+      ping: of({}),
       findNotificationsByStatusPagination: of({notifications: []})
     })
     mockSystemAgentService = jasmine.createSpyObj('SystemAgentService', {
+      ping: of({}),
+      getRegisteredServiceAll: of(),
+    })
+    mockRegistryCenterService = jasmine.createSpyObj('RegistryCenterService', {
       ping: of({})
     })
-
+    
     await TestBed.configureTestingModule({
       declarations: [ DashboardComponent ],
       imports: [FormsModule],
@@ -63,6 +73,7 @@ describe('DashboardComponent: unit test', () => {
         {provide: SchedulerService, useValue: mockSchedulerService},
         {provide: NotificationsService, useValue: mockNotificationsService},
         {provide: SystemAgentService, useValue: mockSystemAgentService},
+        {provide: RegistryCenterService, useValue: mockRegistryCenterService}
       ]
     }).compileComponents();
 

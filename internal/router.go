@@ -38,10 +38,10 @@ func InitRestRoutes() http.Handler {
 	s.HandleFunc("/profile/yaml/name/{name}", handler.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
 	s.HandleFunc("/profile/yaml", handler.UpdateProfileYamlContent).Methods(http.MethodPut)
 
-	s.HandleFunc("/appsvc/deploy/servicekey/{servicekey}", handler.DeployConfigurable).Methods(http.MethodPost)
-	s.HandleFunc("/appsvc/config/servicekey/{servicekey}", handler.GetServiceConfig).Methods(http.MethodGet)
-
-	s.HandleFunc("/registercenter/service/all", handler.GetRegisteredServiceAll).Methods(http.MethodGet)
+	s.HandleFunc("/registrycenter/deploy/{servicekey}", handler.DeployConfigurable).Methods(http.MethodPost)
+	s.HandleFunc("/registrycenter/config/{servicekey}", handler.GetServiceConfig).Methods(http.MethodGet)
+	s.HandleFunc("/registrycenter/service/all", handler.GetRegisteredServiceAll).Methods(http.MethodGet)
+	s.HandleFunc("/registrycenter/ping", handler.RegistryIsAlive).Methods(http.MethodGet)
 
 	return r
 }

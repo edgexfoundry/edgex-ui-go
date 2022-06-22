@@ -17,14 +17,14 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
-import { AppServiceService } from './app-service.service';
-import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint'
+import { RegistryCenterService } from './registry-center.service';
+import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint';
 
-describe('AppServiceService: unit test', () => {
-  let service: AppServiceService;
+describe('RegistryCenterService: unit test', () => {
+  let service: RegistryCenterService;
   let controller: HttpTestingController
 
-  const expectedUrl = '/api/v2/registercenter/service/all'
+  const expectedUrl = '/api/v2/registrycenter/service/all'
   const mockEndponts: ServiceEndpoint[] = [
     {
       ServiceId: 'core-metadata',
@@ -36,9 +36,9 @@ describe('AppServiceService: unit test', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AppServiceService]
+      providers: [RegistryCenterService]
     });
-    service = TestBed.inject(AppServiceService);
+    service = TestBed.inject(RegistryCenterService);
     controller = TestBed.inject(HttpTestingController)
   });
 

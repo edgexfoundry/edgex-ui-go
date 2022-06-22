@@ -17,7 +17,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AppServiceService } from '../..//services/app-service.service';
+import { RegistryCenterService } from '../..//services/registry-center.service';
 import { Trigger } from '../../contracts/v2/appsvc/trigger';
 import { Writable } from '../../contracts/v2/appsvc/writable';
 
@@ -35,10 +35,9 @@ export class AppServiceConfigurableComponent implements OnInit {
     configurableSection: string = "PipelineFunc"; // Trigger ,PipelineFunc, InsecureSecrets, StoreAndForward
     appServiceKey: string = '';
 
-    constructor(private appSvc: AppServiceService, 
-        private route: ActivatedRoute) {
-            this.configTrigger = {} as Trigger;
-            this.configWritable = {} as Writable;
+    constructor(private registrySvc: RegistryCenterService, private route: ActivatedRoute) {
+        this.configTrigger = {} as Trigger;
+        this.configWritable = {} as Writable;
     }
     
     ngOnInit(): void {
@@ -60,7 +59,7 @@ export class AppServiceConfigurableComponent implements OnInit {
     }
 
     loadAppSvcConfig() {
-        this.appSvc.getAppSvcConfigBySvcKey(this.appServiceKey).subscribe((resp) => {
+        this.registrySvc.getAppSvcConfigBySvcKey(this.appServiceKey).subscribe((resp) => {
             Object.assign(this.configTrigger, resp[this.TirggerIdentifier]);
             Object.assign(this.configWritable, resp[this.writableIdentifier]);
         })

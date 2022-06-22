@@ -26,7 +26,7 @@
         </span>
     </div>
     <div class="card-body collapse" id="collapse-sink-base">
-        <form [formGroup]="profileForm">
+        <form [formGroup]="sinkBasePropertiesForm">
             <div class="form-group row">
                 <label class="col col-sm-3 col-form-label text-nowrap text-truncate">
                     <span class="mr-2">concurrency</span>
@@ -34,7 +34,7 @@
                     data-content='Specify how many instances of the sink will be run. If the value is bigger than 1, the order of the messages may not be retained.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" name="concurrency" formControlName="concurrency" [(ngModel)]="sinkBaseProperties.concurrency">
+                    <input type="number" class="form-control" name="concurrency" formControlName="concurrency">
                 </div>
             </div>
 
@@ -45,7 +45,7 @@
                     data-content='Specify how many messages can be buffered in memory. If the buffered messages exceed the limit, the sink will block message receiving until the buffered messages have been sent out so that the buffered size is less than the limit.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" name="bufferLength" formControlName="bufferLength" [(ngModel)]="sinkBaseProperties.bufferLength">
+                    <input type="number" class="form-control" name="bufferLength" formControlName="bufferLength">
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                     data-content='Specify how many milliseconds will the sink retry to send data out if the previous send failed. If the specified value &lt;= 0, then it will not retry.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" name="retryInterval" formControlName="retryInterval" [(ngModel)]="sinkBaseProperties.retryInterval">
+                    <input type="number" class="form-control" name="retryInterval" formControlName="retryInterval">
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
                     data-content='Specify how many will the sink retry to send data out if the previous send failed. If the specified value &lt;= 0, then it will not retry.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" name="retryCount" formControlName="retryCount" [(ngModel)]="sinkBaseProperties.retryCount">
+                    <input type="number" class="form-control" name="retryCount" formControlName="retryCount">
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
                     data-content='Specify how many messages can be cached. The cached messages will be resent to external system until the data sent out successfully. The cached message will be sent in order except in runAsync or concurrent mode. The cached message will be saved to disk in fixed intervals.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" name="cacheLength" formControlName="cacheLength" [(ngModel)]="sinkBaseProperties.cacheLength">
+                    <input type="number" class="form-control" name="cacheLength" formControlName="cacheLength">
                 </div>
             </div>
 
@@ -89,7 +89,7 @@
                     data-content='Specify the interval to save cached message to the disk. Notice that, if the rule is closed in plan, all the cached messages will be saved at close. A larger value can reduce the saving overhead but may lose more cache messages when the system is interrupted in error.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <input type="number" class="form-control" name="cacheSaveInterval" formControlName="cacheSaveInterval"  [(ngModel)]="sinkBaseProperties.cacheSaveInterval">
+                    <input type="number" class="form-control" name="cacheSaveInterval" formControlName="cacheSaveInterval">
                 </div>
             </div>
 
@@ -100,7 +100,7 @@
                     data-content='Whether the sink will run asynchronously for better performance. If it is true, the sink result order is not promised.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <select class="custom-select" name="runAsync" formControlName="runAsync" [(ngModel)]="sinkBaseProperties.runAsync">
+                    <select class="custom-select" name="runAsync" formControlName="runAsync">
                         <option [ngValue]="false">false</option>
                         <option [ngValue]="true">true</option>
                     </select>
@@ -114,7 +114,7 @@
                     data-content='If the configuration item is set to true, when SELECT result is empty, then the result will not feed to sink operator.'></span>
                 </label>
                 <div class="col-sm-9">
-                    <select class="custom-select" name="omitIfEmpty" formControlName="omitIfEmpty" [(ngModel)]="sinkBaseProperties.omitIfEmpty">
+                    <select class="custom-select" name="omitIfEmpty" formControlName="omitIfEmpty">
                         <option [ngValue]="false">false</option>
                         <option [ngValue]="true">true</option>
                     </select>

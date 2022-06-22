@@ -21,15 +21,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs'
 
 import { PipelineComponent } from './pipeline.component';
-import { AppServiceService } from '../../../services/app-service.service';
+import { RegistryCenterService } from '../../../services/registry-center.service';
 
 describe('PipelineComponent: unit test', () => {
   let component: PipelineComponent;
   let fixture: ComponentFixture<PipelineComponent>;
-  let mockAppServiceService: AppServiceService
+  let mockRegistryCenterService: RegistryCenterService
 
   beforeEach(async () => {
-    mockAppServiceService = jasmine.createSpyObj<AppServiceService>('AppServiceService',{
+    mockRegistryCenterService = jasmine.createSpyObj<RegistryCenterService>('RegistryCenterService',{
+      ping: of({}),
       getAppSvcConfigBySvcKey: of(),
       deployToConsul: undefined,
       getAllAppSvc: undefined
@@ -38,7 +39,7 @@ describe('PipelineComponent: unit test', () => {
     await TestBed.configureTestingModule({
       declarations: [ PipelineComponent ],
       imports: [RouterTestingModule, FormsModule],
-      providers: [{provide: AppServiceService, useValue: mockAppServiceService}],
+      providers: [{provide: RegistryCenterService, useValue: mockRegistryCenterService}],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 

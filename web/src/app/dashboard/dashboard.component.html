@@ -1,16 +1,32 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
 <div class="row">
   <div class="col-lg-4">
     <div class="card" role="button" routerLink="/metadata">
       <div class="card-body">
         <h5 class="card-title" i18n>
           Device Services
-          <!-- <span class="float-right badge badge-danger">Enabled 5</span>
-          <span class="float-right badge badge-success mr-2">Disabled 5</span> -->
         </h5>
         <h5 class="d-inline">
-          <span class="badge badge-info"> {{deviceSvcCount > 20 ? '20+' : deviceSvcCount}} </span>
-          <span class="float-right badge badge-danger">Locked {{deviceSvcStatusLocked}}</span>
-          <span class="float-right badge badge-success mr-2">Unlocked {{deviceSvcCount - deviceSvcStatusLocked}}</span>
+          <span class="badge badge-info"> {{deviceSvcCount > 100 ? '100+' : deviceSvcCount}} </span>
+          <span class="float-right badge badge-danger">Locked {{deviceSvcStatusLockedCount}}</span>
+          <span class="float-right badge badge-success mr-2">Unlocked {{deviceSvcCount - deviceSvcStatusLockedCount}}</span>
         </h5>
       </div>
     </div>
@@ -20,9 +36,9 @@
       <div class="card-body">
         <h5 class="card-title" i18n>Devices</h5>
         <h5 class="d-inline">
-          <span class="badge badge-info"> {{deviceCount > 20 ? '20+' : deviceCount}} </span>
-          <span class="float-right badge badge-danger">Locked {{deviceStatusLocked}}</span>
-          <span class="float-right badge badge-success mr-2">Unlocked {{deviceCount - deviceStatusLocked}}</span>
+          <span class="badge badge-info"> {{deviceCount > 100 ? '100+' : deviceCount}} </span>
+          <span class="float-right badge badge-danger">Locked {{deviceStatusLockedCount}}</span>
+          <span class="float-right badge badge-success mr-2">Unlocked {{deviceCount - deviceStatusLockedCount}}</span>
         </h5>
       </div>
     </div>
@@ -31,7 +47,7 @@
     <div class="card" role="button" routerLink="/metadata/device-profile-center">
       <div class="card-body">
         <h5 class="card-title" i18n>Device Profiles</h5>
-        <h5 class="d-inline"><span class="badge badge-info">{{deviceProfileCount > 20 ? '20+' : deviceProfileCount}}</span></h5>
+        <h5 class="d-inline"><span class="badge badge-info">{{deviceProfileCount > 100 ? '100+' : deviceProfileCount}}</span></h5>
       </div>
     </div>
   </div>
@@ -42,7 +58,7 @@
     <div class="card" role="button" routerLink="/scheduler">
       <div class="card-body">
         <h5 class="card-title" i18n>Schedulers</h5>
-        <h5><a href="#" class="card-link font-weight-bolder badge badge-info">{{schedulerCount > 20 ? '20+' : schedulerCount}}</a></h5>
+        <h5><a href="#" class="card-link font-weight-bolder badge badge-info">{{schedulerCount > 100 ? '100+' : schedulerCount}}</a></h5>
       </div>
     </div>
   </div>
@@ -50,7 +66,7 @@
     <div class="card" role="button" routerLink="/notifications">
       <div class="card-body">
         <h5 class="card-title" i18n>Notifications</h5>
-        <h5><a href="#" class="card-link font-weight-bolder badge badge-info">{{notiCount > 20 ? '20+' : notiCount}}</a></h5>
+        <h5><a href="#" class="card-link font-weight-bolder badge badge-info">{{notificationCount > 100 ? '100+' : notificationCount}}</a></h5>
       </div>
     </div>
   </div>
@@ -81,9 +97,7 @@
       <div class="card-body">
         <h5 class="card-title" i18n>System Services Monitor</h5>
         <h5>
-          <span class="badge badge-info">7</span>
-          <!-- <span class="badge badge-danger float-right">Down 0</span>
-          <span class="badge badge-success float-right mr-2">Up 10</span> -->
+          <span class="badge badge-info">{{registeredServiceCount}}</span>
         </h5>
       </div>
     </div>
