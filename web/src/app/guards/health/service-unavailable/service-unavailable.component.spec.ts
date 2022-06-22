@@ -16,7 +16,8 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing'
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 import { ServiceUnavailableComponent } from './service-unavailable.component';
 import { MetadataService } from '../../../services/metadata.service'
@@ -25,7 +26,7 @@ import { SchedulerService } from '../../../services/scheduler.service'
 import { NotificationsService } from '../../../services/notifications.service'
 import { SystemAgentService } from '../../../services/system-agent.service'
 import { RuleEngineService } from '../../../services/rule-engine.service'
-import { of } from 'rxjs';
+import { RegistryCenterService } from '../../../services/registry-center.service';
 
 describe('ServiceUnavailableComponent', () => {
   let component: ServiceUnavailableComponent;
@@ -36,6 +37,7 @@ describe('ServiceUnavailableComponent', () => {
   let mockNotificationsService: NotificationsService
   let mockSystemAgentService: SystemAgentService
   let mockRuleEngineService: RuleEngineService
+  let mockRegistryCenterService: RegistryCenterService
 
   beforeEach(async () => {
     mockMetadataService = jasmine.createSpyObj('MetadataService', {
@@ -56,6 +58,9 @@ describe('ServiceUnavailableComponent', () => {
     mockRuleEngineService = jasmine.createSpyObj('RuleEngineService', {
       ping: of({})
     })
+    mockRegistryCenterService = jasmine.createSpyObj('RegistryCenterService', {
+      ping: of({})
+    })
 
     await TestBed.configureTestingModule({
       declarations: [ ServiceUnavailableComponent ],
@@ -66,7 +71,8 @@ describe('ServiceUnavailableComponent', () => {
         {provide: SchedulerService, useValue: mockSchedulerService},
         {provide: NotificationsService, useValue: mockNotificationsService},
         {provide: SystemAgentService, useValue: mockSystemAgentService},
-        {provide: RuleEngineService, useValue: mockRuleEngineService}
+        {provide: RuleEngineService, useValue: mockRuleEngineService},
+        {provide: RegistryCenterService, useValue: mockRegistryCenterService}
       ]
     }).compileComponents();
 

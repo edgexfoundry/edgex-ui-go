@@ -18,7 +18,7 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angu
 import { Router, ActivatedRoute } from '@angular/router';
 import { InsecureSecrets } from '../../../contracts/v2/appsvc/insecure-secrets';
 import { Writable } from "../../../contracts/v2/appsvc/writable";
-import { AppServiceService } from "../../../services/app-service.service";
+import { RegistryCenterService } from "../../../services/registry-center.service";
 import { MessageService } from "../../../message/message.service";
 
 @Component({
@@ -41,7 +41,7 @@ export class InsecureSecretsComponent implements OnInit, OnChanges {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private appSvc: AppServiceService,
+    private registrySvc: RegistryCenterService,
     private msgSvc: MessageService) { 
     this.insecureSecrets = {
       DB: {Secrets: {}},
@@ -61,7 +61,7 @@ export class InsecureSecretsComponent implements OnInit, OnChanges {
   save() {
     let writableRequestObj = {} as Writable;
     writableRequestObj.InsecureSecrets = this.insecureSecrets
-    this.appSvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
+    this.registrySvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
       this.msgSvc.success('deploy InsecureSecrets configuration',`service: ${this.appServiceKey}`);
       this.router.navigate(['../app-service-list'],{relativeTo: this.route})
     })

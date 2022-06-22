@@ -15,7 +15,7 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { AppServiceService } from '../../services/app-service.service';
+import { RegistryCenterService } from '../../services/registry-center.service';
 import { ServiceEndpoint } from '../../contracts/v2/register-center/service-endpoint';
 
 @Component({
@@ -26,40 +26,20 @@ import { ServiceEndpoint } from '../../contracts/v2/register-center/service-endp
 export class AppServiceListComponent implements OnInit {
 
   appServiceList: ServiceEndpoint[] = [];
-  constructor(private appSvc: AppServiceService) { }
+  constructor(private registrySvc: RegistryCenterService) { }
 
   ngOnInit(): void {
     this.getAllAppSvc();
   }
   
   getAllAppSvc() {
-    this.appSvc.getAllAppSvc().subscribe((svcEndpoints: ServiceEndpoint[]) => {
+    this.registrySvc.getAllAppSvc().subscribe((svcEndpoints: ServiceEndpoint[]) => {
       this.appServiceList = [];
       svcEndpoints.forEach(svc => {
         if (svc.ServiceId.startsWith('app-')) {
           this.appServiceList.push(svc)
         }
       });
-      // this.syncLocalStorageCache();
     })
-  }
-
-  syncLocalStorageCache() {
-    let edgexAppSvcList = window.localStorage.getItem('edgexAppSvcList');
-    if (edgexAppSvcList) {
-      Object.assign(this.appServiceList, JSON.parse(edgexAppSvcList));
-      
-      return
-    }
-    window.localStorage.setItem('edgexAppSvcList',JSON.stringify(this.appServiceList));
-  }
-
-  removeSvc(appSvc: ServiceEndpoint) {
-    this.appServiceList.forEach((svc,index)=> {
-      if (appSvc.ServiceId === appSvc.ServiceId) {
-        this.appServiceList.splice(index,1)
-      }
-    })
-    window.localStorage.setItem('edgexAppSvcList',JSON.stringify(this.appServiceList));
   }
 }

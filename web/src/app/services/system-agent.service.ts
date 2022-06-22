@@ -22,6 +22,8 @@ import { catchError } from 'rxjs/operators';
 import { BaseWithServiceNameResponse, BaseWithConfigResponse, BaseWithMetricsResponse } from '../contracts/v2/common/base-response';
 import { OperationRequest } from '../contracts/v2/requests/operation-request';
 import { ErrorService } from '../services/error.service';
+import { RegistryCenterService } from './registry-center.service';
+import { ServiceEndpoint } from  '../contracts/v2/register-center/service-endpoint';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +36,7 @@ export class SystemAgentService {
   urlPrefixV2: string = `${this.endpoint}${this.version2}`;
 
   pingUrl: string  = "/ping";
-  allRegisteredSvcUrl: string = '/api/v2/registercenter/service/all';
+  allRegisteredSvcUrl: string = '/api/v2/registrycenter/service/all';
   configUrl: string = `${this.urlPrefixV2}/system/config`;
   metricsUrl: string =  `${this.urlPrefixV2}/system/metrics`;
   healthUrl: string = `${this.urlPrefixV2}/system/health`;
@@ -46,18 +48,17 @@ export class SystemAgentService {
     })
   };
 
-  constructor(private http: HttpClient, private errorSvc: ErrorService) { }
+  constructor(private http: HttpClient, 
+    private errorSvc: ErrorService,
+    private registrySvc: RegistryCenterService) { }
 
   ping(): Observable<any> {
     let url = `${this.urlPrefixV2}${this.pingUrl}`;
     return this.http.get(url)
   }
 
-  getRegisteredServiceAll(): Observable<any> {
-    let url = this.allRegisteredSvcUrl;
-    return this.http.get(url).pipe(
-      catchError(error => this.errorSvc.handleError(error))
-    )
+  getRegisteredServiceAll(): Observable<ServiceEndpoint[]> {
+    return this.registrySvc.getAllAppSvc()
   } 
 
   getConfigBySvcName(serviceName: string): Observable<BaseWithConfigResponse[]> {

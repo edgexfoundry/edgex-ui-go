@@ -21,15 +21,16 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { StoreAndForwardComponent } from './store-and-forward.component';
-import { AppServiceService } from '../../../services/app-service.service';
+import { RegistryCenterService } from '../../../services/registry-center.service';
 
 describe('StoreAndForwardComponent: unit test', () => {
   let component: StoreAndForwardComponent;
   let fixture: ComponentFixture<StoreAndForwardComponent>;
-  let mockAppServiceService: AppServiceService
+  let mockRegistryCenterService: RegistryCenterService
 
   beforeEach(async () => {
-    mockAppServiceService = jasmine.createSpyObj<AppServiceService>('AppServiceService',{
+    mockRegistryCenterService = jasmine.createSpyObj<RegistryCenterService>('RegistryCenterService',{
+      ping: of({}),
       getAppSvcConfigBySvcKey: of(),
       deployToConsul: undefined,
       getAllAppSvc: undefined
@@ -38,7 +39,7 @@ describe('StoreAndForwardComponent: unit test', () => {
     await TestBed.configureTestingModule({
       declarations: [ StoreAndForwardComponent ],
       imports: [RouterTestingModule, FormsModule],
-      providers: [{provide: AppServiceService, useValue: mockAppServiceService}],
+      providers: [{provide: RegistryCenterService, useValue: mockRegistryCenterService}],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 

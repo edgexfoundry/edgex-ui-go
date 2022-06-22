@@ -36,7 +36,7 @@
             <app-command-service-template 
             [url]="restSink.url"
             [httpMethod]="restSink.method"
-            [requestBodyJSONStr]="restSink.dataTemplate"
+            [requestBodyJSONStr]="restSink.dataTemplate?restSink.dataTemplate:''"
             (cmdSvcInfoChange)="onCmdSvcTemplateInfoChange($event)"></app-command-service-template>
         </div>
         <div *ngIf="templateTypeSelected === SVC_TYPE_CUSTOM">

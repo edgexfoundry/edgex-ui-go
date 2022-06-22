@@ -14,27 +14,30 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { ComponentFixture, TestBed, } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
-import { AddAppServiceComponent } from './add-app-service.component';
+import { of } from 'rxjs';
 
-describe('AddAppServiceComponent', () => {
-  let component: AddAppServiceComponent;
-  let fixture: ComponentFixture<AddAppServiceComponent>;
+import { RegistryCenterAliveGuard } from './registry-center-alive.guard';
+import { RegistryCenterService } from '../../services/registry-center.service';
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AddAppServiceComponent ],
-      imports: [RouterTestingModule.withRoutes([]),FormsModule]
-    }).compileComponents();
-    
-    fixture = TestBed.createComponent(AddAppServiceComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+describe('RegistryCenterAliveGuard: unit test', () => {
+  let guard: RegistryCenterAliveGuard;
+  let mockRegistryCenterService: RegistryCenterService
+
+  beforeEach(() => {
+    mockRegistryCenterService = jasmine.createSpyObj('RegistryCenterService',{
+      ping: of({})
+    })
+
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      providers: [{provide: RegistryCenterService, useValue: mockRegistryCenterService}]
+    });
+    guard = TestBed.inject(RegistryCenterAliveGuard);
   });
 
-  it('renders without errors', () => {
-    expect(component).toBeTruthy();
+  it('is created without errors', () => {
+    expect(guard).toBeTruthy();
   });
 });

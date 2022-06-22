@@ -19,7 +19,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Pipeline, PerTopicPipeline } from '../../../contracts/v2/appsvc/pipeline';
 import { Functions } from "../../../contracts/v2/appsvc/functions";
 import { Writable } from "../../../contracts/v2/appsvc/writable";
-import { AppServiceService } from "../../../services/app-service.service";
+import { RegistryCenterService } from "../../../services/registry-center.service";
 import { MessageService } from "../../../message/message.service";
 
 @Component({
@@ -44,7 +44,7 @@ export class PipelineComponent implements OnInit, OnChanges {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private appSvc: AppServiceService,
+    private registrySvc: RegistryCenterService,
     private msgSvc: MessageService) {
     this.pipeline = {} as Pipeline
     this.availableFunctions = {}
@@ -169,7 +169,7 @@ export class PipelineComponent implements OnInit, OnChanges {
     }
 
     writableRequestObj.Pipeline = pipelineRequestObj;
-    this.appSvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
+    this.registrySvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
       this.msgSvc.success('deploy Pipeline configuration',`service: ${this.appServiceKey}`);
       this.isEditStatus = false
       this.router.navigate(['../app-service-list'],{relativeTo: this.route})

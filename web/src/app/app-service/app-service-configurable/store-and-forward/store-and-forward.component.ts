@@ -18,7 +18,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { Router, ActivatedRoute } from '@angular/router';
 import { StoreAndForward } from '../../../contracts/v2/appsvc/store-and-forward';
 import { Writable } from "../../../contracts/v2/appsvc/writable";
-import { AppServiceService } from "../../../services/app-service.service";
+import { RegistryCenterService } from "../../../services/registry-center.service";
 import { MessageService } from "../../../message/message.service";
 
 @Component({
@@ -34,7 +34,7 @@ export class StoreAndForwardComponent implements OnInit, OnChanges {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private appSvc: AppServiceService,
+    private registrySvc: RegistryCenterService,
     private msgSvc: MessageService) { 
     this.storeAndForward = {
       Enabled: 'false'
@@ -51,7 +51,7 @@ export class StoreAndForwardComponent implements OnInit, OnChanges {
   save() {
     let writableRequestObj = {} as Writable;
     writableRequestObj.StoreAndForward = this.storeAndForward
-    this.appSvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
+    this.registrySvc.deployToConsul({'Writable': writableRequestObj}, this.appServiceKey).subscribe(()=>{
       this.msgSvc.success('deploy StoreAndForward configuration',`service: ${this.appServiceKey}`);
       this.router.navigate(['../app-service-list'],{relativeTo: this.route})
     })

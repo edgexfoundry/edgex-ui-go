@@ -21,15 +21,16 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppServiceConfigurableComponent } from './app-service-configurable.component';
-import { AppServiceService } from '../../services/app-service.service';
+import { RegistryCenterService } from '../../services/registry-center.service';
 
 describe('AppServiceConfigurableComponent: unit test', () => {
   let component: AppServiceConfigurableComponent;
   let fixture: ComponentFixture<AppServiceConfigurableComponent>;
-  let mockAppServiceService: AppServiceService
+  let mockRegistryCenterService: RegistryCenterService
 
   beforeEach(async () => {
-    mockAppServiceService = jasmine.createSpyObj<AppServiceService>('AppServiceService',{
+    mockRegistryCenterService = jasmine.createSpyObj<RegistryCenterService>('RegistryCenterService',{
+      ping: of({}),
       getAppSvcConfigBySvcKey: of({}),
       deployToConsul: undefined,
       getAllAppSvc: undefined
@@ -46,7 +47,7 @@ describe('AppServiceConfigurableComponent: unit test', () => {
               queryParams: of({'appSvcKey':'sample-svc'})
             }
         },
-        {provide: AppServiceService, useValue: mockAppServiceService}
+        {provide: RegistryCenterService, useValue: mockRegistryCenterService}
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -63,6 +64,6 @@ describe('AppServiceConfigurableComponent: unit test', () => {
   it('calls loadAppSvcConfig', () => {
     component.ngOnInit()
     fixture.detectChanges();
-    expect(mockAppServiceService.getAppSvcConfigBySvcKey).toHaveBeenCalled()
+    expect(mockRegistryCenterService.getAppSvcConfigBySvcKey).toHaveBeenCalled()
   })
 });

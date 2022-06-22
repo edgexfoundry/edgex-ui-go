@@ -24,7 +24,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { RuleEngineService } from '../../../services/rule-engine.service';
 import { SystemAgentService } from '../../../services/system-agent.service';
-
+import { RegistryCenterService } from '../../../services/registry-center.service';
 
 @Component({
   selector: 'app-service-unavailable',
@@ -45,7 +45,8 @@ export class ServiceUnavailableComponent implements OnInit {
     private notiSvc: NotificationsService,
     private schedulerSvc: SchedulerService,
     private ruleSvc: RuleEngineService,
-    private systemSvc: SystemAgentService) { }
+    private systemSvc: SystemAgentService,
+    private registrySvc: RegistryCenterService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -82,6 +83,8 @@ export class ServiceUnavailableComponent implements OnInit {
         return this.ruleSvc.ping() 
       case 'system agent':
           return this.systemSvc.ping() 
+      case 'registry center':
+        return this.registrySvc.ping() 
       default:
         return of()
     }
