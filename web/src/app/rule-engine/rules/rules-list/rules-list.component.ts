@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright © 2022 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -10,7 +11,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -95,7 +96,7 @@ export class RulesListComponent implements OnInit {
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');
   }
-  
+
   delete() {
     this.selectedRules.forEach((ruleSelected,i) => {
       this.ruleSvc.deleteOneRuleById(ruleSelected.id).subscribe(() => {
@@ -159,36 +160,15 @@ export class RulesListComponent implements OnInit {
     }
   }
 
-  start(ruleID: string) {
+  execute(ruleID: string, command: string) {
     this.operationStatus = true
-    window.setTimeout(() => {
-      this.operationStatus = false
-    },1500)
-    this.ruleSvc.startRule(ruleID).subscribe(() => {
-      this.msgSvc.success(`start ${ruleID}`);
-      this.getRulesList();
-    })
-  }
-
-  stop(ruleID: string) {
-    this.operationStatus = true
-    window.setTimeout(() => {
-      this.operationStatus = false
-    },1500)
-    this.ruleSvc.stopRule(ruleID).subscribe(() => {
-      this.msgSvc.success(`stop ${ruleID}`);
-      this.getRulesList();
-    })
-  }
-
-  restart(ruleID: string) {
-    this.operationStatus = true
-    window.setTimeout(() => {
-      this.operationStatus = false
-    },1500)
-    this.ruleSvc.restartRule(ruleID).subscribe(() => {
-      this.msgSvc.success(`restart ${ruleID}`);
-      this.getRulesList();
+    this.ruleSvc.executeRuleCommand(ruleID, command).subscribe({
+      next: () => {
+        this.operationStatus = false;
+        this.msgSvc.success(`${command} ${ruleID}`);
+        this.getRulesList();
+      },
+      error: () => this.operationStatus = false
     })
   }
 }

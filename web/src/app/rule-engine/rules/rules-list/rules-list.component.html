@@ -1,6 +1,7 @@
 <!--
 *******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright © 2022 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +20,7 @@
 <div class="card">
     <div class="card-header">
         <i class="fa fa-list text-danger mr-2"></i>
-        <span class="font-weight-bold" i18n>Rule List</span> 
+        <span class="font-weight-bold" i18n>Rule List</span>
     </div>
     <div class="card-header p-2">
         <div class="btn-group btn-group-sm" role="group">
@@ -80,9 +81,9 @@
                                 </div>
                             </span>
                             <span *ngIf="!operationStatus">
-                                <span role="button" class="badge badge-success mr-1" (click)="start(rule.id)" i18n>start</span>
-                                <span role="button" class="badge badge-info mr-1" (click)="restart(rule.id)" i18n>restart</span>
-                                <span role="button" class="badge badge-danger mr-1" (click)="stop(rule.id)" i18n>stop</span>
+                                <span role="button" class="badge badge-success mr-1" (click)="execute(rule.id, 'start')" i18n>start</span>
+                                <span role="button" class="badge badge-info mr-1" (click)="execute(rule.id, 'restart')" i18n>restart</span>
+                                <span role="button" class="badge badge-danger mr-1" (click)="execute(rule.id, 'stop')" i18n>stop</span>
                             </span>
                         </td>
                     </tr>
@@ -117,7 +118,7 @@
                 <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
                     <i class="fa fa-warning mr-1"></i>
                     <span i18n>Warning</span>
-                </h5>  
+                </h5>
             </div>
             <div class="modal-body" i18n>
                 The data will be permanently erased!!! Are you sure to execute delete operation？
