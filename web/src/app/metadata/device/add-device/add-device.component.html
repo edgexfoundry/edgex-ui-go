@@ -19,7 +19,7 @@
 <div class="card">
     <div class="card-header">
         <span class="font-weight-bold">
-            <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span> 
+            <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span>
             <span class="text-secondary" i18n>Add Device Wizard</span>
         </span>
     </div>
@@ -34,7 +34,7 @@
                 </li>
                 <li class="breadcrumb-item">
                     <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">
-                        <span i18n>SelectDeviceProfile</span> 
+                        <span i18n>SelectDeviceProfile</span>
                         <i *ngIf="currentStep >= 2" class="fa fa-check ml-1"></i>
                     </span>
                 </li>
@@ -61,8 +61,8 @@
     </div>
     <div class="card-header py-1">
         <button *ngIf="currentStep" class="btn btn-info btn-sm"  (click)="previous()">
-            <i class="fa fa-long-arrow-left mr-1"></i> 
-            <span i18n>Previous</span> 
+            <i class="fa fa-long-arrow-left mr-1"></i>
+            <span i18n>Previous</span>
         </button>
         <button *ngIf="4 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" (click)="next()" [disabled]="stepStateLock()">
             <span i18n>Next</span>
@@ -74,8 +74,8 @@
         </button>
         <ng-template #stepDone>
             <button class="btn btn-success btn-sm ml-4 float-right" (click)="submit()" [disabled]="!protocolName">
-                <i class="fa fa-save mr-1"></i> 
-                <span i18n>Submit</span> 
+                <i class="fa fa-save mr-1"></i>
+                <span i18n>Submit</span>
             </button>
         </ng-template>
     </div>
@@ -83,24 +83,24 @@
         <div [ngSwitch]="currentStep">
             <ng-template [ngSwitchCase]="0" #SelectDeviceService>
                 <div class="p-2">
-                    <app-device-service-list 
+                    <app-device-service-list
                     (singleDeviceSvcSelectedEvent)="onSingleDeviceSvcSelected($event)"
                     [deviceSvcSelected]="selectedSvc"
                     ></app-device-service-list>
                 </div>
             </ng-template>
-            
+
             <ng-template [ngSwitchCase]="1" #SelectDeviceProfile>
                 <div class="p-2">
-                    <app-device-profile-list 
-                    (singleProfileSelectedEvent)="onSingleProfileSelected($event)" 
+                    <app-device-profile-list
+                    (singleProfileSelectedEvent)="onSingleProfileSelected($event)"
                     [singleProfileSelected]="selectedProfile"
-                    [enableSelectAll]="false" 
-                    [toolbars]="false" 
+                    [enableSelectAll]="false"
+                    [toolbars]="false"
                     [associatedDeviceColumn]="false"></app-device-profile-list>
                 </div>
             </ng-template>
-            
+
             <ng-template [ngSwitchCase]="2" #DevicePrimary>
                 <form class="px-5 py-4">
                     <div class="form-group row has-validation">
@@ -108,7 +108,7 @@
                       <div class="col-md-10">
                         <input type="text" class="form-control" id="validationDeviceNameFeedback" [class.is-invalid]="!newDevice.name" [class.is-valid]="newDevice.name" name="deviceName" [(ngModel)]="newDevice.name">
                         <div id="validationDeviceNameFeedback" class="invalid-feedback">
-                            <small i18n>the device name can't be empty!</small> 
+                            <small i18n>the device name can't be empty!</small>
                         </div>
                       </div>
                     </div>
@@ -135,7 +135,7 @@
                     </div>
                 </form>
             </ng-template>
-            
+
             <ng-template  [ngSwitchCase]="3" #CreateAutoEvent>
                 <div class="card border-0">
                     <div class="card-header">
@@ -198,7 +198,7 @@
                     </div>
                 </div>
             </ng-template>
-            
+
             <ng-template [ngSwitchCase]="4" #CreateDeviceProtocol>
                 <div class="card border-0">
                     <div class="card-body">
@@ -206,14 +206,14 @@
                         <p class="badge font-weight-bold mr-3" [class.badge-primary]="protocolTemplateModel === 'avaliable'" [class.badge-secondary]="protocolTemplateModel !== 'avaliable'">
                             <span class="fa fa-plus-circle mr-2"></span>
                             <span class="user-select-none" role="button" (click)="setProtocolTemplate('avaliable')" i18n>Avaliable Protocol Templates</span>
-                        </p> 
+                        </p>
 
                         <p class="badge font-weight-bold" [class.badge-primary]="protocolTemplateModel === 'custom'" [class.badge-secondary]="protocolTemplateModel !== 'custom'">
                             <span class="fa fa-plus-circle mr-2"></span>
                             <span class="user-select-none" role="button" (click)="setProtocolTemplate('custom')" i18n>Custom Protocol Templates</span>
-                        </p> 
+                        </p>
 
-                        <div *ngIf="protocolTemplateModel === 'custom'; then customProtocolTemplate else avaliProtocolTemplate"> 
+                        <div *ngIf="protocolTemplateModel === 'custom'; then customProtocolTemplate else avaliProtocolTemplate">
                         </div>
 
                         <ng-template  #avaliProtocolTemplate>
@@ -227,9 +227,11 @@
                                             <option value="other">device-virtual</option>
                                             <option value="modbus-tcp">device-modbus-tcp</option>
                                             <option value="modbus-rtu">device-modbus-rtu</option>
+                                            <option value="Onvif">device-onvif-camera</option>
+                                            <option value="tcp">device-rfid-llrp</option>
                                         </select>
                                         <div class="invalid-feedback">
-                                            <small i18n>the protocol name can't be empty!</small> 
+                                            <small i18n>the protocol name can't be empty!</small>
                                         </div>
                                     </div>
                                 </div>
@@ -244,7 +246,7 @@
                                                     <input type="text" class="form-control"  disabled [value]="property" style="width: 300px;">
                                                 </div>
                                                 <div class="form-group mx-2">
-                                                    <i class="fa fa-long-arrow-right"></i> 
+                                                    <i class="fa fa-long-arrow-right"></i>
                                                 </div>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -279,7 +281,7 @@
                                         <label i18n>Protocol Name</label>
                                         <input type="text" class="form-control" [class.is-invalid]="!protocolName" [class.is-valid]="protocolName" name="protocolName" [(ngModel)]="protocolName">
                                         <div class="invalid-feedback">
-                                            <small i18n>the protocol name can't be empty!</small> 
+                                            <small i18n>the protocol name can't be empty!</small>
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +293,7 @@
                                                 <span class="user-select-none" role="button" (click)="addProtocolProperty()" i18n>Add Protocol Property</span>
                                             </p>
                                         </div>
-    
+
                                         <div *ngFor="let property of protocolPropertyList">
                                             <form class="form-inline mb-1">
                                                 <div class="input-group">
@@ -301,7 +303,7 @@
                                                     <input type="text" class="form-control" name="propertyKey" [(ngModel)]="property.key" style="width: 300px;">
                                                 </div>
                                                 <div class="form-group mx-2">
-                                                    <i class="fa fa-long-arrow-right"></i> 
+                                                    <i class="fa fa-long-arrow-right"></i>
                                                 </div>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -314,7 +316,7 @@
                                                 </div>
                                             </form>
                                         </div>
-    
+
                                     </div>
                                 </div>
                             </div>

@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -57,6 +57,17 @@ class ModusRTUProtocolTemplate {
   IdleTimeout: string = "";
 }
 
+class OnvifProtocolTemplate {
+  Address: string = "";
+  Port: string = "";
+  MACAddress: string = "";
+}
+
+class TCPProtocolTemplate {
+  host: string = "";
+  port: string = "";
+}
+
 class AutoEventInternal {
   interval: string = '';
   onChange: boolean = false;
@@ -88,7 +99,7 @@ export class AddDeviceComponent implements OnInit {
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
   autoEventResourceNameSet: string[] = [];
-  
+
 
   autoEventsInternal: AutoEventInternal[] = [{
     interval: '',
@@ -116,7 +127,7 @@ export class AddDeviceComponent implements OnInit {
     private errorSvc: ErrorService,
     private router: Router,
     private route: ActivatedRoute
-  ) { 
+  ) {
     this.newDevice = {
       adminState: 'UNLOCKED',
       operatingState: 'UP'
@@ -157,6 +168,14 @@ export class AddDeviceComponent implements OnInit {
         return
       case 'modbus-rtu':
         this.selectedAvailTemplate = new ModusRTUProtocolTemplate();
+        this.selectedAvailTemplateProperties = Object.keys(this.selectedAvailTemplate)
+        return
+      case 'Onvif':
+        this.selectedAvailTemplate = new OnvifProtocolTemplate();
+        this.selectedAvailTemplateProperties = Object.keys(this.selectedAvailTemplate)
+        return
+      case 'tcp':
+        this.selectedAvailTemplate = new TCPProtocolTemplate();
         this.selectedAvailTemplateProperties = Object.keys(this.selectedAvailTemplate)
         return
       default:
