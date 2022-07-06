@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ * Copyright © 2022 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -10,7 +11,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -48,19 +49,15 @@ export class InitializerComponent implements OnInit {
 
    environmentCheck() {
     this.progressMsg = "environment checking";
-    window.setTimeout(()=>{
-      this.initSvc.getSecureMode().subscribe((resp:any) => {
-        if (resp === "secure") {
-          this.authSvc.isSecureMode = true;
-          this.tokenValidate()
-        } else {
-          this.authSvc.isSecureMode = false;
-          window.setTimeout(()=>{
-            this.navigateToHome();
-          },1500)
-        }
-      });
-    },1500)
+     this.initSvc.getSecureMode().subscribe((resp:any) => {
+       if (resp === "secure") {
+         this.authSvc.isSecureMode = true;
+         this.tokenValidate()
+       } else {
+         this.authSvc.isSecureMode = false;
+         this.navigateToHome();
+       }
+     });
   }
 
   tokenValidate() {
@@ -69,9 +66,7 @@ export class InitializerComponent implements OnInit {
     .pipe(
       catchError((error) => {
         this.authSvc.isLoggedIn = false;
-        window.setTimeout(()=>{
-          this.router.navigate(['/login'], { relativeTo: this.route })
-        },1500)
+        this.router.navigate(['/login'], { relativeTo: this.route })
         return throwError(error)
       })
       )
@@ -82,8 +77,6 @@ export class InitializerComponent implements OnInit {
   }
 
   navigateToHome() {
-    window.setTimeout(()=>{
-      this.router.navigate(['/dashboard'], { relativeTo: this.route })
-    },1500)
+    this.router.navigate(['/dashboard'], { relativeTo: this.route })
   }
 }
