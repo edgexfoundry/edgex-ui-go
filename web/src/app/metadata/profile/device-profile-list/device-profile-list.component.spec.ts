@@ -30,13 +30,14 @@ describe('DeviceProfileListComponent: unit test', () => {
 
   beforeEach(async () => {
     mockMetadataService = jasmine.createSpyObj('MetadataService', {
-      allDeviceProfolesPagination: of({profiles:[]})
+      allDeviceProfolesPagination: of({profiles:[]}),
+      findProfileByName: undefined
     })
 
     await TestBed.configureTestingModule({
       declarations: [ DeviceProfileListComponent ],
       imports: [RouterTestingModule, FormsModule],
-      providers: [{provide: MetadataService, useValue: mockMetadataService}],
+      providers: [{provide: MetadataService, useValue: mockMetadataService},],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
@@ -48,4 +49,12 @@ describe('DeviceProfileListComponent: unit test', () => {
   it('renders without errors', () => {
     expect(component).toBeTruthy();
   });
+
+  it('finds device profiles pagination',() => {
+    expect(mockMetadataService.allDeviceProfolesPagination).toHaveBeenCalledWith(0,5);
+  })
+
+  it('not find device profile by profileName',() => {
+    expect(mockMetadataService.findProfileByName).not.toHaveBeenCalledWith('sample-profile-name');
+  })
 });

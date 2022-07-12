@@ -68,14 +68,10 @@
             <span i18n>Next</span>
             <i class="fa fa-long-arrow-right ml-1"></i>
         </button>
-        <button *ngIf="3 === currentStep" class="btn btn-success btn-sm float-right mr-2" (click)="skip()">
-            <span i18n>Skip</span>
-            <i class="fa fa-share ml-1"></i>
-        </button>
         <ng-template #stepDone>
-            <button class="btn btn-success btn-sm ml-4 float-right" (click)="submit()" [disabled]="!protocolName">
-                <i class="fa fa-save mr-1"></i>
-                <span i18n>Submit</span>
+            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="submit()">
+                <i class="fa fa-save mr-1"></i> 
+                <span i18n>Submit</span> 
             </button>
         </ng-template>
     </div>
@@ -139,191 +135,28 @@
             <ng-template  [ngSwitchCase]="3" #CreateAutoEvent>
                 <div class="card border-0">
                     <div class="card-header">
-                        <span class="fa fa-info-circle text-warning font-weight-bold" i18n> this step is optional, you can skip it then use scheduler service to create schedule job.</span>
+                        <span class="fa fa-info-circle text-warning font-weight-bold" i18n> this step is optional, you can skip it then set it later in edit mode.</span>
                     </div>
                     <div class="card-body">
-                        <p class="badge badge-secondary font-weight-bold">
-                            <span class="fa fa-plus-circle mr-2"></span>
-                            <span class="user-select-none" role="button" (click)="addAutoEvent()" i18n>Add More AutoEvent</span>
-                        </p>
-                        <div class="card mb-3" *ngFor="let event of autoEventsInternal">
-                            <div class="card-body">
-                                <form>
-                                    <div class="form-group row has-validation">
-                                        <label class="col-md-2 col-form-label" i18n>Interval</label>
-                                        <div class="col-md-10">
-                                            <div class="input-group mb-3"  style="width: 250px;">
-                                                <input type="text" name="interval" [(ngModel)]="event.interval" [class.is-invalid]="!eventIntervalNumType(event.interval)" [class.is-valid]="eventIntervalNumType(event.interval)" class="form-control" required>
-                                                <div class="input-group-append">
-                                                    <select class="custom-select" name="eventIntervalUnit" [(ngModel)]="event.unit" required>
-                                                        <option value="ms">millisecond</option>
-                                                        <option value="s">second</option>
-                                                        <option value="m">minute</option>
-                                                        <option value="h">hour</option>
-                                                    </select>
-                                                </div>
-                                                <div class="invalid-feedback" i18n>
-                                                    can only be a pure integer number
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-2 col-form-label" i18n>onchange</label>
-                                        <div class="col-md-10">
-                                            <select class="custom-select" name="onchange" [(ngModel)]="event.onChange" style="width: 250px;">
-                                                <option value="true">true</option>
-                                                <option value="false">false</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-2 col-form-label" i18n>resource</label>
-                                        <div class="col-md-10">
-                                            <select class="custom-select" name="resource" [(ngModel)]="event.resource" [class.is-invalid]="!event.resource" [class.is-valid]="event.resource"  style="width: 250px;" required>
-                                                <option *ngFor="let r of autoEventResourceNameSet" value="{{r}}">{{r}}</option>
-                                            </select>
-                                            <div class="invalid-feedback" i18n>
-                                                resource can't be empty
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-danger btn-sm" (click)="removeAutoEvent(event)">
-                                        <i class="fa fa-trash mr-1"></i>
-                                        <span i18n>Remove</span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                        <app-device-auto-event 
+                        [deviceProfile]="selectedProfile"
+                        [(autoEvents)]="newDevice.autoEvents"
+                        [(isValid)]="isAutoEventsValid"
+                        ></app-device-auto-event>
                     </div>
                 </div>
             </ng-template>
-
-            <ng-template [ngSwitchCase]="4" #CreateDeviceProtocol>
+            
+            <div [style.display]="currentStep === 4 ? '' : 'none'" #CreateDeviceProtocol>
                 <div class="card border-0">
-                    <div class="card-body">
-
-                        <p class="badge font-weight-bold mr-3" [class.badge-primary]="protocolTemplateModel === 'avaliable'" [class.badge-secondary]="protocolTemplateModel !== 'avaliable'">
-                            <span class="fa fa-plus-circle mr-2"></span>
-                            <span class="user-select-none" role="button" (click)="setProtocolTemplate('avaliable')" i18n>Avaliable Protocol Templates</span>
-                        </p>
-
-                        <p class="badge font-weight-bold" [class.badge-primary]="protocolTemplateModel === 'custom'" [class.badge-secondary]="protocolTemplateModel !== 'custom'">
-                            <span class="fa fa-plus-circle mr-2"></span>
-                            <span class="user-select-none" role="button" (click)="setProtocolTemplate('custom')" i18n>Custom Protocol Templates</span>
-                        </p>
-
-                        <div *ngIf="protocolTemplateModel === 'custom'; then customProtocolTemplate else avaliProtocolTemplate">
-                        </div>
-
-                        <ng-template  #avaliProtocolTemplate>
-                            <div class="row border border-secondary p-2 rounded-lg mx-1">
-                                <div class="col-md-2 border-right border-info">
-                                    <div class="form-group">
-                                        <label i18n>Protocol Name</label>
-                                        <select type="text" class="custom-select"  name="protocolName" [class.is-invalid]="!protocolName" [class.is-valid]="protocolName" [(ngModel)]="protocolName" (ngModelChange)="onAvailProtocolSelect()" required>
-                                            <option value="mqtt">device-mqtt</option>
-                                            <option value="other">device-rest</option>
-                                            <option value="other">device-virtual</option>
-                                            <option value="modbus-tcp">device-modbus-tcp</option>
-                                            <option value="modbus-rtu">device-modbus-rtu</option>
-                                            <option value="Onvif">device-onvif-camera</option>
-                                            <option value="tcp">device-rfid-llrp</option>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            <small i18n>the protocol name can't be empty!</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-10">
-                                    <div *ngIf="selectedAvailTemplateProperties.length !== 0; else noAvailProperty">
-                                        <div *ngFor="let property of selectedAvailTemplateProperties">
-                                            <form class="form-inline mb-1">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <span class="input-group-text" i18n>PropertyKey</span>
-                                                    </div>
-                                                    <input type="text" class="form-control"  disabled [value]="property" style="width: 300px;">
-                                                </div>
-                                                <div class="form-group mx-2">
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </div>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <span class="input-group-text" i18n>PropertyVaule</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" name="{{selectedAvailTemplate[property]}}" [(ngModel)]="selectedAvailTemplate[property]"  [ngModelOptions]="{standalone: true}" style="width: 300px;" >
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <ng-template #noAvailProperty>
-                                        <div>
-                                            <span class="fa fa-info-circle fa-lg text-success font-weight-bold mr-1">
-                                            </span>
-                                            <span class="text-muted" i18n>
-                                                all avaliable protocol templates refer to the device service released by edgex, such as device-virtual, device-rest, device-mqtt, device-modbus
-                                            </span>
-                                        </div>
-                                        <h5 *ngIf="protocolName" class="text-warning">
-                                            <i class="fa fa-warning mr-1"></i>
-                                            <span i18n>this device service doesn't need to set protocol properties</span>
-                                        </h5>
-                                    </ng-template>
-                                </div>
-                            </div>
-                        </ng-template>
-
-                        <ng-template #customProtocolTemplate>
-                            <div class="row border border-secondary p-2 rounded-lg mx-1">
-                                <div class="col-md-2 col-lg-2 border-right border-info">
-                                    <div class="form-group">
-                                        <label i18n>Protocol Name</label>
-                                        <input type="text" class="form-control" [class.is-invalid]="!protocolName" [class.is-valid]="protocolName" name="protocolName" [(ngModel)]="protocolName">
-                                        <div class="invalid-feedback">
-                                            <small i18n>the protocol name can't be empty!</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="">
-                                        <div>
-                                            <p class="badge badge-secondary font-weight-bold">
-                                                <span class="fa fa-plus-circle mr-2"></span>
-                                                <span class="user-select-none" role="button" (click)="addProtocolProperty()" i18n>Add Protocol Property</span>
-                                            </p>
-                                        </div>
-
-                                        <div *ngFor="let property of protocolPropertyList">
-                                            <form class="form-inline mb-1">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <span class="input-group-text" i18n>PropertyKey</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" name="propertyKey" [(ngModel)]="property.key" style="width: 300px;">
-                                                </div>
-                                                <div class="form-group mx-2">
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </div>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <span class="input-group-text" i18n>PropertyValue</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" name="PropertyValue" [(ngModel)]="property.value" style="width: 300px;">
-                                                </div>
-                                                <div class="input-group ml-2">
-                                                    <button class="btn btn-danger btn-sm" (click)="removeProtocolProperty(property)"> <i class="fa fa-trash"></i> </button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
+                    <div class="card-body"> 
+                        <app-device-protocol
+                            [mode]="'add'" 
+                            [(isValid)]="isProtocolValid">
+                        </app-device-protocol>
                     </div>
                 </div>
-            </ng-template>
+            </div>
 
         </div>
     </div>

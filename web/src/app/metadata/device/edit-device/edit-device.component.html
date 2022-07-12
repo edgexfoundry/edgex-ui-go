@@ -21,9 +21,7 @@
         <i class="fa fa-edit text-danger fa-lg"></i> 
         <span class="mx-2" i18n>Edit Device</span>
         <span class="text-primary">{{device.name}}</span> 
-    </div>
-    <div class="card-header py-1">
-        <button type="button" class="btn btn-success" (click)="save()"  [disabled]="validateBeforeSave()">
+        <button type="button" class="btn btn-success btn-sm float-right" (click)="save()"  [disabled]="validateBeforeSave()">
             <span>
                 <i class="fa fa-save mr-1"></i>
                 <span i18n>Save</span> 
@@ -91,120 +89,19 @@
             [associatedDeviceColumn]="false"></app-device-profile-list>
         </div>
 
-        <div class="card mb-3">
-            <div class="card-header font-weight-bold">
-                <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>Device Protocol</span>
-            </div>
-            <div class="card-body">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row ">
-                            <div class="col-md-2 col-lg-2 border-right border-secondary">
-                                <div class="form-group">
-                                    <label i18n>Protocol Name</label>
-                                    <input type="text" class="form-control" [class.is-invalid]="!protocolName" [class.is-valid]="protocolName" name="protocolName" [(ngModel)]="protocolName">
-                                    <div class="invalid-feedback">
-                                        <small i18n>the protocol name can't be empty!</small> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-10 col-lg-10">
-                                <div>
-                                    <p class="badge badge-secondary font-weight-bold">
-                                        <span class="fa fa-plus-circle mr-2"></span>
-                                        <span class="user-select-none" role="button" (click)="addProtocolProperty()" i18n>Add Protocol Property</span>
-                                    </p>
-                                </div>
-    
-                                <div *ngFor="let property of protocolPropertyList">
-                                    <form class="form-inline mb-1">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" i18n>PropertyKey</span>
-                                            </div>
-                                            <input type="text" class="form-control" name="propertyKey" [(ngModel)]="property.key" style="width: 300px;">
-                                        </div>
-                                        <div class="form-group mx-2">
-                                            <i class="fa fa-long-arrow-right"></i> 
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" i18n>PropertyValue</span>
-                                            </div>
-                                            <input type="text" class="form-control" name="PropertyValue" [(ngModel)]="property.value" style="width: 300px;">
-                                        </div>
-                                        <div class="input-group ml-2">
-                                            <button class="btn btn-danger btn-sm" (click)="removeProtocolProperty(property)"> <i class="fa fa-trash"></i> </button>
-                                        </div>
-                                    </form>
-                                </div>
-    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="mb-3">
+            <app-device-protocol 
+            [mode]="'edit'"
+            [deviceProtocols]="device.protocols"
+            [(isValid)]="isProtocolValid"></app-device-protocol>
         </div>
 
-        <div class="card mb-3">
-            <div class="card-header font-weight-bold">
-                <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>AutoEvents</span>
-            </div>
-            <div class="card-body">
-                <p class="badge badge-secondary font-weight-bold">
-                    <span class="fa fa-plus-circle mr-2"></span>
-                    <span class="user-select-none" role="button" (click)="addAutoEvent()" i18n>Add More AutoEvent</span>
-                </p>
-                <div class="card mb-3" *ngFor="let event of autoEventsInternal">
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group row has-validation">
-                                <label class="col-md-2 col-form-label" i18n>Interval</label>
-                                <div class="col-md-10">
-                                    <div class="input-group mb-3"  style="width: 250px;">
-                                        <input type="text" name="interval" [(ngModel)]="event.interval" [class.is-invalid]="!eventIntervalNumType(event.interval)" [class.is-valid]="eventIntervalNumType(event.interval)" class="form-control" required>
-                                        <div class="input-group-append">
-                                            <select class="custom-select" name="eventIntervalUnit" [(ngModel)]="event.unit" required>
-                                                <option value="ms">millisecond</option>
-                                                <option value="s">second</option>
-                                                <option value="m">minute</option>
-                                                <option value="h">hour</option>
-                                            </select>
-                                        </div>
-                                        <div class="invalid-feedback" i18n>
-                                            can only be a pure integer number
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label" i18n>onchange</label>
-                                <div class="col-md-10">
-                                    <select class="custom-select" name="onchange" [(ngModel)]="event.onChange" style="width: 250px;">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label" i18n>resource</label>
-                                <div class="col-md-10">
-                                    <select class="custom-select" name="resource" [(ngModel)]="event.resource" [class.is-invalid]="event.resource === ''" [class.is-valid]="event.resource !==''"  style="width: 250px;" required>
-                                        <option *ngFor="let r of autoEventResourceNameSet" value="{{r}}">{{r}}</option>
-                                    </select>
-                                    <div class="invalid-feedback" i18n>
-                                        resource can't be empty
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-danger btn-sm" (click)="removeAutoEvent(event)">
-                                <i class="fa fa-trash mr-1"></i>
-                                <span i18n>Remove</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <div class="mb-3">
+            <app-device-auto-event 
+            [deviceProfile]="selectedProfile"
+            [(autoEvents)]="device.autoEvents"
+            [(isValid)]="isAutoEventsValid"
+            ></app-device-auto-event>
+       </div>
     </div>
 </div>

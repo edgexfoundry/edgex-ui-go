@@ -14,7 +14,7 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
@@ -26,22 +26,7 @@ import { DeviceService } from '../../../contracts/v2/device-service';
 import { DeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
 import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
-import { AutoEvent } from '../../../contracts/v2/auto-event';
-
-declare type protocol = {
-  [key: string]: any;
-};
-
-declare type properties = {
-  [key: string]: any;
-};
-
-class AutoEventInternal {
-  interval: string = '';
-  onChange: boolean = false;
-  resource: string = '';
-  unit: string = ''
-}
+import { DeviceProtocolComponent } from '../device-protocol/device-protocol.component';
 
 @Component({
   selector: 'app-edit-device',
@@ -55,15 +40,11 @@ export class EditDeviceComponent implements OnInit {
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
 
-  autoEventsInternal: AutoEventInternal[] = [];
-  autoEventResourceNameSet: string[] = [];
+  @ViewChild(DeviceProtocolComponent)
+  private deviceProtocols!: DeviceProtocolComponent
 
-  protocolName?: string;
-  protocolProperty: properties = {
-    'key': '',
-    'value': ''
-  };
-  protocolPropertyList: properties[] = [];
+  isProtocolValid: boolean = true;
+  isAutoEventsValid: boolean = true;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -81,13 +62,6 @@ export class EditDeviceComponent implements OnInit {
         this.device = data.device;
 
         this.deviceLabels = this.device.labels?.join(',');
-        this.setAutoEventInternal(this.device.autoEvents)
-
-        this.protocolName = Object.keys(this.device.protocols)[0];
-        for (const [key, value] of Object.entries(this.device.protocols[this.protocolName])) {
-          this.protocolPropertyList.push({ 'key': key, 'value': value })
-        }
-
         this.setDefaultDeviceSvcSelected(this.device.serviceName);
         this.setDefaultDeviceProfileSelected(this.device.profileName);
       });
@@ -96,8 +70,6 @@ export class EditDeviceComponent implements OnInit {
 
   onSingleProfileSelected(profile: DeviceProfile) {
     this.selectedProfile = profile;
-    this.resetAutoEventsInternal();
-    this.setupAutoEventResourceNameSet(this.selectedProfile);
   }
 
   onSingleDeviceSvcSelected(svc: DeviceService) {
@@ -117,126 +89,28 @@ export class EditDeviceComponent implements OnInit {
     .findProfileByName(profileName)
     .subscribe((resp: DeviceProfileResponse) => {
       this.selectedProfile = resp.profile;
-      this.setupAutoEventResourceNameSet(this.selectedProfile);
     });
-  }
-
-  resetAutoEventsInternal () {
-    this.autoEventsInternal = [];
-  }
-
-  setupAutoEventResourceNameSet(profile: DeviceProfile) {
-    profile.deviceResources.forEach((r,i) => {
-      this.autoEventResourceNameSet.push(r.name);
-    })
-    profile.deviceCommands.forEach((cmd,i) => {
-      this.autoEventResourceNameSet.push(cmd.name);
-    })
-  }
-
-  setAutoEventInternal(events?: AutoEvent[]) {
-    let unit: string;
-    events?.forEach(e => {
-      let index: number = 0;
-
-      if (e.interval.indexOf('ms') !== -1) {
-        index = e.interval.indexOf('ms');
-      } else if (e.interval.indexOf('s') !== -1) {
-        index = e.interval.indexOf('s');
-      } else if (e.interval.indexOf('m') !== -1) {
-        index = e.interval.indexOf('m');
-      } else if (e.interval.indexOf('h') !== -1) {
-        index = e.interval.indexOf('h');
-      }
-
-      unit = e.interval.substring(index)
-      this.autoEventsInternal.push({
-        interval: e.interval.slice(0, index),
-        onChange: e.onChange as boolean ? true : false,
-        resource: e.sourceName,
-        unit: unit
-      });
-    });
-  }
-
-  eventIntervalNumType(interval: any): boolean {
-    if (!isNaN(interval) && (parseFloat(interval) === parseInt(interval))) {
-      return true
-    }
-    return false
-  }
-
-  addProtocolProperty() {
-    this.protocolPropertyList.push({ 'key': '', 'value': '' })
-  }
-
-  removeProtocolProperty(property: any) {
-    this.protocolPropertyList.splice(this.protocolPropertyList.indexOf(property), 1)
-  }
-
-  addAutoEvent() {
-    this.autoEventsInternal.push({
-      interval: '',
-      onChange: false,
-      resource: '',
-      unit: 'ms'
-    });
-  }
-
-  removeAutoEvent(event: AutoEventInternal) {
-    this.autoEventsInternal.splice(this.autoEventsInternal.indexOf(event), 1);
   }
 
   validateBeforeSave(): boolean {
-    if (this.device?.name && this.protocolName) {
-      let f: boolean = false;
-      this.autoEventsInternal.forEach(e => {
-        if (!this.eventIntervalNumType(e.interval) || e.resource === '') {
-          f = true;
-          return
-        }
-      });
-      return f
+    if (this.device!.name === '') {
+      return true
     }
-    return true
+    return !this.isAutoEventsValid || !this.isProtocolValid
   }
 
   save() {
-    let d: Device = this.device as Device
-    let protocol: protocol = {};
-    let properties: properties = {};
-
-    d.labels  = this.deviceLabels?.split(",") as string[];
-
-    d.serviceName = this.selectedSvc?.name as string;
-    d.profileName = this.selectedProfile?.name as string;
-
-    this.protocolPropertyList.forEach(p => {
-      properties[p.key] = p.value;
-    })
-    protocol[this.protocolName as string] = properties;
-    d.protocols = protocol;
-
-    d.autoEvents = [];
-
-    this.autoEventsInternal.forEach(e => {
-      d.autoEvents.push({
-        interval: `${parseInt(e.interval)}${e.unit}`,
-        onChange: e.onChange?true:false,
-        sourceName: e.resource
-      })
-    });
-
-    this.metaSvc.updateDevice(d).subscribe((resp: any) => {
+    this.device!.labels  = this.deviceLabels?.split(",") as string[];
+    this.device!.serviceName = this.selectedSvc?.name as string;
+    this.device!.profileName = this.selectedProfile?.name as string;
+    this.device!.protocols = this.deviceProtocols.getDeviceProtocols()
+    
+    this.metaSvc.updateDevice(this.device as Device).subscribe((resp: any) => {
       if(this.errorSvc.handleErrorForV2API(resp)) {
         return
       }
       this.msgSvc.success('update device', `name: ${this.device?.name}`);
       this.router.navigate(['../device-list'], { relativeTo: this.route });
     });
-  }
-
-  showTips() {
-    $('.a-question-circle-o').tooltip('toggle')
   }
 }

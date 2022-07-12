@@ -1,0 +1,78 @@
+<!--
+*******************************************************************************
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+    <div class="card-header font-weight-bold">
+        <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>AutoEvents</span>
+    </div>
+    <div class="card-body">
+        <p class="badge badge-secondary font-weight-bold">
+            <span class="fa fa-plus-circle mr-2"></span>
+            <span class="user-select-none" role="button" (click)="addAutoEvent()" i18n>Add More AutoEvent</span>
+        </p>
+        <div class="card mb-3" *ngFor="let event of autoEventDecoratorBearer">
+            <div class="card-body">
+                <form>
+                    <div class="form-group row has-validation">
+                        <label class="col-md-2 col-form-label" i18n>Interval</label>
+                        <div class="col-md-10">
+                            <div class="input-group mb-3"  style="width: 250px;">
+                                <input type="text" name="interval" [(ngModel)]="event.interval" (ngModelChange)="onValueChange()" [class.is-invalid]="!eventIntervalNumType(event.interval)" [class.is-valid]="eventIntervalNumType(event.interval)" class="form-control" required>
+                                <div class="input-group-append">
+                                    <select class="custom-select" name="eventIntervalUnit" [(ngModel)]="event.unit" (ngModelChange)="onValueChange()" required>
+                                        <option value="ms">millisecond</option>
+                                        <option value="s">second</option>
+                                        <option value="m">minute</option>
+                                        <option value="h">hour</option>
+                                    </select>
+                                </div>
+                                <div class="invalid-feedback" i18n>
+                                    can only be a pure integer number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>onchange</label>
+                        <div class="col-md-10">
+                            <select class="custom-select" name="onchange" [(ngModel)]="event.onChange" (ngModelChange)="onValueChange()" style="width: 250px;">
+                                <option value="true">true</option>
+                                <option value="false">false</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>resource</label>
+                        <div class="col-md-10">
+                            <select class="custom-select" name="resource" [(ngModel)]="event.resource" (ngModelChange)="onValueChange()" [class.is-invalid]="event.resource === ''" [class.is-valid]="event.resource !==''"  style="width: 250px;" required>
+                                <option *ngFor="let r of autoEventResourceNameSet" value="{{r}}">{{r}}</option>
+                            </select>
+                            <div class="invalid-feedback" i18n>
+                                resource can't be empty
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm" (click)="removeAutoEvent(event)">
+                        <i class="fa fa-trash mr-1"></i>
+                        <span i18n>Remove</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

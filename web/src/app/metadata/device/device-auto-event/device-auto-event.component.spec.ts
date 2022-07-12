@@ -14,31 +14,43 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { NO_ERRORS_SCHEMA} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { DeviceProfileComboListComponent } from './device-profile-combo-list.component';
+import { DeviceAutoEventComponent } from './device-auto-event.component';
+import { AutoEvent } from '../../../contracts/v2/auto-event';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
 
-describe('DeviceProfileComboListComponent: unit test', () => {
-  let fixture: ComponentFixture<DeviceProfileComboListComponent>;
-  let component: DeviceProfileComboListComponent;
-
-  const selectedProfiles = ["simple-profile-1     ","   simple-profile-2"]
-  const singleProfileSelected = 'simple-profile-name'
-  const singleProfileSelectedObjectExpected = {name: 'simple-profile-name'} as DeviceProfile
+describe('DeviceAutoEventComponent: unit test', () => {
+  let component: DeviceAutoEventComponent;
+  let fixture: ComponentFixture<DeviceAutoEventComponent>;
+  const autoEvents: AutoEvent[] =  [{
+    interval: '15s',
+    onChange: false,
+    sourceName: 'simple-device-resource-name'
+  }]
+  const deviceProfile: DeviceProfile =  {
+    name: 'simple-profile-name',
+    deviceCommands: [{
+      name: 'simple-command-name'
+    }],
+    deviceResources: [{
+      name: 'simple-device-resource-nam'
+    }]
+  } as DeviceProfile
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ DeviceProfileComboListComponent ],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
+      declarations: [ DeviceAutoEventComponent ]
+    })
+    .compileComponents();
 
-    fixture = TestBed.createComponent(DeviceProfileComboListComponent);
+    fixture = TestBed.createComponent(DeviceAutoEventComponent);
     component = fixture.componentInstance;
-    component.selectedProfiles = selectedProfiles
+    component.autoEvents = autoEvents
+    component.deviceProfile = deviceProfile
+    component.ngOnChanges()
     fixture.detectChanges();
   });
 
@@ -46,12 +58,8 @@ describe('DeviceProfileComboListComponent: unit test', () => {
     expect(component).toBeTruthy();
   });
 
-  it('sets the value of selectedProfilesStr correctly', () => {
-    expect(component.selectedProfilesStr).toEqual(selectedProfiles.toString());
-  });
-
-  it('sets singleProfileSelectedObject correctly', () => {
-    component.singleProfileSelected = singleProfileSelected
-    expect(component.singleProfileSelectedObject).toEqual(singleProfileSelectedObjectExpected);
+  it('set autoEventDecoratorBearer without errors', () => {
+    expect(component.autoEventDecoratorBearer.length).toBe(1);
+    expect(component.autoEventDecoratorBearer[0].resource).toBe(autoEvents[0].sourceName);
   });
 });

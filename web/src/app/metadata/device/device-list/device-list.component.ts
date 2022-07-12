@@ -18,19 +18,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
-import { CommandService } from '../../../services/command.service';
 import { MessageService } from '../../../message/message.service';
-import { DeviceResponse,MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
+import { MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
 import { Device } from '../../../contracts/v2/device';
-import { CoreCommand } from '../../../contracts/v2/core-command';
 import { AutoEvent } from '../../../contracts/v2/auto-event';
 import { DeviceProfile } from '../../../contracts/v2/device-profile';
-import { DeviceProfileResponse,MultiDeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
-import { DeviceCoreCommandResponse } from '../../../contracts/v2/responses/device-core-command-response';
-import { EventResponse } from '../../../contracts/v2/responses/event-response';
-import { BaseReading } from '../../../contracts/v2/reading';
-import { CoreCommandParameter } from '../../../contracts/v2/core-command';
-import { BaseResponse } from '../../../contracts/v2/common/base-response';
 
 @Component({
   selector: 'app-device-list',
@@ -49,27 +41,17 @@ export class DeviceListComponent implements OnInit {
   selectedDevice: Device[] = [];
   associateDeviceProfile?: DeviceProfile;
   autoEvents?: AutoEvent[];
-  associatedAutoEventsDeviceName?: string;
-  deviceCoreCommand?: CoreCommand[];
-  associatedCmdDeviceName?: string;
-  associatedCmdDeviceId?: string;
-  selectedCmd: CoreCommand = {} as CoreCommand;
-  selectedCmdSetParams: CoreCommandParameter[] = [];
-
-  cmdBinaryResponse: any;
-  cmdBinaryResponseURL?: string;
-  cmdGetResponse: any;
-  cmdGetResponseRaw: any;
-  cmdSetResponse: any;
-  cmdSetResponseRaw: any;
-
+  FEATURE_AUTOEVENT =  "autoevent"
+  FEATURE_COMMAND = "command"
+  specialFeatureAssociatedDeviceName?: string;
+  specialFeatureName?: string
+  
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
 
   constructor(
     private metaSvc: MetadataService,
-    private cmdSvc: CommandService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router
@@ -163,19 +145,21 @@ export class DeviceListComponent implements OnInit {
       });
       
     });
-    //reset coreCommand to hide coreCommand card
-    this.associatedCmdDeviceName = undefined;
-    //reset to hide autoEvents card
-    this.associatedAutoEventsDeviceName = undefined;
+    //close Command or AutoEvent feature viewer window
+    this.specialFeatureName = undefined;
     $("#deleteConfirmDialog").modal('hide');
   }
 
-  checkAutoEvent(device: Device) {
-    this.associatedAutoEventsDeviceName = device.name;
-    this.autoEvents = device.autoEvents;
-
-    //hide commands list when check auto evnets
-    this.associatedCmdDeviceName = "";
+  setSpecialFeatureViewer(device: Device, featureName: string) {
+    this.specialFeatureAssociatedDeviceName = device.name
+    this.specialFeatureName = featureName
+    switch (this.specialFeatureName) {
+      case this.FEATURE_AUTOEVENT:
+        this.autoEvents = device.autoEvents;
+        break;
+      default:
+        break;
+    }
   }
 
   isCheckedAll(): boolean {
@@ -225,124 +209,6 @@ export class DeviceListComponent implements OnInit {
       if (d.name === device.name) {
         this.selectedDevice.splice(i, 1);
       }
-    })
-  }
-
-  checkDeviceCommand(device: Device) {
-    this.resetResponse();
-
-    this.metaSvc
-    .findProfileByName(device.profileName)
-    .subscribe((data:DeviceProfileResponse) => this.associateDeviceProfile = data.profile);
-
-    this.cmdSvc.findDeviceAssociatedCommnadsByDeviceName(device.name).subscribe((data: DeviceCoreCommandResponse) => {
-      //hide auto events list when check a new one device command
-      this.associatedAutoEventsDeviceName = "";
-
-      this.associatedCmdDeviceName = data.deviceCoreCommand.deviceName;
-      this.associatedCmdDeviceId = device.id;
-      this.deviceCoreCommand = data.deviceCoreCommand.coreCommands;
-      //init selectedCmd for first one
-      this.selectedCmd = this.deviceCoreCommand[0];
-      this.selectedCmdSetParams = this.selectedCmd.parameters;
-    })
-  }
-
-  selectCmd(cmd: CoreCommand) {
-    // this.renderPopoverComponent();
-    this.selectedCmd = cmd;
-    this.selectedCmdSetParams = this.selectedCmd.parameters;
-    this.resetResponse();
-  }
-
-  resetResponse() {
-    this.cmdGetResponse = "";
-    this.cmdGetResponseRaw = "";
-
-    this.cmdSetResponse = "";
-    this.cmdSetResponseRaw = "";
-
-    this.cmdBinaryResponse = true;
-    this.cmdBinaryResponseURL = "";
-  }
-
-  issueGetCmd() {
-    let isBinary = false;
-
-    // this.associateDeviceProfile?.deviceResources.forEach(resource => {
-    //   if (resource.name === this.selectedCmd?.name) {
-    //     this.associateDeviceProfile?.deviceCommands.forEach(dc => {
-    //       if (command.name === dc.name) {
-    //         this.associateDeviceProfile?.deviceResources.forEach(dr => {
-    //           if (dc.get[0].deviceResource == dr.name) {
-    //             if (dr.properties.value.type === 'Binary') {
-    //               isBinary = true;
-    //               return
-    //             }
-    //           }
-    //           return
-    //         });
-    //       }
-    //       return
-    //     });
-    //   }
-    // });
-
-    if (isBinary) {
-      this.cmdGetResponse = "no supported preview";
-      this.cmdGetResponseRaw = "no supported preview";
-      // this.cmdSvc.issueGetBinaryCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)
-      //   .subscribe((data: any) => {
-      //     let result = CBOR.decode(data)
-      //     if (result.mediaType === "image/jpeg" ||
-      //       result.mediaType === "image/jpg" ||
-      //       result.mediaType === "image/png"
-      //     ) {
-      //       this.cmdBinaryResponse = result.binaryValue;
-      //       this.cmdBinaryResponseURL = URL.createObjectURL(this.cmdBinaryResponse);
-      //     } else {
-      //       this.cmdBinaryResponse = false;
-      //     }
-      //   })
-      return
-    }
-
-    // this.cmdSvc
-    //   .issueGetCmd(this.associatedCmdDeviceId as string, this.selectedCmd?.id as string)
-    //   .subscribe((data: any) => {
-    //     this.cmdGetResponseRaw = JSON.stringify(data, null, 3);
-    //     let result: any[] = [];
-    //     data.readings.forEach(function (reading: any) {
-    //       result.push(reading.value);
-    //     });
-    //     this.cmdGetResponse = result.join(',');
-    //   });
-
-    this.cmdSvc
-    .issueGetCmd(this.associatedCmdDeviceName as string, this.selectedCmd?.name as string)
-    .subscribe((resp: EventResponse) => {
-      this.cmdGetResponseRaw = JSON.stringify(resp.event.readings, null, 3);
-      let result: any[] = [];
-      resp.event.readings.forEach((reading: BaseReading) => {
-        result.push(reading.value);
-      });
-      this.cmdGetResponse = result.join(',');
-    })
-  }
-
-  issueSetCmd() {
-    let self = this;
-    let params: any = {};
-    this.selectedCmdSetParams?.forEach(function (p) {
-      if ($(`#${p.resourceName}`).val().trim() !== "") {
-        params[p.resourceName] = $(`#${p.resourceName}`).val().trim();
-      }
-    });
-    this.cmdSvc
-    .issueSetCmd(this.associatedCmdDeviceName as string, this.selectedCmd?.name as string, params)
-    .subscribe((resp: BaseResponse) => {
-      this.cmdSetResponseRaw = JSON.stringify(resp, null, 3);
-      this.cmdSetResponse = resp.message
     })
   }
 
