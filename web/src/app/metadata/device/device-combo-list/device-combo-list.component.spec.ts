@@ -26,6 +26,11 @@ describe('DeviceComboListComponent', () => {
   let fixture: ComponentFixture<DeviceComboListComponent>;
   let mockMetadataService: MetadataService
 
+  const selectedDevicesArray = ["simple-device-1  "," simple-device-2 "]
+  const singleSelectedDevice = " simple-device-1 "
+  const deviceNamesSelectedStrExpected = "simple-device-1,simple-device-2"
+  const singleDeviceNamesSelectedStr = "simple-device-1"
+
   beforeEach(async () => {
     mockMetadataService = jasmine.createSpyObj('MetadataService', {
       allDevicesPagination: of({devices: []})
@@ -46,5 +51,20 @@ describe('DeviceComboListComponent', () => {
 
   it('renders without errors', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('sets multiple values of deviceNamesSelectedStr correctly', () => {
+    component.deviceSelected = selectedDevicesArray
+    expect(component.deviceNamesSelectedStr).toEqual(deviceNamesSelectedStrExpected);
+  });
+
+  it('sets the single value of deviceNamesSelectedStr correctly', () => {
+    component.singleDeviceSelected = singleSelectedDevice
+    expect(component.deviceNamesSelectedStr).toEqual(singleDeviceNamesSelectedStr);
+  });
+
+  it('sets the single value of deviceNamesSelectedStr to be empty', () => {
+    component.singleDeviceSelected = ''
+    expect(component.deviceNamesSelectedStr).toBe('');
   });
 });

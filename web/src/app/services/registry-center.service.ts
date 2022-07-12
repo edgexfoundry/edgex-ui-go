@@ -30,8 +30,8 @@ export class RegistryCenterService {
   version: string = "/api/v2";
 
   pingUrl: string = `${this.version}/registrycenter/ping`;
-  appSvcDeployConfigUrl: string = `${this.version}/registrycenter/deploy/servicekey`;
-  appSvcGetConfigUrl: string = `${this.version}/registrycenter/config/servicekey`;
+  appSvcDeployConfigUrl: string = `${this.version}/registrycenter/deploy`;
+  appSvcGetConfigUrl: string = `${this.version}/registrycenter/config`;
   appSvcAllUrl: string = `${this.version}/registrycenter/service/all`;
 
   httpPostOrPutJSONOptions = {

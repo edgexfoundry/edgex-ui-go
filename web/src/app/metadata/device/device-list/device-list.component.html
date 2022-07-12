@@ -34,7 +34,7 @@
     <div class="card-body p-0 position-relative">
         <div class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-primary" (click)="refresh()">
+                <button class="btn btn-primary" data-testid="device-list-refresh-btn" (click)="refresh()">
                     <span>
                         <i class="fa fa-refresh mr-1"></i>
                         <span i18n>Refresh</span>
@@ -81,7 +81,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let device of deviceList" [class.table-active]="isChecked(device.id) || associatedCmdDeviceName === device.name || associatedAutoEventsDeviceName === device.name">
+                    <tr *ngFor="let device of deviceList" [class.table-active]="isChecked(device.id) || specialFeatureAssociatedDeviceName === device.name">
                         <td> <input type="checkbox" role="button"  [checked]="isChecked(device.id)" (click)="selectOne($event,device)"></td>
                         <td class="user-select-all">{{device.id}}</td>
                         <td class="user-select-all">{{device.name}}</td>
@@ -101,12 +101,12 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-primary text-light" [class.badge-danger]="associatedCmdDeviceName === device.name"  role="button" (click)="checkDeviceCommand(device)">
+                            <span class="badge badge-primary text-light" [class.badge-danger]="specialFeatureName === FEATURE_COMMAND && specialFeatureAssociatedDeviceName === device.name"  role="button" (click)="setSpecialFeatureViewer(device,FEATURE_COMMAND)">
                                 <i class="fa fa-terminal font-weight-bolder"></i>
                             </span>
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-primary text-light" [class.badge-danger]="associatedAutoEventsDeviceName === device.name" role="button" (click)="checkAutoEvent(device)">
+                            <span class="badge badge-primary text-light" [class.badge-danger]="specialFeatureName === FEATURE_AUTOEVENT && specialFeatureAssociatedDeviceName === device.name" role="button" (click)="setSpecialFeatureViewer(device,FEATURE_AUTOEVENT)">
                                 <i class="fa fa-calendar-check-o font-weight-bolder"></i>
                             </span>
                         </td>
@@ -154,14 +154,14 @@
     </div>
 </div>
 
-<div *ngIf="associatedAutoEventsDeviceName">
+<div *ngIf="specialFeatureName === FEATURE_AUTOEVENT">
     <div *ngIf="autoEvents; else noAutoEvents">
         <div class="card mt-3">
             <div class="card-header">
                 <span class="badge badge-danger text-light">
                     <i class="fa fa-calendar-check-o font-weight-bolder"></i>
                 </span>
-                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span><span i18n>Associated AutoEvents</span> 
+                <span class="text-primary mx-2 font-weight-bold"> {{specialFeatureAssociatedDeviceName}}</span><span i18n>Associated AutoEvents</span> 
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -189,7 +189,7 @@
                 <span class="badge badge-danger text-light">
                     <i class="fa fa-calendar-check-o font-weight-bolder"></i>
                 </span>
-                <span class="text-primary mx-2 font-weight-bold"> {{associatedAutoEventsDeviceName}}</span><span i18n>Associated AutoEvents</span>
+                <span class="text-primary mx-2 font-weight-bold"> {{specialFeatureAssociatedDeviceName}}</span><span i18n>Associated AutoEvents</span>
             </div>
             <div class="card-body text-center">
                 <h5 class="text-warning">
@@ -201,143 +201,11 @@
     </ng-template>
 </div>
 
-<div *ngIf="associatedCmdDeviceName">
-    <div *ngIf="deviceCoreCommand; then hasAssociatedCommand else noAssociatedCommand"></div>
+<div *ngIf="specialFeatureName === FEATURE_COMMAND">
+    <app-device-command-viewer [deviceName]="specialFeatureAssociatedDeviceName"></app-device-command-viewer>
 </div>
 
-<ng-template #hasAssociatedCommand>
-    <div class="card mt-3">
-        <div class="card-header">
-            <span class="badge badge-danger text-light">
-                <i class="fa fa-terminal font-weight-bolder"></i>
-            </span>
-            <span class="text-primary ml-2 font-weight-bold">{{associatedCmdDeviceName}}</span>
-            <span i18n>Associated Commands</span>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-2 col-lg-2">
-                    <div class="card mb-2">
-                        <div class="card-header font-weight-bold" i18n>
-                            Command Name List
-                        </div>
-                        <div class="card-body p-0">
-                            <ul class="list-group list-group-flush">
-                                <li *ngFor="let cmd of deviceCoreCommand" role="button" class="list-group-item list-group-item-action" [class.list-group-item-info]='selectedCmd?.name === cmd.name' (click)="selectCmd(cmd)">{{cmd.name}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-10 col-lg-10">
-                    <div *ngIf="selectedCmd" class="card">
-                        <div class="card-header">
-                            <span class="text-primary font-weight-bold mr-2"><i class="fa fa-thumb-tack text-danger mr-1"></i> {{selectedCmd.name}} method:</span>  
-                            <span i18n>Get and Set</span> 
-                        </div>
-                        <div class="card-body px-2">
-                            <div class="row">
-                                <div class="col-md-5 col-lg-5">
-                                    <div class="card mb-2">
-                                        <div class="card-header">
-                                            Get
-                                            <button *ngIf="selectedCmd.get" (click)="issueGetCmd()" class="btn btn-primary btn-sm float-right">try</button>
-                                        </div>
-                                        <div class="card-body overflow-auto">
-                                            <div *ngIf="selectedCmd.get; then hasGetMethod else noGetMethod"></div>
-                                            <ng-template #hasGetMethod>
-                                                <div>
-                                                    <span class="badge badge-info" i18n>Response:</span>  
-                                                    <span *ngIf="cmdGetResponse" class="ml-2 text-primary"> {{cmdGetResponse}}</span>
-                                                    <!-- <img *ngIf="cmdBinaryResponse; else noSupportedMediaType" src="{{cmdBinaryResponseURL}}">
-                                                    <ng-template #noSupportedMediaType>
-                                                        <h6 class="text-warning"> <i class="fa fa-warning"></i> the mediaType only supports image/jpeg, image/jpg, image/png</h6>
-                                                    </ng-template> -->
-                                                </div>
-                                                <div class="mt-3">
-                                                    <span class="badge badge-info" i18n>ResponseRaw:</span>
-                                                    <pre *ngIf="cmdGetResponseRaw" class="mt-2 bg-secondary p-2 text-light rounded">{{cmdGetResponseRaw}}</pre>
-                                                </div>
-                                            </ng-template>
-                                            <ng-template #noGetMethod>
-                                                <h6 class="text-warning"> <i class="fa fa-warning mr-1"></i><span i18n>no Get method</span></h6>
-                                            </ng-template>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-7 col-lg-7">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Set
-                                            <button *ngIf="selectedCmd.set" (click)="issueSetCmd()" class="btn btn-primary btn-sm float-right">try</button>
-                                        </div>
-                                        <div class="card-body">
-                                            <div *ngIf="selectedCmd.set; then hasSetMethod else noSetMethod"></div>
 
-                                            <ng-template #hasSetMethod>
-                                                <div *ngIf="selectedCmdSetParams" class="card mb-2">
-                                                    <div class="card-header" i18n>Set Parameters</div>
-                                                    <div class="card-body">
-                                                        <div *ngIf="selectedCmd" class="d-flex flex-column bd-highlight">
-                                                            <div *ngFor="let p of selectedCmdSetParams" class="form p-2 bd-highlight">
-                                                                <div *ngIf="p.valueType == 'Bool'; else valueTypeIsNotBool">
-                                                                    <label for="{{p.resourceName}}">
-                                                                         {{p.resourceName}}
-                                                                    </label> 
-                                                                    <select id="{{p.resourceName}}" name="{{p.resourceName}}" class="custom-select custom-select-sm">
-                                                                        <option [ngValue]="false">false</option>
-                                                                        <option [ngValue]="true">true</option>
-                                                                    </select>
-                                                                </div>
-                                                                <ng-template #valueTypeIsNotBool>
-                                                                    <label for="{{p.resourceName}}">{{p.resourceName}}</label>
-                                                                    <input id="{{p.resourceName}}" name="{{p.resourceName}}" placeholder="valueType: {{p.valueType}}" class="form-control form-control-sm">
-                                                                </ng-template>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                    
-                                                <div>
-                                                    <div>
-                                                        <span class="badge badge-info" i18n>Response:</span>
-                                                        <span *ngIf="cmdSetResponse" class="ml-2 text-primary">{{cmdSetResponse}}</span>
-                                                    </div>
-                                                    <div class="mt-3">
-                                                        <span class="badge badge-info" i18n>ResponseRaw:</span>
-                                                        <pre *ngIf="cmdSetResponseRaw" class="mt-2 bg-secondary p-2 text-light rounded">{{cmdSetResponseRaw}}</pre>
-                                                    </div>
-                                                </div>
-                                            </ng-template>
-
-                                            <ng-template #noSetMethod>
-                                                <h6 class="text-warning"> <i class="fa fa-warning mr-1"></i><span i18n>no Set method</span></h6>
-                                            </ng-template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>
-<ng-template  #noAssociatedCommand>
-    <div class="card mt-3">
-        <div class="card-header">
-            <span class="badge badge-danger text-light">
-                <i class="fa fa-terminal font-weight-bolder"></i>
-            </span>
-            <span class="text-primary mx-1 font-weight-bold">{{associatedCmdDeviceName}}</span>
-            <span i18n>Associated Commands</span> 
-        </div>
-        <div class="card-body text-center">
-            <h5 class="text-warning"> <i class="fa fa-warning"></i><span i18n>no associated commands</span></h5>
-        </div>
-    </div>
-</ng-template>
 
 <div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
     <div class="modal-dialog">
