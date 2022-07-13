@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-ARG BASE=golang:1.17-alpine3.15
+ARG BASE=golang:1.18-alpine3.16
 FROM ${BASE} AS builder
 
 ARG MAKE="make cmd/edgex-ui-server/edgex-ui-server"
@@ -24,9 +24,9 @@ ARG ALPINE_PKG_EXTRA=""
 LABEL Name=edgex-ui-go
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-  copyright='Copyright (c) 2018-2020: Intel'
+  copyright='Copyright (c) 2018-2022: Intel'
 
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
+RUN sed -e 's/dl-cdn[.]alpinelinux.org/dl-4.alpinelinux.org/g' -i~ /etc/apk/repositories
 
 RUN apk add --update --no-cache ${ALPINE_PKG_BASE} ${ALPINE_PKG_EXTRA}
 

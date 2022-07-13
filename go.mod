@@ -1,11 +1,11 @@
 module github.com/edgexfoundry/edgex-ui-go
 
-go 1.17
+go 1.18
 
 require (
 	github.com/edgexfoundry/go-mod-configuration/v2 v2.2.0
-	github.com/edgexfoundry/go-mod-registry/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
+	github.com/edgexfoundry/go-mod-registry/v2 v2.2.0
 	github.com/gorilla/mux v1.8.0
 	github.com/pelletier/go-toml v1.9.5
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce

@@ -39,7 +39,7 @@ parts:
     plugin: make
     build-packages: [git, libzmq3-dev, zip, pkg-config]
     build-snaps:
-      - go/1.17/stable
+      - go/1.18/stable
     stage-packages: [libzmq5]
     override-build: |
       go mod tidy
