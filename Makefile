@@ -21,11 +21,11 @@ GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 
 GIT_SHA=$(shell git rev-parse HEAD)
 
-tidy:
-	go mod tidy
-
 build: $(MICROSERVICES)
 	$(GO) build ./...
+
+tidy:
+	go mod tidy
 
 cmd/edgex-ui-server/edgex-ui-server:
 	$(GO) build $(GOFLAGS) -o $@ ./cmd/edgex-ui-server
@@ -38,7 +38,7 @@ test:
 	$(GO) vet ./...
 	gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
-#./bin/test-attribution-txt.sh #Missing, someone needs to add
+	./bin/test-attribution-txt.sh
 
 prepare:
 
