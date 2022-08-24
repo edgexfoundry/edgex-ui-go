@@ -63,6 +63,13 @@ VERSION_FILE = ./VERSION
 VERSION = $(shell cat $(VERSION_FILE) 2>/dev/null || echo 0.0.0)
 GIT_SHA = $(shell git rev-parse HEAD)
 
+# If this is running as uid 0, choose a different id.
+# The various uses of chown in this Makefile are present to ensure we still work in CI.
+USER_ID = $(shell if [ "0" -eq "$$(id -u)" ]; then echo "1000" ; else id -u ; fi)
+GROUP_ID = $(shell if [ "0" -eq "$$(id -g)" ]; then echo "1000" ; else id -g ; fi)
+user:
+	@echo "$(USER_ID):$(GROUP_ID)"
+
 # Build a Docker image used by other targets/for development.
 #
 # The (phony) image target depends on a sentinel file to track whether the image is built. 
@@ -74,7 +81,7 @@ image: $(IMAGE_SENTINEL)
 $(IMAGE_SENTINEL): Dockerfile $(VERSION_FILE) | $(SERVICE_NAME).image-check
 	docker build \
 		-f Dockerfile \
-		--build-arg USER=$(shell id -u) \
+		--build-arg USER=$(USER_ID) \
 		$(build_args) \
 		--label "git_sha=$(GIT_SHA)" \
 		-t $(IMAGE_NAME):$(GIT_SHA) \
@@ -121,10 +128,14 @@ $(SERVER_TARGETS:%=serve-%): serve-%: node_modules | image
 # Build the production version of the site.
 build: dist/web/
 dist/web/: $(SRC_FILES) node_modules | image
+	mkdir -p dist/web/
+	chown "$(USER_ID):$(GROUP_ID)" dist/web/
 	$(RUN) ng build --configuration production
 
 # Install dependencies.
 install node_modules: package.json package-lock.json | image
+	mkdir -p node_modules coverage
+	chown "$(USER_ID):$(GROUP_ID)" node_modules coverage package-lock.json
 	$(RUN) npm install
 
 # Run Angular CLI or npm commands in a container.
@@ -172,9 +183,15 @@ clear = $(shell tput sgr0)
 # while running the actual server within an isolated container environment.
 #
 # You can pass additional docker run arguments by setting run_args.
-RUN = docker run -it --rm \
+# 
+# The tty check is so we don't attempt to attach a tty when one doesn't exist.
+# Although "-s" _should_ prevent output when there's no TTY,
+# at least on Jenkins we get the ever helpful "ignoring all arguments",
+# so we redirect the output to /dev/null anyway.
+RUN = docker run --rm -i \
+		$(shell if tty -s 2>/dev/null >/dev/null ; then printf -- "-t" ; fi) \
 		-v "$$(pwd):/app" \
-		-u "$$(id -u):$$(id -g)" \
+		-u "$(USER_ID):$(GROUP_ID)" \
 		$(run_args) \
 		$(IMAGE_NAME):$(VERSION)-dev
 

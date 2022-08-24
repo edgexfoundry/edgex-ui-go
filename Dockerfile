@@ -26,6 +26,9 @@ LABEL Name=edgex-ui-go
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2018-2022: Intel'
 
+# Need the docker client for CI builds of the web components.
+COPY --from=docker:latest /usr/local/bin/docker /usr/local/bin/docker
+
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/dl-4.alpinelinux.org/g' -i~ /etc/apk/repositories
 
 RUN apk add --update --no-cache ${ALPINE_PKG_BASE} ${ALPINE_PKG_EXTRA}
