@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-.PHONY: build clean test run docker
+.PHONY: build clean run docker \
+		test test-angular test-go \
+		web
 
 GO=CGO_ENABLED=0 GO111MODULE=on go
 GOCGO=CGO_ENABLED=1 GO111MODULE=on go
@@ -33,12 +35,24 @@ cmd/edgex-ui-server/edgex-ui-server:
 clean:
 	rm -f $(MICROSERVICES)
 
-test:
+test-go:
 	$(GO) test -coverprofile=coverage.out ./...
 	$(GO) vet ./...
 	gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
 	./bin/test-attribution-txt.sh
+
+test-angular:
+	$(MAKE) -C web test
+
+test: test-go test-angular
+
+# The sub-make only rebuilds web if needed, so this should be fast,
+# but if copying isn't cheap enough, we could tell Make the dependencies.
+web:
+	$(MAKE) -C web build
+	rm -rf cmd/edgex-ui-server/static/web
+	cp -R web/dist/web cmd/edgex-ui-server/static/web
 
 prepare:
 
