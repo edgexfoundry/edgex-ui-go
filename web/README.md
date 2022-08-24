@@ -56,6 +56,12 @@ though the development targets require a little configuration to handle network 
   If it's stuck loading and the CLI shows an error saying it can't reach the API server,
   check your `proxy.conf.json` configuration.
 
+> NOTE: This version of Angular CLI [does not handle signals properly for `ng serve`][signal-issue],
+> so using e.g. `Ctrl+C` will not work to stop the process.
+> Instead, use a different terminal to issue `docker stop` with the container ID.
+
+[signal-issue]: https://github.com/angular/angular-cli/pull/23438/files
+
 ### Details
 The basic premise is this: there's an `image` target which builds a Docker image
 containing node and some relevant test dependencies.
