@@ -1,0 +1,6 @@
+*
+!src
+!.browserslistrc
+!*.json
+!*.js
+

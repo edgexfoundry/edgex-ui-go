@@ -23,6 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
             "allowedCommonJsDependencies": ["@tweenjs/tween.js"],
             "outputPath": "dist/web",
             "index": "src/index.html",
@@ -104,8 +105,20 @@
                   "maximumError": "4kb"
                 }
               ]
+            },
+            "development": {
+              "localize": false,
+              "buildOptimizer": false,
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "zh": {
+              "localize": ["zh"]
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -116,8 +129,15 @@
           "configurations": {
             "production": {
               "browserTarget": "web:build:production"
+            },
+            "development": {
+              "browserTarget": "web:build:development"
+            },
+            "zh": {
+              "browserTarget": "web:build:development,zh"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
