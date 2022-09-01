@@ -114,7 +114,7 @@ SRC_FILES = $(shell find . -path './src/*' -type f -print \
 # This runs Angular's local development server with hot reloading enabled,
 # so you edit the files locally and see the changes right away.
 .PHONY: $(SERVER_TARGETS:%=serve-%)
-$(SERVER_TARGET:%=serve-%): serve-%: run_args += -p "$(PUBLIC_PORT):80"
+$(SERVER_TARGETS:%=serve-%): run_args += -p "$(PUBLIC_PORT):80"
 $(SERVER_TARGETS:%=serve-%): serve-%: node_modules | image
 	$(RUN) \
 		ng serve \
