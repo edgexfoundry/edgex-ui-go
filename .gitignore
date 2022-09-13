@@ -3,6 +3,7 @@ vendor
 web/node_modules
 web/coverage
 web/dist
+web/*.imagebuilt
 *.exe
 *.DS_Store
 cmd/edgex-ui-server/edgex-ui-server
