@@ -42,8 +42,6 @@ parts:
       - go/1.18/stable
     stage-packages: [libzmq5]
     override-build: |
-      go mod tidy
-
       # the version is needed for the build
       cat ./VERSION
 
