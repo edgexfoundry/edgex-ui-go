@@ -10,23 +10,36 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
+ *
  * SPDX-License-Identifier: Apache-2.0'
  */
 
 package main
 
 import (
-	"os"
+	hooks "github.com/canonical/edgex-snap-hooks/v2"
+	"github.com/canonical/edgex-snap-hooks/v2/env"
+	"github.com/canonical/edgex-snap-hooks/v2/log"
 )
 
-func main() {
-	subCommand := os.Args[1]
-	switch subCommand {
-	case "install":
-		install()
-	case "configure":
-		configure()
-	default:
-		panic("Unknown subcommand: " + subCommand)
+func installConfig() error {
+	path := "/config/edgex-ui-server/res"
+
+	err := hooks.CopyDir(
+		env.Snap+path,
+		env.SnapData+path)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func install() {
+	log.SetComponentName("install")
+
+	err := installConfig()
+	if err != nil {
+		log.Fatalf("Error installing config file: %s", err)
 	}
 }
