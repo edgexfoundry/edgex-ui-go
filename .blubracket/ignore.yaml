@@ -1,0 +1,3 @@
+- paths:
+  - Attribution.txt
+  - "cmd/edgex-ui-server/static/**"
