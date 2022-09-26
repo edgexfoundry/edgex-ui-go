@@ -13,25 +13,37 @@ architectures:
 
 apps:
   edgex-ui:
+    command-chain:
+      - bin/source-env-file.sh
     command: bin/edgex-ui-wrapper.sh
     daemon: simple
-    restart-condition: always
+    install-mode: disable
     plugs:
       - network
       - network-bind
 
 parts:
+  helper-go:
+    source: snap/local/helper-go
+    plugin: make
+    build-snaps: [go/1.17/stable]
+    override-build: |
+      cd $SNAPCRAFT_PART_SRC
+      make build
+      install -DT ./helper-go $SNAPCRAFT_PART_INSTALL/bin/helper-go
+  
   web-static:
     plugin: dump
     source: cmd/edgex-ui-server
     prime: 
        - static/web/*
-       
-  local-snap-assets:
+  
+  local-bin:
     plugin: dump
-    source: snap/local/runtime-helpers
-    prime:
-      - bin/*
+    source: snap/local/bin
+    organize:
+      source-env-file.sh: bin/source-env-file.sh
+      edgex-ui-wrapper.sh: bin/edgex-ui-wrapper.sh
 
   edgex-ui:
     after: [metadata]
@@ -42,8 +54,6 @@ parts:
       - go/1.18/stable
     stage-packages: [libzmq5]
     override-build: |
-      go mod tidy
-
       # the version is needed for the build
       cat ./VERSION
 
