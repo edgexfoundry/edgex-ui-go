@@ -29,7 +29,7 @@ DOCKERS=docker_edgex_ui_go
 
 VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
 
-GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)" -trimpath -mod=readonly
+GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
 GOTESTFLAGS?=-race
 
 GIT_SHA=$(shell git rev-parse HEAD)
