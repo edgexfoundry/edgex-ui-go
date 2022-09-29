@@ -19,34 +19,32 @@ package internal
 import (
 	"net/http"
 
+	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/edgex-ui-go/internal/handler"
+	"github.com/edgexfoundry/go-mod-bootstrap/v2/di"
 	mux "github.com/gorilla/mux"
 )
-
-func InitRestRoutes() http.Handler {
-	r := mux.NewRouter()
-
-	s := r.PathPrefix("/api/v2").Subrouter()
-	s.HandleFunc("/ping", ping).Methods(http.MethodGet)
-	s.HandleFunc("/user", handler.AddUser).Methods(http.MethodPost)
-	s.HandleFunc("/auth/login", handler.Login).Methods(http.MethodPost)
-	s.HandleFunc("/auth/logout", handler.Logout).Methods(http.MethodGet)
-	s.HandleFunc("/auth/securemode", handler.SecureMode).Methods(http.MethodGet)
-
-	s.HandleFunc("/profile/download", handler.DowloadProfile).Methods(http.MethodGet)
-	s.HandleFunc("/profile/yaml", handler.AddProfileYamlContent).Methods(http.MethodPost)
-	s.HandleFunc("/profile/yaml/name/{name}", handler.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
-	s.HandleFunc("/profile/yaml", handler.UpdateProfileYamlContent).Methods(http.MethodPut)
-
-	s.HandleFunc("/registrycenter/deploy/{servicekey}", handler.DeployConfigurable).Methods(http.MethodPost)
-	s.HandleFunc("/registrycenter/config/{servicekey}", handler.GetServiceConfig).Methods(http.MethodGet)
-	s.HandleFunc("/registrycenter/service/all", handler.GetRegisteredServiceAll).Methods(http.MethodGet)
-	s.HandleFunc("/registrycenter/ping", handler.RegistryIsAlive).Methods(http.MethodGet)
-
-	return r
-}
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte("pong"))
+}
+
+func LoadRestRoutes(r *mux.Router, dic *di.Container) {
+	rh := handler.NewResourceHandler(dic)
+	r.HandleFunc("/api/v2/ping", ping).Methods(http.MethodGet)
+	r.HandleFunc("/api/v2/auth/securemode", rh.SecureMode).Methods(http.MethodGet)
+
+	r.HandleFunc("/api/v2/profile/yaml", rh.AddProfileYamlContent).Methods(http.MethodPost)
+	r.HandleFunc("/api/v2/profile/yaml/name/{name}", rh.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
+	r.HandleFunc("/api/v2/profile/yaml", rh.UpdateProfileYamlContent).Methods(http.MethodPut)
+
+	r.HandleFunc("/api/v2/registrycenter/deploy/{servicekey}", rh.DeployConfigurable).Methods(http.MethodPost)
+	r.HandleFunc("/api/v2/registrycenter/config/{servicekey}", rh.GetServiceConfig).Methods(http.MethodGet)
+	r.HandleFunc("/api/v2/registrycenter/service/all", rh.GetRegisteredServiceAll).Methods(http.MethodGet)
+	r.HandleFunc("/api/v2/registrycenter/ping", rh.RegistryIsAlive).Methods(http.MethodGet)
+
+	config := container.ConfigurationFrom(dic.Get)
+	app := &Application{config: config}
+	r.PathPrefix("/").Handler(app)
 }

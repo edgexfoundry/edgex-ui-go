@@ -23,14 +23,14 @@ import (
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
-	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
+	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/go-mod-configuration/v2/configuration"
 	"github.com/edgexfoundry/go-mod-configuration/v2/pkg/types"
 	"github.com/gorilla/mux"
 	"github.com/pelletier/go-toml"
 )
 
-func DeployConfigurable(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) DeployConfigurable(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
@@ -45,14 +45,14 @@ func DeployConfigurable(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if common.IsSecurityEnabled() {
-		token, err, code = getAclTokenOfConsul(w, r)
+		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
 			http.Error(w, "unable to get consul acl token", code)
 			return
 		}
 	}
 
-	client, err := getConfigurationClient(serviceKey, token)
+	client, err := rh.configurationCenterClient(serviceKey, token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -71,7 +71,7 @@ func DeployConfigurable(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetServiceConfig(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
@@ -79,13 +79,13 @@ func GetServiceConfig(w http.ResponseWriter, r *http.Request) {
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
-		token, err, code = getAclTokenOfConsul(w, r)
+		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
 			http.Error(w, "unable to get consul acl token", code)
 			return
 		}
 	}
-	client, err := getConfigurationClient(serviceKey, token)
+	client, err := rh.configurationCenterClient(serviceKey, token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -120,12 +120,13 @@ func GetServiceConfig(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
-func getConfigurationClient(serviceKey string, token string) (configuration.Client, error) {
+func (rh *ResourceHandler) configurationCenterClient(serviceKey string, token string) (configuration.Client, error) {
+	config := container.ConfigurationFrom(rh.dic.Get)
 	configurationConfig := types.ServiceConfig{
-		Host:        configs.RegistryConf.Host,
-		Port:        configs.RegistryConf.Port,
-		Type:        configs.RegistryConf.Type,
-		BasePath:    configs.RegistryConf.ConfigRegistryStem + configs.RegistryConf.ServiceVersion + "/" + serviceKey,
+		Host:        config.Registry.Host,
+		Port:        config.Registry.Port,
+		Type:        config.Registry.Type,
+		BasePath:    config.Registry.ConfigRegistryStem + config.Registry.ServiceVersion + "/" + serviceKey,
 		AccessToken: token,
 	}
 	client, err := configuration.NewConfigurationClient(configurationConfig)

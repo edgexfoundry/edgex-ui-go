@@ -15,43 +15,13 @@
 package main
 
 import (
-	"flag"
-	"log"
-	"net/http"
-	"strconv"
-	"time"
+	"context"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal"
-	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
-	"github.com/edgexfoundry/edgex-ui-go/internal/core"
-	"github.com/edgexfoundry/edgex-ui-go/pkg/usage"
+	"github.com/edgexfoundry/edgex-ui-go/internal/service"
+	"github.com/gorilla/mux"
 )
 
 func main() {
-
-	var confFilePath string
-
-	flag.StringVar(&confFilePath, "conf", "", "Specify local configuration file path")
-
-	flag.Usage = usage.HelpCallback
-	flag.Parse()
-
-	err := configs.LoadConfig(confFilePath)
-	if err != nil {
-		log.Printf("Load config failed. Error:%v\n", err)
-		return
-	}
-
-	r := internal.InitRestRoutes()
-
-	server := &http.Server{
-		Handler:      core.GeneralFilter(r),
-		Addr:         ":" + strconv.FormatInt(configs.ServerConf.Port, 10),
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-
-	log.Println("EdgeX UI Server Listen On " + server.Addr)
-
-	log.Fatal(server.ListenAndServe())
+	ctx, cancel := context.WithCancel(context.Background())
+	service.Main(ctx, cancel, mux.NewRouter())
 }

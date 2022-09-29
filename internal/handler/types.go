@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,21 +14,20 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package mm
+package handler
 
-import (
-	"log"
+import "github.com/edgexfoundry/go-mod-bootstrap/v2/di"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
+const (
+	metadataSvcName = "core-metadata"
+	Authorization   = "Authorization"
+	AclOfConsulPath = "/consul/v1/acl/token/self"
 )
 
-type MemoryDB struct {
-	Users []domain.User
+type ResourceHandler struct {
+	dic *di.Container
 }
 
-var dataStore = MemoryDB{}
-
-func DBConnect() bool {
-	log.Println("Connect to memoryDB success !")
-	return true
+func NewResourceHandler(dic *di.Container) *ResourceHandler {
+	return &ResourceHandler{dic: dic}
 }

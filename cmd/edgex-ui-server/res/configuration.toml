@@ -1,69 +1,52 @@
-[Service]
-Host = "localhost"
-Port = 4000
-Labels = []
-OpenMsg = "edgeX ui started"
-StaticResourcesPath = "static/web"
+[Writable]
+PersistData = true
+LogLevel = "INFO"
 
-#Using an default memory db automatically if not configed here.
-[Database]
-Host = ""
-Name = ""
-Port = 0
-Username = "su"
-Password = "su"
-  [Database.Scheme]
-  User = "user"
+[Service]
+HealthCheckInterval = "10s"
+Host = "localhost"
+ServerBindAddr = ""  # blank value defaults to Service.Host value
+Port = 4000
+StartupMsg = "edgex-ui-go service started"
+# MaxRequestSize limit the request body size in byte of put command
+MaxRequestSize = 0 # value 0 unlimit the request size.
+RequestTimeout = "5s"
 
 [Clients]
-    [Clients.CoreData]
+    [Clients.core-data]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59880
-    PathPrefix = "/core-data"
 
-    [Clients.Metadata]
+    [Clients.core-metadata]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59881
-    PathPrefix = "/core-metadata"
 
-    [Clients.CoreCommand]
+    [Clients.core-command]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59882
-    PathPrefix = "/core-command"
 
-    [Clients.Notification]
+    [Clients.support-notifications]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59860
-    PathPrefix = "/support-notifications"
 
-    [Clients.Scheduler]
+    [Clients.support-scheduler]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59861
-    PathPrefix = "/support-scheduler"
 
-    [Clients.RuleEngine]
+    [Clients.rules-engine]
     Protocol = 'http'
     Host = 'localhost'
     Port = 59720
-    PathPrefix = "/rules-engine"
 
-    [Clients.System]
+    [Clients.sys-mgmt-agent]
     Protocol = 'http'
     Host = 'localhost'
     Port = 58890
-    PathPrefix = "/sys-mgmt-agent"
-
-    [Clients.AppService]
-    Protocol = 'http'
-    Host = 'localhost'
-    Port = 59701
-    PathPrefix = "/app-service"
-
 
 [Registry]
 Host = "localhost"
