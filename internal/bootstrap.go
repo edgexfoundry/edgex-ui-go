@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
+ * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,21 +14,33 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-package common
+package internal
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"os"
+	"context"
+	"sync"
+
+	"github.com/edgexfoundry/edgex-ui-go/internal/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
+	"github.com/edgexfoundry/go-mod-bootstrap/v2/di"
+	mux "github.com/gorilla/mux"
 )
 
-func GetMd5String(s string) string {
-	h := md5.New()
-	h.Write([]byte(s))
-	return hex.EncodeToString(h.Sum(nil))
+type Bootstrap struct {
+	router      *mux.Router
+	serviceName string
 }
 
-func IsSecurityEnabled() bool {
-	env := os.Getenv(EnvSecretStore)
-	return env != "false"
+func NewBootstrap(router *mux.Router, serviceName string) *Bootstrap {
+	return &Bootstrap{
+		router:      router,
+		serviceName: serviceName,
+	}
+}
+
+func (b *Bootstrap) BootstrapHandler(ctx context.Context, wg *sync.WaitGroup, _ startup.Timer, dic *di.Container) bool {
+	config := container.ConfigurationFrom(dic.Get)
+	LoadRestRoutes(b.router, dic)
+	initClientsMapping(config)
+	return true
 }

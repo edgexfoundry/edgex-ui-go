@@ -1,7 +1,17 @@
 #
-# Copyright (c) 2018 Tencent
+# Copyright (c) 2022-2023 VMWare, Inc.
 #
-# SPDX-License-Identifier: Apache-2.0
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 
 .PHONY: build clean run docker \
@@ -20,24 +30,24 @@ DOCKERS=docker_edgex_ui_go
 VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
 
 GOFLAGS=-ldflags "-X github.com/edgexfoundry/edgex-ui-go.Version=$(VERSION)"
+GOTESTFLAGS?=-race
 
 GIT_SHA=$(shell git rev-parse HEAD)
 
 build: $(MICROSERVICES)
-	$(GO) build ./...
 
 tidy:
 	go mod tidy
 
 cmd/edgex-ui-server/edgex-ui-server:
-	$(GO) build $(GOFLAGS) -o $@ ./cmd/edgex-ui-server
+	$(GO) build -tags "no_messagebus" $(GOFLAGS) -o $@ ./cmd/edgex-ui-server
 
 clean:
 	rm -f $(MICROSERVICES)
 
 test-go:
-	$(GO) test -coverprofile=coverage.out ./...
-	$(GO) vet ./...
+	$(GO) test -tags "no_messagebus" -coverprofile=coverage.out ./...
+	$(GO) vet -tags "no_messagebus" ./...
 	gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
 	./bin/test-attribution-txt.sh

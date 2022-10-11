@@ -22,42 +22,19 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"path/filepath"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
-	"github.com/gorilla/mux"
-
+	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	client "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/http"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/requests"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/responses"
+	"github.com/gorilla/mux"
 
 	"gopkg.in/yaml.v2"
 )
 
-const (
-	TemplateDirName     = "templates"
-	ProfileTemplateName = "profileTemplate.yml"
-)
-
-func DowloadProfile(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	relativeTemplateFilePath := filepath.Join(configs.ServerConf.StaticResourcesPath, TemplateDirName, ProfileTemplateName)
-	data, err := ioutil.ReadFile(relativeTemplateFilePath)
-
-	if err == nil {
-		contentType := "application/x-yaml;charset=UTF-8"
-		w.Header().Set("Content-Type", contentType)
-		w.Header().Set("Content-disposition", "attachment;filename=\""+ProfileTemplateName+"\"")
-		w.Write(data)
-	} else {
-		w.WriteHeader(404)
-		w.Write([]byte("404 download failure!"))
-	}
-}
-
-func AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var profile dtos.DeviceProfile
 	data, err := ioutil.ReadAll(r.Body)
@@ -70,8 +47,9 @@ func AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	conf := configs.GetConfigs()
-	url := fmt.Sprintf("%s://%s:%d", conf.Clients["Metadata"].Protocol, conf.Clients["Metadata"].Host, conf.Clients["Metadata"].Port)
+
+	config := container.ConfigurationFrom(rh.dic.Get)
+	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
 	c := client.NewDeviceProfileClient(url)
 
 	profiles := []requests.DeviceProfileRequest{
@@ -90,12 +68,13 @@ func AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
-func FindProfileAndConvertToYamlByName(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) FindProfileAndConvertToYamlByName(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	profileName := vars["name"]
-	conf := configs.GetConfigs()
-	url := fmt.Sprintf("%s://%s:%d", conf.Clients["Metadata"].Protocol, conf.Clients["Metadata"].Host, conf.Clients["Metadata"].Port)
+
+	config := container.ConfigurationFrom(rh.dic.Get)
+	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
 	c := client.NewDeviceProfileClient(url)
 	var resp responses.DeviceProfileResponse
 	var err error
@@ -111,7 +90,7 @@ func FindProfileAndConvertToYamlByName(w http.ResponseWriter, r *http.Request) {
 	w.Write(out)
 }
 
-func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var profile dtos.DeviceProfile
 	data, err := ioutil.ReadAll(r.Body)
@@ -124,10 +103,10 @@ func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	conf := configs.GetConfigs()
-	url := fmt.Sprintf("%s://%s:%d", conf.Clients["Metadata"].Protocol, conf.Clients["Metadata"].Host, conf.Clients["Metadata"].Port)
-	c := client.NewDeviceProfileClient(url)
 
+	config := container.ConfigurationFrom(rh.dic.Get)
+	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
+	c := client.NewDeviceProfileClient(url)
 	profiles := []requests.DeviceProfileRequest{
 		{
 			BaseRequest: common.NewBaseRequest(),
@@ -141,10 +120,6 @@ func UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, _ := json.Marshal(resp)
-	// if resp[0].StatusCode != 200 {
-	// 	http.Error(w, string(result), resp[0].StatusCode)
-	// 	return
-	// }
 
 	w.Write(result)
 }

@@ -17,46 +17,12 @@
 package handler
 
 import (
-	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
-	"github.com/edgexfoundry/edgex-ui-go/internal/domain"
-	"github.com/edgexfoundry/edgex-ui-go/internal/errors"
-	"github.com/edgexfoundry/edgex-ui-go/internal/repository"
 )
 
-func Login(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	var cred domain.Credential
-	err := json.NewDecoder(r.Body).Decode(&cred)
-	if err != nil {
-		http.Error(w, errors.NewErrParserJsonBody().Error(), http.StatusBadRequest)
-		return
-	}
-	u := domain.User{Name: cred.Username, Password: cred.Password}
-	u, err = repository.GetUserRepos().ExistsUser(u)
-
-	if err != nil {
-		log.Printf("User: %s login failed ", cred.Username)
-		http.Error(w, fmt.Sprintf("user %s %s, login failed", cred.Username, err.Error()), http.StatusUnauthorized)
-		return
-	}
-
-	token := common.GetMd5String(u.Name)
-	//TODO:
-	// core.TokenCache[token] = u
-	log.Printf("User: %s login ", u.Name)
-	w.Write([]byte(token))
-}
-
-func Logout(w http.ResponseWriter, r *http.Request) {
-	//TODO:
-}
-
-func SecureMode(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) SecureMode(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	mode := "insecure"
 	if common.IsSecurityEnabled() {

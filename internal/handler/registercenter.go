@@ -23,29 +23,24 @@ import (
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
-	"github.com/edgexfoundry/edgex-ui-go/internal/configs"
+	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/go-mod-registry/v2/pkg/types"
 	"github.com/edgexfoundry/go-mod-registry/v2/registry"
 )
 
-const (
-	Authorization   = "Authorization"
-	AclOfConsulPath = "/consul/v1/acl/token/self"
-)
-
-func GetRegisteredServiceAll(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var err error
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
-		token, err, code = getAclTokenOfConsul(w, r)
+		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
 			http.Error(w, "unable to get consul acl token", code)
 			return
 		}
 	}
-	client, err := makeConsulClient(token)
+	client, err := rh.registryCenterClient(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -67,10 +62,11 @@ func GetRegisteredServiceAll(w http.ResponseWriter, r *http.Request) {
 	w.Write(result)
 }
 
-func makeConsulClient(token string) (registry.Client, error) {
+func (rh *ResourceHandler) registryCenterClient(token string) (registry.Client, error) {
+	config := container.ConfigurationFrom(rh.dic.Get)
 	registryConfig := types.Config{
-		Host:          configs.RegistryConf.Host,
-		Port:          configs.RegistryConf.Port,
+		Host:          config.Registry.Host,
+		Port:          config.Registry.Port,
 		CheckInterval: "2s",
 		CheckRoute:    "/api/v1/ping",
 		Type:          "consul",
@@ -79,11 +75,12 @@ func makeConsulClient(token string) (registry.Client, error) {
 	return registry.NewRegistryClient(registryConfig)
 }
 
-func getAclTokenOfConsul(w http.ResponseWriter, r *http.Request) (string, error, int) {
+func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Request) (string, error, int) {
 	defer r.Body.Close()
+	config := container.ConfigurationFrom(rh.dic.Get)
 	var acl struct{ SecretID string }
 	client := &http.Client{}
-	url := fmt.Sprintf("http://%s:%d%s", configs.GetConfigs().Kong.Server, configs.GetConfigs().Kong.ApplicationPort, AclOfConsulPath)
+	url := fmt.Sprintf("http://%s:%d%s", config.Kong.Server, config.Kong.ApplicationPort, AclOfConsulPath)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err, http.StatusInternalServerError
@@ -102,19 +99,19 @@ func getAclTokenOfConsul(w http.ResponseWriter, r *http.Request) (string, error,
 	return acl.SecretID, nil, resp.StatusCode
 }
 
-func RegistryIsAlive(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var err error
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
-		token, err, code = getAclTokenOfConsul(w, r)
+		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
 			http.Error(w, "unable to get consul acl token", code)
 			return
 		}
 	}
-	client, err := makeConsulClient(token)
+	client, err := rh.registryCenterClient(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

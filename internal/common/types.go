@@ -16,6 +16,8 @@
 
 package common
 
+import "os"
+
 const (
 	ContentTypeKey   = "Content-Type"
 	JsonContentType  = "application/json"
@@ -41,3 +43,8 @@ const (
 
 	EnvSecretStore = "EDGEX_SECURITY_SECRET_STORE"
 )
+
+func IsSecurityEnabled() bool {
+	env := os.Getenv(EnvSecretStore)
+	return env != "false"
+}
