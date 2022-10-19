@@ -47,6 +47,8 @@ FROM alpine:3.14
 EXPOSE 4000
 
 COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
+COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/Attribution.txt /Attribution.txt
+COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/LICENSE /LICENSE
 
 WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
 
