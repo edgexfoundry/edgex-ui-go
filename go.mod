@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.3.0-dev.23
-	github.com/edgexfoundry/go-mod-configuration/v2 v2.3.0-dev.14
+	github.com/edgexfoundry/go-mod-configuration/v2 v2.3.0-dev.15
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.18
 	github.com/edgexfoundry/go-mod-registry/v2 v2.3.0-dev.10
 	github.com/gorilla/mux v1.8.0
@@ -30,7 +30,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/hashicorp/consul/api v1.15.2 // indirect
+	github.com/hashicorp/consul/api v1.15.3 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.1 // indirect
 	github.com/hashicorp/go-hclog v0.14.1 // indirect
