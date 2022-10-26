@@ -52,10 +52,11 @@ make test
 
 With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
 > NOTE: the GUI is running in non-secure mode when the environment variable EDGEX_SECURITY_SECRET_STORE=false, if EDGEX_SECURITY_SECRET_STORE=true, the accesss token for edgex is required, see the edgex document how to get the token.
-> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/main/README.md). 
 
-## User tutorial
-[tutorial](https://docs.edgexfoundry.org/2.3/getting-started/tools/Ch-GUI/). 
+> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://docs.edgexfoundry.org/latest/getting-started/). 
+
+## [User guide](https://docs.edgexfoundry.org/latest/getting-started/tools/Ch-GUI/)
+
 
 ## Other installation and deployment options
 
@@ -71,6 +72,7 @@ EdgeX UI is also available as a snap package. For more details on the snap, incl
 
 
 ## Community
+- [EdgeXFoundry Chinese Website](https://cn.edgexfoundry.org/)
 - [EdgeXFoundry Slack #edgex-ui channel](https://slack.edgexfoundry.org/)
 - [Mailing lists](https://lists.edgexfoundry.org/g/main)
 
