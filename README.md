@@ -3,7 +3,7 @@
 
 
 ## Use and Purpose
-The EdgeX UI is for **demonstration and developer use** to manage and monitor a single instance of EdgeX Foundry (unsecured).  Specifically, it can:
+The EdgeX UI is for **demonstration and developer use** to manage and monitor a single instance of EdgeX Foundry (insecure or secure).  Specifically, it can:
 - Manage (add, remove, update) the EdgeX objects (device, device services, profiles, rules, app services, etc.)
 - Monitor the EdgeX data flow (events and readings) and services
 - Monitor and manage from on-box with EdgeX (on the same host)
@@ -19,10 +19,8 @@ As is, the EdgeX UI **is not meant for production use!**  Developers can use the
 
 ## Install and Deploy
 
-* Make sure you're using at least Go 1.12 (UI backend server currently uses Go 1.16.x)
+* Make sure you're using at least Go 1.12 (UI backend server currently uses Go 1.18.x)
 * If your code is in your GOPATH then make sure ```GO111MODULE=on``` is set
-* Run ```go mod tidy```
-    * This will add the all dependent libraries to the go.mod file and download it into the module cache
 
 ```
 git clone http://github.com/edgexfoundry/edgex-ui-go.git
@@ -33,6 +31,7 @@ make build
 To start the application and the web-based UI:
 
 ```
+export EDGEX_SECURITY_SECRET_STORE=false
 make run
 ```
 
@@ -48,25 +47,32 @@ To test the web-based UI:
 ```
 make test
 ```
-## Other installation and deployment options
 
-### Docker
-
-To start all the EdgeX Go microservices in Docker, run the following command in the root of the EdgeX Go directory:
-
-```
-make docker run_docker
-```
+## Using the edgex-ui
 
 With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* to your server's hostname or ip). 
-> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://github.com/edgexfoundry/edgex-go/blob/main/README.md). 
+> NOTE: the GUI is running in non-secure mode when the environment variable EDGEX_SECURITY_SECRET_STORE=false, if EDGEX_SECURITY_SECRET_STORE=true, the accesss token for edgex is required, see the edgex document how to get the token.
+
+> NOTE: make sure that EdgeXFoundry is already running, Please refer to [Edgex Services Get Started](https://docs.edgexfoundry.org/latest/getting-started/). 
+
+## [User guide](https://docs.edgexfoundry.org/latest/getting-started/tools/Ch-GUI/)
+
+
+## Other installation and deployment options
+
+### Build your own Docker Containers
+
+```
+make docker
+```
 
 ### Snap 
 
 EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](./snap/README.md)
 
+
 ## Community
-- [EdgeXFoundry Chinese Club](https://www.edgexfoundry.club)
+- [EdgeXFoundry Chinese Website](https://cn.edgexfoundry.org/)
 - [EdgeXFoundry Slack #edgex-ui channel](https://slack.edgexfoundry.org/)
 - [Mailing lists](https://lists.edgexfoundry.org/g/main)
 
