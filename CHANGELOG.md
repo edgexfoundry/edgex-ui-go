@@ -6,10 +6,50 @@
 ## Change Logs for EdgeX Dependencies
 
 ### Change Logs for EdgeX Dependencies
-
+- [go-mod-bootstrap](https://github.com/edgexfoundry/go-mod-bootstrap/blob/main/CHANGELOG.md)
 - [go-mod-core-contracts](https://github.com/edgexfoundry/go-mod-core-contracts/blob/main/CHANGELOG.md)
 - [go-mod-registry](https://github.com/edgexfoundry/go-mod-registry/blob/main/CHANGELOG.md) 
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md)
+
+## [v2.3.0] Levski - 2022-11-09 (Only compatible with the 2.x release)
+
+### Features ✨
+
+- Add onvif and llrp protocol templates ([#de42bb9](https://github.com/edgexfoundry/edgex-ui-go/commits/de42bb9))
+- Adding health check when navigating to Dashboard and app-service module ([#1f5faa1](https://github.com/edgexfoundry/edgex-ui-go/commits/1f5faa1))
+- **snap:** Support for snap options to set environment variables ([#553](https://github.com/edgexfoundry/edgex-ui-go/issues/553)) ([#d7c7e54](https://github.com/edgexfoundry/edgex-ui-go/commits/d7c7e54))
+
+### Test
+- Add basic testing case for each component or directive ([#308eeb8](https://github.com/edgexfoundry/edgex-ui-go/commits/308eeb8))
+
+### Bug Fixes 🐛
+
+- Typo on dev server target names ([#41b0feb](https://github.com/edgexfoundry/edgex-ui-go/commits/41b0feb))
+- Reset operationStatus when http call returns ([#b529499](https://github.com/edgexfoundry/edgex-ui-go/commits/b529499))
+- Remove idle sleep during page load ([#260e99f](https://github.com/edgexfoundry/edgex-ui-go/commits/260e99f))
+
+### Code Refactoring ♻
+
+- The backend server of GUI ([#555](https://github.com/edgexfoundry/edgex-ui-go/issues/555)) ([#7068460](https://github.com/edgexfoundry/edgex-ui-go/commits/7068460))
+- Splitting big device management component into small components ([#d0dddad](https://github.com/edgexfoundry/edgex-ui-go/commits/d0dddad))
+
+### Documentation 📖
+
+- Update README ([#565](https://github.com/edgexfoundry/edgex-ui-go/issues/565)) ([#387dee6](https://github.com/edgexfoundry/edgex-ui-go/commits/387dee6))
+- Mention angular-cli issue with dev ser ([#23fd923](https://github.com/edgexfoundry/edgex-ui-go/commits/23fd923))
+- Add info to README about Makefile ([#f996a4e](https://github.com/edgexfoundry/edgex-ui-go/commits/f996a4e))
+
+### Build 👷
+
+- Test and build web UI ([#2224fa5](https://github.com/edgexfoundry/edgex-ui-go/commits/2224fa5))
+- Automate Angular test/build ([#002fc90](https://github.com/edgexfoundry/edgex-ui-go/commits/002fc90))
+- Copy Attribution.txt and LICENSE into Docker image ([#48be4b6](https://github.com/edgexfoundry/edgex-ui-go/commits/48be4b6))
+- Upgrade to go 1.18 and optimize attribution script ([#60a8b53](https://github.com/edgexfoundry/edgex-ui-go/commits/60a8b53))
+
+### Continuous Integration 🔄
+
+- Add Blubracket ignore file to ignore generated files ([#3a9bbc7](https://github.com/edgexfoundry/edgex-ui-go/commits/3a9bbc7))
+- Configure Docker for CI builds ([#ece44cb](https://github.com/edgexfoundry/edgex-ui-go/commits/ece44cb))
 
 ## [v2.2.0] Kamakura - 2022-5-11 (Only compatible with the 2.x release)
 
