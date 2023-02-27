@@ -15,19 +15,19 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../services/data.service'
+import { DataService } from '../services/data.service';
 import { MetadataService } from '../services/metadata.service';
-import { SchedulerService } from '../services/scheduler.service';
 import { NotificationsService } from '../services/notifications.service';
-import { SystemAgentService } from '../services/system-agent.service';
 import { RegistryCenterService } from '../services/registry-center.service';
+import { SchedulerService } from '../services/scheduler.service';
+import { SystemAgentService } from '../services/system-agent.service';
 
-import { MultiDeviceServiceResponse } from '../contracts/v2/responses/device-service-response';
-import { MultiDeviceResponse } from '../contracts/v2/responses/device-response';
-import { MultiDeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
-import { MultiNotificationResponse } from '../contracts/v2/responses/notification-response';
-import { MultiIntervalResponse } from '../contracts/v2/responses/interval-response';
 import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint';
+import { MultiDeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
+import { MultiDeviceResponse } from '../contracts/v2/responses/device-response';
+import { MultiDeviceServiceResponse } from '../contracts/v2/responses/device-service-response';
+import { MultiIntervalResponse } from '../contracts/v2/responses/interval-response';
+import { MultiNotificationResponse } from '../contracts/v2/responses/notification-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit {
 
   getDeviceServiceCount() {
     this.metadataSvc.allDeviceServices().subscribe((resp: MultiDeviceServiceResponse) => {
-      this.deviceSvcCount = resp.services.length;
+      this.deviceSvcCount = resp.totalCount;
       resp.services.forEach((svc,i) => {
         if (svc.adminState === 'LOCKED') {
           this.deviceSvcStatusLockedCount++;
@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit {
 
   getDeviceCount() {
     this.metadataSvc.allDevices().subscribe((resp: MultiDeviceResponse) => {
-      this.deviceCount = resp.devices.length;
+      this.deviceCount = resp.totalCount;
       resp.devices.forEach((device,i) => {
         if (device.adminState === 'LOCKED') {
           this.deviceStatusLockedCount++;
@@ -114,7 +114,7 @@ export class DashboardComponent implements OnInit {
 
   getDeviceProfileCount() {
     this.metadataSvc.allDeviceProfolesPagination(0,-1).subscribe((resp: MultiDeviceProfileResponse)=>{
-      this.deviceProfileCount = resp.profiles.length;
+      this.deviceProfileCount = resp.totalCount;
     });
   }
 

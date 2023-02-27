@@ -22,5 +22,6 @@ export interface DeviceResponse extends BaseResponse {
 }
 
 export interface MultiDeviceResponse extends BaseResponse {
+    totalCount: number,
     devices: Device[]
 }

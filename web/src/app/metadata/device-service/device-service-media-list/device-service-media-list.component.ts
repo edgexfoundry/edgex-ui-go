@@ -15,12 +15,12 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
-import { MetadataService } from '../../../services/metadata.service';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { DeviceService } from '../../../contracts/v2/device-service';
-import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
 import { MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
-import {  MessageService } from '../../../message/message.service';
+import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
+import { MessageService } from '../../../message/message.service';
+import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
   selector: 'app-device-service-media-list',
@@ -45,7 +45,7 @@ export class DeviceServiceMediaListComponent implements OnInit {
         this.metaSvc
         .findDevicesByServiceName(0, 20, svc.name)
         .subscribe((data: MultiDeviceResponse) => { 
-          this.associatedDevices.set(svc.name, data.devices.length > 20 ? '20+' : String(data.devices.length)) 
+          this.associatedDevices.set(svc.name, data.totalCount > 20 ? '20+' : String(data.totalCount)) 
         });
       });
     })
