@@ -22,5 +22,6 @@ export interface DeviceServiceResponse extends BaseResponse {
 }
 
 export interface MultiDeviceServiceResponse extends BaseResponse {
+    totalCount: number,
     services: DeviceService[]
 }

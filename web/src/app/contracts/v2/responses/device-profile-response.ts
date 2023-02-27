@@ -14,13 +14,14 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { DeviceProfile } from "../device-profile";
 import { BaseResponse } from "../common/base-response";
+import { DeviceProfile } from "../device-profile";
 
 export interface DeviceProfileResponse extends BaseResponse {
     profile: DeviceProfile
 }
 
 export interface MultiDeviceProfileResponse extends BaseResponse {
+    totalCount: number,
     profiles: DeviceProfile[]
 }
