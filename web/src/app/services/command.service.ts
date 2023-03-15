@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -98,7 +98,7 @@ export class CommandService {
   }
 
   issueGetCmd(deviceName: string, commandName: string): Observable<EventResponse> {
-    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=yes&ds-returnevent=yes`;
+    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=true&ds-returnevent=true`;
     return this.http.get<EventResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )

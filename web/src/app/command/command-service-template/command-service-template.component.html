@@ -27,7 +27,7 @@
     <div class="form-group row">
         <label for="HttpMethod" class="col-md-2 col-form-label" required>
              <span class="mr-2">HttpMethod</span>
-             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+             <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
              data-content="httpMethod field will be filled up automatically when the path field is selected! "></span>
         </label>
         <div class="col-md-10">
@@ -37,13 +37,13 @@
     <div class="form-group row has-validation">
         <label for="addressHostREST" class="col-md-2 col-form-label" required>
             <span class="mr-2">Host</span>
-            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
              data-content="Both Host and Port fields are editable if you have a different host address !"></span>
         </label>
         <div class="col-md-10">
             <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!cmdSvcInfo.host" [class.is-valid]="cmdSvcInfo.host" name="addressHost" formControlName="host" [(ngModel)]="cmdSvcInfo.host" required>
             <div id="addressHostRESTFeedback" class="invalid-feedback">
-                <small i18n>the REST address host can't be empty!</small> 
+                <small i18n>the REST address host can't be empty!</small>
             </div>
         </div>
     </div>
@@ -52,20 +52,20 @@
         <div class="col-md-10">
             <input type="number" class="form-control" id="addressPortREST" [class.is-invalid]="!cmdSvcInfo.port" [class.is-valid]="cmdSvcInfo.port" name="addressPort" formControlName="port" [(ngModel)]="cmdSvcInfo.port" required>
             <div id="addressPortRESTFeedback" class="invalid-feedback">
-                <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
+                <small i18n>the REST address port can't be empty and only pure integer is supported!</small>
             </div>
         </div>
     </div>
     <div class="form-group row">
         <label for="addressPath" class="col-md-2 col-form-label" required>Path</label>
         <div class="col-md-10">
-            <app-device-core-command-combo-list 
-            [validate]="true" 
+            <app-device-core-command-combo-list
+            [validate]="true"
             [deviceName]="deviceName"
             [commandName]="commandName"
             [httpMethod]="cmdSvcInfo.httpMethod"
             [commandPath]="cmdSvcInfo.path"
-            (cmdMethodEvent)="onCmdMethodSelected($event)" 
+            (cmdMethodEvent)="onCmdMethodSelected($event)"
             (commandSelectedEvent)="onCommandSelected($event)"></app-device-core-command-combo-list>
         </div>
     </div>
@@ -105,20 +105,20 @@
                         <div class="form-group row">
                             <label for="ds-pushevent" class="col-md-2 col-form-label">
                                 <span class="mr-2" i18n>pushevent</span>
-                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                 data-content="yes indicates a successful GET will result in an event being pushed to the EdgeX system"></span>
                             </label>
                             <div class="col-md-10">
                                 <select id="ds-pushevent" name="ds-pushevent" formControlName="pushEventOfGetCmdParamter"  class="custom-select" [(ngModel)]="cmdSvcInfo.pushEventOfGetCmdParamter">
-                                    <option value="yes">yes</option>
-                                    <option value="no">no</option>
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="ds-returnevent" class="col-md-2 col-form-label">
                                 <span class="mr-2" i18n>returnevent</span>
-                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                 data-content="no indicates there will be no Event returned in the http response"></span>
                             </label>
                             <div class="col-md-10">
