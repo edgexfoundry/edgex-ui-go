@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright (C) 2023 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -22,13 +23,10 @@ import (
 
 var defaultConfigFilePath = "res/configuration.toml"
 
-type KongInfo struct {
+type APIGatewayInfo struct {
 	Server             string
-	AdminPort          int
-	AdminPortSSL       int
 	ApplicationPort    int
 	ApplicationPortSSL int
-	StatusPort         int
 }
 
 type RegistryInfo struct {
@@ -38,11 +36,11 @@ type RegistryInfo struct {
 }
 
 type ConfigurationStruct struct {
-	Writable WritableInfo
-	Service  bootstrapConfig.ServiceInfo
-	Clients  map[string]bootstrapConfig.ClientInfo
-	Registry RegistryInfo
-	Kong     KongInfo
+	Writable   WritableInfo
+	Service    bootstrapConfig.ServiceInfo
+	Clients    map[string]bootstrapConfig.ClientInfo
+	Registry   RegistryInfo
+	APIGateway APIGatewayInfo
 }
 
 type WritableInfo struct {

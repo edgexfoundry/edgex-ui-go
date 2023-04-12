@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright (C) 2023 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -80,7 +81,7 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	config := container.ConfigurationFrom(rh.dic.Get)
 	var acl struct{ SecretID string }
 	client := &http.Client{}
-	url := fmt.Sprintf("http://%s:%d%s", config.Kong.Server, config.Kong.ApplicationPort, AclOfConsulPath)
+	url := fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPath)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err, http.StatusInternalServerError

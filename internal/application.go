@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright (C) 2023 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -99,7 +100,7 @@ func (app *Application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *Application) secure(w http.ResponseWriter, r *http.Request) {
-	targetHost := fmt.Sprintf("%s:%d", app.config.Kong.Server, app.config.Kong.ApplicationPort)
+	targetHost := fmt.Sprintf("%s:%d", app.config.APIGateway.Server, app.config.APIGateway.ApplicationPort)
 	director := func(req *http.Request) {
 		req.URL.Scheme = HttpProtocol
 		req.URL.Host = targetHost

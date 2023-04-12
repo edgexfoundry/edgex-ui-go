@@ -55,10 +55,7 @@ Type = "consul"
 ConfigRegistryStem="edgex/appservices/"
 ServiceVersion="2.0"
 
-[Kong]
+[APIGateway]
 Server = "localhost"
-AdminPort = 8001
-AdminPortSSL = 8444
 ApplicationPort = 8000
 ApplicationPortSSL = 8443
-StatusPort = 8100
