@@ -1,5 +1,5 @@
 name: edgex-ui
-base: core20 
+base: core22
 type: app
 grade: stable
 confinement: strict
@@ -30,9 +30,9 @@ parts:
     plugin: make
     build-snaps: [go/1.18/stable]
     override-build: |
-      cd $SNAPCRAFT_PART_SRC
+      cd $CRAFT_PART_SRC
       make build
-      install -DT ./helper-go $SNAPCRAFT_PART_INSTALL/bin/helper-go
+      install -DT ./helper-go $CRAFT_PART_INSTALL/bin/helper-go
   
   web-static:
     plugin: dump
@@ -63,7 +63,7 @@ parts:
       fi
 
       # set the version of the snap
-      snapcraftctl set-version $VERSION
+      craftctl set version=$VERSION
 
       # write version to file for the build
       echo $VERSION > VERSION
@@ -71,12 +71,14 @@ parts:
       [ ! -d "vendor" ] && go mod download all || echo "skipping..."
 
       make build
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/bin"
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/config/edgex-ui-server/res"
-      cp cmd/edgex-ui-server/edgex-ui-server $SNAPCRAFT_PART_INSTALL/bin/edgex-ui-server
+      mkdir -p "$CRAFT_PART_INSTALL/bin"
+      mkdir -p "$CRAFT_PART_INSTALL/config/edgex-ui-server/res"
+      
+      cp cmd/edgex-ui-server/edgex-ui-server $CRAFT_PART_INSTALL/bin/edgex-ui-server
+      
       # change the StaticResourcesPath to point to $SNAP
       cat "./cmd/edgex-ui-server/res/configuration.toml" | \
         sed -e s@"StaticResourcesPath = \"./static\""@"StaticResourcesPath = \"\$SNAP/static\""@ > \
-       "$SNAPCRAFT_PART_INSTALL/config/edgex-ui-server/res/configuration.toml"
+       "$CRAFT_PART_INSTALL/config/edgex-ui-server/res/configuration.toml"
        
 
