@@ -21,7 +21,7 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/edgex-ui-go/internal/handler"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/di"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
 	mux "github.com/gorilla/mux"
 )
 
@@ -32,17 +32,17 @@ func ping(w http.ResponseWriter, r *http.Request) {
 
 func LoadRestRoutes(r *mux.Router, dic *di.Container) {
 	rh := handler.NewResourceHandler(dic)
-	r.HandleFunc("/api/v2/ping", ping).Methods(http.MethodGet)
-	r.HandleFunc("/api/v2/auth/securemode", rh.SecureMode).Methods(http.MethodGet)
+	r.HandleFunc("/api/v3/ping", ping).Methods(http.MethodGet)
+	r.HandleFunc("/api/v3/auth/securemode", rh.SecureMode).Methods(http.MethodGet)
 
-	r.HandleFunc("/api/v2/profile/yaml", rh.AddProfileYamlContent).Methods(http.MethodPost)
-	r.HandleFunc("/api/v2/profile/yaml/name/{name}", rh.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
-	r.HandleFunc("/api/v2/profile/yaml", rh.UpdateProfileYamlContent).Methods(http.MethodPut)
+	r.HandleFunc("/api/v3/profile/yaml", rh.AddProfileYamlContent).Methods(http.MethodPost)
+	r.HandleFunc("/api/v3/profile/yaml/name/{name}", rh.FindProfileAndConvertToYamlByName).Methods(http.MethodGet)
+	r.HandleFunc("/api/v3/profile/yaml", rh.UpdateProfileYamlContent).Methods(http.MethodPut)
 
-	r.HandleFunc("/api/v2/registrycenter/deploy/{servicekey}", rh.DeployConfigurable).Methods(http.MethodPost)
-	r.HandleFunc("/api/v2/registrycenter/config/{servicekey}", rh.GetServiceConfig).Methods(http.MethodGet)
-	r.HandleFunc("/api/v2/registrycenter/service/all", rh.GetRegisteredServiceAll).Methods(http.MethodGet)
-	r.HandleFunc("/api/v2/registrycenter/ping", rh.RegistryIsAlive).Methods(http.MethodGet)
+	r.HandleFunc("/api/v3/registrycenter/deploy/{servicekey}", rh.DeployConfigurable).Methods(http.MethodPost)
+	r.HandleFunc("/api/v3/registrycenter/config/{servicekey}", rh.GetServiceConfig).Methods(http.MethodGet)
+	r.HandleFunc("/api/v3/registrycenter/service/all", rh.GetRegisteredServiceAll).Methods(http.MethodGet)
+	r.HandleFunc("/api/v3/registrycenter/ping", rh.RegistryIsAlive).Methods(http.MethodGet)
 
 	config := container.ConfigurationFrom(dic.Get)
 	app := &Application{config: config}

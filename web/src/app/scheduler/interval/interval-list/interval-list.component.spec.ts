@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -22,18 +22,18 @@ import { of } from 'rxjs';
 
 import { IntervalListComponent } from './interval-list.component';
 import { SchedulerService } from '../../../services/scheduler.service';
-import { MultiIntervalResponse } from '../../../contracts/v2/responses/interval-response';
+import { MultiIntervalResponse } from '../../../contracts/v3/responses/interval-response';
 
 describe('IntervalListComponent: unit test', () => {
   let component: IntervalListComponent;
   let fixture: ComponentFixture<IntervalListComponent>;
   let mockSchedulerService: SchedulerService
   let mockMultiIntervalResponse: MultiIntervalResponse = {
-    apiVersion: 'v2',
+    apiVersion: 'v3',
     requestId: 'string',
     message: 'string',
     statusCode: 200,
-    intervals: [] 
+    intervals: []
   }
 
   beforeEach(async () => {

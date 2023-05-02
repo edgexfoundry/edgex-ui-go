@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -22,12 +22,12 @@ import { NotificationsService } from '../services/notifications.service';
 import { SystemAgentService } from '../services/system-agent.service';
 import { RegistryCenterService } from '../services/registry-center.service';
 
-import { MultiDeviceServiceResponse } from '../contracts/v2/responses/device-service-response';
-import { MultiDeviceResponse } from '../contracts/v2/responses/device-response';
-import { MultiDeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
-import { MultiNotificationResponse } from '../contracts/v2/responses/notification-response';
-import { MultiIntervalResponse } from '../contracts/v2/responses/interval-response';
-import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint';
+import { MultiDeviceServiceResponse } from '../contracts/v3/responses/device-service-response';
+import { MultiDeviceResponse } from '../contracts/v3/responses/device-response';
+import { MultiDeviceProfileResponse } from '../contracts/v3/responses/device-profile-response';
+import { MultiNotificationResponse } from '../contracts/v3/responses/notification-response';
+import { MultiIntervalResponse } from '../contracts/v3/responses/interval-response';
+import { ServiceEndpoint } from '../contracts/v3/register-center/service-endpoint';
 
 @Component({
   selector: 'app-dashboard',
@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit {
     this.dataService.ping().subscribe(() => {
       this.getEventAndReadingCount()
     })
-    
+
     this.metadataSvc.ping().subscribe(() => {
       this.getDeviceServiceCount()
       this.getDeviceCount()

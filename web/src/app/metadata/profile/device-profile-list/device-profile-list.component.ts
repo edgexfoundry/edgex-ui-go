@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -19,8 +19,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
-import { MultiDeviceProfileResponse, DeviceProfileResponse} from '../../../contracts/v2/responses/device-profile-response';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { MultiDeviceProfileResponse, DeviceProfileResponse} from '../../../contracts/v3/responses/device-profile-response';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 @Component({
   selector: 'app-device-profile-list',
@@ -28,7 +28,7 @@ import { DeviceProfile } from '../../../contracts/v2/device-profile';
   styleUrls: ['./device-profile-list.component.css']
 })
 export class DeviceProfileListComponent implements OnInit {
-  
+
   @Input() associatedDeviceColumn: boolean = true;
   @Input() toolbars: boolean = true;
   @Input() enableSelectAll: boolean = true;
@@ -40,7 +40,7 @@ export class DeviceProfileListComponent implements OnInit {
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
-  
+
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,

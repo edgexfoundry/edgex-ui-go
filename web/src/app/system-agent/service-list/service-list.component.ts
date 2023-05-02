@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -19,7 +19,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../../message/message.service';
 import { ErrorService } from '../../services/error.service';
 import { SystemAgentService } from '../../services/system-agent.service';
-import { BaseWithServiceNameResponse } from '../../contracts/v2/common/base-response';
+import { BaseWithServiceNameResponse } from '../../contracts/v3/common/base-response';
 
 interface service {
   name: string,
@@ -43,7 +43,7 @@ export class ServiceListComponent implements OnInit {
 
   availServices: service[] = [];
 
-  constructor(private sysService: SystemAgentService, 
+  constructor(private sysService: SystemAgentService,
     private msgSvc: MessageService,
     private errorSvc: ErrorService) { }
 
@@ -115,7 +115,7 @@ export class ServiceListComponent implements OnInit {
         // this.allSvcHealthCheck();
         this.operationBtnDisabled = false;
       }, 2000);
-      
+
     });
   }
 

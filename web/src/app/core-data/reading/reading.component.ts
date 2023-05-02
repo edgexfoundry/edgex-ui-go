@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DataService } from '../../services/data.service';
-import { MultiReadingResponse } from '../../contracts/v2/responses/reading-response';
+import { MultiReadingResponse } from '../../contracts/v3/responses/reading-response';
 
 @Component({
   selector: 'app-reading',
@@ -22,8 +22,8 @@ export class ReadingComponent implements OnInit {
     this.feedInterval = setInterval(() => {
       this.dataSvc.allReadingsPagination(0,5).subscribe((resp: MultiReadingResponse) => {
         if (resp.readings.length === 0) {
-          $("#data-event-stream").prepend('<p class="user-select-all">' + 
-          'no data stream available, please confirm whether there is at least one device to collect data' + 
+          $("#data-event-stream").prepend('<p class="user-select-all">' +
+          'no data stream available, please confirm whether there is at least one device to collect data' +
           '</p>');
           return
         }
@@ -48,7 +48,7 @@ export class ReadingComponent implements OnInit {
     if (this.pauseOperate) {
       this.pauseOperate = false;
       return
-    } 
+    }
     this.pauseOperate = true;
   }
 

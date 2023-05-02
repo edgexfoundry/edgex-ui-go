@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,17 +18,17 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { NotificationsService } from './notifications.service';
-import { BaseWithIdResponse } from '../contracts/v2/common/base-response';
-import { Subscription } from '../contracts/v2/subscription';
+import { BaseWithIdResponse } from '../contracts/v3/common/base-response';
+import { Subscription } from '../contracts/v3/subscription';
 
 describe('NotificationsService: unit test', () => {
   let service: NotificationsService;
   let controller: HttpTestingController
 
-  const expectedUrl = '/support-notifications/api/v2/subscription'
+  const expectedUrl = '/support-notifications/api/v3/subscription'
   const mockSubscription: Subscription = {} as Subscription
   const mockResp: BaseWithIdResponse = {
-    apiVersion: 'v2',
+    apiVersion: 'v3',
     requestId: 'string',
     message: 'string',
     statusCode: 200,

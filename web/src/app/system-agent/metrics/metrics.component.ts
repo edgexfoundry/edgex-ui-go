@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,7 +18,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SystemAgentService } from '../../services/system-agent.service';
-import { BaseWithMetricsResponse } from '../../contracts/v2/common/base-response';
+import { BaseWithMetricsResponse } from '../../contracts/v3/common/base-response';
 
 @Component({
   selector: 'app-metrics',

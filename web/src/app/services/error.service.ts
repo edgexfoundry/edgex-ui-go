@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -27,7 +27,7 @@ export class ErrorService {
 
   constructor(private msgSvc: MessageService) { }
 
-  handleErrorForV2API(data: any): boolean {
+  handleErrorForAPI(data: any): boolean {
     let t = Object.prototype.toString.call(data);
     if (t === '[object Array]') {
       if (!(data as any)[0].statusCode.toString().startsWith('20')){

@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -23,7 +23,7 @@ import { DataService } from '../../services/data.service';
 import { MetadataService } from '../../services/metadata.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { SchedulerService } from '../../services/scheduler.service';
-import { BaseWithConfigResponse } from '../../contracts/v2/common/base-response';
+import { BaseWithConfigResponse } from '../../contracts/v3/common/base-response';
 
 @Component({
   selector: 'app-config',
@@ -69,7 +69,7 @@ export class ConfigComponent implements OnInit {
     }
   }
 
-  
+
   getConfigs() {
     this.sysService.getConfigBySvcName(this.service as string).subscribe((resp: BaseWithConfigResponse[]) => {
       this.config = JSON.stringify(resp[0].config, null, 3);
@@ -77,6 +77,6 @@ export class ConfigComponent implements OnInit {
   }
 
   edit() {
-    
+
   }
 }

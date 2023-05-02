@@ -10,14 +10,14 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, Input, OnInit, OnChanges ,Output, EventEmitter} from '@angular/core';
 
-import { AutoEvent } from '../../../contracts/v2/auto-event';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { AutoEvent } from '../../../contracts/v3/auto-event';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 interface AutoEventDecorator {
   interval: string,
@@ -130,7 +130,7 @@ export class DeviceAutoEventComponent implements OnInit, OnChanges {
     } else {
       this.autoEvents.splice(0,this.autoEvents.length);
     }
-    
+
     this.autoEventDecoratorBearer.forEach(e => {
       this.autoEvents.push({
         interval: `${e.interval}${e.unit}`,

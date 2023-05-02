@@ -10,14 +10,14 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { InsecureSecrets } from '../../../contracts/v2/appsvc/insecure-secrets';
-import { Writable } from "../../../contracts/v2/appsvc/writable";
+import { InsecureSecrets } from '../../../contracts/v3/appsvc/insecure-secrets';
+import { Writable } from "../../../contracts/v3/appsvc/writable";
 import { RegistryCenterService } from "../../../services/registry-center.service";
 import { MessageService } from "../../../message/message.service";
 
@@ -29,12 +29,12 @@ import { MessageService } from "../../../message/message.service";
 export class InsecureSecretsComponent implements OnInit, OnChanges {
 
   @Input() appServiceKey: string = ''
-  
+
   private _insecureSecrets: InsecureSecrets = {} as InsecureSecrets;
   // using get and set method to avoid overwriting on init value of InsecureSecrets when parent component was binding on.
-  @Input() 
+  @Input()
   get insecureSecrets(): InsecureSecrets {return this._insecureSecrets};
-  set insecureSecrets(is: InsecureSecrets) { 
+  set insecureSecrets(is: InsecureSecrets) {
     Object.assign(this._insecureSecrets, is)
   }
   @Output() insecureSecretsChange = new EventEmitter<InsecureSecrets>();
@@ -42,7 +42,7 @@ export class InsecureSecretsComponent implements OnInit, OnChanges {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private registrySvc: RegistryCenterService,
-    private msgSvc: MessageService) { 
+    private msgSvc: MessageService) {
     this.insecureSecrets = {
       DB: {Secrets: {}},
       mqtt: {Secrets: {}} ,

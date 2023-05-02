@@ -10,16 +10,16 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 
-import { Functions, AddTags, Batch,Compress, Encrypt, 
-  FilterByDeviceName, FilterByProfileName, FilterBySourceName, 
+import { Functions, AddTags, Batch,Compress, Encrypt,
+  FilterByDeviceName, FilterByProfileName, FilterBySourceName,
   FilterByResourceName, HTTPExport, MQTTExport, PushToCore,
-  Transform,SetResponseData, JSONLogic } from '../../../contracts/v2/appsvc/functions';
+  Transform,SetResponseData, JSONLogic } from '../../../contracts/v3/appsvc/functions';
 
 @Component({
   selector: 'app-pipeline-function',
@@ -41,7 +41,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     // using get and set method to avoid overwriting on init value of InsecureSecrets when parent component was binding on.
     // availableFunctions' name is not an exacted Functions from Jakarta version, it is a superset of built-in Function, the name of property maybe the value with an exacted name of one built-in Function.
     private _availableFunctions: Functions | any;
-    @Input() 
+    @Input()
     get availableFunctions(): Functions | any {return this._availableFunctions};
     set availableFunctions(funcs: Functions | any) {
         Object.assign(this._availableFunctions, funcs)
@@ -49,7 +49,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     @Output() availableFunctionsChange = new EventEmitter<Functions>();
 
     private _selectedFunctionsName: string[] = [];
-    @Input() 
+    @Input()
     get selectedFunctionsName(): string[] {return this._selectedFunctionsName };
     set selectedFunctionsName(funcNames: string[]) {
         funcNames.forEach((v,i) => {funcNames[i] = v.trim()});
@@ -57,7 +57,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
     }
     @Output() selectedFunctionsNameChange = new EventEmitter<string[]>();
 
-    constructor() { 
+    constructor() {
         this._availableFunctions = {} as Functions;
         this.builtinFunctions = {} as Functions
         this.initBuiltinFunctions();
@@ -71,9 +71,9 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         this.setSelectedProfiles();
         this.availableFunctionsChange.emit(this.availableFunctions);
     }
- 
+
     startWith(availableFuncName: string): string {
-        let builtinFuncName = 'Unknown' 
+        let builtinFuncName = 'Unknown'
         Object.keys(this.builtinFunctions).forEach(name => {
             if (availableFuncName.startsWith(name))  {
                 builtinFuncName = name
@@ -155,7 +155,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         this.selectedFunctionsName.forEach((name) => {
             if (funcName === name.trim()) {
                 selected = true
-                return 
+                return
             }
         });
         return selected
@@ -186,7 +186,7 @@ export class PipelineFunctionComponent implements OnInit, OnChanges {
         event.preventDefault();
         let sourceFuncName = event.dataTransfer.getData("funcName");
         if (!sourceFuncName) {
-            return 
+            return
         }
 
         let sourceElementId = `${this.funcExecOrderZoneIdentifier}${sourceFuncName}`;

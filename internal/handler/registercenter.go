@@ -25,8 +25,8 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	"github.com/edgexfoundry/go-mod-registry/v2/pkg/types"
-	"github.com/edgexfoundry/go-mod-registry/v2/registry"
+	"github.com/edgexfoundry/go-mod-registry/v3/pkg/types"
+	"github.com/edgexfoundry/go-mod-registry/v3/registry"
 )
 
 func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *http.Request) {

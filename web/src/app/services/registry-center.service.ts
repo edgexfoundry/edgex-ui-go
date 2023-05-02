@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -20,14 +20,14 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 
-import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint';
+import { ServiceEndpoint } from '../contracts/v3/register-center/service-endpoint';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistryCenterService {
 
-  version: string = "/api/v2";
+  version: string = "/api/v3";
 
   pingUrl: string = `${this.version}/registrycenter/ping`;
   appSvcDeployConfigUrl: string = `${this.version}/registrycenter/deploy`;

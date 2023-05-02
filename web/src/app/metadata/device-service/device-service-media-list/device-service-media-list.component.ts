@@ -10,16 +10,16 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { MetadataService } from '../../../services/metadata.service';
-import { DeviceService } from '../../../contracts/v2/device-service';
-import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
-import { MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
+import { DeviceService } from '../../../contracts/v3/device-service';
+import { MultiDeviceServiceResponse } from '../../../contracts/v3/responses/device-service-response';
+import { MultiDeviceResponse } from '../../../contracts/v3/responses/device-response';
 import {  MessageService } from '../../../message/message.service';
 
 @Component({
@@ -44,8 +44,8 @@ export class DeviceServiceMediaListComponent implements OnInit {
       this.deviceServiceList.forEach((svc) => {
         this.metaSvc
         .findDevicesByServiceName(0, 20, svc.name)
-        .subscribe((data: MultiDeviceResponse) => { 
-          this.associatedDevices.set(svc.name, data.devices.length > 20 ? '20+' : String(data.devices.length)) 
+        .subscribe((data: MultiDeviceResponse) => {
+          this.associatedDevices.set(svc.name, data.devices.length > 20 ? '20+' : String(data.devices.length))
         });
       });
     })

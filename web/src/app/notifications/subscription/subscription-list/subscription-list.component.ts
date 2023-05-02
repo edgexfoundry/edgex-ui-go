@@ -10,20 +10,20 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
  import { Component, OnInit } from '@angular/core';
  import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from '../../../contracts/v2/subscription';
-import { Address } from '../../../contracts/v2/address';
+import { Subscription } from '../../../contracts/v3/subscription';
+import { Address } from '../../../contracts/v3/address';
 import { NotificationsService } from '../../../services/notifications.service';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
-import { BaseResponse, BaseWithIdResponse} from '../../../contracts/v2/common/base-response';
-import { SubscriptionResponse, MultiSubscriptionResponse } from '../../../contracts/v2/responses/subscription-response';
+import { BaseResponse, BaseWithIdResponse} from '../../../contracts/v3/common/base-response';
+import { SubscriptionResponse, MultiSubscriptionResponse } from '../../../contracts/v3/responses/subscription-response';
 
 @Component({
   selector: 'app-subscription-list',
@@ -134,7 +134,7 @@ export class SubscriptionListComponent implements OnInit {
   deleteSubs() {
     this.subscriptionSelected.forEach(sub => {
       this.notiSvc.deleteOneSubscriptionByName(sub.name).subscribe((data: BaseResponse) => {
-        if (this.errSvc.handleErrorForV2API(data)){
+        if (this.errSvc.handleErrorForAPI(data)){
           return
         }
         this.subscriptionList.forEach((item, index) => {

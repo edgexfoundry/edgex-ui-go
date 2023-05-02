@@ -10,15 +10,15 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { CommandService } from '../../../services/command.service';
-import { DeviceCoreCommandResponse } from '../../../contracts/v2/responses/device-core-command-response';
-import { DeviceCoreCommand, CoreCommand } from '../../../contracts/v2/core-command';
+import { DeviceCoreCommandResponse } from '../../../contracts/v3/responses/device-core-command-response';
+import { DeviceCoreCommand, CoreCommand } from '../../../contracts/v3/core-command';
 
 @Component({
   selector: 'app-device-associated-core-command-list',
@@ -28,7 +28,7 @@ import { DeviceCoreCommand, CoreCommand } from '../../../contracts/v2/core-comma
 export class DeviceAssociatedCoreCommandListComponent implements OnInit {
 
   @Input() deviceName?: string;
-  
+
   @Input() coreCmdSelected?: CoreCommand;
   @Output() singleCoreCmdSelectedEvent = new EventEmitter<CoreCommand>();
   deviceAssociatedCoreCommandsList: CoreCommand[] = [];

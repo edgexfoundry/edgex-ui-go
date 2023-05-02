@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -23,7 +23,7 @@ describe('AuthService: unit test', () => {
   let service: AuthService;
   let controller: HttpTestingController
 
-  const expectedUrl = '/core-metadata/api/v2/ping'
+  const expectedUrl = '/core-metadata/api/v3/ping'
   const mockToken = 'mock-token'
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('AuthService: unit test', () => {
       service.tokenValidate().subscribe(token => {
         expectedToken = token
       })
-      
+
       //find pending request
       const request = controller.expectOne({
         method: 'GET',

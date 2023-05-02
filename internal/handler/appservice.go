@@ -24,22 +24,21 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	"github.com/edgexfoundry/go-mod-configuration/v2/configuration"
-	"github.com/edgexfoundry/go-mod-configuration/v2/pkg/types"
+	"github.com/edgexfoundry/go-mod-configuration/v3/configuration"
+	"github.com/edgexfoundry/go-mod-configuration/v3/pkg/types"
 	"github.com/gorilla/mux"
-	"github.com/pelletier/go-toml"
 )
 
 func (rh *ResourceHandler) DeployConfigurable(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
-	configuration := make(map[string]interface{})
+	config := make(map[string]interface{})
 	var err error
 	var token string
 	var code int
 
-	if err := json.NewDecoder(r.Body).Decode(&configuration); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&config); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -58,13 +57,7 @@ func (rh *ResourceHandler) DeployConfigurable(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	configurationTomlTree, err := toml.TreeFromMap(configuration)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	if err := client.PutConfigurationToml(configurationTomlTree, true); err != nil {
+	if err := client.PutConfigurationMap(config, true); err != nil {
 		http.Error(w, err.Error(), http.StatusBadGateway)
 		return
 	}
@@ -97,9 +90,9 @@ func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	configuration := make(map[string]interface{})
+	config := make(map[string]interface{})
 
-	rawConfiguration, err := client.GetConfiguration(&configuration)
+	rawConfiguration, err := client.GetConfiguration(&config)
 	if err != nil {
 		http.Error(w, fmt.Errorf("could not get configuration from Configuration: %v", err.Error()).Error(), http.StatusInternalServerError)
 		return
@@ -131,10 +124,10 @@ func (rh *ResourceHandler) configurationCenterClient(serviceKey string, token st
 	}
 	client, err := configuration.NewConfigurationClient(configurationConfig)
 	if err != nil {
-		return nil, fmt.Errorf("Connection to Registry could not be made: %v", err)
+		return nil, fmt.Errorf("connection to Registry could not be made: %v", err)
 	}
 	if !client.IsAlive() {
-		return nil, fmt.Errorf("Registry (%s) is not running", configurationConfig.Type)
+		return nil, fmt.Errorf("registry (%s) is not running", configurationConfig.Type)
 	}
 	return client, nil
 }
