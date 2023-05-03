@@ -10,13 +10,13 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
-import { Interval } from '../../../contracts/v2/interval';
+import { Interval } from '../../../contracts/v3/interval';
 
 @Component({
   selector: 'app-interval-combo-list',
@@ -30,7 +30,7 @@ export class IntervalComboListComponent implements OnInit {
   @Input() selectedInterval: Interval;
   @Output() intervalSelectedEvent = new EventEmitter<Interval>();
 
-  constructor() { 
+  constructor() {
     this.selectedInterval = {} as Interval;
   }
 

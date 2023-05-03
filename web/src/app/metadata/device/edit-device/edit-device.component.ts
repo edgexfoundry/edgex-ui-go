@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -20,12 +20,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
-import { Device } from '../../../contracts/v2/device';
-import { DeviceResponse } from '../../../contracts/v2/responses/device-response';
-import { DeviceService } from '../../../contracts/v2/device-service';
-import { DeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
-import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
+import { Device } from '../../../contracts/v3/device';
+import { DeviceResponse } from '../../../contracts/v3/responses/device-response';
+import { DeviceService } from '../../../contracts/v3/device-service';
+import { DeviceServiceResponse } from '../../../contracts/v3/responses/device-service-response';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
+import { DeviceProfileResponse } from '../../../contracts/v3/responses/device-profile-response';
 import { DeviceProtocolComponent } from '../device-protocol/device-protocol.component';
 
 @Component({
@@ -104,9 +104,9 @@ export class EditDeviceComponent implements OnInit {
     this.device!.serviceName = this.selectedSvc?.name as string;
     this.device!.profileName = this.selectedProfile?.name as string;
     this.device!.protocols = this.deviceProtocols.getDeviceProtocols()
-    
+
     this.metaSvc.updateDevice(this.device as Device).subscribe((resp: any) => {
-      if(this.errorSvc.handleErrorForV2API(resp)) {
+      if(this.errorSvc.handleErrorForAPI(resp)) {
         return
       }
       this.msgSvc.success('update device', `name: ${this.device?.name}`);

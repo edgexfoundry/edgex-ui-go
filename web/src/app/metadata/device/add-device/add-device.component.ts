@@ -17,9 +17,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { DeviceService } from '../../../contracts/v2/device-service';
-import { Device } from '../../../contracts/v2/device';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { DeviceService } from '../../../contracts/v3/device-service';
+import { Device } from '../../../contracts/v3/device';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
@@ -31,7 +31,7 @@ import { DeviceProtocolComponent } from  '../device-protocol/device-protocol.com
   styleUrls: ['./add-device.component.css']
 })
 export class AddDeviceComponent implements OnInit {
-  
+
   newDevice: Device;
   deviceLabels: string = '';
 
@@ -100,9 +100,9 @@ export class AddDeviceComponent implements OnInit {
     this.newDevice.serviceName = this.selectedSvc?.name as string;
     this.newDevice.profileName = this.selectedProfile?.name as string;
     this.newDevice.protocols = this.deviceProtocols.getDeviceProtocols()
-   
+
     this.metaSvc.addDevice(this.newDevice).subscribe((resp:any) => {
-      if(this.errorSvc.handleErrorForV2API(resp)) {
+      if(this.errorSvc.handleErrorForAPI(resp)) {
         return
       }
       this.msgSvc.success('Add device',`name: ${this.newDevice.name}`);

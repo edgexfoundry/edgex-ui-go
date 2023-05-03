@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   tokenValidate(): Observable<any> {
-    let url = "/core-metadata/api/v2/ping";
+    let url = "/core-metadata/api/v3/ping";
     return this.http.get(url)
   }
 

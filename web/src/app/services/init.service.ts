@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -27,7 +27,7 @@ import { ErrorService } from './error.service';
 export class InitService {
 
   endpoint: string = "";
-  version: string = "/api/v2";
+  version: string = "/api/v3";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
   secureModeUrl: string = `${this.urlPrefix}/auth/securemode`;

@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -23,7 +23,7 @@ import { of } from 'rxjs';
 
 import { IntervalActionListComponent } from './interval-action-list.component';
 import { SchedulerService } from '../../../services/scheduler.service';
-import { IntervalAction } from '../../../contracts/v2/interval-action';
+import { IntervalAction } from '../../../contracts/v3/interval-action';
 
 describe('IntervalActionListComponent', () => {
   let component: IntervalActionListComponent;
@@ -43,12 +43,12 @@ describe('IntervalActionListComponent', () => {
       imports: [RouterTestingModule, FormsModule],
       providers: [
         {
-          provide: SchedulerService, 
+          provide: SchedulerService,
           useValue: mockSchedulerService
         },
         {
-        provide: ActivatedRoute, 
-        useValue: 
+        provide: ActivatedRoute,
+        useValue:
         {
           queryParams: of({'intervalName':'sample-interval-name'})
         }

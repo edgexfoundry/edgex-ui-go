@@ -1,4 +1,4 @@
-import { CoreCommandParameter, CoreCommand } from '../../../contracts/v2/core-command';
+import { CoreCommandParameter, CoreCommand } from '../../../contracts/v3/core-command';
 
 export interface CommandServiceInfo {
     httpMethod: string,

@@ -10,12 +10,12 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnChanges , Input, Output, EventEmitter} from '@angular/core';
-import { Trigger, Trigger_EdgexMessageBus, Trigger_ExternalMqtt, Trigger_HTTP, EdgexMessageBusOptional } from '../../../contracts/v2/appsvc/trigger';
+import { Trigger, Trigger_EdgexMessageBus, Trigger_ExternalMqtt, Trigger_HTTP, EdgexMessageBusOptional } from '../../../contracts/v3/appsvc/trigger';
 
 @Component({
   selector: 'app-appsvc-trigger',
@@ -26,12 +26,12 @@ export class TriggerComponent implements OnInit, OnChanges {
 
   private _configTrigger: Trigger = {} as Trigger;
   // using get and set method to avoid overwriting on init value of InsecureSecrets when parent component was binding on.
-  @Input() 
+  @Input()
   get configTrigger(): Trigger {return this._configTrigger};
   set configTrigger(triger: Trigger) {Object.assign(this._configTrigger, triger)}
   @Output() configTriggerChange = new EventEmitter<Trigger>();
 
-  constructor() { 
+  constructor() {
     this.configTrigger = {} as Trigger;
     this.configTrigger.EdgexMessageBus = {Optional: {} , SubscribeHost: {},PublishHost: {}} as Trigger_EdgexMessageBus;
     this.configTrigger.EdgexMessageBus!.Optional = {} as EdgexMessageBusOptional;

@@ -1,0 +1,45 @@
+Writable:
+    LogLevel: INFO
+Service:
+    Host: localhost
+    Port: 4000
+    ServerBindAddr: ''
+    StartupMsg: edgex-ui-go service started
+    HealthCheckInterval: 10s
+    MaxRequestSize: 0
+    RequestTimeout: 5s
+Clients:
+    core-data:
+        Protocol: http
+        Host: localhost
+        Port: 59880
+    core-metadata:
+        Protocol: http
+        Host: localhost
+        Port: 59881
+    core-command:
+        Protocol: http
+        Host: localhost
+        Port: 59882
+    support-notifications:
+        Protocol: http
+        Host: localhost
+        Port: 59860
+    support-scheduler:
+        Protocol: http
+        Host: localhost
+        Port: 59861
+    rules-engine:
+        Protocol: http
+        Host: localhost
+        Port: 59720
+Registry:
+    Host: localhost
+    Port: 8500
+    Type: consul
+    ConfigRegistryStem: edgex/appservices/
+    ServiceVersion: '2.0'
+APIGateway:
+    Server: localhost
+    ApplicationPort: 8000
+    ApplicationPortSSL: 8443

@@ -2,7 +2,7 @@ package container
 
 import (
 	"github.com/edgexfoundry/edgex-ui-go/internal/config"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/di"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
 )
 
 // ConfigurationName contains the name of command's config.ConfigurationStruct implementation in the DIC.

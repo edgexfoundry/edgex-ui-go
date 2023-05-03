@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -19,13 +19,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { BaseWithIdResponse, BaseResponse } from '../contracts/v2/common/base-response';
-import { IntervalRequest } from '../contracts/v2/requests/interval-request';
-import { Interval } from '../contracts/v2/interval';
-import { IntervalResponse, MultiIntervalResponse } from '../contracts/v2/responses/interval-response';
-import { IntervalAction } from '../contracts/v2/interval-action';
-import { IntervalActionRequest } from '../contracts/v2/requests/interval-action-request';
-import { IntervalActionResponse, MultiIntervalActionResponse } from '../contracts/v2/responses/interval-action-response';
+import { BaseWithIdResponse, BaseResponse } from '../contracts/v3/common/base-response';
+import { IntervalRequest } from '../contracts/v3/requests/interval-request';
+import { Interval } from '../contracts/v3/interval';
+import { IntervalResponse, MultiIntervalResponse } from '../contracts/v3/responses/interval-response';
+import { IntervalAction } from '../contracts/v3/interval-action';
+import { IntervalActionRequest } from '../contracts/v3/requests/interval-action-request';
+import { IntervalActionResponse, MultiIntervalActionResponse } from '../contracts/v3/responses/interval-action-response';
 
 import { ErrorService } from './error.service';
 
@@ -35,7 +35,7 @@ import { ErrorService } from './error.service';
 export class SchedulerService {
 
   endpoint: string = "/support-scheduler";
-  version: string = "/api/v2";
+  version: string = "/api/v3";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
   pingUrl: string  = "/ping";
@@ -84,7 +84,7 @@ export class SchedulerService {
   addInterval(interval: Interval): Observable<BaseWithIdResponse[]> {
     let url = `${this.addOneIntervalUrl}`;
     let data: IntervalRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       interval: interval
     }];
     return this.http.post<BaseWithIdResponse[]>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions).pipe(
@@ -95,7 +95,7 @@ export class SchedulerService {
   updateInterval(interval: Interval): Observable<BaseResponse[]> {
     let url = `${this.updateOneIntervalUrl}`;
     let data: IntervalRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       interval: interval
     }];
     return this.http.patch<BaseResponse[]>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions).pipe(
@@ -129,7 +129,7 @@ export class SchedulerService {
   addIntervalAction(intervalAction: IntervalAction): Observable<BaseWithIdResponse[]> {
     let url = `${this.addOneIntervalActionUrl}`;
     let data: IntervalActionRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       action: intervalAction
     }];
     return this.http.post<BaseWithIdResponse[]>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions).pipe(
@@ -140,7 +140,7 @@ export class SchedulerService {
   updateIntervalAction(intervalAction: IntervalAction): Observable<BaseResponse[]> {
     let url = `${this.updateOneIntervaActionlUrl}`;
     let data: IntervalActionRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       action: intervalAction
     }];
     return this.http.patch<BaseResponse[]>(url,JSON.stringify(data),this.httpPostOrPutJSONOptions).pipe(

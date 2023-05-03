@@ -10,13 +10,13 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
 import { RegistryCenterService } from '../../services/registry-center.service';
-import { ServiceEndpoint } from '../../contracts/v2/register-center/service-endpoint';
+import { ServiceEndpoint } from '../../contracts/v3/register-center/service-endpoint';
 
 @Component({
   selector: 'app-app-service-list',
@@ -31,7 +31,7 @@ export class AppServiceListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllAppSvc();
   }
-  
+
   getAllAppSvc() {
     this.registrySvc.getAllAppSvc().subscribe((svcEndpoints: ServiceEndpoint[]) => {
       this.appServiceList = [];

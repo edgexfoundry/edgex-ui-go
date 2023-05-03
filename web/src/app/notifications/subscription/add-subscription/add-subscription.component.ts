@@ -10,15 +10,15 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from '../../../contracts/v2/subscription';
-import { Address } from '../../../contracts/v2/address';
+import { Subscription } from '../../../contracts/v3/subscription';
+import { Address } from '../../../contracts/v3/address';
 
 import { NotificationsService } from '../../../services/notifications.service';
 import { MessageService } from '../../../message/message.service';
@@ -36,11 +36,11 @@ export class AddSubscriptionComponent implements OnInit {
   subCategories: string = '';
   subLabels: string = '';
 
-  constructor(private notiSvc: NotificationsService, 
+  constructor(private notiSvc: NotificationsService,
     private msgSvc: MessageService,
     private errSvc: ErrorService,
     private route: ActivatedRoute,
-    private router: Router) { 
+    private router: Router) {
     this.subscription = { adminState: 'UNLOCKED' } as Subscription;
   }
 
@@ -67,7 +67,7 @@ export class AddSubscriptionComponent implements OnInit {
     })
     this.subscription.channels = this.channelTemplates;
     this.notiSvc.addOneSubscription(this.subscription).subscribe((resp) => {
-      if (this.errSvc.handleErrorForV2API(resp)){
+      if (this.errSvc.handleErrorForAPI(resp)){
         return
       }
       this.msgSvc.success('Add new subscription', `Name: ${this.subscription.name}`);
@@ -78,10 +78,10 @@ export class AddSubscriptionComponent implements OnInit {
   addChannelTemplate(template: string) {
     switch (template) {
       case 'REST' :
-        this.addRESTAddr(); 
+        this.addRESTAddr();
         break
       case 'EMAIL':
-        this.addEMAILAddr(); 
+        this.addEMAILAddr();
     }
   }
 
@@ -137,10 +137,10 @@ export class AddSubscriptionComponent implements OnInit {
       })
     }
 
-    if (validateEachTemplate || !this.subscription.name || 
+    if (validateEachTemplate || !this.subscription.name ||
     !this.subCategories || !this.subLabels || !this.subscription.receiver ||
     this.channelTemplates.length === 0
-    ) { 
+    ) {
       return true
     }
     return false

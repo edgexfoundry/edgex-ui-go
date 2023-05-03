@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,17 +18,17 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { SchedulerService } from './scheduler.service';
-import { Interval } from '../contracts/v2/interval';
-import { BaseWithIdResponse } from '../contracts/v2/common/base-response';
+import { Interval } from '../contracts/v3/interval';
+import { BaseWithIdResponse } from '../contracts/v3/common/base-response';
 
 describe('SchedulerService: unit test', () => {
   let service: SchedulerService;
   let controller: HttpTestingController
 
-  const expectedUrl = '/support-scheduler/api/v2/interval'
+  const expectedUrl = '/support-scheduler/api/v3/interval'
   const mockInterval: Interval = {} as Interval
   const mockResp: BaseWithIdResponse[] = [{
-    apiVersion: 'v2',
+    apiVersion: 'v3',
     requestId: 'string',
     message: 'string',
     statusCode: 200,

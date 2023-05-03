@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -19,11 +19,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { BaseWithServiceNameResponse, BaseWithConfigResponse, BaseWithMetricsResponse } from '../contracts/v2/common/base-response';
-import { OperationRequest } from '../contracts/v2/requests/operation-request';
+import { BaseWithServiceNameResponse, BaseWithConfigResponse, BaseWithMetricsResponse } from '../contracts/v3/common/base-response';
+import { OperationRequest } from '../contracts/v3/requests/operation-request';
 import { ErrorService } from '../services/error.service';
 import { RegistryCenterService } from './registry-center.service';
-import { ServiceEndpoint } from  '../contracts/v2/register-center/service-endpoint';
+import { ServiceEndpoint } from  '../contracts/v3/register-center/service-endpoint';
 
 @Injectable({
   providedIn: 'root'
@@ -31,16 +31,16 @@ import { ServiceEndpoint } from  '../contracts/v2/register-center/service-endpoi
 export class SystemAgentService {
 
   endpoint: string = "/sys-mgmt-agent";
-  version2: string = "/api/v2";
+  version2: string = "/api/v3";
 
-  urlPrefixV2: string = `${this.endpoint}${this.version2}`;
+  urlPrefix: string = `${this.endpoint}${this.version2}`;
 
   pingUrl: string  = "/ping";
-  allRegisteredSvcUrl: string = '/api/v2/registrycenter/service/all';
-  configUrl: string = `${this.urlPrefixV2}/system/config`;
-  metricsUrl: string =  `${this.urlPrefixV2}/system/metrics`;
-  healthUrl: string = `${this.urlPrefixV2}/system/health`;
-  operationUrl: string = `${this.urlPrefixV2}/system/operation`;
+  allRegisteredSvcUrl: string = '/api/v3/registrycenter/service/all';
+  configUrl: string = `${this.urlPrefix}/system/config`;
+  metricsUrl: string =  `${this.urlPrefix}/system/metrics`;
+  healthUrl: string = `${this.urlPrefix}/system/health`;
+  operationUrl: string = `${this.urlPrefix}/system/operation`;
 
   httpPostOrPutOptions = {
     headers: new HttpHeaders({
@@ -48,18 +48,18 @@ export class SystemAgentService {
     })
   };
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     private errorSvc: ErrorService,
     private registrySvc: RegistryCenterService) { }
 
   ping(): Observable<any> {
-    let url = `${this.urlPrefixV2}${this.pingUrl}`;
+    let url = `${this.urlPrefix}${this.pingUrl}`;
     return this.http.get(url)
   }
 
   getRegisteredServiceAll(): Observable<ServiceEndpoint[]> {
     return this.registrySvc.getAllAppSvc()
-  } 
+  }
 
   getConfigBySvcName(serviceName: string): Observable<BaseWithConfigResponse[]> {
     let url = `${this.configUrl}?services=${serviceName}`;
@@ -82,7 +82,7 @@ export class SystemAgentService {
     )
   }
 
-  operateV2(action: OperationRequest[]): Observable<BaseWithServiceNameResponse[]> {
+  operate(action: OperationRequest[]): Observable<BaseWithServiceNameResponse[]> {
     let url = `${this.operationUrl}`;
     return this.http.post<BaseWithServiceNameResponse[]>(url, JSON.stringify(action), this.httpPostOrPutOptions).pipe(
       catchError(error => this.errorSvc.handleError(error))
@@ -91,28 +91,28 @@ export class SystemAgentService {
 
   startV2(name: string): Observable<any> {
     let action: OperationRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       serviceName: name,
       action: 'start'
     }]
-    return this.operateV2(action)
+    return this.operate(action)
   }
 
   stopV2(name: string): Observable<any> {
     let action: OperationRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       serviceName: name,
       action: 'stop'
     }]
-    return this.operateV2(action)
+    return this.operate(action)
   }
 
   restartV2(name: string): Observable<any> {
     let action: OperationRequest[] = [{
-      apiVersion: 'v2',
+      apiVersion: 'v3',
       serviceName: name,
       action: 'restart'
     }]
-    return this.operateV2(action)
+    return this.operate(action)
   }
 }

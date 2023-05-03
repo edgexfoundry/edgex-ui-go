@@ -10,14 +10,14 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { Notification } from '../../../contracts/v2/notification';
+import { Notification } from '../../../contracts/v3/notification';
 import { NotificationsService } from '../../../services/notifications.service';
-import { MultiNotificationResponse } from '../../../contracts/v2/responses/notification-response';
+import { MultiNotificationResponse } from '../../../contracts/v3/responses/notification-response';
 import { MessageService } from '../../../message/message.service';
 import flatpickr from 'flatpickr';
 
@@ -107,7 +107,7 @@ export class NotificationListComponent implements OnInit {
       }
     });
   }
-  
+
   advancedToggle() {
     if (this.advancedOperation) {
       this.advancedOperation = false;

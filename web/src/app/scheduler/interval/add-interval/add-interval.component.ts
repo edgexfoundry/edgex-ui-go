@@ -10,18 +10,18 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Interval } from '../../../contracts/v2/interval';
+import { Interval } from '../../../contracts/v3/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
-import { BaseWithIdResponse } from '../../../contracts/v2/common/base-response';
+import { BaseWithIdResponse } from '../../../contracts/v3/common/base-response';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -35,7 +35,7 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
   calendarStart: any;
   calendarEnd: any;
 
-  constructor(private schedulerSvc:SchedulerService, 
+  constructor(private schedulerSvc:SchedulerService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router,
@@ -67,7 +67,7 @@ export class AddIntervalComponent implements OnInit, OnDestroy {
 
   submit() {
     this.schedulerSvc.addInterval(this.interval).subscribe((data: BaseWithIdResponse[]) => {
-      if (this.errSvc.handleErrorForV2API(data)){
+      if (this.errSvc.handleErrorForAPI(data)){
         return
       }
       this.msgSvc.success("create new interval", `name: ${this.interval.name}`);

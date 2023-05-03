@@ -10,19 +10,19 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Interval } from '../../../contracts/v2/interval';
+import { Interval } from '../../../contracts/v3/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
-import { MultiIntervalResponse, IntervalResponse } from '../../../contracts/v2/responses/interval-response';
+import { MultiIntervalResponse, IntervalResponse } from '../../../contracts/v3/responses/interval-response';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
-import { BaseResponse } from '../../../contracts/v2/common/base-response';
+import { BaseResponse } from '../../../contracts/v3/common/base-response';
 
 @Component({
   selector: 'app-interval-list',
@@ -42,7 +42,7 @@ export class IntervalListComponent implements OnInit {
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
 
-  constructor(private schedulerSvc:SchedulerService, 
+  constructor(private schedulerSvc:SchedulerService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router,
@@ -64,7 +64,7 @@ export class IntervalListComponent implements OnInit {
 
   refresh() {
     this.schedulerSvc.findAllIntervalsPagination(0, this.pageLimit).subscribe((data: MultiIntervalResponse) => {
-      if (this.errSvc.handleErrorForV2API(data)){
+      if (this.errSvc.handleErrorForAPI(data)){
         return
       }
       this.intervalList = data.intervals;
@@ -75,7 +75,7 @@ export class IntervalListComponent implements OnInit {
 
   findIntervalsPagination() {
     this.schedulerSvc.findAllIntervalsPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiIntervalResponse) => {
-      if (this.errSvc.handleErrorForV2API(data)){
+      if (this.errSvc.handleErrorForAPI(data)){
         return
       }
       this.intervalList = data.intervals;
@@ -133,7 +133,7 @@ export class IntervalListComponent implements OnInit {
           this.intervalSelected.splice(found,1)
         }
       });
-    }   
+    }
   }
 
   isChecked(name: string): boolean {
@@ -175,7 +175,7 @@ export class IntervalListComponent implements OnInit {
   deleteIntervals() {
     this.intervalSelected.forEach((interval,i) => {
       this.schedulerSvc.deleteIntervalByName(interval.name).subscribe((data: BaseResponse[]) => {
-        if (this.errSvc.handleErrorForV2API(data)){
+        if (this.errSvc.handleErrorForAPI(data)){
           return
         }
         this.intervalSelected.splice(i,1);

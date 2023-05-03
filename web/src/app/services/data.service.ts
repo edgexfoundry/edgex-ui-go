@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -20,10 +20,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 
-import { CountResponse } from '../contracts/v2/common/count-response';
-import { MultiReadingResponse } from '../contracts/v2/responses/reading-response';
-import { MultiEventsResponse } from '../contracts/v2/responses/event-response';
-import { BaseWithConfigResponse } from '../contracts/v2/common/base-response';
+import { CountResponse } from '../contracts/v3/common/count-response';
+import { MultiReadingResponse } from '../contracts/v3/responses/reading-response';
+import { MultiEventsResponse } from '../contracts/v3/responses/event-response';
+import { BaseWithConfigResponse } from '../contracts/v3/common/base-response';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ import { BaseWithConfigResponse } from '../contracts/v2/common/base-response';
 export class DataService {
 
   endpoint: string = "/core-data";
-  version: string = "/api/v2";
+  version: string = "/api/v3";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
   pingUrl: string  = "/ping";

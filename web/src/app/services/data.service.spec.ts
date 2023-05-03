@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,15 +18,15 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { DataService } from './data.service';
-import { CountResponse } from '../contracts/v2/common/count-response';
+import { CountResponse } from '../contracts/v3/common/count-response';
 
 describe('DataService: unit test', () => {
   let service: DataService;
   let controller: HttpTestingController
-  
-  const expectedUrl = '/core-data/api/v2/event/count'
+
+  const expectedUrl = '/core-data/api/v3/event/count'
   const mockCountResponse: CountResponse = {
-    apiVersion: 'v2',
+    apiVersion: 'v3',
     requestId: 'string',
     message: 'string',
     statusCode: 200,

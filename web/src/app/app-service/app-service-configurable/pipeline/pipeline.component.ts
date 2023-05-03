@@ -10,15 +10,15 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Pipeline, PerTopicPipeline } from '../../../contracts/v2/appsvc/pipeline';
-import { Functions } from "../../../contracts/v2/appsvc/functions";
-import { Writable } from "../../../contracts/v2/appsvc/writable";
+import { Pipeline, PerTopicPipeline } from '../../../contracts/v3/appsvc/pipeline';
+import { Functions } from "../../../contracts/v3/appsvc/functions";
+import { Writable } from "../../../contracts/v3/appsvc/writable";
 import { RegistryCenterService } from "../../../services/registry-center.service";
 import { MessageService } from "../../../message/message.service";
 
@@ -105,7 +105,7 @@ export class PipelineComponent implements OnInit, OnChanges {
     } else {
       this.perTopicPipelines.forEach(ptp => {
         if (pipelineID === ptp.Id) {
-          this.selectedFunctionsName = ptp.ExecutionOrder.split(',') 
+          this.selectedFunctionsName = ptp.ExecutionOrder.split(',')
           this.pipelineTopic = ptp.Topics
         }
       })
@@ -120,7 +120,7 @@ export class PipelineComponent implements OnInit, OnChanges {
 
   validate(): boolean {
     let isValid: boolean = true
-    
+
     this.selectedFunctionsName.forEach(name => {
       if (name.startsWith('PushToCore')) {
         if (this.availableFunctions[name].Parameters.ValueType === 'Binary' &&

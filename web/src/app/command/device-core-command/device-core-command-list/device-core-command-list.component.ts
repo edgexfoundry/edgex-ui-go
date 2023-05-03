@@ -10,15 +10,15 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { DeviceCoreCommand } from '../../../contracts/v2/core-command';
+import { DeviceCoreCommand } from '../../../contracts/v3/core-command';
 import { CommandService } from '../../../services/command.service';
-import { MultiDeviceCoreCommandsResponse } from '../../../contracts/v2/responses/device-core-command-response';
+import { MultiDeviceCoreCommandsResponse } from '../../../contracts/v3/responses/device-core-command-response';
 
 @Component({
   selector: 'app-device-core-command-list',

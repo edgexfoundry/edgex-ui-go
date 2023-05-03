@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,8 +18,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { DeviceAutoEventComponent } from './device-auto-event.component';
-import { AutoEvent } from '../../../contracts/v2/auto-event';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { AutoEvent } from '../../../contracts/v3/auto-event';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 describe('DeviceAutoEventComponent: unit test', () => {
   let component: DeviceAutoEventComponent;

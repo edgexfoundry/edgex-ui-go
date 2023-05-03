@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -32,9 +32,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   codeMirrorEditor: any;
   profileName?: string;
 
-  constructor(private metaSvc: MetadataService, 
+  constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
-    private errSvc: ErrorService, 
+    private errSvc: ErrorService,
     private router: Router,
     private route: ActivatedRoute) { }
 
@@ -55,7 +55,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   update() {
     this.codeMirrorEditor.refresh();
     this.metaSvc.updateProfileYamlContentViaUIBackend(this.codeMirrorEditor.getValue()).subscribe(data => {
-      if (this.errSvc.handleErrorForV2API(data)){
+      if (this.errSvc.handleErrorForAPI(data)){
         return
       }
       this.msgSvc.success('Update profile', `name: ${this.profileName}`);
@@ -86,7 +86,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     });
     this.codeMirrorEditor.setSize('auto', '600px')
   }
-  
+
   ngOnDestroy():void {
     this.codeMirrorEditor = null;
   }

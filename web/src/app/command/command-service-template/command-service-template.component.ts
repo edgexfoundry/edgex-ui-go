@@ -10,18 +10,18 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CoreCommandParameter, CoreCommand } from '../../contracts/v2/core-command';
+import { CoreCommandParameter, CoreCommand } from '../../contracts/v3/core-command';
 import { CommandServiceInfo } from './interfaces/command-service-info';
 import { MetadataService } from '../../services/metadata.service';
 import { CommandService } from '../../services/command.service';
-import { DeviceCoreCommandResponse } from '../../contracts/v2/responses/device-core-command-response';
+import { DeviceCoreCommandResponse } from '../../contracts/v3/responses/device-core-command-response';
 
 declare type Parameter = {
   [key: string]: any
@@ -34,15 +34,15 @@ declare type Parameter = {
 })
 export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
 
-  //command path example: /api/v2/device/name/Random-Integer-Device/Int16
-  cmdURLFixedPrefix: string = '/api/v2/device/name/'
+  //command path example: /api/v3/device/name/Random-Integer-Device/Int16
+  cmdURLFixedPrefix: string = '/api/v3/device/name/'
   notCommandPathMsgShow: boolean = false
   deviceName: string = ''
   commandName: string =  ''
   parameter: Parameter = {} as Parameter
 
   private _url: string = ''
-  @Input() 
+  @Input()
   get url(): string {return this._url}
   set url(url: string) {
     this._url = url
@@ -52,7 +52,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
   }
 
   private _httpMethod: string = ''
-  @Input() 
+  @Input()
   get httpMethod(): string {return this._httpMethod}
   set httpMethod(method: string) {
     this._httpMethod = method
@@ -60,7 +60,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
   }
 
   private  _requestBodyJSONStr: string = ''
-  @Input() 
+  @Input()
   get requestBodyJSONStr(): string {return this._requestBodyJSONStr}
   set requestBodyJSONStr(bodyData: string) {
     this._requestBodyJSONStr = bodyData
@@ -78,7 +78,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
     returnEventOfGetCmdParamter: new FormControl(''),
   });
 
-  constructor(private metedataSvc: MetadataService, private cmdSvc: CommandService) { 
+  constructor(private metedataSvc: MetadataService, private cmdSvc: CommandService) {
     this.cmdSvcInfo = {
       host: 'edgex-core-command',
       port: 59882,
@@ -107,7 +107,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
       this.notCommandPathMsgShow = true
       return
     }
-    
+
     if (u.pathname.startsWith(this.cmdURLFixedPrefix)) {
       let deviceNameAndCmdArray =  u.pathname.substring(this.cmdURLFixedPrefix.length).split('/')
       if ( deviceNameAndCmdArray.length === 2) {
@@ -120,10 +120,10 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
         this.cmdSvcInfo.port = Number(u.port)
         this.cmdSvcInfo.pushEventOfGetCmdParamter = u.searchParams.get('ds-pushevent') || 'yes'
         this.cmdSvcInfo.returnEventOfGetCmdParamter = u.searchParams.get('ds-returnevent') || 'yes'
-        
+
         return
       }
-    }  
+    }
     this.notCommandPathMsgShow = true
   }
 
@@ -150,7 +150,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
           $(`#cmd-param-${k}`).val(v)
         }
       })
-    }   
+    }
   }
 
   onValueOfPutParamsChange(event: any) {
@@ -190,7 +190,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
   }
 
   resetPathParameterSuffix() {
-    if (this.cmdSvcInfo.path.indexOf('ds-pushevent') !== -1 ||  
+    if (this.cmdSvcInfo.path.indexOf('ds-pushevent') !== -1 ||
         this.cmdSvcInfo.path.indexOf('ds-returnevent') !== -1) {
         this.cmdSvcInfo.path = this.cmdSvcInfo.path.split('?')[0];
     }
@@ -204,7 +204,7 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
   getRequestBodyJSONStr(): string {
     return this.requestBodyAssemble()
   }
- 
+
   getUrl(): string {
     if (this.cmdSvcInfo.httpMethod === 'GET') {
       this.resetPathParameterSuffix()

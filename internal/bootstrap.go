@@ -21,8 +21,8 @@ import (
 	"sync"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/di"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
 	mux "github.com/gorilla/mux"
 )
 

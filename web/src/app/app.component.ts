@@ -10,12 +10,12 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router, ActivatedRoute, 
+import { Router, ActivatedRoute,
   NavigationStart,
   NavigationCancel,
   NavigationError,
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   navEnd: Observable<NavigationEnd>;
   navStart: Observable<NavigationStart>;
   navRecognized: Observable<RoutesRecognized>;
-  
+
   childStart: Observable<ChildActivationStart>;
 
   navChainMap = new Map<string, string>();
@@ -89,8 +89,8 @@ export class AppComponent implements OnInit {
       let self = this;
       let reverseNav1 = this.navChain.map(x => x).reverse();
       reverseNav1.forEach(function (item, index) {
-        let reverseNav2 = self.navChain.map(x => x).reverse();
-        let t = reverseNav2.slice(index)
+        let reverseNav = self.navChain.map(x => x).reverse();
+        let t = reverseNav.slice(index)
         let nav = t.reverse().join('/');
         self.navChainCache.push("/" + nav)
         self.navChainMap.set(item, "/" + nav)
