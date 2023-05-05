@@ -77,6 +77,11 @@ parts:
 
       cp cmd/edgex-ui-server/res/configuration.yaml \
         $CRAFT_PART_INSTALL/config/edgex-ui-server/res/
+        
+      DOC=$CRAFT_PART_INSTALL/usr/share/doc/edgex-ui
+      mkdir -p $DOC
+      cp Attribution.txt $DOC/Attribution.txt
+      cp LICENSE $DOC/LICENSE
     
        
 
