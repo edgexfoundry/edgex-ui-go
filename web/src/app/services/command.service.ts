@@ -98,7 +98,7 @@ export class CommandService {
   }
 
   issueGetCmd(deviceName: string, commandName: string): Observable<EventResponse> {
-    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=yes&ds-returnevent=yes`;
+    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=true&ds-returnevent=true`;
     return this.http.get<EventResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
