@@ -7,8 +7,7 @@ summary: EdgeX Graphical User Interface
 description: Refer to https://snapcraft.io/edgex-ui
 adopt-info: edgex-ui
 
-# 0: edinburgh, geneva, hanoi
-# 1: ireland, jakarta, kamakura, levski
+# 1: <=levski
 # 2: minnesota
 epoch: 2
 
