@@ -7,7 +7,9 @@ summary: EdgeX Graphical User Interface
 description: Refer to https://snapcraft.io/edgex-ui
 adopt-info: edgex-ui
 
-epoch: 1
+# 1: <=levski
+# 2: minnesota
+epoch: 2
 
 architectures:
   - build-on: arm64
