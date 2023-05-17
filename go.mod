@@ -5,9 +5,10 @@ go 1.20
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.79
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.0.0-dev.10
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.39
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.41
 	github.com/edgexfoundry/go-mod-registry/v3 v3.0.0-dev.7
 	github.com/gorilla/mux v1.8.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -63,5 +64,4 @@ require (
 	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923 // indirect
 	google.golang.org/grpc v1.53.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
