@@ -83,8 +83,8 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
       host: 'edgex-core-command',
       port: 59882,
       path: '',
-      pushEventOfGetCmdParamter: 'yes',
-      returnEventOfGetCmdParamter: 'yes',
+      pushEventOfGetCmdParamter: 'true',
+      returnEventOfGetCmdParamter: 'true',
       parametersOfPutCommand: [] as CoreCommandParameter[],
     } as CommandServiceInfo
   }
@@ -118,8 +118,8 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
         this.cmdSvcInfo.path = u.pathname
         this.cmdSvcInfo.host = u.hostname
         this.cmdSvcInfo.port = Number(u.port)
-        this.cmdSvcInfo.pushEventOfGetCmdParamter = u.searchParams.get('ds-pushevent') || 'yes'
-        this.cmdSvcInfo.returnEventOfGetCmdParamter = u.searchParams.get('ds-returnevent') || 'yes'
+        this.cmdSvcInfo.pushEventOfGetCmdParamter = u.searchParams.get('ds-pushevent') || 'true'
+        this.cmdSvcInfo.returnEventOfGetCmdParamter = u.searchParams.get('ds-returnevent') || 'true'
 
         return
       }
