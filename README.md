@@ -73,7 +73,7 @@ EdgeX UI is also available as a snap package. For more details on the snap, incl
 
 ## Community
 - [EdgeXFoundry Chinese Website](https://cn.edgexfoundry.org/)
-- [EdgeXFoundry Slack #edgex-ui channel](https://slack.edgexfoundry.org/)
+- [Discussion](https://github.com/orgs/edgexfoundry/discussions)
 - [Mailing lists](https://lists.edgexfoundry.org/g/main)
 
 ## License
