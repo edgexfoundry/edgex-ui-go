@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -19,15 +19,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { DeviceResponse,MultiDeviceResponse } from '../contracts/v2/responses/device-response';
-import { BaseWithIdResponse,BaseResponse } from '../contracts/v2/common/base-response';
-import { Device } from '../contracts/v2/device';
-import { DeviceRequest } from '../contracts/v2/requests/device-request';
-import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v2/responses/device-profile-response';
-import { DeviceProfile } from '../contracts/v2/device-profile';
-import { DeviceService } from '../contracts/v2/device-service';
-import { DeviceServiceRequest } from '../contracts/v2/requests/device-service-request';
-import { DeviceServiceResponse,MultiDeviceServiceResponse } from '../contracts/v2/responses/device-service-response';
+import { DeviceResponse,MultiDeviceResponse } from '../contracts/v3/responses/device-response';
+import { BaseWithIdResponse,BaseResponse } from '../contracts/v3/common/base-response';
+import { Device } from '../contracts/v3/device';
+import { DeviceRequest } from '../contracts/v3/requests/device-request';
+import { MultiDeviceProfileResponse,DeviceProfileResponse } from '../contracts/v3/responses/device-profile-response';
+import { DeviceProfile } from '../contracts/v3/device-profile';
+import { DeviceService } from '../contracts/v3/device-service';
+import { DeviceServiceRequest } from '../contracts/v3/requests/device-service-request';
+import { DeviceServiceResponse,MultiDeviceServiceResponse } from '../contracts/v3/responses/device-service-response';
 
 import { ErrorService } from './error.service';
 
@@ -37,7 +37,7 @@ import { ErrorService } from './error.service';
 export class MetadataService {
 
   endpoint: string = "/core-metadata";
-  version: string = "/api/v2";
+  version: string = "/api/v3";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
   pingUrl: string  = "/ping";
@@ -107,9 +107,9 @@ export class MetadataService {
 
   addDevice(device: Device): Observable<BaseResponse> {
     let url = `${this.addOneDeviceUrl}`;
-    device.apiVersion = 'v2';
+    device.apiVersion = 'v3';
     let data: DeviceRequest[]  = [{
-      apiVersion: "v2",
+      apiVersion: "v3",
       device: device
     }]
     return this.http.post<BaseResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
@@ -136,7 +136,7 @@ export class MetadataService {
   updateDevice(device: Device): Observable<BaseResponse> {
     let url = `${this.updateOneDeviceUrl}`;
     let data: DeviceRequest[]  = [{
-      apiVersion: "v2",
+      apiVersion: "v3",
       device: device
     }]
     return this.http.patch<BaseResponse>(url, JSON.stringify(data),{
@@ -212,7 +212,7 @@ export class MetadataService {
   updateDeviceService(deviceService: DeviceService): Observable<BaseResponse> {
     let url = `${this.updateDeviceServiceUrl}`;
     let data: DeviceServiceRequest[]  = [{
-      apiVersion: "v2",
+      apiVersion: "v3",
       service: deviceService
     }]
     return this.http.patch<BaseResponse>(url, JSON.stringify(data), this.httpPostOrPutJSONOptions).pipe(
@@ -252,7 +252,7 @@ export class MetadataService {
   }
 
   addProfileYamlByNameViaUIBackend(data: any): Observable<any> {
-    let url = "/api/v2/profile/yaml";
+    let url = "/api/v3/profile/yaml";
     return this.http.request('POST', url, {
       body: data,
       responseType: 'text'
@@ -277,7 +277,7 @@ export class MetadataService {
   }
 
   findProfileYamlByNameViaUIBackend(name: string): Observable<any> {
-    let url = "/api/v2/profile/yaml/name/" + name;
+    let url = "/api/v3/profile/yaml/name/" + name;
     return this.http.request('GET', url, {
       responseType: 'text'
     }).pipe(
@@ -306,7 +306,7 @@ export class MetadataService {
   }
 
   updateProfileYamlContentViaUIBackend(data: any):Observable<any> {
-    let url = "/api/v2/profile/yaml";
+    let url = "/api/v3/profile/yaml";
     return this.http.put(url,data,{
       headers: new HttpHeaders({
         'Content-Type': 'text/plain; charset=utf-8'

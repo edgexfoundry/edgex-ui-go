@@ -10,13 +10,13 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit ,Input, Output, EventEmitter } from '@angular/core';
 
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 @Component({
   selector: 'app-device-profile-combo-list',
@@ -28,8 +28,8 @@ export class DeviceProfileComboListComponent implements OnInit {
   selectedProfilesStr: string = "";
 
   private _selectedProfiles: string[]= [];
-  @Input() 
-  get selectedProfiles(): string[] { return this._selectedProfiles } 
+  @Input()
+  get selectedProfiles(): string[] { return this._selectedProfiles }
   set selectedProfiles(profileNames : string[]) {
     profileNames.forEach((v,i) => {profileNames[i] = v.trim()});
     this._selectedProfiles = profileNames;
@@ -39,7 +39,7 @@ export class DeviceProfileComboListComponent implements OnInit {
 
   singleProfileSelectedObject: DeviceProfile = {} as DeviceProfile
   private  _singleProfileSelected: string
-  @Input() 
+  @Input()
   get singleProfileSelected(): string {return this._singleProfileSelected}
   set singleProfileSelected(profileName: string) {
     if (!profileName) {//if value is undefined/null

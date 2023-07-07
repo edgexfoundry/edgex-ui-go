@@ -11,14 +11,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~12.2.4",
-    "@angular/common": "~12.2.4",
-    "@angular/compiler": "~12.2.4",
-    "@angular/core": "~12.2.4",
-    "@angular/forms": "~12.2.4",
-    "@angular/platform-browser": "~12.2.4",
-    "@angular/platform-browser-dynamic": "~12.2.4",
-    "@angular/router": "~12.2.4",
+    "@angular/animations": "~16.1.4",
+    "@angular/common": "~16.1.4",
+    "@angular/compiler": "~16.1.4",
+    "@angular/core": "^16.1.4",
+    "@angular/forms": "~16.1.4",
+    "@angular/platform-browser": "~16.1.4",
+    "@angular/platform-browser-dynamic": "~16.1.4",
+    "@angular/router": "~16.1.4",
     "@tweenjs/tween.js": "^18.6.4",
     "bootstrap": "^4.5.3",
     "cbor-js": "^0.1.0",
@@ -32,13 +32,14 @@
     "rxjs": "^7.3.0",
     "sql-formatter": "^4.0.2",
     "tslib": "^2.3.1",
-    "zone.js": "~0.11.4"
+    "webpack": "^5.86.0",
+    "zone.js": "~0.13.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~12.2.4",
-    "@angular/cli": "~12.2.4",
-    "@angular/compiler-cli": "~12.2.4",
-    "@angular/localize": "^12.2.4",
+    "@angular-devkit/build-angular": "~16.1.4",
+    "@angular/cli": "^16.1.4",
+    "@angular/compiler-cli": "~16.1.4",
+    "@angular/localize": "^16.1.4",
     "@types/jasmine": "~3.9.0",
     "@types/node": "^16.7.10",
     "codelyzer": "^6.0.2",
@@ -52,6 +53,6 @@
     "protractor": "~7.0.0",
     "ts-node": "~10.2.1",
     "tslint": "~6.1.0",
-    "typescript": "~4.3.2"
+    "typescript": "~5.1.6"
   }
 }

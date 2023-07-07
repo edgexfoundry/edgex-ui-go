@@ -10,14 +10,14 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { DataService } from '../../services/data.service';
-import { MultiEventsResponse } from '../../contracts/v2/responses/event-response';
+import { MultiEventsResponse } from '../../contracts/v3/responses/event-response';
 
 @Component({
   selector: 'app-event',
@@ -32,15 +32,15 @@ export class EventComponent implements OnInit, OnDestroy{
   constructor(private dataSvc: DataService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   feedEvents() {
     this.feedInterval = setInterval(() => {
       this.dataSvc.allEventsPagination(0,5).subscribe((resp: MultiEventsResponse) => {
         if (resp.events.length === 0) {
-          $("#data-event-stream").prepend('<p class="user-select-all">' + 
-          'no data stream available, please confirm whether there is at least one device to collect data' + 
+          $("#data-event-stream").prepend('<p class="user-select-all">' +
+          'no data stream available, please confirm whether there is at least one device to collect data' +
           '</p>');
           return
         }
@@ -65,7 +65,7 @@ export class EventComponent implements OnInit, OnDestroy{
     if (this.pauseOperate) {
       this.pauseOperate = false;
       return
-    } 
+    }
     this.pauseOperate = true;
   }
 

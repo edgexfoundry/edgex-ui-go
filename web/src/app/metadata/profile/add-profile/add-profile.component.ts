@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -94,7 +94,7 @@ export class AddProfileComponent implements OnInit {
     // });
 
     this.metaSvc.addProfileYamlByNameViaUIBackend(this.profileYamlSource).subscribe((resp: any) => {
-      if (this.errSvc.handleErrorForV2API(resp) ) {
+      if (this.errSvc.handleErrorForAPI(resp) ) {
         return
       }
       this.msgSvc.success('Add profile');

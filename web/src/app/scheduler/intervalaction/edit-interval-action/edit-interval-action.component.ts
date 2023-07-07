@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -20,14 +20,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SchedulerService } from '../../../services/scheduler.service';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
-import { Address } from '../../../contracts/v2/address';
+import { Address } from '../../../contracts/v3/address';
 
-import { IntervalAction } from '../../../contracts/v2/interval-action';
-import { Interval } from '../../../contracts/v2/interval';
-import { IntervalActionResponse } from '../../../contracts/v2/responses/interval-action-response';
-import { IntervalResponse } from '../../../contracts/v2/responses/interval-response';
-import { CoreCommand } from '../../../contracts/v2/core-command';
-import { CoreCommandParameter } from '../../../contracts/v2/core-command';
+import { IntervalAction } from '../../../contracts/v3/interval-action';
+import { Interval } from '../../../contracts/v3/interval';
+import { IntervalActionResponse } from '../../../contracts/v3/responses/interval-action-response';
+import { IntervalResponse } from '../../../contracts/v3/responses/interval-response';
+import { CoreCommand } from '../../../contracts/v3/core-command';
+import { CoreCommandParameter } from '../../../contracts/v3/core-command';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -57,11 +57,11 @@ export class EditIntervalActionComponent implements OnInit {
   calendarStart: any;
 
   coredataSvcAvailableAPI: string[] = [
-    //one of delete or data clean APIs of core data service 
-    "/api/v2/event/age/"
+    //one of delete or data clean APIs of core data service
+    "/api/v3/event/age/"
   ];
 
-  constructor(private schedulerSvc:SchedulerService, 
+  constructor(private schedulerSvc:SchedulerService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router,
@@ -81,7 +81,7 @@ export class EditIntervalActionComponent implements OnInit {
 
           this.intervalActionOrigin.adminState = this.intervalActionOrigin.adminState === '' ? "UNLOCKED" : this.intervalActionOrigin.adminState;
           this.intervalAction.adminState = this.intervalAction.adminState === '' ? "UNLOCKED" : this.intervalAction.adminState;
-          
+
           this.addressEmailRecipients  = this.intervalAction.address.recipients?this.intervalAction.address.recipients.toString():'';
           this.findDefaultSelectedIntervalByName(this.intervalAction.intervalName);
           setTimeout(() => {
@@ -156,12 +156,12 @@ export class EditIntervalActionComponent implements OnInit {
         this.intervalAction.address.httpMethod = '';
         setTimeout(() => {
           this.renderPopoverComponent();
-        }, 300); 
+        }, 300);
         break;
       case this.template_type_custom:
         setTimeout(() => {
           this.renderPopoverComponent();
-        }, 300); 
+        }, 300);
     }
   }
 
@@ -171,7 +171,7 @@ export class EditIntervalActionComponent implements OnInit {
     this.templateSelected = 'custom';
     setTimeout(() => {
       this.renderPopoverComponent();
-    }, 300); 
+    }, 300);
     // this.setActionDefaultProperties();
   }
 
@@ -200,18 +200,18 @@ export class EditIntervalActionComponent implements OnInit {
 
   validate(): boolean {
     let result = true;
-    let basic =  this.intervalAction.name && this.intervalAction.intervalName; 
+    let basic =  this.intervalAction.name && this.intervalAction.intervalName;
     switch (this.intervalAction.address.type) {
       case this.addr_type_REST:
-        if (basic && this.intervalAction.address.host && 
+        if (basic && this.intervalAction.address.host &&
           this.isPureIntegerType(this.intervalAction.address.port) &&
-          this.intervalAction.address.path && 
+          this.intervalAction.address.path &&
           this.intervalAction.address.httpMethod) {
             result = false
         }
         break
-      case this.addr_type_MQTT: 
-        if (basic && this.intervalAction.address.host && 
+      case this.addr_type_MQTT:
+        if (basic && this.intervalAction.address.host &&
           this.isPureIntegerType(this.intervalAction.address.port) &&
           // this.intervalAction.address.port && // if the value of port is 0 will not be passed
           this.intervalAction.address.publisher &&
@@ -243,8 +243,8 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   resolveCommandTemplateParameterSuffix() {
-    //path value example: /api/v2/device/name/Random-Integer-Device/Int16Array?ds-pushevent=no&ds-returnevent=yes 
-    if (this.intervalAction.address.path.indexOf('ds-pushevent') !== -1 ||  
+    //path value example: /api/v3/device/name/Random-Integer-Device/Int16Array?ds-pushevent=no&ds-returnevent=yes
+    if (this.intervalAction.address.path.indexOf('ds-pushevent') !== -1 ||
         this.intervalAction.address.path.indexOf('ds-returnevent') !== -1) {
         let path = this.intervalAction.address.path.split('?');
         this.intervalAction.address.path = path[0];
@@ -263,7 +263,7 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   resetPathParameterSuffix() {
-    if (this.intervalAction.address.path.indexOf('ds-pushevent') !== -1 ||  
+    if (this.intervalAction.address.path.indexOf('ds-pushevent') !== -1 ||
         this.intervalAction.address.path.indexOf('ds-returnevent') !== -1) {
         this.intervalAction.address.path = this.intervalAction.address.path.split('?')[0];
     }
@@ -273,7 +273,7 @@ export class EditIntervalActionComponent implements OnInit {
   save() {
     this.intervalAction.address.recipients = this.addressEmailRecipients.split(',');
     this.intervalAction.address.port = Number(this.intervalAction.address.port);
-    
+
     if (this.intervalAction.address.type === this.addr_type_REST &&
       this.templateSelected === this.template_type_command) {
         if (this.intervalAction.address.httpMethod === 'GET') {
@@ -282,9 +282,9 @@ export class EditIntervalActionComponent implements OnInit {
           this.intervalAction.content = this.getAllCmdTemplateParametersValue();
         }
     }
-    
+
     this.schedulerSvc.updateIntervalAction(this.intervalAction).subscribe((resp: any)=>{
-      if(this.errorSvc.handleErrorForV2API(resp)) {
+      if(this.errorSvc.handleErrorForAPI(resp)) {
         return
       }
       this.msgSvc.success('Update interval action',`name: ${this.intervalAction.name}`);

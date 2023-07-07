@@ -27,11 +27,6 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
-    path: 'system-agent',
-    canLoad: [AuthGuard],
-    loadChildren: () => import('./system-agent/system-agent.module').then(m => m.SystemAgentModule)
-  },
-  {
     path: 'metadata',
     canLoad: [AuthGuard],
     loadChildren: () => import('./metadata/metadata.module').then(m => m.MetadataModule)

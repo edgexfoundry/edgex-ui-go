@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -24,7 +24,7 @@ describe('InitService: unit test', () => {
   let controller: HttpTestingController
 
   const mockSecureMode = 'insecure'
-  const expectedUrl =  '/api/v2/auth/securemode'
+  const expectedUrl =  '/api/v3/auth/securemode'
 
   beforeEach(() => {
     TestBed.configureTestingModule({

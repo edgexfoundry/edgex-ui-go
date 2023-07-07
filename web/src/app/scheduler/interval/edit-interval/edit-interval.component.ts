@@ -10,19 +10,19 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Interval } from '../../../contracts/v2/interval';
+import { Interval } from '../../../contracts/v3/interval';
 import { SchedulerService } from '../../../services/scheduler.service';
-import { IntervalResponse } from '../../../contracts/v2/responses/interval-response';
+import { IntervalResponse } from '../../../contracts/v3/responses/interval-response';
 import { MessageService } from '../../../message/message.service';
 import { ErrorService } from '../../../services/error.service';
-import { BaseResponse } from '../../../contracts/v2/common/base-response';
+import { BaseResponse } from '../../../contracts/v3/common/base-response';
 import flatpickr from 'flatpickr';
 
 @Component({
@@ -36,18 +36,18 @@ export class EditIntervalComponent implements OnInit, OnDestroy {
   calendarStart: any;
   calendarEnd: any;
 
-  constructor(private schedulerSvc:SchedulerService, 
+  constructor(private schedulerSvc:SchedulerService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
     private router: Router,
     private errSvc: ErrorService) { }
 
   ngOnInit(): void {
-    
+
     this.route.queryParams.subscribe(param => {
       if (param['intervalName']) {
         this.schedulerSvc.findIntervalByName(param['intervalName']).subscribe((data: IntervalResponse) => {
-          if (this.errSvc.handleErrorForV2API(data)){
+          if (this.errSvc.handleErrorForAPI(data)){
             return
           }
           this.interval = data.interval;
@@ -82,7 +82,7 @@ export class EditIntervalComponent implements OnInit, OnDestroy {
 
   update() {
     this.schedulerSvc.updateInterval(this.interval as Interval).subscribe((data: BaseResponse[]) => {
-      if (this.errSvc.handleErrorForV2API(data)){
+      if (this.errSvc.handleErrorForAPI(data)){
         return
       }
       this.msgSvc.success('update interval', `name: ${this.interval?.name}`);

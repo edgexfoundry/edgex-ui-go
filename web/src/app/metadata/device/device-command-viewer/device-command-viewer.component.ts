@@ -10,20 +10,20 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
-import { CoreCommand } from '../../../contracts/v2/core-command';
-import { CoreCommandParameter } from '../../../contracts/v2/core-command';
-import { EventResponse } from '../../../contracts/v2/responses/event-response';
-import { BaseReading } from '../../../contracts/v2/reading';
-import { BaseResponse } from '../../../contracts/v2/common/base-response';
-import { DeviceCoreCommandResponse } from '../../../contracts/v2/responses/device-core-command-response';
-import { DeviceProfileResponse } from '../../../contracts/v2/responses/device-profile-response';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { CoreCommand } from '../../../contracts/v3/core-command';
+import { CoreCommandParameter } from '../../../contracts/v3/core-command';
+import { EventResponse } from '../../../contracts/v3/responses/event-response';
+import { BaseReading } from '../../../contracts/v3/reading';
+import { BaseResponse } from '../../../contracts/v3/common/base-response';
+import { DeviceCoreCommandResponse } from '../../../contracts/v3/responses/device-core-command-response';
+import { DeviceProfileResponse } from '../../../contracts/v3/responses/device-profile-response';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 import { CommandService } from '../../../services/command.service';
 import { MetadataService } from '../../../services/metadata.service';
@@ -39,7 +39,7 @@ declare type ParameterBearer = {
 })
 export class DeviceCommandViewerComponent implements OnInit, OnChanges {
 
-  @Input() deviceName?: string 
+  @Input() deviceName?: string
 
   deviceCoreCommand?: CoreCommand[];
 
@@ -94,7 +94,7 @@ export class DeviceCommandViewerComponent implements OnInit, OnChanges {
     .findProfileByName(profileName)
     .subscribe((data:DeviceProfileResponse) => this.associateDeviceProfile = data.profile);
   }
-  
+
   selectCmd(cmd: CoreCommand) {
     this.selectedCmd = cmd;
     this.selectedCmdSetParams = this.selectedCmd.parameters;
@@ -192,7 +192,7 @@ export class DeviceCommandViewerComponent implements OnInit, OnChanges {
     this.parameterBearerList.forEach((paramBearer) => {
       params[paramBearer.key] = paramBearer.value
     })
-    
+
     this.cmdSvc
     .issueSetCmd(this.associatedCmdDeviceName as string, this.selectedCmd?.name as string, params)
     .subscribe((resp: BaseResponse) => {

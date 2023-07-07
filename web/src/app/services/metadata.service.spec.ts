@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,16 +18,16 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { MetadataService } from './metadata.service';
-import { BaseResponse } from '../contracts/v2/common/base-response';
+import { BaseResponse } from '../contracts/v3/common/base-response';
 
 describe('MetadataService: unit test', () => {
   let service: MetadataService;
   let controller: HttpTestingController
 
   const mockDeviceName = 'mock-device-name'
-  const expectedUrl = `/core-metadata/api/v2/device/name/${mockDeviceName}`
+  const expectedUrl = `/core-metadata/api/v3/device/name/${mockDeviceName}`
   const mockResp: BaseResponse =  {
-    apiVersion: 'v2',
+    apiVersion: 'v3',
     requestId: 'string',
     message: 'string',
     statusCode: 200

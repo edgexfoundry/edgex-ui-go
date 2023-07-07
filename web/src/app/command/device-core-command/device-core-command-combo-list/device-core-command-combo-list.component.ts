@@ -10,13 +10,13 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { CoreCommand, DeviceCoreCommand } from '../../../contracts/v2/core-command';
+import { CoreCommand, DeviceCoreCommand } from '../../../contracts/v3/core-command';
 
 @Component({
   selector: 'app-device-core-command-combo-list',
@@ -38,7 +38,7 @@ export class DeviceCoreCommandComboListComponent implements OnInit {
   @Output() cmdMethodEvent = new EventEmitter<string>();
   deviceCoreCmdListVisible: boolean = true;
 
-  constructor() { 
+  constructor() {
     this.coreCmdSelected = {} as CoreCommand;
   }
 

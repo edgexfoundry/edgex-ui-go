@@ -18,10 +18,8 @@
 package config
 
 import (
-	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v2/config"
+	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/config"
 )
-
-var defaultConfigFilePath = "res/configuration.toml"
 
 type APIGatewayInfo struct {
 	Server             string
@@ -48,22 +46,26 @@ type WritableInfo struct {
 	InsecureSecrets bootstrapConfig.InsecureSecrets
 }
 
-func (c *ConfigurationStruct) UpdateFromRaw(rawConfig interface{}) bool {
+func (c *ConfigurationStruct) UpdateFromRaw(_ interface{}) bool {
 	return false
 }
 
-func (c *ConfigurationStruct) UpdateWritableFromRaw(rawWritableConfig interface{}) bool {
+func (c *ConfigurationStruct) UpdateWritableFromRaw(_ interface{}) bool {
 	return false
 }
 
 func (c *ConfigurationStruct) EmptyWritablePtr() interface{} {
-	return nil
+	return &WritableInfo{}
+}
+
+func (c *ConfigurationStruct) GetWritablePtr() any {
+	return &c.Writable
 }
 
 // GetBootstrap returns the configuration elements required by the bootstrap.
-func (c ConfigurationStruct) GetBootstrap() bootstrapConfig.BootstrapConfiguration {
+func (c *ConfigurationStruct) GetBootstrap() bootstrapConfig.BootstrapConfiguration {
 	return bootstrapConfig.BootstrapConfiguration{
-		Service: c.Service,
+		Service: &c.Service,
 	}
 }
 

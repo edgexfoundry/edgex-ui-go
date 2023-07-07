@@ -11,6 +11,34 @@
 - [go-mod-registry](https://github.com/edgexfoundry/go-mod-registry/blob/main/CHANGELOG.md) 
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md)
 
+## [v3.0.0] Minnesota - 2023-05-31 (Only compatible with the 3.x releases)
+
+### Features ✨
+
+- Remove System Management tab ([#8c6ddf9](https://github.com/edgexfoundry/edgex-ui-go/commits/8c6ddf9))
+
+### Bug Fixes 🐛
+
+- Update URL for authentication tokens for EdgeX 3.0 ([#1caef93](https://github.com/edgexfoundry/edgex-ui-go/commits/1caef93))
+- **snap:** Upgrade env file path for v3 edgex-snap-hooks compatibility ([#ace7528](https://github.com/edgexfoundry/edgex-ui-go/commits/ace7528))
+
+### Code Refactoring ♻
+
+- Consume get command query parameters change ([#4460155](https://github.com/edgexfoundry/edgex-ui-go/commits/4460155))
+- Update to v3 modules and API ([#4894b16](https://github.com/edgexfoundry/edgex-ui-go/commits/4894b16))
+- **snap:** Switch to yaml config, upgrade go ([#602](https://github.com/edgexfoundry/edgex-ui-go/issues/602)) ([#5f22931](https://github.com/edgexfoundry/edgex-ui-go/commits/5f22931))
+- **snap:** Update command and metadata sourcing ([#596](https://github.com/edgexfoundry/edgex-ui-go/issues/596)) ([#3117862](https://github.com/edgexfoundry/edgex-ui-go/commits/3117862))
+- **snap:** Refactor and upgrade to edgex-snap-hooks v3 ([#587](https://github.com/edgexfoundry/edgex-ui-go/issues/587)) ([#5cbf8b5](https://github.com/edgexfoundry/edgex-ui-go/commits/5cbf8b5))
+
+### Documentation 📖
+
+- Replace slack chat with github discussion ([#e86c7ff](https://github.com/edgexfoundry/edgex-ui-go/commits/e86c7ff))
+
+### Build 👷
+
+- **snap:** Copy license and attribution ([#603](https://github.com/edgexfoundry/edgex-ui-go/issues/603)) ([#b9ee93b](https://github.com/edgexfoundry/edgex-ui-go/commits/b9ee93b))
+- **snap:** Upgrade snap base to core22 ([#599](https://github.com/edgexfoundry/edgex-ui-go/issues/599)) ([#600](https://github.com/edgexfoundry/edgex-ui-go/issues/600)) ([#3b11f58](https://github.com/edgexfoundry/edgex-ui-go/commits/3b11f58))
+
 ## [v2.3.0] Levski - 2022-11-09 (Only compatible with the 2.x release)
 
 ### Features ✨

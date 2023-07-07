@@ -10,12 +10,12 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
-import { FilterByProfileName } from "../../../../contracts/v2/appsvc/functions";
+import { FilterByProfileName } from "../../../../contracts/v3/appsvc/functions";
 
 @Component({
   selector: 'app-appsvc-function-filter-by-profile-name',

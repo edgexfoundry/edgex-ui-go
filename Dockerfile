@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2018-2020 VMWare, Inc.
+# Copyright 2023 Intel Corp.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +15,7 @@
 # limitations under the License.
 #
 
-ARG BASE=golang:1.18-alpine3.16
+ARG BASE=golang:1.20-alpine3.17
 FROM ${BASE} AS builder
 
 ARG MAKE="make cmd/edgex-ui-server/edgex-ui-server"
@@ -24,12 +25,10 @@ ARG ALPINE_PKG_EXTRA=""
 LABEL Name=edgex-ui-go
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-  copyright='Copyright (c) 2018-2022: Intel'
+  copyright='Copyright (c) 2018-2023: Intel'
 
 # Need the docker client for CI builds of the web components.
 COPY --from=docker:latest /usr/local/bin/docker /usr/local/bin/docker
-
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/dl-4.alpinelinux.org/g' -i~ /etc/apk/repositories
 
 RUN apk add --update --no-cache ${ALPINE_PKG_BASE} ${ALPINE_PKG_EXTRA}
 
@@ -42,7 +41,7 @@ RUN [ ! -d "vendor" ] && go mod download all || echo "skipping..."
 COPY . .
 RUN ${MAKE}
 
-FROM alpine:3.14
+FROM alpine:3.17
 
 EXPOSE 4000
 
@@ -52,4 +51,4 @@ COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/LICENSE /LICENSE
 
 WORKDIR /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
 
-ENTRYPOINT ["./edgex-ui-server","--confdir=res/docker"]
+ENTRYPOINT ["./edgex-ui-server","--configDir=res/docker"]

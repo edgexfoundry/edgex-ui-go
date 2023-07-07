@@ -24,19 +24,22 @@ import (
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	client "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/http"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/requests"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/responses"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/secret"
+	client "github.com/edgexfoundry/go-mod-core-contracts/v3/clients/http"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/requests"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/responses"
 	"github.com/gorilla/mux"
-
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 func (rh *ResourceHandler) AddProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var profile dtos.DeviceProfile
+	jwtSecretProvider := secret.NewJWTSecretProvider(bootstrapContainer.SecretProviderExtFrom(rh.dic.Get))
+
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -50,7 +53,7 @@ func (rh *ResourceHandler) AddProfileYamlContent(w http.ResponseWriter, r *http.
 
 	config := container.ConfigurationFrom(rh.dic.Get)
 	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
-	c := client.NewDeviceProfileClient(url)
+	c := client.NewDeviceProfileClient(url, jwtSecretProvider)
 
 	profiles := []requests.DeviceProfileRequest{
 		{
@@ -72,10 +75,11 @@ func (rh *ResourceHandler) FindProfileAndConvertToYamlByName(w http.ResponseWrit
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	profileName := vars["name"]
+	jwtSecretProvider := secret.NewJWTSecretProvider(bootstrapContainer.SecretProviderExtFrom(rh.dic.Get))
 
 	config := container.ConfigurationFrom(rh.dic.Get)
 	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
-	c := client.NewDeviceProfileClient(url)
+	c := client.NewDeviceProfileClient(url, jwtSecretProvider)
 	var resp responses.DeviceProfileResponse
 	var err error
 	if resp, err = c.DeviceProfileByName(context.Background(), profileName); err != nil {
@@ -93,6 +97,8 @@ func (rh *ResourceHandler) FindProfileAndConvertToYamlByName(w http.ResponseWrit
 func (rh *ResourceHandler) UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var profile dtos.DeviceProfile
+	jwtSecretProvider := secret.NewJWTSecretProvider(bootstrapContainer.SecretProviderExtFrom(rh.dic.Get))
+
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -106,7 +112,7 @@ func (rh *ResourceHandler) UpdateProfileYamlContent(w http.ResponseWriter, r *ht
 
 	config := container.ConfigurationFrom(rh.dic.Get)
 	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
-	c := client.NewDeviceProfileClient(url)
+	c := client.NewDeviceProfileClient(url, jwtSecretProvider)
 	profiles := []requests.DeviceProfileRequest{
 		{
 			BaseRequest: common.NewBaseRequest(),

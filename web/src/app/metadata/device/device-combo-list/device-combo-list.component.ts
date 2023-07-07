@@ -10,14 +10,14 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Device } from '../../../contracts/v2/device';
-import { MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
+import { Device } from '../../../contracts/v3/device';
+import { MultiDeviceResponse } from '../../../contracts/v3/responses/device-response';
 import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class DeviceComboListComponent implements OnInit {
   deviceNamesSelectedStr: string = '';
 
   private _deviceSelected: string[] = [];
-  @Input() 
+  @Input()
   get deviceSelected(): string[] {return this._deviceSelected};
   set deviceSelected(deviceNames: string[]) {
     deviceNames.forEach((v,i) => {deviceNames[i] = v.trim()});
@@ -41,13 +41,13 @@ export class DeviceComboListComponent implements OnInit {
   @Output() deviceSelectedChange = new EventEmitter<string[]>();
 
   private _singleDeviceSelected: string;
-  @Input() 
+  @Input()
   get singleDeviceSelected(): string {return this._singleDeviceSelected};
   set singleDeviceSelected(deviceName: string) {
     if (!deviceName) {// if undefined or null
       this._singleDeviceSelected = '';
     } else {
-      this._singleDeviceSelected = deviceName.trim() 
+      this._singleDeviceSelected = deviceName.trim()
     }
     this.deviceNamesSelectedStr = this._singleDeviceSelected;
   }
@@ -55,7 +55,7 @@ export class DeviceComboListComponent implements OnInit {
 
   visible: boolean = false;
   @Input() validate: boolean = false;
-  
+
   //single-Selection Mode indicates that if true indicates single-selection mode , else multiple-selection
   @Input() singleSelectionMode: boolean = false;
 

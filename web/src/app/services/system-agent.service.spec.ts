@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,14 +18,14 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { SystemAgentService } from './system-agent.service';
-import { BaseWithMetricsResponse } from '../contracts/v2/common/base-response';
+import { BaseWithMetricsResponse } from '../contracts/v3/common/base-response';
 
 describe('SystemAgentService: unit test', () => {
   let service: SystemAgentService;
   let controller: HttpTestingController
 
   const mockSvcName = 'mock-oneSvcName'
-  const expectedUrl = `/sys-mgmt-agent/api/v2/system/metrics?services=${mockSvcName}`
+  const expectedUrl = `/sys-mgmt-agent/api/v3/system/metrics?services=${mockSvcName}`
   const mockMetrisResponse: BaseWithMetricsResponse[] = []
 
   beforeEach(() => {

@@ -47,7 +47,7 @@ class Notification(LoginPage):
         self.driver.find_element(By.ID, "addressPortREST").send_keys("8080")
         time.sleep(1)
         self.driver.find_element(By.ID, "addressPath").click()
-        self.driver.find_element(By.ID, "addressPath").send_keys("/api/v2")
+        self.driver.find_element(By.ID, "addressPath").send_keys("/api/v3")
         time.sleep(1)
         self.driver.find_element(By.CSS_SELECTOR, ".btn-success").click()
 

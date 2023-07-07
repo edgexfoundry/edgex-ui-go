@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -18,13 +18,13 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { RegistryCenterService } from './registry-center.service';
-import { ServiceEndpoint } from '../contracts/v2/register-center/service-endpoint';
+import { ServiceEndpoint } from '../contracts/v3/register-center/service-endpoint';
 
 describe('RegistryCenterService: unit test', () => {
   let service: RegistryCenterService;
   let controller: HttpTestingController
 
-  const expectedUrl = '/api/v2/registrycenter/service/all'
+  const expectedUrl = '/api/v3/registrycenter/service/all'
   const mockEndponts: ServiceEndpoint[] = [
     {
       ServiceId: 'core-metadata',

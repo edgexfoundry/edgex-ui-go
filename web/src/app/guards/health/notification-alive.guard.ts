@@ -15,7 +15,7 @@
  *******************************************************************************/
 
  import { Injectable } from '@angular/core';
- import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+ import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
  import { Observable, of } from 'rxjs';
  import { NotificationsService } from '../../services/notifications.service';
  import { mergeMap, take ,catchError} from 'rxjs/operators';
@@ -23,7 +23,7 @@
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationAliveGuard implements CanActivate, CanActivateChild {
+export class NotificationAliveGuard  {
   constructor(private router: Router, private notiSvc: NotificationsService) {}
 
   canActivate(

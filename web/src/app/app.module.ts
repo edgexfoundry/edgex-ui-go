@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -33,7 +33,7 @@ import { ServiceUnavailableComponent } from './guards/health/service-unavailable
     AppComponent,
     MessageComponent,
     InitializerComponent,
-    ServiceUnavailableComponent
+    ServiceUnavailableComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +42,9 @@ import { ServiceUnavailableComponent } from './guards/health/service-unavailable
     HttpClientModule,
 
     AppRoutingModule,
-    AuthModule
+    AuthModule,
   ],
   providers: [httpInterceptorProviders],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

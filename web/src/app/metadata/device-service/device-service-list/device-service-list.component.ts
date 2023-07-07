@@ -10,15 +10,15 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { DeviceService } from '../../../contracts/v2/device-service';
+import { DeviceService } from '../../../contracts/v3/device-service';
 import { MetadataService } from '../../../services/metadata.service';
-import { MultiDeviceServiceResponse } from '../../../contracts/v2/responses/device-service-response';
+import { MultiDeviceServiceResponse } from '../../../contracts/v3/responses/device-service-response';
 
 @Component({
   selector: 'app-device-service-list',

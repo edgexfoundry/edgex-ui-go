@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -19,10 +19,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
-import { MultiDeviceResponse } from '../../../contracts/v2/responses/device-response';
-import { Device } from '../../../contracts/v2/device';
-import { AutoEvent } from '../../../contracts/v2/auto-event';
-import { DeviceProfile } from '../../../contracts/v2/device-profile';
+import { MultiDeviceResponse } from '../../../contracts/v3/responses/device-response';
+import { Device } from '../../../contracts/v3/device';
+import { AutoEvent } from '../../../contracts/v3/auto-event';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 @Component({
   selector: 'app-device-list',
@@ -45,7 +45,7 @@ export class DeviceListComponent implements OnInit {
   FEATURE_COMMAND = "command"
   specialFeatureAssociatedDeviceName?: string;
   specialFeatureName?: string
-  
+
   pagination: number = 1;
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
@@ -83,7 +83,7 @@ export class DeviceListComponent implements OnInit {
     }, 250);
   }
 
-  
+
   getDeviceList() {
     if (this.associatedSvcName !== '') {
       this.getDeviceListByAssociatedSvc(this.associatedSvcName);
@@ -143,7 +143,7 @@ export class DeviceListComponent implements OnInit {
           }
         });
       });
-      
+
     });
     //close Command or AutoEvent feature viewer window
     this.specialFeatureName = undefined;

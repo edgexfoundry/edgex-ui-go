@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -20,9 +20,9 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 
-import { DeviceCoreCommandResponse, MultiDeviceCoreCommandsResponse } from '../contracts/v2/responses/device-core-command-response';
-import { EventResponse } from '../contracts/v2/responses/event-response';
-import { BaseResponse } from '../contracts/v2/common/base-response';
+import { DeviceCoreCommandResponse, MultiDeviceCoreCommandsResponse } from '../contracts/v3/responses/device-core-command-response';
+import { EventResponse } from '../contracts/v3/responses/event-response';
+import { BaseResponse } from '../contracts/v3/common/base-response';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ import { BaseResponse } from '../contracts/v2/common/base-response';
 export class CommandService {
 
   endpoint: string = "/core-command";
-  version: string = "/api/v2";
+  version: string = "/api/v3";
   urlPrefix: string = `${this.endpoint}${this.version}`;
 
   endpointHealthUrl: string = "/ping";
@@ -98,7 +98,7 @@ export class CommandService {
   }
 
   issueGetCmd(deviceName: string, commandName: string): Observable<EventResponse> {
-    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=yes&ds-returnevent=yes`;
+    let url = `${this.issueCmdByDeviceNameAndCmdNameUrl}${deviceName}/${commandName}?ds-pushevent=true&ds-returnevent=true`;
     return this.http.get<EventResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )

@@ -1,5 +1,5 @@
 name: edgex-ui
-base: core20 
+base: core22
 type: app
 grade: stable
 confinement: strict
@@ -7,7 +7,9 @@ summary: EdgeX Graphical User Interface
 description: Refer to https://snapcraft.io/edgex-ui
 adopt-info: edgex-ui
 
-epoch: 1
+# 1: <=levski
+# 2: minnesota
+epoch: 2
 
 architectures:
   - build-on: arm64
@@ -28,11 +30,12 @@ parts:
   helper-go:
     source: snap/local/helper-go
     plugin: make
-    build-snaps: [go/1.18/stable]
+    build-snaps:
+      - go/1.20/stable
     override-build: |
-      cd $SNAPCRAFT_PART_SRC
+      cd $CRAFT_PART_SRC
       make build
-      install -DT ./helper-go $SNAPCRAFT_PART_INSTALL/bin/helper-go
+      install -DT ./helper-go $CRAFT_PART_INSTALL/bin/helper-go
   
   web-static:
     plugin: dump
@@ -53,8 +56,7 @@ parts:
     build-packages: 
       - git
     build-snaps:
-      - go/1.18/stable
-    stage-packages: [libzmq5]
+      - go/1.20/stable
     override-build: |
       if git describe ; then
         VERSION=$(git describe --tags --abbrev=0 | sed 's/v//')
@@ -63,20 +65,25 @@ parts:
       fi
 
       # set the version of the snap
-      snapcraftctl set-version $VERSION
+      craftctl set version=$VERSION
 
       # write version to file for the build
       echo $VERSION > VERSION
 
-      [ ! -d "vendor" ] && go mod download all || echo "skipping..."
-
       make build
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/bin"
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/config/edgex-ui-server/res"
-      cp cmd/edgex-ui-server/edgex-ui-server $SNAPCRAFT_PART_INSTALL/bin/edgex-ui-server
-      # change the StaticResourcesPath to point to $SNAP
-      cat "./cmd/edgex-ui-server/res/configuration.toml" | \
-        sed -e s@"StaticResourcesPath = \"./static\""@"StaticResourcesPath = \"\$SNAP/static\""@ > \
-       "$SNAPCRAFT_PART_INSTALL/config/edgex-ui-server/res/configuration.toml"
+      mkdir -p "$CRAFT_PART_INSTALL/bin"
+      mkdir -p "$CRAFT_PART_INSTALL/config/edgex-ui-server/res"
+      
+      cp cmd/edgex-ui-server/edgex-ui-server \
+        $CRAFT_PART_INSTALL/bin/edgex-ui-server
+
+      cp cmd/edgex-ui-server/res/configuration.yaml \
+        $CRAFT_PART_INSTALL/config/edgex-ui-server/res/
+        
+      DOC=$CRAFT_PART_INSTALL/usr/share/doc/edgex-ui
+      mkdir -p $DOC
+      cp Attribution.txt $DOC/Attribution.txt
+      cp LICENSE $DOC/LICENSE
+    
        
 

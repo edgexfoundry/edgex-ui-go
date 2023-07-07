@@ -6,14 +6,26 @@ https://github.com/armon/go-metrics/blob/master/LICENSE
 cenkalti/backoff (MIT) https://github.com/cenkalti/backoff
 https://github.com/cenkalti/backoff/blob/master/LICENSE
 
-edgexfoundry/go-mod-core-contracts (Apache 2.0) https://github.com/edgexfoundry/go-mod-core-contracts/v2
+edgexfoundry/go-mod-core-contracts (Apache 2.0) https://github.com/edgexfoundry/go-mod-core-contracts/v3
 https://github.com/edgexfoundry/go-mod-core-contracts/blob/master/LICENSE
 
-edgexfoundry/go-mod-registry (Apache 2.0) https://github.com/edgexfoundry/go-mod-registry/v2
+edgexfoundry/go-mod-registry (Apache 2.0) https://github.com/edgexfoundry/go-mod-registry/v3
 https://github.com/edgexfoundry/go-mod-registry/blob/master/LICENSE
 
-edgexfoundry/go-mod-secrets (Apache 2.0) https://github.com/edgexfoundry/go-mod-configuration/v2
+edgexfoundry/go-mod-secrets (Apache 2.0) https://github.com/edgexfoundry/go-mod-configuration/v3
 https://github.com/edgexfoundry/go-mod-configuration/blob/master/LICENSE
+
+edgexfoundry/go-mod-secrets (Apache 2.0) https://github.com/edgexfoundry/go-mod-bootstrap/v3
+https://github.com/edgexfoundry/go-mod-bootstrap/blob/master/LICENSE
+
+edgexfoundry/go-mod-messaging (Apache 2.0) https://github.com/edgexfoundry/go-mod-messaging/v3
+https://github.com/edgexfoundry/go-mod-messaging/blob/master/LICENSE
+
+edgexfoundry/go-mod-secrets (Apache 2.0) https://github.com/edgexfoundry/go-mod-secrets/v3
+https://github.com/edgexfoundry/go-mod-secrets/blob/master/LICENSE
+
+github.com/Microsoft/go-winio (MIT) https://github.com/Microsoft/go-winio
+https://github.com/microsoft/go-winio/blob/master/LICENSE
 
 google/uuid (BSD-3) https://github.com/google/uuid
 https://github.com/google/uuid/blob/master/LICENSE
@@ -107,3 +119,72 @@ https://github.com/golang/sys/blob/master/LICENSE
 
 gopkg.in/mgo.v2 (Unspecified) https://github.com/go-mgo/mgo
 https://github.com/go-mgo/mgo/blob/v2/LICENSE
+
+gopkg.in/yaml.v3 (MIT) https://github.com/go-yaml/yaml/
+https://github.com/go-yaml/yaml/blob/v3/LICENSE
+
+google.golang.org/protobuf (Unspecified) https://github.com/protocolbuffers/protobuf-go
+https://github.com/protocolbuffers/protobuf-go/blob/master/LICENSE
+
+google.golang.org/grpc (Apache-2.0) https://github.com/grpc/grpc-go
+https://github.com/grpc/grpc-go/blob/master/LICENSE
+
+google.golang.org/genproto (Apache-2.0) https://github.com/googleapis/go-genproto
+https://github.com/googleapis/go-genproto/blob/main/LICENSE
+
+golang.org/x/mod (BSD-3) https://github.com/golang/mod
+https://github.com/golang/mod/blob/master/LICENSE
+
+golang.org/x/tools (BSD-3) https://github.com/golang/tools
+https://github.com/golang/tools/blob/master/LICENSE
+
+golang.org/x/net (Unspecified) https://github.com/golang/net
+https://github.com/golang/net/blob/master/LICENSE
+
+golang.org/x/sync (Unspecified) https://cs.opensource.google/go/x/sync
+https://cs.opensource.google/go/x/sync/+/master:LICENSE
+
+github.com/zeebo/errs (MIT) https://github.com/zeebo/errs
+https://github.com/zeebo/errs/blob/master/LICENSE
+
+github.com/spiffe/go-spiffe/v2 (Apache-2.0 License) github.com/spiffe/go-spiffe/v2
+https://github.com/spiffe/go-spiffe/blob/main/LICENSE
+
+rcrowley/go-metrics (Unspecified) https://github.com/rcrowley/go-metrics
+https://github.com/rcrowley/go-metrics/blob/master/LICENSE
+
+github.com/nats-io/nats.go (Apache-2.0) https://github.com/nats-io/nats.go
+https://github.com/nats-io/nats.go/blob/main/LICENSE
+
+github.com/nats-io/nkeys (Apache-2.0) https://github.com/nats-io/nkeys
+https://github.com/nats-io/nkeys/blob/master/LICENSE
+
+github.com/nats-io/nuid (Apache-2.0) https://github.com/nats-io/nuid
+https://github.com/nats-io/nuid/blob/master/LICENSE
+
+hashicorp/errwrap (Mozilla Public License 2.0) https://github.com/hashicorp/errwrap
+https://github.com/hashicorp/errwrap/blob/master/LICENSE
+
+hashicorp/go-multierror (Mozilla Public License 2.0) https://github.com/hashicorp/go-multierror
+https://github.com/hashicorp/go-multierror/blob/master/LICENSE
+
+github.com/golang/protobuf (BSD-3) https://github.com/golang/protobuf
+https://github.com/golang/protobuf/blob/master/LICENSE
+
+github.com/gorilla/websocket (BSD-2) https://github.com/gorilla/websocket
+https://github.com/gorilla/websocket/blob/master/LICENSE
+
+github.com/go-redis/redis/v7 (BSD-2) https://github.com/go-redis/redis
+https://github.com/go-redis/redis/blob/master/LICENSE
+
+go-logfmt/logfmt (MIT) https://github.com/go-logfmt/logfmt
+https://github.com/go-logfmt/logfmt/blob/master/LICENSE
+
+github.com/go-kit/log (MIT) https://github.com/go-kit/log
+https://github.com/go-kit/log/blob/master/LICENSE
+
+eclipse/paho.mqtt.golang (Eclipse Public License 2.0) https://github.com/eclipse/paho.mqtt.golang
+https://github.com/eclipse/paho.mqtt.golang/blob/master/LICENSE
+
+github.com/go-jose/go-jose/v3 (Apache-2.0) https://github.com/go-jose/go-jose
+https://github.com/go-jose/go-jose/blob/v3/LICENSE

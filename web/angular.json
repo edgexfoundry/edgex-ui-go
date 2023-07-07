@@ -228,7 +228,6 @@
       }
     }
   },
-  "defaultProject": "web",
   "cli": {
     "analytics": "3f1e1dce-5f70-4581-a0a8-09ad75dd29e1"
   }

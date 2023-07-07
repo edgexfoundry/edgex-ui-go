@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -43,8 +43,8 @@ describe('ErrorService: integration test', () => {
     expect(service).toBeTruthy();
   });
 
-  it('verifies handleErrorForV2API() works as expected',() => {
-    expect(service.handleErrorForV2API(mockError)).toBe(true)
-    expect(service.handleErrorForV2API(mockMultipleErrors)).toBe(true)
+  it('verifies handleErrorForAPI() works as expected',() => {
+    expect(service.handleErrorForAPI(mockError)).toBe(true)
+    expect(service.handleErrorForAPI(mockMultipleErrors)).toBe(true)
   })
 });
