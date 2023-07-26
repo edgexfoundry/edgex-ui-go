@@ -28,6 +28,9 @@ import { DeviceProfile } from '../contracts/v3/device-profile';
 import { DeviceService } from '../contracts/v3/device-service';
 import { DeviceServiceRequest } from '../contracts/v3/requests/device-service-request';
 import { DeviceServiceResponse,MultiDeviceServiceResponse } from '../contracts/v3/responses/device-service-response';
+import { ProvisionWatcherResponse,MultiProvisionWatcherResponse } from '../contracts/v3/responses/provision-watcher-response';
+import {ProvisionWatcher} from '../contracts/v3/provision-watcher';
+import {ProvisionWatcherRequest} from '../contracts/v3/requests/provision-watcher-request';
 
 import { ErrorService } from './error.service';
 
@@ -69,6 +72,9 @@ export class MetadataService {
   deviceProfileYamlUrl: string = `${this.urlPrefix}/deviceprofile/yaml`;
   deleteProfileByIdUrl: string = `${this.urlPrefix}/deviceprofile/id`;
   deleteProfileByNamedUrl: string = `${this.urlPrefix}/deviceprofile/name`;
+
+  provisionWatcherListUrl: string = `${this.urlPrefix}/provisionwatcher/all`;
+  addOneProvisionWatcherUrl: string = `${this.urlPrefix}/provisionwatcher`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -260,7 +266,33 @@ export class MetadataService {
       catchError(error => this.errorSvc.handleError(error))
     )
   }
+  //Provision-Watcher resources
+  allProvisionWatchers(): Observable<MultiProvisionWatcherResponse> {
+    let url = `${this.provisionWatcherListUrl}`;
+    return this.http.get<MultiProvisionWatcherResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
 
+  allProvisionWatchersPagination(offset: number, limit: number): Observable<MultiProvisionWatcherResponse> {
+    let url = `${this.provisionWatcherListUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiProvisionWatcherResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  addProvisionWatcher(provisionWatcher: ProvisionWatcher): Observable<BaseResponse> {
+    let url = `${this.addOneProvisionWatcherUrl}`;
+    provisionWatcher.apiVersion = 'v3';
+    let data: ProvisionWatcherRequest[]  = [{
+      apiVersion: "v3",
+      provisionWatcher: provisionWatcher
+    }]
+    return this.http.post<BaseResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
+    .pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
   //deprecated
   findProfileById(id: string): Observable<DeviceProfileResponse> {
     let url = `${this.findProfilesByIdUrl}/${id}`;
