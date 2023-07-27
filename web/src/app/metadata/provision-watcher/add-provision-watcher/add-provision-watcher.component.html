@@ -34,7 +34,7 @@
                 </li>
                 <li class="breadcrumb-item">
                     <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">
-                        <span i18n>SelectDeviceProfile</span>
+                        <span i18n>SelectDiscoveredDeviceProfile</span>
                         <i *ngIf="currentStep >= 2" class="fa fa-check ml-1"></i>
                     </span>
                 </li>
@@ -124,6 +124,16 @@
                         <label for="provisionWatcherAdminState" class="col-md-2 col-form-label" i18n>AdminState</label>
                         <div class="col-md-10">
                             <select class="custom-select"  name="provisionWatcherAdminState" [(ngModel)]="newProvisionWatcher.adminState">
+                                <option value="UNLOCKED">UNLOCKED</option>
+                                <option value="LOCKED">LOCKED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherDiscoveredDeviceAdminState" class="col-md-2 col-form-label" i18n>DiscoveredDevice
+                            AdminState</label>
+                        <div class="col-md-10">
+                            <select class="custom-select"  name="provisionWatcherDiscoveredDeviceAdminState" [(ngModel)]="newProvisionWatcher.discoveredDevice.adminState">
                                 <option value="UNLOCKED">UNLOCKED</option>
                                 <option value="LOCKED">LOCKED</option>
                             </select>
