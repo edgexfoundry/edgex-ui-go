@@ -21,6 +21,8 @@ export class ProvisionWatcherListComponent implements OnInit {
   provisionWatcherList: ProvisionWatcher[] = [];
   selectedProvisionWatcher: ProvisionWatcher[] = [];
   specialFeatureAssociatedProvisionWatcherName?: string;
+  specialFeatureName?: string
+
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
@@ -28,10 +30,14 @@ export class ProvisionWatcherListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-        this.getDeviceListPagination();
+        this.getProvisionWatcherListPagination();
     });
   }
-  getDeviceListPagination() {
+  getProvisionWatcherList() {
+    this.getProvisionWatcherListPagination();
+  }
+
+  getProvisionWatcherListPagination() {
     this.metaSvc.allProvisionWatchersPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiProvisionWatcherResponse) => {
       this.provisionWatcherList = data.provisionWatchers;
       console.log(this.provisionWatcherList);
@@ -51,5 +57,62 @@ export class ProvisionWatcherListComponent implements OnInit {
   }
   isChecked(id: string): boolean {
     return this.selectedProvisionWatcher.findIndex(provisionWatcher => provisionWatcher.id === id) >= 0;
+  }
+  deleteConfirm() {
+    $("#deleteConfirmDialog").modal('show');
+  }
+  refresh() {
+    this.metaSvc.allProvisionWatchersPagination(0, this.pageLimit).subscribe((data: MultiProvisionWatcherResponse) => {
+      this.provisionWatcherList = data.provisionWatchers;
+      this.msgSvc.success('refresh');
+      this.resetPagination();
+    });
+  }
+  delete() {
+    this.selectedProvisionWatcher.forEach((d,i) => {
+      this.metaSvc.deleteOneProvisionWatcherByName(d.name).subscribe(() => {
+        this.selectedProvisionWatcher.splice(i,1);
+        this.provisionWatcherList.forEach((provisionWatcher: ProvisionWatcher, index) => {
+          if (provisionWatcher.id === d.id) {
+            this.provisionWatcherList.splice(index, 1);
+            this.msgSvc.success('remove provisionWatcher ', ` Name: ${provisionWatcher.name}`);
+            return
+          }
+        });
+      });
+
+    });
+    //close Command or AutoEvent feature viewer window
+    this.specialFeatureName = undefined;
+    $("#deleteConfirmDialog").modal('hide');
+  }
+  onPageSelected() {
+    this.resetPagination();
+    this.getProvisionWatcherList();
+  }
+
+  prePage() {
+    this.setPagination(-1);
+    this.getProvisionWatcherList();
+  }
+
+  nextPage() {
+    console.log('next');
+    this.setPagination(1);
+    this.getProvisionWatcherList();
+  }
+
+  setPagination(n?: number) {
+    if (n === 1) {
+      this.pagination += 1;
+    } else if (n === -1) {
+      this.pagination -= 1;
+    }
+    this.pageOffset = (this.pagination - 1) * this.pageLimit;
+  }
+
+  resetPagination() {
+    this.pagination = 1;
+    this.pageOffset = (this.pagination - 1) * this.pageLimit;
   }
 }

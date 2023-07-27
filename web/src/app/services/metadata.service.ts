@@ -75,6 +75,7 @@ export class MetadataService {
 
   provisionWatcherListUrl: string = `${this.urlPrefix}/provisionwatcher/all`;
   addOneProvisionWatcherUrl: string = `${this.urlPrefix}/provisionwatcher`;
+  deleteOneProvisionWatcherByNameUrl: string = `${this.urlPrefix}/provisionwatcher/name`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -290,6 +291,12 @@ export class MetadataService {
     }]
     return this.http.post<BaseResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
     .pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+  deleteOneProvisionWatcherByName(name: string): Observable<BaseResponse> {
+    let url = `${this.deleteOneProvisionWatcherByNameUrl}/${name}`;
+    return this.http.delete<BaseResponse>(url).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }

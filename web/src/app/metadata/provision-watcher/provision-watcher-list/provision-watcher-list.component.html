@@ -6,7 +6,7 @@
     <div class="card-body p-0">
         <div  class="bg-light px-2 py-2">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-primary" >
+                <button class="btn btn-primary" data-testid="device-list-refresh-btn" (click)="refresh()">
                     <span>
                         <i class="fa fa-refresh mr-1"></i>
                         <span i18n>Refresh</span>
@@ -24,7 +24,7 @@
                         <span i18n>Edit</span>
                     </span>
                 </button>
-                <button type="button" class="btn btn-danger"  >
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedProvisionWatcher.length === 0">
                     <span>
                         <i class="fa fa-trash mr-1"></i>
                         <span i18n>Delete</span>
@@ -95,20 +95,20 @@
                     <span class="align-middle" i18n>items per page</span>
                 </li>
                 <li class="page-item mr-2 ">
-                    <select class="custom-select" name="pageLimit" id="pageLimit"  >
+                    <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                     </select>
                 </li>
                 <li class="page-item mr-1">
-                    <button class="page-link btn"  >
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
                         <i class="fa fa-angle-double-left mr-1"></i>
-                        <span i18n>Previous</span>
+                        <span i18n>Previous</span>  
                     </button>
                 </li>
                 <li class="page-item" >
-                    <button class="page-link btn"  >
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > provisionWatcherList.length">
                         <span i18n>Next</span>
                         <i class="fa fa-angle-double-right ml-1"></i>
                     </button>
@@ -131,7 +131,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
-                <button type="button" class="btn btn-danger" i18n>Confirm</button>
+                <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
             </div>
         </div>
     </div>
