@@ -1,0 +1,7 @@
+input[disabled]:hover {
+    cursor: not-allowed;
+}
+
+.btn[disabled]:hover {
+    cursor: not-allowed;
+}

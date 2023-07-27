@@ -1,1 +1,90 @@
-<p>edit-provision-watcher works!</p>
+
+<div *ngIf="provisionWatcher" class="card">
+    <div class="card-header font-weight-bold">
+        <i class="fa fa-edit text-danger fa-lg"></i> 
+        <span class="mx-2" i18n>Edit ProvisionWatcher</span>
+        <span class="text-primary">{{provisionWatcher.name}}</span> 
+        <button type="button" class="btn btn-success btn-sm float-right" (click)="save()"  [disabled]="validateBeforeSave()">
+            <span>
+                <i class="fa fa-save mr-1"></i>
+                <span i18n>Save</span> 
+            </span>
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="card mb-3">
+            <div class="card-header font-weight-bold">
+                <i class="fa fa-tags fa-lg text-danger mr-1"></i><span i18n>ProvisionWatcher Primary</span>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>ProvisionWatcherName</label>
+                        <div class="col-md-10">
+                            <input type="text" name="name" [(ngModel)]="provisionWatcher.name" [class.is-invalid]="provisionWatcher.name === ''" class="form-control" required>
+                            <div class="invalid-feedback" i18n>
+                               device name can't not be empty!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>Labels</label>
+                        <div class="col-md-10">
+                            <input type="text" name="labels" [(ngModel)]="provisionWatcherLabels"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="adminState" class="col-md-2 col-form-label" i18n>AdminState</label>
+                        <div class="col-md-10">
+                            <select class="custom-select"  name="adminState" [(ngModel)]="provisionWatcher.adminState">
+                                <option value="UNLOCKED">UNLOCKED</option>
+                                <option value="LOCKED">LOCKED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="discoveredDeviceadminState" class="col-md-2 col-form-label" i18n>DiscoveredDeviceAdminState</label>
+                        <div class="col-md-10">
+                            <select class="custom-select"  name="adminState" [(ngModel)]="provisionWatcher.discoveredDevice.adminState">
+                                <option value="UNLOCKED">UNLOCKED</option>
+                                <option value="LOCKED">LOCKED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>IdentifiersAddress</label>
+                        <div class="col-md-10">
+                            <input type="text" name="labels" [(ngModel)]="provisionWatcher.identifiers.address"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>IdentifiersPort</label>
+                        <div class="col-md-10">
+                            <input type="text" name="labels" [(ngModel)]="provisionWatcher.identifiers.port"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" i18n>BlockingIdentifiers</label>
+                        <div class="col-md-10">
+                            <input type="text" name="labels" [(ngModel)]="provisionWatcher.blockingIdentifiers.port"  class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="mb-3">
+            <app-device-service-list 
+            (singleDeviceSvcSelectedEvent)="onSingleDeviceSvcSelected($event)" 
+            [deviceSvcSelected]="selectedSvc"></app-device-service-list>
+        </div>
+
+        <div class="mb-3">
+            <app-device-profile-list  
+            (singleProfileSelectedEvent)="onSingleProfileSelected($event)" 
+            [enableSelectAll]="false" [toolbars]="false" 
+            [singleProfileSelected]="selectedProfile"
+            [associatedDeviceColumn]="false"></app-device-profile-list>
+        </div>
+    </div>
+</div>

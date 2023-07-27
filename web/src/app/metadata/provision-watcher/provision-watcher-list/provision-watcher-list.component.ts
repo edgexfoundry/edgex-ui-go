@@ -5,8 +5,6 @@ import { MetadataService } from '../../../services/metadata.service';
 import { MessageService } from '../../../message/message.service';
 import { MultiProvisionWatcherResponse } from '../../../contracts/v3/responses/provision-watcher-response';
 import { ProvisionWatcher } from '../../../contracts/v3/provision-watcher';
-import { AutoEvent } from '../../../contracts/v3/auto-event';
-import { DeviceProfile } from '../../../contracts/v3/device-profile';
 
 @Component({
   selector: 'app-provision-watcher-list',
@@ -43,6 +41,31 @@ export class ProvisionWatcherListComponent implements OnInit {
       console.log(this.provisionWatcherList);
     });
   }
+  edit() {
+    this.router.navigate(['../edit-provision-watcher'], {
+      relativeTo: this.route,
+      queryParams: { 'provisionWatcherName': this.selectedProvisionWatcher[0].name }
+    })
+  }
+  selectAll(event: any) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.provisionWatcherList.forEach(provisionWatcher => {
+        if (this.selectedProvisionWatcher.findIndex(d => d.name === provisionWatcher.name) !== -1) {
+          return
+        }
+        this.selectedProvisionWatcher.push(provisionWatcher);
+      });
+    } else {
+      this.provisionWatcherList.forEach(provisionWatcher => {
+        this.selectedProvisionWatcher.forEach((provisionWatcherSelected, index) => {
+          if (provisionWatcherSelected.name === provisionWatcher.name) {
+            this.selectedProvisionWatcher.splice(index,1);
+          }
+        })
+      });
+    }
+  }
   selectOne(event: any, provisionWatcher: ProvisionWatcher) {
     const checkbox = event.target;
     if (checkbox.checked) {
@@ -55,8 +78,21 @@ export class ProvisionWatcherListComponent implements OnInit {
       }
     })
   }
+
   isChecked(id: string): boolean {
     return this.selectedProvisionWatcher.findIndex(provisionWatcher => provisionWatcher.id === id) >= 0;
+  }
+  isCheckedAll(): boolean {
+    let checkedAll = true;
+    if (this.provisionWatcherList &&  this.provisionWatcherList.length === 0) {
+      checkedAll = false
+    }
+    this.provisionWatcherList.forEach(provisionWatcher => {
+      if (this.selectedProvisionWatcher.findIndex(d => d.name === provisionWatcher.name) === -1) {
+        checkedAll = false
+      }
+    });
+    return checkedAll
   }
   deleteConfirm() {
     $("#deleteConfirmDialog").modal('show');

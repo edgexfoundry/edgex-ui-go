@@ -76,6 +76,8 @@ export class MetadataService {
   provisionWatcherListUrl: string = `${this.urlPrefix}/provisionwatcher/all`;
   addOneProvisionWatcherUrl: string = `${this.urlPrefix}/provisionwatcher`;
   deleteOneProvisionWatcherByNameUrl: string = `${this.urlPrefix}/provisionwatcher/name`;
+  findProvisionWatcherByNameUrl: string = `${this.urlPrefix}/provisionwatcher/name`;
+  updateOneProvisionWatcherUrl: string = `${this.urlPrefix}/provisionwatcher`;
 
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
@@ -297,6 +299,26 @@ export class MetadataService {
   deleteOneProvisionWatcherByName(name: string): Observable<BaseResponse> {
     let url = `${this.deleteOneProvisionWatcherByNameUrl}/${name}`;
     return this.http.delete<BaseResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+  findProvisionWatcherByName(name: string): Observable<ProvisionWatcherResponse> {
+    let url = `${this.findProvisionWatcherByNameUrl}/${name}`;
+    return this.http.get<ProvisionWatcherResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+  updateProvisionWatcher(provisionWatcher: ProvisionWatcher): Observable<BaseResponse> {
+    let url = `${this.updateOneProvisionWatcherUrl}`;
+    let data: ProvisionWatcherRequest[]  = [{
+      apiVersion: "v3",
+      provisionWatcher: provisionWatcher
+    }]
+    return this.http.patch<BaseResponse>(url, JSON.stringify(data),{
+      headers: new HttpHeaders({
+        'Content-type': 'application/json'
+      })
+    }).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
   }
