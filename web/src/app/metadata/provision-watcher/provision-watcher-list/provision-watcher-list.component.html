@@ -42,21 +42,49 @@
                       </th>
                       <th scope="col">ID</th>
                       <th scope="col" i18n>Name</th>
-                      <th scope="col" i18n>Description</th>
-                      <th scope="col" i18n>AssociatedDevice</th>
                       <th scope="col" i18n>Labels</th>
-                      <th scope="col" i18n>Manufacturer</th>
-                      <th scope="col" i18n>Model</th>
+                      <th scope="col" i18n>AdminState</th>
+                      <th scope="col" i18n>DiscoveredDeviceAdminState</th>
+                      <th scope="col" i18n>DiscoveredDeviceProfileName</th>
+                      <th scope="col" i18n>ServiceName</th>
+                      <th scope="col" i18n>IdentifiersAddress</th>
+                      <th scope="col" i18n>IdentifiersPort</th>
+                      <th scope="col" i18n>BlockingIdentifiers</th>
                       <!-- <th scope="col">Created</th>
                       <th scope="col">Modified</th> -->
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let provisionWatcher of provisionWatcherList">
-                        <td class="user-select-all">{{provisionWatcher.name}}</td>
-                        <td>{{provisionWatcher.labels}}</td>
-                    </tr>
-                </tbody>
+                    <tbody>
+                        <tr *ngFor="let provisionWatcher of provisionWatcherList" [class.table-active]="isChecked(provisionWatcher.id) || specialFeatureAssociatedProvisionWatcherName === provisionWatcher.name">
+                            <td> <input type="checkbox" role="button"  [checked]="isChecked(provisionWatcher.id)" (click)="selectOne($event,provisionWatcher)"></td>
+                            <td class="user-select-all">{{provisionWatcher.id}}</td>
+                            <td class="user-select-all">{{provisionWatcher.name}}</td>
+                            <td>{{provisionWatcher.labels}}</td>
+                            <td>
+                                <span [ngSwitch]="provisionWatcher.adminState">
+                                    <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{provisionWatcher.adminState}}</span> 
+                                    <span *ngSwitchDefault class="badge badge-danger">{{provisionWatcher.adminState}}</span> 
+                                </span>
+                            </td>
+                            <td>
+                                <span [ngSwitch]="provisionWatcher.adminState">
+                                    <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{provisionWatcher.discoveredDevice.adminState}}</span> 
+                                    <span *ngSwitchDefault class="badge badge-danger">{{provisionWatcher.discoveredDevice.adminState}}</span> 
+                                </span>
+                            </td>
+                            <td>
+                                <a routerLink="../../device-profile-center" [queryParams]="{'profileName':provisionWatcher.discoveredDevice.profileName}">{{provisionWatcher.discoveredDevice.profileName}}</a>
+                            </td>
+                            <td>
+                                <a routerLink="../../device-service-list">{{provisionWatcher.serviceName}}</a> 
+                            </td>
+                            <td>{{provisionWatcher.identifiers.address}}</td>
+                            <td>{{provisionWatcher.identifiers.port}}</td>
+                            <td>{{provisionWatcher.blockingIdentifiers.port}}</td>
+                            <!-- <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                            <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                        </tr>
+                    </tbody>
             </table>
         </div>
     </div>

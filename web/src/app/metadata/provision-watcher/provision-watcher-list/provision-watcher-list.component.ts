@@ -19,6 +19,8 @@ export class ProvisionWatcherListComponent implements OnInit {
   pageLimit: number = 5;
   pageOffset: number = (this.pagination - 1) * this.pageLimit;
   provisionWatcherList: ProvisionWatcher[] = [];
+  selectedProvisionWatcher: ProvisionWatcher[] = [];
+  specialFeatureAssociatedProvisionWatcherName?: string;
   constructor(private metaSvc: MetadataService,
     private msgSvc: MessageService,
     private route: ActivatedRoute,
@@ -34,5 +36,20 @@ export class ProvisionWatcherListComponent implements OnInit {
       this.provisionWatcherList = data.provisionWatchers;
       console.log(this.provisionWatcherList);
     });
+  }
+  selectOne(event: any, provisionWatcher: ProvisionWatcher) {
+    const checkbox = event.target;
+    if (checkbox.checked) {
+      this.selectedProvisionWatcher.push(provisionWatcher);
+      return
+    }
+    this.selectedProvisionWatcher.forEach((d,i) => {
+      if (d.name === provisionWatcher.name) {
+        this.selectedProvisionWatcher.splice(i, 1);
+      }
+    })
+  }
+  isChecked(id: string): boolean {
+    return this.selectedProvisionWatcher.findIndex(provisionWatcher => provisionWatcher.id === id) >= 0;
   }
 }

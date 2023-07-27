@@ -37,7 +37,6 @@ export class AddProvisionWatcherComponent implements OnInit {
     private route: ActivatedRoute
   ) { this.newProvisionWatcher = {
     name: "",
-    profileName: "",
     serviceName: "",
     adminState: "LOCKED",
     labels: [],
@@ -45,11 +44,12 @@ export class AddProvisionWatcherComponent implements OnInit {
       address: "",
       port: ""
     },
-    blockingidentifiers: {
+    blockingIdentifiers: {
       port: []
     },
-    DiscoveredDevice:{
+    discoveredDevice:{
       adminState: 'LOCKED',
+      profileName: "",
   }
   } as unknown as ProvisionWatcher;}
 
@@ -68,12 +68,10 @@ export class AddProvisionWatcherComponent implements OnInit {
   submit() {
     this.newProvisionWatcher.labels = this.provisionWatcherLabels?.split(','),
     this.newProvisionWatcher.serviceName = this.selectedSvc?.name as string;
-    this.newProvisionWatcher.profileName = this.selectedProfile?.name as string;
+    this.newProvisionWatcher.discoveredDevice.profileName = this.selectedProfile?.name as string;
     this.newProvisionWatcher.identifiers.address = this.provisionWatcherIdentifiersAddress,
     this.newProvisionWatcher.identifiers.port = this.provisionWatcherIdentifiersPort,
-    this.newProvisionWatcher.blockingidentifiers.port = this.provisionWatcherBlockingIdentifiers?.split(','),
-    this.newProvisionWatcher.adminState = "LOCKED"
-    this.newProvisionWatcher.DiscoveredDevice.adminState = "LOCKED"
+    this.newProvisionWatcher.blockingIdentifiers.port = this.provisionWatcherBlockingIdentifiers?.split(','),
     console.log(this.newProvisionWatcher)
 
     this.metaSvc.addProvisionWatcher(this.newProvisionWatcher).subscribe((resp:any) => {
