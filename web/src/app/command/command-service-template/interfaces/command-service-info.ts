@@ -5,7 +5,7 @@ export interface CommandServiceInfo {
     host: string,
     port: number
     path: string,
-    pushEventOfGetCmdParamter: string, // 'yes' or 'no'
-    returnEventOfGetCmdParamter: string, // 'yes' or 'no'
+    pushEventOfGetCmdParamter: string, // 'true' or 'false'
+    returnEventOfGetCmdParamter: string, // 'true' or 'false'
     parametersOfPutCommand: CoreCommandParameter[] // http put method
 }

@@ -18,21 +18,21 @@
 
  <div class="card mb-3">
      <div class="card-header">
-        <i class="fa fa-info-circle mr-2 text-info"></i> 
+        <i class="fa fa-info-circle mr-2 text-info"></i>
         <span i18n>Tips</span>
      </div>
      <div class="card-body" i18n>
-        The support scheduler micro service provide an internal EdgeX “clock” that can kick off operations in any EdgeX service. 
-        At a configuration specified time (called an interval), the service calls on any EdgeX service API URL via REST to trigger an operation (called an interval action). 
+        The support scheduler micro service provide an internal EdgeX “clock” that can kick off operations in any EdgeX service.
+        At a configuration specified time (called an interval), the service calls on any EdgeX service API URL via REST to trigger an operation (called an interval action).
         For example, the scheduling service periodically calls on core data APIs to clean up old sensed events that have been successfully exported out of EdgeX.
-        <br> Users also can call the API of command service to collect one device's data automatically. 
+        <br> Users also can call the API of command service to collect one device's data automatically.
      </div>
  </div>
 
  <div class="card">
     <div class="card-header">
         <i class="fa fa-plus text-danger mr-1"></i>
-        <span i18n>Add Interval Action</span> 
+        <span i18n>Add Interval Action</span>
         <button class="btn btn-sm btn-success float-right" (click)="submit()" [disabled]="validate()" i18n>Submit</button>
     </div>
     <div class="card-body">
@@ -42,7 +42,7 @@
                 <div class="col-md-10">
                     <input type="text" class="form-control" id="validationIntervalActionName" [class.is-invalid]="!intervalAction.name" [class.is-valid]="intervalAction.name" name="intervalActionName" [(ngModel)]="intervalAction.name" required>
                     <div id="validationIntervalActionNameFeedback" class="invalid-feedback">
-                        <small>the interval action name can't be empty!</small> 
+                        <small>the interval action name can't be empty!</small>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                                     <div id="addressHostRESTFeedback" class="invalid-feedback">
-                                                        <small>the REST address host can't be empty!</small> 
+                                                        <small>the REST address host can't be empty!</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,7 +137,7 @@
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                                     <div id="addressPortRESTFeedback" class="invalid-feedback">
-                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,7 +150,7 @@
                                             <div class="form-group row">
                                                 <label for="Content" class="col-md-2 col-form-label">
                                                     <span class="mr-2" i18n>Content</span>
-                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                      data-content="the actual content to be sent as the body,such as one string format of JSON"></span>
                                                 </label>
                                                 <div class="col-md-10">
@@ -160,7 +160,7 @@
                                             <div class="form-group row">
                                                 <label for="ContentType" class="col-md-2 col-form-label">
                                                     <span class="mr-2">ContentType</span>
-                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                      data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
                                                 </label>
                                                 <div class="col-md-10">
@@ -182,13 +182,13 @@
                                             <div class="form-group row has-validation">
                                                 <label for="addressHostREST" class="col-md-2 col-form-label" required>
                                                     <span class="mr-2">Host</span>
-                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                      data-content="Both Host and Port fields are editable if you have a different host address !"></span>
                                                 </label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                                     <div id="addressHostRESTFeedback" class="invalid-feedback">
-                                                        <small i18n>the REST address host can't be empty!</small> 
+                                                        <small i18n>the REST address host can't be empty!</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -197,14 +197,14 @@
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                                     <div id="addressPortRESTFeedback" class="invalid-feedback">
-                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="addressPath" class="col-md-2 col-form-label" required>
                                                     <span class="mr-2" i18n>Path</span>
-                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                     data-content="Remove all old events (and associated readings) based on delimiting age, the parameters delimiting age will be filled up automatically when parameters field is selected!"></span>
                                                 </label>
                                                 <div class="col-md-10">
@@ -229,7 +229,7 @@
                                             <div class="form-group row">
                                                 <label for="HttpMethod" class="col-md-2 col-form-label" required>
                                                      <span class="mr-2" i18n>HttpMethod</span>
-                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                     <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                      data-content="httpMethod field will be filled up automatically when the path field is selected! "></span>
                                                 </label>
                                                 <div class="col-md-10">
@@ -239,13 +239,13 @@
                                             <div class="form-group row has-validation">
                                                 <label for="addressHostREST" class="col-md-2 col-form-label" required>
                                                     <span class="mr-2">Host</span>
-                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                    <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                      data-content="Both Host and Port fields are editable if you have a different host address !"></span>
                                                 </label>
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressHostREST" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                                     <div id="addressHostRESTFeedback" class="invalid-feedback">
-                                                        <small i18n>the REST address host can't be empty!</small> 
+                                                        <small i18n>the REST address host can't be empty!</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -254,7 +254,7 @@
                                                 <div class="col-md-10">
                                                     <input type="text" class="form-control" id="addressPortREST" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                                     <div id="addressPortRESTFeedback" class="invalid-feedback">
-                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small> 
+                                                        <small i18n>the REST address port can't be empty and only pure integer is supported!</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,26 +295,26 @@
                                                                 <div class="form-group row">
                                                                     <label for="ds-pushevent" class="col-md-2 col-form-label">
                                                                         <span class="mr-2" i18n>pushevent</span>
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
-                                                                        data-content="yes indicates a successful GET will result in an event being pushed to the EdgeX system"></span>
+                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
+                                                                        data-content="true indicates a successful GET will result in an event being pushed to the EdgeX system"></span>
                                                                     </label>
                                                                     <div class="col-md-10">
                                                                         <select id="ds-pushevent" name="ds-pushevent" class="custom-select" [(ngModel)]="pushEventOfGetCmdParamter">
-                                                                            <option value="yes">yes</option>
-                                                                            <option value="no">no</option>
+                                                                            <option value="true">true</option>
+                                                                            <option value="false">false</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label for="ds-returnevent" class="col-md-2 col-form-label">
                                                                         <span class="mr-2" i18n>returnevent</span>
-                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                                                        <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                                                         data-content="no indicates there will be no Event returned in the http response"></span>
                                                                     </label>
                                                                     <div class="col-md-10">
                                                                         <select id="ds-returnevent" name="ds-returnevent" class="custom-select" [(ngModel)]="returnEventOfGetCmdParamter">
-                                                                            <option value="yes">yes</option>
-                                                                            <option value="no">no</option>
+                                                                            <option value="true">true</option>
+                                                                            <option value="false">false</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -334,7 +334,7 @@
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressHostMQTT" [class.is-invalid]="!intervalAction.address.host" [class.is-valid]="intervalAction.address.host" name="addressHost" [(ngModel)]="intervalAction.address.host" required>
                                             <div id="addressHostMQTTFeedback" class="invalid-feedback">
-                                                <small i18n>the MQTT host can't be empty!</small> 
+                                                <small i18n>the MQTT host can't be empty!</small>
                                             </div>
                                         </div>
                                     </div>
@@ -343,14 +343,14 @@
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressPortMQTT" [class.is-invalid]="!isPureIntegerType(intervalAction.address.port)" [class.is-valid]="isPureIntegerType(intervalAction.address.port)" name="addressPort" [(ngModel)]="intervalAction.address.port" required>
                                             <div id="addressPortMQTTFeedback" class="invalid-feedback">
-                                                <small i18n>the MQTT port can't be empty and only pure integer is supported!!</small> 
+                                                <small i18n>the MQTT port can't be empty and only pure integer is supported!!</small>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="Content" class="col-md-2 col-form-label">
                                             <span class="mr-2" i18n>Content</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                             data-content="the actual content to be sent as the body,such as one string format of JSON"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -360,7 +360,7 @@
                                     <div class="form-group row">
                                         <label for="ContentType" class="col-md-2 col-form-label">
                                             <span class="mr-2">ContentType</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                             data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -372,7 +372,7 @@
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressPublisher" [class.is-invalid]="!intervalAction.address.publisher" [class.is-valid]="intervalAction.address.publisher" name="addressPublisher" [(ngModel)]="intervalAction.address.publisher" required>
                                             <div id="addressPublisherFeedback" class="invalid-feedback">
-                                                <small i18n>the MQTT publisher can't be empty!</small> 
+                                                <small i18n>the MQTT publisher can't be empty!</small>
                                             </div>
                                         </div>
                                     </div>
@@ -381,14 +381,14 @@
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" id="addressTopic" [class.is-invalid]="!intervalAction.address.topic" [class.is-valid]="intervalAction.address.topic" name="addressTopic" [(ngModel)]="intervalAction.address.topic" required>
                                             <div id="addressTopicFeedback" class="invalid-feedback">
-                                                <small i18n>the MQTT topic can't be empty!</small> 
+                                                <small i18n>the MQTT topic can't be empty!</small>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="addressQoS" class="col-md-2 col-form-label">
                                             <span class="mr-2" i18n>QoS</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips"
                                             data-content="only pure integer supported!"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -398,7 +398,7 @@
                                     <div class="form-group row">
                                         <label for="addressKeepAlive" class="col-md-2 col-form-label">
                                             <span class="mr-2" i18n>KeepAlive</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips"
                                             data-content="only pure integer supported!"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -425,8 +425,8 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="addressConnectTimeout" class="col-md-2 col-form-label" required>
-                                            <span class="mr-2" i18n>ConnectTimeout</span> 
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            <span class="mr-2" i18n>ConnectTimeout</span>
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips"
                                             data-content="only pure integer supported!"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -440,7 +440,7 @@
                                     <div class="form-group row">
                                         <label for="emailRecipients" class="col-md-2 col-form-label">
                                             <span class="mr-2" i18n>EmailRecipients</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="format tips"
                                             data-content="Multiple email addresses are separated by commas"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -450,7 +450,7 @@
                                     <div class="form-group row">
                                         <label for="Content" class="col-md-2 col-form-label">
                                             <span class="mr-2" i18n>Content</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                             data-content="the actual content to be sent as the body,such as one string format of JSON"></span>
                                         </label>
                                         <div class="col-md-10">
@@ -460,7 +460,7 @@
                                     <div class="form-group row">
                                         <label for="ContentType" class="col-md-2 col-form-label">
                                             <span class="mr-2">ContentType</span>
-                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips" 
+                                            <span class="fa fa-question-circle-o fa-lg" role="button" data-html="false" data-animation="true"  data-trigger="focus" data-toggle="popover" title="tips"
                                             data-content="Indicates which request contentType should be used (i.e. text/html, application/json), the default is application/json if not setup"></span>
                                         </label>
                                         <div class="col-md-10">
