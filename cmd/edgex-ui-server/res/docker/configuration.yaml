@@ -37,8 +37,8 @@ Registry:
     Host: edgex-core-consul
     Port: 8500
     Type: consul
-    ConfigRegistryStem: edgex/appservices/
-    ServiceVersion: '2.0'
+    ConfigRegistryStem: edgex/
+    ServiceVersion: 'v3'
 APIGateway:
     Server: edgex-nginx
     ApplicationPort: 8000
