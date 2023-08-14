@@ -52,8 +52,8 @@ export class EditIntervalActionComponent implements OnInit {
   templateSelected: string = "custom";
   coredataRequestParameter = '';
   commandServiceTemplateRequestParameters: CoreCommandParameter[] = [];
-  pushEventOfGetCmdParamter = "yes";
-  returnEventOfGetCmdParamter = "yes";
+  pushEventOfGetCmdParamter = "true";
+  returnEventOfGetCmdParamter = "true";
   calendarStart: any;
 
   coredataSvcAvailableAPI: string[] = [
@@ -243,7 +243,7 @@ export class EditIntervalActionComponent implements OnInit {
   }
 
   resolveCommandTemplateParameterSuffix() {
-    //path value example: /api/v3/device/name/Random-Integer-Device/Int16Array?ds-pushevent=no&ds-returnevent=yes
+    //path value example: /api/v3/device/name/Random-Integer-Device/Int16Array?ds-pushevent=false&ds-returnevent=true
     if (this.intervalAction.address.path.indexOf('ds-pushevent') !== -1 ||
         this.intervalAction.address.path.indexOf('ds-returnevent') !== -1) {
         let path = this.intervalAction.address.path.split('?');
