@@ -1,1 +1,148 @@
-<p>add-provision-watcher works!</p>
+<!--
+*******************************************************************************
+ * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
+ *******************************************************************************
+ -->
+
+ <div class="card">
+    <div class="card-header">
+        <span class="font-weight-bold">
+            <span class="fa fa-lightbulb-o fa-lg mr-2 text-danger"></span>
+            <span class="text-secondary" i18n>Add Provision Watcher Wizard</span>
+        </span>
+    </div>
+    <div class="card-header py-2">
+        <nav aria-label="breadcrumb" class="mb-0 p-0">
+            <ol class="breadcrumb p-1 mb-0 bg-light">
+                <li class="breadcrumb-item">
+                    <span [ngClass]="currentStep >= 0? selectedClass:noSelectedClass">
+                        <span i18n>SelectDeviceService</span>
+                        <i *ngIf="currentStep >= 1" class="fa fa-check ml-1"></i>
+                    </span>
+                </li>
+                <li class="breadcrumb-item">
+                    <span [ngClass]="currentStep >= 1? selectedClass:noSelectedClass">
+                        <span i18n>SelectDiscoveredDeviceProfile</span>
+                        <i *ngIf="currentStep >= 2" class="fa fa-check ml-1"></i>
+                    </span>
+                </li>
+                <li class="breadcrumb-item">
+                    <span [ngClass]="currentStep >= 2? selectedClass:noSelectedClass">
+                        <span i18n>ProvisionWatcherPrimary</span>
+                        <i *ngIf="currentStep >= 3" class="fa fa-check ml-1"></i>
+                    </span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card-header py-1">
+        <button *ngIf="currentStep" class="btn btn-info btn-sm"  (click)="previous()">
+            <i class="fa fa-long-arrow-left mr-1"></i>
+            <span i18n>Previous</span>
+        </button>
+        <button *ngIf="2 > currentStep; else stepDone" class="btn btn-primary btn-sm float-right" (click)="next()" [disabled]="stepStateLock()">
+            <span i18n>Next</span>
+            <i class="fa fa-long-arrow-right ml-1"></i>
+        </button>
+        <ng-template #stepDone>
+            <button class="btn btn-success btn-sm ml-4 float-right" [disabled]="stepStateLock()" (click)="submit()">
+                <i class="fa fa-save mr-1"></i> 
+                <span i18n>Submit</span> 
+            </button>
+        </ng-template>
+    </div>
+    <div class="card-body p-0">
+        <div [ngSwitch]="currentStep">
+            <ng-template [ngSwitchCase]="0" #SelectDeviceService>
+                <div class="p-2">
+                    <app-device-service-list
+                    (singleDeviceSvcSelectedEvent)="onSingleDeviceSvcSelected($event)"
+                    [deviceSvcSelected]="selectedSvc"
+                    ></app-device-service-list>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="1" #SelectDeviceProfile>
+                <div class="p-2">
+                    <app-device-profile-list
+                    (singleProfileSelectedEvent)="onSingleProfileSelected($event)"
+                    [singleProfileSelected]="selectedProfile"
+                    [enableSelectAll]="false"
+                    [toolbars]="false"
+                    [associatedDeviceColumn]="false"></app-device-profile-list>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="2" #DevicePrimary>
+                <form class="px-5 py-4">
+                    <div class="form-group row has-validation">
+                      <label for="provisionWatcherName" class="col-md-2 col-form-label" required i18n>Name</label>
+                      <div class="col-md-10">
+                        <input type="text" class="form-control" id="validationProvisionWatcherNameFeedback" [class.is-invalid]="!newProvisionWatcher.name" [class.is-valid]="newProvisionWatcher.name" name="provisionWatcherName" [(ngModel)]="newProvisionWatcher.name">
+                        <div id="validationProvisionWatcherNameFeedback" class="invalid-feedback">
+                            <small i18n>the provision watcher name can't be empty!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherLabels" class="col-md-2 col-form-label" i18n>Labels</label>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" name="provisionWatcherLabels" [(ngModel)]="provisionWatcherLabels" placeholder="Multiple Labels are separated by commas: label1,label2,label3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherBlockingIdentifiers" class="col-md-2 col-form-label" i18n>BlockingIdentifiers</label>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" name="provisionWatcherBlockingIdentifiers" [(ngModel)]="provisionWatcherBlockingIdentifiers" placeholder="Multiple BlockingIdentifiers are separated by commas: port1,port2,port3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherIdentifiersAddress" class="col-md-2 col-form-label" i18n>IdentifiersAddress</label>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" name="provisionWatcherIdentifiersAddress" [(ngModel)]="provisionWatcherIdentifiersAddress" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherIdentifiersPort" class="col-md-2 col-form-label" i18n>IdentifiersPort</label>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" name="provisionWatcherIdentifiersPort" [(ngModel)]="provisionWatcherIdentifiersPort" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherAdminState" class="col-md-2 col-form-label" i18n>AdminState</label>
+                        <div class="col-md-10">
+                            <select class="custom-select"  name="provisionWatcherAdminState" [(ngModel)]="newProvisionWatcher.adminState">
+                                <option value="UNLOCKED">UNLOCKED</option>
+                                <option value="LOCKED">LOCKED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="provisionWatcherDiscoveredDeviceAdminState" class="col-md-2 col-form-label" i18n>DiscoveredDevice
+                            AdminState</label>
+                        <div class="col-md-10">
+                            <select class="custom-select"  name="provisionWatcherDiscoveredDeviceAdminState" [(ngModel)]="newProvisionWatcher.discoveredDevice.adminState">
+                                <option value="UNLOCKED">UNLOCKED</option>
+                                <option value="LOCKED">LOCKED</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+
+        </div>
+    </div>
+</div>

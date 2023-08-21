@@ -1,1 +1,136 @@
-<p>provision-watcher-list works!</p>
+<div class="card">
+    <div class="card-header font-weight-bold">
+        <i class="fa fa-list text-danger mr-2"></i> 
+        <span i18n>Device Profile List</span> 
+    </div>
+    <div class="card-body p-0">
+        <div  class="bg-light px-2 py-2">
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-primary" data-testid="device-list-refresh-btn" (click)="refresh()">
+                    <span>
+                        <i class="fa fa-refresh mr-1"></i>
+                        <span i18n>Refresh</span>
+                    </span> 
+                </button>
+                <button type="button" class="btn btn-info"  routerLink="../add-provision-watcher">
+                    <span>
+                        <i class="fa fa-plus mr-1"></i>
+                        <span i18n>Add</span>
+                    </span>
+                </button>
+                <button type="button" class="btn btn-success" (click)="edit()" [disabled]="selectedProvisionWatcher.length !== 1">
+                    <span>
+                        <i class="fa fa-edit mr-1"></i>
+                        <span i18n>Edit</span> 
+                    </span>
+                </button>
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()" [disabled]="selectedProvisionWatcher.length === 0">
+                    <span>
+                        <i class="fa fa-trash mr-1"></i>
+                        <span i18n>Delete</span>
+                    </span>
+                </button>
+              </div>
+              <!-- <button class="btn btn-secondary btn-sm text-light ml-3">upload yaml file</button> -->
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover text-truncate">
+                <thead class="thead-light">
+                    <tr>
+                      <th scope="col"><input type="checkbox" role="button" [checked]="isCheckedAll()" (click)="selectAll($event)"></th>
+                      <th scope="col">ID</th>
+                      <th scope="col" i18n>Name</th>
+                      <th scope="col" i18n>Labels</th>
+                      <th scope="col" i18n>AdminState</th>
+                      <th scope="col" i18n>DiscoveredDeviceAdminState</th>
+                      <th scope="col" i18n>DiscoveredDeviceProfileName</th>
+                      <th scope="col" i18n>ServiceName</th>
+                      <th scope="col" i18n>IdentifiersAddress</th>
+                      <th scope="col" i18n>IdentifiersPort</th>
+                      <th scope="col" i18n>BlockingIdentifiers</th>
+                      <!-- <th scope="col">Created</th>
+                      <th scope="col">Modified</th> -->
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr *ngFor="let provisionWatcher of provisionWatcherList" [class.table-active]="isChecked(provisionWatcher.id) || specialFeatureAssociatedProvisionWatcherName === provisionWatcher.name">
+                            <td> <input type="checkbox" role="button"  [checked]="isChecked(provisionWatcher.id)" (click)="selectOne($event,provisionWatcher)"></td>
+                            <td class="user-select-all">{{provisionWatcher.id}}</td>
+                            <td class="user-select-all">{{provisionWatcher.name}}</td>
+                            <td>{{provisionWatcher.labels}}</td>
+                            <td>
+                                <span [ngSwitch]="provisionWatcher.adminState">
+                                    <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{provisionWatcher.adminState}}</span> 
+                                    <span *ngSwitchDefault class="badge badge-danger">{{provisionWatcher.adminState}}</span> 
+                                </span>
+                            </td>
+                            <td>
+                                <span [ngSwitch]="provisionWatcher.discoveredDevice.adminState">
+                                    <span *ngSwitchCase="'UNLOCKED'" class="badge badge-success">{{provisionWatcher.discoveredDevice.adminState}}</span> 
+                                    <span *ngSwitchDefault class="badge badge-danger">{{provisionWatcher.discoveredDevice.adminState}}</span> 
+                                </span>
+                            </td>
+                            <td>
+                                <a routerLink="../../device-profile-center" [queryParams]="{'profileName':provisionWatcher.discoveredDevice.profileName}">{{provisionWatcher.discoveredDevice.profileName}}</a>
+                            </td>
+                            <td>
+                                <a routerLink="../../device-service-list">{{provisionWatcher.serviceName}}</a> 
+                            </td>
+                            <td>{{provisionWatcher.identifiers.address}}</td>
+                            <td>{{provisionWatcher.identifiers.port}}</td>
+                            <td>{{provisionWatcher.blockingIdentifiers.port}}</td>
+                            <!-- <td>{{device.created | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+                            <td>{{device.modified | date:'yyyy-MM-dd hh:mm:ss' }}</td> -->
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted p-1">
+        <nav aria-label="navigation">
+            <ul class="pagination justify-content-end m-0">
+                <li class="page-item mr-2 mt-1">
+                    <span class="align-middle" i18n>items per page</span>
+                </li>
+                <li class="page-item mr-2 ">
+                    <select class="custom-select" name="pageLimit" id="pageLimit" [(ngModel)]="pageLimit" (ngModelChange)="onPageSelected()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </li>
+                <li class="page-item mr-1">
+                    <button class="page-link btn" (click)="prePage()" [disabled]="pagination === 1">
+                        <i class="fa fa-angle-double-left mr-1"></i>
+                        <span i18n>Previous</span>  
+                    </button>
+                </li>
+                <li class="page-item" >
+                    <button class="page-link btn" (click)="nextPage()" [disabled]="this.pageLimit > provisionWatcherList.length">
+                        <span i18n>Next</span>
+                        <i class="fa fa-angle-double-right ml-1"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="modal fade" id="deleteConfirmDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteConfirmDialogLabel">
+                    <i class="fa fa-warning mr-1"></i>
+                    <span i18n>Warning</span>
+                </h5>  
+            </div>
+            <div class="modal-body" i18n>
+                The data will be permanently erased!!! Are you sure to execute delete operation？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" i18n>Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="delete()" i18n>Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
