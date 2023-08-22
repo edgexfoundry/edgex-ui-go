@@ -40,7 +40,6 @@ export class ProvisionWatcherListComponent implements OnInit {
   getProvisionWatcherListPagination() {
     this.metaSvc.allProvisionWatchersPagination(this.pageOffset, this.pageLimit).subscribe((data: MultiProvisionWatcherResponse) => {
       this.provisionWatcherList = data.provisionWatchers;
-      console.log(this.provisionWatcherList);
     });
   }
   edit() {
@@ -135,7 +134,6 @@ export class ProvisionWatcherListComponent implements OnInit {
   }
 
   nextPage() {
-    console.log('next');
     this.setPagination(1);
     this.getProvisionWatcherList();
   }

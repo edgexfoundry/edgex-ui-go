@@ -72,7 +72,6 @@ export class AddProvisionWatcherComponent implements OnInit {
     this.newProvisionWatcher.identifiers.address = this.provisionWatcherIdentifiersAddress,
     this.newProvisionWatcher.identifiers.port = this.provisionWatcherIdentifiersPort,
     this.newProvisionWatcher.blockingIdentifiers.port = this.provisionWatcherBlockingIdentifiers?.split(','),
-    console.log(this.newProvisionWatcher)
 
     this.metaSvc.addProvisionWatcher(this.newProvisionWatcher).subscribe((resp:any) => {
       if(this.errorSvc.handleErrorForAPI(resp)) {

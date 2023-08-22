@@ -38,7 +38,6 @@ export class EditProvisionWatcherComponent implements OnInit {
         }
         this.metaSvc.findProvisionWatcherByName(provisionWatcherName).subscribe((data: ProvisionWatcherResponse) => {
           this.provisionWatcher = data.provisionWatcher;
-          console.log(this.provisionWatcher)
           this.provisionWatcherLabels = this.provisionWatcher.labels?.join(',');
           this.setDefaultDeviceSvcSelected(this.provisionWatcher.serviceName);
           this.setDefaultDeviceProfileSelected(this.provisionWatcher.discoveredDevice.profileName);
