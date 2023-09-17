@@ -1,6 +1,6 @@
 module github.com/edgexfoundry/edgex-ui-go
 
-go 1.20
+go 1.21
 
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.1
