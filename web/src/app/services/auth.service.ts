@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   tokenValidate(): Observable<any> {
-    let url = "/core-metadata/api/v3/ping";
+    let url = "/core-metadata/api/v3/version";
     return this.http.get(url)
   }
 

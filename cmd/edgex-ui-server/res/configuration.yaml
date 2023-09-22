@@ -8,6 +8,8 @@ Service:
     HealthCheckInterval: 10s
     MaxRequestSize: 0
     RequestTimeout: 5s
+ServiceOptions:
+    ProxyMode: automatic
 Clients:
     core-data:
         Protocol: http

@@ -21,6 +21,14 @@ import (
 	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/config"
 )
 
+type ServiceOptions struct {
+	// ProxyMode configures how requests are sent to backend
+	// "automatic" sets this based on EDGE_SECURITY_SECRET_STORE (false = direct, else api-gateway)
+	// "api-gateway" routes backend requests through the API gateway
+	// "direct" routes backend requests directly to the microservice
+	ProxyMode string
+}
+
 type APIGatewayInfo struct {
 	Server             string
 	ApplicationPort    int
@@ -34,11 +42,12 @@ type RegistryInfo struct {
 }
 
 type ConfigurationStruct struct {
-	Writable   WritableInfo
-	Service    bootstrapConfig.ServiceInfo
-	Clients    map[string]bootstrapConfig.ClientInfo
-	Registry   RegistryInfo
-	APIGateway APIGatewayInfo
+	Writable       WritableInfo
+	Service        bootstrapConfig.ServiceInfo
+	ServiceOptions ServiceOptions
+	Clients        map[string]bootstrapConfig.ClientInfo
+	Registry       RegistryInfo
+	APIGateway     APIGatewayInfo
 }
 
 type WritableInfo struct {
