@@ -16,7 +16,11 @@
 
 package common
 
-import "os"
+import (
+	"os"
+
+	"github.com/edgexfoundry/edgex-ui-go/internal/config"
+)
 
 const (
 	ContentTypeKey   = "Content-Type"
@@ -42,9 +46,26 @@ const (
 	NoAuthorizationMsg = "no authorization."
 
 	EnvSecretStore = "EDGEX_SECURITY_SECRET_STORE"
+
+	ProxyModeAutomatic  = "automatic"
+	ProxyModeDirect     = "direct"
+	ProxyModeAPIGateway = "api-gateway"
 )
 
 func IsSecurityEnabled() bool {
 	env := os.Getenv(EnvSecretStore)
 	return env != "false"
+}
+
+func ShouldProxyViaAPIGateway(config config.ConfigurationStruct) bool {
+	var proxyMode = config.ServiceOptions.ProxyMode
+
+	switch proxyMode {
+	case ProxyModeDirect:
+		return false
+	case ProxyModeAPIGateway:
+		return true
+	default:
+		return IsSecurityEnabled() // direct when security is off
+	}
 }

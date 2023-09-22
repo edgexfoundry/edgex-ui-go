@@ -88,7 +88,7 @@ func (app *Application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	for prefix := range clientsMapping {
 		if strings.HasPrefix(path, prefix) {
-			if common.IsSecurityEnabled() {
+			if common.ShouldProxyViaAPIGateway(*app.config) {
 				app.secure(w, r)
 				return
 			}

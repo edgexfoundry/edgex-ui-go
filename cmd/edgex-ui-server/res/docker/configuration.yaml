@@ -8,6 +8,8 @@ Service:
     StartupMsg: edgex-ui-go service started
     MaxRequestSize: 0
     RequestTimeout: 5s
+ServiceOptions:
+    ProxyMode: automatic
 Clients:
     core-data:
         Protocol: http
