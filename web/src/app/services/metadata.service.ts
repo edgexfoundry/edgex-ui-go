@@ -28,7 +28,9 @@ import { DeviceProfile } from '../contracts/v3/device-profile';
 import { DeviceService } from '../contracts/v3/device-service';
 import { DeviceServiceRequest } from '../contracts/v3/requests/device-service-request';
 import { DeviceServiceResponse,MultiDeviceServiceResponse } from '../contracts/v3/responses/device-service-response';
-
+import { ProvisionWatcherResponse,MultiProvisionWatcherResponse } from '../contracts/v3/responses/provision-watcher-response';
+import {ProvisionWatcher} from '../contracts/v3/provision-watcher';
+import {ProvisionWatcherRequest} from '../contracts/v3/requests/provision-watcher-request';
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -70,6 +72,12 @@ export class MetadataService {
   deleteProfileByIdUrl: string = `${this.urlPrefix}/deviceprofile/id`;
   deleteProfileByNamedUrl: string = `${this.urlPrefix}/deviceprofile/name`;
 
+  provisionWatcherListUrl: string = `${this.urlPrefix}/provisionwatcher/all`;
+  addOneProvisionWatcherUrl: string = `${this.urlPrefix}/provisionwatcher`;
+  deleteOneProvisionWatcherByNameUrl: string = `${this.urlPrefix}/provisionwatcher/name`;
+  findProvisionWatcherByNameUrl: string = `${this.urlPrefix}/provisionwatcher/name`;
+  updateOneProvisionWatcherUrl: string = `${this.urlPrefix}/provisionwatcher`;
+  
   httpPostOrPutJSONOptions = {
     headers: new HttpHeaders({
       'Content-type': 'application/json'
@@ -256,6 +264,60 @@ export class MetadataService {
     return this.http.request('POST', url, {
       body: data,
       responseType: 'text'
+    }).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  //Provision-Watcher resources
+  allProvisionWatchers(): Observable<MultiProvisionWatcherResponse> {
+    let url = `${this.provisionWatcherListUrl}`;
+    return this.http.get<MultiProvisionWatcherResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  allProvisionWatchersPagination(offset: number, limit: number): Observable<MultiProvisionWatcherResponse> {
+    let url = `${this.provisionWatcherListUrl}?offset=${offset}&limit=${limit}`;
+    return this.http.get<MultiProvisionWatcherResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+
+  addProvisionWatcher(provisionWatcher: ProvisionWatcher): Observable<BaseResponse> {
+    let url = `${this.addOneProvisionWatcherUrl}`;
+    provisionWatcher.apiVersion = 'v3';
+    let data: ProvisionWatcherRequest[]  = [{
+      apiVersion: "v3",
+      provisionWatcher: provisionWatcher
+    }]
+    return this.http.post<BaseResponse>(url,JSON.stringify(data), this.httpPostOrPutJSONOptions)
+    .pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+  deleteOneProvisionWatcherByName(name: string): Observable<BaseResponse> {
+    let url = `${this.deleteOneProvisionWatcherByNameUrl}/${name}`;
+    return this.http.delete<BaseResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+  findProvisionWatcherByName(name: string): Observable<ProvisionWatcherResponse> {
+    let url = `${this.findProvisionWatcherByNameUrl}/${name}`;
+    return this.http.get<ProvisionWatcherResponse>(url).pipe(
+      catchError(error => this.errorSvc.handleError(error))
+    )
+  }
+  updateProvisionWatcher(provisionWatcher: ProvisionWatcher): Observable<BaseResponse> {
+    let url = `${this.updateOneProvisionWatcherUrl}`;
+    let data: ProvisionWatcherRequest[]  = [{
+      apiVersion: "v3",
+      provisionWatcher: provisionWatcher
+    }]
+    return this.http.patch<BaseResponse>(url, JSON.stringify(data),{
+      headers: new HttpHeaders({
+        'Content-type': 'application/json'
+      })
     }).pipe(
       catchError(error => this.errorSvc.handleError(error))
     )
