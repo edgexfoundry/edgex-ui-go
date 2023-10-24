@@ -66,11 +66,6 @@ With a modern browser, navigate to http://yourdomain:4000 (change *yourdomain* t
 make docker
 ```
 
-### Snap 
-
-EdgeX UI is also available as a snap package. For more details on the snap, including how to install it, please refer to [EdgeX UI Snap](./snap/README.md)
-
-
 ## Community
 - [EdgeXFoundry Chinese Website](https://cn.edgexfoundry.org/)
 - [Discussion](https://github.com/orgs/edgexfoundry/discussions)
