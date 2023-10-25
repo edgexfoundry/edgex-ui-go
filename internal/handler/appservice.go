@@ -26,91 +26,89 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/go-mod-configuration/v3/configuration"
 	"github.com/edgexfoundry/go-mod-configuration/v3/pkg/types"
-	"github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
 )
 
-func (rh *ResourceHandler) DeployConfigurable(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) DeployConfigurable(c echo.Context) error {
+	r := c.Request()
+	w := c.Response()
+
 	defer r.Body.Close()
-	vars := mux.Vars(r)
-	serviceKey := vars["servicekey"]
+
+	serviceKey := c.Param("servicekey")
 	config := make(map[string]interface{})
 	var err error
 	var token string
 	var code int
 
 	if err := json.NewDecoder(r.Body).Decode(&config); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		return c.String(http.StatusBadRequest, err.Error())
 	}
 
 	if common.IsSecurityEnabled() {
 		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
-			http.Error(w, "unable to get consul acl token", code)
-			return
+			return c.String(code, "unable to get consul acl token")
 		}
 	}
 
 	client, err := rh.configurationCenterClient(serviceKey, token)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
 	if err := client.PutConfigurationMap(config, true); err != nil {
-		http.Error(w, err.Error(), http.StatusBadGateway)
-		return
+		return c.String(http.StatusBadGateway, err.Error())
+
 	}
 
+	return nil
 }
 
-func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) GetServiceConfig(c echo.Context) error {
+	r := c.Request()
+	w := c.Response()
+
 	defer r.Body.Close()
-	vars := mux.Vars(r)
-	serviceKey := vars["servicekey"]
+
+	serviceKey := c.Param("servicekey")
 	var err error
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
 		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
-			http.Error(w, "unable to get consul acl token", code)
-			return
+			return c.String(code, "unable to get consul acl token")
 		}
 	}
 	client, err := rh.configurationCenterClient(serviceKey, token)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
-		return
+		return c.String(http.StatusNotFound, err.Error())
 	}
 
 	hasConfig, err := client.HasConfiguration()
 	if !hasConfig {
-		http.Error(w, fmt.Sprintf("service [%s] not found on register center", serviceKey), http.StatusNotFound)
-		return
+		return c.String(http.StatusNotFound, fmt.Sprintf("service [%s] not found on register center", serviceKey))
+
 	}
 
 	config := make(map[string]interface{})
 
 	rawConfiguration, err := client.GetConfiguration(&config)
 	if err != nil {
-		http.Error(w, fmt.Errorf("could not get configuration from Configuration: %v", err.Error()).Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, fmt.Sprintf("could not get configuration from Configuration: %v", err.Error()))
 	}
 
 	actual, ok := rawConfiguration.(*map[string]interface{})
 	if !ok {
-		http.Error(w, "Configuration from Registry failed type check", http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, "Configuration from Registry failed type check")
 	}
 
 	result, err := json.Marshal(*actual)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-	w.Write(result)
+	return c.Blob(http.StatusOK, "application/json;charset=UTF-8", result)
 }
 
 func (rh *ResourceHandler) configurationCenterClient(serviceKey string, token string) (configuration.Client, error) {

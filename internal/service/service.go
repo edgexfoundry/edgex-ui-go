@@ -31,7 +31,7 @@ import (
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
 	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/config"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
-	"github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
 )
 
 var (
@@ -39,7 +39,7 @@ var (
 	ConfigStemCore = ""
 )
 
-func Main(ctx context.Context, cancel context.CancelFunc, router *mux.Router) {
+func Main(ctx context.Context, cancel context.CancelFunc, router *echo.Echo) {
 	startupTimer := startup.NewStartUpTimer(GUIServiceKey)
 
 	f := flags.New()

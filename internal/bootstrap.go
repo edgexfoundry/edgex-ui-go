@@ -23,15 +23,15 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
-	mux "github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
 )
 
 type Bootstrap struct {
-	router      *mux.Router
+	router      *echo.Echo
 	serviceName string
 }
 
-func NewBootstrap(router *mux.Router, serviceName string) *Bootstrap {
+func NewBootstrap(router *echo.Echo, serviceName string) *Bootstrap {
 	return &Bootstrap{
 		router:      router,
 		serviceName: serviceName,

@@ -78,6 +78,7 @@ func (app *Application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Cache-Control", "no-cache,no-store")
 		w.Header().Add("Content-Security-Policy", "base-uri 'self';default-src 'self' 'unsafe-inline';img-src 'self' http://www.w3.org/ data:;")
 		defaultStaticResourcePath := fmt.Sprintf("%s/en-US", staticResourcePath)
+		fmt.Println(fmt.Sprintf("setting up FileServer for '%s'", path))
 		if path == RootURIPath {
 			http.FileServer(http.Dir(defaultStaticResourcePath)).ServeHTTP(w, r)
 		} else {

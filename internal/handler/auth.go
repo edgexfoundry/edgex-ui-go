@@ -20,14 +20,14 @@ import (
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
+	"github.com/labstack/echo/v4"
 )
 
-func (rh *ResourceHandler) SecureMode(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
+func (rh *ResourceHandler) SecureMode(c echo.Context) error {
 	mode := "insecure"
 	if common.IsSecurityEnabled() {
 		mode = "secure"
 	}
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.Write([]byte(mode))
+
+	return c.Blob(http.StatusOK, "text/plain; charset=utf-8", []byte(mode))
 }

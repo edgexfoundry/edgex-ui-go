@@ -18,10 +18,10 @@ import (
 	"context"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/service"
-	"github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
-	service.Main(ctx, cancel, mux.NewRouter())
+	service.Main(ctx, cancel, echo.New())
 }

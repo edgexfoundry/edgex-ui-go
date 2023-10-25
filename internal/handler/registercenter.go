@@ -27,40 +27,41 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/go-mod-registry/v3/pkg/types"
 	"github.com/edgexfoundry/go-mod-registry/v3/registry"
+	"github.com/labstack/echo/v4"
 )
 
-func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) GetRegisteredServiceAll(c echo.Context) error {
+	r := c.Request()
+	w := c.Response()
+
 	defer r.Body.Close()
+
 	var err error
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
 		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
-			http.Error(w, "unable to get consul acl token", code)
-			return
+			return c.String(code, "unable to get consul acl token")
 		}
 	}
 	client, err := rh.registryCenterClient(token)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
 	endpoints, err := client.GetAllServiceEndpoints()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
 	result, err := json.Marshal(endpoints)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
-	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-	w.Write(result)
+
+	return c.Blob(http.StatusOK, "application/json;charset=UTF-8", result)
 }
 
 func (rh *ResourceHandler) registryCenterClient(token string) (registry.Client, error) {
@@ -100,7 +101,10 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	return acl.SecretID, nil, resp.StatusCode
 }
 
-func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Request) {
+func (rh *ResourceHandler) RegistryIsAlive(c echo.Context) error {
+	r := c.Request()
+	w := c.Response()
+
 	defer r.Body.Close()
 	var err error
 	var token string
@@ -108,20 +112,19 @@ func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Reques
 	if common.IsSecurityEnabled() {
 		token, err, code = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
-			http.Error(w, "unable to get consul acl token", code)
-			return
+			return c.String(code, "unable to get consul acl token")
 		}
 	}
 	client, err := rh.registryCenterClient(token)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
 	alive := client.IsAlive()
 
 	if !alive {
-		http.Error(w, err.Error(), http.StatusServiceUnavailable)
-		return
+		return c.NoContent(http.StatusServiceUnavailable)
 	}
+
+	return c.NoContent(http.StatusOK)
 }

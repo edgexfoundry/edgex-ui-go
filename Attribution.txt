@@ -30,9 +30,6 @@ https://github.com/microsoft/go-winio/blob/master/LICENSE
 google/uuid (BSD-3) https://github.com/google/uuid
 https://github.com/google/uuid/blob/master/LICENSE
 
-gorilla/mux (BSD-3) https://github.com/gorilla/mux
-https://github.com/gorilla/mux/blob/master/LICENSE
-
 hashicorp/consul/api (Mozilla Public License 2.0) - https://github.com/hashicorp/consul/api
 https://github.com/hashicorp/consul/blob/master/LICENSE
 
@@ -171,9 +168,6 @@ https://github.com/hashicorp/go-multierror/blob/master/LICENSE
 github.com/golang/protobuf (BSD-3) https://github.com/golang/protobuf
 https://github.com/golang/protobuf/blob/master/LICENSE
 
-github.com/gorilla/websocket (BSD-2) https://github.com/gorilla/websocket
-https://github.com/gorilla/websocket/blob/master/LICENSE
-
 github.com/go-redis/redis/v7 (BSD-2) https://github.com/go-redis/redis
 https://github.com/go-redis/redis/blob/master/LICENSE
 
@@ -188,3 +182,33 @@ https://github.com/eclipse/paho.mqtt.golang/blob/master/LICENSE
 
 github.com/go-jose/go-jose/v3 (Apache-2.0) https://github.com/go-jose/go-jose
 https://github.com/go-jose/go-jose/blob/v3/LICENSE
+
+github.com/klauspost/compress (Apache-2.0) https://github.com/klauspost/compress
+https://github.com/klauspost/compress/blob/master/LICENSE
+
+github.com/gabriel-vasile/mimetype (MIT) https://github.com/gabriel-vasile/mimetype
+https://github.com/gabriel-vasile/mimetype/blob/master/LICENSE
+
+github.com/labstack/echo/v4 (MIT) https://github.com/labstack/echo
+https://github.com/labstack/echo/blob/master/LICENSE
+
+github.com/labstack/gommon (MIT) https://github.com/labstack/gommon
+https://github.com/labstack/gommon/blob/master/LICENSE
+
+github.com/valyala/fasttemplate (MIT) https://github.com/valyala/fasttemplate
+https://github.com/valyala/fasttemplate/blob/master/LICENSE
+
+github.com/valyala/bytebufferpool (MIT) https://github.com/valyala/bytebufferpool
+https://github.com/valyala/bytebufferpool/blob/master/LICENSE
+
+github.com/golang-jwt/jwt/v4 (MIT) github.com/golang-jwt/jwt
+https://github.com/golang-jwt/jwt/blob/main/LICENSE
+
+golang.org/x/exp (BSD-3) https://github.com/golang/tools
+https://github.com/golang/tools/blob/master/LICENSE
+
+golang.org/x/time (Unspecified) https://github.com/golang/time
+https://github.com/golang/text/blob/master/LICENSE
+
+github.com/gorilla/websocket (BSD-2) https://github.com/gorilla/websocket
+https://github.com/gorilla/websocket/blob/master/LICENSE
