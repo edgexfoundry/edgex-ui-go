@@ -53,7 +53,7 @@ func (rh *ResourceHandler) AddProfileYamlContent(w http.ResponseWriter, r *http.
 
 	config := container.ConfigurationFrom(rh.dic.Get)
 	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
-	c := client.NewDeviceProfileClient(url, jwtSecretProvider)
+	c := client.NewDeviceProfileClient(url, jwtSecretProvider, false)
 
 	profiles := []requests.DeviceProfileRequest{
 		{
@@ -79,7 +79,7 @@ func (rh *ResourceHandler) FindProfileAndConvertToYamlByName(w http.ResponseWrit
 
 	config := container.ConfigurationFrom(rh.dic.Get)
 	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
-	c := client.NewDeviceProfileClient(url, jwtSecretProvider)
+	c := client.NewDeviceProfileClient(url, jwtSecretProvider, false)
 	var resp responses.DeviceProfileResponse
 	var err error
 	if resp, err = c.DeviceProfileByName(context.Background(), profileName); err != nil {
@@ -112,7 +112,7 @@ func (rh *ResourceHandler) UpdateProfileYamlContent(w http.ResponseWriter, r *ht
 
 	config := container.ConfigurationFrom(rh.dic.Get)
 	url := fmt.Sprintf("%s://%s:%d", config.Clients[metadataSvcName].Protocol, config.Clients[metadataSvcName].Host, config.Clients[metadataSvcName].Port)
-	c := client.NewDeviceProfileClient(url, jwtSecretProvider)
+	c := client.NewDeviceProfileClient(url, jwtSecretProvider, false)
 	profiles := []requests.DeviceProfileRequest{
 		{
 			BaseRequest: common.NewBaseRequest(),
