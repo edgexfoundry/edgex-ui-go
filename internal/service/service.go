@@ -63,7 +63,7 @@ func Main(ctx context.Context, cancel context.CancelFunc, router *mux.Router) {
 		configuration,
 		startupTimer,
 		dic,
-		false,
+		true,
 		bootstrapConfig.ServiceTypeOther,
 		[]interfaces.BootstrapHandler{
 			internal.NewBootstrap(router, GUIServiceKey).BootstrapHandler,
