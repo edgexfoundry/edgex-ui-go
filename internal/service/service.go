@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright 2023 (C) YIQISOFT
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -63,7 +64,7 @@ func Main(ctx context.Context, cancel context.CancelFunc, router *mux.Router) {
 		configuration,
 		startupTimer,
 		dic,
-		false,
+		true,
 		bootstrapConfig.ServiceTypeOther,
 		[]interfaces.BootstrapHandler{
 			internal.NewBootstrap(router, GUIServiceKey).BootstrapHandler,
