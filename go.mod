@@ -3,10 +3,10 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.21
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.53
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.1.0-dev.7
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.17
-	github.com/edgexfoundry/go-mod-registry/v3 v3.1.0-dev.7
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.58
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.1.0-dev.8
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.18
+	github.com/edgexfoundry/go-mod-registry/v3 v3.1.0-dev.8
 	github.com/gorilla/mux v1.8.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -16,8 +16,8 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.3 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.1.0-dev.31 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v3 v3.1.0-dev.12 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.1.0-dev.32 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v3 v3.1.0-dev.14 // indirect
 	github.com/fatih/color v1.14.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.5.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
