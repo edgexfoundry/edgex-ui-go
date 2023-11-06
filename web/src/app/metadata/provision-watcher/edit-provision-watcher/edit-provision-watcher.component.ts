@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { MetadataService } from '../../../services/metadata.service';
-import { MessageService } from '../../../message/message.service';
-import { ErrorService } from '../../../services/error.service';
-import { Device } from '../../../contracts/v3/device';
-import { DeviceResponse } from '../../../contracts/v3/responses/device-response';
+import { DeviceProfile } from '../../../contracts/v3/device-profile';
 import { DeviceService } from '../../../contracts/v3/device-service';
 import { ProvisionWatcher } from '../../../contracts/v3/provision-watcher';
-import { ProvisionWatcherResponse } from '../../../contracts/v3/responses/provision-watcher-response';
-import { DeviceServiceResponse } from '../../../contracts/v3/responses/device-service-response';
-import { DeviceProfile } from '../../../contracts/v3/device-profile';
 import { DeviceProfileResponse } from '../../../contracts/v3/responses/device-profile-response';
+import { DeviceServiceResponse } from '../../../contracts/v3/responses/device-service-response';
+import { ProvisionWatcherResponse } from '../../../contracts/v3/responses/provision-watcher-response';
+import { MessageService } from '../../../message/message.service';
+import { ErrorService } from '../../../services/error.service';
+import { MetadataService } from '../../../services/metadata.service';
 @Component({
   selector: 'app-edit-provision-watcher',
   templateUrl: './edit-provision-watcher.component.html',
@@ -22,7 +20,7 @@ export class EditProvisionWatcherComponent implements OnInit {
   provisionWatcherLabels?: string;
   selectedSvc?: DeviceService;
   selectedProfile?: DeviceProfile;
-
+  blockingIdentifiers?: string;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -39,6 +37,7 @@ export class EditProvisionWatcherComponent implements OnInit {
         this.metaSvc.findProvisionWatcherByName(provisionWatcherName).subscribe((data: ProvisionWatcherResponse) => {
           this.provisionWatcher = data.provisionWatcher;
           this.provisionWatcherLabels = this.provisionWatcher.labels?.join(',');
+          this.blockingIdentifiers = JSON.stringify(data.provisionWatcher.blockingIdentifiers);
           this.setDefaultDeviceSvcSelected(this.provisionWatcher.serviceName);
           this.setDefaultDeviceProfileSelected(this.provisionWatcher.discoveredDevice.profileName);
         });
