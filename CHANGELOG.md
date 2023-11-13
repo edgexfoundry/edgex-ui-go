@@ -11,6 +11,42 @@
 - [go-mod-registry](https://github.com/edgexfoundry/go-mod-registry/blob/main/CHANGELOG.md) 
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md)
 
+## [v3.1.0] Napa - 2023-11-15 (Only compatible with the 3.x releases)
+
+
+### ✨  Features
+
+- Remove snap packaging ([6eeb2ce…](https://github.com/edgexfoundry/edgex-ui-go/commit/6eeb2ce6fc2afc5ffacdf29fd0663685f6ab0964))
+```text
+
+BREAKING CHANGE: Remove snap packaging
+
+```
+- New Provision Watchers tab
+  - Add Provision Watchers tab to Metadata ([a321165…](https://github.com/edgexfoundry/edgex-ui-go/commit/a321165113bd0bfa455e6042dab80b5a852e9ebb))
+  - Fields for Provision Watcher Tab DTO ([f7e57eb…](https://github.com/edgexfoundry/edgex-ui-go/commit/f7e57ebd2ad4d96da9d70341491ca8456df46195))
+  - Additional changes for add Provision Watchers tab to Metadata ([e723d52…](https://github.com/edgexfoundry/edgex-ui-go/commit/e723d524dc2486b7380e56c06e54ac33686a11d2))
+  - **Note: This feature is still not 100% functional**
+
+### 🐛 Bug Fixes
+
+- Use the AuthData from the incoming request for DeviceProfileClient ([1ad20d6…](https://github.com/edgexfoundry/edgex-ui-go/commit/1ad20d6a9228097b32a4bc2e6a2af8e5a8435c6d))
+- Adaptation to V3 true/false for ds-pushevent ds-returnevent ([9f0eca7…](https://github.com/edgexfoundry/edgex-ui-go/commit/9f0eca72fa72e48d03c45a06da83ad5d2b57b1cf))
+- Fix request of a service configuration ([e38cd2b…](https://github.com/edgexfoundry/edgex-ui-go/commit/e38cd2b4a0726d1225391f4a5c19bcd5a8076c5f))
+
+### 👷 Build
+
+- Update Attribution.txt for missing items ([ddc1dff…](https://github.com/edgexfoundry/edgex-ui-go/commit/ddc1dff1073cf5f965ced8c96aa25ca39c159d0b))
+- Update to the latest go mods and adjust code as needed ([469e73a…](https://github.com/edgexfoundry/edgex-ui-go/commit/469e73a98817979d39f694251531962449ef94df))
+- Upgrade to go-1.21 and Alpine 3.18 ([db6b7c2…](https://github.com/edgexfoundry/edgex-ui-go/commit/db6b7c2b7aa71acf4ce1694909d8ebf487626bb8))
+- Add -trimpath to improve binary reproducibility of edgex-ui server ([301164a…](https://github.com/edgexfoundry/edgex-ui-go/commit/301164ad046368d46d8d2017db6ef196a64a366b))
+- Add test ts file ([e1eb71e…](https://github.com/edgexfoundry/edgex-ui-go/commit/e1eb71e6bba49fa4bee6f4815a7ca0b094f88828))
+
+### 🤖 Continuous Integration
+
+- Add automated release workflow on tag creation ([77b77ab…](https://github.com/edgexfoundry/edgex-ui-go/commit/77b77ab8ea376b59e0449ec17481c7c109887cdd))
+
+
 ## [v3.0.0] Minnesota - 2023-05-31 (Only compatible with the 3.x releases)
 
 ### Features ✨
