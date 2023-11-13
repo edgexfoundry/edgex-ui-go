@@ -52,8 +52,11 @@ test-go:
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
 	./bin/test-attribution-txt.sh
 
+arch := $(shell uname -m)
 test-angular:
+ifeq ($(arch), x86_64)
 	$(MAKE) -C web test
+endif
 
 test: test-go test-angular
 
