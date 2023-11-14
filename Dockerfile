@@ -43,6 +43,9 @@ RUN ${MAKE}
 
 FROM alpine:3.18
 
+# Ensure using latest versions of all installed packages to avoid any recent CVEs
+RUN apk --no-cache upgrade
+
 EXPOSE 4000
 
 COPY --from=builder /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server /go/src/github.com/edgexfoundry/edgex-ui-go/cmd/edgex-ui-server
