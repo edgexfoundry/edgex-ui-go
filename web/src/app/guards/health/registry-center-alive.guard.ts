@@ -15,7 +15,7 @@
  *******************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { mergeMap, take ,catchError} from 'rxjs/operators';
 
@@ -24,7 +24,7 @@ import { RegistryCenterService } from '../../services/registry-center.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RegistryCenterAliveGuard implements CanActivate, CanActivateChild {
+export class RegistryCenterAliveGuard  {
   constructor(private router: Router, private registrySvc: RegistryCenterService) {}
 
   canActivate(

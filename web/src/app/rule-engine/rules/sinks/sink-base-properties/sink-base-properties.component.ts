@@ -15,7 +15,7 @@
  *******************************************************************************/
 
 import { Component, Input, Output, EventEmitter, AfterViewInit, OnChanges } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SinkBaseProperties } from '../../../../contracts/kuiper/sink-base-properties';
 
@@ -35,15 +35,15 @@ export class SinkBasePropertiesComponent implements AfterViewInit, OnChanges {
   * maybe kuiper team will redesign their struct of the sink object.
   * so will not render them here, will show them in each one sink type.
   */
-  sinkBasePropertiesForm = new FormGroup({
-    concurrency: new FormControl(1),
-    bufferLength: new FormControl(1024),
-    runAsync: new FormControl(false),
-    retryInterval: new FormControl(1000),
-    retryCount: new FormControl(0),
-    cacheLength: new FormControl(1024),
-    cacheSaveInterval: new FormControl(1000),
-    omitIfEmpty: new FormControl(false)
+  sinkBasePropertiesForm = new UntypedFormGroup({
+    concurrency: new UntypedFormControl(1),
+    bufferLength: new UntypedFormControl(1024),
+    runAsync: new UntypedFormControl(false),
+    retryInterval: new UntypedFormControl(1000),
+    retryCount: new UntypedFormControl(0),
+    cacheLength: new UntypedFormControl(1024),
+    cacheSaveInterval: new UntypedFormControl(1000),
+    omitIfEmpty: new UntypedFormControl(false)
   });
 
   //be treated as advanced options/properties
