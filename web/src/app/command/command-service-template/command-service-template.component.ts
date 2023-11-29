@@ -15,7 +15,7 @@
  *******************************************************************************/
 
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CoreCommandParameter, CoreCommand } from '../../contracts/v3/core-command';
 import { CommandServiceInfo } from './interfaces/command-service-info';
@@ -69,13 +69,13 @@ export class CommandServiceTemplateComponent implements OnInit, AfterViewInit {
   @Input() cmdSvcInfo: CommandServiceInfo
   @Output() cmdSvcInfoChange = new EventEmitter<CommandServiceInfo>()
 
-  profileForm = new FormGroup({
-    host: new FormControl(''),
-    port: new FormControl(''),
-    path: new FormControl(''),
-    httpMethod: new FormControl(''),
-    pushEventOfGetCmdParamter: new FormControl(''),
-    returnEventOfGetCmdParamter: new FormControl(''),
+  profileForm = new UntypedFormGroup({
+    host: new UntypedFormControl(''),
+    port: new UntypedFormControl(''),
+    path: new UntypedFormControl(''),
+    httpMethod: new UntypedFormControl(''),
+    pushEventOfGetCmdParamter: new UntypedFormControl(''),
+    returnEventOfGetCmdParamter: new UntypedFormControl(''),
   });
 
   constructor(private metedataSvc: MetadataService, private cmdSvc: CommandService) {

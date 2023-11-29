@@ -15,7 +15,7 @@
  *******************************************************************************/
 
  import { Injectable } from '@angular/core';
- import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+ import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
  import { Observable, of } from 'rxjs';
  import { SystemAgentService } from '../../services/system-agent.service';
  import { mergeMap, take ,catchError} from 'rxjs/operators';
@@ -23,7 +23,7 @@
 @Injectable({
   providedIn: 'root'
 })
-export class SystemAgentAliveGuard implements CanActivate, CanActivateChild {
+export class SystemAgentAliveGuard  {
   constructor(private router: Router, private systemSvc: SystemAgentService) {}
 
   canActivate(
