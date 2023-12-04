@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProvisionWatcherCenterComponent } from './provision-watcher-center.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ProvisionWatcherCenterComponent', () => {
   let component: ProvisionWatcherCenterComponent;
@@ -8,7 +9,8 @@ describe('ProvisionWatcherCenterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProvisionWatcherCenterComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ ProvisionWatcherCenterComponent ],
     })
     .compileComponents();
   });
