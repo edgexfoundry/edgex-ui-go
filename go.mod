@@ -3,7 +3,7 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.21
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.6
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.7
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.1
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.2
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.1
@@ -30,7 +30,7 @@ require (
 	github.com/go-redis/redis/v7 v7.3.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/google/uuid v1.4.0 // indirect
+	github.com/google/uuid v1.5.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/consul/api v1.25.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
