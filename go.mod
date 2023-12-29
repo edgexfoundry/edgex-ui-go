@@ -3,7 +3,7 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.21
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.9
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.10
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.1
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.4
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.1
@@ -17,7 +17,7 @@ require (
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.3 // indirect
 	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.5 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.2 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.4 // indirect
 	github.com/fatih/color v1.14.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.5.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
