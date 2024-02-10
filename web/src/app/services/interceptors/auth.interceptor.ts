@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -29,7 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
     let headers = request.headers.set('X-Requested-With', 'XMLHttpRequest');
     if (this.authSvc.isSecureMode) {
       let authToken =  `Bearer ${this.authSvc.getAccessToken()}`;
-      headers = request.headers.set('X-Requested-With', 'XMLHttpRequest').set('Authorization', authToken);
+      let consulToken =  `${this.authSvc.getRegistryAccessToken()}`;
+      headers = request.headers.set('X-Requested-With', 'XMLHttpRequest').set('Authorization', authToken).set('X-Consul-Token', consulToken);
     }
     const req = request.clone({
       headers: headers

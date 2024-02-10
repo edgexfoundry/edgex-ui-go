@@ -16,7 +16,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { delay, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ErrorService } from './error.service';
 
@@ -26,24 +26,27 @@ import { ErrorService } from './error.service';
 export class AuthService {
 
   accessToken: string | null = null;
+  registryToken: string | null = null;
   isLoggedIn: boolean = false;
+  isRegistryLoggedIn: boolean = false;
   redirectUrl: string | null = null;
   isSecureMode: boolean = false;
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
-  login(): Observable<any>{
-    return this.tokenValidate()
-  }
-
-  tokenValidate(): Observable<any> {
-    let url = "/core-metadata/api/v3/ping";
-    return this.http.get(url)
+  tokenValidate(url:string): Observable<any> {
+    console.debug("testing : " + url)
+    return this.http.get(url);
   }
 
   setAccessToken(token: string | null) {
     this.accessToken = token;
     window.sessionStorage.setItem("EdgeX_Access_Token",this.accessToken as string);
+  }
+
+  setRegistryToken(token: string | null) {
+    this.registryToken = token;
+    window.sessionStorage.setItem("EdgeX_Registry_Token",this.registryToken as string);
   }
 
   getAccessToken(): string | null {
@@ -55,5 +58,15 @@ export class AuthService {
       this.accessToken = token
     }
     return this.accessToken
+  }
+  getRegistryAccessToken(): string | null {
+    if (this.registryToken) {
+      return this.registryToken
+    }
+    let token = window.sessionStorage.getItem("EdgeX_Registry_Token");
+    if (token) {
+      this.registryToken = token
+    }
+    return this.registryToken
   }
 }

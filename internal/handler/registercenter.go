@@ -84,15 +84,17 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	url := fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPath)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return "", err, http.StatusInternalServerError
+		return "", err, http.StatusUnauthorized
 	}
-	req.Header.Set(Authorization, r.Header.Get(Authorization))
+
+	req.Header.Set(Authorization, "Bearer "+r.Header.Get("X-Consul-Token"))
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return "", err, resp.StatusCode
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&acl); err != nil {
-		return "", err, http.StatusInternalServerError
+		return "", err, http.StatusUnauthorized
 	}
 	if resp.StatusCode != http.StatusOK {
 		return "", errors.New(""), resp.StatusCode

@@ -10,14 +10,14 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import { Observable, of,throwError } from 'rxjs';
+import { forkJoin, map, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
 
 import { AuthService } from '../../../services/auth.service';
@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
 
   loading: boolean = false;
   accessToken: string | null = null;
-  tokenIsValid: boolean = true;
+  accessTokenIsValid: boolean = true;
+  registryToken: string | null = null;
+  registryTokenIsValid: boolean = true;
 
   constructor(private authSvc: AuthService, private errorSvc: ErrorService,
     private router: Router,
@@ -43,22 +45,46 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    this.authSvc.setAccessToken(this.accessToken); 
-    this.authSvc.login()
-    .pipe(
-      catchError((error) => {
-        this.loading = false;
+    this.authSvc.setAccessToken(this.accessToken);
+    this.authSvc.setRegistryToken(this.registryToken);
+
+    const o1 = this.authSvc.tokenValidate("/core-metadata/api/v3/ping").pipe(
+      map((value) => {
+        this.authSvc.isLoggedIn = true;
+        this.accessTokenIsValid = true;
+      }),
+      catchError((e)=> {
         this.authSvc.isLoggedIn = false;
         this.accessToken = null;
-        this.tokenIsValid = false;
-        return throwError(error)
+        this.accessTokenIsValid = false;
+        return of(null);
       })
-      ).subscribe(() => {
-      this.authSvc.isLoggedIn = true;
-      this.loading = false;
-      this.tokenIsValid = true;
-      this.router.navigate(['/dashboard'], { relativeTo: this.route })
-    });
+    );
+    const o2= this.authSvc.tokenValidate("/api/v3/registrycenter/ping").pipe(
+      map((value) => {
+        this.authSvc.isRegistryLoggedIn = true;
+        this.registryTokenIsValid = true;
+      }),
+      catchError((e)=> {
+        this.authSvc.isRegistryLoggedIn = false;
+        this.registryToken = null;
+        this.registryTokenIsValid = false;
+        return of(null);
+      })
+    );
+
+    forkJoin([o1, o2]).pipe(
+      catchError(errors => {
+        this.router.navigate(['/login'], { relativeTo: this.route })
+        return [];
+      })
+    ).subscribe((result1) => {
+        this.loading = false;
+        if (this.authSvc.isLoggedIn && this.authSvc.isRegistryLoggedIn) {
+          this.router.navigate(['/dashboard'], {relativeTo: this.route})
+        }
+      }
+    );
   }
 
   renderPopoverComponent() {
@@ -68,6 +94,7 @@ export class LoginComponent implements OnInit {
   }
 
   onInput() {
-    this.tokenIsValid = true;
+    this.accessTokenIsValid = true;
+    this.registryTokenIsValid = true;
   }
 }

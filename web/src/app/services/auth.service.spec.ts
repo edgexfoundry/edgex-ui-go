@@ -41,7 +41,7 @@ describe('AuthService: unit test', () => {
 
   let expectedToken: string | undefined
   it('verifies that tokenValidate() works as expected', () => {
-      service.tokenValidate().subscribe(token => {
+      service.tokenValidate("/core-metadata/api/v3/ping").subscribe(token => {
         expectedToken = token
       })
 

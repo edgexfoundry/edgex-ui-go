@@ -35,7 +35,7 @@ export class AuthGuard  {
   }
 
   canActivateChild(
-    route: ActivatedRouteSnapshot, 
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree  {
     return this.canActivate(route, state);
   }
@@ -44,13 +44,13 @@ export class AuthGuard  {
     const url = `/${route.path}`;
     return this.checkLogin(url);
   }
-  
+
   checkLogin(url: string): boolean | UrlTree {
-    if (!this.authSvc.isSecureMode) { 
+    if (!this.authSvc.isSecureMode) {
       return true; 
     }
-    if (this.authSvc.isLoggedIn) { 
-      return true; 
+    if (this.authSvc.isLoggedIn && this.authSvc.isRegistryLoggedIn) {
+      return true;
     }
     return this.router.parseUrl('/login');
   }
