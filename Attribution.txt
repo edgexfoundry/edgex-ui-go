@@ -215,3 +215,6 @@ https://github.com/golang/text/blob/master/LICENSE
 
 github.com/golang-jwt/jwt/v4 (MIT) github.com/golang-jwt/jwt
 https://github.com/golang-jwt/jwt/blob/main/LICENSE
+
+google.golang.org/genproto/googleapis/rpc (Apache-2.0) https://pkg.go.dev/google.golang.org/genproto
+https://pkg.go.dev/google.golang.org/genproto?tab=licenses
