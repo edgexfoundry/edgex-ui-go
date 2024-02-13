@@ -24,25 +24,25 @@
         <div class="card-body bg-light shadow">
             <form class="">
                 <div class="form-group">
-                    <label for="accessToken" class="col-form-label">
+                    <label for="gatewayToken" class="col-form-label">
                         <span class="mr-1" i18n>Gateway Token</span>
                     </label>
                     <div class="">
-                        <input type="password" class="form-control" id="accessToken" name="accessToken"  [class.is-invalid]="!accessTokenIsValid" [(ngModel)]="accessToken" (ngModelChange)="onInput()">
+                        <input type="password" class="form-control" id="gatewayToken" name="gatewayToken"  [class.is-invalid]="isGatewayTokenInvalid" [(ngModel)]="gatewayToken" (ngModelChange)="onInput()">
                         <div class="invalid-feedback">
                             <small i18n>the gateway token is invalid!</small>
                         </div>
                     </div>
 
-                  <label for="registryToken" class="col-form-label">
-                    <span class="mr-1" i18n>ACL Token</span>
-                  </label>
-                  <div class="">
-                    <input type="password" class="form-control" id="registryToken" name="registryToken"  [class.is-invalid]="!registryTokenIsValid" [(ngModel)]="registryToken" (ngModelChange)="onInput()">
-                    <div class="invalid-feedback">
-                      <small i18n>the ACL token is invalid!</small>
+                    <label for="aclToken" class="col-form-label">
+                        <span class="mr-1" i18n>ACL Token [optional]</span>
+                    </label>
+                    <div class="">
+                        <input type="password" class="form-control" id="aclToken" name="aclToken"  [class.is-invalid]="isAclTokenInvalid" [(ngModel)]="aclToken" (ngModelChange)="onInput()">
+                        <div class="invalid-feedback">
+                            <small i18n>the ACL token is invalid!</small>
+                        </div>
                     </div>
-                  </div>
                 </div>
 
                 <button *ngIf="loading" class="btn btn-success btn-sm w-100" type="button" disabled>

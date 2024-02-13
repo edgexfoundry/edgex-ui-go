@@ -15,7 +15,7 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { forkJoin, map, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
@@ -31,44 +31,73 @@ import { ErrorService } from '../../../services/error.service';
 export class LoginComponent implements OnInit {
 
   loading: boolean = false;
-  accessToken: string | null = null;
-  accessTokenIsValid: boolean = true;
-  registryToken: string | null = null;
-  registryTokenIsValid: boolean = true;
+  gatewayToken: string | null = null;
+  gatewayTokenIsValid: boolean = false;
+  aclToken: string | null = null;
+  aclTokenIsValid: boolean = false;
+  userInputAdded: boolean = false;
+  loginAttempted: boolean = false;
+  serviceName: string = "";
+  routerPath: string = "";
 
   constructor(private authSvc: AuthService, private errorSvc: ErrorService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.gatewayToken = this.authSvc.getGatewayToken() || "";
+    this.aclToken = this.authSvc.getAclToken() || "";
+    this.gatewayTokenIsValid = this.authSvc.isGatewayLoggedIn;
+    this.aclTokenIsValid = this.authSvc.isAclLoggedIn;
+    const queryParams = this.route.snapshot.queryParams;
+    this.serviceName = queryParams['svcName'];
+    this.routerPath = queryParams['routerPath'];
+    if(!this.routerPath || this.routerPath?.length < 1) {
+      this.routerPath = '/dashboard';
+    }
+  }
+
+  get showGatewayTokenFields() {
+    return this.gatewayToken === "" && !this.loginAttempted;
+  }
+  get showAclTokenFields() {
+    return this.aclToken === "" && !this.loginAttempted;
+  }
+
+  get isGatewayTokenInvalid() {
+    return !this.gatewayTokenIsValid && this.loginAttempted;
+  }
+  get isAclTokenInvalid() {
+    return !this.aclTokenIsValid && this.loginAttempted && this.serviceName === "registry center";
   }
 
   login() {
     this.loading = true;
-    this.authSvc.setAccessToken(this.accessToken);
-    this.authSvc.setRegistryToken(this.registryToken);
+    this.loginAttempted = true;
+    this.authSvc.setGatewayToken(this.gatewayToken);
+    this.authSvc.setAclToken(this.aclToken);
 
     const o1 = this.authSvc.tokenValidate("/core-metadata/api/v3/ping").pipe(
       map((value) => {
-        this.authSvc.isLoggedIn = true;
-        this.accessTokenIsValid = true;
+        this.authSvc.isGatewayLoggedIn = true;
+        this.gatewayTokenIsValid = true;
       }),
       catchError((e)=> {
-        this.authSvc.isLoggedIn = false;
-        this.accessToken = null;
-        this.accessTokenIsValid = false;
+        this.authSvc.isGatewayLoggedIn = false;
+        this.gatewayToken = null;
+        this.gatewayTokenIsValid = false;
         return of(null);
       })
     );
     const o2= this.authSvc.tokenValidate("/api/v3/registrycenter/ping").pipe(
       map((value) => {
-        this.authSvc.isRegistryLoggedIn = true;
-        this.registryTokenIsValid = true;
+        this.authSvc.isAclLoggedIn = true;
+        this.aclTokenIsValid = true;
       }),
       catchError((e)=> {
-        this.authSvc.isRegistryLoggedIn = false;
-        this.registryToken = null;
-        this.registryTokenIsValid = false;
+        this.authSvc.isAclLoggedIn = false;
+        this.aclToken = null;
+        this.aclTokenIsValid = false;
         return of(null);
       })
     );
@@ -80,8 +109,13 @@ export class LoginComponent implements OnInit {
       })
     ).subscribe((result1) => {
         this.loading = false;
-        if (this.authSvc.isLoggedIn && this.authSvc.isRegistryLoggedIn) {
-          this.router.navigate(['/dashboard'], {relativeTo: this.route})
+        if (this.serviceName === "registry center") {
+          if (this.authSvc.isAclLoggedIn) {
+            this.router.navigate([this.routerPath], {relativeTo: this.route});
+          }
+        } else if (this.authSvc.isGatewayLoggedIn) {
+          // do not condese this if/else if, it affects the login logic
+          this.router.navigate([this.routerPath], {relativeTo: this.route});
         }
       }
     );
@@ -94,7 +128,6 @@ export class LoginComponent implements OnInit {
   }
 
   onInput() {
-    this.accessTokenIsValid = true;
-    this.registryTokenIsValid = true;
+    this.userInputAdded = true;
   }
 }

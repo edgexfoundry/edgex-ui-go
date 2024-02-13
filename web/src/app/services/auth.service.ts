@@ -25,48 +25,47 @@ import { ErrorService } from './error.service';
 })
 export class AuthService {
 
-  accessToken: string | null = null;
-  registryToken: string | null = null;
-  isLoggedIn: boolean = false;
-  isRegistryLoggedIn: boolean = false;
+  gatewayToken: string | null = null;
+  aclToken: string | null = null;
+  isGatewayLoggedIn: boolean = false;
+  isAclLoggedIn: boolean = false;
   redirectUrl: string | null = null;
   isSecureMode: boolean = false;
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
   tokenValidate(url:string): Observable<any> {
-    console.debug("testing : " + url)
     return this.http.get(url);
   }
 
-  setAccessToken(token: string | null) {
-    this.accessToken = token;
-    window.sessionStorage.setItem("EdgeX_Access_Token",this.accessToken as string);
+  setGatewayToken(token: string | null) {
+    this.gatewayToken = token || "";
+    window.sessionStorage.setItem("EdgeX_Gateway_Token",this.gatewayToken as string);
   }
 
-  setRegistryToken(token: string | null) {
-    this.registryToken = token;
-    window.sessionStorage.setItem("EdgeX_Registry_Token",this.registryToken as string);
+  setAclToken(token: string | null) {
+    this.aclToken = token || "";
+    window.sessionStorage.setItem("EdgeX_ACL_Token",this.aclToken as string);
   }
 
-  getAccessToken(): string | null {
-    if (this.accessToken) {
-      return this.accessToken
+  getGatewayToken(): string | null {
+    if (this.gatewayToken) {
+      return this.gatewayToken
     }
-    let token = window.sessionStorage.getItem("EdgeX_Access_Token");
+    let token = window.sessionStorage.getItem("EdgeX_Gateway_Token");
     if (token) {
-      this.accessToken = token
+      this.gatewayToken = token
     }
-    return this.accessToken
+    return this.gatewayToken
   }
-  getRegistryAccessToken(): string | null {
-    if (this.registryToken) {
-      return this.registryToken
+  getAclToken(): string | null {
+    if (this.aclToken) {
+      return this.aclToken
     }
-    let token = window.sessionStorage.getItem("EdgeX_Registry_Token");
+    let token = window.sessionStorage.getItem("EdgeX_ACL_Token");
     if (token) {
-      this.registryToken = token
+      this.aclToken = token
     }
-    return this.registryToken
+    return this.aclToken
   }
 }

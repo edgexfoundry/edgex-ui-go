@@ -49,7 +49,7 @@ export class AuthGuard  {
     if (!this.authSvc.isSecureMode) {
       return true; 
     }
-    if (this.authSvc.isLoggedIn && this.authSvc.isRegistryLoggedIn) {
+    if (this.authSvc.isGatewayLoggedIn || this.authSvc.isAclLoggedIn) {
       return true;
     }
     return this.router.parseUrl('/login');
