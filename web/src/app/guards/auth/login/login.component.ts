@@ -15,7 +15,7 @@
  *******************************************************************************/
 
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { forkJoin, map, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
