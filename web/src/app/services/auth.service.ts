@@ -16,7 +16,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { delay, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ErrorService } from './error.service';
 
@@ -25,35 +25,47 @@ import { ErrorService } from './error.service';
 })
 export class AuthService {
 
-  accessToken: string | null = null;
-  isLoggedIn: boolean = false;
+  gatewayToken: string | null = null;
+  aclToken: string | null = null;
+  isGatewayLoggedIn: boolean = false;
+  isAclLoggedIn: boolean = false;
   redirectUrl: string | null = null;
   isSecureMode: boolean = false;
 
   constructor(private http: HttpClient, private errorSvc: ErrorService) { }
 
-  login(): Observable<any>{
-    return this.tokenValidate()
+  tokenValidate(url:string): Observable<any> {
+    return this.http.get(url);
   }
 
-  tokenValidate(): Observable<any> {
-    let url = "/core-metadata/api/v3/ping";
-    return this.http.get(url)
+  setGatewayToken(token: string | null) {
+    this.gatewayToken = token || "";
+    window.sessionStorage.setItem("EdgeX_Gateway_Token",this.gatewayToken as string);
   }
 
-  setAccessToken(token: string | null) {
-    this.accessToken = token;
-    window.sessionStorage.setItem("EdgeX_Access_Token",this.accessToken as string);
+  setAclToken(token: string | null) {
+    this.aclToken = token || "";
+    window.sessionStorage.setItem("EdgeX_ACL_Token",this.aclToken as string);
   }
 
-  getAccessToken(): string | null {
-    if (this.accessToken) {
-      return this.accessToken
+  getGatewayToken(): string | null {
+    if (this.gatewayToken) {
+      return this.gatewayToken
     }
-    let token = window.sessionStorage.getItem("EdgeX_Access_Token");
+    let token = window.sessionStorage.getItem("EdgeX_Gateway_Token");
     if (token) {
-      this.accessToken = token
+      this.gatewayToken = token
     }
-    return this.accessToken
+    return this.gatewayToken
+  }
+  getAclToken(): string | null {
+    if (this.aclToken) {
+      return this.aclToken
+    }
+    let token = window.sessionStorage.getItem("EdgeX_ACL_Token");
+    if (token) {
+      this.aclToken = token
+    }
+    return this.aclToken
   }
 }

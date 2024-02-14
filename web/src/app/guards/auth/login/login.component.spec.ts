@@ -29,7 +29,9 @@ describe('LoginComponent: unit test', () => {
 
   beforeEach(async () => {
     mockAuthService = jasmine.createSpyObj('AuthService', {
-      login: of({})
+      login: of({}),
+      getGatewayToken: of('mockedToken'),
+      getAclToken: of('mockedToken'),
     })
 
     await TestBed.configureTestingModule({

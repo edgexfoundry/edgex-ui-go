@@ -24,13 +24,23 @@
         <div class="card-body bg-light shadow">
             <form class="">
                 <div class="form-group">
-                    <label for="accessToken" class="col-form-label">
-                        <span class="mr-1" i18n>Token</span> 
+                    <label for="gatewayToken" class="col-form-label">
+                        <span class="mr-1" i18n>Gateway Token</span>
                     </label>
                     <div class="">
-                        <input type="password" class="form-control" id="accessToken" name="accessToken"  [class.is-invalid]="!tokenIsValid" [(ngModel)]="accessToken" (ngModelChange)="onInput()">
+                        <input type="password" class="form-control" id="gatewayToken" name="gatewayToken"  [class.is-invalid]="isGatewayTokenInvalid" [(ngModel)]="gatewayToken" (ngModelChange)="onInput()">
                         <div class="invalid-feedback">
-                            <small i18n>the token is invalid!</small> 
+                            <small i18n>the gateway token is invalid!</small>
+                        </div>
+                    </div>
+
+                    <label for="aclToken" class="col-form-label">
+                        <span class="mr-1" i18n>ACL Token [optional]</span>
+                    </label>
+                    <div class="">
+                        <input type="password" class="form-control" id="aclToken" name="aclToken"  [class.is-invalid]="isAclTokenInvalid" [(ngModel)]="aclToken" (ngModelChange)="onInput()">
+                        <div class="invalid-feedback">
+                            <small i18n>the ACL token is invalid!</small>
                         </div>
                     </div>
                 </div>
@@ -40,7 +50,7 @@
                     <span>Loading...</span>
                 </button>
                 <button *ngIf="!loading" type="button" class="btn btn-success btn-sm w-100" (click)="login()">
-                    <span i18n>Login</span> 
+                    <span i18n>Login</span>
                 </button>
 
                 <div class="mt-2">

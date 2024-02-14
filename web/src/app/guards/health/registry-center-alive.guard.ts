@@ -10,7 +10,7 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
@@ -44,7 +44,12 @@ export class RegistryCenterAliveGuard  {
     return this.registrySvc.ping().pipe(
       take(1),
       catchError((error)=>{
-        return this.router.navigate(['/svc-unavailable'],{ 
+        if(error.status == 401) {
+          return this.router.navigate(['/login'],{
+            queryParams: {'svcName':'registry center','routerPath':`/${state.url.split('/')[1]}`}
+          })
+        }
+        return this.router.navigate(['/svc-unavailable'],{
           queryParams: {'svcName':'registry center','routerPath':`/${state.url.split('/')[1]}`}
         })
       }),

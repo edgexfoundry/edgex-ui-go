@@ -62,16 +62,16 @@ export class InitializerComponent implements OnInit {
 
   tokenValidate() {
     this.progressMsg = "access token validating";
-    this.authSvc.tokenValidate()
+    this.authSvc.tokenValidate("/core-metadata/api/v3/ping")
     .pipe(
       catchError((error) => {
-        this.authSvc.isLoggedIn = false;
+        this.authSvc.isGatewayLoggedIn = false;
         this.router.navigate(['/login'], { relativeTo: this.route })
         return throwError(error)
       })
       )
     .subscribe(()=>{
-      this.authSvc.isLoggedIn = true;
+      this.authSvc.isGatewayLoggedIn = true;
       this.navigateToHome();
     })
   }
