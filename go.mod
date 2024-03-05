@@ -6,7 +6,7 @@ require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.18
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.2
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.8
-	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.2
+	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.3
 	github.com/gorilla/mux v1.8.1
 	gopkg.in/yaml.v3 v3.0.1
 )
