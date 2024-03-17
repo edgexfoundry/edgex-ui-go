@@ -12,8 +12,6 @@ Service:
         Mode: ""
         OpenZitiController: "openziti:1280"
         OpenZitiServiceName: "edgex.ui"
-        OpenZitiAuthToken: ""
-        OpenZitiAuthTokenFile: ""
     CORSConfiguration:
         EnableCORS: true
         CORSAllowCredentials: false
@@ -25,64 +23,52 @@ Service:
 Clients:
     core-data:
         Protocol: http
-        Host: "core-data.edgex.ziti"
-        Port: 80
+        Host: localhost
+        Port: 59880
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.core-data"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
     core-metadata:
         Protocol: http
-        Host: "core-metadata.edgex.ziti"
-        Port: 80
+        Host: localhost
+        Port: 59881
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.core-metadata"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
     core-command:
         Protocol: http
-        Host: "core-command.edgex.ziti"
-        Port: 80
+        Host: localhost
+        Port: 59882
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.core-command"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
     support-notifications:
         Protocol: http
-        Host: "support-notifications.edgex.ziti"
-        Port: 80
+        Host: localhost
+        Port: 59860
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.support-notifications"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
     support-scheduler:
         Protocol: http
-        Host: "support-scheduler.edgex.ziti"
-        Port: 80
+        Host: localhost
+        Port: 59861
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.support-scheduler"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
     rules-engine:
         Protocol: http
-        Host: "rules-engine.edgex.ziti"
-        Port: 80
+        Host: localhost
+        Port: 59720
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.rules-engine"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
 Registry:
     Host: localhost
     Port: 8500
