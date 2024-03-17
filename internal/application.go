@@ -104,7 +104,7 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 
 				zitiTransport := http.DefaultTransport.(*http.Transport).Clone() // copy default transport
 				zitiTransport.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
-					lc.Infof("ZITI DIALING: %s", addr)
+					lc.Debugf("ZITI DIALING: %s", addr)
 					dialer := zitiContexts.NewDialer()
 					return dialer.Dial(network, addr)
 				}
