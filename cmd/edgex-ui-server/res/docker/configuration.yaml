@@ -8,31 +8,71 @@ Service:
     StartupMsg: edgex-ui-go service started
     MaxRequestSize: 0
     RequestTimeout: 5s
+    SecurityOptions:
+        Mode: ""
+        OpenZitiController: "openziti:1280"
+        OpenZitiServiceName: "edgex.core-command"
 Clients:
     core-data:
         Protocol: http
         Host: edgex-core-data
         Port: 59880
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
+            OpenZitiServiceName: "edgex.core-data"
+            OpenZitiAuthToken: ""
+            OpenZitiAuthTokenFile: ""
     core-metadata:
         Protocol: http
         Host: edgex-core-metadata
-        Port: 59881
+        Port: 19881
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
+            OpenZitiServiceName: "edgex.core-metadata"
+            OpenZitiAuthToken: ""
+            OpenZitiAuthTokenFile: ""
     core-command:
         Protocol: http
         Host: edgex-core-command
         Port: 59882
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
+            OpenZitiServiceName: "edgex.core-command"
+            OpenZitiAuthToken: ""
+            OpenZitiAuthTokenFile: ""
     support-notifications:
         Protocol: http
         Host: edgex-support-notifications
         Port: 59860
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
+            OpenZitiServiceName: "edgex.support-notifications"
+            OpenZitiAuthToken: ""
+            OpenZitiAuthTokenFile: ""
     support-scheduler:
         Protocol: http
         Host: edgex-support-scheduler
         Port: 59861
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
+            OpenZitiServiceName: "edgex.support-scheduler"
+            OpenZitiAuthToken: ""
+            OpenZitiAuthTokenFile: ""
     rules-engine:
         Protocol: http
         Host: edgex-kuiper
         Port: 59720
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
+            OpenZitiServiceName: "edgex.rules-engine"
+            OpenZitiAuthToken: ""
+            OpenZitiAuthTokenFile: ""
 Registry:
     Host: edgex-core-consul
     Port: 8500

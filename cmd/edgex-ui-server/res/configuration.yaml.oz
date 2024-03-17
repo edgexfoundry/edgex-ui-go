@@ -12,8 +12,7 @@ Service:
         Mode: ""
         OpenZitiController: "openziti:1280"
         OpenZitiServiceName: "edgex.ui"
-        OpenZitiAuthToken: ""
-        OpenZitiAuthTokenFile: ""
+        OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
     CORSConfiguration:
         EnableCORS: true
         CORSAllowCredentials: false
@@ -31,8 +30,8 @@ Clients:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.core-data"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
+            OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
+            OpenZitiAuthTokenFile: "/tmp/edgex/secrets/ui.token.json"
     core-metadata:
         Protocol: http
         Host: "core-metadata.edgex.ziti"
@@ -41,8 +40,8 @@ Clients:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.core-metadata"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
+            OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
+            OpenZitiAuthTokenFile: "/tmp/edgex/secrets/ui.token.json"
     core-command:
         Protocol: http
         Host: "core-command.edgex.ziti"
@@ -51,8 +50,8 @@ Clients:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.core-command"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
+            OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
+            OpenZitiAuthTokenFile: "/tmp/edgex/secrets/ui.token.json"
     support-notifications:
         Protocol: http
         Host: "support-notifications.edgex.ziti"
@@ -61,8 +60,8 @@ Clients:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.support-notifications"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
+            OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
+            OpenZitiAuthTokenFile: "/tmp/edgex/secrets/ui.token.json"
     support-scheduler:
         Protocol: http
         Host: "support-scheduler.edgex.ziti"
@@ -71,8 +70,8 @@ Clients:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.support-scheduler"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
+            OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
+            OpenZitiAuthTokenFile: "/tmp/edgex/secrets/ui.token.json"
     rules-engine:
         Protocol: http
         Host: "rules-engine.edgex.ziti"
@@ -81,8 +80,8 @@ Clients:
             Mode: ""
             OpenZitiController: "openziti:1280"
             OpenZitiServiceName: "edgex.rules-engine"
-            OpenZitiAuthToken: ""
-            OpenZitiAuthTokenFile: ""
+            OpenZitiIdentityFile_: "/mnt/v/temp/curlz.json"
+            OpenZitiAuthTokenFile: "/tmp/edgex/secrets/ui.token.json"
 Registry:
     Host: localhost
     Port: 8500

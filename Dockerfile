@@ -45,6 +45,7 @@ FROM alpine:3.18
 
 # Ensure using latest versions of all installed packages to avoid any recent CVEs
 RUN apk --no-cache upgrade
+RUN apk add --update --no-cache dumb-init
 
 EXPOSE 4000
 

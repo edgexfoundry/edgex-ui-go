@@ -16,7 +16,6 @@ package main
 
 import (
 	"context"
-
 	"github.com/edgexfoundry/edgex-ui-go/internal/service"
 	"github.com/gorilla/mux"
 )
