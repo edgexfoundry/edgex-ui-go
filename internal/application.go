@@ -75,7 +75,7 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 
 		listenMode := strings.ToLower(clientInfo.SecurityOptions[config2.SecurityModeKey])
 		switch listenMode {
-		case zerotrust.ConfigKey:
+		case zerotrust.ZeroTrustMode:
 			lc.Infof("zero trust client for: %s", clientName)
 			secretProvider := bc.SecretProviderExtFrom(dic.Get)
 			if secretProvider == nil {
@@ -86,7 +86,7 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 			if jwtErr != nil {
 				panic(fmt.Errorf("could not load jwt: %v", jwtErr))
 			}
-			fmt.Printf("%s", ozToken)
+
 			if zitiRoundTripper, ok := zitiTransports[ozToken]; ok {
 				//reuse the existing context
 				if zitiRoundTripper == nil {
