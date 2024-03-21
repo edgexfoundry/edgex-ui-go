@@ -113,8 +113,9 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 			}
 
 		case "http":
+			fallthrough
 		default:
-			fmt.Printf("client %s is NOT using zero trust? booooo\n", clientName)
+			lc.Infof("client using underlay: %s", clientName)
 		}
 		clientsMapping[fmt.Sprintf("/%s", clientName)] = client
 	}
