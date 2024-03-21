@@ -2,7 +2,7 @@ Writable:
     LogLevel: INFO
 Service:
     Host: localhost
-    Port: 4444
+    Port: 4000
     ServerBindAddr: ''
     StartupMsg: edgex-ui-go service started
     HealthCheckInterval: 10s
