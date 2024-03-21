@@ -11,7 +11,6 @@ Service:
     SecurityOptions:
         Mode: ""
         OpenZitiController: "openziti:1280"
-        OpenZitiServiceName: "edgex.core-command"
 Clients:
     core-data:
         Protocol: http
@@ -20,7 +19,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.core-data"
     core-metadata:
         Protocol: http
         Host: edgex-core-metadata
@@ -28,7 +26,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.core-metadata"
     core-command:
         Protocol: http
         Host: edgex-core-command
@@ -36,7 +33,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.core-command"
     support-notifications:
         Protocol: http
         Host: edgex-support-notifications
@@ -44,7 +40,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.support-notifications"
     support-scheduler:
         Protocol: http
         Host: edgex-support-scheduler
@@ -52,7 +47,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.support-scheduler"
     rules-engine:
         Protocol: http
         Host: edgex-kuiper
@@ -60,7 +54,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.rules-engine"
 Registry:
     Host: edgex-core-consul
     Port: 8500

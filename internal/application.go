@@ -51,10 +51,7 @@ type Client struct {
 	transport http.RoundTripper
 }
 
-var (
-	//clientName:clientHost
-	clientsMapping map[string]Client
-)
+var clientsMapping map[string]Client
 
 type Application struct {
 	config *config.ConfigurationStruct
@@ -64,7 +61,7 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 	lc := bootstrapContainer.LoggingClientFrom(dic.Get)
 
 	clientsMapping = make(map[string]Client, 10)
-	zitiTransports := make(map[string]http.RoundTripper, 10)
+	var zitiRoundTripper http.RoundTripper
 
 	for clientName, clientInfo := range config.Clients {
 		addr := fmt.Sprintf("%s://%s:%d", clientInfo.Protocol, clientInfo.Host, clientInfo.Port)
@@ -76,24 +73,29 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 		listenMode := strings.ToLower(clientInfo.SecurityOptions[bootstrapConfig.SecurityModeKey])
 		switch listenMode {
 		case zerotrust.ZeroTrustMode:
-			lc.Infof("zero trust client for: %s", clientName)
-			secretProvider := bootstrapContainer.SecretProviderExtFrom(dic.Get)
-			if secretProvider == nil {
-				panic("zero trust mode activated yet no secret provider?")
+			scheme := "http"
+			if origin, err := url.Parse(client.addr); err != nil {
+				panic(fmt.Errorf("could not parse url for %s: %s", clientName, addr))
+			} else {
+				scheme = origin.Scheme
 			}
 
-			ozToken, jwtErr := secretProvider.GetSelfJWT()
-			if jwtErr != nil {
-				panic(fmt.Errorf("could not load jwt: %v", jwtErr))
-			}
+			client.addr = scheme + "://" + clientName + ".edgex.ziti"
+			lc.Infof("overriding url and port for zero trust client %s from %s to %s", clientName, addr, client.addr)
 
-			if zitiRoundTripper, ok := zitiTransports[ozToken]; ok {
+			if zitiRoundTripper != nil {
 				//reuse the existing context
-				if zitiRoundTripper == nil {
-					panic("unexpected. transport should not be nil")
-				}
 				client.transport = zitiRoundTripper
 			} else {
+				secretProvider := bootstrapContainer.SecretProviderExtFrom(dic.Get)
+				if secretProvider == nil {
+					panic("zero trust mode activated yet no secret provider?")
+				}
+
+				ozToken, jwtErr := secretProvider.GetSelfJWT()
+				if jwtErr != nil {
+					panic(fmt.Errorf("could not load jwt: %v", jwtErr))
+				}
 				ozUrl := clientInfo.SecurityOptions["OpenZitiController"]
 				ctx, authErr := zerotrust.AuthToOpenZiti(ozUrl, ozToken)
 				if authErr != nil {
@@ -108,8 +110,8 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 					dialer := zitiContexts.NewDialer()
 					return dialer.Dial(network, addr)
 				}
-				zitiTransports[ozToken] = zitiTransport
-				client.transport = zitiTransport
+				zitiRoundTripper = zitiTransport
+				client.transport = zitiRoundTripper
 			}
 
 		case "http":
@@ -169,7 +171,10 @@ func (app *Application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (app *Application) secure(w http.ResponseWriter, r *http.Request, originalPath string, client Client) {
 	defer r.Body.Close()
-	origin, _ := url.Parse(client.addr)
+	origin, err := url.Parse(client.addr)
+	if err != nil {
+		panic(fmt.Errorf("could not parse url? %s", err))
+	}
 	director := func(req *http.Request) {
 		req.Header.Add(ForwardedHostReqHeader, req.Host)
 		req.Header.Add(OriginHostReqHeader, origin.Host)
@@ -183,7 +188,10 @@ func (app *Application) secure(w http.ResponseWriter, r *http.Request, originalP
 
 func insecure(w http.ResponseWriter, r *http.Request, originalPath string, client Client) {
 	defer r.Body.Close()
-	origin, _ := url.Parse(client.addr)
+	origin, err := url.Parse(client.addr)
+	if err != nil {
+		panic(fmt.Errorf("could not parse url? %s", err))
+	}
 	director := func(req *http.Request) {
 		req.Header.Add(ForwardedHostReqHeader, req.Host)
 		req.Header.Add(OriginHostReqHeader, origin.Host)

@@ -2,7 +2,7 @@ Writable:
     LogLevel: INFO
 Service:
     Host: localhost
-    Port: 4000
+    Port: 4444
     ServerBindAddr: ''
     StartupMsg: edgex-ui-go service started
     HealthCheckInterval: 10s
@@ -11,15 +11,7 @@ Service:
     SecurityOptions:
         Mode: ""
         OpenZitiController: "openziti:1280"
-        OpenZitiServiceName: "edgex.ui"
-    CORSConfiguration:
-        EnableCORS: true
-        CORSAllowCredentials: false
-        CORSAllowedOrigin: "https://*.edgex.ziti"
-        CORSAllowedMethods: "GET, POST, PUT, PATCH, DELETE"
-        CORSAllowedHeaders: "Authorization, Accept, Accept-Language, Content-Language, Content-Type, X-Correlation-ID"
-        CORSExposeHeaders: "Cache-Control, Content-Language, Content-Length, Content-Type, Expires, Last-Modified, Pragma, X-Correlation-ID"
-        CORSMaxAge: 3600
+
 Clients:
     core-data:
         Protocol: http
@@ -28,15 +20,13 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.core-data"
     core-metadata:
         Protocol: http
         Host: localhost
-        Port: 59881
+        Port: 80
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.core-metadata"
     core-command:
         Protocol: http
         Host: localhost
@@ -44,7 +34,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.core-command"
     support-notifications:
         Protocol: http
         Host: localhost
@@ -52,7 +41,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.support-notifications"
     support-scheduler:
         Protocol: http
         Host: localhost
@@ -60,7 +48,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.support-scheduler"
     rules-engine:
         Protocol: http
         Host: localhost
@@ -68,7 +55,6 @@ Clients:
         SecurityOptions:
             Mode: ""
             OpenZitiController: "openziti:1280"
-            OpenZitiServiceName: "edgex.rules-engine"
 Registry:
     Host: localhost
     Port: 8500
