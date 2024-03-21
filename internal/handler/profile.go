@@ -147,3 +147,7 @@ func (p *profileAuthInjector) AddAuthenticationData(request *http.Request) error
 	request.Header.Add("Authorization", p.authData)
 	return nil
 }
+
+func (p *profileAuthInjector) RoundTripper() http.RoundTripper {
+	return nil
+}

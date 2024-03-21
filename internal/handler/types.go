@@ -21,7 +21,7 @@ import "github.com/edgexfoundry/go-mod-bootstrap/v3/di"
 const (
 	metadataSvcName = "core-metadata"
 	Authorization   = "Authorization"
-	AclOfConsulPath = "/consul/v1/acl/token/self"
+	AclOfConsulPath = "/consul/v1/acl/token/self" //or ? "/v1/acl/token/self"
 )
 
 type ResourceHandler struct {
