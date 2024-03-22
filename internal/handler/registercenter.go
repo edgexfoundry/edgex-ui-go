@@ -21,6 +21,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
@@ -41,6 +42,7 @@ func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *htt
 			return
 		}
 	}
+	
 	client, err := rh.registryCenterClient(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -81,7 +83,14 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	config := container.ConfigurationFrom(rh.dic.Get)
 	var acl struct{ SecretID string }
 	client := &http.Client{}
-	url := fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPath)
+	sp := bootstrapContainer.SecretProviderExtFrom(rh.dic.Get)
+	var consulPath string
+	if sp.IsZeroTrustEnabled() {
+		consulPath = AclOfConsulPathProxied
+	} else {
+		consulPath = AclOfConsulPathDirect
+	}
+	url := fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, consulPath)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err, http.StatusUnauthorized

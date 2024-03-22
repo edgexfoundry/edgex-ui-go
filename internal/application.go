@@ -96,11 +96,15 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 				if jwtErr != nil {
 					panic(fmt.Errorf("could not load jwt: %v", jwtErr))
 				}
+
 				ozUrl := clientInfo.SecurityOptions["OpenZitiController"]
 				ctx, authErr := zerotrust.AuthToOpenZiti(ozUrl, ozToken)
 				if authErr != nil {
 					panic(fmt.Errorf("could not authenticate to OpenZiti: %v", authErr))
 				}
+
+				secretProvider.EnableZeroTrust() //mark the secret provider as zero trust enabled
+
 				zitiContexts := ziti.NewSdkCollection()
 				zitiContexts.Add(ctx)
 
