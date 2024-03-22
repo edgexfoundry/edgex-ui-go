@@ -90,7 +90,7 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	} else {
 		url = fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPathProxied)
 	}
-	
+
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err, http.StatusUnauthorized
