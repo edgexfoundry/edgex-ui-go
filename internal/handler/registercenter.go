@@ -86,11 +86,11 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	sp := bootstrapContainer.SecretProviderExtFrom(rh.dic.Get)
 	var url string
 	if sp.IsZeroTrustEnabled() {
-		url = fmt.Sprintf("http://%s:%d%s", config.Registry.Host, config.APIGateway.ApplicationPort, AclOfConsulPathDirect)
+		url = fmt.Sprintf("http://%s:%d%s", config.Registry.Host, config.Registry.Port, AclOfConsulPathDirect)
 	} else {
 		url = fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPathProxied)
 	}
-
+	
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err, http.StatusUnauthorized
@@ -125,6 +125,7 @@ func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Reques
 			return
 		}
 	}
+
 	client, err := rh.registryCenterClient(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
