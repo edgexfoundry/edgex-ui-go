@@ -22,7 +22,7 @@ const (
 	metadataSvcName        = "core-metadata"
 	Authorization          = "Authorization"
 	AclOfConsulPathDirect  = "/v1/acl/token/self"
-	AclOfConsulPathProxied = "/consul/" + AclOfConsulPathDirect
+	AclOfConsulPathProxied = "/consul" + AclOfConsulPathDirect
 )
 
 type ResourceHandler struct {
