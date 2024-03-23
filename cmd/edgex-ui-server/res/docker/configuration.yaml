@@ -8,31 +8,52 @@ Service:
     StartupMsg: edgex-ui-go service started
     MaxRequestSize: 0
     RequestTimeout: 5s
+    SecurityOptions:
+        Mode: ""
+        OpenZitiController: "openziti:1280"
 Clients:
     core-data:
         Protocol: http
         Host: edgex-core-data
         Port: 59880
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     core-metadata:
         Protocol: http
         Host: edgex-core-metadata
         Port: 59881
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     core-command:
         Protocol: http
         Host: edgex-core-command
         Port: 59882
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     support-notifications:
         Protocol: http
         Host: edgex-support-notifications
         Port: 59860
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     support-scheduler:
         Protocol: http
         Host: edgex-support-scheduler
         Port: 59861
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     rules-engine:
         Protocol: http
         Host: edgex-kuiper
         Port: 59720
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
 Registry:
     Host: edgex-core-consul
     Port: 8500

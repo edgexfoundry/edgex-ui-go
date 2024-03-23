@@ -8,31 +8,52 @@ Service:
     HealthCheckInterval: 10s
     MaxRequestSize: 0
     RequestTimeout: 5s
+    SecurityOptions:
+        Mode: ""
+        OpenZitiController: "openziti:1280"
 Clients:
     core-data:
         Protocol: http
         Host: localhost
         Port: 59880
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     core-metadata:
         Protocol: http
         Host: localhost
-        Port: 59881
+        Port: 80
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     core-command:
         Protocol: http
         Host: localhost
         Port: 59882
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     support-notifications:
         Protocol: http
         Host: localhost
         Port: 59860
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     support-scheduler:
         Protocol: http
         Host: localhost
         Port: 59861
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
     rules-engine:
         Protocol: http
         Host: localhost
         Port: 59720
+        SecurityOptions:
+            Mode: ""
+            OpenZitiController: "openziti:1280"
 Registry:
     Host: localhost
     Port: 8500

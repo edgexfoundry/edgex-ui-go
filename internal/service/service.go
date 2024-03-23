@@ -28,6 +28,7 @@ import (
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/flags"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/handlers"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/interfaces"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/secret"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
 	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/config"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
@@ -35,7 +36,7 @@ import (
 )
 
 var (
-	GUIServiceKey  = "edgex-ui-service"
+	GUIServiceKey  = "ui"
 	ConfigStemCore = ""
 )
 
@@ -63,7 +64,7 @@ func Main(ctx context.Context, cancel context.CancelFunc, router *mux.Router) {
 		configuration,
 		startupTimer,
 		dic,
-		false,
+		secret.IsSecurityEnabled(),
 		bootstrapConfig.ServiceTypeOther,
 		[]interfaces.BootstrapHandler{
 			internal.NewBootstrap(router, GUIServiceKey).BootstrapHandler,

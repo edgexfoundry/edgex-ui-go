@@ -21,7 +21,9 @@ import (
 	"sync"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/utils"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
 	mux "github.com/gorilla/mux"
 )
@@ -39,8 +41,11 @@ func NewBootstrap(router *mux.Router, serviceName string) *Bootstrap {
 }
 
 func (b *Bootstrap) BootstrapHandler(ctx context.Context, wg *sync.WaitGroup, _ startup.Timer, dic *di.Container) bool {
+	lc := bootstrapContainer.LoggingClientFrom(dic.Get)
+	utils.AdaptLogrusBasedLogging(lc)
+
 	config := container.ConfigurationFrom(dic.Get)
 	LoadRestRoutes(b.router, dic)
-	initClientsMapping(config)
+	initClientsMapping(config, dic)
 	return true
 }

@@ -25,6 +25,7 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
 	"github.com/edgexfoundry/go-mod-registry/v3/pkg/types"
 	"github.com/edgexfoundry/go-mod-registry/v3/registry"
 )
@@ -41,6 +42,7 @@ func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *htt
 			return
 		}
 	}
+
 	client, err := rh.registryCenterClient(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -81,7 +83,14 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	config := container.ConfigurationFrom(rh.dic.Get)
 	var acl struct{ SecretID string }
 	client := &http.Client{}
-	url := fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPath)
+	sp := bootstrapContainer.SecretProviderExtFrom(rh.dic.Get)
+	var url string
+	if sp.IsZeroTrustEnabled() {
+		url = fmt.Sprintf("http://%s:%d%s", config.Registry.Host, config.Registry.Port, AclOfConsulPathDirect)
+	} else {
+		url = fmt.Sprintf("http://%s:%d%s", config.APIGateway.Server, config.APIGateway.ApplicationPort, AclOfConsulPathProxied)
+	}
+
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err, http.StatusUnauthorized
@@ -93,9 +102,11 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 	if err != nil {
 		return "", err, resp.StatusCode
 	}
+
 	if err := json.NewDecoder(resp.Body).Decode(&acl); err != nil {
 		return "", err, http.StatusUnauthorized
 	}
+
 	if resp.StatusCode != http.StatusOK {
 		return "", errors.New(""), resp.StatusCode
 	}
@@ -114,6 +125,7 @@ func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Reques
 			return
 		}
 	}
+
 	client, err := rh.registryCenterClient(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
