@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.27
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.3
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.15
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.18
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.3
 	github.com/gorilla/mux v1.8.1
 	github.com/openziti/sdk-golang v0.23.14
@@ -121,7 +121,7 @@ require (
 	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/net v0.22.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/oauth2 v0.18.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
