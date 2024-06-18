@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.27
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.3
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.15
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.23
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.3
 	github.com/gorilla/mux v1.8.1
 	github.com/openziti/sdk-golang v0.23.14
@@ -44,7 +44,7 @@ require (
 	github.com/go-openapi/validate v0.24.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.19.0 // indirect
+	github.com/go-playground/validator/v10 v10.22.0 // indirect
 	github.com/go-redis/redis/v7 v7.3.0 // indirect
 	github.com/go-resty/resty/v2 v2.12.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
@@ -121,7 +121,7 @@ require (
 	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/net v0.22.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/oauth2 v0.18.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
