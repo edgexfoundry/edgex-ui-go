@@ -3,7 +3,7 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.21
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.27
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.45
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.3
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.15
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.3
