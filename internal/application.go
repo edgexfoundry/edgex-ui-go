@@ -70,8 +70,8 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 			transport: nil,
 		}
 
-		listenMode := strings.ToLower(clientInfo.SecurityOptions[bootstrapConfig.SecurityModeKey])
-		switch listenMode {
+		securityMode := strings.ToLower(clientInfo.SecurityOptions[bootstrapConfig.SecurityModeKey])
+		switch securityMode {
 		case zerotrust.ZeroTrustMode:
 			scheme := "http"
 			if origin, err := url.Parse(client.addr); err != nil {

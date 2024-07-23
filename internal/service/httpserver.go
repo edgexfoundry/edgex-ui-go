@@ -18,9 +18,14 @@ package service
 
 import (
 	"context"
+	"github.com/edgexfoundry/edgex-ui-go/internal/config"
+	bscfg "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/config"
+	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/zerotrust"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -29,6 +34,8 @@ import (
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
 
 	"github.com/gorilla/mux"
+
+	bc "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
 )
 
 // HttpServer contains references to dependencies required by the http server implementation.
@@ -36,14 +43,16 @@ type HttpServer struct {
 	router           *mux.Router
 	isRunning        bool
 	doListenAndServe bool
+	cfg              *config.ConfigurationStruct
 }
 
 // NewHttpServer is a factory method that returns an initialized HttpServer receiver struct.
-func NewHttpServer(router *mux.Router, doListenAndServe bool) *HttpServer {
+func NewHttpServer(router *mux.Router, doListenAndServe bool, cfg *config.ConfigurationStruct) *HttpServer {
 	return &HttpServer{
 		router:           router,
 		isRunning:        false,
 		doListenAndServe: doListenAndServe,
+		cfg:              cfg,
 	}
 }
 
@@ -64,7 +73,6 @@ func (b *HttpServer) BootstrapHandler(
 	dic *di.Container) bool {
 
 	lc := container.LoggingClientFrom(dic.Get)
-
 	if !b.doListenAndServe {
 		lc.Info("Web server intentionally NOT started.")
 		wg.Add(1)
@@ -76,7 +84,6 @@ func (b *HttpServer) BootstrapHandler(
 			b.isRunning = false
 		}()
 		return true
-
 	}
 
 	bootstrapConfig := container.ConfigurationFrom(dic.Get).GetBootstrap()
@@ -125,8 +132,46 @@ func (b *HttpServer) BootstrapHandler(
 			b.isRunning = false
 		}()
 
+		var ln net.Listener
+		listenMode := strings.ToLower(b.cfg.Service.SecurityOptions[bscfg.SecurityModeKey])
+		switch listenMode {
+		case zerotrust.ZeroTrustMode:
+			ozUrl := b.cfg.Service.SecurityOptions["OpenZitiController"]
+			secretProvider := bc.SecretProviderExtFrom(dic.Get)
+			ozToken, jwtErr := secretProvider.GetSelfJWT()
+			if jwtErr != nil {
+				lc.Errorf("zero trust mode enabled, but could not load jwt: %v", jwtErr)
+				return
+			}
+
+			ctx, authErr := zerotrust.AuthToOpenZiti(ozUrl, ozToken)
+			if authErr != nil {
+				lc.Errorf("could not authenticate to OpenZiti: %v", authErr)
+				return
+			}
+
+			ozServiceName := zerotrust.OpenZitiServicePrefix + "ui"
+			lc.Infof("Using OpenZiti service name: %s", ozServiceName)
+			lc.Infof("listening on overlay network. ListenMode '%s' at %s", listenMode, addr)
+			ln, err = ctx.Listen(ozServiceName)
+			if err != nil {
+				lc.Errorf("could not bind service %s: %v", ozServiceName, err)
+				return
+			}
+
+		case "http":
+			fallthrough
+		default:
+			lc.Infof("listening on underlay network. ListenMode '%s' at %s", listenMode, addr)
+			ln, err = net.Listen("tcp", addr)
+		}
+		if err != nil {
+			lc.Errorf("could not start web listener: %v", err)
+			return
+		}
+
 		b.isRunning = true
-		err := server.ListenAndServe()
+		err := server.Serve(ln)
 		// "Server closed" error occurs when Shutdown above is called in the Done processing, so it can be ignored
 		if err != nil && err != http.ErrServerClosed {
 			// Other errors occur during bootstrapping, like port bind fails, are considered fatal
