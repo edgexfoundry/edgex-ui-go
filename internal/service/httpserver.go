@@ -21,6 +21,7 @@ import (
 	"github.com/edgexfoundry/edgex-ui-go/internal/config"
 	bscfg "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/config"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/zerotrust"
+	"github.com/openziti/sdk-golang/ziti"
 	"net"
 	"net/http"
 	"os"
@@ -137,36 +138,54 @@ func (b *HttpServer) BootstrapHandler(
 		switch listenMode {
 		case zerotrust.ZeroTrustMode:
 			ozUrl := b.cfg.Service.SecurityOptions["OpenZitiController"]
-			secretProvider := bc.SecretProviderExtFrom(dic.Get)
-			ozToken, jwtErr := secretProvider.GetSelfJWT()
-			if jwtErr != nil {
-				lc.Errorf("zero trust mode enabled, but could not load jwt: %v", jwtErr)
-				return
-			}
+			var zctx ziti.Context
+			var authErr error
+			if os.Getenv("SERVICE_SECURITYOPTIONS_OPENZITIAUTHMETHOD") == "identity" {
+				identity := os.Getenv("SERVICE_SECURITYOPTIONS_OPENZITIAUTHFILE")
 
-			ctx, authErr := zerotrust.AuthToOpenZiti(ozUrl, ozToken)
-			if authErr != nil {
-				lc.Errorf("could not authenticate to OpenZiti: %v", authErr)
-				return
+				lc.Infof("Using identity file instead of jwt found at: %s", identity)
+				//use an identity instead of a vault token/jwt to authenticate to the OpenZiti overlay
+				zctx, authErr = ziti.NewContextFromFile(identity)
+				if authErr != nil {
+					lc.Errorf("Could not authenticate to OpenZiti: %v", authErr)
+					return
+				}
+				authErr = zctx.Authenticate()
+				if authErr != nil {
+					lc.Errorf("Could not authenticate to OpenZiti: %v", authErr)
+					return
+				}
+			} else {
+				secretProvider := bc.SecretProviderExtFrom(dic.Get)
+				ozToken, jwtErr := secretProvider.GetSelfJWT()
+				if jwtErr != nil {
+					lc.Errorf("zerotrust mode enabled, but could not load jwt: %v", jwtErr)
+					return
+				}
+				zctx, authErr = zerotrust.AuthToOpenZiti(ozUrl, ozToken)
+				if authErr != nil {
+					lc.Errorf("Could not authenticate to OpenZiti: %v", authErr)
+					return
+				}
 			}
 
 			ozServiceName := zerotrust.OpenZitiServicePrefix + "ui"
 			lc.Infof("Using OpenZiti service name: %s", ozServiceName)
-			lc.Infof("listening on overlay network. ListenMode '%s' at %s", listenMode, addr)
-			ln, err = ctx.Listen(ozServiceName)
+			lc.Infof("Listening on overlay network. ListenMode '%s' at %s", listenMode, addr)
+			ln, err = zctx.Listen(ozServiceName)
 			if err != nil {
-				lc.Errorf("could not bind service %s: %v", ozServiceName, err)
+				lc.Errorf("Could not bind service %s: %v", ozServiceName, err)
 				return
 			}
 
 		case "http":
 			fallthrough
 		default:
-			lc.Infof("listening on underlay network. ListenMode '%s' at %s", listenMode, addr)
+			lc.Infof("Listening on underlay network. ListenMode '%s' at %s", listenMode, addr)
 			ln, err = net.Listen("tcp", addr)
 		}
 		if err != nil {
-			lc.Errorf("could not start web listener: %v", err)
+			lc.Errorf("Could not start web listener: %v", err)
 			return
 		}
 
