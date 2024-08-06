@@ -4,8 +4,8 @@ go 1.21
 
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.49
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.11
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.30
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.12
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.32
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.13
 	github.com/gorilla/mux v1.8.1
 	github.com/openziti/sdk-golang v0.23.39
@@ -18,8 +18,8 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
-	github.com/eclipse/paho.mqtt.golang v1.4.3 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.29 // indirect
+	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.31 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.9 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
@@ -53,7 +53,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
-	github.com/gorilla/websocket v1.5.1 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/hashicorp/consul/api v1.29.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
