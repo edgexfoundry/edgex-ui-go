@@ -8,7 +8,7 @@ require (
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.32
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.13
 	github.com/gorilla/mux v1.8.1
-	github.com/openziti/sdk-golang v0.23.39
+	github.com/openziti/sdk-golang v0.23.40
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -89,7 +89,7 @@ require (
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/openziti/channel/v2 v2.0.136 // indirect
-	github.com/openziti/edge-api v0.26.21 // indirect
+	github.com/openziti/edge-api v0.26.23 // indirect
 	github.com/openziti/foundation/v2 v2.0.47 // indirect
 	github.com/openziti/identity v1.0.81 // indirect
 	github.com/openziti/metrics v1.2.56 // indirect
