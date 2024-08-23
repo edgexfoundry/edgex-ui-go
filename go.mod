@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.51
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.12
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.13
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.32
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.13
 	github.com/gorilla/mux v1.8.1
@@ -104,7 +104,7 @@ require (
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/speps/go-hashids v2.0.0+incompatible // indirect
-	github.com/spf13/cast v1.6.0 // indirect
+	github.com/spf13/cast v1.7.0 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.3.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
