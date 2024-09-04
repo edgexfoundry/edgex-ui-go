@@ -3,10 +3,10 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.21
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.52
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.54
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.12
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.32
-	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.13
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.43
+	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.16
 	github.com/gorilla/mux v1.8.1
 	github.com/openziti/sdk-golang v0.23.39
 	gopkg.in/yaml.v3 v3.0.1
@@ -54,7 +54,7 @@ require (
 	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
-	github.com/hashicorp/consul/api v1.29.2 // indirect
+	github.com/hashicorp/consul/api v1.29.4 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-hclog v1.5.0 // indirect
