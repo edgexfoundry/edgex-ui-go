@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.60
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.17
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.18
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.46
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.16
 	github.com/gorilla/mux v1.8.1
@@ -19,7 +19,7 @@ require (
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.35 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.37 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.13 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
