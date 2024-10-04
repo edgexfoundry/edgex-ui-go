@@ -1,12 +1,13 @@
 module github.com/edgexfoundry/edgex-ui-go
 
 go 1.21
+toolchain go1.23.2
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.60
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.64
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.17
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.46
-	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.16
+	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.18
 	github.com/gorilla/mux v1.8.1
 	github.com/openziti/sdk-golang v0.23.43
 	gopkg.in/yaml.v3 v3.0.1
@@ -20,7 +21,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
 	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.35 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.13 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.14 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fullsailor/pkcs7 v0.0.0-20190404230743-d7302db945fa // indirect
@@ -66,7 +67,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kataras/go-events v0.0.3 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
-	github.com/labstack/echo/v4 v4.11.4 // indirect
+	github.com/labstack/echo/v4 v4.12.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
