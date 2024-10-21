@@ -1,12 +1,13 @@
 module github.com/edgexfoundry/edgex-ui-go
 
 go 1.21
+toolchain go1.23.2
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.60
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.17
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.46
-	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.16
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.67
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.19
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.50
+	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.18
 	github.com/gorilla/mux v1.8.1
 	github.com/openziti/sdk-golang v0.23.43
 	gopkg.in/yaml.v3 v3.0.1
@@ -19,14 +20,14 @@ require (
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.35 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.13 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.40 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.18 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fullsailor/pkcs7 v0.0.0-20190404230743-d7302db945fa // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
-	github.com/go-jose/go-jose/v4 v4.0.2 // indirect
+	github.com/go-jose/go-jose/v4 v4.0.4 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
@@ -66,7 +67,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kataras/go-events v0.0.3 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
-	github.com/labstack/echo/v4 v4.11.4 // indirect
+	github.com/labstack/echo/v4 v4.12.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
@@ -105,7 +106,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/speps/go-hashids v2.0.0+incompatible // indirect
 	github.com/spf13/cast v1.7.0 // indirect
-	github.com/spiffe/go-spiffe/v2 v2.3.0 // indirect
+	github.com/spiffe/go-spiffe/v2 v2.4.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -128,8 +129,8 @@ require (
 	golang.org/x/term v0.24.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
 	golang.org/x/time v0.6.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240318140521-94a12d6c2237 // indirect
-	google.golang.org/grpc v1.64.1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
+	google.golang.org/grpc v1.67.1 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/go-jose/go-jose.v2 v2.6.3 // indirect
 	nhooyr.io/websocket v1.8.17 // indirect
