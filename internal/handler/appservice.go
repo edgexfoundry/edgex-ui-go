@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright © 2017-2018 VMware, Inc. All Rights Reserved.
  * Copyright © 2021-2022 VMware, Inc. All Rights Reserved.
+ * Copyright © 2025 IOTech Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -22,10 +23,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	"github.com/edgexfoundry/go-mod-configuration/v3/configuration"
-	"github.com/edgexfoundry/go-mod-configuration/v3/pkg/types"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/secret"
+	"github.com/edgexfoundry/go-mod-configuration/v4/configuration"
+	"github.com/edgexfoundry/go-mod-configuration/v4/pkg/types"
+
 	"github.com/gorilla/mux"
 )
 
@@ -35,23 +38,13 @@ func (rh *ResourceHandler) DeployConfigurable(w http.ResponseWriter, r *http.Req
 	serviceKey := vars["servicekey"]
 	config := make(map[string]interface{})
 	var err error
-	var token string
-	var code int
 
 	if err := json.NewDecoder(r.Body).Decode(&config); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	if common.IsSecurityEnabled() {
-		token, err, code = rh.getAclTokenOfConsul(w, r)
-		if err != nil || code != http.StatusOK {
-			http.Error(w, "unable to get consul acl token", code)
-			return
-		}
-	}
-
-	client, err := rh.configurationCenterClient(serviceKey, token)
+	client, err := rh.configurationCenterClient(serviceKey)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -69,16 +62,7 @@ func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Reque
 	vars := mux.Vars(r)
 	serviceKey := vars["servicekey"]
 	var err error
-	var token string
-	var code int
-	if common.IsSecurityEnabled() {
-		token, err, code = rh.getAclTokenOfConsul(w, r)
-		if err != nil || code != http.StatusOK {
-			http.Error(w, "unable to get consul acl token", code)
-			return
-		}
-	}
-	client, err := rh.configurationCenterClient(serviceKey, token)
+	client, err := rh.configurationCenterClient(serviceKey)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -113,14 +97,14 @@ func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Reque
 	w.Write(result)
 }
 
-func (rh *ResourceHandler) configurationCenterClient(serviceKey string, token string) (configuration.Client, error) {
+func (rh *ResourceHandler) configurationCenterClient(serviceKey string) (configuration.Client, error) {
 	config := container.ConfigurationFrom(rh.dic.Get)
 	configurationConfig := types.ServiceConfig{
-		Host:        config.Registry.Host,
-		Port:        config.Registry.Port,
-		Type:        config.Registry.Type,
-		BasePath:    config.Registry.ConfigRegistryStem + config.Registry.ServiceVersion + "/" + serviceKey,
-		AccessToken: token,
+		Host:         config.Registry.Host,
+		Port:         config.Registry.Port,
+		Type:         config.Registry.Type,
+		BasePath:     config.Registry.ConfigRegistryStem + config.Registry.ServiceVersion + "/" + serviceKey,
+		AuthInjector: secret.NewJWTSecretProvider(bootstrapContainer.SecretProviderExtFrom(rh.dic.Get)),
 	}
 	client, err := configuration.NewConfigurationClient(configurationConfig)
 	if err != nil {

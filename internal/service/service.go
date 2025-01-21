@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright © 2025 IOTech Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -22,26 +23,23 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go"
 	"github.com/edgexfoundry/edgex-ui-go/internal"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/config"
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/flags"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/handlers"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/interfaces"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/secret"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
-	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/config"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/flags"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/handlers"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/interfaces"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/startup"
+	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v4/config"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/di"
+	contractCommon "github.com/edgexfoundry/go-mod-core-contracts/v4/common"
+
 	"github.com/gorilla/mux"
 )
 
-var (
-	GUIServiceKey  = "ui"
-	ConfigStemCore = ""
-)
-
 func Main(ctx context.Context, cancel context.CancelFunc, router *mux.Router) {
-	startupTimer := startup.NewStartUpTimer(GUIServiceKey)
+	startupTimer := startup.NewStartUpTimer(common.GUIServiceKey)
 
 	f := flags.New()
 	f.Parse(os.Args[1:])
@@ -59,16 +57,16 @@ func Main(ctx context.Context, cancel context.CancelFunc, router *mux.Router) {
 		ctx,
 		cancel,
 		f,
-		GUIServiceKey,
-		ConfigStemCore,
+		common.GUIServiceKey,
+		contractCommon.ConfigStemCore,
 		configuration,
 		startupTimer,
 		dic,
-		secret.IsSecurityEnabled(),
+		true,
 		bootstrapConfig.ServiceTypeOther,
 		[]interfaces.BootstrapHandler{
-			internal.NewBootstrap(router, GUIServiceKey).BootstrapHandler,
+			internal.NewBootstrap(router, common.GUIServiceKey).BootstrapHandler,
 			httpServer.BootstrapHandler,
-			handlers.NewStartMessage(GUIServiceKey, edgex.Version).BootstrapHandler,
+			handlers.NewStartMessage(common.GUIServiceKey, edgex.Version).BootstrapHandler,
 		})
 }

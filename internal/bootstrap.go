@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright © 2025 IOTech Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -21,10 +22,10 @@ import (
 	"sync"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/utils"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/startup"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/utils"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/di"
 	mux "github.com/gorilla/mux"
 )
 
@@ -46,6 +47,9 @@ func (b *Bootstrap) BootstrapHandler(ctx context.Context, wg *sync.WaitGroup, _ 
 
 	config := container.ConfigurationFrom(dic.Get)
 	LoadRestRoutes(b.router, dic)
-	initClientsMapping(config, dic)
+	if err := initClientsMapping(config, dic); err != nil {
+		lc.Errorf("Init clientsMapping failed: %v", err)
+		return false
+	}
 	return true
 }

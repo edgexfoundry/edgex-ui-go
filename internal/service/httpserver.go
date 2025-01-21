@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright 2019 Dell Inc.
  * Copyright 2021-2022 IOTech Ltd
+ * Copyright 2025 IOTech Ltd
  * Copyright 2023 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -18,10 +19,7 @@ package service
 
 import (
 	"context"
-	"github.com/edgexfoundry/edgex-ui-go/internal/config"
-	bscfg "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/config"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/zerotrust"
-	"github.com/openziti/sdk-golang/ziti"
+	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"net"
 	"net/http"
 	"os"
@@ -30,13 +28,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/startup"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
+	"github.com/edgexfoundry/edgex-ui-go/internal/config"
+	bscfg "github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/config"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/startup"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/zerotrust"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/di"
 
 	"github.com/gorilla/mux"
-
-	bc "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
 )
 
 // HttpServer contains references to dependencies required by the http server implementation.
@@ -137,42 +136,9 @@ func (b *HttpServer) BootstrapHandler(
 		listenMode := strings.ToLower(b.cfg.Service.SecurityOptions[bscfg.SecurityModeKey])
 		switch listenMode {
 		case zerotrust.ZeroTrustMode:
-			ozUrl := b.cfg.Service.SecurityOptions["OpenZitiController"]
-			var zctx ziti.Context
-			var authErr error
-			if os.Getenv("SERVICE_SECURITYOPTIONS_OPENZITIAUTHMETHOD") == "identity" {
-				identity := os.Getenv("SERVICE_SECURITYOPTIONS_OPENZITIAUTHFILE")
-
-				lc.Infof("Using identity file instead of jwt found at: %s", identity)
-				//use an identity instead of a vault token/jwt to authenticate to the OpenZiti overlay
-				zctx, authErr = ziti.NewContextFromFile(identity)
-				if authErr != nil {
-					lc.Errorf("Could not authenticate to OpenZiti: %v", authErr)
-					return
-				}
-				authErr = zctx.Authenticate()
-				if authErr != nil {
-					lc.Errorf("Could not authenticate to OpenZiti: %v", authErr)
-					return
-				}
-			} else {
-				secretProvider := bc.SecretProviderExtFrom(dic.Get)
-				ozToken, jwtErr := secretProvider.GetSelfJWT()
-				if jwtErr != nil {
-					lc.Errorf("zerotrust mode enabled, but could not load jwt: %v", jwtErr)
-					return
-				}
-				zctx, authErr = zerotrust.AuthToOpenZiti(ozUrl, ozToken)
-				if authErr != nil {
-					lc.Errorf("Could not authenticate to OpenZiti: %v", authErr)
-					return
-				}
-			}
-
-			ozServiceName := zerotrust.OpenZitiServicePrefix + "ui"
-			lc.Infof("Using OpenZiti service name: %s", ozServiceName)
-			lc.Infof("Listening on overlay network. ListenMode '%s' at %s", listenMode, addr)
-			ln, err = zctx.Listen(ozServiceName)
+			// refer the usage from https://github.com/edgexfoundry/app-functions-sdk-go/blob/7142356cfc6433a60ea0511e00cd683ea816f656/internal/webserver/server.go#L124
+			ozServiceName := zerotrust.OpenZitiServicePrefix + common.GUIServiceKey
+			ln, err = zerotrust.SetupWebListener(*bootstrapConfig.Service, ozServiceName, addr, dic)
 			if err != nil {
 				lc.Errorf("Could not bind service %s: %v", ozServiceName, err)
 				return

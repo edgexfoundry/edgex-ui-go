@@ -21,7 +21,7 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
 	"github.com/edgexfoundry/edgex-ui-go/internal/handler"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/di"
 	mux "github.com/gorilla/mux"
 )
 

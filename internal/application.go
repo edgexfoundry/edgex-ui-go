@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
  * Copyright (C) 2023 Intel Corporation
+ * Copyright © 2025 IOTech Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -18,22 +19,19 @@
 package internal
 
 import (
-	"context"
 	"fmt"
-	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"strings"
 
-	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/config"
-	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/zerotrust"
-	"github.com/edgexfoundry/go-mod-bootstrap/v3/di"
-	"github.com/openziti/sdk-golang/ziti"
-
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/config"
+	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/config"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/zerotrust"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/di"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 )
 
 const (
@@ -57,7 +55,7 @@ type Application struct {
 	config *config.ConfigurationStruct
 }
 
-func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
+func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) errors.EdgeX {
 	lc := bootstrapContainer.LoggingClientFrom(dic.Get)
 
 	clientsMapping = make(map[string]Client, 10)
@@ -88,33 +86,11 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 				client.transport = zitiRoundTripper
 			} else {
 				secretProvider := bootstrapContainer.SecretProviderExtFrom(dic.Get)
-				if secretProvider == nil {
-					panic("zero trust mode activated yet no secret provider?")
+				var err error
+				zitiRoundTripper, err = zerotrust.HttpTransportFromClient(secretProvider, &clientInfo, lc)
+				if err != nil {
+					return errors.NewCommonEdgeXWrapper(err)
 				}
-
-				ozToken, jwtErr := secretProvider.GetSelfJWT()
-				if jwtErr != nil {
-					panic(fmt.Errorf("could not load jwt: %v", jwtErr))
-				}
-
-				ozUrl := clientInfo.SecurityOptions["OpenZitiController"]
-				ctx, authErr := zerotrust.AuthToOpenZiti(ozUrl, ozToken)
-				if authErr != nil {
-					panic(fmt.Errorf("could not authenticate to OpenZiti: %v", authErr))
-				}
-
-				secretProvider.EnableZeroTrust() //mark the secret provider as zero trust enabled
-
-				zitiContexts := ziti.NewSdkCollection()
-				zitiContexts.Add(ctx)
-
-				zitiTransport := http.DefaultTransport.(*http.Transport).Clone() // copy default transport
-				zitiTransport.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
-					lc.Debugf("ZITI DIALING: %s", addr)
-					dialer := zitiContexts.NewDialer()
-					return dialer.Dial(network, addr)
-				}
-				zitiRoundTripper = zitiTransport
 				client.transport = zitiRoundTripper
 			}
 
@@ -125,6 +101,8 @@ func initClientsMapping(config *config.ConfigurationStruct, dic *di.Container) {
 		}
 		clientsMapping[fmt.Sprintf("/%s", clientName)] = client
 	}
+
+	return nil
 }
 
 func hasEdgeXSvcPrefixValidate(path string) bool {

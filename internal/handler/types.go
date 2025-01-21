@@ -16,7 +16,7 @@
 
 package handler
 
-import "github.com/edgexfoundry/go-mod-bootstrap/v3/di"
+import "github.com/edgexfoundry/go-mod-bootstrap/v4/di"
 
 const (
 	metadataSvcName        = "core-metadata"

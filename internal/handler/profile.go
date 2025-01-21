@@ -25,11 +25,11 @@ import (
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	client "github.com/edgexfoundry/go-mod-core-contracts/v3/clients/http"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/requests"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/responses"
+	client "github.com/edgexfoundry/go-mod-core-contracts/v4/clients/http"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos/requests"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos/responses"
 	"github.com/gorilla/mux"
 	"gopkg.in/yaml.v3"
 )
