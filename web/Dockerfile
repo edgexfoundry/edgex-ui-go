@@ -7,9 +7,6 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 
 ENV PATH /app/node_modules/.bin:$PATH
 
-# Update npm.
-RUN npm install -g npm
-
 # Configure things to work with src mounted to "/app" directory.
 ARG USER=1000
 RUN deluser --remove-home node && \

@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2020-2021 VMware, Inc. All Rights Reserved.
+ * Copyright © 2025 IOTech Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -19,6 +20,8 @@ package common
 import "os"
 
 const (
+	GUIServiceKey = "ui"
+
 	ContentTypeKey   = "Content-Type"
 	JsonContentType  = "application/json"
 	RedirectHttpCode = 302

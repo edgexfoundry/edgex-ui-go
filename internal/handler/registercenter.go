@@ -25,9 +25,12 @@ import (
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/common"
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
-	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/container"
-	"github.com/edgexfoundry/go-mod-registry/v3/pkg/types"
-	"github.com/edgexfoundry/go-mod-registry/v3/registry"
+	bootstrapContainer "github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/container"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/secret"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/config"
+	contractCommon "github.com/edgexfoundry/go-mod-core-contracts/v4/common"
+	"github.com/edgexfoundry/go-mod-registry/v4/pkg/types"
+	"github.com/edgexfoundry/go-mod-registry/v4/registry"
 )
 
 func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *http.Request) {
@@ -66,14 +69,18 @@ func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *htt
 }
 
 func (rh *ResourceHandler) registryCenterClient(token string) (registry.Client, error) {
-	config := container.ConfigurationFrom(rh.dic.Get)
+	bootstrapConfig := container.ConfigurationFrom(rh.dic.Get)
 	registryConfig := types.Config{
-		Host:          config.Registry.Host,
-		Port:          config.Registry.Port,
-		CheckInterval: "2s",
-		CheckRoute:    "/api/v1/ping",
-		Type:          "consul",
-		AccessToken:   token,
+		Host:            bootstrapConfig.Registry.Host,
+		Port:            bootstrapConfig.Registry.Port,
+		Type:            bootstrapConfig.Registry.Type,
+		ServiceKey:      common.GUIServiceKey,
+		ServiceHost:     bootstrapConfig.Service.Host,
+		ServicePort:     bootstrapConfig.Service.Port,
+		ServiceProtocol: config.DefaultHttpProtocol,
+		CheckInterval:   bootstrapConfig.Service.HealthCheckInterval,
+		CheckRoute:      contractCommon.ApiPingRoute,
+		AuthInjector:    secret.NewJWTSecretProvider(bootstrapContainer.SecretProviderExtFrom(rh.dic.Get)),
 	}
 	return registry.NewRegistryClient(registryConfig)
 }

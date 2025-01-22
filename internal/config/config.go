@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
  * Copyright (C) 2023 Intel Corporation
+ * Copyright © 2025 IOTech Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -18,7 +19,7 @@
 package config
 
 import (
-	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v3/config"
+	bootstrapConfig "github.com/edgexfoundry/go-mod-bootstrap/v4/config"
 )
 
 type APIGatewayInfo struct {
@@ -46,8 +47,12 @@ type WritableInfo struct {
 	InsecureSecrets bootstrapConfig.InsecureSecrets
 }
 
-func (c *ConfigurationStruct) UpdateFromRaw(_ interface{}) bool {
-	return false
+func (c *ConfigurationStruct) UpdateFromRaw(rawConfig interface{}) bool {
+	configuration, ok := rawConfig.(*ConfigurationStruct)
+	if ok {
+		*c = *configuration
+	}
+	return ok
 }
 
 func (c *ConfigurationStruct) UpdateWritableFromRaw(_ interface{}) bool {

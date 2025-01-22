@@ -6,9 +6,9 @@ updates:
     schedule:
       interval: "daily"
     ignore:
-      - dependency-name: "github.com/edgexfoundry/go-mod-core-contracts/v3"
+      - dependency-name: "github.com/edgexfoundry/go-mod-core-contracts/*"
         # Included when go-mod-bootstrap is updated
-      - dependency-name: "github.com/edgexfoundry/go-mod-messaging/v3"
+      - dependency-name: "github.com/edgexfoundry/go-mod-messaging/*"
         # Included when go-mod-bootstrap is updated
-      - dependency-name: "github.com/edgexfoundry/go-mod-registry/v3"
+      - dependency-name: "github.com/edgexfoundry/go-mod-registry/*"
         # Included when go-mod-bootstrap is updated
