@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright @2025 YIQISOFT
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,10 +15,17 @@
  * @author: Huaqiao Zhang, <huaqiaoz@vmware.com>
  *******************************************************************************/
 
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ModusRTUProtocolTemplate, ModusTCPProtocolTemplate, 
-  MqttProtocolTemplate,VirtualProtocolTemplate,
-  OnvifProtocolTemplate, TCPProtocolTemplate } from './builtin-protocol-template/types'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ModusRTUProtocolTemplate,
+  ModusTCPProtocolTemplate,
+  MqttProtocolTemplate,
+  OnvifProtocolTemplate,
+  OPCUAProtocolTemplate,
+  S7ProtocolTemplate,
+  TCPProtocolTemplate,
+  VirtualProtocolTemplate
+} from './builtin-protocol-template/types';
 
 declare type protocol = {
   [key: string]: properties;
@@ -117,6 +125,12 @@ export class DeviceProtocolComponent implements OnInit {
         break
       case 'Onvif':
         this.builtinProtocolTemplateSelected = new OnvifProtocolTemplate();
+        break
+      case 'opcua':
+        this.builtinProtocolTemplateSelected = new OPCUAProtocolTemplate();
+        break
+      case 's7':
+        this.builtinProtocolTemplateSelected = new S7ProtocolTemplate();
         break
       case 'tcp':
         this.builtinProtocolTemplateSelected = new TCPProtocolTemplate();
