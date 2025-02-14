@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2022-2023 VMware, Inc. All Rights Reserved.
+ * Copyright @2025 YIQISOFT
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -52,6 +53,19 @@ export class OnvifProtocolTemplate {
   Address: string = "";
   Port: string = "";
   MACAddress: string = "";
+}
+
+export class OPCUAProtocolTemplate {
+  Endpoint: string = "";
+}
+
+export class S7ProtocolTemplate {
+  Host: string = "";
+  Port: string = "";
+  Rack: string = "";
+  Slot: string = "";
+  Timeout: string = "";
+  IdleTimeout: string = "";
 }
 
 export class TCPProtocolTemplate {
