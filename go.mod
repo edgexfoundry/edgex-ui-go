@@ -8,7 +8,6 @@ require (
 	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.0.0-dev.22
 	github.com/edgexfoundry/go-mod-registry/v4 v4.0.0-dev.3
 	github.com/gorilla/mux v1.8.1
-	github.com/openziti/sdk-golang v0.23.44
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -23,7 +22,7 @@ require (
 	github.com/fullsailor/pkcs7 v0.0.0-20190404230743-d7302db945fa // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
-	github.com/go-jose/go-jose/v4 v4.0.4 // indirect
+	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
@@ -79,6 +78,7 @@ require (
 	github.com/openziti/foundation/v2 v2.0.49 // indirect
 	github.com/openziti/identity v1.0.85 // indirect
 	github.com/openziti/metrics v1.2.58 // indirect
+	github.com/openziti/sdk-golang v0.23.44 // indirect
 	github.com/openziti/secretstream v0.1.25 // indirect
 	github.com/openziti/transport/v2 v2.0.146 // indirect
 	github.com/orcaman/concurrent-map/v2 v2.0.1 // indirect
