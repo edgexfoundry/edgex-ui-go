@@ -1,5 +1,4 @@
 .idea/
-vendor
 web/node_modules
 web/coverage
 web/dist
