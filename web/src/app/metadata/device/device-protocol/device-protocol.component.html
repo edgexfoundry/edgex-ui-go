@@ -106,8 +106,8 @@
                         <span class="fa fa-plus-circle mr-2"></span>
                         <span class="user-select-none" role="button" (click)="addCustomProtocol()" i18n>Add More Protocol</span>
                     </p>
-                    <div *ngFor="let protocolEntry of customProtocols | keyvalue">
-                        <div class="row border border-secondary p-2 rounded-lg mx-1">
+                    <div class="card mb-3" *ngFor="let protocolEntry of customProtocols | keyvalue">
+                        <div class="row card-body p-2 rounded-lg mx-1">
                             <!-- Protocol Name -->
                             <div class="col-md-2 col-lg-2 border-right border-secondary">
                                 <div class="form-group">
