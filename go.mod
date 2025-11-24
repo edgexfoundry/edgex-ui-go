@@ -3,9 +3,9 @@ module github.com/edgexfoundry/edgex-ui-go
 go 1.23
 
 require (
-	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.0.3
-	github.com/edgexfoundry/go-mod-configuration/v4 v4.0.1
-	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.0.1
+	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.0.4
+	github.com/edgexfoundry/go-mod-configuration/v4 v4.0.2
+	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.0.2
 	github.com/edgexfoundry/go-mod-registry/v4 v4.0.1
 	github.com/gorilla/mux v1.8.1
 	gopkg.in/yaml.v3 v3.0.1
@@ -16,7 +16,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v4 v4.0.1 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v4 v4.0.2 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v4 v4.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fullsailor/pkcs7 v0.0.0-20190404230743-d7302db945fa // indirect
