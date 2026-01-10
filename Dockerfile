@@ -41,7 +41,7 @@ RUN [ ! -d "vendor" ] && go mod download all || echo "skipping..."
 COPY . .
 RUN ${MAKE}
 
-FROM alpine:3.22
+FROM alpine:3.23.2
 
 # Ensure using latest versions of all installed packages to avoid any recent CVEs
 RUN apk --no-cache upgrade
