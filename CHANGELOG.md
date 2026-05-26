@@ -11,6 +11,16 @@
 - [go-mod-registry](https://github.com/edgexfoundry/go-mod-registry/blob/main/CHANGELOG.md) 
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md)
 
+## [4.0.2] - 2026-05-31
+
+### 🐛 Bug Fixes 
+- Add missing properties to `ModusTCPProtocolTemplate` class ([#88fc762](https://github.com/edgexfoundry/edgex-ui-go/commits/88fc762))
+
+### 👷 Build 
+- Update goVersion to 1.25 and golangci-lint to 2.5.0 ([#77495fb](https://github.com/edgexfoundry/edgex-ui-go/commits/77495fb))
+
+
+
 ## [v3.1.0] Napa - 2023-11-15 (Only compatible with the 3.x releases)
 
 
