@@ -63,6 +63,7 @@ export class DeviceProtocolComponent implements OnInit {
 
   customProtocolName?: string;
   customProtocolPropertyBearer: ProtocolProperty[] = []
+  customProtocols: Map<string, ProtocolProperty[]> = new Map()
 
   builtinProtocolName?: string
   builtinProtocolTemplateSelected: any;
@@ -146,7 +147,25 @@ export class DeviceProtocolComponent implements OnInit {
     this.validate()
   }
 
-  onCustomProtocolNameChange() {
+  onCustomProtocolNameChange(protocolName: string, property: ProtocolProperty[]) {
+    this.customProtocols.set(protocolName, property as ProtocolProperty[])
+    // this.customProtocols.delete(this.customProtocolName as string)
+    this.customProtocolName = protocolName
+    this.validate()
+  }
+
+  onCustomProtocolNameFocus(protocolName: string) {
+    this.customProtocolName = protocolName
+    this.validate()
+  }
+
+  onCustomProtocolNameBlur(protocolName: string, property: ProtocolProperty[]) {
+    if (this.customProtocolName === protocolName) {
+      return
+    }
+    this.customProtocols.set(protocolName, property as ProtocolProperty[])
+    this.customProtocols.delete(this.customProtocolName as string)
+    this.customProtocolName = protocolName
     this.validate()
   }
 
@@ -155,17 +174,49 @@ export class DeviceProtocolComponent implements OnInit {
       return
     }
 
-    for (const [key, value] of Object.entries(this.deviceProtocols[this.customProtocolName])) {
-      this.customProtocolPropertyBearer.push({ propertyName: key, propertyValue: value as string })
+    for (const [protocolName, property] of Object.entries(this.deviceProtocols)) {
+      if (!this.customProtocols.has(protocolName)) {
+        this.customProtocols.set(protocolName, [])
+      }
+      for (const [key, value] of Object.entries(property)) {
+        this.customProtocols.get(protocolName)?.push({ propertyName: key, propertyValue: value as string })
+      }
     }
   }
 
-  addCustomProtocolProperty() {
-    this.customProtocolPropertyBearer.push({propertyName:'',  propertyValue: ''})
+  addCustomProtocolProperty(protocolName: string) {
+    if (!this.customProtocols.has(protocolName)) {
+      this.customProtocols.set(protocolName, [])
+    }
+    this.customProtocols.forEach((p, pName) => {
+      if ( pName === protocolName) {
+        p.push({propertyName:'',  propertyValue: ''})
+      }
+    })
   }
 
-  removeCustomProtocolProperty(property: ProtocolProperty) {
-    this.customProtocolPropertyBearer.splice(this.customProtocolPropertyBearer.indexOf(property),1)
+  removeCustomProtocolProperty(protocolName: string, property: ProtocolProperty) {
+    this.customProtocols.forEach((p, pName) => {
+      if ( pName === protocolName) {
+        p.splice(p.indexOf(property),1)
+      }
+    })
+  }
+
+  addCustomProtocol() {
+    this.customProtocols.set("", [])
+    this.customProtocolName = ""
+    this.validate()
+  }
+
+  removeCustomProtocol(protocolName: string) {
+    if (this.customProtocols.has(protocolName)) {
+      this.customProtocols.delete(protocolName)
+    }
+    this.customProtocols.forEach((p, pName) => {
+      this.customProtocolName = pName
+    })
+    this.validate()
   }
 
   getDeviceProtocols(): protocol {
@@ -173,11 +224,15 @@ export class DeviceProtocolComponent implements OnInit {
     if (this.protocolTemplateMode === this.TEMPLATE_BUILT_IN) {
       this.deviceProtocols[this.builtinProtocolName as string] = Object.assign({}, this.builtinProtocolTemplateSelected)
     } else {
-      let property: properties = {} 
-      this.customProtocolPropertyBearer.forEach(p => {
-        property[p.propertyName] = p.propertyValue
+      this.customProtocols.forEach((p, pName) => {
+        if (pName !== "") {
+          let property: properties = {}
+          p.forEach(p => {
+            property[p.propertyName] = p.propertyValue
+          })
+          this.deviceProtocols[pName] = property
+        }
       })
-      this.deviceProtocols[this.customProtocolName as string] = property
     }
     return this.deviceProtocols
   }
