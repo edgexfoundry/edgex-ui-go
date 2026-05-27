@@ -26,7 +26,7 @@
     "echarts": "^5.2.1",
     "flatpickr": "^4.6.9",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.6.0",
+    "jquery": "^3.7.1",
     "json-stream-compression": "0.0.2",
     "popper.js": "^1.16.1",
     "rxjs": "^7.8.1",
