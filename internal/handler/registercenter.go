@@ -107,7 +107,7 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err, resp.StatusCode
+		return "", err, http.StatusServiceUnavailable
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&acl); err != nil {
