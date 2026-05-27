@@ -32,7 +32,7 @@
     "rxjs": "^7.8.1",
     "sql-formatter": "^4.0.2",
     "tslib": "^2.3.1",
-    "zone.js": "~0.13.3"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.11",
