@@ -119,7 +119,7 @@ func (b *HttpServer) BootstrapHandler(
 		defer wg.Done()
 
 		<-ctx.Done()
-		_ = server.Shutdown(context.Background())
+		_ = server.Shutdown(context.WithoutCancel(ctx))
 		lc.Info("Web server shut down")
 	}()
 

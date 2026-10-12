@@ -39,7 +39,7 @@ func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *htt
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
-		token, err, code = rh.getAclTokenOfConsul(w, r)
+		token, code, err = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
 			http.Error(w, "unable to get consul acl token", code)
 			return
@@ -65,7 +65,7 @@ func (rh *ResourceHandler) GetRegisteredServiceAll(w http.ResponseWriter, r *htt
 		return
 	}
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-	w.Write(result)
+	_, _ = w.Write(result)
 }
 
 func (rh *ResourceHandler) registryCenterClient(token string) (registry.Client, error) {
@@ -85,7 +85,7 @@ func (rh *ResourceHandler) registryCenterClient(token string) (registry.Client, 
 	return registry.NewRegistryClient(registryConfig)
 }
 
-func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Request) (string, error, int) {
+func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Request) (string, int, error) {
 	defer r.Body.Close()
 	config := container.ConfigurationFrom(rh.dic.Get)
 	var acl struct{ SecretID string }
@@ -100,24 +100,24 @@ func (rh *ResourceHandler) getAclTokenOfConsul(w http.ResponseWriter, r *http.Re
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return "", err, http.StatusUnauthorized
+		return "", http.StatusUnauthorized, err
 	}
 
 	req.Header.Set(Authorization, "Bearer "+r.Header.Get("X-Consul-Token"))
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err, resp.StatusCode
+		return "", resp.StatusCode, err
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&acl); err != nil {
-		return "", err, http.StatusUnauthorized
+		return "", http.StatusUnauthorized, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return "", errors.New(""), resp.StatusCode
+		return "", resp.StatusCode, errors.New("")
 	}
-	return acl.SecretID, nil, resp.StatusCode
+	return acl.SecretID, resp.StatusCode, nil
 }
 
 func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Request) {
@@ -126,7 +126,7 @@ func (rh *ResourceHandler) RegistryIsAlive(w http.ResponseWriter, r *http.Reques
 	var token string
 	var code int
 	if common.IsSecurityEnabled() {
-		token, err, code = rh.getAclTokenOfConsul(w, r)
+		token, code, err = rh.getAclTokenOfConsul(w, r)
 		if err != nil || code != http.StatusOK {
 			http.Error(w, "unable to get consul acl token", code)
 			return

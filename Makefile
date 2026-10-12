@@ -15,11 +15,12 @@
 #
 
 .PHONY: build clean run docker \
-		test test-angular test-go \
+		test test-angular test-go lint install-lint \
 		web
 
 GO=CGO_ENABLED=0 GO111MODULE=on go
 GOCGO=CGO_ENABLED=1 GO111MODULE=on go
+GOLANGCI_LINT_VERSION=v2.14.0
 
 MICROSERVICES=cmd/edgex-ui-server/edgex-ui-server
 .PHONY: $(MICROSERVICES)
@@ -53,12 +54,19 @@ test-go:
 	./bin/test-attribution-txt.sh
 
 arch := $(shell uname -m)
+lint:
+	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run make install-lint"
+	@if [ "z$(arch)" = "zx86_64" ] && which golangci-lint >/dev/null ; then golangci-lint run --config .golangci.yml ; else echo "WARNING: Linting skipped (not on x86_64 or linter not installed)"; fi
+
+install-lint:
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/$(GOLANGCI_LINT_VERSION)/install.sh | sh -s -- -b $$(go env GOPATH)/bin $(GOLANGCI_LINT_VERSION)
+
 test-angular:
 ifeq ($(arch), x86_64)
 	$(MAKE) -C web test
 endif
 
-test: test-go test-angular
+test: test-go lint test-angular
 
 # The sub-make only rebuilds web if needed, so this should be fast,
 # but if copying isn't cheap enough, we could tell Make the dependencies.

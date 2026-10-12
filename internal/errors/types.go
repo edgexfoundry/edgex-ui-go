@@ -16,13 +16,11 @@
 
 package errors
 
-import "fmt"
-
 type ErrParserJsonBody struct {
 }
 
 func (e *ErrParserJsonBody) Error() string {
-	return fmt.Sprintf("unable parser json body")
+	return "unable parser json body"
 }
 
 func NewErrParserJsonBody() error {
@@ -45,7 +43,7 @@ type ErrResourceNotFound struct {
 }
 
 func (e *ErrResourceNotFound) Error() string {
-	return fmt.Sprintf("resource not found")
+	return "resource not found"
 }
 
 func NewErrResourceNotFound() error {
@@ -56,7 +54,7 @@ type ErrWriteDatabase struct {
 }
 
 func (e *ErrWriteDatabase) Error() string {
-	return fmt.Sprintf("write database failed")
+	return "write database failed"
 }
 
 func NewErrWriteDatabase() error {
@@ -67,7 +65,7 @@ type ErrReadDatabase struct {
 }
 
 func (e *ErrReadDatabase) Error() string {
-	return fmt.Sprintf("read database failed")
+	return "read database failed"
 }
 
 func NewErrReadDatabase() error {

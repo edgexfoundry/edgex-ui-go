@@ -21,7 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/edgexfoundry/edgex-ui-go/internal/container"
@@ -38,7 +38,7 @@ func (rh *ResourceHandler) AddProfileYamlContent(w http.ResponseWriter, r *http.
 	defer r.Body.Close()
 	var profile dtos.DeviceProfile
 
-	data, err := ioutil.ReadAll(r.Body)
+	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -66,7 +66,7 @@ func (rh *ResourceHandler) AddProfileYamlContent(w http.ResponseWriter, r *http.
 		return
 	}
 	result, _ := json.Marshal(resp)
-	w.Write(result)
+	_, _ = w.Write(result)
 }
 
 func (rh *ResourceHandler) FindProfileAndConvertToYamlByName(w http.ResponseWriter, r *http.Request) {
@@ -88,14 +88,14 @@ func (rh *ResourceHandler) FindProfileAndConvertToYamlByName(w http.ResponseWrit
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Write(out)
+	_, _ = w.Write(out)
 }
 
 func (rh *ResourceHandler) UpdateProfileYamlContent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var profile dtos.DeviceProfile
 
-	data, err := ioutil.ReadAll(r.Body)
+	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -123,7 +123,7 @@ func (rh *ResourceHandler) UpdateProfileYamlContent(w http.ResponseWriter, r *ht
 	}
 	result, _ := json.Marshal(resp)
 
-	w.Write(result)
+	_, _ = w.Write(result)
 }
 
 // This AuthenticationInjector simply injects the Auth Data from the incoming request to the out going request

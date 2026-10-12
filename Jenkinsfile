@@ -16,5 +16,5 @@
 
 edgeXBuildGoApp (
     project: 'edgex-ui-go',
-    goVersion: '1.25'
+    goVersion: '1.27'
 )

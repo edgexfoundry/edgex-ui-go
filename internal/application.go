@@ -164,7 +164,7 @@ func (app *Application) secure(w http.ResponseWriter, r *http.Request, originalP
 		req.URL.Host = origin.Host
 		req.URL.Path = originalPath
 	}
-	rp := &httputil.ReverseProxy{Director: director, Transport: client.transport}
+	rp := &httputil.ReverseProxy{Director: director, Transport: client.transport} // nolint:staticcheck // migrating to Rewrite drops X-Forwarded-* headers, needs a separate change
 	rp.ServeHTTP(w, r)
 }
 
@@ -181,6 +181,6 @@ func insecure(w http.ResponseWriter, r *http.Request, originalPath string, clien
 		req.URL.Host = origin.Host
 		req.URL.Path = originalPath
 	}
-	rp := &httputil.ReverseProxy{Director: director, Transport: client.transport}
+	rp := &httputil.ReverseProxy{Director: director, Transport: client.transport} // nolint:staticcheck // migrating to Rewrite drops X-Forwarded-* headers, needs a separate change
 	rp.ServeHTTP(w, r)
 }

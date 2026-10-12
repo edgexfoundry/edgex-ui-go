@@ -29,5 +29,5 @@ func (rh *ResourceHandler) SecureMode(w http.ResponseWriter, r *http.Request) {
 		mode = "secure"
 	}
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.Write([]byte(mode))
+	_, _ = w.Write([]byte(mode))
 }

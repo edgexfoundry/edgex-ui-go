@@ -69,6 +69,10 @@ func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Reque
 	}
 
 	hasConfig, err := client.HasConfiguration()
+	if err != nil {
+		http.Error(w, fmt.Errorf("could not check configuration from Configuration: %v", err.Error()).Error(), http.StatusInternalServerError)
+		return
+	}
 	if !hasConfig {
 		http.Error(w, fmt.Sprintf("service [%s] not found on register center", serviceKey), http.StatusNotFound)
 		return
@@ -94,7 +98,7 @@ func (rh *ResourceHandler) GetServiceConfig(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-	w.Write(result)
+	_, _ = w.Write(result)
 }
 
 func (rh *ResourceHandler) configurationCenterClient(serviceKey string) (configuration.Client, error) {

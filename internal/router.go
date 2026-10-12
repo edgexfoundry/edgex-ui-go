@@ -27,7 +27,7 @@ import (
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte("pong"))
+	_, _ = w.Write([]byte("pong"))
 }
 
 func LoadRestRoutes(r *mux.Router, dic *di.Container) {

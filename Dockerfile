@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-ARG BASE=golang:1.25-alpine3.22
+ARG BASE=golang:1.27-alpine3.24
 FROM ${BASE} AS builder
 
 ARG MAKE="make cmd/edgex-ui-server/edgex-ui-server"
@@ -41,7 +41,7 @@ RUN [ ! -d "vendor" ] && go mod download all || echo "skipping..."
 COPY . .
 RUN ${MAKE}
 
-FROM alpine:3.22
+FROM alpine:3.24
 
 # Ensure using latest versions of all installed packages to avoid any recent CVEs
 RUN apk --no-cache upgrade
